@@ -1,12 +1,17 @@
 .PHONY: all wc
-all: PPProtestAuth-paper.pdf
+all: PPProtestAuth-paper.pdf PPProtestAuth-slides.pdf
 
-PPProtestAuth-paper.pdf: PPProtestAuth-paper.tex
-PPProtestAuth-paper.pdf: llncs libbib.sty
-PPProtestAuth-paper.pdf: crypto.bib
-PPProtestAuth-paper.pdf: location.bib
-PPProtestAuth-paper.pdf: reputation.bib
-PPProtestAuth-paper.pdf: auth.bib
+SRC=	PPProtestAuth-content.tex
+SRC+=	libbib.sty
+SRC+=	crypto.bib
+SRC+=	location.bib
+SRC+=	reputation.bib
+SRC+=	auth.bib
+
+PPProtestAuth-paper.pdf: PPProtestAuth-paper.tex ${SRC}
+PPProtestAuth-paper.pdf: llncs
+
+PPProtestAuth-slides.pdf: PPProtestAuth-slides.tex ${SRC}
 
 wc: PPProtestAuth.tex
 
