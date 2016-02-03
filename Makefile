@@ -1,14 +1,14 @@
 .PHONY: all wc
-all: protest-auth-paper.pdf
+all: PPProtestAuth-paper.pdf
 
-protest-auth-paper.pdf: protest-auth-paper.tex
-protest-auth-paper.pdf: llncs libbib.sty
-protest-auth-paper.pdf: crypto.bib
-protest-auth-paper.pdf: location.bib
-protest-auth-paper.pdf: reputation.bib
-protest-auth-paper.pdf: auth.bib
+PPProtestAuth-paper.pdf: PPProtestAuth-paper.tex
+PPProtestAuth-paper.pdf: llncs libbib.sty
+PPProtestAuth-paper.pdf: crypto.bib
+PPProtestAuth-paper.pdf: location.bib
+PPProtestAuth-paper.pdf: reputation.bib
+PPProtestAuth-paper.pdf: auth.bib
 
-wc: protest-auth.tex
+wc: PPProtestAuth.tex
 
 INCLUDE_MAKEFILES=makefiles
 include ${INCLUDE_MAKEFILES}/tex.mk

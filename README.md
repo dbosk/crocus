@@ -8,7 +8,7 @@ authenticity in a privacy-preserving way.  The paper is:
 @inproceedings{ProtestAuth,
     title={Authenticating Protests},
     author={Daniel Bosk},
-    URL={https://github.com/dbosk/protest-auth/},
+    URL={https://github.com/dbosk/PPProtestAuth/},
 }
 ```
 
@@ -21,4 +21,4 @@ To compile the paper, first clone the submodules:
 git submodule update --init
 ```
 
-Then, to compile the paper, run `make protest-auth-paper.pdf`.
+Then, to compile the paper, run `make PPProtestAuth-paper.pdf`.
