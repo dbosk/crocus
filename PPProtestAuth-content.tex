@@ -1,21 +1,25 @@
-\title{Authenticating Protests}
-\author{%
+\title{%
+  Verifying Demonstrations
+}
+\author[D.~Bosk et al.]{%
   Daniel Bosk\inst{1}
   \and
   Sébastien Gambs\inst{2}
   \and
   Sonja Buchegger\inst{1}
 }
-\institute{%
+\institute[KTH, UQAM]{%
   School of Computer Science and Communication\\
   KTH Royal Institute of Technology, Stockholm\\
   \texttt{\{dbosk,buc\}@kth.se}
   \and
-  Université de Rennes 1 and Inria, Rennes\\
-  \texttt{sgambs@irisa.fr}
+  Université de Quebec à Montreal\\
+  \texttt{sgambs@uqam.ca}
 }
 
 \maketitle
+
+\mode*
 
 \begin{abstract}
   \dots
@@ -23,7 +27,6 @@
   \keywords{\dots}
 \end{abstract}
 
-\mode*
 
 
 \section{Introduction}
@@ -56,10 +59,10 @@ demonstrator wants to prove that there was a protest of a certain size.
 There are at least two reasons we are interested in authenticating a protest in 
 this way:
 \begin{enumerate}
-\item for a third-party can verify the authenticity of the protest, e.g.\ that 
-  there were \(n\) participants;
-\item for the organizers to use the participation as feedback into a reputation 
-  system.
+  \item for a third-party can verify the authenticity of the protest, e.g.\ 
+    that there were \(n\) participants;
+  \item for the organizers to use the participation as feedback into 
+    a reputation system.
 \end{enumerate}
 We want to do this in a privacy-preserving way:
 We want to verify the participation of a protest, but not identifying 
@@ -69,8 +72,35 @@ to the e.g.\ the UN that there were \(n\) participants.
 But if the demonstrator is caught by the secret police before leaving, then the 
 secret police should not learn the identities of the other participants.
 
+\subsection{The Problem}
+
+Usually the count by the organizers and count by police differs, we want to 
+solve this problem.
+
+We can divide the problem into three parts:
+\begin{itemize}
+  \item Register participants in the system.
+  \item Collect the necessary data.
+  \item Perform the counting and verification.
+\end{itemize}
+
+To register the participants we might be able to piggy-back on existing 
+\acp{PKI} and blind signatures --- similarly as for voting systems.
+
+We have the verifiability properties in voting:
+\begin{description}
+  \item[Individual] Individual verifiability allows a voter to verify her own 
+    vote was included in the election outcome.
+  \item[Universal] Universal verifiability allows voters or observers to check 
+    that the election outcome corresponds to the votes cast.
+  \item[Eligibility] Eligibility verifiability allows voters and observers to 
+    check that each vote in the election outcome was cast by a uniquely 
+    registered voter.
+\end{description}
+
 
 \section{Adapting PROPS}
+\label{AdaptingPROPS}
 
 \subsection{The \acs*{CA} Problems}
 
@@ -137,6 +167,60 @@ I.e.\ if Alice the prover has \acp{LPS} from a set of witnesses, then she can
 act as a witness and issue \iac{LPS} which includes her previous \acp{LPS}.
 Speaking in graphs, we want to be able to join sub-graphs instead of having to 
 join node-by-node.
+
+
+\section{System Model}
+\label{SystemModel}
+
+The model will be a public anonymous blackboard.
+We will use this blackboard to publish locations proofs after the protest.
+
+We want the following properties:
+\begin{description}
+  \item[Correctness] We want to count everyone once and only once.
+  \item[Unforgeability] Participation should not be possible to forge.
+    I.e.\ non-participants should not be able to say they were present.
+    This together with correctness will provide authenticity to the protest 
+    verification.
+  \item[Anonymity] Given the data published on the blackboard, the adversary 
+    should not be able to tell two participants apart.
+  \item[Decentralized] There should be no central authority.
+\end{description}
+
+Can the adversary publish a public-key looking random string to sabotage the 
+blackboard?
+
+Basically the properties that we are interested in are similar to those of 
+electronic voting, so we would like to reuse as many definitions from there as 
+possible.
+
+\subsection{Decentralization}
+
+In \ac{PROPS} the prover must have a secret signed by \iac{CA}.
+This \ac{CA} can be implemented as a secret-sharing scheme.
+Usually these have a fixed threshold \((t, n)\).
+This can be achieved by commitments, then the shared secret is computed.
+However, it would be interesting to have the threshold dynamically adapt to the 
+number of participants, i.e.\ participants can join later too.
+
+Can the adversary then \enquote{join} enough many to throw off the threshold?
+
+\subsection{Correctness and Unforgeability}
+
+Each prover must reach a threshold of witnesses \(k\).
+We must be able to prevent a prover to collect \(2k\) witnesses and then 
+publishing two proofs.
+We therefore must achieve conditional linkability between the \acp{LP} 
+published on the blackboard.
+If a second \ac{LP} for a secret is published, then those should be linkable.
+This might be possible to achieve with unique group 
+signatures~\cite{UniqueGroupSignatures,UniqueRingSignatures,ListSignatures}.
+
+
+\section{Useful Primitives}
+\label{UsefulPrimitives}
+
+\dots
 
 
 \subsubsection*{Acknowledgements}
