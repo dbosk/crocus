@@ -1,19 +1,19 @@
 .PHONY: all wc
-all: PPProtestAuth-paper.pdf PPProtestAuth-slides.pdf
+all: ProtestVerif-paper.pdf ProtestVerif-slides.pdf
 
-SRC=	PPProtestAuth-content.tex
+SRC=	ProtestVerif-content.tex
 SRC+=	libbib.sty
 SRC+=	crypto.bib
 SRC+=	location.bib
 SRC+=	reputation.bib
 SRC+=	auth.bib
 
-PPProtestAuth-paper.pdf: PPProtestAuth-paper.tex ${SRC}
-PPProtestAuth-paper.pdf: llncs
+ProtestVerif-paper.pdf: ProtestVerif-paper.tex ${SRC}
+ProtestVerif-paper.pdf: llncs
 
-PPProtestAuth-slides.pdf: PPProtestAuth-slides.tex ${SRC}
+ProtestVerif-slides.pdf: ProtestVerif-slides.tex ${SRC}
 
-wc: PPProtestAuth.tex
+wc: ProtestVerif.tex
 
 INCLUDE_MAKEFILES=makefiles
 include ${INCLUDE_MAKEFILES}/tex.mk
