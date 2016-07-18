@@ -1,0 +1,70 @@
+\section{Adapting PROPS}
+\label{AdaptingPROPS}
+
+\subsection{The \acs*{CA} Problems}
+
+One issue is the \ac{CA}.
+One direction we can take to solve this is by threshold signatures, e.g.\ 
+\cite{FSThresholdSignatures}.
+This way the participants can jointly issue new certificates, by signing them 
+using the threshold signature scheme.
+This should solve part of the problems related to Sybil attacks too.
+But, if \(k > t\) participants collude, they can create multiple identities for 
+themselves.
+The main problem to solve, however, is that we want \(n\), and possibly \(t\) 
+too, to change with the number of participants.
+I'm not sure, but in what I've read about threshold schemes, they generally 
+keep \(n\) and \(t\) fixed.
+
+Another direction on solving the \ac{CA} problem, is if we can use already 
+existing \acp{PKI} instead.
+E.g.\ Sweden has a deployed national \ac{eID} system; usually these are RSA or 
+DSA keys --- \((pq, e), (p, q, d): ed = 1\pmod{(p-1)(q-1)}\) --- signed by 
+running everything through a hash function and the sign that value.
+Due to the use of the hash function we cannot prove in zero knowledge that we 
+have a signed certificate.
+But maybe we can use the keys \((pq, e)\) and \((p, q, d)\) in such a way that 
+they do not reveal the identity, but that we can if needed --- similar to 
+a commitment which we reveal only in emergencies.
+
+It would be interesting to solve the W--P collusion attack, where the witness 
+reports false \acp{LPS}, e.g.\ we would need to prevent that a group of 
+individuals fake this information at home.
+One possibility in our scenario is that e.g.\ an external journalist on 
+location can create \iac{LPS}, because a journalist is generally trusted.
+This would be useful as occasionally journalists are also captured, and anyone 
+that escaped should be able to show a convincing proof.
+However, one problem with this is that the journalist will not necessarily have 
+a key signed by the \ac{CA} of our scheme, but rather a \ac{CA} of say a UN 
+\ac{PKI}.
+
+In relation to the previous, it would be interesting to be able to tie the 
+\acp{LP} (or \acp{LPS}) to a reputation system.
+Then, even if no external journalist is on location, the participants can rely 
+on their online reputation.
+One option would be to have a reputation system in a global location-proof 
+system, another would be to tie it to a reputation system already used in e.g.\ 
+\iac{OSN}.
+One possible solution would be to include a commitment in the \ac{LPS} and when 
+necessary use it to tie it to the online identity.
+
+\subsection{One Proof for All}
+
+The naïve approach would be that everyone generates \acp{LPS} for everyone 
+else, but this would be computationally and communicatively expensive 
+(\(O(n^2)\)).
+A better approach would be \iac{MPC} scheme where several witnesses participate 
+to compute a joint \ac{LPS} for one prover.
+This would reduce the need for pairwise communication.
+In our scenario each witness will also want to participate as a prover, if the 
+jointly computed \ac{LPS} could further be used by all participants in the 
+computation, this would reduce the complexity further.
+
+To make it even more efficient, it would be desirable to make the proofs 
+\enquote{transitive}.
+I.e.\ if Alice the prover has \acp{LPS} from a set of witnesses, then she can 
+act as a witness and issue \iac{LPS} which includes her previous \acp{LPS}.
+Speaking in graphs, we want to be able to join sub-graphs instead of having to 
+join node-by-node.
+
+

@@ -1,0 +1,48 @@
+\section{System Model}
+\label{SystemModel}
+
+The model will be a public anonymous blackboard.
+We will use this blackboard to publish locations proofs after the protest.
+
+We want the following properties:
+\begin{description}
+  \item[Correctness] We want to count everyone once and only once.
+  \item[Unforgeability] Participation should not be possible to forge.
+    I.e.\ non-participants should not be able to say they were present.
+    This together with correctness will provide authenticity to the protest 
+    verification.
+  \item[Anonymity] Given the data published on the blackboard, the adversary 
+    should not be able to tell two participants apart.
+  \item[Decentralized] There should be no central authority.
+\end{description}
+
+Can the adversary publish a public-key looking random string to sabotage the 
+blackboard?
+
+Basically the properties that we are interested in are similar to those of 
+electronic voting, so we would like to reuse as many definitions from there as 
+possible.
+
+\subsection{Decentralization}
+
+In \ac{PROPS} the prover must have a secret signed by \iac{CA}.
+This \ac{CA} can be implemented as a secret-sharing scheme.
+Usually these have a fixed threshold \((t, n)\).
+This can be achieved by commitments, then the shared secret is computed.
+However, it would be interesting to have the threshold dynamically adapt to the 
+number of participants, i.e.\ participants can join later too.
+
+Can the adversary then \enquote{join} enough many to throw off the threshold?
+
+\subsection{Correctness and Unforgeability}
+
+Each prover must reach a threshold of witnesses \(k\).
+We must be able to prevent a prover to collect \(2k\) witnesses and then 
+publishing two proofs.
+We therefore must achieve conditional linkability between the \acp{LP} 
+published on the blackboard.
+If a second \ac{LP} for a secret is published, then those should be linkable.
+This might be possible to achieve with unique group 
+signatures~\cite{UniqueGroupSignatures,UniqueRingSignatures,ListSignatures}.
+
+

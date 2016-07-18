@@ -1,0 +1,85 @@
+\section{Introduction}
+\label{Introduction}
+
+There are different possibilities for a protest: e.g.\ one performed online or 
+one performed in the physical reality.
+Purely online protests are essentially petitions.
+This case can use digital signatures to verify the authenticity of a list of 
+names.
+It can also be compared to electronic voting --- to vote for or against 
+something.
+In this case all participants and third-parties can verify the authenticity of 
+the result, but cannot verify the vote of an individual.
+
+We are interested in real-world protests, for these we need to bind all 
+participants to the same physical location at a reasonably similar time (within 
+the duration of the protest).
+\citeauthor{PROPS} developed a decentralized location-proof system, \ac{PROPS}, 
+which provides a participant with a proof of being at the location.
+However, we would like that any participant can prove the demonstration's 
+authenticity to a third-party, e.g.\ the UN or a human-rights 
+organization.
+The reason this is an interesting property is the following scenario:
+Imagine there is a demonstration, the police shows up and tries to apprehend 
+every participant.
+However, one demonstrator survives and manages to flee the country, here the 
+demonstrator wants to prove that there was a protest of a certain size.
+
+There are at least two reasons we are interested in authenticating a protest in 
+this way:
+\begin{enumerate}
+  \item for a third-party can verify the authenticity of the protest, e.g.\ 
+    that there were \(n\) participants;
+  \item for the organizers to use the participation as feedback into 
+    a reputation system.
+\end{enumerate}
+We want to do this in a privacy-preserving way:
+We want to verify the participation of a protest, but not identifying 
+individuals who participated.
+If a demonstrator flees the country, that demonstrator should be able to prove 
+to the e.g.\ the UN that there were \(n\) participants.
+But if the demonstrator is caught by the secret police before leaving, then the 
+secret police should not learn the identities of the other participants.
+
+\subsection{The Problem}
+
+Usually the count by the organizers and count by police differs, we want to 
+solve this problem.
+
+We can divide the problem into three parts:
+\begin{itemize}
+  \item Register participants in the system.
+  \item Collect the necessary data.
+  \item Perform the counting and verification.
+\end{itemize}
+
+To register the participants we might be able to piggy-back on existing 
+\acp{PKI} and blind signatures --- similarly as for voting systems.
+
+We have the verifiability properties in voting:
+\begin{description}
+  \item[Individual] Individual verifiability allows a voter to verify her own 
+    vote was included in the election outcome.
+  \item[Universal] Universal verifiability allows voters or observers to check 
+    that the election outcome corresponds to the votes cast.
+  \item[Eligibility] Eligibility verifiability allows voters and observers to 
+    check that each vote in the election outcome was cast by a uniquely 
+    registered voter.
+\end{description}
+
+There are several issues that must be treated:
+\begin{itemize}
+  \item Each location proof must be bound to one individual's participation.
+    One protester must not be able to create two unique location proofs and be 
+    able to increase the number of participants, that would violate 
+    \cref{VerifEligibility} above.
+    In other words, we must prevent the Sybil attack.
+
+  \item A group of people should not be able to generate \acp{LP} to make it 
+    look as if they participated in the protest but actually stayed at home.
+    This means that all \acp{LP} must be linked to each other.
+    If a protest has hundreds of thousands of participants, then this linking 
+    must be achieved efficiently.
+\end{itemize}
+
+
