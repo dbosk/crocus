@@ -1,5 +1,5 @@
 .PHONY: all wc
-all: ProtestVerif-paper.pdf ProtestVerif-slides.pdf
+all: ProtestVerif-paper.pdf
 
 SRC+=	content.tex
 
