@@ -98,6 +98,21 @@ We have the verifiability properties in voting:
     registered voter.
 \end{description}
 
+There are several issues that must be treated:
+\begin{itemize}
+  \item Each location proof must be bound to one individual's participation.
+    One protester must not be able to create two unique location proofs and be 
+    able to increase the number of participants, that would violate 
+    \cref{VerifEligibility} above.
+    In other words, we must prevent the Sybil attack.
+
+  \item A group of people should not be able to generate \acp{LP} to make it 
+    look as if they participated in the protest but actually stayed at home.
+    This means that all \acp{LP} must be linked to each other.
+    If a protest has hundreds of thousands of participants, then this linking 
+    must be achieved efficiently.
+\end{itemize}
+
 
 \section{Adapting PROPS}
 \label{AdaptingPROPS}
