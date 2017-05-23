@@ -3,7 +3,7 @@ all: ProtestVerif-paper.pdf
 
 SRC+=	content.tex
 
-DEPENDS+=	libbib.sty
+DEPENDS+=	bibsp.sty
 DEPENDS+=	crypto.bib
 DEPENDS+=	location.bib
 DEPENDS+=	reputation.bib
@@ -19,5 +19,5 @@ wc: ProtestVerif-paper.tex
 
 INCLUDE_MAKEFILES=makefiles
 include ${INCLUDE_MAKEFILES}/tex.mk
-INCLUDE_LIBBIB=libbib
-include ${INCLUDE_LIBBIB}/libbib.mk
+INCLUDE_LIBBIB=bibsp
+include ${INCLUDE_LIBBIB}/bibsp.mk
