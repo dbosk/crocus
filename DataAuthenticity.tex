@@ -31,25 +31,16 @@ e.g.\ it is not computer generated or a photo of a similarly looking location.
 
 \Cref{CreatedAfterStart} is more difficult to achieve.
 In the above scenario, there is nothing that prevents Alice from submitting an 
-older photo which is spatially related to the event.
-In the security field \cref{CreatedAfterStart} is captured by a property called 
-\emph{freshness}.
-The freshness property is usually achieved by requiring that the data depend on
-an unpredictable value.
-The unpredictable value is commonly a value chosen randomly by the verifier, 
-but there are ways to do this without the verifier too --- the basic 
-requirement is that it is not under the prover's control, i.e.\ Alice in this 
-scenario.
-The idea is illustrated by the following example: we require Alice to include 
-the front-page of a particular newspaper in the photo, since the exact 
-front-page is difficult for Alice to predict in advance.
-This particular example would of course not work in practice, since Alice can 
-manipulate the photo afterwards to superimpose the required newspaper 
-front-page\footnote{%
-  There is, however, a subfield of digital forensics that works with image 
-  manipulation detection, so there are methods that would prevent at least 
-  Alice's easiest manipulation attempts.
-}.
-But this illustrates another important requirement for freshness: that the 
-operation binding the unpredicatble value to the data must be difficult to redo 
-later to change the value.
+older photo which is spatially related to the event --- i.e.\ to ensure 
+\cref{CreatedAfterStart} we must ensure some sort of freshness.
+% XXX Verify that this can be done using Fiat-Shamir heuristic
+This can (probably) be solved using the Fiat--Shamir 
+heuristic~\cite{FiatShamirHeuristic} (or something similar).
+The main idea is that the operation binding the unpredictable value to the data 
+must be difficult to redo later to change the value.
+
+Instead of a photo, we will use \acp{LP}, more specifically, we will use 
+\ac{PROPS}.
+This will allow us to fulfil \cref{SpatiallyRelated}.
+Since a location proof is a cryptographic value, it is easier to adapt it to 
+fulfil \cref{CreatedAfterStart} too (compared to a photo).
