@@ -1,6 +1,31 @@
 \section{System Model}
 \label{SystemModel}
 
+We can divide the problem into three parts:
+\begin{itemize}
+  \item Register participants in the system.
+  \item Collect the necessary data.
+  \item Perform the counting and verification.
+\end{itemize}
+
+To register the participants we might be able to piggy-back on existing 
+\acp{PKI} and blind signatures --- similarly as for voting systems.
+
+There are several issues that must be treated:
+\begin{itemize}
+  \item Each location proof must be bound to one individual's participation.
+    One protester must not be able to create two unique location proofs and be 
+    able to increase the number of participants, that would violate 
+    \cref{EligibilityVerif} above.
+    In other words, we must prevent the Sybil attack.
+
+  \item A group of people should not be able to generate \acp{LP} to make it 
+    look as if they participated in the protest but actually stayed at home.
+    This means that all \acp{LP} must be linked to each other.
+    If a protest has hundreds of thousands of participants, then this linking 
+    must be achieved efficiently.
+\end{itemize}
+
 The model will be a public anonymous blackboard.
 We will use this blackboard to publish locations proofs after the protest.
 

@@ -3,44 +3,7 @@
 
 There are different possibilities for a protest: e.g.\ one performed online or 
 one performed in the physical reality.
-Purely online protests are essentially petitions.
-This case can use digital signatures to verify the authenticity of a list of 
-names.
-It can also be compared to electronic voting --- to vote for or against 
-something.
-In this case all participants and third-parties can verify the authenticity of 
-the result, but cannot verify the vote of an individual.
-
-We are interested in real-world protests, for these we need to bind all 
-participants to the same physical location at a reasonably similar time (within 
-the duration of the protest).
-\citeauthor{PROPS} developed a decentralized location-proof system, \ac{PROPS}, 
-which provides a participant with a proof of being at the location.
-However, we would like that any participant can prove the demonstration's 
-authenticity to a third-party, e.g.\ the UN or a human-rights 
-organization.
-The reason this is an interesting property is the following scenario:
-Imagine there is a demonstration, the police shows up and tries to apprehend 
-every participant.
-However, one demonstrator survives and manages to flee the country, here the 
-demonstrator wants to prove that there was a protest of a certain size.
-
-There are at least two reasons we are interested in authenticating a protest in 
-this way:
-\begin{enumerate}
-  \item for a third-party can verify the authenticity of the protest, e.g.\ 
-    that there were \(n\) participants;
-  \item for the organizers to use the participation as feedback into 
-    a reputation system.
-\end{enumerate}
-We want to do this in a privacy-preserving way:
-We want to verify the participation of a protest, but not identifying 
-individuals who participated.
-If a demonstrator flees the country, that demonstrator should be able to prove 
-to the e.g.\ the UN that there were \(n\) participants.
-But if the demonstrator is caught by the secret police before leaving, then the 
-secret police should not learn the identities of the other participants.
-
+We are interested in real-world protests, specifically to verify a protest.
 One problem in real-world demonstrations that has not yet been entirely solved 
 is the crowd-counting problem, i.e.\ the verification of the participation in 
 a demonstration.
@@ -52,16 +15,28 @@ US~\cite{2017WomensMarchesInUS}, where there is difficulty in establishing the
 actual number of participants.
 The methods for counting the crowds vary.
 There are some techniques using computer vision found in the research 
-literature, e.g.\ by~\textcite{CVCrowdCounting}.
+literature, e.g.\ by \textcite{CVCrowdCounting}.
 These require images from the demonstration and provide no way to verify the 
 authenticity of the count (except re-running the algorithm on one's own input 
 data).
 However, as is illustrated by 
 \textcite{2016DemonstrationsInSeoul,2017WomensMarchesInUS}, the methods used in 
 practice are manual and prone to errors.
+In this paper, we combine electronic voting with location-proof systems.
 
-The main goal for Alice after a protest is to provide verifiable data.
-For example, how can she ensure that photos from a demonstration are authentic?
+Alice is an activist who organizes a demonstration for some cause.
+Her main goal after the protest is to provide verifiable data.
+Alice several problems:
+\begin{itemize}
+  \item She must prove that the data is related to the event, that it is not 
+    reused data from previous demonstrations.
+  \item She must provide data which can be used for the desired verification of 
+    the event.
+  \item She must also consider the privacy of the participating individuals.
+\end{itemize}
+Since many of the current techniques are based on photos, we will give an 
+example of Alice's problems in that setting.
+How can she ensure that photos from a demonstration are authentic?
 We can probably recognize the place the photo is portraying, however, this 
 might just as well be a reconstruction or entirely computer generated.
 We cannot trust the meta-data of the photo, such as time-stamps of the file, 
@@ -70,59 +45,28 @@ So the only thing we can say for sure is that the photo was taken at the latest
 at the time of publication.
 Now, if we cannot trust these photos, how can we determine the number of 
 participants of a demonstration?
-Many of the techniques require photos for doing this.
-Furthermore, as is shown by 
-\textcite{2016DemonstrationsInSeoul,2017WomensMarchesInUS}, the numbers 
-determined by these techniques have rather large margins.
+This is discussed further in \cref{DataAuthenticity}.
 
-Alice also has another problem.
-Assume that she can provide this verifiable data.
+Assume that Alice can provide this authenticated data.
 Alice and Bob do not want that this data ties them to the demonstration, 
-because then Eve can use this data to find out about Alice and Bob and arrest 
-them.
+because then the autocrat Eve can use this data to find out about Alice and Bob 
+and arrest them.
 Thus, what Alice and Bob need is a system which can provide data authenticity 
 and user privacy, i.e.\ that the data can be correctly tied to the 
-demonstration without outing Alice and Bob as supporters.
+demonstration without outing Alice and Bob as supporters but still ensuring 
+that Alice is Alice and Bob is Bob.
+As a protest can be compared to voting (either voting for or against the 
+cause), we will adapt the security and privacy properties of electronic 
+voting.
+We will discuss this further in \cref{Verification}.
 
-\subsection{The Problem}
-
-Usually the count by the organizers and count by police differs, we want to 
-solve this problem.
-
-We can divide the problem into three parts:
-\begin{itemize}
-  \item Register participants in the system.
-  \item Collect the necessary data.
-  \item Perform the counting and verification.
-\end{itemize}
-
-To register the participants we might be able to piggy-back on existing 
-\acp{PKI} and blind signatures --- similarly as for voting systems.
-
-We have the verifiability properties in voting:
-\begin{description}
-  \item[Individual] Individual verifiability allows a voter to verify her own 
-    vote was included in the election outcome.
-  \item[Universal] Universal verifiability allows voters or observers to check 
-    that the election outcome corresponds to the votes cast.
-  \item[Eligibility] Eligibility verifiability allows voters and observers to 
-    check that each vote in the election outcome was cast by a uniquely 
-    registered voter.
-\end{description}
-
-There are several issues that must be treated:
-\begin{itemize}
-  \item Each location proof must be bound to one individual's participation.
-    One protester must not be able to create two unique location proofs and be 
-    able to increase the number of participants, that would violate 
-    \cref{VerifEligibility} above.
-    In other words, we must prevent the Sybil attack.
-
-  \item A group of people should not be able to generate \acp{LP} to make it 
-    look as if they participated in the protest but actually stayed at home.
-    This means that all \acp{LP} must be linked to each other.
-    If a protest has hundreds of thousands of participants, then this linking 
-    must be achieved efficiently.
-\end{itemize}
-
+It can also be compared to electronic voting --- to vote for or against the 
+cause.
+In this case all participants and third-parties can verify the authenticity of 
+the result, this would inherit all the desirable properties of the electronic 
+voting system (these properties are discussed in \cref{Verification}).
+We are interested in real-world protests, i.e.\ demonstrations where 
+participants gather in a physical location.
+For these we need to bind all participants to the same physical location at 
+a reasonably similar time (within the duration of the protest).
 
