@@ -10,8 +10,8 @@ The correct citation for the *latest version* of the paper is:
 @inproceedings{ProtestVerif,
     title={Verifying Protests},
     author={Daniel Bosk and
-        Sébastien Gambs and
-        Sonja Buchegger},
+        Sonja Buchegger and
+        Sébastien Gambs},
     URL={https://github.com/dbosk/ProtestVerif/},
 }
 ```
@@ -26,10 +26,13 @@ Compilation
 -------------------------------------------------------------------------------
 
 First you must clone the submodules:
-
 ```sh
 git submodule update --init
 ```
 
-Then, to compile the paper, run `make ProtestVerif-paper.pdf`.  Simply running 
-`make` will result in `make all` which compiles paper and slides.
+To compile the paper:
+```sh
+make ProtestVerif-paper.pdf
+```
+Simply running `make` will result in `make all` which compiles paper and 
+slides.
