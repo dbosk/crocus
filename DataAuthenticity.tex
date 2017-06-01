@@ -1,0 +1,55 @@
+\section{Data authenticity}
+\label{DataAuthenticity}
+
+The problem of authentically associating data with a physical event is 
+difficult.
+We can essentially divide it into the following requirements:
+\begin{requirements}[A]
+  \item\label{CreatedAfterStart} Prove that the data was created after the 
+    start of the event.
+  \item\label{CreatedBeforeEnd} Prove that the data was created before the end 
+    of the event.
+  \item\label{SpatiallyRelated} Prove that the data is spatially related to the 
+    physical location of the event.
+\end{requirements} %TODO: A4 accurate/not fabricated?
+\Cref{CreatedBeforeEnd,CreatedAfterStart} together bind the data to the time of 
+the event whereas \cref{SpatiallyRelated} binds the data spatially to the 
+event.
+
+Now, consider the scenario of Alice taking a photo during the demonstration and 
+posting it online.
+What can we say about this photo?
+First, we can say that it was created before we viewed it, so 
+\cref{CreatedBeforeEnd} is fulfilled if we view it in relation to the event.
+If it was submitted to a service that we trust, e.g.\ a blockchain, then we can 
+also trust the time-stamp of the service for fulfilling 
+\cref{CreatedBeforeEnd}.
+Furthermore, we can also consider it spatially related to the physical location
+(\cref{SpatiallyRelated}) if we can convince ourselves that the photo is 
+depicting the physical location and not any kind of \enquote{reconstruction}, 
+e.g.\ it is not computer generated or a photo of a similarly looking location.
+
+\Cref{CreatedAfterStart} is more difficult to achieve.
+In the above scenario, there is nothing that prevents Alice from submitting an 
+older photo which is spatially related to the event.
+In the security field \cref{CreatedAfterStart} is captured by a property called 
+\emph{freshness}.
+The freshness property is usually achieved by requiring that the data depend on
+an unpredictable value.
+The unpredictable value is commonly a value chosen randomly by the verifier, 
+but there are ways to do this without the verifier too --- the basic 
+requirement is that it is not under the prover's control, i.e.\ Alice in this 
+scenario.
+The idea is illustrated by the following example: we require Alice to include 
+the front-page of a particular newspaper in the photo, since the exact 
+front-page is difficult for Alice to predict in advance.
+This particular example would of course not work in practice, since Alice can 
+manipulate the photo afterwards to superimpose the required newspaper 
+front-page\footnote{%
+  There is, however, a subfield of digital forensics that works with image 
+  manipulation detection, so there are methods that would prevent at least 
+  Alice's easiest manipulation attempts.
+}.
+But this illustrates another important requirement for freshness: that the 
+operation binding the unpredicatble value to the data must be difficult to redo 
+later to change the value.

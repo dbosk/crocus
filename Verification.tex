@@ -1,0 +1,108 @@
+\section{Verification}
+\label{Verification}
+
+In general, protesting is very similar to voting: both are many individuals 
+expressing their opinion.
+Hence we desire to have similar properties of verification and privacy for 
+participation in a protest as there is for voting.
+As was pointed out in the introduction, an online protest can be modelled as 
+a petition, which in turn can use electronic voting protocols.
+We are interested in translating these properties into a demonstration, i.e.\ 
+a street-protest.
+
+In the context of (electronic) voting protocols, there are three requirements 
+for verification~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
+\begin{requirements}[V]
+\item\label{EligibilityVerif} Eligibility: anyone can verify that each vote 
+  cast is legitimate.
+\item\label{UniversalVerif} Universal verifiability: anyone can verify that the 
+  result is according to the cast votes.
+\item\label{IndividualVerif} Individual verifiability: every voter can verify 
+  that their vote is included in the result.
+\end{requirements}
+We can translate these to the case of participation in a demonstration, then 
+each vote would be replaced by a proof of participation (in either the protest 
+or any counter-protest).
+\Cref{EligibilityVerif} would in this case mean that anyone can verify that 
+each participation proof belongs to a unique individual, i.e.\ to prevent any 
+Sybil attack.
+
+The three verifiability properties above are indeed desirable, e.g.\ then the 
+\ac{UN} can verify protests happening in a country and the country cannot deny 
+it, thus the \ac{UN} can apply pressure if needed.
+However, these properties are difficult to accomplish with computer vision 
+methods, especially if nobody that the \ac{UN} can trust has been on location 
+to collect the image material for the analysis --- otherwise the authenticity 
+can be questioned (as discussed in \cref{DataAuthenticity}).
+
+We also need privacy in addition to the verification requirements.
+In voting, we have the following requirements:
+\begin{requirements}[P]
+\item\label{VotePrivacy} Vote privacy: the vote does not reveal any individual 
+  vote.
+\item\label{ReceiptFreeness} Receipt freeness: the voting system does not 
+  provide any data that can be used as a proof of how the voter voted.
+\item\label{CoercionResistance} Coercion resistance: a voter cannot cooperate 
+  with a coercer to prove the vote was cast in any particular way.
+\end{requirements}
+\Textcite{VerifyingPrivacyPropertiesOfVotingProtocols} showed that 
+\cref{CoercionResistance} implies \cref{ReceiptFreeness}, which in turn implies
+\cref{VotePrivacy}.
+We can see that \cref{VotePrivacy,ReceiptFreeness} are desirable in Alice's 
+situation: there should not be any proof which binds Alice to the participation 
+of the demonstration (\cref{ReceiptFreeness}), because she does not want to 
+explicitly reveal her opinions to the government (\cref{VotePrivacy}) due to 
+the risk of reprimands.
+\Cref{ReceiptFreeness} implies that even if Alice is arrested, the data should 
+not provide any proof to the regime's agents that can reveal Alice's opinion.
+
+A demonstration is very different from voting in one sense: Alice must be 
+physically present and that very precense shows her support for the cause.
+In voting, on the other hand, Alice has multiple options which are not revealed
+by her mere precense.
+As we indirectly pointed out earlier, we focus on the privacy provided to Alice 
+and Bob by the data.
+So as long as Alice and Bob can conceal their identities at the demonstration 
+and escape without arrest, their support is recorded in the data while their 
+privacy is not violated.
+(Following this line of thinking, it can actually be beneficial for the privacy of 
+the demonstrators to mix with the participants from any counter-demonstrations 
+--- as long as the correct counts for each demonstration can still be ensured, 
+which is the idea.)
+
+The main problem is how to ensure the connection between the physical location 
+and the data used for verification, i.e.\ fulfil all the requirements for 
+authenticity, verification and privacy given above.
+We must bind participants to the same physical location at a reasonably similar 
+time, i.e.\ within the area and duration of the demonstration.
+In the case of the Korean demonstrations~\cite{2016DemonstrationsInSeoul}, this 
+was in one place during an entire day and then repeated for several 
+weekends.
+In the case of the Women's Marches in the US~\cite{2017WomensMarchesInUS}, they
+were in several locations at the same time.
+
+%This means that for a system like this to work, we also need the requirements 
+%from \cref{DataAuthenticity}: proof that the data was created after the start 
+%of the protest, proof that it was created before the end, and proof of spatial 
+%relation to the location.
+
+\textcite{PROPS} developed a decentralized \ac{LPS} which provides 
+a participant with a verifiable proof of having been at a location at a certain 
+time, something we call \iac{LP}.
+It is decentralized because there is no central authority that vouches for the 
+location, instead peers act as witnesses.
+Then a third-party can verify the authenticity of the \ac{LP}, by verifying the 
+witnesses' signatures, and can thus be sure that the person has indeed been in 
+the location.
+Bosk, Gambs and Buchegger are currently exploring (work in progress) the 
+possibility of combining such \iac{LPS} with the verifiability and privacy 
+requirements discussed above.
+The overall idea is that each participant generates \iac{LP} during the 
+demonstration, where (some of) the other protesters act as witnesses, then the 
+\acp{LP} can be used to compute the participation count with all the 
+authenticity, verifiability and privacy requirements above.
+%TODO: reviewer: what about cellphones to count attendance
+% This is actually done in \cite{2016DemonstrationsInSeoul}, it requires some 
+% assumptions --- but they use wifi signals instead of the mobile network.
+% In either case, we pointed out that one wants the phone in flight mode due to
+% surveillance.

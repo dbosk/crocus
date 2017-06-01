@@ -41,6 +41,49 @@ to the e.g.\ the UN that there were \(n\) participants.
 But if the demonstrator is caught by the secret police before leaving, then the 
 secret police should not learn the identities of the other participants.
 
+One problem in real-world demonstrations that has not yet been entirely solved 
+is the crowd-counting problem, i.e.\ the verification of the participation in 
+a demonstration.
+After many demonstrations the count by police and that by the organizers 
+differ, in some instances the difference can be hundreds of thousands.
+There are numerous examples, e.g.\ the demonstrations in South 
+Korea~\cite{2016DemonstrationsInSeoul} or the women's marches in the 
+US~\cite{2017WomensMarchesInUS}, where there is difficulty in establishing the 
+actual number of participants.
+The methods for counting the crowds vary.
+There are some techniques using computer vision found in the research 
+literature, e.g.\ by~\textcite{CVCrowdCounting}.
+These require images from the demonstration and provide no way to verify the 
+authenticity of the count (except re-running the algorithm on one's own input 
+data).
+However, as is illustrated by 
+\textcite{2016DemonstrationsInSeoul,2017WomensMarchesInUS}, the methods used in 
+practice are manual and prone to errors.
+
+The main goal for Alice after a protest is to provide verifiable data.
+For example, how can she ensure that photos from a demonstration are authentic?
+We can probably recognize the place the photo is portraying, however, this 
+might just as well be a reconstruction or entirely computer generated.
+We cannot trust the meta-data of the photo, such as time-stamps of the file, 
+because these can easily be manipulated.
+So the only thing we can say for sure is that the photo was taken at the latest 
+at the time of publication.
+Now, if we cannot trust these photos, how can we determine the number of 
+participants of a demonstration?
+Many of the techniques require photos for doing this.
+Furthermore, as is shown by 
+\textcite{2016DemonstrationsInSeoul,2017WomensMarchesInUS}, the numbers 
+determined by these techniques have rather large margins.
+
+Alice also has another problem.
+Assume that she can provide this verifiable data.
+Alice and Bob do not want that this data ties them to the demonstration, 
+because then Eve can use this data to find out about Alice and Bob and arrest 
+them.
+Thus, what Alice and Bob need is a system which can provide data authenticity 
+and user privacy, i.e.\ that the data can be correctly tied to the 
+demonstration without outing Alice and Bob as supporters.
+
 \subsection{The Problem}
 
 Usually the count by the organizers and count by police differs, we want to 
