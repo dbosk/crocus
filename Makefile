@@ -33,11 +33,12 @@ ProtestVerif-slides.pdf: preamble.tex
 ProtestVerif-slides.pdf: ${SRC} ${DEPENDS}
 
 
-.PHONY: wc
-wc: ${SRC}
+.PHONY: wc todo
+wc todo: ${SRC}
 
 
 INCLUDE_MAKEFILES=makefiles
 include ${INCLUDE_MAKEFILES}/tex.mk
+include ${INCLUDE_MAKEFILES}/doc.mk
 INCLUDE_LIBBIB=bibsp
 include ${INCLUDE_LIBBIB}/bibsp.mk
