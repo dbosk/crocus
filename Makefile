@@ -1,11 +1,12 @@
 SRC+=	contents.tex
 SRC+=	abstract.tex
+SRC+=	intro.tex
 SRC+=	DataAuthenticity.tex
 SRC+=	Verification.tex
-SRC+=	intro.tex
 SRC+=	AdaptingPROPS.tex
 SRC+=	SystemModel.tex
 SRC+=	primitives.tex
+SRC+=	acknowledgements.tex
 
 DEPENDS+=	bibsp.sty
 DEPENDS+=	crypto.bib
