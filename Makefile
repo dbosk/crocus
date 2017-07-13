@@ -5,6 +5,8 @@ SRC+=	properties.tex
 SRC+=	AdaptingPROPS.tex
 SRC+=	SystemModel.tex
 SRC+=	primitives.tex
+SRC+=	RelatedWork.tex
+SRC+=	conclusions.tex
 SRC+=	acknowledgements.tex
 
 DEPENDS+=	bibsp.sty
