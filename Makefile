@@ -21,7 +21,7 @@ all: ProtestVerif-paper.pdf
 
 #ProtestVerif-paper.pdf: lncs
 ProtestVerif-paper.pdf: ProtestVerif-paper.tex
-ProtestVerif-paper.pdf: preamble.tex
+ProtestVerif-paper.pdf: preamble.tex preamble-paper.tex
 ProtestVerif-paper.pdf: ${SRC} ${DEPENDS}
 
 
@@ -29,7 +29,7 @@ ProtestVerif-paper.pdf: ${SRC} ${DEPENDS}
 all: ProtestVerif-slides.pdf
 
 ProtestVerif-slides.pdf: ProtestVerif-slides.tex
-ProtestVerif-slides.pdf: preamble.tex
+ProtestVerif-slides.pdf: preamble.tex preamble-slides.tex
 ProtestVerif-slides.pdf: ${SRC} ${DEPENDS}
 
 

@@ -1,0 +1,36 @@
+\usepackage[inline]{enumitem}
+\newlist{properties@}{enumerate}{5}
+\setlist[properties@]{label*=P\arabic*.,ref=P\arabic*}
+\newlist{requirements@}{enumerate}{5}
+\setlist[requirements@]{label*=R\arabic*.,ref=R\arabic*}
+
+\DeclareDocumentEnvironment{properties}{o}{%
+  \IfValueTF{#1}{%
+    \begin{properties@}[label*=#1\arabic*.,ref=#1\arabic*]%
+  }{%
+    \begin{properties@}%
+  }
+}{%
+  \end{properties@}%
+}
+\DeclareDocumentEnvironment{requirements}{o}{%
+  \IfValueTF{#1}{%
+    \begin{requirements@}[label*=#1\arabic*.,ref=#1\arabic*]%
+  }{%
+    \begin{requirements@}%
+  }
+}{%
+  \end{requirements@}%
+}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{thmtools}
+\declaretheorem{theorem}
+\declaretheorem[sibling=theorem]{lemma}
+\declaretheorem[sibling=theorem]{proposition}
+\declaretheorem[style=definition]{definition}
+\declaretheorem[style=definition]{example}
+\declaretheorem[style=remark]{remark}

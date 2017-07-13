@@ -2,6 +2,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[british]{babel}
 \usepackage{hyperref}
+\usepackage{xparse}
 
 \usepackage[natbib,style=alphabetic,maxbibnames=99]{biblatex}
 \addbibresource{crypto.bib}
@@ -11,32 +12,6 @@
 \addbibresource{voting.bib}
 \addbibresource{protests.bib}
 
-\usepackage[inline]{enumitem}
-\newlist{properties@}{enumerate}{5}
-\setlist[properties@]{label*=P\arabic*.,ref=P\arabic*}
-\newlist{requirements@}{enumerate}{5}
-\setlist[requirements@]{label*=R\arabic*.,ref=R\arabic*}
-
-\usepackage{xparse}
-\DeclareDocumentEnvironment{properties}{o}{%
-  \IfValueTF{#1}{%
-    \begin{properties@}[label*=#1\arabic*.,ref=#1\arabic*]%
-  }{%
-    \begin{properties@}%
-  }
-}{%
-  \end{properties@}%
-}
-\DeclareDocumentEnvironment{requirements}{o}{%
-  \IfValueTF{#1}{%
-    \begin{requirements@}[label*=#1\arabic*.,ref=#1\arabic*]%
-  }{%
-    \begin{requirements@}%
-  }
-}{%
-  \end{requirements@}%
-}
-
 \usepackage[capitalize]{cleveref}
 \crefname{properties@i}{property}{properties}
 \Crefname{properties@i}{Property}{Properties}
@@ -45,3 +20,7 @@
 
 \usepackage[crypto,std,auth,location,mpc,organizations]{bibsp}
 
+\DeclareDocumentCommand{\keywords}{m}{%
+  \par
+  \textbf{Keywords:} #1
+}
