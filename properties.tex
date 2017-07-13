@@ -1,5 +1,5 @@
 \mode*
-\section{Data authenticity and verification}
+\section{Authenticity, verification and privacy}
 
 Alice is an activist who organizes a demonstration for some cause.
 Her main goal after the protest is to provide verifiable data.
@@ -135,6 +135,9 @@ methods, especially if nobody that the \ac{UN} can trust has been on location
 to collect the image material for the analysis --- otherwise the authenticity 
 can be questioned (as discussed in \cref{DataAuthenticity}).
 
+\subsection{Privacy}
+\label{Privacy}
+
 We also need privacy in addition to the verification requirements.
 In voting, we have the following requirements:
 \begin{frame}
@@ -146,6 +149,17 @@ In voting, we have the following requirements:
 \item\label{CoercionResistance} Coercion resistance: a voter cannot cooperate 
   with a coercer to prove the vote was cast in any particular way.
 \end{requirements}
+\mode<presentation>{
+\pause
+\begin{remark}
+  \begin{itemize}
+    \item Coercion resistance is difficult to achieve for voting.
+    \item It doesn't make much sense for protests.
+    \item E.g.\ Eve physically brings Alice to a protest she doesn't want to 
+      participate in.
+  \end{itemize}
+\end{remark}
+}
 \end{frame}
 \Textcite{VerifyingPrivacyPropertiesOfVotingProtocols} showed that 
 \cref{CoercionResistance} implies \cref{ReceiptFreeness}, which in turn implies

@@ -9,6 +9,74 @@ We are interested in real-world protests, specifically to verify a protest.
 One problem in real-world demonstrations that has not yet been entirely solved 
 is the crowd-counting problem, i.e.\ the verification of the participation in 
 a demonstration.
+
+\subsection<presentation>{What's the problem?}
+
+\begin{frame}<presentation>
+  \begin{block}{The crowd-counting problem}
+    \begin{itemize}
+      \item Alice organizes a protest against Eve's regime.
+      \item Bob, Carol and others show up.
+      \item We want to know how many showed up to support Alice.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}<presentation>
+  \begin{example}
+    \begin{itemize}
+      \item Computer Vision to do object recognition.
+      \item Requires photos that cover the entire location, all the time.
+    \end{itemize}
+  \end{example}
+
+  \pause
+
+  \begin{example}
+    \begin{itemize}
+      \item Scan active mobile phones in the area.
+      \item This requires some extra equipment.
+      \item This catches bystanders who are not protesting.
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}<presentation>
+  \begin{example}
+    \begin{itemize}
+      \item South Korea 2016~\cite{2016DemonstrationsInSeoul}:
+        approximate count by imagery.
+
+      \item US 2017~\cite{2017WomensMarchesInUS}:
+        sum up people's approximations.
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\subsection<presentation>{Why is it a problem?}
+
+\begin{frame}<presentation>
+  \begin{block}{Verifying protest participation}
+    \begin{itemize}
+      \item Alice organizes a protest against Eve's regime.
+      \item Bob, Carol and others show up.
+
+        \pause
+
+      \item {\color{green} Alice wants to show that many support her cause.}
+
+        \pause
+
+      \item {\color{red} Eve wants to show that few support Alice's cause.}
+
+        \pause
+
+      \item It's an adversarial setting!
+      \item We need verifiable results.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
 After many demonstrations the count by police and that by the organizers 
 differ, in some instances the difference can be hundreds of thousands.
 There are numerous examples, e.g.\ the demonstrations in South 
