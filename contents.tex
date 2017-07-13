@@ -7,25 +7,31 @@
 
 \maketitle
 
+\mode*
+
 \begin{abstract}
   \input{abstract.tex}
 \end{abstract}
 
+\clearpage
 \tableofcontents
+\clearpage
 
-\mode*
-
-
+\mode<all>
 \input{intro.tex}
 
-\input{DataAuthenticity.tex}
-\input{Verification.tex}
+\mode<all>
+\input{properties.tex}
 
+\mode<all>
 \input{SystemModel.tex}
+\mode<all>
 \input{AdaptingPROPS.tex}
+\mode<all>
 \input{primitives.tex}
-
 
 \input{acknowledgements.tex}
 
-\printbibliography{}
+\begin{frame}
+  \printbibliography{}
+\end{frame}
