@@ -1,8 +1,7 @@
 SRC+=	contents.tex
 SRC+=	abstract.tex
 SRC+=	intro.tex
-SRC+=	DataAuthenticity.tex
-SRC+=	Verification.tex
+SRC+=	properties.tex
 SRC+=	AdaptingPROPS.tex
 SRC+=	SystemModel.tex
 SRC+=	primitives.tex
