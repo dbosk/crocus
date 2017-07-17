@@ -4,6 +4,7 @@
 Alice is an activist who organizes a demonstration for some cause.
 Her main goal after the protest is to provide verifiable data.
 There are several problems:
+\begin{frame}
 \begin{itemize}
   \item Alice must prove that the data is related to the event, that it is not 
     reused data from previous demonstrations.
@@ -11,6 +12,7 @@ There are several problems:
     of the event.
   \item Alice must also consider the privacy of the participating individuals.
 \end{itemize}
+\end{frame}
 Since many of the current techniques are based on photos, we will give an 
 example of Alice's problems in that setting.
 How can she ensure that photos from a demonstration are authentic?
@@ -67,47 +69,78 @@ We can essentially divide it into the following requirements:
 the event whereas \cref{SpatiallyRelated} binds the data spatially to the 
 event.
 
-Now, consider the scenario of Alice taking a photo during the demonstration and 
-posting it online.
-What can we say about this photo?
-First, we can say that it was created before we viewed it, so 
-\cref{CreatedBeforeEnd} is fulfilled if we view it in relation to the event.
-If it was submitted to a service that we trust, e.g.\ a blockchain, then we can 
-also trust the time-stamp of the service for fulfilling 
-\cref{CreatedBeforeEnd}.
-Furthermore, we can also consider it spatially related to the physical location
-(\cref{SpatiallyRelated}) if we can convince ourselves that the photo is 
-depicting the physical location and not any kind of \enquote{reconstruction}, 
-e.g.\ it is not computer generated or a photo of a similarly looking location.
+\begin{frame}<presentation>
+  \begin{solution}[A\ref{CreatedAfterStart}, after start]
+    \begin{itemize}
+      \item Include an unpredictable value in the proof.
+      \item This could be e.g.\ the (hash of the) head of block chain.
+      \item This prevents creating proofs for future protests.
+    \end{itemize}
+  \end{solution}
 
-\Cref{CreatedAfterStart} is more difficult to achieve.
-In the above scenario, there is nothing that prevents Alice from submitting an 
-older photo which is spatially related to the event --- i.e.\ to ensure 
-\cref{CreatedAfterStart} we must ensure some sort of freshness.
-% XXX Verify that this can be done using Fiat-Shamir heuristic
-This can (probably) be solved using the Fiat--Shamir 
-heuristic~\cite{FiatShamirHeuristic} (or something similar).
-The main idea is that the operation binding the unpredictable value to the data 
-must be difficult to redo later to change the value.
+  \pause
 
-Instead of a photo, we will use \acp{LP}, more specifically, we will use 
-\ac{PROPS}.
-This will allow us to fulfil \cref{SpatiallyRelated}.
-Since a location proof is a cryptographic value, it is easier to adapt it to 
-fulfil \cref{CreatedAfterStart} too (compared to a photo).
+  \begin{question}
+    \begin{itemize}
+      \item Is this hard?
+      \item I think we can show that it is.
+      \item What assumptions do we need for this?
+    \end{itemize}
+  \end{question}
+\end{frame}
+
+\begin{frame}<presentation>
+  \begin{solution}[A\ref{CreatedBeforeEnd}, before end]
+    \begin{itemize}
+      \item Make the proof part of the block chain.
+      \item The proof must've been created before it was included.
+    \end{itemize}
+  \end{solution}
+\end{frame}
+
+\begin{frame}<presentation>
+  \begin{solution}[A\ref{SpatiallyRelated}, correct location]
+    \begin{itemize}
+      \item The proof includes \iac{LP}.
+      \item The proof is \enquote{witnessed} (signed) by other participants.
+      \item We have a coarse location, just within protest area.
+    \end{itemize}
+  \end{solution}
+
+  \pause
+
+  \begin{question}
+    \begin{itemize}
+      \item How can we do 1000s of \acp{LP} with 1000s of witnesses each?
+    \end{itemize}
+  \end{question}
+\end{frame}
+
+One primitive that provides the properties 
+\cref{CreatedAfterStart,CreatedBeforeEnd} is a block chain with a distributed 
+consensus protocol.
+\Cref{CreatedBeforeEnd} is straight-forward, we simply add the proof to the 
+block chain in relation to the event.
+For \cref{CreatedAfterStart} we must include an unpredictable value in the 
+proof, e.g.\ the head of the block chain.
+
+If we include \iac{LP}, this will tie the proof to the physical location and, 
+thus, solve \cref{SpatiallyRelated}.
 
 \subsection{Verification}
 \label{Verification}
+
+We have an adversarial setting between Alice the activist and Eve the evil 
+regime: Alice wants to show large support against Eve, Eve wants to show little
+support for Alice.
+In this case we have two options:
+either we trust Alice or Eve, or we must verify their claims.
+We aim for verifiable claims.
 
 In general, protesting is very similar to voting: both are many individuals 
 expressing their opinion.
 Hence we desire to have similar properties of verification and privacy for 
 participation in a protest as there is for voting.
-As was pointed out in the introduction, an online protest can be modelled as 
-a petition, which in turn can use electronic voting protocols.
-We are interested in translating these properties into a demonstration, i.e.\ 
-a street-protest.
-
 In the context of (electronic) voting protocols, there are three requirements 
 for verification~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
 \begin{frame}
@@ -121,19 +154,20 @@ for verification~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
 \end{requirements}
 \end{frame}
 We can translate these to the case of participation in a demonstration, then 
-each vote would be replaced by a proof of participation (in either the protest 
-or any counter-protest).
-\Cref{EligibilityVerif} would in this case mean that anyone can verify that 
-each participation proof belongs to a unique individual, i.e.\ to prevent any 
-Sybil attack.
+each vote would be replaced by a proof of participation.
 
-The three verifiability properties above are indeed desirable, e.g.\ then the 
-\ac{UN} can verify protests happening in a country and the country cannot deny 
-it, thus the \ac{UN} can apply pressure if needed.
-However, these properties are difficult to accomplish with computer vision 
-methods, especially if nobody that the \ac{UN} can trust has been on location 
-to collect the image material for the analysis --- otherwise the authenticity 
-can be questioned (as discussed in \cref{DataAuthenticity}).
+If the proofs are included in a public block chain (as suggested in 
+\cref{DataAuthenticity}), then an individual can check that their proof has 
+been included in the chain.
+Thus \cref{IndividualVerif} is fulfilled.
+
+Anyone can count the proofs included in the block chain.
+They can also verify the proofs and thus verify the result, which fulfils 
+\cref{UniversalVerif}.
+
+\Cref{EligibilityVerif} would in this case mean that anyone can verify that 
+each participation proof belongs to a unique individual, i.e.\ to prevent Sybil 
+attacks.
 
 \subsection{Privacy}
 \label{Privacy}
