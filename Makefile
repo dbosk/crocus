@@ -16,6 +16,7 @@ DEPENDS+=	reputation.bib
 DEPENDS+=	auth.bib
 DEPENDS+=	voting.bib
 DEPENDS+=	protests.bib
+DEPENDS+=	blockchain.bib
 
 
 .PHONY: all
@@ -42,5 +43,5 @@ wc todo: ${SRC}
 INCLUDE_MAKEFILES=makefiles
 include ${INCLUDE_MAKEFILES}/tex.mk
 include ${INCLUDE_MAKEFILES}/doc.mk
-INCLUDE_LIBBIB=bibsp
-include ${INCLUDE_LIBBIB}/bibsp.mk
+INCLUDE_BIBSP=bibsp
+include ${INCLUDE_BIBSP}/bibsp.mk

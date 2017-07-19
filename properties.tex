@@ -64,68 +64,118 @@ We can essentially divide it into the following requirements:
   \item\label{SpatiallyRelated} Prove that the data is spatially related to the 
     physical location of the event.
 \end{requirements} %TODO: A4 accurate/not fabricated?
+
+\pause
+
+\mode<presentation>{
+\begin{idea}
+  \begin{itemize}
+    \item There is a mechanism that provides A\ref{CreatedAfterStart} and 
+      A\ref{CreatedBeforeEnd}: a block chain.
+
+    \item Add a consensus protocol and Eve must subvert a majority to change 
+      the outcome.
+
+      \pause
+
+    \item A\ref{SpatiallyRelated} is provided by \iacf{LP}.
+  \end{itemize}
+\end{idea}
+}
 \end{frame}
 \Cref{CreatedBeforeEnd,CreatedAfterStart} together bind the data to the time of 
 the event whereas \cref{SpatiallyRelated} binds the data spatially to the 
 event.
 
-\begin{frame}<presentation>
-  \begin{solution}[A\ref{CreatedAfterStart}, after start]
-    \begin{itemize}
-      \item Include an unpredictable value in the proof.
-      \item This could be e.g.\ the (hash of the) head of block chain.
-      \item This prevents creating proofs for future protests.
-    \end{itemize}
-  \end{solution}
-
-  \pause
-
-  \begin{question}
-    \begin{itemize}
-      \item Is this hard?
-      \item I think we can show that it is.
-      \item What assumptions do we need for this?
-    \end{itemize}
-  \end{question}
-\end{frame}
-
-\begin{frame}<presentation>
-  \begin{solution}[A\ref{CreatedBeforeEnd}, before end]
-    \begin{itemize}
-      \item Make the proof part of the block chain.
-      \item The proof must've been created before it was included.
-    \end{itemize}
-  \end{solution}
-\end{frame}
-
-\begin{frame}<presentation>
-  \begin{solution}[A\ref{SpatiallyRelated}, correct location]
-    \begin{itemize}
-      \item The proof includes \iac{LP}.
-      \item The proof is \enquote{witnessed} (signed) by other participants.
-      \item We have a coarse location, just within protest area.
-    \end{itemize}
-  \end{solution}
-
-  \pause
-
-  \begin{question}
-    \begin{itemize}
-      \item How can we do 1000s of \acp{LP} with 1000s of witnesses each?
-    \end{itemize}
-  \end{question}
-\end{frame}
-
 One primitive that provides the properties 
 \cref{CreatedAfterStart,CreatedBeforeEnd} is a block chain with a distributed 
 consensus protocol.
+
+\begin{frame}
+  \begin{question}
+    Are there other strucutres than block chains?
+    E.g.~\cite{BlockchainFreeCryptocurrencies}.
+  \end{question}
+\end{frame}
+
 \Cref{CreatedBeforeEnd} is straight-forward, we simply add the proof to the 
-block chain in relation to the event.
+block chain \emph{in (time-wise) relation to the event}.
+Then we know that it cannot have been created after the event.
+
+\begin{frame}<presentation>
+  \begin{solution}[A\ref{CreatedBeforeEnd} Created before end]
+    \begin{itemize}
+      \item Make the \ac{LP} part of the block chain.
+      \item The proof must've been created before it was included (duh!).
+      \item (Also related to V\ref{EligibilityVerif}.)
+    \end{itemize}
+  \end{solution}
+\end{frame}
+
 For \cref{CreatedAfterStart} we must include an unpredictable value in the 
 proof, e.g.\ the head of the block chain.
+This means that we cannot create a proof and keep it for a future protest.
+This also prevents us from reusing proofs from previous protests.
+
+\begin{frame}
+  \mode<presentation>{
+  \begin{idea}[A\ref{CreatedAfterStart} Created after start]
+    \begin{itemize}
+      \item Include an unpredictable value in the \ac{LP}.
+      \item This could be e.g.\ the hash of the head of the block chain.
+      \item This prevents creating proofs for future protests.
+    \end{itemize}
+  \end{idea}
+  }
+
+  \pause
+
+  \begin{question}
+    How will this prevent us from reusing proofs from previous protests in 
+    the same location(s)?
+    (Related to V\ref{EligibilityVerif}.)
+    What are the assumptions?
+  \end{question}
+  \begin{question}
+    How hard is it to reuse old proofs?
+  \end{question}
+\end{frame}
 
 If we include \iac{LP}, this will tie the proof to the physical location and, 
 thus, solve \cref{SpatiallyRelated}.
+The \ac{LP} is \enquote{witnessed} (signed) by other participants.
+The \ac{LP} contains coarse coordinates of the location, which must be within 
+the protest area to be valid.
+This allows Bob the protester to move within the protest area to collect 
+witnesses (signatures).
+It also provides privacy since the location cannot be used to deanonymize Bob's 
+proof --- e.g.\ to correlate the location in his proof with captured 
+surveillance footage.
+
+\begin{frame}
+  \mode<presentation>{
+  \begin{idea}[A\ref{SpatiallyRelated} Correct location]
+    \begin{itemize}
+      \item The \ac{LP} is \enquote{witnessed} (signed) by other participants.
+      \item We have a coarse location, just within protest area.
+      \item This allows protesters to move around to collect signatures.
+      \item This provides privacy for the location, e.g.\ cannot map to 
+        surveillance cameras.
+    \end{itemize}
+  \end{idea}
+  }
+
+  \pause
+
+  \begin{question}
+    How can we do \acp{LP} with 1000s of witnesses each?
+    And then 1000s of such \acp{LP}?
+  \end{question}
+  \begin{question}
+    Why should anyone trust these witnesses?
+    What are the assumptions?
+  \end{question}
+\end{frame}
 
 \subsection{Verification}
 \label{Verification}
@@ -155,104 +205,164 @@ for verification~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
 \end{frame}
 We can translate these to the case of participation in a demonstration, then 
 each vote would be replaced by a proof of participation.
+To have any verifiability, we need the storage (i.e.\ block chain) to be 
+immutable.
+So we need a consensus protocol which prevents malicious changes.
+
+\begin{frame}
+  \mode<presentation>{
+  \begin{remark}
+    \begin{itemize}
+      \item For valid verification we must have an immutable block chain.
+      \item We need something like a consensus protocol to prevent malicious 
+        changes.
+    \end{itemize}
+  \end{remark}
+  }
+
+  \begin{question}
+    What can we achieve with a consensus protocol?
+    Majority must be honest?
+  \end{question}
+  \begin{question}
+    What is a suitable proof-of-work?
+    See e.g.~\cite{FairProofOfWork}.
+  \end{question}
+\end{frame}
 
 If the proofs are included in a public block chain (as suggested in 
 \cref{DataAuthenticity}), then an individual can check that their proof has 
 been included in the chain.
 Thus \cref{IndividualVerif} is fulfilled.
 
-Anyone can count the proofs included in the block chain.
-They can also verify the proofs and thus verify the result, which fulfils 
-\cref{UniversalVerif}.
+\begin{frame}
+  \mode<presentation>{
+  \begin{idea}[V\ref{IndividualVerif} Individual verifiability]
+    \begin{itemize}
+      \item Proofs are stored publicly (block chain).
+      \item Each participant can check that their proof is indeed included.
+    \end{itemize}
+  \end{idea}
+  }
+
+  \pause
+
+  \begin{question}
+    Malicious nodes want to provide Alice with a view that her proof is 
+    included.
+    Everyone else is provided a view without Alice.
+    How can we ensure a consistent view for everyone?
+    (Probably similar to the solution in Joakim's thesis.)
+  \end{question}
+\end{frame}
 
 \Cref{EligibilityVerif} would in this case mean that anyone can verify that 
 each participation proof belongs to a unique individual, i.e.\ to prevent Sybil 
 attacks.
+They must also be able to detect if the proof is reused from a previous protest 
+(i.e.\ related to \cref{CreatedAfterStart,CreatedBeforeEnd}).
+
+\begin{frame}
+  \mode<presentation>{
+  \begin{idea}[V\ref{EligibilityVerif} Eligibility]
+    \begin{itemize}
+      \item Must verify that the proof is not reused from before 
+        (A\ref{CreatedAfterStart} and A\ref{CreatedBeforeEnd}).
+      \item Must verify that each proof belongs to a unique individual (not 
+        only Sybil).
+    \end{itemize}
+  \end{idea}
+  }
+
+  \pause
+
+  \begin{question}
+    How to solve the Sybil problem?
+  \end{question}
+  \begin{question}
+    This is similar to the double-spending problem for cryptocurrencies, can 
+    we reuse any such techniques?
+  \end{question}
+\end{frame}
+
+If the block chain is public, then anyone can download all the proofs, verify 
+them (eligibility) and count them.
+Thus anyone can verify the result, which fulfils \cref{UniversalVerif}.
+
+\begin{frame}
+  \mode<presentation>{
+  \begin{idea}[V\ref{UniversalVerif} Universal verifiability]
+    \begin{itemize}
+      \item Proofs are stored publicly.
+      \item Anyone can download all proofs, verify them and then count them.
+    \end{itemize}
+  \end{idea}
+  }
+
+  \pause
+
+  \begin{question}
+    Similar as before: how can we ensure consistent views for everyone?
+  \end{question}
+\end{frame}
 
 \subsection{Privacy}
 \label{Privacy}
 
 We also need privacy in addition to the verification requirements.
-In voting, we have the following requirements:
-\begin{frame}
-\begin{requirements}[P]
-\item\label{VotePrivacy} Vote privacy: the vote does not reveal any individual 
-  vote.
-\item\label{ReceiptFreeness} Receipt freeness: the voting system does not 
-  provide any data that can be used as a proof of how the voter voted.
-\item\label{CoercionResistance} Coercion resistance: a voter cannot cooperate 
-  with a coercer to prove the vote was cast in any particular way.
-\end{requirements}
-\mode<presentation>{
-\pause
-\begin{remark}
-  \begin{itemize}
-    \item Coercion resistance is difficult to achieve for voting.
-    \item It doesn't make much sense for protests.
-    \item E.g.\ Eve physically brings Alice to a protest she doesn't want to 
-      participate in.
-  \end{itemize}
-\end{remark}
-}
-\end{frame}
-\Textcite{VerifyingPrivacyPropertiesOfVotingProtocols} showed that 
-\cref{CoercionResistance} implies \cref{ReceiptFreeness}, which in turn implies
-\cref{VotePrivacy}.
-We can see that \cref{VotePrivacy,ReceiptFreeness} are desirable in Alice's 
-situation: there should not be any proof which binds Alice to the participation 
-of the demonstration (\cref{ReceiptFreeness}), because she does not want to 
-explicitly reveal her opinions to the government (\cref{VotePrivacy}) due to 
-the risk of reprimands.
-\Cref{ReceiptFreeness} implies that even if Alice is arrested, the data should 
-not provide any proof to the regime's agents that can reveal Alice's opinion.
-
-A demonstration is very different from voting in one sense: Alice must be 
-physically present and that very precense shows her support for the cause.
-In voting, on the other hand, Alice has multiple options which are not revealed
-by her mere precense.
 As we indirectly pointed out earlier, we focus on the privacy provided to Alice 
 and Bob by the data.
 So as long as Alice and Bob can conceal their identities at the demonstration 
 and escape without arrest, their support is recorded in the data while their 
 privacy is not violated.
-(Following this line of thinking, it can actually be beneficial for the privacy of 
-the demonstrators to mix with the participants from any counter-demonstrations 
---- as long as the correct counts for each demonstration can still be ensured, 
-which is the idea.)
+(Following this line of thinking, it can actually be beneficial for the privacy 
+of the demonstrators to mix with the participants from any 
+counter-demonstrations --- since the counts will still be correct.)
 
-The main problem is how to ensure the connection between the physical location 
-and the data used for verification, i.e.\ fulfil all the requirements for 
-authenticity, verification and privacy given above.
-We must bind participants to the same physical location at a reasonably similar 
-time, i.e.\ within the area and duration of the demonstration.
-In the case of the Korean demonstrations~\cite{2016DemonstrationsInSeoul}, this 
-was in one place during an entire day and then repeated for several 
-weekends.
-In the case of the Women's Marches in the US~\cite{2017WomensMarchesInUS}, they
-were in several locations at the same time.
+In voting, we have the following alternative requirements:
+\begin{frame}
+\begin{requirements}[P]
+\item\label{VotePrivacy} Vote privacy: the voting does not reveal any 
+  individual vote.
+\item\label{ReceiptFreeness} Receipt freeness: the voting system does not 
+  provide any data that can be used as a proof of how the voter voted.
+\item\label{CoercionResistance} Coercion resistance: a voter cannot cooperate 
+  with a coercer to prove the vote was cast in any particular way.
+\end{requirements}
+\pause
+\mode<presentation>{
+  \begin{remark}
+    P\ref{CoercionResistance} \(\implies\)
+    P\ref{ReceiptFreeness} \(\implies\)
+    P\ref{VotePrivacy}
+  \end{remark}
+}
+\end{frame}
+\Textcite{VerifyingPrivacyPropertiesOfVotingProtocols} showed that 
+\cref{CoercionResistance} implies \cref{ReceiptFreeness}, which in turn implies
+\cref{VotePrivacy}.
+\Cref{CoercionResistance} is probably not possible to achieve for protests:
+e.g.\ Eve can simply physically bring Alice to a protest against her will.
+This leaves us with \cref{ReceiptFreeness,VotePrivacy}.
 
-%This means that for a system like this to work, we also need the requirements 
-%from \cref{DataAuthenticity}: proof that the data was created after the start 
-%of the protest, proof that it was created before the end, and proof of spatial 
-%relation to the location.
+\begin{frame}<presentation>
+  \begin{remark}
+    \begin{itemize}
+      \item Coercion resistance is difficult to achieve for voting.
+      \item It doesn't make much sense for protests.
+      \item E.g.\ Eve physically brings Alice to a protest she doesn't want to 
+        participate in.
+      \item That leaves us with receipt freeness and vote privacy.
+    \end{itemize}
+  \end{remark}
+\end{frame}
 
-\textcite{PROPS} developed a decentralized \ac{LPS} which provides 
-a participant with a verifiable proof of having been at a location at a certain 
-time, something we call \iac{LP}.
-It is decentralized because there is no central authority that vouches for the 
-location, instead peers act as witnesses.
-Then a third-party can verify the authenticity of the \ac{LP}, by verifying the 
-witnesses' signatures, and can thus be sure that the person has indeed been in 
-the location.
-Bosk, Gambs and Buchegger are currently exploring (work in progress) the 
-possibility of combining such \iac{LPS} with the verifiability and privacy 
-requirements discussed above.
-The overall idea is that each participant generates \iac{LP} during the 
-demonstration, where (some of) the other protesters act as witnesses, then the 
-\acp{LP} can be used to compute the participation count with all the 
-authenticity, verifiability and privacy requirements above.
-%TODO: reviewer: what about cellphones to count attendance
-% This is actually done in \cite{2016DemonstrationsInSeoul}, it requires some 
-% assumptions --- but they use wifi signals instead of the mobile network.
-% In either case, we pointed out that one wants the phone in flight mode due to
-% surveillance.
+A demonstration is very different from voting in one sense: Alice must be 
+physically present and that very presence shows her support for the cause.
+In voting, on the other hand, Alice has multiple options which are not revealed
+by her mere presence.
+% XXX Check if unlinkable is the correct term
+Hence, if Alice submits a proof to the block chain, it must be unlinkable to 
+Alice yet if Alice submits another proof, those two proofs must be linkable.
+
+
