@@ -319,7 +319,7 @@ privacy is not violated.
 of the demonstrators to mix with the participants from any 
 counter-demonstrations --- since the counts will still be correct.)
 
-In voting, we have the following alternative requirements:
+In voting, we have the following requirements:
 \begin{frame}
 \begin{requirements}[P]
 \item\label{VotePrivacy} Vote privacy: the voting does not reveal any 
@@ -362,7 +362,44 @@ physically present and that very presence shows her support for the cause.
 In voting, on the other hand, Alice has multiple options which are not revealed
 by her mere presence.
 % XXX Check if unlinkable is the correct term
-Hence, if Alice submits a proof to the block chain, it must be unlinkable to 
-Alice yet if Alice submits another proof, those two proofs must be linkable.
+Hence, if Alice submits a proof to the block chain, the proof must be 
+unlinkable to Alice, yet, if Alice submits another proof, those two proofs must 
+be linkable (due to eligibility verification, \cref{EligibilityVerif}).
+E.g.\ Eve compromises Alice's device (and private keys).
+Anyone can verify any proof.
+With the inputs that Eve can extract from the published proof and the keys she 
+can find on Alice's device, she should not be able to reproduce the same 
+signatures on the proof.
 
+\begin{frame}<presentation>
+  \begin{remark}
+    \begin{itemize}
+      \item Voting: different alternatives when participating.
+      \item Protesting: participation implies the alternative.
+    \end{itemize}
+  \end{remark}
 
+  \pause
+
+  \begin{idea}[P\ref{ReceiptFreeness} Receipt freeness]
+    \begin{itemize}
+      \item If Eve compromises Alice's device, she should not be able to use 
+        it to verify that she participated.
+
+      \item But Alice should not be able to participate twice.
+
+      \item We need a signature scheme that cannot reproduce the same 
+        signature when run on the same inputs.
+    \end{itemize}
+  \end{idea}
+\end{frame}
+
+\begin{frame}
+  \begin{question}
+    Will such a signature scheme solve both problems?
+  \end{question}
+  \begin{question}
+    Is there such a signature scheme?
+    Can we construct it?
+  \end{question}
+\end{frame}
