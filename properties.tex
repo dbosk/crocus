@@ -83,17 +83,20 @@ We can essentially divide it into the following requirements:
 \end{idea}
 }
 \end{frame}
-\Cref{CreatedBeforeEnd,CreatedAfterStart} together bind the data to the time of 
-the event whereas \cref{SpatiallyRelated} binds the data spatially to the 
-event.
+\Cref{CreatedBeforeEnd,CreatedAfterStart} requires a \emph{strict partial 
+  order}\footnote{%
+  A relation \(<\) which is irreflexive, antisymmetric and transitive.
+}.
+If some objects in the set relate to known points in time, then the partial 
+order allows to relate the data to the time of the event.
+\Cref{SpatiallyRelated} binds the data spatially to the event.
 
-One primitive that provides the properties 
-\cref{CreatedAfterStart,CreatedBeforeEnd} is a block chain with a distributed 
-consensus protocol.
+One primitive that fulfils \cref{CreatedAfterStart,CreatedBeforeEnd} is a block 
+chain.
 
 \begin{frame}
   \begin{question}
-    Are there other strucutres than block chains?
+    Are there other structures than block chains?
     E.g.~\cite{BlockchainFreeCryptocurrencies}.
   \end{question}
 \end{frame}
