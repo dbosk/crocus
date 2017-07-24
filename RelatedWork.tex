@@ -1,184 +1,193 @@
 \mode*
 \section{Related work}
 
-\Textcite{2016DemonstrationsInSeoul} discusses various approaches to crowd 
-counting and the problems they face:
+\subsection<presentation>{Image-based methods}
 
-\blockcquote{2016DemonstrationsInSeoul}{%
-  The rallies stretch from midday to late night --- some people stay for 
-  several hours, others just several minutes.%
-}
+The seemingly most commonly used method for counting crowds at protests is 
+Jacob's method~\cite[c.f.][]{%
+  2016DemonstrationsInSeoul,%
+  BBCHowToCountProtestNumbers,%
+  HowWillWeKnowTrumpInauguralCrowdSize,%
+  TheXManMarch,%
+  TheCrowdNumbersGame,%
+}.
+It is a manual method devised in the 1960s which relies on aerial photos of the 
+event.
+The verifier divides the protest venue into regions, then estimates the crowd 
+density in the different regions and finally sums them up to get an estimate of 
+the total.
+This method is prone to errors, since it is based on estimates.
+However, it allows for verification, since anyone can redo the counting using 
+the same photos.
 
-\blockcquote{2016DemonstrationsInSeoul}{%
-  The demonstrators not only gather in open space, but also small alleys and 
-  between buildings.%
-}
+\begin{frame}<presentation>
+  \begin{solution}[Jacob's method]
+    \begin{itemize}
+      \item Take aerial photos of the event.
+      \item Divide area into regions.
+      \item Estimate density in the regions.
+      \item Sum up to an estimate of the total.
+    \end{itemize}
+  \end{solution}
 
-\blockcquote{2016DemonstrationsInSeoul}{%
-  For the police, the aim is to measure the maximum crowd occupying a certain 
-  space at any given time so that they could determine the size of police 
-  personnel and resources to deploy%
-}
+  \pause
 
-\blockcquote{2016DemonstrationsInSeoul}{%
-  Police presume that, when sitting, six people would fill a space of 3.3 
-  square meters
-  [\dots]
-  The same area would hold nine or 10 people when standing%
-}
+  \begin{remark}
+    \begin{itemize}
+      \item Prone to errors, due to estimations.
+      \item Verifiable, anyone with the photos can redo the estimate.
+    \end{itemize}
+  \end{remark}
+\end{frame}
 
-\blockcquote{2016DemonstrationsInSeoul}{%
-  Based on this, police consider the 32,100-square-meter (345,525-square-foot) 
-  boulevard in front of the Gwanghwamun palace gate, which has been the center 
-  of the protests, as accommodating close to 600,000 people when fully packed.%
-}
+There is a body of work in the computer vision community, e.g.\ the work of 
+\textcite{NNCrowdCounting}.
+This class of methods requires photos or video surveillance of the protest 
+location during the entire protest.
+They generally include machine learning, and thus also require a training 
+dataset to train the algorithms.
+In the work by \textcite{NNCrowdCounting}, they actually train and evaluate 
+their algorithm on different scenes, which might make this method easier to use 
+for protesting.
+We can provide verifiability with this method, since someone can always recount
+the participants using the recorded video material.
+However, it is still difficult capture the entire location on surveillance 
+video.
+Also, it is difficult (if not impossible) to not count people twice.
 
-\blockcquote{2016DemonstrationsInSeoul}{%
-  Organizers seek to track the entire flow of people from the protest’s start 
-  to its finish. They collect estimates given by counters deployed at different 
-  locations to size up the crowds in each area and update the numbers 
-  throughout the duration of the protest.%
-}
+\begin{frame}<presentation>
+  \begin{solution}[Computer vision]
+    \begin{itemize}
+      \item Record video of the event.
+      \item Train algorithms on part of the data.
+      \item Run algorithm to count the total.
+    \end{itemize}
+  \end{solution}
 
-\blockcquote{2016DemonstrationsInSeoul}{%
-  One South Korean retail analytics company measured the number of protesters 
-  by counting the number of smartphone signals.
-  [\dots]
-  Zoyi Corp. deployed about 60 people, each carrying a backpack with the 
-  company’s Wi-Fi signal-detecting sensor, to the rally on Nov. 19.
-  [\dots]
-  They collected Wi-Fi and Bluetooth signals from smartphones for about seven 
-  hours from 2 p.m. at 53 spots and found about 369,372 smartphones that had 
-  their wireless signals on during the rally.%
-}
+  \pause
 
+  \begin{remark}
+    \begin{itemize}
+      \item Requires video-recording of the entire event.
+      \item Difficult to record every part.
+      \item Difficult (impossible?) to not record someone twice.
+      \item Is verifiable though, if the video is public.
+    \end{itemize}
+  \end{remark}
+\end{frame}
+
+\subsection<presentation>{Signal-based methods}
+
+During the protests in Seoul~\cite{2016DemonstrationsInSeoul} there was one 
+retail analytics company that tried to estimate the number of participants 
+using their technology.
+They scanned for MAC addresses emitted from the Wi-Fi of participants' 
+smartphones.
+However, this method required many assumptions:
 \blockcquote{2016DemonstrationsInSeoul}{%
   The company presumed that about half of smartphone users usually leave their 
   Wi-Fi feature on and the other half switch it off, based on a separate survey 
-  on smartphone usage.%
+  on smartphone usage. It also assumed that about 20 percent of the smartphone 
+  signals were repetition from the same device.
 }
+This method cannot provide any verifiability, we must trust the company to do 
+the measurements correctly.
+As MAC address randomization get wider adoption this will be even more 
+difficult, although tracking will still be 
+possible~\cite{WhyMACRandomizationIsNotEnough}.
 
-\blockcquote{2016DemonstrationsInSeoul}{%
-  They collected Wi-Fi and Bluetooth signals from smartphones for about seven 
-  hours from 2 p.m. at 53 spots and found about 369,372 smartphones that had 
-  their wireless signals on during the rally. The company presumed that about 
-  half of smartphone users usually leave their Wi-Fi feature on and the other 
-  half switch it off, based on a separate survey on smartphone usage. It also 
-  assumed that about 20 percent of the smartphone signals were repetition from 
-  the same device. Based on this, Zoyi concluded that about 738,700 people 
-  joined the rally.%
-}
+\begin{frame}<presentation>
+  \begin{solution}[Wi-Fi tracking]
+    \begin{itemize}
+      \item Record unique Wi-Fi MAC addresses from people's smartphones.
+    \end{itemize}
+  \end{solution}
 
-\blockcquote{TheCrowdNumbersGame}{%
-  square footage divided by occupation density%
-}
+  \pause
 
-\blockcquote{TheCrowdNumbersGame}{%
-  Clark McPhail, professor emeritus of sociology at the University of Illinois at 
-  Urbana-Champaign, is one of America’s preeminent authorities on protest crowds.
-  [\dots]
-  studying D.C. demonstrations since 1967, using a fairly simple mathematical 
-  formula --- square footage divided by occupation density --- to count 
-  everything from antiwar gatherings to the annual March for Life to the 
-  Million Man March to Promise Keepers%
-}
+  \begin{remark}
+    \begin{itemize}
+      \item Imprecise, requires assumptions.
+      \item Half of smartphone users turn Wi-Fi off.
+      \item MAC address randomization.
+      \item Cannot verify.
+    \end{itemize}
+  \end{remark}
+\end{frame}
 
-\blockcquote{TheCrowdNumbersGame}{%
-  The crowd-counting method he uses, he says, was devised by Berkeley 
-  journalism professor Herbert Jacobs in the 1960s during the Free Speech 
-  movement.%
-}
+A better proposal would be to use \enquote{IMSI catchers} (or the real cell 
+towers of the mobile network) to count unique phones at the location.
+However, there are several problems with this approach.
+First, it will be difficult to register only the participants' phones, many 
+bystanders will also be counted.
+Second, since the phone is a unique identifier, participants might be 
+uncomfortable to be registered in association with the event and might thus 
+turn the device off.
+Finally, there will be limited verifiability, as the data recorder must be 
+trusted to record all data.
 
-\blockcquote{TheCrowdNumbersGame}{%
-  Farouk El-Baz, director of the Center for Remote Sensing at Boston 
-  University, says that the methodology is well known and well respected by 
-  scientists.%
-}
+\begin{frame}<presentation>
+  \begin{solution}[IMSI catchers]
+    \begin{itemize}
+      \item Use IMSI catchers to register unique phones.
+      \item (Or use the network cell towers.)
+    \end{itemize}
+  \end{solution}
 
-\blockcquote{TheCrowdNumbersGame}{%
-  McPhail took the measurements leading to that conclusion at 1 p.m., two hours 
-  after the rally began. While he was measuring, a few last busloads of people 
-  were still coming in --- as much as 10 percent of the rally.
-  [\dots]
-  So to be on the safe side, he added 20 percent to his 1 p.m. total%
-}
+  \pause
 
-\blockcquote{TheCrowdNumbersGame}{%
-  According to El-Baz, who has worked with the Park Service, aerial photographs 
-  would have given a more accurate estimate.%
-}
+  \begin{remark}
+    \begin{itemize}
+      \item Will include bystanders into the count.
+      \item Privacy-invading due to phones being uniquely identifying.
+      \item Cannot verify.
+    \end{itemize}
+  \end{remark}
+\end{frame}
 
-\blockcquote{TheCrowdNumbersGame}{%
-  After viewing aerial photographs of the crowds on the streets leading into the 
-  plaza, the police upped their estimate to between 50,000 and 100,000, and 
-  then said it could have been as large as 150,000.%
-}
+\Textcite{WifiCrowdCounting} also relies of Wi-Fi, but they instead use the 
+Wi-Fi signal as a sonar to detect people.
+However this method is designed for indoor use and does not scale to more than 
+a crowd of 20 people.
 
-\blockcquote{TheCrowdNumbersGame}{%
-  In fact, he says, he thinks they do themselves a disservice by exaggerating. 
-  “While hyperbole is to be expected from organizers — it has always been higher 
-  than the estimates of the police — this can work to their disadvantage,”
-  [\dots]
-  in the antiwar demonstrations of the ’60s and early ’70s, the protests became 
-  effective once Middle America started turning out. At that point, the size of 
-  the rallies mattered less than who attended. Once the mainstream turned against 
-  the war, it had to end.
-  [\dots]
-  “In the Vietnam era, it was when middle-aged folks and middle-class folks, 
-  doctors and lawyers began coming out and participating that public opinion 
-  began to turn,”%
-}
+In general for all of the above methods, the more a crowd spreads out, the more
+difficult it will be to determine its size:
+the problem is determining whether people near the event's perimeter are 
+participants of simply bystanders~\cite{HowToEstimateCrowdSize}.
+These methods also have difficulty capturing the actual attendance of an event,
+i.e.\ the cumulative participation, not just the count at a snapshot around the 
+peak.
 
-\Textcite{HowToEstimateCrowdSize} \dots
-
-\blockcquote[Interview with Stephen Doig, ASU]{HowToEstimateCrowdSize}{%
-  I would say the most accurate way to estimate the number of people in a large 
-  outdoor crowd is to get good aerial imagery, break it into regions of similar 
-  density, measure the square footage of each region, apply a reasonable value 
-  for the density in each region%
-}
-\blockcquote{HowToEstimateCrowdSize}{%
-  Stephen Doig, a census expert at Arizona State University.%
-}
-
-\blockcquote{HowToEstimateCrowdSize}{%
-  Doig uses his crowd-counting experience and techniques to help companies like 
-  AirPhotosLive.com (which covered President Obama's 2009 Inauguration ceremony
-  [\dots]
-  the company uses a 360-degree, spherical panoramic camera that can capture 
-  shots of the crowd from every direction all at once during the \enquote{peak} 
-  time of an event, or when attendance is at its highest%
-}
-
-\blockcquote{HowToEstimateCrowdSize}{%
-  Crowd size is also needed for media news reports and to historically record 
-  the event%
-}
-
-\blockcquote{HowToEstimateCrowdSize}{%
-  Boston University Center for Remote Sensing.%
-}
-
-\blockcquote{HowToEstimateCrowdSize}{%
-  the more widely that a crowd is spread out, the more challenging it can be to 
-  get an accurate estimate of those attending, as it can become difficult to 
-  determine whether people near the event's perimeter are there for the event 
-  or are in the area for other reasons,%
-}
-
-\Textcite{WifiCrowdCounting} \dots
-
-\Textcite{CVCrowdCounting} \dots
-
-\Textcite{NNCrowdCounting} \dots
+\subsection<presentation>{More exact methods}
 
 The most closely related work is \textcite{CrowdCount.org}.
 This is a web service which lets Alice create an event and Bob can submit his 
 location to register that he is in Alice's event.
-There is no verification, i.e.\ the service must be trusted, nor anything 
-preventing Bob from submitting twice.
-The service also requires an Internet connection during the event to register 
-as a participant.
+This solves the problem that it counts everyone (who submitted), not just the 
+count at the snapshot of the photos.
+However, there is no verification, i.e.\ the service must be trusted, nor 
+anything preventing Bob from submitting twice (eligibility verification).
+Another downside is that the service also requires an Internet connection 
+during the event to register as a participant.
 This can make it difficult to use if e.g.\ Alice has organized a protest 
-against government, who shuts down the cellular network and Internet backbone 
-as a means to censor the protest.
+against the government, who shuts down the cellular network or Internet 
+backbone as a means to censor the protest.
+
+\begin{frame}<presentation>
+  \begin{solution}[CrowdCount\footfullcite{CrowdCount.org}]
+    \begin{itemize}
+      \item Register an upcoming event.
+      \item Let people \enquote{check-in} by submitting their location.
+    \end{itemize}
+  \end{solution}
+
+  \pause
+
+  \begin{remark}
+    \begin{itemize}
+      \item No verification, the service must be trusted.
+      \item Nothing prevents Bob from checking in twice.
+      \item Requires an Internet connection during the event.
+    \end{itemize}
+  \end{remark}
+\end{frame}
