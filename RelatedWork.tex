@@ -19,6 +19,19 @@ the total.
 This method is prone to errors, since it is based on estimates.
 However, it allows for verification, since anyone can redo the counting using 
 the same photos.
+This provides universal verifiability (\cref{UniversalVerif})).
+It is difficult to achieve individual verifiability (\cref{IndividualVerif}) 
+since it is hard to verify that oneself is indeed in any of the photos.
+We can argue eligibility verifiability (\cref{EligibilityVerif}) if all the 
+photos are taken at the same point in time with no overlap, since then no one 
+can be counted twice.
+Unfortunately, we can only get the peak participation with this method.
+
+When it comes to authenticity, we have to rely on the photos.
+We can try to determine from the photos themselves when and where the they were 
+taken.
+However, the best we can do is to employ forensic methods to try to detect any 
+modifications.
 
 \begin{frame}<presentation>
   \begin{solution}[Jacob's method]
@@ -35,7 +48,10 @@ the same photos.
   \begin{remark}
     \begin{itemize}
       \item Prone to errors, due to estimations.
-      \item Verifiable, anyone with the photos can redo the estimate.
+      \item Universally verifiable (\cref{UniversalVerif}), anyone with the 
+        photos can redo the estimate.
+      \item Eligibility verifiability (\cref{EligibilityVerif}) if photos at 
+        one snapshot in time and no overlap.
     \end{itemize}
   \end{remark}
 \end{frame}
@@ -53,6 +69,9 @@ Seoul
   \textelp{}
   The same area would hold nine or 10 people when standing%
 }.
+This method is not verifiable unless the user takes a picture of the crowd, 
+then it inherits the verifiability properties of the previous method.
+The same for authenticity.
 
 \begin{frame}<presentation>
   \begin{solution}[CrowdSize app\footfullcite{CrowdSize}]
@@ -70,6 +89,7 @@ Seoul
     \begin{itemize}
       \item This is the same method as used by police.
       \item Not verifiable unless the user takes a picture of the crowd.
+      \item The it will be reduced to the previous method.
     \end{itemize}
   \end{remark}
 \end{frame}
@@ -83,11 +103,17 @@ dataset to train the algorithms.
 In the work by \textcite{NNCrowdCounting}, they actually train and evaluate 
 their algorithm on different scenes, which might make this method easier to use 
 for protesting.
-We can provide verifiability with this method, since someone can always recount
-the participants using the recorded video material.
-However, it is still difficult capture the entire location on surveillance 
+We can provide universal verifiability (\cref{UniversalVerif}) with this 
+method, since someone can always recount the participants using the recorded 
+video material.
+We might be able to provide some degree of individual verifiability 
+(\cref{IndividualVerif}), but this might still be difficult.
+Also, it is difficult (if not impossible) to not count people twice, thus we 
+cannot argue for eligibility verifiability (\cref{EligibilityVerif}).
+Furthermore, it is still difficult capture the entire location on surveillance 
 video.
-Also, it is difficult (if not impossible) to not count people twice.
+The authenticity properties are reduced to those of the video, which should be 
+similar as in our discussion about the authenticity of photos.
 
 \begin{frame}<presentation>
   \begin{solution}[Computer vision]
@@ -105,7 +131,8 @@ Also, it is difficult (if not impossible) to not count people twice.
       \item Requires video-recording of the entire event.
       \item Difficult to record every part.
       \item Difficult (impossible?) to not record someone twice.
-      \item Is verifiable though, if the video is public.
+      \item Is verifiable, though limited, if the video is public.
+      \item Authenticity can be questioned as with the photos.
     \end{itemize}
   \end{remark}
 \end{frame}
@@ -124,10 +151,11 @@ However, this method required many assumptions:
   on smartphone usage. It also assumed that about 20 percent of the smartphone 
   signals were repetition from the same device.
 }
-This method cannot provide any verifiability, we must trust the company to do 
-the measurements correctly.
+This method cannot provide any verifiability nor authenticity, we must trust 
+the company to do the measurements correctly and to be honest about when and 
+where they did them.
 As MAC address randomization get wider adoption this will be even more 
-difficult, although tracking will still be 
+difficult, although some tracking of smartphones will still be 
 possible~\cite{WhyMACRandomizationIsNotEnough}.
 
 \begin{frame}<presentation>
@@ -144,7 +172,7 @@ possible~\cite{WhyMACRandomizationIsNotEnough}.
       \item Imprecise, requires assumptions.
       \item Half of smartphone users turn Wi-Fi off.
       \item MAC address randomization.
-      \item Cannot verify.
+      \item Cannot verify, nor authenticate.
     \end{itemize}
   \end{remark}
 \end{frame}
@@ -157,8 +185,9 @@ bystanders will also be counted.
 Second, since the phone is a unique identifier, participants might be 
 uncomfortable to be registered in association with the event and might thus 
 turn the device off.
-Finally, there will be limited verifiability, as the data recorder must be 
-trusted to record all data.
+Finally, there will be limited verifiability and authenticity, as the data 
+recorder must be trusted to record all data and do it in the relation to the 
+event.
 
 \begin{frame}<presentation>
   \begin{solution}[IMSI catchers]
@@ -174,7 +203,7 @@ trusted to record all data.
     \begin{itemize}
       \item Will include bystanders into the count.
       \item Privacy-invading due to phones being uniquely identifying.
-      \item Cannot verify.
+      \item Cannot verify, nor authenticate.
     \end{itemize}
   \end{remark}
 \end{frame}
@@ -183,6 +212,8 @@ trusted to record all data.
 Wi-Fi signal as a sonar to detect people.
 However this method is designed for indoor use and does not scale to more than 
 a crowd of 20 people.
+In either case, this type of data cannot provide verifiability nor 
+authenticity.
 
 In general for all of the above methods, the more a crowd spreads out, the more
 difficult it will be to determine its size:
@@ -199,8 +230,9 @@ This is a web service which lets Alice create an event and Bob can submit his
 location to register that he is in Alice's event.
 This solves the problem that it counts everyone (who submitted), not just the 
 count at the snapshot of the photos.
-However, there is no verification, i.e.\ the service must be trusted, nor 
-anything preventing Bob from submitting twice (eligibility verification).
+However, there is no verification nor authenticity, i.e.\ the service must be 
+trusted to behave honestly, but even then, nothing prevents Bob from submitting 
+twice (violating eligibility verification, \cref{EligibilityVerif}).
 Another downside is that the service also requires an Internet connection 
 during the event to register as a participant.
 This can make it difficult to use if e.g.\ Alice has organized a protest 
@@ -219,7 +251,7 @@ backbone as a means to censor the protest.
 
   \begin{remark}
     \begin{itemize}
-      \item No verification, the service must be trusted.
+      \item No verification, nor authenticity, the service must be trusted.
       \item Nothing prevents Bob from checking in twice.
       \item Requires an Internet connection during the event.
     \end{itemize}
