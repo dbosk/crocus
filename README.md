@@ -8,11 +8,13 @@ The correct citation for the *latest version* of the paper is:
 
 ```bibtex
 @inproceedings{ProtestVerif,
-    title={Verifying Protests},
-    author={Daniel Bosk and
-        Sonja Buchegger and
-        Sébastien Gambs},
-    URL={https://github.com/dbosk/ProtestVerif/},
+  title={Verifying Protests},
+  author={%
+    Daniel Bosk and
+    Sonja Buchegger and
+    Sébastien Gambs
+  },
+  URL={https://github.com/dbosk/ProtestVerif/},
 }
 ```
 
@@ -36,3 +38,25 @@ make ProtestVerif-paper.pdf
 ```
 Simply running `make` will result in `make all` which compiles paper and 
 slides.
+
+
+File structure
+-------------------------------------------------------------------------------
+
+`Makefile` contains the build instructions and the files' dependencies.
+
+`ProtestVerif-paper.tex` contains the specifics for the paper and 
+`ProtestVerif-slides.tex` contains the specifics for the slides.
+The only thing that needs editing in these files is the list of authors, 
+separate lists in each (due to different packages handling the list of authors 
+and their affiliations).
+
+`preamble.tex` contains the main preamble. Some things must be different for 
+the paper and the slides though, e.g. theorem environments, then the 
+corresponding code must be entered into `preamble-paper.tex` and 
+`preamble-slides.tex`, respectively.
+
+`contents.tex` contains the main contents, both for slides and paper. This file
+in turn includes other files for modularization.
+
+`venues.md` contains a list of possible venues and approaching deadlines.
