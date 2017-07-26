@@ -99,6 +99,10 @@ chain.
     Are there other structures than block chains?
     E.g.~\cite{BlockchainFreeCryptocurrencies}.
   \end{question}
+  \begin{question}
+    What about distributed voting/polling protocols?
+    A tree should give a strict partial order?
+  \end{question}
 \end{frame}
 
 \Cref{CreatedBeforeEnd} is straight-forward, we simply add the proof to the 
@@ -140,6 +144,7 @@ This also prevents us from reusing proofs from previous protests.
   \end{question}
   \begin{question}
     How hard is it to reuse old proofs?
+    Forge all signatures due to changed values?
   \end{question}
 \end{frame}
 
@@ -172,10 +177,15 @@ surveillance footage.
   \begin{question}
     How can we do \acp{LP} with 1000s of witnesses each?
     And then 1000s of such \acp{LP}?
+    Ad-hoc networks, broadcast \acp{LP}?
   \end{question}
   \begin{question}
     Why should anyone trust these witnesses?
     What are the assumptions?
+    Signed over a short period of time?\footnote{%
+      In a sense, if they collude they have shown support for the cause.
+      As long as they are not Sybil it should be fine?
+    }
   \end{question}
 \end{frame}
 
@@ -280,6 +290,8 @@ They must also be able to detect if the proof is reused from a previous protest
 
   \begin{question}
     How to solve the Sybil problem?
+    Can we piggyback on existing \acp{PKI}?
+    E.g.~\cite{Cinderella}.
   \end{question}
   \begin{question}
     This is similar to the double-spending problem for cryptocurrencies, can 
@@ -404,4 +416,11 @@ signatures on the proof.
     Is there such a signature scheme?
     Can we construct it?
   \end{question}
+  \begin{question}
+    What Alice submits her proof, stores the hash of the block, removes proof 
+    and signature key?
+  \end{question}
 \end{frame}
+
+From a computational-complexity perspective, operations that must be done on 
+the phone must be cheap, other operations may be expensive.
