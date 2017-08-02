@@ -1,4 +1,4 @@
-Verifiable Protesting
+Securely and Privately Verifiable Protests
 ===============================================================================
 
 This is the source code for a paper on a scheme for verifying the participation 
@@ -8,7 +8,7 @@ The correct citation for the *latest version* of the paper is:
 
 ```bibtex
 @inproceedings{ProtestVerif,
-  title={Verifying Protests},
+  title={Securely and Privately Verifiable Protests},
   author={%
     Daniel Bosk and
     Sonja Buchegger and
