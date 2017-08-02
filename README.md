@@ -27,7 +27,11 @@ Pre-compiled versions and their BibTeX entries can be found under
 Compilation
 -------------------------------------------------------------------------------
 
-First you must clone the submodules:
+This repo requires some submodules. Either you cloned the repo using
+```sh
+git clone --recursive
+```
+or you have to get the submodules yourself:
 ```sh
 git submodule update --init
 ```
