@@ -18,6 +18,7 @@ DEPENDS+=	auth.bib
 DEPENDS+=	voting.bib
 DEPENDS+=	protests.bib
 DEPENDS+=	blockchain.bib
+DEPENDS+=	anon.bib
 
 
 .PHONY: all
