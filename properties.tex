@@ -86,13 +86,15 @@ We can essentially divide it into the following requirements:
 \end{idea}
 }
 \end{frame}
-\Cref{CreatedBeforeEnd,CreatedAfterStart} requires a \emph{strict partial 
+\Cref{CreatedBeforeEnd,CreatedAfterStart} requires a \emph{partial 
   order}\footnote{%
-  A relation \(\prec\) which is irreflexive, antisymmetric and transitive.
+  A relation \(\preceq\) which is reflexive, antisymmetric and transitive.
 }.
 If some objects in the set relate to known points in time, then the partial 
 order allows to relate the data to the time of the event.
-\Cref{SpatiallyRelated} binds the data spatially to the event.
+This allows us to \emph{authenticate the data temporally}.
+\Cref{SpatiallyRelated} binds the data spatially to the location, which allows 
+us to \emph{authenticate the data spatially}.
 
 One primitive that fulfils \cref{CreatedAfterStart,CreatedBeforeEnd} is a 
 blockchain.
@@ -186,7 +188,7 @@ surveillance footage.
 
   \begin{question}
     How can we do \acp{LP} with 1000s of witnesses each?
-    And then 1000s of such \acp{LP}?
+    Can we do some preprocessing?
     Ad-hoc networks, broadcast \acp{LP}?
   \end{question}
   \begin{question}
@@ -196,6 +198,13 @@ surveillance footage.
       In a sense, if they collude they have shown support for the cause.
       As long as they are not Sybil it should be fine?
     }
+  \end{question}
+  \begin{question}
+    Trusted party for the group signatures?
+  \end{question}
+  \begin{question}
+    Must tie credentials to something unique: phone, phone subscription?
+    Cannot register twice, government control?
   \end{question}
 \end{frame}
 
@@ -405,17 +414,22 @@ Anyone can verify any proof.
 With the inputs that Eve can extract from the published proof and the keys she 
 can find on Alice's device, she should not be able to reproduce the same 
 signatures on the proof.
+So Alice needs a long-term and a short-term credential, but she should not be 
+able to create two short-term credentials to participate twice.
 
-\begin{frame}<presentation>
+\begin{frame}
   \begin{question}
     How do we submit the proofs to storage?
     Voting normally uses mix-nets.
+    Submit over Tor~\cite{Tor}?
   \end{question}
 
+  \mode<presentation>{
   \begin{remark}
-    Without anonymous submission we don't get vote pricacy, thus no receipt 
+    Without anonymous submission we don't get vote privacy, thus no receipt 
     freeness either.
   \end{remark}
+  }
 \end{frame}
 
 \begin{frame}<presentation>
