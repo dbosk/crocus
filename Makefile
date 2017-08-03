@@ -2,9 +2,10 @@ SRC+=	contents.tex
 SRC+=	abstract.tex
 SRC+=	intro.tex
 SRC+=	properties.tex
-SRC+=	AdaptingPROPS.tex
-SRC+=	SystemModel.tex
 SRC+=	primitives.tex
+SRC+=	architecture.tex
+#SRC+=	AdaptingPROPS.tex
+#SRC+=	SystemModel.tex
 SRC+=	RelatedWork.tex
 SRC+=	conclusions.tex
 SRC+=	acknowledgements.tex
@@ -17,6 +18,8 @@ DEPENDS+=	auth.bib
 DEPENDS+=	voting.bib
 DEPENDS+=	protests.bib
 DEPENDS+=	blockchain.bib
+DEPENDS+=	anon.bib
+DEPENDS+=	ecurrency.bib
 
 
 .PHONY: all

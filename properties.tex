@@ -71,61 +71,82 @@ We can essentially divide it into the following requirements:
 \begin{idea}
   \begin{itemize}
     \item There is a mechanism that provides A\ref{CreatedAfterStart} and 
-      A\ref{CreatedBeforeEnd}: a block chain.
+      A\ref{CreatedBeforeEnd}: a blockchain.
+
+    \item There are also other structures, e.g.\ a directed 
+      graph~\cite{BlockchainFreeCryptocurrencies}.
 
     \item Add a consensus protocol and Eve must subvert a majority to change 
       the outcome.
 
       \pause
 
-    \item A\ref{SpatiallyRelated} is provided by \iacf{LP}.
+    \item A\ref{SpatiallyRelated} can be provided by \iacf{LP}.
   \end{itemize}
 \end{idea}
 }
 \end{frame}
-\Cref{CreatedBeforeEnd,CreatedAfterStart} requires a \emph{strict partial 
+\Cref{CreatedBeforeEnd,CreatedAfterStart} requires a \emph{partial 
   order}\footnote{%
-  A relation \(<\) which is irreflexive, antisymmetric and transitive.
+  A relation \(\preceq\) which is reflexive, antisymmetric and transitive.
 }.
 If some objects in the set relate to known points in time, then the partial 
 order allows to relate the data to the time of the event.
-\Cref{SpatiallyRelated} binds the data spatially to the event.
+This allows us to \emph{authenticate the data temporally}.
+\Cref{SpatiallyRelated} binds the data spatially to the location, which allows 
+us to \emph{authenticate the data spatially}.
 
-One primitive that fulfils \cref{CreatedAfterStart,CreatedBeforeEnd} is a block 
-chain.
+One primitive that fulfils \cref{CreatedAfterStart,CreatedBeforeEnd} is a 
+blockchain.
+There are also other structures, e.g.\ a directed graph that 
+converges~\cite{BlockchainFreeCryptocurrencies}.
+For generality, we will use the terminology of 
+\textcite{BlockchainFreeCryptocurrencies} and simply call this storage 
+structure \iac{tposet}.
 
 \begin{frame}
   \begin{question}
-    Are there other structures than block chains?
-    E.g.~\cite{BlockchainFreeCryptocurrencies}.
+    What about distributed voting/polling protocols?
+    A tree should give a strict partial order?
+  \end{question}
+  \begin{question}
+    Can linear blockchains also fit in the framework of 
+    \textcite{BlockchainFreeCryptocurrencies}?
+    Can we generalize it?
   \end{question}
 \end{frame}
 
-\Cref{CreatedBeforeEnd} is straight-forward, we simply add the proof to the 
-block chain \emph{in (time-wise) relation to the event}.
-Then we know that it cannot have been created after the event.
+\Cref{CreatedBeforeEnd} is straight-forward, Alice and Bob simply add their 
+proofs to the \ac{tposet} \emph{in (time-wise) relation to the event}.
+Then we know that they cannot have been created after the event.
 
 \begin{frame}<presentation>
   \begin{solution}[A\ref{CreatedBeforeEnd} Created before end]
     \begin{itemize}
-      \item Make the \ac{LP} part of the block chain.
+      \item Make the \ac{LP} part of the \ac{tposet}.
       \item The proof must've been created before it was included (duh!).
       \item (Also related to V\ref{EligibilityVerif}.)
     \end{itemize}
   \end{solution}
 \end{frame}
 
-For \cref{CreatedAfterStart} we must include an unpredictable value in the 
-proof, e.g.\ the head of the block chain.
-This means that we cannot create a proof and keep it for a future protest.
-This also prevents us from reusing proofs from previous protests.
+For \cref{CreatedAfterStart} Alice and Bob must include an unpredictable value 
+in their proofs, e.g.\ the \enquote{head} of the \ac{tposet}.
+This means that they cannot create a proof and keep it for a future protest.
+
+They can use an older value (pick one from the history of the \ac{tposet}) when 
+they create their proofs.
+This will only expand the interval of possible creation into the past.
+This will not help their cause, as anyone will recognize that the proof could 
+be created at any time in that interval.
 
 \begin{frame}
   \mode<presentation>{
   \begin{idea}[A\ref{CreatedAfterStart} Created after start]
     \begin{itemize}
       \item Include an unpredictable value in the \ac{LP}.
-      \item This could be e.g.\ the hash of the head of the block chain.
+      \item This could be e.g.\ the hash of the \enquote{head} of the 
+        \ac{tposet}.
       \item This prevents creating proofs for future protests.
     \end{itemize}
   \end{idea}
@@ -134,12 +155,8 @@ This also prevents us from reusing proofs from previous protests.
   \pause
 
   \begin{question}
-    How will this prevent us from reusing proofs from previous protests in 
-    the same location(s)?
-    What are the assumptions?
-  \end{question}
-  \begin{question}
     How hard is it to reuse old proofs?
+    Forge all signatures due to changed values?
   \end{question}
 \end{frame}
 
@@ -171,11 +188,23 @@ surveillance footage.
 
   \begin{question}
     How can we do \acp{LP} with 1000s of witnesses each?
-    And then 1000s of such \acp{LP}?
+    Can we do some preprocessing?
+    Ad-hoc networks, broadcast \acp{LP}?
   \end{question}
   \begin{question}
     Why should anyone trust these witnesses?
     What are the assumptions?
+    Signed over a short period of time?\footnote{%
+      In a sense, if they collude they have shown support for the cause.
+      As long as they are not Sybil it should be fine?
+    }
+  \end{question}
+  \begin{question}
+    Trusted party for the group signatures?
+  \end{question}
+  \begin{question}
+    Must tie credentials to something unique: phone, phone subscription?
+    Cannot register twice, government control?
   \end{question}
 \end{frame}
 
@@ -207,7 +236,7 @@ for verification~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
 \end{frame}
 We can translate these to the case of participation in a demonstration, then 
 each vote would be replaced by a proof of participation.
-To have any verifiability, we need the storage (i.e.\ block chain) to be 
+To have any verifiability, we need the storage (i.e.\ blockchain) to be 
 immutable.
 So we need a consensus protocol which prevents malicious changes.
 
@@ -215,7 +244,7 @@ So we need a consensus protocol which prevents malicious changes.
   \mode<presentation>{
   \begin{remark}
     \begin{itemize}
-      \item For valid verification we must have an immutable block chain.
+      \item For valid verification we must have an immutable blockchain.
       \item We need something like a consensus protocol to prevent malicious 
         changes.
     \end{itemize}
@@ -232,7 +261,7 @@ So we need a consensus protocol which prevents malicious changes.
   \end{question}
 \end{frame}
 
-If the proofs are included in a public block chain (as suggested in 
+If the proofs are included in a public blockchain (as suggested in 
 \cref{DataAuthenticity}), then an individual can check that their proof has 
 been included in the chain.
 Thus \cref{IndividualVerif} is fulfilled.
@@ -241,7 +270,7 @@ Thus \cref{IndividualVerif} is fulfilled.
   \mode<presentation>{
   \begin{idea}[V\ref{IndividualVerif} Individual verifiability]
     \begin{itemize}
-      \item Proofs are stored publicly (block chain).
+      \item Proofs are stored publicly (blockchain).
       \item Each participant can check that their proof is indeed included.
     \end{itemize}
   \end{idea}
@@ -255,6 +284,16 @@ Thus \cref{IndividualVerif} is fulfilled.
     Everyone else is provided a view without Alice.
     How can we ensure a consistent view for everyone?
     (Probably similar to the solution in Joakim's thesis.)
+  \end{question}
+
+  \begin{question}
+    Under the protest conditions, we might have natural network splits.
+    Is this a useful scenario?
+  \end{question}
+
+  \begin{question}
+    How can we do blockchain branch and merge?
+    That is needed to recover from the above attack.
   \end{question}
 \end{frame}
 
@@ -280,14 +319,17 @@ They must also be able to detect if the proof is reused from a previous protest
 
   \begin{question}
     How to solve the Sybil problem?
+    Can we piggyback on existing \acp{PKI}?
+    E.g.~\cite{Cinderella}.
   \end{question}
   \begin{question}
     This is similar to the double-spending problem for cryptocurrencies, can 
     we reuse any such techniques?
+    Specifically ecash~\cite{ecash} and the like.
   \end{question}
 \end{frame}
 
-If the block chain is public, then anyone can download all the proofs, verify 
+If the blockchain is public, then anyone can download all the proofs, verify 
 them (eligibility) and count them.
 Thus anyone can verify the result, which fulfils \cref{UniversalVerif}.
 
@@ -364,7 +406,7 @@ physically present and that very presence shows her support for the cause.
 In voting, on the other hand, Alice has multiple options which are not revealed
 by her mere presence.
 % XXX Check if unlinkable is the correct term
-Hence, if Alice submits a proof to the block chain, the proof must be 
+Hence, if Alice submits a proof to the blockchain, the proof must be 
 unlinkable to Alice, yet, if Alice submits another proof, those two proofs must 
 be linkable (due to eligibility verification, \cref{EligibilityVerif}).
 E.g.\ Eve compromises Alice's device (and private keys).
@@ -372,6 +414,23 @@ Anyone can verify any proof.
 With the inputs that Eve can extract from the published proof and the keys she 
 can find on Alice's device, she should not be able to reproduce the same 
 signatures on the proof.
+So Alice needs a long-term and a short-term credential, but she should not be 
+able to create two short-term credentials to participate twice.
+
+\begin{frame}
+  \begin{question}
+    How do we submit the proofs to storage?
+    Voting normally uses mix-nets.
+    Submit over Tor~\cite{Tor}?
+  \end{question}
+
+  \mode<presentation>{
+  \begin{remark}
+    Without anonymous submission we don't get vote privacy, thus no receipt 
+    freeness either.
+  \end{remark}
+  }
+\end{frame}
 
 \begin{frame}<presentation>
   \begin{remark}
@@ -404,4 +463,9 @@ signatures on the proof.
     Is there such a signature scheme?
     Can we construct it?
   \end{question}
+  \begin{question}
+    What Alice submits her proof, stores the hash of the block, removes proof 
+    and signature key?
+  \end{question}
 \end{frame}
+
