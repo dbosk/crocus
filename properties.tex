@@ -89,8 +89,8 @@ and temporally (it is related to the time-interval of the event).
 We can essentially divide it into the following requirements:
 \begin{frame}
 \begin{requirements}[\ref*{EligibilityVerif}.]
-  \item\label{UniqueIndividual} Prove that the data is unique for an 
-    individual.
+  \item\label{CountOnce} Prove that no individual can be counted more than 
+    once.
   \item\label{CreatedAfterStart} Prove that the data was created after the 
     start of the event.
   \item\label{CreatedBeforeEnd} Prove that the data was created before the end 
@@ -101,7 +101,7 @@ We can essentially divide it into the following requirements:
 \end{requirements}
 \end{frame}
 
-\Cref{UniqueIndividual} is required to prevent Sybil attacks.
+\Cref{CountOnce} is required to prevent Sybil attacks.
 I.e.\ that one individual can provide two proofs of participation and thus be 
 counted twice, this situation should be detectable.
 
