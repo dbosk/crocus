@@ -42,6 +42,9 @@ ProtestVerif-slides.pdf: ${SRC} ${DEPENDS}
 .PHONY: wc todo
 wc todo: ${SRC}
 
+.PHONY: print
+print: ProtestVerif-paper.pdf
+
 
 INCLUDE_MAKEFILES=makefiles
 include ${INCLUDE_MAKEFILES}/tex.mk
