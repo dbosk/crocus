@@ -3,7 +3,6 @@ SRC+=	abstract.tex
 SRC+=	intro.tex
 SRC+=	properties.tex
 SRC+=	design.tex
-SRC+=	architecture.tex
 #SRC+=	AdaptingPROPS.tex
 #SRC+=	SystemModel.tex
 SRC+=	RelatedWork.tex

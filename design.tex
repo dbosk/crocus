@@ -8,7 +8,11 @@
 From a computational-complexity perspective, operations that must be done on 
 the phone must be cheap, other operations may be expensive.
 
-\subsection{Authenticity}
+\subsection{Eligibility verifiability}
+
+We have the five requirements for eligibility verifiability.
+
+\subsubsection{Temporal eligibility}
 
 One primitive that fulfils \cref{CreatedAfterStart,CreatedBeforeEnd} is a 
 blockchain.
@@ -18,10 +22,26 @@ For generality, we will use the terminology of
 \textcite{BlockchainFreeCryptocurrencies} and simply call this storage 
 structure \iac{tposet}.
 
+\begin{frame}<presentation>
+\begin{idea}
+  \begin{itemize}
+    \item There is a mechanism that provides V\ref{CreatedAfterStart} and 
+      V\ref{CreatedBeforeEnd}: a blockchain.
+
+    \item There are also other structures, e.g.\ a directed 
+      graph~\cite{BlockchainFreeCryptocurrencies}.
+
+      \pause
+
+    \item V\ref{SpatiallyRelated} can be provided by \iacf{LP}.
+  \end{itemize}
+\end{idea}
+\end{frame}
+
 \begin{frame}
   \begin{question}
     What about distributed voting/polling protocols?
-    A tree should give a strict partial order?
+    They must be complemented by time-stamping.
   \end{question}
   \begin{question}
     Can linear blockchains also fit in the framework of 
@@ -35,11 +55,10 @@ proofs to the \ac{tposet} \emph{in (time-wise) relation to the event}.
 Then we know that they cannot have been created after the event.
 
 \begin{frame}<presentation>
-  \begin{solution}[A\ref{CreatedBeforeEnd} Created before end]
+  \begin{solution}[V\ref{CreatedBeforeEnd} Created before end]
     \begin{itemize}
       \item Make the \ac{LP} part of the \ac{tposet}.
       \item The proof must've been created before it was included (duh!).
-      \item (Also related to V\ref{EligibilityVerif}.)
     \end{itemize}
   \end{solution}
 \end{frame}
@@ -74,7 +93,7 @@ be created at any time in that interval.
   \end{question}
 \end{frame}
 
-\subsection{Location proofs}
+\subsubsection{Spatial eligibility}
 
 If we include \iac{LP}, this will tie the proof to the physical location and, 
 thus, solve \cref{SpatiallyRelated}.
@@ -124,7 +143,61 @@ surveillance footage.
   \end{question}
 \end{frame}
 
-\subsection{Storage}
+\subsubsection{Count only once}
+
+We also need to ensure that proofs made by the same person must be linkable 
+(\cref{UniqueIndividual}).
+
+\begin{frame}
+  \begin{question}
+    How to solve the Sybil problem?
+    Can we piggyback on existing \acp{PKI}?
+    E.g.~\cite{Cinderella}.
+  \end{question}
+  \begin{question}
+    This is similar to the double-spending problem for cryptocurrencies, can 
+    we reuse any such techniques?
+    Specifically ecash~\cite{ecash} and the like.
+  \end{question}
+\end{frame}
+
+\subsubsection{Designated event}
+
+We must ensure that the data is designated to the event 
+(\cref{DesignatedEvent}), otherwise a counter-protest can copy the proofs and 
+reuse them.
+
+\begin{frame}
+  \begin{question}
+    How to designate a proof to an event?
+    Include an event specific value?
+  \end{question}
+  \begin{question}
+    How must this value be chosen?
+    By the organizer?
+    Randomly?
+    Deterministically but unpredictably?
+  \end{question}
+\end{frame}
+
+\subsection{Privacy}
+
+\subsubsection{Architecture}
+
+\begin{frame}
+  \begin{question}
+    Shall we offer a platform that is run by a variety of institutions who 
+    offers to verify protests?
+    Or go strictly peer-to-peer?
+  \end{question}
+  \begin{question}
+    If strictly peer-to-peer, and only run by protesters, one can infer that 
+    they are protesters by running such a node.
+    Can this be mitigated?
+  \end{question}
+\end{frame}
+
+\subsubsection{Storage}
 
 \begin{frame}
   \begin{question}
@@ -172,36 +245,7 @@ surveillance footage.
   \end{question}
 \end{frame}
 
-\subsection{Verifiability}
-
-\begin{frame}<presentation>
-\begin{idea}
-  \begin{itemize}
-    \item There is a mechanism that provides V\ref{CreatedAfterStart} and 
-      V\ref{CreatedBeforeEnd}: a blockchain.
-
-    \item There are also other structures, e.g.\ a directed 
-      graph~\cite{BlockchainFreeCryptocurrencies}.
-
-      \pause
-
-    \item V\ref{SpatiallyRelated} can be provided by \iacf{LP}.
-  \end{itemize}
-\end{idea}
-\end{frame}
-
-\begin{frame}
-  \begin{question}
-    How to solve the Sybil problem?
-    Can we piggyback on existing \acp{PKI}?
-    E.g.~\cite{Cinderella}.
-  \end{question}
-  \begin{question}
-    This is similar to the double-spending problem for cryptocurrencies, can 
-    we reuse any such techniques?
-    Specifically ecash~\cite{ecash} and the like.
-  \end{question}
-\end{frame}
+\subsubsection{Sybil}
 
 So Alice needs a long-term and a short-term credential, but she should not be 
 able to create two short-term credentials to participate twice.
