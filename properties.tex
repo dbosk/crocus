@@ -16,38 +16,15 @@ There are several problems:
 Since many of the current techniques are based on photos, we will give an 
 example of Alice's problems in that setting.
 How can she ensure that photos from a demonstration are authentic?
-We can probably recognize the place the photo is portraying, however, this 
-might just as well be a reconstruction or entirely computer generated.
+We can probably recognize the location that the photo is portraying, however, 
+this might just as well be a reconstruction or entirely computer generated.
 We cannot trust the meta-data of the photo, such as time-stamps of the file, 
 because these can easily be manipulated.
 So the only thing we can say for sure is that the photo was taken at the latest 
 at the time of publication.
 Now, if we cannot trust these photos, how can we determine the number of 
 participants of a demonstration?
-This is discussed further in \cref{DataAuthenticity}.
-
-Assume that Alice can provide this authenticated data.
-Alice and Bob do not want that this data ties them to the demonstration, 
-because then the autocrat Eve can use this data to find out about Alice and Bob 
-and arrest them.
-Thus, what Alice and Bob need is a system which can provide data authenticity 
-and user privacy, i.e.\ that the data can be correctly tied to the 
-demonstration without outing Alice and Bob as supporters but still ensuring 
-that Alice is Alice and Bob is Bob.
-As a protest can be compared to voting (either voting for or against the 
-cause), we will adapt the security and privacy properties of electronic 
-voting.
-We will discuss this further in \cref{Verification}.
-
-It can also be compared to electronic voting --- to vote for or against the 
-cause.
-In this case all participants and third-parties can verify the authenticity of 
-the result, this would inherit all the desirable properties of the electronic 
-voting system (these properties are discussed in \cref{Verification}).
-We are interested in real-world protests, i.e.\ demonstrations where 
-participants gather in a physical location.
-For these we need to bind all participants to the same physical location at 
-a reasonably similar time (within the duration of the protest).
+Furthermore, how can Alice protect the privacy of those in the photos?
 
 \subsection{Verification}
 \label{Verification}
@@ -61,8 +38,8 @@ We aim for verifiable claims.
 
 In general, protesting is very similar to voting: both are many individuals 
 expressing their opinion.
-Hence we desire to have similar properties of verification and privacy for 
-participation in a protest as there is for voting.
+These opinions can be sensitive, hence we desire to have similar properties of 
+verification and privacy for participation in a protest as there is for voting.
 In the context of (electronic) voting protocols, there are three requirements 
 for verification~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
 \begin{frame}
@@ -120,18 +97,27 @@ We can essentially divide it into the following requirements:
     of the event.
   \item\label{SpatiallyRelated} Prove that the data is spatially related to the 
     physical location of the event.
+  \item\label{DesignatedEvent} Prove that the data is designated for the event.
 \end{requirements}
 \end{frame}
 
-\Cref{CreatedBeforeEnd,CreatedAfterStart} requires a \emph{partial 
-  order}\footnote{%
+\Cref{UniqueIndividual} is required to prevent Sybil attacks.
+I.e.\ that one individual can provide two proofs of participation and thus be 
+counted twice, this situation should be detectable.
+
+\Cref{CreatedBeforeEnd,CreatedAfterStart} requires a \emph{partially ordered 
+  set}\footnote{%
   A relation \(\preceq\) which is reflexive, antisymmetric and transitive.
-}.
+} of objects.
 If some objects in the set relate to known points in time, then the partial 
-order allows to relate the data to the time of the event.
+order relates the data to the time of the event.
 This allows us to \emph{verify the data temporally}.
 \Cref{SpatiallyRelated} binds the data spatially to the location, which allows 
 us to \emph{verify the data spatially}.
+Finally, there might be the case that there is also a counter protest at the 
+same time, these would have the same spatial and temporal properties.
+To distinguish them, we also need to prove for which of these events that a 
+proof is designated (\cref{DesignatedEvent}).
 
 \begin{frame}<presentation>
   \begin{idea}[V\ref{EligibilityVerif} Eligibility]
@@ -167,8 +153,8 @@ So as long as Alice and Bob can conceal their identities at the demonstration
 and escape without arrest, their support is recorded in the data while their 
 privacy is not violated.
 (Following this line of thinking, it can actually be beneficial for the privacy 
-of the demonstrators to mix with the participants from any 
-counter-demonstrations --- since the counts will still be correct.)
+of the demonstrators to mix with the participants of any counter-demonstrations 
+--- since the counts will still be correct.)
 
 In voting, we have the following requirements:
 \begin{frame}
@@ -208,36 +194,20 @@ This leaves us with \cref{ReceiptFreeness,VotePrivacy}.
   \end{remark}
 \end{frame}
 
-A demonstration is very different from voting in one sense: Alice must be 
-physically present and that very presence shows her support for the cause.
-In voting, on the other hand, Alice has multiple options which are not revealed
-by her mere presence.
+A demonstration is very different from voting in one sense: at a demonstration, 
+Alice must be physically present and that very presence shows her support for 
+the cause.
+In voting, on the other hand, everyone is present and Alice has multiple 
+options which are not revealed by her mere presence.
 % XXX Check if unlinkable is the correct term
-Hence, if Alice submits a proof to the blockchain, the proof must be 
-unlinkable to Alice, yet, if Alice submits another proof, those two proofs must 
-be linkable (due to eligibility verification, \cref{EligibilityVerif}).
-E.g.\ Eve compromises Alice's device (and private keys).
-Anyone can verify any proof.
-With the inputs that Eve can extract from the published proof and the keys she 
-can find on Alice's device, she should not be able to reproduce the same 
-signatures on the proof.
-So Alice needs a long-term and a short-term credential, but she should not be 
-able to create two short-term credentials to participate twice.
-
-\begin{frame}
-  \begin{question}
-    How do we submit the proofs to storage?
-    Voting normally uses mix-nets.
-    Submit over Tor~\cite{Tor}?
-  \end{question}
-
-  \mode<presentation>{
-  \begin{remark}
-    Without anonymous submission we don't get vote privacy, thus no receipt 
-    freeness either.
-  \end{remark}
-  }
-\end{frame}
+Hence, if Alice submits a proof of participation, the proof must be unlinkable 
+to Alice, yet, if Alice submits another proof, those two proofs must be 
+linkable (due to eligibility verification, \cref{EligibilityVerif}) so that 
+Alice is not counted twice.
+Receipt freeness implies that Alice enjoys deniability against Eve:
+Eve should not be able to use the published proof to tie it to Alice, even if 
+Eve has access to Alice's device (i.e.\ all her private keys).
+I.e.\ Eve should not be able to reproduce the same proof.
 
 \begin{frame}<presentation>
   \begin{remark}
@@ -258,21 +228,10 @@ able to create two short-term credentials to participate twice.
 
       \item We need a signature scheme that cannot reproduce the same 
         signature when run on the same inputs.
+
+        \item E.g.\ a short-term and a long-term credential, then Alice can 
+          drop the short-term credential.
     \end{itemize}
   \end{idea}
-\end{frame}
-
-\begin{frame}
-  \begin{question}
-    Will such a signature scheme solve both problems?
-  \end{question}
-  \begin{question}
-    Is there such a signature scheme?
-    Can we construct it?
-  \end{question}
-  \begin{question}
-    What Alice submits her proof, stores the hash of the block, removes proof 
-    and signature key?
-  \end{question}
 \end{frame}
 
