@@ -1,5 +1,5 @@
 \mode*
-\section[Verification and privacy]{Authenticity, verification and privacy}
+\section{Verification and privacy}
 
 Alice is an activist who organizes a demonstration for some cause.
 Her main goal after the protest is to provide verifiable data.
@@ -49,53 +49,6 @@ participants gather in a physical location.
 For these we need to bind all participants to the same physical location at 
 a reasonably similar time (within the duration of the protest).
 
-\subsection{Data authenticity}
-\label{DataAuthenticity}
-
-The problem of authentically associating data with a physical event is 
-difficult.
-We can essentially divide it into the following requirements:
-\begin{frame}
-\begin{requirements}[A]
-  \item\label{CreatedAfterStart} Prove that the data was created after the 
-    start of the event.
-  \item\label{CreatedBeforeEnd} Prove that the data was created before the end 
-    of the event.
-  \item\label{SpatiallyRelated} Prove that the data is spatially related to the 
-    physical location of the event.
-\end{requirements} %TODO: A4 accurate/not fabricated?
-
-\pause
-
-\mode<presentation>{
-\begin{idea}
-  \begin{itemize}
-    \item There is a mechanism that provides A\ref{CreatedAfterStart} and 
-      A\ref{CreatedBeforeEnd}: a blockchain.
-
-    \item There are also other structures, e.g.\ a directed 
-      graph~\cite{BlockchainFreeCryptocurrencies}.
-
-    \item Add a consensus protocol and Eve must subvert a majority to change 
-      the outcome.
-
-      \pause
-
-    \item A\ref{SpatiallyRelated} can be provided by \iacf{LP}.
-  \end{itemize}
-\end{idea}
-}
-\end{frame}
-\Cref{CreatedBeforeEnd,CreatedAfterStart} requires a \emph{partial 
-  order}\footnote{%
-  A relation \(\preceq\) which is reflexive, antisymmetric and transitive.
-}.
-If some objects in the set relate to known points in time, then the partial 
-order allows to relate the data to the time of the event.
-This allows us to \emph{authenticate the data temporally}.
-\Cref{SpatiallyRelated} binds the data spatially to the location, which allows 
-us to \emph{authenticate the data spatially}.
-
 \subsection{Verification}
 \label{Verification}
 
@@ -124,8 +77,6 @@ for verification~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
 \end{frame}
 We can translate these to the case of participation in a demonstration, then 
 each vote would be replaced by a proof of participation.
-To have any verifiability, we need the storage (e.g.\ blockchain) to be 
-immutable --- i.e.\ it prevents malicious changes.
 
 \begin{frame}<presentation>
   \begin{remark}
@@ -139,6 +90,8 @@ immutable --- i.e.\ it prevents malicious changes.
 If the proofs are stored publicly, then an individual can check that their 
 proof has been included there.
 Thus \cref{IndividualVerif} is fulfilled.
+To have any verifiability, we need the storage (e.g.\ blockchain) to be 
+immutable --- i.e.\ it prevents malicious changes.
 
 \begin{frame}<presentation>
   \begin{idea}[V\ref{IndividualVerif} Individual verifiability]
@@ -152,8 +105,33 @@ Thus \cref{IndividualVerif} is fulfilled.
 \Cref{EligibilityVerif} would in this case mean that anyone can verify that 
 each participation proof belongs to a unique individual, i.e.\ to prevent Sybil 
 attacks.
-They must also be able to detect if the proof is reused from a previous protest 
-(i.e.\ related to \cref{CreatedAfterStart,CreatedBeforeEnd}).
+They must also be able to verify that each proof is indeed related to the 
+event.
+We must associate the proof to the event both spatially (the correct location) 
+and temporally (it is related to the time-interval of the event).
+We can essentially divide it into the following requirements:
+\begin{frame}
+\begin{requirements}[\ref*{EligibilityVerif}.]
+  \item\label{UniqueIndividual} Prove that the data is unique for an 
+    individual.
+  \item\label{CreatedAfterStart} Prove that the data was created after the 
+    start of the event.
+  \item\label{CreatedBeforeEnd} Prove that the data was created before the end 
+    of the event.
+  \item\label{SpatiallyRelated} Prove that the data is spatially related to the 
+    physical location of the event.
+\end{requirements}
+\end{frame}
+
+\Cref{CreatedBeforeEnd,CreatedAfterStart} requires a \emph{partial 
+  order}\footnote{%
+  A relation \(\preceq\) which is reflexive, antisymmetric and transitive.
+}.
+If some objects in the set relate to known points in time, then the partial 
+order allows to relate the data to the time of the event.
+This allows us to \emph{verify the data temporally}.
+\Cref{SpatiallyRelated} binds the data spatially to the location, which allows 
+us to \emph{verify the data spatially}.
 
 \begin{frame}<presentation>
   \begin{idea}[V\ref{EligibilityVerif} Eligibility]
@@ -166,8 +144,8 @@ They must also be able to detect if the proof is reused from a previous protest
   \end{idea}
 \end{frame}
 
-If the blockchain is public, then anyone can download all the proofs, verify 
-them (eligibility) and count them.
+If the storage is public, then anyone can download all the proofs, verify them 
+and count them.
 Thus anyone can verify the result, which fulfils \cref{UniversalVerif}.
 
 \begin{frame}<presentation>
