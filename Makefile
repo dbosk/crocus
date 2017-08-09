@@ -11,15 +11,15 @@ SRC+=	conclusions.tex
 SRC+=	acknowledgements.tex
 
 DEPENDS+=	bibsp.sty
-DEPENDS+=	crypto.bib
-DEPENDS+=	location.bib
-DEPENDS+=	reputation.bib
-DEPENDS+=	auth.bib
-DEPENDS+=	voting.bib
-DEPENDS+=	protests.bib
-DEPENDS+=	blockchain.bib
-DEPENDS+=	anon.bib
-DEPENDS+=	ecurrency.bib
+DEPENDS+=	bibsp/crypto.bib
+DEPENDS+=	bibsp/location.bib
+DEPENDS+=	bibsp/reputation.bib
+DEPENDS+=	bibsp/auth.bib
+DEPENDS+=	bibsp/voting.bib
+DEPENDS+=	bibsp/protests.bib
+DEPENDS+=	bibsp/blockchain.bib
+DEPENDS+=	bibsp/anon.bib
+DEPENDS+=	bibsp/ecurrency.bib
 
 
 .PHONY: all
@@ -39,8 +39,16 @@ ProtestVerif-slides.pdf: preamble.tex preamble-slides.tex
 ProtestVerif-slides.pdf: ${SRC} ${DEPENDS}
 
 
+.PHONY: clean
+clean:
+	${RM} ProtestVerif-paper.pdf ProtestVerif-slides.pdf
+
+
 .PHONY: wc todo
 wc todo: ${SRC}
+
+.PHONY: print
+print: ProtestVerif-paper.pdf
 
 
 INCLUDE_MAKEFILES=makefiles
