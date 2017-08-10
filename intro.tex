@@ -3,12 +3,10 @@
 \section{Introduction}
 \label{Introduction}
 
-There are different possibilities for a protest: e.g.\ one performed online or 
-one performed in the physical reality.
-We are interested in real-world protests, specifically to verify a protest.
-One problem in real-world demonstrations that has not yet been entirely solved 
-is the crowd-counting problem, i.e.\ the verification of the participation in 
-a demonstration.
+Alice organizes a street protest against Eve's regime.
+Bob, Carol and many others participate in the demonstration.
+One problem that has not yet been entirely solved is the crowd-counting 
+problem, i.e.\ to verify how many participated in Alice's protest.
 
 \subsection<presentation>{What's the problem?}
 
@@ -25,8 +23,9 @@ a demonstration.
 \begin{frame}<presentation>
   \begin{example}
     \begin{itemize}
-      \item Computer Vision to do object recognition.
-      \item Requires photos that cover the entire location, all the time.
+      \item Computer vision does object recognition.
+      \item Requires photos/video that cover the entire location, all the time.
+      \item This will count people twice.
     \end{itemize}
   \end{example}
 
@@ -41,19 +40,44 @@ a demonstration.
   \end{example}
 \end{frame}
 
+\subsection<presentation>{Why is it a problem?}
+
 \begin{frame}<presentation>
   \begin{example}
     \begin{itemize}
       \item South Korea 2016~\cite{2016DemonstrationsInSeoul}:
         approximate count by imagery.
+        \begin{description}
+          \item[Police] X
+          \item[Organizers] Y
+        \end{description}
+
+        \pause
 
       \item US 2017~\cite{2017WomensMarchesInUS}:
         sum up people's approximations.
+      \item This makes it even difficult to estimate the error.
     \end{itemize}
   \end{example}
 \end{frame}
 
-\subsection<presentation>{Why is it a problem?}
+After many demonstrations the count by police and that by the organizers 
+differ, in some instances the difference can be hundreds of thousands.
+There are numerous examples, e.g.\ the demonstrations in South 
+Korea~\cite{2016DemonstrationsInSeoul}, Trump's 
+inauguration~\cite{HowWillWeKnowTrumpInauguralCrowdSize} or the Women's Marches 
+in the US~\cite{2017WomensMarchesInUS}, where there is difficulty in 
+establishing the actual number of participants.
+The methods for counting the crowds vary.
+Most of the available methods lack precision, i.e.\ they have large error 
+margins.
+They can only give an estimate for a particular snapshot in time, e.g.\ at the 
+peak of the event, not the cumulative participation count --- at least not 
+without counting some people multiple times, which in turn increases the error 
+of the estimation.
+Finally, they also lack verifiability, i.e.\ everyone must trust the entity who
+does the counting.
+We will discuss them in more detail in \cref{RelatedWork}.
 
 \begin{frame}<presentation>
   \begin{block}{Verifying protest participation}
@@ -77,30 +101,84 @@ a demonstration.
   \end{block}
 \end{frame}
 
-After many demonstrations the count by police and that by the organizers 
-differ, in some instances the difference can be hundreds of thousands.
-There are numerous examples, e.g.\ the demonstrations in South 
-Korea~\cite{2016DemonstrationsInSeoul} or the women's marches in the 
-US~\cite{2017WomensMarchesInUS}, where there is difficulty in establishing the 
-actual number of participants.
-The methods for counting the crowds vary.
-There are some techniques using computer vision found in the research 
-literature, e.g.\ by \textcite{CVCrowdCounting}.
-These require images from the demonstration and provide no way to verify the 
-authenticity of the count (except re-running the algorithm on one's own input 
-data).
-However, as is illustrated by 
-\textcite{2016DemonstrationsInSeoul,2017WomensMarchesInUS}, the methods used in 
-practice are manual and prone to errors.
-
 We can make one important observation about this problem that has seemingly 
 been ignored in the past: it is an adversarial setting.
 The protesters (organizers and participants) have an incentive to increase the 
 tallied number of participants, whereas other interests might have an incentive 
-to decrease the tallied number of participants, e.g.\ an authoritarian regime.
-(Or the other way around, an authoritarian regime wants to organize a 
-pro-regime protest to demonstrate its \enquote{wide support}.)
-To solve this problem, we need a verifiable participation count.
+to decrease the tallied number of participants, e.g.\ Eve's authoritarian 
+regime in our example above.
+Or the other way around, sometimes Eve's authoritarian regime wants to organize 
+a pro-regime protest to demonstrate its \enquote{wide 
+  support}~\cite[e.g.][]{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
+(This makes it difficult to rely on government-issued credentials to prevent a 
+Sybil attack --- government can issue arbitrarily many such credentials for its 
+own protests.)
+To solve this problem, we need a verifiable participation count which is 
+protected from Sybil attacks.
+
+\subsection{What is \protect\emph{a} protest?}
+
+Protests can vary considerably.
+To be able to estimate the participation count for one, we first need to define
+what should be counted.
+
+Let us start by considering some examples.
+During the demonstrations against the South Korean president in Seoul
+\blockcquote{2016DemonstrationsInSeoul}{%
+  \textins*{t}he rallies stretch\textins{ed} from midday to late night --- some 
+  people stay\textins{ed} for several hours, others just several minutes%
+}.
+These rallies were all in the same location in the capital and repeated every 
+weekend for the duration of a few weeks.
+The Women's Marches~\cite{2017WomensMarchesInUS}, on the other hand, occurred 
+in parallel in many locations.
+We also have the Venezuelan demonstrations where
+\blockcquote{2017VenezuelaProtestFrequency}{%
+  anti-government demonstrators have staged daily protests across Venezuela%
+} while
+\blockcquote{AlJazeeraOnVenezuela2017}{%
+  pro-government workers sang and danced as they staged a rival march to show 
+  their support for the president's controversial plan to rewrite the 
+  constitution%
+}.
+Judging from these examples, the minimal common part is the cause.
+
+The organizers want to count everyone who participated at any time and in any 
+of the locations~\cite{2016DemonstrationsInSeoul}.
+(Whereas police are only interested in the maximum crowd at any point in time, 
+to deploy enough personnel for crowd-control.)
+We thus settle for the following definition.
+
+\begin{definition}[A protest]
+  A protest is an event identified by its cause.
+\end{definition}
+
+%However, to complicate things further,
+%\blockcquote{VenezuelanStateWorkersCalledToParticipate}{%
+%  \textins*{m}any of Venezuela’s 2.8 million state workers have reported 
+%  getting text messages, phone calls and being required to attend political 
+%  rallies during work hours
+%}.
+%
+%\blockcquote{BBConVenezuelaProtestBan}{%
+%  Venezuela is banning protests that could "disturb or affect" Sunday's 
+%  controversial election for a new constituent assembly.
+%}
+%
+%\blockcquote{BBConVenezuelaProtestBan}{%
+%  Prison terms of between five and 10 years could be imposed on those 
+%  contravening the ban,
+%}
+%
+%\blockcquote{VenezuelanGovtBansProtesting}{%
+%  Venezuelans are planning to defy a government ban on public demonstrations 
+%  and risk deadly repression with marches across the country to protest against 
+%  a vote Sunday that opposition forces say will mark the end of democracy
+%}
+
+
+\subsection{Contributions}
+
 In this paper, we combine the verifiability and privacy properties of 
 electronic voting with location-proof systems to provide a verifiable 
 participation count.
@@ -109,3 +187,10 @@ participation count.
 %was in one place during an entire day and then repeated for several weekends.
 %In the case of the Women's Marches in the US~\cite{2017WomensMarchesInUS}, they
 %were in several locations at the same time.
+
+\blockcquote{HowToEstimateCrowdSize}{%
+  Crowd size is also needed for media news reports and to historically record 
+  the event%
+}
+
+
