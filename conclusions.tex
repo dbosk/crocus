@@ -1,20 +1,29 @@
 \mode*
 \section{Conclusions}
 
-In general, none of the related works fulfils the authenticity requirements 
-(\cref{%
-  CreatedAfterStart,CreatedBeforeEnd,SpatiallyRelated%
-}).
-Some of the schemes provide some limited verifiability, i.e.\ mostly universal 
-verifiability (\cref{UniversalVerif}), but not individual verifiability 
-(\cref{IndividualVerif}) nor eligibility verifiability 
-(\cref{EligibilityVerif}).
+In general, none of the related works fulfils the eligibility verifiability 
+\cref{%
+  CountOnce,%
+  CreatedAfterStart,CreatedBeforeEnd,SpatiallyRelated,%
+}.
+To some extent, some techniques do fulfil \cref{DesignatedEvent}, since people 
+usually use placards in the protests.
+Also, some schemes provide universal verifiability (\cref{UniversalVerif}), but 
+not individual verifiability (\cref{IndividualVerif}).
+If they would provide individual verifiability, they would likely violate the 
+privacy requirements.
+And finally, most of the current methods are estimates, with quite some error 
+margins, so they cannot give the correct participation count.
 
 \begin{frame}<presentation>
   \begin{remark}
     \begin{itemize}
-      \item All current methods lack authenticity and verifiability.
+      \item All current methods lack most of verifiability.
       \item Some provide universal verifiability (V\ref{UniversalVerif}).
+
+        \pause
+
+      \item Most cannot estimate the correct participation count.
     \end{itemize}
   \end{remark}
 \end{frame}
