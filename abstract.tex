@@ -12,25 +12,26 @@ this estimation as low as possible to support Eve.
 In this work, we are interested in combining location proofs with electronic 
 voting to solve this issue.
 Since the parties have incentives to cheat, we require transparency: in 
-particular we are aiming at a decentralized scheme that provides authenticity, 
-verifiability and privacy.
+particular we are aiming at a decentralized scheme that provides verifiability 
+and privacy.
 More specifically, the scheme should be distributed and not depend on any 
 authority.
-We must also ensure that the data is time-wise related to the event (i.e.\ 
-authenticity), which can be provided by blockchain-like structures.
-The data must also be related to the location, something a location proof can 
-achieve.
 We need verifiability, which means that every participant can verify that their 
 participation has been included --- i.e.\ individual verifiability, to prevent 
 Eve from dropping data --- and that anyone can verify the correctness of the 
 result --- i.e.\ universal and eligibility verifiability, to prevent any 
 malicious actor (e.g. Sybil) from affecting the result.
-Finally, as all things policital, privacy is critical.
+Eligibility verifiability also requires that the data is time-wise related to 
+the event (temporal eligibility), which can be provided by blockchain-like 
+structures.
+The data must also be related to the location (spatial eligibility), something 
+a location proof can achieve.
+As all things policital, privacy is critical.
 Similar to e-voting schemes, we need to guarantee properties close to vote 
 privacy and receipt freeness --- Alice does not want Eve's agents to be able to 
 infer that she is critical of Eve.
-Finally, the scheme must be scalable to handle large protests (millions of 
-participants).
+Finally, the scheme must be scalable to handle large protests (i.e.\ millions 
+of participants).
 
 In this talk we will discuss this work in progress and elicit input from the
 participants.
