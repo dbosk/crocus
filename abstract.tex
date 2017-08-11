@@ -1,32 +1,39 @@
+Title: Securely and Privately Verifying Protests                                  
+                                                                    
 Say Alice organizes a protest against the current regime leader Eve.
-The protest is held in some location(s).
-Alice wants to estimate the number of participants to prove certain support for
-her cause.
+The protest is held in some location(s) and Alice wants to estimate the number 
+of participants to prove a certain support to her cause.
 Current methods have wide margins for error.
-In addition, Alice's incentive is to estimate the number of participants as 
-high as possible whereas the government's incentive is to estimate the number 
-of participants as low as possible to support Eve.
-
-We are interested in combining location proofs with electronic voting.
-Since the parties' have incentives to cheat, we require transparency: we desire 
-a decentralized scheme that provides authenticity, verifiability and privacy.
-More specifically:
-The scheme must be decentralized to not depend on any authority.
-We must ensure that the data is time-wise related to the event (authenticity), 
-which can be provided by blockchain-like structures.
+In addition, Alice may be tempted to cheat by estimating the number of 
+participants as high as possible whereas the government's incentive is to make 
+this estimation as low as possible to support Eve.
+                                                                                  
+In this work, we are interested in combining location proofs with electronic 
+voting to solve this issue.
+Since the parties have incentives to cheat, we require transparency: in 
+particular we are aiming at a decentralized scheme that provides authenticity, 
+verifiability and privacy.
+More specifically, the scheme should be distributed and not depend on any 
+authority.
+We must also ensure that the data is time-wise related to the event (i.e.\ 
+authenticity), which can be provided by blockchain-like structures.
 The data must also be related to the location, something a location proof can 
-solve.
-As all things policital, privacy is critical.
-Similar to e-voting schemes, we need what corresponds to vote privacy and 
-receipt freeness --- Alice does not want Eve's agents to verify that she is a 
-critic of Eve.
-Furthermore, we need verifiability: that every participant can verify that 
-their participation has been included --- individual verifiability, to prevent 
-Eve from dropping data --- and that anyone can verify the correctness of the 
-result --- universal and eligibility verifiability, to prevent any malicious 
-actor (e.g.\ Sybil) from affecting the result.
+achieve.
+Finally, as all things policital, privacy is critical.
+Similar to e-voting schemes, we need to guarantee properties close to vote 
+privacy and receipt freeness --- Alice does not want Eve's agents to be able to 
+infer that she is critical of Eve.
+Furthermore, we need verifiability, which means that every participant can 
+verify that their participation has been included --- i.e.\ individual 
+verifiability, to prevent Eve from dropping data --- and that anyone
+can verify the correctness of the result --- i.e.\ universal and eligibility
+verifiability, to prevent any malicious actor (e.g. Sybil) from affecting the 
+result.
 Finally, the scheme must be scalable to handle large protests (millions of 
 participants).
+
+In this talk we will discuss this work in progress and elicit input from the
+participants.
 
 \keywords{%
   crowd counting;
