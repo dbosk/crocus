@@ -1,7 +1,68 @@
 \mode*
 
-\section{System Model}
+\section{System model}
 \label{SystemModel}
+
+\begin{frame}
+\begin{question}
+  What is participating in a protest?
+  We need a definition.
+\end{question}
+\mode<presentation>{
+\begin{remark}
+  \begin{itemize}
+    \item This depends on the unique ring/list signature schemes.
+    \item I.e.\ when we can no longer guarantee uniqueness.
+    \item The one setting up that signature scheme decides.
+    \item We don't know how this will be done, nor by whom.
+  \end{itemize}
+\end{remark}
+}
+\end{frame}
+This sort of depends on the unique ring/list signature scheme that we use.
+As long as we can provide linkability between a user's proofs, we can consider 
+it the same protest.
+When we cannot, it must be a new protest.
+So this is supposedly decided by the one setting up the unique ring/list 
+signature scheme --- which we do not know yet how it will be done.
+
+\begin{frame}
+\begin{remark}
+  We provide a lower bound, since there might be participants without phones.
+\end{remark}
+\begin{remark}
+  I.e.\ provided we can prevent Sybil.
+\end{remark}
+\end{frame}
+
+\begin{frame}
+\begin{question}
+  What assumptions do we need?
+\end{question}
+
+We assume that
+\begin{itemize}
+  \item Everyone has a smartphone.
+  \item Can use ad-hoc networks during the event.
+\end{itemize}
+\end{frame}
+
+\subsection{Adversary model}
+
+We have two types of adversaries:
+\begin{frame}
+\begin{itemize}
+  \item Eve tries to lower the count.
+  \item Eve tries to deanonymize protesters.
+  \item Rusuk, who heads another nation state, want to affect the outcome to 
+    his advantage.
+\end{itemize}
+\end{frame}
+
+
+\mode<all>\endinput
+
+\section{Old stuff}
 
 We can divide the problem into three parts:
 \begin{itemize}
