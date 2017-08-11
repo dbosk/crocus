@@ -44,6 +44,7 @@ clean:
 
 
 .PHONY: wc todo
+PREWC=	detex
 wc todo: ${SRC}
 
 .PHONY: print
