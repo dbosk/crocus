@@ -1,5 +1,6 @@
 \mode*
-\section{Verification and privacy}
+\subsection{Verification and privacy}
+\label{VerificationAndPrivacy}
 
 Alice is an activist who organizes a demonstration for some cause.
 Her main goal after the protest is to provide verifiable data.
@@ -26,7 +27,30 @@ Now, if we cannot trust these photos, how can we determine the number of
 participants of a demonstration?
 Furthermore, how can Alice protect the privacy of those in the photos?
 
-\subsection{Verification}
+%However, to complicate things further,
+%\blockcquote{VenezuelanStateWorkersCalledToParticipate}{%
+%  \textins*{m}any of Venezuela’s 2.8 million state workers have reported 
+%  getting text messages, phone calls and being required to attend political 
+%  rallies during work hours
+%}.
+%
+%\blockcquote{BBConVenezuelaProtestBan}{%
+%  Venezuela is banning protests that could "disturb or affect" Sunday's 
+%  controversial election for a new constituent assembly.
+%}
+%
+%\blockcquote{BBConVenezuelaProtestBan}{%
+%  Prison terms of between five and 10 years could be imposed on those 
+%  contravening the ban,
+%}
+%
+%\blockcquote{VenezuelanGovtBansProtesting}{%
+%  Venezuelans are planning to defy a government ban on public demonstrations 
+%  and risk deadly repression with marches across the country to protest against 
+%  a vote Sunday that opposition forces say will mark the end of democracy
+%}
+
+\subsubsection{Verification}
 \label{Verification}
 
 We have an adversarial setting between Alice the activist and Eve the evil 
@@ -142,7 +166,7 @@ Thus anyone can verify the result, which fulfils \cref{UniversalVerif}.
   \end{idea}
 \end{frame}
 
-\subsection{Privacy}
+\subsubsection{Privacy}
 \label{Privacy}
 
 We also need privacy in addition to the verification requirements.
