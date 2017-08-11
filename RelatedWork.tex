@@ -1,5 +1,6 @@
 \mode*
 \section{Related work}
+\label{RelatedWork}
 
 \subsection<presentation>{Image-based methods}
 
@@ -19,7 +20,7 @@ the total.
 This method is prone to errors, since it is based on estimates.
 However, it allows for verification, since anyone can redo the counting using 
 the same photos.
-This provides universal verifiability (\cref{UniversalVerif})).
+This provides universal verifiability (\cref{UniversalVerif}).
 It is difficult to achieve individual verifiability (\cref{IndividualVerif}) 
 since it is hard to verify that oneself is indeed in any of the photos.
 We can argue eligibility verifiability (\cref{EligibilityVerif}) if all the 
@@ -48,10 +49,10 @@ modifications.
   \begin{remark}
     \begin{itemize}
       \item Prone to errors, due to estimations.
-      \item Universally verifiable (\cref{UniversalVerif}), anyone with the 
-        photos can redo the estimate.
-      \item Eligibility verifiability (\cref{EligibilityVerif}) if photos at 
-        one snapshot in time and no overlap.
+      \item Universally verifiable, anyone with the photos can redo the 
+        estimate.
+      \item Eligibility verifiability if photos at one snapshot in time and no 
+        overlap.
     \end{itemize}
   \end{remark}
 \end{frame}
@@ -89,7 +90,7 @@ The same for authenticity.
     \begin{itemize}
       \item This is the same method as used by police.
       \item Not verifiable unless the user takes a picture of the crowd.
-      \item The it will be reduced to the previous method.
+      \item Then it will be reduced to the previous method.
     \end{itemize}
   \end{remark}
 \end{frame}
@@ -137,6 +138,16 @@ similar as in our discussion about the authenticity of photos.
   \end{remark}
 \end{frame}
 
+Another problem for all the above methods is exemplified by the demonstrations 
+in Seoul:
+\blockcquote{2016DemonstrationsInSeoul}{%
+  \textins*{t}he demonstrators not only gather in open space, but also small 
+  alleys and between buildings%
+}.
+This is difficult to fully capture.
+If photo material is taken from angles we will additionally have problems not 
+counting people twice.
+
 \subsection<presentation>{Signal-based methods}
 
 During the protests in Seoul~\cite{2016DemonstrationsInSeoul} there was one 
@@ -172,7 +183,7 @@ possible~\cite{WhyMACRandomizationIsNotEnough}.
       \item Imprecise, requires assumptions.
       \item Half of smartphone users turn Wi-Fi off.
       \item MAC address randomization.
-      \item Cannot verify, nor authenticate.
+      \item Cannot verify.
     \end{itemize}
   \end{remark}
 \end{frame}
@@ -203,7 +214,7 @@ event.
     \begin{itemize}
       \item Will include bystanders into the count.
       \item Privacy-invading due to phones being uniquely identifying.
-      \item Cannot verify, nor authenticate.
+      \item Cannot verify.
     \end{itemize}
   \end{remark}
 \end{frame}
@@ -255,7 +266,7 @@ backbone as a means to censor the protest.
 
   \begin{remark}
     \begin{itemize}
-      \item No verification, nor authenticity, the service must be trusted.
+      \item No verification, the service must be trusted.
       \item Nothing prevents Bob from checking in twice.
       \item Requires an Internet connection during the event.
     \end{itemize}
