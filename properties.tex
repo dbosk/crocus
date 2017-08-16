@@ -79,15 +79,6 @@ for verification~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
 We can translate these to the case of participation in a demonstration, then 
 each vote would be replaced by a proof of participation.
 
-\begin{frame}<presentation>
-  \begin{remark}
-    \begin{itemize}
-      \item For valid verification we must have immutable storage.
-      \item We need to prevent or detect malicious changes.
-    \end{itemize}
-  \end{remark}
-\end{frame}
-
 If the proofs are stored publicly, then an individual can check that their 
 proof has been included there.
 Thus \cref{IndividualVerif} is fulfilled.
@@ -142,16 +133,6 @@ Finally, there might be the case that there is also a counter protest at the
 same time, these would have the same spatial and temporal properties.
 To distinguish them, we also need to prove for which of these events that a 
 proof is designated (\cref{DesignatedEvent}).
-
-\begin{frame}<presentation>
-  \begin{idea}[V\ref{EligibilityVerif} Eligibility]
-    \begin{itemize}
-      \item Must verify that the proof is not reused from before.
-      \item Must verify that each proof belongs to a unique individual (not 
-        only Sybil).
-    \end{itemize}
-  \end{idea}
-\end{frame}
 
 If the storage is public, then anyone can download all the proofs, verify them 
 and count them.
