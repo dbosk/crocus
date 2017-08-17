@@ -3,29 +3,39 @@
 \section{System model}
 \label{SystemModel}
 
-\begin{frame}
-\begin{question}
-  What is participating in a protest?
-  We need a definition.
-\end{question}
-\mode<presentation>{
-\begin{remark}
-  \begin{itemize}
-    \item This depends on the unique ring/list signature schemes.
-    \item I.e.\ when we can no longer guarantee uniqueness.
-    \item The one setting up that signature scheme decides.
-    \item We don't know how this will be done, nor by whom.
-  \end{itemize}
-\end{remark}
-}
-\end{frame}
-This sort of depends on the unique ring/list signature scheme that we use.
-As long as we can provide linkability between a user's proofs, we can consider 
-it the same protest.
-When we cannot, it must be a new protest.
-So this is supposedly decided by the one setting up the unique ring/list 
-signature scheme --- which we do not know yet how it will be done.
+\subsection{Assumptions}
 
+We assume that every participant has a device similar to a smartphone.
+It must be a portable device which can perform cryptographic operations and 
+communicate with other devices during the protest, e.g.\ through an ad-hoc 
+network.
+I.e.\ no connection to the Internet is necessary during the protest.
+During the protest these devices are computationally limited by their 
+batteries.
+Before and after the protest, we assume that the devices have Internet 
+connections and are not computationally limited by any battery.
+
+\begin{frame}<presentation>
+  \begin{assumption}[During protest]
+    \begin{itemize}
+      \item Everyone has a smartphone.
+      \item Can use ad-hoc networks during the event.
+      \item Computations bounded by battery life.
+    \end{itemize}
+  \end{assumption}
+
+  \pause
+
+  \begin{assumption}[Before and after protest]
+    \begin{itemize}
+      \item Internet connection available.
+      \item Computations not bounded by battery life.
+    \end{itemize}
+  \end{assumption}
+\end{frame}
+
+This means that we essentially provide a lower bound for the participation 
+count, since some participants might not have any smartphone.
 \begin{frame}
 \begin{remark}
   We provide a lower bound, since there might be participants without phones.
@@ -35,29 +45,105 @@ signature scheme --- which we do not know yet how it will be done.
 \end{remark}
 \end{frame}
 
-\begin{frame}
-\begin{question}
-  What assumptions do we need?
-\end{question}
-
-We assume that
-\begin{itemize}
-  \item Everyone has a smartphone.
-  \item Can use ad-hoc networks during the event.
-\end{itemize}
-\end{frame}
-
 \subsection{Adversary model}
 
-We have two types of adversaries:
-\begin{frame}
-\begin{itemize}
-  \item Eve tries to lower the count.
-  \item Eve tries to deanonymize protesters.
-  \item Rusuk, who heads another nation state, want to affect the outcome to 
-    his advantage.
-\end{itemize}
+We have three adversaries: Alice herself, Eve and Rusuk.
+Alice the protest organizer tries to increase the count.
+Eve the totalitarian dictator tries to decrease the count.
+Additionally, Eve tries to deanonymize the participants.
+Finally, we have Rusuk who is the head of another nation state.
+Rusuk has some interest in affecting the state of Eve's regime, for Rusuk's own 
+gain, thus supporting either Eve or Alice.
+Rusuk will thus also try to either increase or decrease the count.
+
+\begin{frame}<presentation>
+  \begin{block}{Alice the activist}
+    \begin{itemize}
+      \item Alice organizes the protest against Eve's regime.
+      \item Alice wants to have a high participation count.
+      \item She tries to increase it.
+    \end{itemize}
+  \end{block}
+
+  \pause
+
+  \begin{block}{Eve the fake-news populist}
+    \begin{itemize}
+      \item Eve's regime is target of the protest.
+      \item She wants to have a low participation count.
+      \item She tries to decrease it.
+    \end{itemize}
+  \end{block}
 \end{frame}
+
+\begin{frame}<presentation>
+  \begin{block}{Eve the totalitarian dictator}
+    \begin{itemize}
+      \item Eve wants to \enquote{convince} activists to support her.
+      \item She wants to find all activists.
+      \item She tries to identify (deanonymize) participants.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}<presentation>
+  \begin{block}{Rusuk the nation state}
+    \begin{itemize}
+      \item Rusuk benefits from the situation in Evestan.
+      \item He wants the outcome to be the most beneficial.
+      \item He will try to increase or decrease the participation count.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\subsection{System model}
+
+We will define a protest as an event that is uniquely identified by its cause, 
+its time and its location.
+More specifically, we will use the following definition.
+
+\begin{definition}[Protest]
+  A \emph{subprotest} is a tuple \((id; t_s, t_e; x, y)\), where
+  \(id\in \Z_{2^\lambda}\) is an identifier,
+  \((t_s, t_e)\in \R^2\) is a time interval,
+  \((x, y)\in \R^2\) are the coordinates of the location.
+  A \emph{protest} is a set of subprotests.
+\end{definition}
+
+\begin{frame}<presentation>
+\begin{definition}[Protest]
+  \begin{itemize}
+    \item A \emph{subprotest} is a tuple \((id; t_s, t_e; x, y)\), where
+    \item \(id\in \Z_{2^\lambda}\) is an identifier,
+    \item \((t_s, t_e)\in \R^2\) is a time interval,
+    \item \((x, y)\in \R^2\) are the coordinates of the location.
+    \item A \emph{protest} is a set of subprotests.
+  \end{itemize}
+\end{definition}
+\end{frame}
+
+The protests described in \cref{WhatIsAProtest} can be captured using this 
+definition by splitting them up into subprotests.
+Each subprotest will then be captured by our definition and to find the total 
+we can just sum up the results.
+
+\begin{frame}
+\begin{question}
+  With this definition, can we participate in two sub-protests and be counted 
+  twice?
+\end{question}
+\begin{remark}
+  Perhaps not if linkability is tied to the cause.
+\end{remark}
+\end{frame}
+\begin{remark}
+  This sort of depends on the unique ring/list signature scheme that we use.
+  As long as we can provide linkability between a user's proofs, we can consider 
+  it the same protest.
+  When we cannot, it must be a new protest.
+  So this is supposedly decided by the one setting up the unique ring/list 
+  signature scheme --- which we do not know yet how it will be done.
+\end{remark}
 
 
 \mode<all>\endinput

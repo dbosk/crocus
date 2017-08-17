@@ -138,4 +138,13 @@
   \end{block}
 }
 
+\ProvideDocumentEnvironment{assumption}{o}{%
+  \IfValueTF{#1}{%
+    \begin{block}{Assumption: #1}
+  }{%
+    \begin{block}{Assumption}
+  }
+}{%
+  \end{block}
+}
 
