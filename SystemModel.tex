@@ -102,12 +102,12 @@ We will define a protest as an event that is uniquely identified by its cause,
 its time and its location.
 More specifically, we will use the following definition.
 
-\begin{definition}[Protest]
+\begin{definition}[Protest]\label{DefProtest}
   A \emph{subprotest} is a tuple \((id; t_s, t_e; x, y)\), where
   \(id\in \Z_{2^\lambda}\) is an identifier,
   \((t_s, t_e)\in \R^2\) is a time interval,
   \((x, y)\in \R^2\) are the coordinates of the location.
-  A \emph{protest} is a set of subprotests.
+  A \emph{protest} is a set of subprotests sharing the same \(id\).
 \end{definition}
 
 \begin{frame}<presentation>
@@ -117,7 +117,7 @@ More specifically, we will use the following definition.
     \item \(id\in \Z_{2^\lambda}\) is an identifier,
     \item \((t_s, t_e)\in \R^2\) is a time interval,
     \item \((x, y)\in \R^2\) are the coordinates of the location.
-    \item A \emph{protest} is a set of subprotests.
+    \item A \emph{protest} is a set of subprotests sharing the same \(id\).
   \end{itemize}
 \end{definition}
 \end{frame}
@@ -144,6 +144,36 @@ we can just sum up the results.
   So this is supposedly decided by the one setting up the unique ring/list 
   signature scheme --- which we do not know yet how it will be done.
 \end{remark}
+
+Each participant who want to be counted must submit a participation proof.
+The proof must be associated with the protest, i.e.\ contain its \(id\).
+Furthermore it must provide the time and the location of the participation.
+More formally, we define a participation proof as follows.
+
+\begin{definition}[Participation proof]
+  A \emph{participation proof} is a tuple \((id; t_s, t_e; x, y; \sigma)\), 
+  where
+  \(id, t_s, t_e, x, y\) are as in \cref{DefProtest}.
+  \(\sigma\) is a signature vouching for participation.
+\end{definition}
+
+\begin{frame}
+  \mode<presentation>{
+  \begin{definition}[Participation proof]
+    \begin{itemize}
+      \item A \emph{participation proof} is a tuple \((id; t_s, t_e; x, y; 
+          \sigma)\), where
+      \item \(id, t_s, t_e, x, y\) are as before.
+      \item \(\sigma\) is a signature vouching for participation.
+    \end{itemize}
+  \end{definition}
+
+  \pause
+  }
+\begin{question}
+  How should this one relate to the \acp{LP} and blockchain?
+\end{question}
+\end{frame}
 
 
 \mode<all>\endinput
