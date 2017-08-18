@@ -82,13 +82,13 @@ each vote would be replaced by a proof of participation.
 If the proofs are stored publicly, then an individual can check that their 
 proof has been included there.
 Thus \cref{IndividualVerif} is fulfilled.
-To have any verifiability, we need the storage (e.g.\ blockchain) to be 
-immutable --- i.e.\ it prevents malicious changes.
+To have any verifiability, we need the storage to be immutable --- i.e.\ it 
+prevents malicious changes.
 
 \begin{frame}<presentation>
   \begin{idea}[V\ref{IndividualVerif} Individual verifiability]
     \begin{itemize}
-      \item Proofs are stored publicly (e.g.\ blockchain).
+      \item Proofs are stored publicly (e.g.\ anonymous blackboard).
       \item Each participant can check that their proof is indeed included.
     \end{itemize}
   \end{idea}
@@ -102,8 +102,20 @@ event.
 We must associate the proof to the event both spatially (the correct location) 
 and temporally (it is related to the time-interval of the event).
 We can essentially divide it into the following requirements:
-\begin{frame}
 \begin{requirements}[\ref*{EligibilityVerif}.]
+  \item\label{CountOnce} Prove that no individual can be counted more than 
+    once.
+  \item\label{CreatedAfterStart} Prove that the data was created after the 
+    start of the event.
+  \item\label{CreatedBeforeEnd} Prove that the data was created before the end 
+    of the event.
+  \item\label{SpatiallyRelated} Prove that the data is spatially related to the 
+    physical location of the event.
+  \item\label{DesignatedEvent} Prove that the data is designated for the event.
+\end{requirements}
+
+\begin{frame}<presentation>
+  \begin{requirements}[V\ref*{EligibilityVerif}.]
   \item\label{CountOnce} Prove that no individual can be counted more than 
     once.
   \item\label{CreatedAfterStart} Prove that the data was created after the 
@@ -120,6 +132,24 @@ We can essentially divide it into the following requirements:
 I.e.\ that one individual can provide two proofs of participation and thus be 
 counted twice, this situation should be detectable.
 
+\begin{frame}<presentation>
+  \begin{idea}[Count once]
+    \begin{itemize}
+      \item Any two proofs by the same individual are linkable.
+      \item Includes signature made by a verified key.
+    \end{itemize}
+  \end{idea}
+
+  \pause
+
+  \begin{idea}[Designated event]
+    \begin{itemize}
+      \item Include a protest-specific identifier.
+      \item E.g.\ hash of the \enquote{manifesto}.
+    \end{itemize}
+  \end{idea}
+\end{frame}
+
 \Cref{CreatedBeforeEnd,CreatedAfterStart} requires a \emph{partially ordered 
   set}\footnote{%
   A relation \(\preceq\) which is reflexive, antisymmetric and transitive.
@@ -134,6 +164,26 @@ same time, these would have the same spatial and temporal properties.
 To distinguish them, we also need to prove for which of these events that a 
 proof is designated (\cref{DesignatedEvent}).
 
+\begin{frame}<presentation>
+  \begin{idea}[Created after start, before end]
+    \begin{itemize}
+      \item This implies a partially ordered set.
+      \item Can be provided by blockchains.
+      \item \dots or transactional 
+        posets~\cite{BlockchainFreeCryptocurrencies}.
+    \end{itemize}
+  \end{idea}
+
+  \pause
+
+  \begin{idea}[At location]
+    \begin{itemize}
+      \item Use \iac{LP}.
+      \item Witnessed (signed) by other participants.
+    \end{itemize}
+  \end{idea}
+\end{frame}
+
 If the storage is public, then anyone can download all the proofs, verify them 
 and count them.
 Thus anyone can verify the result, which fulfils \cref{UniversalVerif}.
@@ -142,7 +192,8 @@ Thus anyone can verify the result, which fulfils \cref{UniversalVerif}.
   \begin{idea}[V\ref{UniversalVerif} Universal verifiability]
     \begin{itemize}
       \item Proofs are stored publicly.
-      \item Anyone can download all proofs, verify them and then count them.
+      \item Anyone can download all proofs, verify eligibility and then count 
+        them.
     \end{itemize}
   \end{idea}
 \end{frame}
@@ -223,18 +274,30 @@ I.e.\ Eve should not be able to reproduce the same proof.
 
   \pause
 
-  \begin{idea}[P\ref{ReceiptFreeness} Receipt freeness]
+  \begin{idea}[P\ref{VotePrivacy} Vote privacy]
+    \begin{itemize}
+      \item Eve shouldn't be able to link Alice's published proof back to 
+        Alice.
+      \item But if Alice publishes two proofs, those two are linkable.
+      \item We're not interested in unmasking trolls, just not count them more 
+        than once.
+    \end{itemize}
+  \end{idea}
+\end{frame}
+
+\begin{frame}<presentation>
+  \begin{idea}[P\ref{ReceiptFreeness} Receipt freeness (deniability)]
     \begin{itemize}
       \item If Eve compromises Alice's device, she should not be able to use 
         it to verify that she participated.
 
-      \item But Alice should not be able to participate twice.
+      \item We need a signature scheme that cannot reproduce the same signature 
+        when run on the same inputs.
 
-      \item We need a signature scheme that cannot reproduce the same 
-        signature when run on the same inputs.
+      \item E.g.\ a short-term and a long-term credential, then Alice can 
+        drop the short-term credential.
 
-        \item E.g.\ a short-term and a long-term credential, then Alice can 
-          drop the short-term credential.
+      \item But Alice should still not be able to participate twice.
     \end{itemize}
   \end{idea}
 \end{frame}
