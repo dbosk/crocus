@@ -1,5 +1,5 @@
 \mode*
-\section{Related work}
+\section{Related work}%
 \label{RelatedWork}
 
 \subsection<presentation>{Image-based methods}
@@ -34,7 +34,8 @@ taken.
 However, the best we can do is to employ forensic methods to try to detect any 
 modifications.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{solution}[Jacob's method]
     \begin{itemize}
       \item Take aerial photos of the event.
@@ -44,7 +45,7 @@ modifications.
     \end{itemize}
   \end{solution}
 
-  \pause
+  \pause{}
 
   \begin{remark}
     \begin{itemize}
@@ -56,6 +57,7 @@ modifications.
     \end{itemize}
   \end{remark}
 \end{frame}
+}
 
 There is an app CrowdSize~\cite{CrowdSize} which estimates the size of a crowd 
 based on a selected space.
@@ -74,7 +76,8 @@ This method is not verifiable unless the user takes a picture of the crowd,
 then it inherits the verifiability properties of the previous method.
 The same for authenticity.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{solution}[CrowdSize app\footfullcite{CrowdSize}]
     \begin{itemize}
       \item User selects area on map.
@@ -84,7 +87,7 @@ The same for authenticity.
     \end{itemize}
   \end{solution}
 
-  \pause
+  \pause{}
 
   \begin{remark}
     \begin{itemize}
@@ -94,6 +97,7 @@ The same for authenticity.
     \end{itemize}
   \end{remark}
 \end{frame}
+}
 
 There is a body of work in the computer vision community, e.g.\ the work of 
 \textcite{NNCrowdCounting}.
@@ -116,7 +120,8 @@ video.
 The authenticity properties are reduced to those of the video, which should be 
 similar as in our discussion about the authenticity of photos.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{solution}[Computer vision]
     \begin{itemize}
       \item Record video of the event.
@@ -125,7 +130,7 @@ similar as in our discussion about the authenticity of photos.
     \end{itemize}
   \end{solution}
 
-  \pause
+  \pause{}
 
   \begin{remark}
     \begin{itemize}
@@ -137,6 +142,7 @@ similar as in our discussion about the authenticity of photos.
     \end{itemize}
   \end{remark}
 \end{frame}
+}
 
 Another problem for all the above methods is exemplified by the demonstrations 
 in Seoul:
@@ -169,14 +175,15 @@ As MAC address randomization get wider adoption this will be even more
 difficult, although some tracking of smartphones will still be 
 possible~\cite{WhyMACRandomizationIsNotEnough}.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{solution}[Wi-Fi tracking]
     \begin{itemize}
       \item Record unique Wi-Fi MAC addresses from people's smartphones.
     \end{itemize}
   \end{solution}
 
-  \pause
+  \pause{}
 
   \begin{remark}
     \begin{itemize}
@@ -187,6 +194,7 @@ possible~\cite{WhyMACRandomizationIsNotEnough}.
     \end{itemize}
   \end{remark}
 \end{frame}
+}
 
 A better proposal would be to use \enquote{IMSI catchers} (or the real cell 
 towers of the mobile network) to count unique phones at the location.
@@ -200,7 +208,8 @@ Finally, there will be limited verifiability and authenticity, as the data
 recorder must be trusted to record all data and do it in the relation to the 
 event.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{solution}[IMSI catchers]
     \begin{itemize}
       \item Use IMSI catchers to register unique phones.
@@ -208,7 +217,7 @@ event.
     \end{itemize}
   \end{solution}
 
-  \pause
+  \pause{}
 
   \begin{remark}
     \begin{itemize}
@@ -218,6 +227,7 @@ event.
     \end{itemize}
   \end{remark}
 \end{frame}
+}
 
 \Textcite{WifiCrowdCounting} also relies of Wi-Fi, but they instead use the 
 Wi-Fi signal as a sonar to detect people.
@@ -254,7 +264,8 @@ This can make it difficult to use if e.g.\ Alice has organized a protest
 against the government, who shuts down the cellular network or Internet 
 backbone as a means to censor the protest.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{solution}[CrowdCount\footfullcite{CrowdCount}]
     \begin{itemize}
       \item Register an upcoming event.
@@ -262,7 +273,7 @@ backbone as a means to censor the protest.
     \end{itemize}
   \end{solution}
 
-  \pause
+  \pause{}
 
   \begin{remark}
     \begin{itemize}
@@ -272,3 +283,4 @@ backbone as a means to censor the protest.
     \end{itemize}
   \end{remark}
 \end{frame}
+}

@@ -1,6 +1,6 @@
 \mode*
 
-\section{Introduction}
+\section{Introduction}%
 \label{Introduction}
 
 Alice organizes a street protest against Eve's regime.
@@ -22,7 +22,8 @@ problem, i.e.\ to verify how many participated in Alice's protest.
 
 \subsection<presentation>{Why is it a problem?}
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{example}
     \begin{itemize}
       \item Computer vision does object recognition.
@@ -31,7 +32,7 @@ problem, i.e.\ to verify how many participated in Alice's protest.
     \end{itemize}
   \end{example}
 
-  \pause
+  \pause{}
 
   \begin{example}
     \begin{itemize}
@@ -41,8 +42,10 @@ problem, i.e.\ to verify how many participated in Alice's protest.
     \end{itemize}
   \end{example}
 \end{frame}
+}
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{example}
     \begin{itemize}
       \item South Korea 2016~\cite{2016DemonstrationsInSeoul}:
@@ -52,7 +55,7 @@ problem, i.e.\ to verify how many participated in Alice's protest.
           \item[Police] 260\,000
         \end{description}
 
-        \pause
+        \pause{}
 
       \item US 2017~\cite{2017WomensMarchesInUS}:
         sum up people's approximations.
@@ -60,6 +63,7 @@ problem, i.e.\ to verify how many participated in Alice's protest.
     \end{itemize}
   \end{example}
 \end{frame}
+}
 
 After many demonstrations the count by police and that by the organizers 
 differ\footnote{%
@@ -90,15 +94,15 @@ We will discuss them in more detail in \cref{RelatedWork}.
       \item Alice organizes a protest against Eve's regime.
       \item Bob, Carol and others show up.
 
-        \pause
+        \pause{}
 
       \item {\color{green} Alice wants to show that many support her cause.}
 
-        \pause
+        \pause{}
 
       \item {\color{red} Eve wants to show that few support Alice's cause.}
 
-        \pause
+        \pause{}
 
       \item It's an adversarial setting!
       \item We need verifiable results.
@@ -121,8 +125,8 @@ own protests.)
 To solve this problem, we need a verifiable participation count which is 
 protected from Sybil attacks.
 
-\mode<article>{
-\subsection{What is \protect\emph{a} protest?}
+\mode<article>{%
+\subsection{What is \protect\emph{a} protest?}%
 \label{WhatIsAProtest}
 
 Protests can vary considerably.
@@ -150,7 +154,8 @@ We also have the Venezuelan demonstrations where
 }.
 Judging from these examples, the minimal common part is the cause.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{example}[Seoul 2016]
     \begin{itemize}
       \item Rallies every weekend.
@@ -159,7 +164,7 @@ Judging from these examples, the minimal common part is the cause.
     \end{itemize}
   \end{example}
 
-  \pause
+  \pause{}
 
   \begin{example}[US 2017]
     \begin{itemize}
@@ -169,8 +174,10 @@ Judging from these examples, the minimal common part is the cause.
     \end{itemize}
   \end{example}
 \end{frame}
+}
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{example}[Venezuela 2017]
     \begin{itemize}
       \item Daily anti-government rallies.
@@ -179,6 +186,7 @@ Judging from these examples, the minimal common part is the cause.
     \end{itemize}
   \end{example}
 \end{frame}
+}
 
 The organizer Alice want to count everyone who participated at any time and in 
 any of the locations~\cite{2016DemonstrationsInSeoul}.
@@ -187,7 +195,8 @@ to deploy enough personnel for crowd-control.)
 We thus settle for the following informal definition:
 a protest is an event identified by its cause.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{definition}[Informal]
     \begin{itemize}
       \item Organizers want to count anyone who participated \dots
@@ -197,6 +206,8 @@ a protest is an event identified by its cause.
     \end{itemize}
   \end{definition}
 \end{frame}
+}
+
 }
 
 \subsection<article>{Contributions}

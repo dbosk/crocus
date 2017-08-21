@@ -1,6 +1,6 @@
 \mode*
 
-\section{System model}
+\section{System model}%
 \label{SystemModel}
 
 \subsection{Assumptions}
@@ -15,7 +15,8 @@ batteries.
 Before and after the protest, we assume that the devices have Internet 
 connections and are not computationally limited by any battery.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{assumption}[During protest]
     \begin{itemize}
       \item Everyone has a smartphone.
@@ -24,7 +25,7 @@ connections and are not computationally limited by any battery.
     \end{itemize}
   \end{assumption}
 
-  \pause
+  \pause{}
 
   \begin{assumption}[Before and after protest]
     \begin{itemize}
@@ -33,6 +34,7 @@ connections and are not computationally limited by any battery.
     \end{itemize}
   \end{assumption}
 \end{frame}
+}
 
 This means that we essentially provide a lower bound for the participation 
 count, since some participants might not have any smartphone.
@@ -56,7 +58,8 @@ Rusuk has some interest in affecting the state of Eve's regime, for Rusuk's own
 gain, thus supporting either Eve or Alice.
 Rusuk will thus also try to either increase or decrease the count.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{block}{Alice the activist}
     \begin{itemize}
       \item Alice organizes the protest against Eve's regime.
@@ -65,7 +68,7 @@ Rusuk will thus also try to either increase or decrease the count.
     \end{itemize}
   \end{block}
 
-  \pause
+  \pause{}
 
   \begin{block}{Eve the fake-news populist}
     \begin{itemize}
@@ -75,8 +78,10 @@ Rusuk will thus also try to either increase or decrease the count.
     \end{itemize}
   \end{block}
 \end{frame}
+}
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{block}{Eve the totalitarian dictator}
     \begin{itemize}
       \item Eve wants to \enquote{convince} activists to support her.
@@ -85,8 +90,10 @@ Rusuk will thus also try to either increase or decrease the count.
     \end{itemize}
   \end{block}
 \end{frame}
+}
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{block}{Rusuk the nation state}
     \begin{itemize}
       \item Rusuk benefits from the situation in Evestan.
@@ -95,6 +102,7 @@ Rusuk will thus also try to either increase or decrease the count.
     \end{itemize}
   \end{block}
 \end{frame}
+}
 
 \subsection{System model}
 
@@ -110,7 +118,8 @@ More specifically, we will use the following definition.
   A \emph{protest} is a set of subprotests sharing the same \(id\).
 \end{definition}
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
 \begin{definition}[Protest]
   \begin{itemize}
     \item A \emph{subprotest} is a tuple \((id; t_s, t_e; x, y)\), where
@@ -121,6 +130,7 @@ More specifically, we will use the following definition.
   \end{itemize}
 \end{definition}
 \end{frame}
+}
 
 The protests described in \cref{WhatIsAProtest} can be captured using this 
 definition by splitting them up into subprotests.
@@ -158,7 +168,7 @@ More formally, we define a participation proof as follows.
 \end{definition}
 
 \begin{frame}
-  \mode<presentation>{
+  \mode<presentation>{%
   \begin{definition}[Participation proof]
     \begin{itemize}
       \item A \emph{participation proof} is a tuple \((id; t_s, t_e; x, y; 
@@ -168,7 +178,7 @@ More formally, we define a participation proof as follows.
     \end{itemize}
   \end{definition}
 
-  \pause
+  \pause{}
   }
 \begin{question}
   How should this one relate to the \acp{LP} and blockchain?

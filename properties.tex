@@ -99,7 +99,8 @@ We can essentially divide it into the following requirements:
   \item\label{DesignatedEvent} Prove that the data is designated for the event.
 \end{requirements}
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{requirements}[V\ref*{EligibilityVerif}.]
   \item\label{CountOnce} Prove that no individual can be counted more than 
     once.
@@ -112,6 +113,7 @@ We can essentially divide it into the following requirements:
   \item\label{DesignatedEvent} Prove that the data is designated for the event.
 \end{requirements}
 \end{frame}
+}
 
 \subsubsection{Temporal eligibility}
 
@@ -131,7 +133,8 @@ For generality, we will use the terminology of
 \textcite{BlockchainFreeCryptocurrencies} and simply call this storage 
 structure \iac{tposet}.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
 \begin{idea}[Temporal eligibility]
   \begin{itemize}
     \item There is a mechanism that provides the properties of a poset: a 
@@ -142,12 +145,14 @@ structure \iac{tposet}.
   \end{itemize}
 \end{idea}
 \end{frame}
+}
 
 \Cref{CreatedBeforeEnd} is straight-forward, Alice and Bob simply add their 
 proofs to the \ac{tposet} \emph{in (time-wise) relation to the event}.
 Then we know that they cannot have been created after the event.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{idea}[Created before end]
     \begin{itemize}
       \item Submit the proof to storage.
@@ -155,6 +160,7 @@ Then we know that they cannot have been created after the event.
     \end{itemize}
   \end{idea}
 \end{frame}
+}
 
 For \cref{CreatedAfterStart} Alice and Bob must include an unpredictable value 
 in their proofs, e.g.\ the \enquote{head} of the \ac{tposet}.
@@ -166,7 +172,8 @@ This will only expand the interval of possible creation into the past.
 This will not help their cause, as anyone will recognize that the proof could 
 be created at any time in that interval.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{idea}[Created after start]
     \begin{itemize}
       \item Include an unpredictable value in the proof.
@@ -176,6 +183,7 @@ be created at any time in that interval.
     \end{itemize}
   \end{idea}
 \end{frame}
+}
 
 \begin{question}
   How hard is it to reuse old proofs?
@@ -198,7 +206,8 @@ It also provides privacy since the location cannot be used to deanonymize Bob's
 proof --- e.g.\ to correlate the location in his proof with captured 
 surveillance footage.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{idea}[Spatial eligibility]
     \begin{itemize}
       \item Include \iac{LP} which is \enquote{witnessed} (signed) by other 
@@ -210,6 +219,7 @@ surveillance footage.
     \end{itemize}
   \end{idea}
 \end{frame}
+}
 
 \begin{question}
   How can we do \acp{LP} with 1000s of witnesses each?
@@ -258,7 +268,8 @@ proof is designated (\cref{DesignatedEvent}).
 This can be achieved by a unique identifier for a protest, e.g.\ the hash of 
 its \enquote{manifesto}.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{idea}[Count once]
     \begin{itemize}
       \item Any two proofs by the same individual are linkable.
@@ -275,6 +286,7 @@ its \enquote{manifesto}.
     \end{itemize}
   \end{idea}
 \end{frame}
+}
 
 \subsubsection{Individual and universal verifiability}
 
@@ -288,7 +300,8 @@ Thus anyone can verify the result, which fulfils \cref{UniversalVerif}.
 To have any verifiability, we need the storage to be immutable --- i.e.\ it 
 prevents malicious changes.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{idea}[Individual verifiability]
     \begin{itemize}
       \item Proofs are stored publicly.
@@ -306,6 +319,7 @@ prevents malicious changes.
     \end{itemize}
   \end{idea}
 \end{frame}
+}
 
 \subsection{Privacy}%
 \label{Privacy}
@@ -346,7 +360,8 @@ In voting, we have the following requirements:
 e.g.\ Eve can simply physically bring Alice to a protest against her will.
 This leaves us with \cref{ReceiptFreeness,VotePrivacy}.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{remark}
     \begin{itemize}
       \item Coercion resistance is difficult to achieve for voting.
@@ -357,6 +372,7 @@ This leaves us with \cref{ReceiptFreeness,VotePrivacy}.
     \end{itemize}
   \end{remark}
 \end{frame}
+}
 
 \subsubsection{Vote privacy}
 
@@ -371,7 +387,8 @@ to Alice, yet, if Alice submits another proof, those two proofs must be
 linkable (due to eligibility verification, \cref{EligibilityVerif}) so that 
 Alice is not counted twice.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{remark}
     \begin{itemize}
       \item Voting: different alternatives when participating.
@@ -391,6 +408,7 @@ Alice is not counted twice.
     \end{itemize}
   \end{idea}
 \end{frame}
+}
 
 \subsubsection{Receipt freeness}
 
@@ -400,7 +418,8 @@ Eve has access to Alice's device (i.e.\ all her private keys).
 I.e.\ Eve should not be able to reproduce the same proof and thus verify that 
 Alice has created one of the proofs.
 
-\begin{frame}<presentation>
+\mode<presentation>{%
+\begin{frame}
   \begin{idea}[Receipt freeness (deniability)]
     \begin{itemize}
       \item If Eve compromises Alice's device, she should not be able to use 
@@ -416,6 +435,7 @@ Alice has created one of the proofs.
     \end{itemize}
   \end{idea}
 \end{frame}
+}
 
 \begin{frame}
   \begin{question}
