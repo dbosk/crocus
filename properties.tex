@@ -222,11 +222,6 @@ surveillance footage.
 }
 
 \begin{question}
-  How can we do \acp{LP} with 1000s of witnesses each?
-  Can we do some preprocessing?
-  Ad-hoc networks, broadcast \acp{LP}?
-\end{question}
-\begin{question}
   Why should anyone trust these witnesses?
   What are the assumptions?
   Signed over a short period of time?\footnote{%
@@ -234,8 +229,37 @@ surveillance footage.
     As long as they are not Sybil it should be fine?
   }
 \end{question}
+
+We will introduce a notion of transitivity for trust in these proofs.
+The \emph{trusted} journalist Jane the protest to report on it.
+She witnesses some participants' \acp{LP}, say Alice's \ac{LP} for example.
+Now Alice's \ac{LP} can be trusted as correct at that point in time.
+Alice's ability to travel is physically limited.
+Thus a verifier can trust any \ac{LP} that Alice witnesses proportionally to 
+the time that has passed since Jane witnessed Alice's \ac{LP}.
+We can apply this argument recursively for any other participant's \ac{LP} that 
+Alice has witnessed.
+However, this requires some assumptions:
+\begin{itemize}
+  \item It is actually Alice's signing key must have physically limited travel.
+    This can be assumed for signing keys that are embedded into hardware by 
+    some trusted person.
+  \item Alice's witness signature must depend on Jane's witness signature, to 
+    prove that Alice signed after Jane.
+\end{itemize}
+\begin{remark}
+  This probably requires high-precision timestamps, i.e.\ a trusted 
+  time-stamping server must be available during the protest.
+  Or the proofs must be submitted to the blockchain during the protest.
+\end{remark}
+
 \begin{question}
   Trusted party for the group signatures?
+\end{question}
+\begin{question}
+  How can we do \acp{LP} with 1000s of witnesses each?
+  Can we do some preprocessing?
+  Ad-hoc networks, broadcast \acp{LP}?
 \end{question}
 \begin{question}
   Must tie credentials to something unique: phone, phone subscription?
