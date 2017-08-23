@@ -2,4 +2,28 @@
 
 \section{Security}
 
-\dots
+\subsection{Stealing participation}
+
+The Eve (possibly with Rusuk's aid) wants to arrange a counter-protest in Eve's 
+favour.
+One way to get a higher participation count is to use the same identifier as 
+Alice's protest.
+Since the identifier for the protest is the hash value of the manifest, Eve 
+must find a second pre-image for the hash function.
+
+\mode<presentation>{%
+\begin{frame}
+  \begin{itemize}
+    \item Eve wants to arrange a counter-protest.
+    \item She wants to steal some of Alice's participants' proofs.
+    \item To do this she must have an identifier that matches.
+    \item I.e.\ she must find a second pre-image for the hash function.
+  \end{itemize}
+\end{frame}
+}
+
+% XXX Rephrase identifier problem as a game
+\begin{proposition}
+  Given \(x\) and \(H(x) = y\), the probability of finding an \(x'\) such that 
+  \(H(x') = y\) is \(\frac{1}{\lambda-1}\).
+\end{proposition}
