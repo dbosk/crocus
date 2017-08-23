@@ -254,17 +254,19 @@ surveillance footage.
 
 \subsubsection{Linkability and designated protest}
 
-\Cref{CountOnce} is required to prevent Sybil attacks.
-I.e.\ that one individual can provide two proofs of participation and thus be 
-counted twice, this situation should be detectable.
+\Cref{CountOnce} is required to prevent Sybil attacks, i.e.\ that one 
+individual can provide two proofs of participation and thus be counted twice.
+That situation should be detectable.
 We can do this by ensuring that Alice cannot produce two valid proofs which
 are unlinkable.
 This can be done by including a signature made by a verified key.
+(We will discuss the privacy aspects in \cref{Privacy}.)
 
-There might be the case that there is also a counter protest at the same time, 
-these would have the same spatial and temporal properties.
+\Cref{DesignatedEvent} focuses on the problem that there might be a counter 
+protest at the same time and place, these would have the same spatial and 
+temporal properties.
 To distinguish them, we also need to prove for which of these events that a 
-proof is designated (\cref{DesignatedEvent}).
+proof is designated.
 This can be achieved by a unique identifier for a protest, e.g.\ the hash of 
 its \enquote{manifesto}.
 
@@ -386,6 +388,8 @@ Hence, if Alice submits a proof of participation, the proof must be unlinkable
 to Alice, yet, if Alice submits another proof, those two proofs must be 
 linkable (due to eligibility verification, \cref{EligibilityVerif}) so that 
 Alice is not counted twice.
+This is fine, since we do not want to catch any cheater, we just do not want to
+count them more than once.
 
 \mode<presentation>{%
 \begin{frame}
@@ -415,7 +419,7 @@ Alice is not counted twice.
 Receipt freeness implies that Alice enjoys deniability against Eve:
 Eve should not be able to use the published proof to tie it to Alice, even if 
 Eve has access to Alice's device (i.e.\ all her private keys).
-I.e.\ Eve should not be able to reproduce the same proof and thus verify that 
+E.g.\ Eve should not be able to reproduce the same proof and thus verify that 
 Alice has created one of the proofs.
 
 \mode<presentation>{%
@@ -455,7 +459,7 @@ Alice has created one of the proofs.
 
 We also have an architectural problem.
 If the system is only run by volunteering activists, then Eve can simply 
-analyse network traffic to detect who is running nodes in the system.
+analyse network traffic and look for people running nodes in the system.
 
 \begin{frame}
   \begin{question}
@@ -470,9 +474,11 @@ analyse network traffic to detect who is running nodes in the system.
   \end{question}
 \end{frame}
 
-We would still have the problem of how protesters submit their proofs to the 
+Similarly, we have the problem of how protesters submit their proofs to the 
 system.
 This must be done anonymously.
+Otherwise Eve can analyse the network traffic to find out who submitted proofs 
+to the system.
 
 \begin{frame}
   \begin{question}
