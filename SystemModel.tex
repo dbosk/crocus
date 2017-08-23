@@ -6,6 +6,8 @@
 \subsection{Assumptions}
 
 We assume that every participant has a device similar to a smartphone.
+(This means that we essentially provide a lower bound for the participation 
+count, since some participants might not have any smartphone.)
 It must be a portable device which can perform cryptographic operations and 
 communicate with other devices during the protest, e.g.\ through an ad-hoc 
 network.
@@ -33,18 +35,169 @@ connections and are not computationally limited by any battery.
       \item Computations not bounded by battery life.
     \end{itemize}
   \end{assumption}
+
+  \pause{}
+
+  \begin{remark}
+    We provide a lower bound, since there might be participants without phones.
+  \end{remark}
 \end{frame}
 }
 
-This means that we essentially provide a lower bound for the participation 
-count, since some participants might not have any smartphone.
+We further assume that every participant has a digital certificate signed by 
+some logically centralized certificate authority.
+E.g.\ that we can use the cryptographic keys stored in the chip of the national 
+identity card or passport.
+We need this to prevent Sybil attacks~\cite{SybilAttack}.
 \begin{frame}
-\begin{remark}
-  We provide a lower bound, since there might be participants without phones.
-\end{remark}
 \begin{remark}
   I.e.\ provided we can prevent Sybil.
 \end{remark}
+\end{frame}
+
+\subsection{What is \protect\emph{a} protest?}%
+\label{WhatIsAProtest}
+
+Protests can vary considerably.
+To be able to estimate the participation count for one, we first need to define
+what should be counted.
+
+Let us start by considering some examples.
+During the demonstrations against the South Korean president in Seoul
+\blockcquote{2016DemonstrationsInSeoul}{%
+  \textins*{t}he rallies stretch\textins{ed} from midday to late night --- some 
+  people stay\textins{ed} for several hours, others just several minutes%
+}.
+These rallies were all in the same location in the capital and repeated every 
+weekend for the duration of a few weeks.
+The Women's Marches~\cite{2017WomensMarchesInUS}, on the other hand, occurred 
+in parallel in many locations.
+We also have the Venezuelan demonstrations where
+\blockcquote{2017VenezuelaProtestFrequency}{%
+  anti-government demonstrators have staged daily protests across Venezuela%
+} while
+\blockcquote{AlJazeeraOnVenezuela2017}{%
+  pro-government workers sang and danced as they staged a rival march to show 
+  their support for the president's controversial plan to rewrite the 
+  constitution%
+}.
+Judging from these examples, the minimal common part is the cause.
+
+\mode<presentation>{%
+\begin{frame}
+  \begin{example}[Seoul 2016]
+    \begin{itemize}
+      \item Rallies every weekend.
+      \item Starting midday, lasting to late night.
+      \item Some stayed for several hours, some for only minutes.
+    \end{itemize}
+  \end{example}
+
+  \pause{}
+
+  \begin{example}[US 2017]
+    \begin{itemize}
+      \item Women's Marches in several locations.
+      \item Marched some distance.
+      \item One-time occurrence.
+    \end{itemize}
+  \end{example}
+\end{frame}
+}
+
+\mode<presentation>{%
+\begin{frame}
+  \begin{example}[Venezuela 2017]
+    \begin{itemize}
+      \item Daily anti-government rallies.
+      \item Multiple locations.
+      \item Pro-government rallies too.
+    \end{itemize}
+  \end{example}
+\end{frame}
+}
+
+The organizer Alice want to count everyone who participated at any time and in 
+any of the locations~\cite{2016DemonstrationsInSeoul}.
+(Whereas police are only interested in the maximum crowd at any point in time, 
+to deploy enough personnel for crowd-control.)
+We will define a protest as an event that is uniquely identified by its cause, 
+its time and its location.
+More specifically, we will use the following definition.
+
+\begin{definition}[Protest]\label{DefProtest}
+  A \emph{subprotest} is a tuple \((id; t_s, t_e; x, y)\), where
+  \(id\in \Z_{2^\lambda}\) is an identifier,
+  \((t_s, t_e)\in \R^2\) is a time interval,
+  \((x, y)\in \R^2\) are the coordinates of the location.
+  A \emph{protest} is a set of subprotests sharing the same \(id\).
+\end{definition}
+
+\mode<presentation>{%
+\begin{frame}
+\begin{definition}[Protest]
+  \begin{itemize}
+    \item A \emph{subprotest} is a tuple \((id; t_s, t_e; x, y)\), where
+    \item \(id\in \Z_{2^\lambda}\) is an identifier,
+    \item \((t_s, t_e)\in \R^2\) is a time interval,
+    \item \((x, y)\in \R^2\) are the coordinates of the location.
+    \item A \emph{protest} is a set of subprotests sharing the same \(id\).
+  \end{itemize}
+\end{definition}
+\end{frame}
+}
+
+The protests described above can be captured using this definition by splitting 
+them up into subprotests.
+Each subprotest will then be captured by our definition and to find the total 
+we can just sum up the results.
+
+\begin{frame}
+\begin{question}
+  With this definition, can we participate in two sub-protests and be counted 
+  twice?
+\end{question}
+\begin{remark}
+  Perhaps not if linkability is tied to the cause.
+\end{remark}
+\end{frame}
+\begin{remark}
+  This sort of depends on the unique ring/list signature scheme that we use.
+  As long as we can provide linkability between a user's proofs, we can consider 
+  it the same protest.
+  When we cannot, it must be a new protest.
+  So this is supposedly decided by the one setting up the unique ring/list 
+  signature scheme --- which we do not know yet how it will be done.
+\end{remark}
+
+Each participant who want to be counted must submit a participation proof.
+The proof must be associated with the protest, i.e.\ contain its \(id\).
+Furthermore it must provide the time and the location of the participation.
+More formally, we define a participation proof as follows.
+
+\begin{definition}[Participation proof]
+  A \emph{participation proof} is a tuple \((id; t_s, t_e; x, y; \sigma)\), 
+  where
+  \(id, t_s, t_e, x, y\) are as in \cref{DefProtest}.
+  \(\sigma\) is a signature vouching for participation.
+\end{definition}
+
+\begin{frame}
+  \mode<presentation>{%
+  \begin{definition}[Participation proof]
+    \begin{itemize}
+      \item A \emph{participation proof} is a tuple \((id; t_s, t_e; x, y; 
+          \sigma)\), where
+      \item \(id, t_s, t_e, x, y\) are as before.
+      \item \(\sigma\) is a signature vouching for participation.
+    \end{itemize}
+  \end{definition}
+
+  \pause{}
+  }
+\begin{question}
+  How should this one relate to the \acp{LP} and blockchain?
+\end{question}
 \end{frame}
 
 \subsection{Adversary model}
@@ -103,87 +256,6 @@ Rusuk will thus also try to either increase or decrease the count.
   \end{block}
 \end{frame}
 }
-
-\subsection{System model}
-
-We will define a protest as an event that is uniquely identified by its cause, 
-its time and its location.
-More specifically, we will use the following definition.
-
-\begin{definition}[Protest]\label{DefProtest}
-  A \emph{subprotest} is a tuple \((id; t_s, t_e; x, y)\), where
-  \(id\in \Z_{2^\lambda}\) is an identifier,
-  \((t_s, t_e)\in \R^2\) is a time interval,
-  \((x, y)\in \R^2\) are the coordinates of the location.
-  A \emph{protest} is a set of subprotests sharing the same \(id\).
-\end{definition}
-
-\mode<presentation>{%
-\begin{frame}
-\begin{definition}[Protest]
-  \begin{itemize}
-    \item A \emph{subprotest} is a tuple \((id; t_s, t_e; x, y)\), where
-    \item \(id\in \Z_{2^\lambda}\) is an identifier,
-    \item \((t_s, t_e)\in \R^2\) is a time interval,
-    \item \((x, y)\in \R^2\) are the coordinates of the location.
-    \item A \emph{protest} is a set of subprotests sharing the same \(id\).
-  \end{itemize}
-\end{definition}
-\end{frame}
-}
-
-The protests described in \cref{WhatIsAProtest} can be captured using this 
-definition by splitting them up into subprotests.
-Each subprotest will then be captured by our definition and to find the total 
-we can just sum up the results.
-
-\begin{frame}
-\begin{question}
-  With this definition, can we participate in two sub-protests and be counted 
-  twice?
-\end{question}
-\begin{remark}
-  Perhaps not if linkability is tied to the cause.
-\end{remark}
-\end{frame}
-\begin{remark}
-  This sort of depends on the unique ring/list signature scheme that we use.
-  As long as we can provide linkability between a user's proofs, we can consider 
-  it the same protest.
-  When we cannot, it must be a new protest.
-  So this is supposedly decided by the one setting up the unique ring/list 
-  signature scheme --- which we do not know yet how it will be done.
-\end{remark}
-
-Each participant who want to be counted must submit a participation proof.
-The proof must be associated with the protest, i.e.\ contain its \(id\).
-Furthermore it must provide the time and the location of the participation.
-More formally, we define a participation proof as follows.
-
-\begin{definition}[Participation proof]
-  A \emph{participation proof} is a tuple \((id; t_s, t_e; x, y; \sigma)\), 
-  where
-  \(id, t_s, t_e, x, y\) are as in \cref{DefProtest}.
-  \(\sigma\) is a signature vouching for participation.
-\end{definition}
-
-\begin{frame}
-  \mode<presentation>{%
-  \begin{definition}[Participation proof]
-    \begin{itemize}
-      \item A \emph{participation proof} is a tuple \((id; t_s, t_e; x, y; 
-          \sigma)\), where
-      \item \(id, t_s, t_e, x, y\) are as before.
-      \item \(\sigma\) is a signature vouching for participation.
-    \end{itemize}
-  \end{definition}
-
-  \pause{}
-  }
-\begin{question}
-  How should this one relate to the \acp{LP} and blockchain?
-\end{question}
-\end{frame}
 
 
 \mode<all>\endinput
