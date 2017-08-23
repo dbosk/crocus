@@ -176,20 +176,21 @@ Furthermore it must provide the time and the location of the participation.
 More formally, we define a participation proof as follows.
 
 \begin{definition}[Participation proof]
-  A \emph{participation proof} is a tuple \((id; t_s, t_e; x, y; \sigma)\), 
-  where
-  \(id, t_s, t_e, x, y\) are as in \cref{DefProtest}.
-  \(\sigma\) is a signature vouching for participation.
+  A \emph{participation proof} is a tuple \((id; t_s, t_e; lp; \sigma)\), where
+  \(id, t_s, t_e\) are as in \cref{DefProtest},
+  \(lp\) is a location proof and
+  \(\sigma\) is a signature over the proof.
 \end{definition}
 
 \begin{frame}
   \mode<presentation>{%
   \begin{definition}[Participation proof]
     \begin{itemize}
-      \item A \emph{participation proof} is a tuple \((id; t_s, t_e; x, y; 
+      \item A \emph{participation proof} is a tuple \((id; t_s, t_e; lp; 
           \sigma)\), where
-      \item \(id, t_s, t_e, x, y\) are as before.
-      \item \(\sigma\) is a signature vouching for participation.
+      \item \(id, t_s, t_e\) are as before,
+      \item \(lp\) is a location proof and
+      \item \(\sigma\) is a signature over the proof.
     \end{itemize}
   \end{definition}
 
@@ -198,6 +199,29 @@ More formally, we define a participation proof as follows.
 \begin{question}
   How should this one relate to the \acp{LP} and blockchain?
 \end{question}
+\end{frame}
+
+\begin{frame}
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    \tikzset{grow'=right,level distance=5em}
+    \Tree [.Proof
+      [.{wsig} {\(x,y\)} [.{osig} [.{\(id\)} manifesto ] head ] [.tsig head'' ] ]
+      {\dots}
+      [.{wsig} {\dots} ]
+    ]
+  \end{tikzpicture}
+  \mode<article>{%
+    \caption{%
+      The proof depends on several witness signatures (wsig), each of which 
+      depends on the owner's signature (osig), which depends on the \(id\) of the
+      protest and the head of the blockchain.
+      Whenever possible, the witness signature should include proof that the 
+      witness themself has been witnesses by a trusted witness (tsig).
+    }
+  }
+\end{figure}
 \end{frame}
 
 \subsection{Adversary model}
