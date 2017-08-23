@@ -1,6 +1,8 @@
 \mode*
 \section{Conclusions}
 
+\subsection<presentation>{Related work}
+
 In general, none of the related works fulfils the eligibility verifiability 
 \cref{%
   CountOnce,%
@@ -19,7 +21,7 @@ margins, so they cannot give the correct participation count.
   \begin{remark}
     \begin{itemize}
       \item All current methods lack most of verifiability.
-      \item Some provide universal verifiability (V\ref{UniversalVerif}).
+      \item Some provide universal verifiability.
 
         \pause
 
@@ -27,3 +29,114 @@ margins, so they cannot give the correct participation count.
     \end{itemize}
   \end{remark}
 \end{frame}
+
+\subsection{Open problems}
+
+\begin{frame}
+  \begin{question}
+    How to solve Sybil, can we piggyback on existing \acp{PKI}?
+    E.g.~\cite{Cinderella}.
+  \end{question}
+
+  \begin{question}
+    Government can sign as many certificates as they like using their national 
+    ID systems.
+    How to deal with this?
+  \end{question}
+
+  \begin{question}
+    Tie to something unique: phone, phone subscription?
+    Register twice?
+  \end{question}
+
+  \begin{question}
+    This is similar to the double-spending problem for cryptocurrencies, can 
+    we reuse any such techniques?
+    (Not like in Bitcoin, but more like ecash~\cite{ecash} and the like.)
+  \end{question}
+\end{frame}
+
+
+\begin{frame}
+\begin{question}
+  How can we do \acp{LP} with 1000s of witnesses each?
+  Can we do some preprocessing?
+  Ad-hoc networks, broadcast \acp{LP}?
+\end{question}
+\end{frame}
+
+\begin{frame}
+\begin{question}
+  Why should anyone trust these witnesses?
+  What are the assumptions?
+  Signed over a short period of time?\footnote{%
+    In a sense, if they collude they have shown support for the cause.
+    As long as they are not Sybil it should be fine?
+  }
+\end{question}
+
+\pause
+
+\begin{question}
+  What if Alice acts as a witness for Eve's agents?
+  Can that violate her privacy?
+\end{question}
+
+\pause
+
+\begin{question}
+  What if Eve's agents act as witnesses?
+  Can they track their signatures to track users?
+  Can Alice detect if this happens?
+\end{question}
+\end{frame}
+
+\begin{frame}
+  \begin{question}
+    Malicious nodes want to provide Alice with a view that her proof is 
+    included.
+    Everyone else is provided a view without Alice.
+    How can we ensure a consistent view for everyone?
+    (Probably similar to the solution in Joakim's thesis.)
+  \end{question}
+
+  \begin{question}
+    Under the protest conditions, we might have natural network splits.
+    Is this a useful scenario?
+  \end{question}
+
+  \begin{question}
+    How can we do blockchain branch and merge?
+    That is needed to recover from the above attack.
+  \end{question}
+\end{frame}
+
+\begin{frame}
+  \begin{question}
+    Shall we offer a platform that is run by a variety of institutions who 
+    offers to verify protests?
+    Or go strictly peer-to-peer?
+  \end{question}
+  \begin{question}
+    If strictly peer-to-peer, and only run by protesters, one can infer that 
+    they are protesters by running such a node.
+    Can this be mitigated?
+  \end{question}
+\end{frame}
+
+\begin{frame}
+  \begin{question}
+    How do we submit the proofs to storage?
+    Voting normally uses mix-nets.
+    Submit over Tor~\cite{Tor}?
+  \end{question}
+
+  \mode<presentation>{
+  \begin{remark}
+    Without anonymous submission we don't get vote privacy, thus no receipt 
+    freeness either.
+  \end{remark}
+  }
+\end{frame}
+
+

@@ -1,6 +1,6 @@
 \mode*
-\subsection{Verification and privacy}
-\label{VerificationAndPrivacy}
+\section{The idea}%
+\label{TheIdea}
 
 Alice is an activist who organizes a demonstration for some cause.
 Her main goal after the protest is to provide verifiable data.
@@ -50,7 +50,7 @@ Furthermore, how can Alice protect the privacy of those in the photos?
 %  a vote Sunday that opposition forces say will mark the end of democracy
 %}
 
-\subsubsection{Verification}
+\subsection{Verification}%
 \label{Verification}
 
 We have an adversarial setting between Alice the activist and Eve the evil 
@@ -79,21 +79,6 @@ for verification~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
 We can translate these to the case of participation in a demonstration, then 
 each vote would be replaced by a proof of participation.
 
-If the proofs are stored publicly, then an individual can check that their 
-proof has been included there.
-Thus \cref{IndividualVerif} is fulfilled.
-To have any verifiability, we need the storage (e.g.\ blockchain) to be 
-immutable --- i.e.\ it prevents malicious changes.
-
-\begin{frame}<presentation>
-  \begin{idea}[V\ref{IndividualVerif} Individual verifiability]
-    \begin{itemize}
-      \item Proofs are stored publicly (e.g.\ blockchain).
-      \item Each participant can check that their proof is indeed included.
-    \end{itemize}
-  \end{idea}
-\end{frame}
-
 \Cref{EligibilityVerif} would in this case mean that anyone can verify that 
 each participation proof belongs to a unique individual, i.e.\ to prevent Sybil 
 attacks.
@@ -102,8 +87,20 @@ event.
 We must associate the proof to the event both spatially (the correct location) 
 and temporally (it is related to the time-interval of the event).
 We can essentially divide it into the following requirements:
-\begin{frame}
 \begin{requirements}[\ref*{EligibilityVerif}.]
+  \item\label{CountOnce} Prove that no individual can be counted more than 
+    once.
+  \item\label{CreatedAfterStart} Prove that the data was created after the 
+    start of the event.
+  \item\label{CreatedBeforeEnd} Prove that the data was created before the end 
+    of the event.
+  \item\label{SpatiallyRelated} Prove that the data is spatially related to the 
+    physical location of the event.
+  \item\label{DesignatedEvent} Prove that the data is designated for the event.
+\end{requirements}
+
+\begin{frame}<presentation>
+  \begin{requirements}[V\ref*{EligibilityVerif}.]
   \item\label{CountOnce} Prove that no individual can be counted more than 
     once.
   \item\label{CreatedAfterStart} Prove that the data was created after the 
@@ -116,9 +113,7 @@ We can essentially divide it into the following requirements:
 \end{requirements}
 \end{frame}
 
-\Cref{CountOnce} is required to prevent Sybil attacks.
-I.e.\ that one individual can provide two proofs of participation and thus be 
-counted twice, this situation should be detectable.
+\subsubsection{Temporal eligibility}
 
 \Cref{CreatedBeforeEnd,CreatedAfterStart} requires a \emph{partially ordered 
   set}\footnote{%
@@ -127,27 +122,192 @@ counted twice, this situation should be detectable.
 If some objects in the set relate to known points in time, then the partial 
 order relates the data to the time of the event.
 This allows us to \emph{verify the data temporally}.
-\Cref{SpatiallyRelated} binds the data spatially to the location, which allows 
-us to \emph{verify the data spatially}.
-Finally, there might be the case that there is also a counter protest at the 
-same time, these would have the same spatial and temporal properties.
-To distinguish them, we also need to prove for which of these events that a 
-proof is designated (\cref{DesignatedEvent}).
 
-If the storage is public, then anyone can download all the proofs, verify them 
-and count them.
-Thus anyone can verify the result, which fulfils \cref{UniversalVerif}.
+One primitive that fulfils \cref{CreatedAfterStart,CreatedBeforeEnd} is a 
+blockchain.
+There are also other structures, e.g.\ a directed graph that 
+converges~\cite{BlockchainFreeCryptocurrencies}.
+For generality, we will use the terminology of 
+\textcite{BlockchainFreeCryptocurrencies} and simply call this storage 
+structure \iac{tposet}.
 
 \begin{frame}<presentation>
-  \begin{idea}[V\ref{UniversalVerif} Universal verifiability]
+\begin{idea}[Temporal eligibility]
+  \begin{itemize}
+    \item There is a mechanism that provides the properties of a poset: a 
+      blockchain.
+
+    \item There are also other structures, e.g.\ a directed 
+      graph~\cite{BlockchainFreeCryptocurrencies}.
+  \end{itemize}
+\end{idea}
+\end{frame}
+
+\Cref{CreatedBeforeEnd} is straight-forward, Alice and Bob simply add their 
+proofs to the \ac{tposet} \emph{in (time-wise) relation to the event}.
+Then we know that they cannot have been created after the event.
+
+\begin{frame}<presentation>
+  \begin{idea}[Created before end]
     \begin{itemize}
-      \item Proofs are stored publicly.
-      \item Anyone can download all proofs, verify them and then count them.
+      \item Submit the proof to storage.
+      \item The proof must've been created before it was included (duh!).
     \end{itemize}
   \end{idea}
 \end{frame}
 
-\subsubsection{Privacy}
+For \cref{CreatedAfterStart} Alice and Bob must include an unpredictable value 
+in their proofs, e.g.\ the \enquote{head} of the \ac{tposet}.
+This means that they cannot create a proof and keep it for a future protest.
+
+They can use an older value (pick one from the history of the \ac{tposet}) when 
+they create their proofs.
+This will only expand the interval of possible creation into the past.
+This will not help their cause, as anyone will recognize that the proof could 
+be created at any time in that interval.
+
+\begin{frame}<presentation>
+  \begin{idea}[Created after start]
+    \begin{itemize}
+      \item Include an unpredictable value in the proof.
+      \item This could be e.g.\ the hash of the \enquote{head} of the 
+        \ac{tposet}.
+      \item This prevents creating proofs for future protests.
+    \end{itemize}
+  \end{idea}
+\end{frame}
+
+\begin{question}
+  How hard is it to reuse old proofs?
+  Forge all signatures due to changed values?
+\end{question}
+
+\subsubsection{Spatial eligibility}
+
+\Cref{SpatiallyRelated} binds the data spatially to the location, which allows 
+us to \emph{verify the data spatially}.
+
+If we include \iac{LP}, this will tie the proof to the physical location and, 
+thus, solve \cref{SpatiallyRelated}.
+The \ac{LP} is \enquote{witnessed} (signed) by other participants.
+The \ac{LP} contains coarse coordinates of the location, which must be within 
+the protest area to be valid.
+This allows Bob the protester to move within the protest area to collect 
+witnesses (signatures).
+It also provides privacy since the location cannot be used to deanonymize Bob's 
+proof --- e.g.\ to correlate the location in his proof with captured 
+surveillance footage.
+
+\begin{frame}<presentation>
+  \begin{idea}[Spatial eligibility]
+    \begin{itemize}
+      \item Include \iac{LP} which is \enquote{witnessed} (signed) by other 
+        participants.
+      \item We have a coarse location, just within protest area.
+      \item This allows protesters to move around to collect signatures.
+      \item This provides privacy for the location, e.g.\ cannot map to 
+        surveillance cameras.
+    \end{itemize}
+  \end{idea}
+\end{frame}
+
+\begin{question}
+  How can we do \acp{LP} with 1000s of witnesses each?
+  Can we do some preprocessing?
+  Ad-hoc networks, broadcast \acp{LP}?
+\end{question}
+\begin{question}
+  Why should anyone trust these witnesses?
+  What are the assumptions?
+  Signed over a short period of time?\footnote{%
+    In a sense, if they collude they have shown support for the cause.
+    As long as they are not Sybil it should be fine?
+  }
+\end{question}
+\begin{question}
+  Trusted party for the group signatures?
+\end{question}
+\begin{question}
+  Must tie credentials to something unique: phone, phone subscription?
+  Cannot register twice, government control?
+\end{question}
+
+\begin{question}
+  What if Alice acts as a witness for Eve's agents?
+  Can that violate her privacy?
+\end{question}
+\begin{question}
+  What if Eve's agents act as witnesses?
+  Can they track their signatures to track users?
+  Can Alice detect if this happens?
+\end{question}
+
+\subsubsection{Linkability and designated protest}
+
+\Cref{CountOnce} is required to prevent Sybil attacks.
+I.e.\ that one individual can provide two proofs of participation and thus be 
+counted twice, this situation should be detectable.
+We can do this by ensuring that Alice cannot produce two valid proofs which
+are unlinkable.
+This can be done by including a signature made by a verified key.
+
+There might be the case that there is also a counter protest at the same time, 
+these would have the same spatial and temporal properties.
+To distinguish them, we also need to prove for which of these events that a 
+proof is designated (\cref{DesignatedEvent}).
+This can be achieved by a unique identifier for a protest, e.g.\ the hash of 
+its \enquote{manifesto}.
+
+\begin{frame}<presentation>
+  \begin{idea}[Count once]
+    \begin{itemize}
+      \item Any two proofs by the same individual are linkable.
+      \item Includes signature made by a verified key.
+    \end{itemize}
+  \end{idea}
+
+  \pause{}
+
+  \begin{idea}[Designated event]
+    \begin{itemize}
+      \item Include a protest-specific identifier.
+      \item E.g.\ hash of the \enquote{manifesto}.
+    \end{itemize}
+  \end{idea}
+\end{frame}
+
+\subsubsection{Individual and universal verifiability}
+
+If the proofs are stored publicly, then an individual can check that their 
+proof has been included there.
+Thus \cref{IndividualVerif} is fulfilled.
+Similarly for universal verifiability.
+If the storage is public, then anyone can download all the proofs, verify their 
+eligibility and count them.
+Thus anyone can verify the result, which fulfils \cref{UniversalVerif}.
+To have any verifiability, we need the storage to be immutable --- i.e.\ it 
+prevents malicious changes.
+
+\begin{frame}<presentation>
+  \begin{idea}[Individual verifiability]
+    \begin{itemize}
+      \item Proofs are stored publicly.
+      \item Each participant can check that their proof is indeed included.
+    \end{itemize}
+  \end{idea}
+
+  \pause{}
+
+  \begin{idea}[Universal verifiability]
+    \begin{itemize}
+      \item Proofs are stored publicly.
+      \item Anyone can download all proofs, verify eligibility and then count 
+        them.
+    \end{itemize}
+  \end{idea}
+\end{frame}
+
+\subsection{Privacy}%
 \label{Privacy}
 
 We also need privacy in addition to the verification requirements.
@@ -170,8 +330,8 @@ In voting, we have the following requirements:
 \item\label{CoercionResistance} Coercion resistance: a voter cannot cooperate 
   with a coercer to prove the vote was cast in any particular way.
 \end{requirements}
-\pause
-\mode<presentation>{
+\pause{}
+\mode<presentation>{%
   \begin{remark}
     P\ref{CoercionResistance} \(\implies\)
     P\ref{ReceiptFreeness} \(\implies\)
@@ -198,6 +358,8 @@ This leaves us with \cref{ReceiptFreeness,VotePrivacy}.
   \end{remark}
 \end{frame}
 
+\subsubsection{Vote privacy}
+
 A demonstration is very different from voting in one sense: at a demonstration, 
 Alice must be physically present and that very presence shows her support for 
 the cause.
@@ -208,10 +370,6 @@ Hence, if Alice submits a proof of participation, the proof must be unlinkable
 to Alice, yet, if Alice submits another proof, those two proofs must be 
 linkable (due to eligibility verification, \cref{EligibilityVerif}) so that 
 Alice is not counted twice.
-Receipt freeness implies that Alice enjoys deniability against Eve:
-Eve should not be able to use the published proof to tie it to Alice, even if 
-Eve has access to Alice's device (i.e.\ all her private keys).
-I.e.\ Eve should not be able to reproduce the same proof.
 
 \begin{frame}<presentation>
   \begin{remark}
@@ -221,21 +379,91 @@ I.e.\ Eve should not be able to reproduce the same proof.
     \end{itemize}
   \end{remark}
 
-  \pause
+  \pause{}
 
-  \begin{idea}[P\ref{ReceiptFreeness} Receipt freeness]
+  \begin{idea}[Vote privacy]
+    \begin{itemize}
+      \item Eve shouldn't be able to link Alice's published proof back to 
+        Alice.
+      \item But if Alice publishes two proofs, those two are linkable.
+      \item We're not interested in unmasking trolls, just not count them more 
+        than once.
+    \end{itemize}
+  \end{idea}
+\end{frame}
+
+\subsubsection{Receipt freeness}
+
+Receipt freeness implies that Alice enjoys deniability against Eve:
+Eve should not be able to use the published proof to tie it to Alice, even if 
+Eve has access to Alice's device (i.e.\ all her private keys).
+I.e.\ Eve should not be able to reproduce the same proof and thus verify that 
+Alice has created one of the proofs.
+
+\begin{frame}<presentation>
+  \begin{idea}[Receipt freeness (deniability)]
     \begin{itemize}
       \item If Eve compromises Alice's device, she should not be able to use 
         it to verify that she participated.
 
-      \item But Alice should not be able to participate twice.
+      \item We need a signature scheme that cannot reproduce the same signature 
+        when run on the same inputs.
 
-      \item We need a signature scheme that cannot reproduce the same 
-        signature when run on the same inputs.
+      \item E.g.\ a short-term and a long-term credential, then Alice can 
+        drop the short-term credential.
 
-        \item E.g.\ a short-term and a long-term credential, then Alice can 
-          drop the short-term credential.
+      \item But Alice should still not be able to participate twice.
     \end{itemize}
   \end{idea}
+\end{frame}
+
+\begin{frame}
+  \begin{question}
+    Will such a signature scheme solve both problems?
+  \end{question}
+  \begin{question}
+    Is there such a signature scheme?
+    Can we construct it?
+  \end{question}
+  \begin{question}
+    What Alice submits her proof, stores the hash of the block, removes proof 
+    and signature key?
+  \end{question}
+\end{frame}
+
+\subsubsection{Architecture}
+
+We also have an architectural problem.
+If the system is only run by volunteering activists, then Eve can simply 
+analyse network traffic to detect who is running nodes in the system.
+
+\begin{frame}
+  \begin{question}
+    Shall we offer a platform that is run by a variety of institutions who 
+    offers to verify protests?
+    Or go strictly peer-to-peer?
+  \end{question}
+  \begin{question}
+    If strictly peer-to-peer, and only run by protesters, one can infer that 
+    they are protesters by running such a node.
+    Can this be mitigated?
+  \end{question}
+\end{frame}
+
+We would still have the problem of how protesters submit their proofs to the 
+system.
+This must be done anonymously.
+
+\begin{frame}
+  \begin{question}
+    How do we submit the proofs to storage?
+    Voting normally uses mix-nets.
+    Submit over Tor~\cite{Tor}?
+  \end{question}
+
+  \begin{remark}
+    Without anonymous submission we don't get vote privacy, thus no receipt 
+    freeness either.
+  \end{remark}
 \end{frame}
 
