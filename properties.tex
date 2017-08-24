@@ -129,6 +129,7 @@ One primitive that fulfils \cref{CreatedAfterStart,CreatedBeforeEnd} is a
 blockchain.
 There are also other structures, e.g.\ a directed graph that 
 converges~\cite{BlockchainFreeCryptocurrencies}.
+(See \cref{PosetGraph}.)
 For generality, we will use the terminology of 
 \textcite{BlockchainFreeCryptocurrencies} and simply call this storage 
 structure \iac{tposet}.
@@ -147,8 +148,42 @@ structure \iac{tposet}.
 \end{frame}
 }
 
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[->,auto,node distance=1.5cm,thick,
+    proof node/.style={rectangle,draw},
+    time node/.style={circle,draw}]
+
+    \node (prev) {\dots};
+    \node[time node] (ts) [right of=prev] {$t_s$};
+    \node[proof node] (pA) [right of=ts] {$p_A$};
+    \node[proof node] (pB) [below of=pA] {$p_B$};
+    \node[time node] (te) [right of=pA] {$t_e$};
+    \node (succ) [right of=te] {\dots};
+
+    \path
+    (prev) edge node [right] {} (ts)
+    (ts) edge node {} (pA)
+    (pA) edge node {} (te)
+    (ts) edge node {} (pB)
+    (pB) edge node {} (te)
+    (te) edge node {} (succ);
+
+  \end{tikzpicture}
+  \mode<article>{%
+    \caption{%
+      Alice submits proof \(p_A\) and Bob submits proof \(p_B\).
+      We have \(t_s\prec p_A, p_B\prec t_e\), but \((p_A, p_B)\notin \prec\) 
+      are incomparable.
+    }\label{PosetGraph}
+  }
+\end{figure}
+
 \Cref{CreatedBeforeEnd} is straight-forward, Alice and Bob simply add their 
 proofs to the \ac{tposet} \emph{in (time-wise) relation to the event}.
+In \cref{PosetGraph}, if \(t_e\) is verifiably related to the end of the 
+protest, then the relation will guarantee that \(p_A, p_B\) were created before 
+the end of the protest.
 Then we know that they cannot have been created after the event.
 
 \mode<presentation>{%
@@ -157,20 +192,23 @@ Then we know that they cannot have been created after the event.
     \begin{itemize}
       \item Submit the proof to storage.
       \item The proof must've been created before it was included (duh!).
+      \item If included before \(t_e\), then it was created before \(t_e\).
     \end{itemize}
   \end{idea}
 \end{frame}
 }
 
 For \cref{CreatedAfterStart} Alice and Bob must include an unpredictable value 
-in their proofs, e.g.\ the \enquote{head} of the \ac{tposet}.
-This means that they cannot create a proof and keep it for a future protest.
+in their proofs, e.g.\ \(t_s\) in \cref{PosetGraph}.
+This means that if \(t_s\) is sufficiently close (time-wise) to the protest and 
+has sufficiently high entropy, then Alice or Bob cannot create a proof and keep 
+it for a future protest.
 
 They can use an older value (pick one from the history of the \ac{tposet}) when 
 they create their proofs.
 This will only expand the interval of possible creation into the past.
 This will not help their cause, as anyone will recognize that the proof could 
-be created at any time in that interval.
+be created at any time in that interval, i.e.\ possibly before the protest.
 
 \mode<presentation>{%
 \begin{frame}
@@ -178,7 +216,7 @@ be created at any time in that interval.
     \begin{itemize}
       \item Include an unpredictable value in the proof.
       \item This could be e.g.\ the hash of the \enquote{head} of the 
-        \ac{tposet}.
+        \ac{tposet}, (\(t_s\) in the figure).
       \item This prevents creating proofs for future protests.
     \end{itemize}
   \end{idea}
