@@ -2,14 +2,29 @@
 
 \section{Security}
 
-\subsection{Stealing participation}
+\subsection{Reusing participation proofs}
+
+We consider two ways of reusing participation proofs:
+\begin{enumerate}
+  \item Alice and Bob can reuse old proofs by modifying the identifiers.
+  \item Eve can reuse proofs by creating a manifesto which yields the same 
+    identifier as Alice's protest, then try to create new nodes in the 
+    \ac{tposet} that matches the ones used in the old proofs.
+\end{enumerate}
+We will now estimate the difficulty of both types of attacks.
+
+\subsubsection{Forging new proofs}
+
+\dots
+
+\subsubsection{Finding second preimages}
 
 The Eve (possibly with Rusuk's aid) wants to arrange a counter-protest in Eve's 
 favour.
 One way to get a higher participation count is to use the same identifier as 
 Alice's protest.
 Since the identifier for the protest is the hash value of the manifest, Eve 
-must find a second pre-image for the hash function.
+must find a second preimage for the hash function.
 
 \mode<presentation>{%
 \begin{frame}
@@ -17,7 +32,7 @@ must find a second pre-image for the hash function.
     \item Eve wants to arrange a counter-protest.
     \item She wants to steal some of Alice's participants' proofs.
     \item To do this she must have an identifier that matches.
-    \item I.e.\ she must find a second pre-image for the hash function.
+    \item I.e.\ she must find a second preimage for the hash function.
   \end{itemize}
 \end{frame}
 }
@@ -30,5 +45,5 @@ must find a second pre-image for the hash function.
 
 \begin{question}
   What if we use a Merkle tree instead of only a hash, will that change the 
-  second pre-image property?
+  second preimage property?
 \end{question}
