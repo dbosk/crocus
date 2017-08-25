@@ -527,6 +527,20 @@ count them more than once.
 \end{frame}
 }
 
+\begin{frame}
+  \begin{remark}
+    \begin{itemize}
+      \item Unique ring signatures~\cite{UniqueRingSignatures} has this 
+        property: two signatures are linked with high probability.
+      \item We need keys strongly tied to identities to prevent Sybil.
+    \end{itemize}
+  \end{remark}
+
+  \begin{question}
+    Can we link a verified key to a unique ring signature key?
+  \end{question}
+\end{frame}
+
 \subsubsection{Receipt freeness}
 
 Receipt freeness implies that Alice enjoys deniability against Eve:
@@ -556,16 +570,19 @@ Alice has created one of the proofs.
 
 \begin{frame}
   \begin{question}
-    Will such a signature scheme solve both problems?
-  \end{question}
-  \begin{question}
     Is there such a signature scheme?
     Can we construct it?
   \end{question}
-  \begin{question}
-    What Alice submits her proof, stores the hash of the block, removes proof 
-    and signature key?
-  \end{question}
+
+  \pause{}
+
+  \begin{remark}
+    \begin{itemize}
+      \item Alice submits her proof.
+      \item She stores the hash of the head of the \ac{tposet}.
+      \item She removes the proof and signature key.
+    \end{itemize}
+  \end{remark}
 \end{frame}
 
 \subsubsection{Architecture}
@@ -574,18 +591,17 @@ We also have an architectural problem.
 If the system is only run by volunteering activists, then Eve can simply 
 analyse network traffic and look for people running nodes in the system.
 
-\begin{frame}
-  \begin{question}
-    Shall we offer a platform that is run by a variety of institutions who 
-    offers to verify protests?
-    Or go strictly peer-to-peer?
-  \end{question}
-  \begin{question}
-    If strictly peer-to-peer, and only run by protesters, one can infer that 
-    they are protesters by running such a node.
-    Can this be mitigated?
-  \end{question}
-\end{frame}
+\begin{question}
+  Shall we offer a platform that is run by a variety of institutions who 
+  offers to verify protests?
+  Or go strictly peer-to-peer?
+\end{question}
+
+\begin{question}
+  If strictly peer-to-peer, and only run by protesters, one can infer that 
+  they are protesters by running such a node.
+  Can this be mitigated?
+\end{question}
 
 Similarly, we have the problem of how protesters submit their proofs to the 
 system.
