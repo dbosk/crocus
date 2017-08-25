@@ -2,6 +2,10 @@
 
 \section{Security}
 
+\subsection{Forging new proofs}
+
+It follows from the digital signatures used that proofs are difficult to forge.
+
 \subsection{Reusing participation proofs}
 
 We consider two ways of reusing participation proofs:
@@ -12,10 +16,6 @@ We consider two ways of reusing participation proofs:
     \ac{tposet} that matches the ones used in the old proofs.
 \end{enumerate}
 We will now estimate the difficulty of both types of attacks.
-
-\subsubsection{Forging new proofs}
-
-\dots
 
 \subsubsection{Finding second preimages}
 
@@ -47,8 +47,25 @@ must find a second preimage for the hash function.
   second preimage property?
 \end{question}
 
+Alice wants to arrange another protest against Eve.
+Her manifesto can remain the same, thus the protest identifier remains the 
+same.
+She wants to reuse some old proofs.
+The head value that are included in the proofs extend them too far back into 
+time.
+The digital signatures prevents her from changing them.
+So an alternative is to create nodes in the \ac{tposet} which has the same 
+hashes.
+
 \subsection{Spoofing locations}
 
 \subsubsection{Trust propagation for witnesses}
 
 \dots
+
+\subsection{Individual verifiability}
+
+Eve and Rusuk has an incentive to lower the confidence in the result.
+One way they can do this is to say that the result does not contain all 
+participation proofs.
+Statements such as this should be proved: provide a valid but missing proof.
