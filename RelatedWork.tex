@@ -28,7 +28,8 @@ photos are taken at the same point in time with no overlap, since then no one
 can be counted twice.
 Unfortunately, we can only get the peak participation with this method.
 
-When it comes to authenticity, we have to rely on the photos.
+When it comes to spatial and temporal verifiability, we have to rely on the 
+photos.
 We can try to determine from the photos themselves when and where the they were 
 taken.
 However, the best we can do is to employ forensic methods to try to detect any 
@@ -74,7 +75,6 @@ Seoul
 }.
 This method is not verifiable unless the user takes a picture of the crowd, 
 then it inherits the verifiability properties of the previous method.
-The same for authenticity.
 
 \mode<presentation>{%
 \begin{frame}
@@ -115,10 +115,13 @@ We might be able to provide some degree of individual verifiability
 (\cref{IndividualVerif}), but this might still be difficult.
 Also, it is difficult (if not impossible) to not count people twice, thus we 
 cannot argue for eligibility verifiability (\cref{EligibilityVerif}).
-Furthermore, it is still difficult capture the entire location on surveillance 
-video.
-The authenticity properties are reduced to those of the video, which should be 
-similar as in our discussion about the authenticity of photos.
+In theory, this class of methods will provide an upper bound, whereas our 
+method provides a lower bound.
+However, it is still difficult capture the entire location on surveillance 
+video, which diminishes the argument for an upper bound.
+The spatial and temporal verifiability properties are reduced to those of the 
+video, which should be similar as in our discussion about the verifiability of 
+photos above.
 
 \mode<presentation>{%
 \begin{frame}
@@ -168,9 +171,8 @@ However, this method required many assumptions:
   on smartphone usage. It also assumed that about 20 percent of the smartphone 
   signals were repetition from the same device.
 }
-This method cannot provide any verifiability nor authenticity, we must trust 
-the company to do the measurements correctly and to be honest about when and 
-where they did them.
+This method cannot provide any verifiability, we must trust the company to do 
+the measurements correctly and to be honest about when and where they did them.
 As MAC address randomization get wider adoption this will be even more 
 difficult, although some tracking of smartphones will still be 
 possible~\cite{WhyMACRandomizationIsNotEnough}.
@@ -204,9 +206,8 @@ bystanders will also be counted.
 Second, since the phone is a unique identifier, participants might be 
 uncomfortable to be registered in association with the event and might thus 
 turn the device off.
-Finally, there will be limited verifiability and authenticity, as the data 
-recorder must be trusted to record all data and do it in the relation to the 
-event.
+Finally, there will be limited verifiability, as the data recorder must be 
+trusted to record all data and do it in the relation to the event.
 
 \mode<presentation>{%
 \begin{frame}
@@ -233,8 +234,7 @@ event.
 Wi-Fi signal as a sonar to detect people.
 However this method is designed for indoor use and does not scale to more than 
 a crowd of 20 people.
-In either case, this type of data cannot provide verifiability nor 
-authenticity.
+In either case, this type of data cannot provide verifiability.
 
 In general for all of the above methods, the more a crowd spreads out, the more
 difficult it will be to determine its size:
@@ -255,9 +255,9 @@ This is a web service which lets Alice create an event and Bob can submit his
 location to register that he is in Alice's event.
 This solves the problem that it counts everyone (who submitted), not just the 
 count at the snapshot of the photos.
-However, there is no verification nor authenticity, i.e.\ the service must be 
-trusted to behave honestly, but even then, nothing prevents Bob from submitting 
-twice (violating eligibility verification, \cref{EligibilityVerif}).
+However, there is no verification, i.e.\ the service must be trusted to behave 
+honestly, but even then, nothing prevents Bob from submitting twice (violating 
+eligibility verification, \cref{EligibilityVerif}).
 Another downside is that the service also requires an Internet connection 
 during the event to register as a participant.
 This can make it difficult to use if e.g.\ Alice has organized a protest 
