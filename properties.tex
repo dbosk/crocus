@@ -334,25 +334,50 @@ proof is designated.
 This can be achieved by a unique identifier for a protest, e.g.\ the hash of 
 its \enquote{manifesto}.
 
-\mode<presentation>{%
 \begin{frame}
-  \begin{idea}[Count once]
-    \begin{itemize}
-      \item Any two proofs by the same individual are linkable.
-      \item Includes signature made by a verified key.
-    \end{itemize}
-  \end{idea}
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    \tikzset{grow'=right,level distance=5em}
+    \Tree [.Proof
+      [.{wsig} {\(x,y\)} [.{\mode<presentation>{\only<1>{\color{red}}} osig} 
+      [.{\mode<presentation>{\only<2>{\color{red}}}\(id\)} manifesto ] head ] 
+      [.tsig head$'$ ] ]
+      {\dots}
+      [.{wsig} {\dots} ]
+    ]
+  \end{tikzpicture}
+  \mode<article>{%
+    \caption{%
+      The proof depends on several witness signatures (wsig), each of which 
+      depends on the owner's signature (osig), which depends on the \(id\) of the
+      protest and the head of the \ac{tposet}.
+      Whenever possible, the witness signature should include proof that the 
+      witness themself has been witnessed by a trusted witness (tsig).
+    }
+  }
+\end{figure}
 
-  \pause{}
+\mode<presentation>{%
+  \only<1>{%
+    \begin{idea}[Count once]
+      \begin{itemize}
+        \item Any two proofs by the same individual are linkable.
+        \item Includes signature made by a verified key.
+      \end{itemize}
+    \end{idea}
+  }
 
-  \begin{idea}[Designated event]
-    \begin{itemize}
-      \item Include a protest-specific identifier.
-      \item E.g.\ hash of the \enquote{manifesto}.
-    \end{itemize}
-  \end{idea}
-\end{frame}
+  \only<2>{%
+    \begin{idea}[Designated event]
+      \begin{itemize}
+        \item Include a protest-specific identifier.
+        \item E.g.\ hash of the \enquote{manifesto}.
+      \end{itemize}
+    \end{idea}
+  }
 }
+\end{frame}
 
 \subsubsection{Individual and universal verifiability}
 

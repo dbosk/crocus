@@ -201,29 +201,6 @@ More formally, we define a participation proof as follows.
 \end{question}
 \end{frame}
 
-\begin{frame}
-\begin{figure}
-  \centering
-  \begin{tikzpicture}
-    \tikzset{grow'=right,level distance=5em}
-    \Tree [.Proof
-      [.{wsig} {\(x,y\)} [.{osig} [.{\(id\)} manifesto ] head ] [.tsig head'' ] ]
-      {\dots}
-      [.{wsig} {\dots} ]
-    ]
-  \end{tikzpicture}
-  \mode<article>{%
-    \caption{%
-      The proof depends on several witness signatures (wsig), each of which 
-      depends on the owner's signature (osig), which depends on the \(id\) of the
-      protest and the head of the \ac{tposet}.
-      Whenever possible, the witness signature should include proof that the 
-      witness themself has been witnessed by a trusted witness (tsig).
-    }
-  }
-\end{figure}
-\end{frame}
-
 \subsection{Adversary model}
 
 We have three adversaries: Alice herself, Eve and Rusuk.
