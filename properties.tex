@@ -178,6 +178,28 @@ structure \iac{tposet}.
     }\label{PosetGraph}
   }
 \end{figure}
+
+\mode<presentation>{%
+  \only<1>{%
+    \begin{idea}[Created before end]
+      \begin{itemize}
+        \item Submit the proof to storage.
+        \item The proof must've been created before it was included (duh!).
+        \item If included before \(t_e\), then it was created before \(t_e\).
+      \end{itemize}
+    \end{idea}
+  }
+  \only<2>{%
+    \begin{idea}[Created after start]
+      \begin{itemize}
+        \item Include an unpredictable value in the proof.
+        \item This could be e.g.\ the hash of the \enquote{head} of the 
+          \ac{tposet}, (\(t_s\) in the figure).
+        \item This prevents creating proofs for future protests.
+      \end{itemize}
+    \end{idea}
+  }
+}
 \end{frame}
 
 \Cref{CreatedBeforeEnd} is straight-forward, Alice and Bob simply add their 
@@ -186,18 +208,6 @@ In \cref{PosetGraph}, if \(t_e\) is verifiably related to the end of the
 protest, then the relation will guarantee that \(p_A, p_B\) were created before 
 the end of the protest.
 Then we know that they cannot have been created after the event.
-
-\mode<presentation>{%
-\begin{frame}
-  \begin{idea}[Created before end]
-    \begin{itemize}
-      \item Submit the proof to storage.
-      \item The proof must've been created before it was included (duh!).
-      \item If included before \(t_e\), then it was created before \(t_e\).
-    \end{itemize}
-  \end{idea}
-\end{frame}
-}
 
 For \cref{CreatedAfterStart} Alice and Bob must include an unpredictable value 
 in their proofs, e.g.\ \(t_s\) in \cref{PosetGraph}.
@@ -210,19 +220,6 @@ they create their proofs.
 This will only expand the interval of possible creation into the past.
 This will not help their cause, as anyone will recognize that the proof could 
 be created at any time in that interval, i.e.\ possibly before the protest.
-
-\mode<presentation>{%
-\begin{frame}
-  \begin{idea}[Created after start]
-    \begin{itemize}
-      \item Include an unpredictable value in the proof.
-      \item This could be e.g.\ the hash of the \enquote{head} of the 
-        \ac{tposet}, (\(t_s\) in the figure).
-      \item This prevents creating proofs for future protests.
-    \end{itemize}
-  \end{idea}
-\end{frame}
-}
 
 \begin{question}
   How hard is it to reuse old proofs?
@@ -269,8 +266,36 @@ surveillance footage.
   }
 \end{question}
 
+\mode<presentation>{%
+\begin{frame}
+  \begin{idea}[Transitive trust]
+    \begin{itemize}
+      \item Trusted journalist Jane attends to report.
+      \item She witnesses Alice's and Bob's proofs.
+
+        \pause{}
+
+      \item Physical transportation is limited.
+      \item Accuracy of Alice's witnessing is proportional to time from Jane's 
+        witnessing.
+    \end{itemize}
+  \end{idea}
+
+  \pause{}
+
+  \begin{remark}
+    \begin{itemize}
+      \item Alice's signature key must have the physical travel properties, 
+        embedded in hardware.
+      \item Alice's witness signature must depend on Jane's.
+      \item High-precision relation to time?
+    \end{itemize}
+  \end{remark}
+\end{frame}
+}
+
 We will introduce a notion of transitivity for trust in these proofs.
-The \emph{trusted} journalist Jane the protest to report on it.
+The \emph{trusted} journalist Jane attends the protest to report on it.
 She witnesses some participants' \acp{LP}, say Alice's \ac{LP} for example.
 Now Alice's \ac{LP} can be trusted as correct at that point in time.
 Alice's ability to travel is physically limited.
