@@ -10,11 +10,11 @@
   \node (succ) [right of=te] {\dots};
 
   \path
-  (prev) edge node [right] {} (ts)
-  (ts) edge node {} (pA)
-  (pA) edge node {} (te)
-  (ts) edge node {} (pB)
-  (pB) edge node {} (te)
-  (te) edge node {} (succ);
+  (succ) edge node {} (te)
+  (te) edge node {} (pB)
+  (pB) edge node {} (ts)
+  (te) edge node {} (pA)
+  (pA) edge node {} (ts)
+  (ts) edge node {} (prev);
 
 \end{tikzpicture}
