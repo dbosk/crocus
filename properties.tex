@@ -228,11 +228,23 @@ surveillance footage.
 
 \mode<presentation>{%
 \begin{frame}
+  \begin{figure}
+    \centering
+    \begin{tikzpicture}
+      \tikzset{grow'=right,level distance=5em}
+      \Tree [.Proof
+      [.{wsig} {\(x,y\)} {$t_s$} ]
+      {\dots}
+      [.{wsig} {\dots} ]
+      ]
+    \end{tikzpicture}
+  \end{figure}
+
   \begin{idea}[Spatial eligibility]
     \begin{itemize}
       \item Include \iac{LP} which is \enquote{witnessed} (signed) by other 
         participants.
-      \item We have a coarse location, just within protest area.
+      \item We have a coarse location, just within the protest area.
       \item This allows protesters to move around to collect signatures.
       \item This provides privacy for the location, e.g.\ cannot map to 
         surveillance cameras.
@@ -255,22 +267,34 @@ surveillance footage.
   \begin{idea}[Transitive trust]
     \begin{itemize}
       \item Trusted journalist Jane attends to report.
-      \item She witnesses Alice's and Bob's proofs.
+      \item She witnesses Alice's proof.
 
         \pause{}
 
-      \item Physical transportation is limited.
-      \item Accuracy of Alice's witnessing is proportional to time from Jane's 
-        witnessing.
+      \item Alice witnesses Bob's proof.
+      \item Alice's (secret key's) transportation is physically limited.
+      \item Trust on Bob's proof is proportional to time from when Jane 
+        witnessed Alice's proof.
     \end{itemize}
   \end{idea}
+\end{frame}
 
-  \pause{}
+\begin{frame}
+  \begin{figure}
+    \centering
+    \begin{tikzpicture}
+      \tikzset{grow'=right,level distance=5em}
+      \Tree [.Proof
+      [.{wsig} {\(x,y\)} {$t_s$} [.{\color{red}tsig} {$t_s'$} ] ]
+      {\dots}
+      [.{wsig} {\dots} ]
+      ]
+    \end{tikzpicture}
+  \end{figure}
 
   \begin{remark}
     \begin{itemize}
-      \item Alice's signature key must have the physical travel properties, 
-        embedded in hardware.
+      \item Secret key in hardware.
       \item Alice's witness signature must depend on Jane's.
       \item High-precision relation to time?
     \end{itemize}
@@ -345,16 +369,31 @@ its \enquote{manifesto}.
 \begin{frame}
 \begin{figure}
   \centering
-  \begin{tikzpicture}
-    \tikzset{grow'=right,level distance=5em}
-    \Tree [.Proof
-      [.{wsig} {\(x,y\)} [.{\mode<presentation>{\only<1>{\color{red}}} osig} 
-      [.{\mode<presentation>{\only<2>{\color{red}}}\(id\)} manifesto ] head ] 
-      [.tsig head$'$ ] ]
+  \mode<presentation>{%
+    \only<1>{%
+      \begin{tikzpicture}
+        \tikzset{grow'=right,level distance=5em}
+        \Tree [.Proof
+        [.{wsig} {\(x,y\)} {$t_s$} [.{\color{red}osig} {$t_s'$} ] [.tsig 
+        {$t_s''$} ] ]
+        {\dots}
+        [.{wsig} {\dots} ]
+        ]
+      \end{tikzpicture}
+    }
+  }
+  \only<2>{%
+    \begin{tikzpicture}
+      \tikzset{grow'=right,level distance=5em}
+      \Tree [.Proof
+      [.{wsig} {\(x,y\)} {$t_s$} [.{osig} 
+      [.{\mode<presentation>{\color{red}}\(id\)} manifesto ] {$t_s'$} ] [.tsig 
+      {$t_s''$} ] ]
       {\dots}
       [.{wsig} {\dots} ]
-    ]
-  \end{tikzpicture}
+      ]
+    \end{tikzpicture}
+  }
   \mode<article>{%
     \caption{%
       The proof depends on several witness signatures (wsig), each of which 
