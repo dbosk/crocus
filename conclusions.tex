@@ -18,35 +18,34 @@ And finally, most of the current methods are estimates, with quite some error
 margins, so they cannot give the correct participation count.
 
 \begin{frame}<presentation>
-  \begin{remark}
+  \begin{block}{Verifiability}
     \begin{itemize}
       \item All current methods lack most of verifiability.
-      \item Some provide universal verifiability.
-
-        \pause{}
-
-      \item Most cannot estimate the correct participation count.
+      \item Some can provide universal verifiability.
     \end{itemize}
-  \end{remark}
+  \end{block}
+
+  \pause{}
+
+  \begin{block}{Correctness}
+    \begin{itemize}
+      \item Most cannot estimate the correct participation count.
+      \item Some can (theoretically) give an upper bound.
+    \end{itemize}
+  \end{block}
 \end{frame}
 
 \subsection{Open problems}
 
 \begin{frame}
+  \frametitle{Sybil}
   \begin{question}
     How to solve Sybil, can we piggyback on existing \acp{PKI}?
-    E.g.~\cite{Cinderella}.
+    E.g.\ through~\cite{Cinderella}.
   \end{question}
 
   \begin{question}
-    Government can sign as many certificates as they like using their national 
-    ID systems.
-    How to deal with this?
-  \end{question}
-
-  \begin{question}
-    Tie to something unique: phone, phone subscription?
-    Register twice?
+    Can we otherwise bind identifiable keys to unique ring signature keys?
   \end{question}
 
   \begin{question}
@@ -56,53 +55,15 @@ margins, so they cannot give the correct participation count.
   \end{question}
 \end{frame}
 
-
 \begin{frame}
-\begin{question}
-  How can we do \acp{LP} with 1000s of witnesses each?
-  Can we do some preprocessing?
-  Ad-hoc networks, broadcast \acp{LP}?
-\end{question}
-\end{frame}
-
-\begin{frame}
-\begin{question}
-  Why should anyone trust these witnesses?
-  What are the assumptions?
-  Signed over a short period of time?\footnote{%
-    In a sense, if they collude they have shown support for the cause.
-    As long as they are not Sybil it should be fine?
-  }
-\end{question}
-
-\pause{}
-
-\begin{question}
-  What if Alice acts as a witness for Eve's agents?
-  Can that violate her privacy?
-\end{question}
-
-\pause{}
-
-\begin{question}
-  What if Eve's agents act as witnesses?
-  Can they track their signatures to track users?
-  Can Alice detect if this happens?
-\end{question}
-\end{frame}
-
-\begin{frame}
+  \frametitle{Distributed systems}
   \begin{question}
-    Malicious nodes want to provide Alice with a view that her proof is 
-    included.
-    Everyone else is provided a view without Alice.
-    How can we ensure a consistent view for everyone?
-    (Probably similar to the solution in Joakim's thesis.)
-  \end{question}
-
-  \begin{question}
-    Under the protest conditions, we might have natural network splits.
-    Is this a useful scenario?
+    \begin{itemize}
+      \item Malicious nodes want to provide Alice with a view that her proof is 
+        included.
+      \item Everyone else is provided a view without Alice.
+      \item How can we ensure a consistent view for everyone?
+    \end{itemize}
   \end{question}
 
   \begin{question}
@@ -112,30 +73,20 @@ margins, so they cannot give the correct participation count.
 \end{frame}
 
 \begin{frame}
-  \begin{question}
-    Shall we offer a platform that is run by a variety of institutions who 
-    offers to verify protests?
-    Or go strictly peer-to-peer?
-  \end{question}
-  \begin{question}
-    If strictly peer-to-peer, and only run by protesters, one can infer that 
-    they are protesters by running such a node.
-    Can this be mitigated?
-  \end{question}
-\end{frame}
-
-\begin{frame}
+  \frametitle{Anonymous communication}
   \begin{question}
     How do we submit the proofs to storage?
-    Voting normally uses mix-nets.
-    Submit over Tor~\cite{Tor}?
   \end{question}
 
   \mode<presentation>{%
-  \begin{remark}
-    Without anonymous submission we don't get vote privacy, thus no receipt 
-    freeness either.
-  \end{remark}
+    \begin{remark}
+      \begin{itemize}
+        \item Without anonymous submission we don't get proof privacy, thus no 
+          receipt freeness either.
+        \item Voting normally uses mix-nets.
+        \item Submit over Tor~\cite{Tor}?
+      \end{itemize}
+    \end{remark}
   }
 \end{frame}
 
