@@ -49,26 +49,7 @@ margins, so they cannot give the correct participation count.
   \end{question}
 
   \begin{question}
-    This is similar to the double-spending problem for cryptocurrencies, can 
-    we reuse any such techniques?
-    (Not like in Bitcoin, but more like ecash~\cite{ecash} and the like.)
-  \end{question}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Distributed systems}
-  \begin{question}
-    \begin{itemize}
-      \item Malicious nodes want to provide Alice with a view that her proof is 
-        included.
-      \item Everyone else is provided a view without Alice.
-      \item How can we ensure a consistent view for everyone?
-    \end{itemize}
-  \end{question}
-
-  \begin{question}
-    How can we do blockchain branch and merge?
-    That is needed to recover from the above attack.
+    Can we achieve receipt freeness and protect from Sybil?
   \end{question}
 \end{frame}
 
@@ -88,6 +69,22 @@ margins, so they cannot give the correct participation count.
       \end{itemize}
     \end{remark}
   }
+\end{frame}
+
+\begin{frame}
+  \frametitle{Blockchains, distributed systems}
+  \begin{question}
+    \begin{itemize}
+      \item Malicious nodes want to provide Alice with a view that her proof is 
+        included.
+      \item Everyone else is provided a view without Alice.
+      \item How can we ensure a consistent view for everyone?
+    \end{itemize}
+  \end{question}
+
+  \begin{question}
+    Can we do blockchain branch and merge?
+  \end{question}
 \end{frame}
 
 
