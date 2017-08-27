@@ -5,14 +5,21 @@
 Alice is an activist who organizes a demonstration for some cause.
 Her main goal after the protest is to provide verifiable data.
 There are several problems:
-\begin{frame}
 \begin{itemize}
   \item Alice must prove that the data is related to the event, that it is not 
     reused data from previous protests.
   \item Alice must provide data which can be used for the desired verification.
   \item Alice must also consider the privacy of the participating individuals.
 \end{itemize}
+
+\begin{frame}<presentation>
+  \begin{itemize}
+    \item Alice must prove that the data is related to the event.
+    \item Alice must provide data with verifiable properties.
+    \item Alice must consider the privacy of the participants.
+  \end{itemize}
 \end{frame}
+
 Since many of the current techniques are based on photos, we will give an 
 example of Alice's problems in that setting.
 How can she ensure that photos from a demonstration are authentic?
@@ -133,24 +140,10 @@ For generality, we will use the terminology of
 \textcite{BlockchainFreeCryptocurrencies} and simply call this storage 
 structure \iac{tposet}.
 
-\mode<presentation>{%
-\begin{frame}
-\begin{idea}[Temporal eligibility]
-  \begin{itemize}
-    \item There is a mechanism that provides the properties of a poset: a 
-      blockchain.
-
-    \item There are also other structures, e.g.\ a directed 
-      graph~\cite{BlockchainFreeCryptocurrencies}.
-  \end{itemize}
-\end{idea}
-\end{frame}
-}
-
 \begin{frame}
 \begin{figure}
   \centering
-  \input{fig-tposet.tex}
+  \input{fig/tposet.tex}
   \mode<article>{%
     \caption{%
       Alice submits proof \(p_A\) and Bob submits proof \(p_B\).
@@ -162,6 +155,16 @@ structure \iac{tposet}.
 
 \mode<presentation>{%
   \only<1>{%
+    \begin{idea}[Temporal eligibility]
+      \begin{itemize}
+        \item We need a partially ordered set (poset).
+        \item There is a mechanism that provides this property: a blockchain.
+        \item There are also other structures, e.g.\ a directed 
+          graph~\cite{BlockchainFreeCryptocurrencies}.
+      \end{itemize}
+    \end{idea}
+  }
+  \only<2>{%
     \begin{idea}[Created before end]
       \begin{itemize}
         \item Submit the proof to storage.
@@ -170,7 +173,7 @@ structure \iac{tposet}.
       \end{itemize}
     \end{idea}
   }
-  \only<2>{%
+  \only<3>{%
     \begin{idea}[Created after start]
       \begin{itemize}
         \item Include an unpredictable value in the proof.
