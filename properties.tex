@@ -552,11 +552,8 @@ count them more than once.
 
 \begin{frame}
   \begin{remark}
-    \begin{itemize}
-      \item Unique ring signatures~\cite{UniqueRingSignatures} has this 
-        property: two signatures are linked with high probability.
-      \item We need keys strongly tied to identities to prevent Sybil.
-    \end{itemize}
+    Unique ring signatures~\cite{UniqueRingSignatures} has this property: two 
+    signatures are linked with high probability.
   \end{remark}
 
   \begin{question}
@@ -599,14 +596,23 @@ Alice has created one of the proofs.
 
   \pause{}
 
-  \begin{remark}
-    \begin{itemize}
-      \item Alice submits her proof.
-      \item She stores the hash of the head of the \ac{tposet}.
-      \item She removes the proof and signature key.
-    \end{itemize}
-  \end{remark}
+  \mode<presentation>{%
+    \begin{remark}
+      \begin{itemize}
+        \item Alice submits her proof.
+        \item She stores the hash of the head of the \ac{tposet}.
+        \item She removes the proof and signature key.
+      \end{itemize}
+    \end{remark}
+  }
 \end{frame}
+
+Say that Alice submits her proof and stores the hash of the head of the 
+\ac{tposet} after her proof is included.
+Now she can remove her proof and just keep the hash to verify that her proof is 
+still there.
+She can also remove her signature key, so that Eve cannot use it to reproduce 
+the signature using the same inputs.
 
 \subsubsection{Architecture}
 
