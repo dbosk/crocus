@@ -1,0 +1,20 @@
+\begin{tikzpicture}[->,auto,node distance=1.5cm,thick,
+  proof node/.style={rectangle,draw},
+  time node/.style={circle,draw}]
+
+  \node (prev) {\dots};
+  \node[time node] (ts) [right of=prev] {$t_s$};
+  \node[proof node] (pA) [right of=ts] {$p_A$};
+  \node[proof node] (pB) [below of=pA] {$p_B$};
+  \node[time node] (te) [right of=pA] {$t_e$};
+  \node (succ) [right of=te] {\dots};
+
+  \path
+  (prev) edge node [right] {} (ts)
+  (ts) edge node {} (pA)
+  (pA) edge node {} (te)
+  (ts) edge node {} (pB)
+  (pB) edge node {} (te)
+  (te) edge node {} (succ);
+
+\end{tikzpicture}
