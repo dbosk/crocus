@@ -265,7 +265,7 @@ surveillance footage.
   }
 \end{question}
 
-\mode<presentation>{%
+\mode<none>{%
 \begin{frame}
   \begin{idea}[Transitive trust]
     \begin{itemize}
@@ -377,8 +377,9 @@ its \enquote{manifesto}.
       \begin{tikzpicture}
         \tikzset{grow'=right,level distance=5em}
         \Tree [.Proof
-        [.{wsig} {\(x,y\)} {$t_s$} [.{\color{red}osig} {$t_s'$} ] [.tsig 
-        {$t_s''$} ] ]
+        [.{wsig} {\(x,y\)} {$t_s$} [.{\color{red}osig} {$t_s'$} ]
+        %[.tsig {$t_s''$} ]
+        ]
         {\dots}
         [.{wsig} {\dots} ]
         ]
@@ -390,8 +391,9 @@ its \enquote{manifesto}.
       \tikzset{grow'=right,level distance=5em}
       \Tree [.Proof
       [.{wsig} {\(x,y\)} {$t_s$} [.{osig} 
-      [.{\mode<presentation>{\color{red}}\(id\)} manifesto ] {$t_s'$} ] [.tsig 
-      {$t_s''$} ] ]
+      [.{\mode<presentation>{\color{red}}\(id\)} manifesto ] {$t_s'$} ]
+      %[.tsig {$t_s''$} ]
+      ]
       {\dots}
       [.{wsig} {\dots} ]
       ]
