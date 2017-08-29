@@ -158,13 +158,16 @@ structure \iac{tposet}.
     \begin{idea}[Temporal eligibility]
       \begin{itemize}
         \item We need a partially ordered set (poset).
+
+          \pause{}
+
         \item There is a mechanism that provides this property: a blockchain.
         \item There are also other structures, e.g.\ a directed 
           graph~\cite{BlockchainFreeCryptocurrencies}.
       \end{itemize}
     \end{idea}
   }
-  \only<2>{%
+  \only<3>{%
     \begin{idea}[Created before end]
       \begin{itemize}
         \item Submit the proof to storage.
@@ -173,7 +176,7 @@ structure \iac{tposet}.
       \end{itemize}
     \end{idea}
   }
-  \only<3>{%
+  \only<4>{%
     \begin{idea}[Created after start]
       \begin{itemize}
         \item Include an unpredictable value in the proof.
@@ -429,7 +432,7 @@ its \enquote{manifesto}.
 \subsubsection{Individual and universal verifiability}
 
 If the proofs are stored publicly, then an individual can check that their 
-proof has been included there.
+proof has been included (committed) there.
 Thus \cref{IndividualVerif} is fulfilled.
 Similarly for universal verifiability.
 If the storage is public, then anyone can download all the proofs, verify their 
@@ -442,7 +445,7 @@ prevents malicious changes.
 \begin{frame}
   \begin{idea}[Individual verifiability]
     \begin{itemize}
-      \item Proofs are stored publicly.
+      \item Proofs are stored (committed) publicly.
       \item Each participant can check that their proof is indeed included.
     \end{itemize}
   \end{idea}
@@ -451,7 +454,7 @@ prevents malicious changes.
 
   \begin{idea}[Universal verifiability]
     \begin{itemize}
-      \item Proofs are stored publicly.
+      \item Proofs are stored (committed) publicly.
       \item Anyone can download all proofs, verify eligibility and then count 
         them.
     \end{itemize}
@@ -559,6 +562,12 @@ count them more than once.
   \begin{question}
     Can we link a verified key to a unique ring signature key?
   \end{question}
+
+  \pause{}
+
+  \begin{question}
+    How to submit the proofs to the system?
+  \end{question}
 \end{frame}
 
 \subsubsection{Receipt freeness}
@@ -571,10 +580,28 @@ Alice has created one of the proofs.
 
 \mode<presentation>{%
 \begin{frame}
+  \begin{remark}
+    The proof itself is a sort of receipt.
+  \end{remark}
+
+  \pause{}
+
   \begin{idea}[Receipt freeness (deniability)]
     \begin{itemize}
-      \item If Eve compromises Alice's device, she should not be able to use 
-        it to verify that she participated.
+      \item Alice submits her proof.
+      \item She stores the hash of the head of the \ac{tposet}.
+      \item She removes the proof and signature key.
+    \end{itemize}
+  \end{idea}
+\end{frame}
+}
+
+\begin{frame}
+\mode<presentation>{%
+  \begin{idea}
+    \begin{itemize}
+      \item If Eve compromises Alice's device, she should not be able to use it 
+        to verify that she participated.
 
       \item We need a signature scheme that cannot reproduce the same signature 
         when run on the same inputs.
@@ -585,26 +612,14 @@ Alice has created one of the proofs.
       \item But Alice should still not be able to participate twice.
     \end{itemize}
   \end{idea}
-\end{frame}
 }
 
-\begin{frame}
+  \pause{}
+
   \begin{question}
     Is there such a signature scheme?
     Can we construct it?
   \end{question}
-
-  \pause{}
-
-  \mode<presentation>{%
-    \begin{remark}
-      \begin{itemize}
-        \item Alice submits her proof.
-        \item She stores the hash of the head of the \ac{tposet}.
-        \item She removes the proof and signature key.
-      \end{itemize}
-    \end{remark}
-  }
 \end{frame}
 
 Say that Alice submits her proof and stores the hash of the head of the 
@@ -637,17 +652,17 @@ system.
 This must be done anonymously.
 Otherwise Eve can analyse the network traffic to find out who submitted proofs 
 to the system.
+The main problem here is that the participants must be indistinguishable from 
+non-participants.
+This means that we cannot use special-purpose anonymizing 
+technologies.
 
-\begin{frame}
-  \begin{question}
-    How do we submit the proofs to storage?
-    Voting normally uses mix-nets.
-    Submit over Tor~\cite{Tor}?
-  \end{question}
+\begin{question}
+  How do we submit the proofs to storage?
+  Voting normally uses mix-nets (provable shuffles).
+\end{question}
 
-  \begin{remark}
-    Without anonymous submission we don't get proof privacy, thus no receipt 
-    freeness either.
-  \end{remark}
-\end{frame}
+\begin{remark}
+  We must mix participants with non-participants.
+\end{remark}
 
