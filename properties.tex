@@ -181,7 +181,7 @@ structure \iac{tposet}.
       \begin{itemize}
         \item Include an unpredictable value in the proof.
         \item This could be e.g.\ the hash of the \enquote{head} of the 
-          \ac{tposet}, (\(t_s\) in the figure).
+          blockchain, (\(t_s\) in the figure).
         \item This prevents creating proofs for future protests.
       \end{itemize}
     \end{idea}
@@ -190,7 +190,7 @@ structure \iac{tposet}.
 \end{frame}
 
 \Cref{CreatedBeforeEnd} is straight-forward, Alice and Bob simply add their 
-proofs to the \ac{tposet} \emph{in (time-wise) relation to the event}.
+proofs to the blockchain \emph{in (time-wise) relation to the event}.
 In \cref{PosetGraph}, if \(t_e\) is verifiably related to the end of the 
 protest, then the relation will guarantee that \(p_A, p_B\) were created before 
 the end of the protest.
@@ -202,7 +202,7 @@ This means that if \(t_s\) is sufficiently close (time-wise) to the protest and
 has sufficiently high entropy, then Alice or Bob cannot create a proof and keep 
 it for a future protest.
 
-They can use an older value (pick one from the history of the \ac{tposet}) when 
+They can use an older value (pick one from the history of the blockchain) when 
 they create their proofs.
 This will only expand the interval of possible creation into the past.
 This will not help their cause, as anyone will recognize that the proof could 
@@ -325,7 +325,7 @@ However, this requires some assumptions:
 \begin{remark}
   This probably requires high-precision timestamps, i.e.\ a trusted 
   time-stamping server must be available during the protest.
-  Or the proofs must be submitted to the \ac{tposet} during the protest.
+  Or the proofs must be submitted to the blockchain during the protest.
 \end{remark}
 
 \begin{question}
@@ -403,7 +403,7 @@ its \enquote{manifesto}.
     \caption{%
       The proof depends on several witness signatures (wsig), each of which 
       depends on the owner's signature (osig), which depends on the \(id\) of the
-      protest and the head of the \ac{tposet}.
+      protest and the head of the blockchain.
       Whenever possible, the witness signature should include proof that the 
       witness themself has been witnessed by a trusted witness (tsig).
     }
@@ -608,7 +608,7 @@ Alice has created one of the proofs.
   \begin{idea}[Receipt freeness (deniability)]
     \begin{itemize}
       \item Alice submits her proof.
-      \item She stores the hash of the head of the \ac{tposet}.
+      \item She stores the hash of the head of the blockchain.
       \item She removes the proof and signature key.
 
         \pause{}
@@ -630,7 +630,7 @@ Alice has created one of the proofs.
 \end{frame}
 
 Say that Alice submits her proof and stores the hash of the head of the 
-\ac{tposet} after her proof is included.
+blockchain after her proof is included.
 Now she can remove her proof and just keep the hash to verify that her proof is 
 still there.
 She can also remove her signature key, so that Eve cannot use it to reproduce 
