@@ -154,7 +154,7 @@ structure \iac{tposet}.
 \end{figure}
 
 \mode<presentation>{%
-  \only<1>{%
+  \only<1,2>{%
     \begin{idea}[Temporal eligibility]
       \begin{itemize}
         \item We need a partially ordered set (poset).
@@ -171,7 +171,7 @@ structure \iac{tposet}.
     \begin{idea}[Created before end]
       \begin{itemize}
         \item Submit the proof to storage.
-        \item The proof must've been created before it was included (duh!).
+        \item The proof must've been created before it was included.
         \item If included before \(t_e\), then it was created before \(t_e\).
       \end{itemize}
     \end{idea}
@@ -548,6 +548,9 @@ count them more than once.
       \item Eve shouldn't be able to link Alice's published proof back to 
         Alice.
       \item But if Alice publishes two proofs, those two are linkable.
+
+        \pause{}
+
       \item We're not interested in unmasking trolls, just not count them more 
         than once.
     \end{itemize}
@@ -583,30 +586,32 @@ Alice has created one of the proofs.
 \mode<presentation>{%
 \begin{frame}
   \begin{remark}
-    The proof itself is a sort of receipt.
-  \end{remark}
-
-  \pause{}
-
-  \begin{idea}[Receipt freeness (deniability)]
     \begin{itemize}
-      \item Alice submits her proof.
-      \item She stores the hash of the head of the \ac{tposet}.
-      \item She removes the proof and signature key.
+      \item The proof itself is a sort of receipt.
+        
+        \pause{}
+
+      \item If Eve compromises Alice's device, she can use it to verify that 
+        she participated.
+
+        \pause{}
+
+      \item We need a signature scheme that cannot reproduce the same signature 
+        when run on the same inputs.
     \end{itemize}
-  \end{idea}
+  \end{remark}
 \end{frame}
 }
 
 \begin{frame}
 \mode<presentation>{%
-  \begin{idea}
+  \begin{idea}[Receipt freeness (deniability)]
     \begin{itemize}
-      \item If Eve compromises Alice's device, she should not be able to use it 
-        to verify that she participated.
+      \item Alice submits her proof.
+      \item She stores the hash of the head of the \ac{tposet}.
+      \item She removes the proof and signature key.
 
-      \item We need a signature scheme that cannot reproduce the same signature 
-        when run on the same inputs.
+        \pause{}
 
       \item E.g.\ a short-term and a long-term credential, then Alice can 
         drop the short-term credential.
