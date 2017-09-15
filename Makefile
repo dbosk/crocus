@@ -25,11 +25,19 @@ DEPENDS+=	bibsp/ecurrency.bib
 .PHONY: all
 all: ProtestVerif-paper.pdf
 
-#ProtestVerif-paper.pdf: lncs
+ProtestVerif-paper.pdf: popets
 ProtestVerif-paper.pdf: ProtestVerif-paper.tex
 ProtestVerif-paper.pdf: preamble.tex preamble-paper.tex
 ProtestVerif-paper.pdf: ${SRC} ${FIGS} ${DEPENDS}
 
+#.PHONY: popets
+#popets: by-nc-nd.pdf dg-degruyter.pdf dgruyter_NEW.sty
+#
+#popets.zip:
+#	curl https://petsymposium.org/files/popets.zip > popets.zip
+#
+#by-nc-nd.pdf dg-degruyter.pdf dgruyter_NEW.sty: popets.zip
+#	unzip -p popets.zip popets/$@ > $@
 
 .PHONY: all
 all: ProtestVerif-slides.pdf
@@ -42,6 +50,11 @@ ProtestVerif-slides.pdf: ${SRC} ${FIGS} ${DEPENDS}
 .PHONY: clean
 clean:
 	${RM} ProtestVerif-paper.pdf ProtestVerif-slides.pdf
+
+#.PHONY: distclean
+#distclean:
+#	${RM} popets.zip
+#	${RM} by-nc-nd.pdf dg-degruyter.pdf dgruyter_NEW.sty
 
 
 .PHONY: wc todo
