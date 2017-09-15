@@ -1,13 +1,10 @@
 Conferences where the topic would fit, maybe too difficult to get into some.  
 Ordered by deadline of submission.
 
-NDSS                Aug 11
-IEEE EuroS&P        Aug 15
-PETS                Aug 31 and Nov 30
-ACM CODASPY         Sept 5
 IEEE PerCom         Sept 15
+IEEE S&P            Monthly
 IEEE/IFIP DSN       Nov 27
-IEEE S&P            Nov
+PETS                Nov 30
 IFIP SEC            Jan
 USENIX SEC          Feb
 PETS                Feb
@@ -18,3 +15,8 @@ ESORICS             Apr
 ACM CCS             May
 ACM COSN            May
 SecureComm          June
+NDSS                Aug
+IEEE EuroS&P        Aug
+PETS                Aug
+ACM CODASPY         Sept
+
