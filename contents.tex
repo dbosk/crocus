@@ -24,26 +24,39 @@
 
 % What's the problem?
 % Why is it a problem?
-\mode<all>
-\input{intro.tex}
-
 % What's the approach?
-\mode<all>
-\input{properties.tex}
+% What are the results?
+\mode<all>{%
+\input{intro.tex}
+}
 
-\mode<article>{%
+\mode<all>{%
 \input{SystemModel.tex}
 }
 
-\mode<article>{%
-\input{security.tex}
+\mode<all>{%
+\input{properties.tex}
 }
-% What are the results?
+
 \mode<article>{%
 \input{RelatedWork.tex}
 }
-\mode<all>
+
+\mode<all>{%
+\input{primitives.tex}
+}
+
+\mode<all>{%
+\input{protocol.tex}
+}
+
+\mode<all>{%
+\input{security.tex}
+}
+
+\mode<all>{%
 \input{conclusions.tex}
+}
 
 \input{acknowledgements.tex}
 
