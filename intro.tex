@@ -3,10 +3,13 @@
 \section{Introduction}%
 \label{Introduction}
 
-Alice organizes a street protest against Eve's regime.
-Bob, Carol and many others participate in the demonstration.
+Alice is an activist who organizes a protest for some cause.
+Eve is an autocrat who opposes Alice's cause.
+Bob, Carol and many others participate in the protest against Eve.
 One problem that has not yet been entirely solved is the crowd-counting 
 problem, i.e.\ to verify how many participated in Alice's protest.
+Our main goal is to provide a tool which prevents both Alice and Eve from 
+cheating.
 
 \mode<presentation>{%
 \subsection{What's the problem?}
@@ -96,7 +99,7 @@ without counting some people multiple times, which in turn increases the error
 of the estimation.
 Finally, they also lack verifiability, i.e.\ everyone must trust the entity who
 does the counting.
-We will discuss them in more detail in \cref{RelatedWork}.
+(We will discuss them in more detail in \cref{RelatedWork}.)
 
 \begin{frame}<presentation>
   \begin{block}{Verifying protest participation}
@@ -123,18 +126,68 @@ The protesters (organizers and participants) have an incentive to increase the
 tallied number of participants, whereas other interests might have an incentive 
 to decrease the tallied number of participants, e.g.\ Eve's authoritarian 
 regime in our example above.
-Or the other way around, sometimes Eve's authoritarian regime wants to organize 
-a pro-regime protest to demonstrate its \enquote{wide 
-  support}~\cite[e.g.][]{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
-(This makes it difficult to rely on government-issued credentials to prevent a 
-Sybil attack --- government can issue arbitrarily many such credentials for its 
-own protests.)
 To solve this problem, we need a verifiable participation count which is 
 protected from Sybil attacks.
 
-\mode<article>{%
-\subsection{Contributions}
+\subsection{Combining electronic voting and location proofs}
+
+Electronic voting (and voting in general) require strong verifiability and 
+privacy properties.
+We will adapt these requirements to the setting of protests.
+
+There are three requirements for 
+verification~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
+\begin{frame}
+\begin{requirements}[V]
+\item\label{EligibilityVerif} Eligibility: anyone can verify that each vote 
+  cast is legitimate.
+\item\label{UniversalVerif} Universal verifiability: anyone can verify that the 
+  result is according to the cast votes.
+\item\label{IndividualVerif} Individual verifiability: every voter can verify 
+  that their vote is included in the result.
+\end{requirements}
+\end{frame}
+We translate the votes into \emph{proofs of participation}.
+Both universal and individual verifiability remain the same.
+The eligibility requirement is slightly different:
+for protests the eligibility requirement must include temporal and spatial 
+eligibility --- that each proof of participation satisfies some temporal and 
+spatial relation to the protest.
+We will define these more formally in \cref{Verification}.
+
+There are also three requirements for 
+privacy~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
+\begin{frame}
+\begin{requirements}[P]
+\item\label{VotePrivacy} Vote privacy: the voting does not reveal any 
+  individual vote.
+\item\label{ReceiptFreeness} Receipt freeness: the voting system does not 
+  provide any data that can be used as a proof of how the voter voted.
+\item\label{CoercionResistance} Coercion resistance: a voter cannot cooperate 
+  with a coercer to prove the vote was cast in any particular way.
+\end{requirements}
+\pause{}
+\mode<presentation>{%
+  \begin{remark}
+    P\ref{CoercionResistance} \(\implies\)
+    P\ref{ReceiptFreeness} \(\implies\)
+    P\ref{VotePrivacy}
+  \end{remark}
 }
+\end{frame}
+\Textcite{VerifyingPrivacyPropertiesOfVotingProtocols} showed that 
+\cref{CoercionResistance} implies \cref{ReceiptFreeness}, which in turn implies
+\cref{VotePrivacy}.
+We note that we cannot improve the privacy of participating protesters, if they 
+are caught during a protest there is nothing we can do.
+But if they participate and they are not caught, then using our proposed tool 
+should not incur any additional risk.
+Thus we will adapt the idea of receipt freeness (see \cref{Privacy} for a 
+detailed definition).
+In essence, upon completing the protocol, Alice will have nothing that Eve can 
+use to tie her to her participation proof.
+
+\subsection{Contributions}
 
 In this paper, we combine the verifiability and privacy properties of 
 electronic voting with location-proof systems to provide a verifiable 
@@ -153,4 +206,12 @@ Sybil attack, since the government controls the identity system.
 %  Crowd size is also needed for media news reports and to historically record 
 %  the event%
 %}
+
+Sometimes Eve's authoritarian regime wants to organize a pro-regime protest to 
+demonstrate its \enquote{wide 
+  support}~\cite[e.g.][]{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
+If we rely on government-issued credentials, we cannot prevent the government 
+from performing Sybil attacks --- since it can issue arbitrarily many 
+\enquote{valid} credentials.
+This means that we cannot verify any pro-government protests.
 
