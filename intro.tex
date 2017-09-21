@@ -122,18 +122,21 @@ does the counting.
 
 We can make one important observation about this problem that has seemingly 
 been ignored in the past: it is an adversarial setting.
-The protesters (organizers and participants) have an incentive to increase the 
-tallied number of participants, whereas other interests might have an incentive 
-to decrease the tallied number of participants, e.g.\ Eve's authoritarian 
-regime in our example above.
+Alice the activist has an incentive to increase the tallied number of 
+participants, whereas Eve (and possibly other interests) have an incentive to 
+decrease the tallied number of participants.
+In this case we have two options:
+either we trust Alice or Eve, or we must verify their claims.
+We aim for verifiable claims.
 To solve this problem, we need a verifiable participation count which is 
 protected from Sybil attacks.
 
 \subsection{Combining electronic voting and location proofs}
 
-Electronic voting (and voting in general) require strong verifiability and 
-privacy properties.
-We will adapt these requirements to the setting of protests.
+In general, protesting is very similar to voting: both are many individuals 
+expressing their opinion.
+These opinions can be sensitive, hence we desire to have similar properties of 
+verification and privacy for participation in a protest as there is for voting.
 
 Voting has three requirements for 
 verifiability~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}.

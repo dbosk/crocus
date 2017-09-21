@@ -1,33 +1,22 @@
 \mode*
 \section{Desired properties}%
-\label{TheIdea}
+\label{Properties}
+
+We categorize the desired properties into verifiability and privacy.
 
 \subsection{Verification}%
 \label{Verification}
 
-We have an adversarial setting between Alice the activist and Eve the evil 
-regime: Alice wants to show large support against Eve, Eve wants to show little
-support for Alice.
-In this case we have two options:
-either we trust Alice or Eve, or we must verify their claims.
-We aim for verifiable claims.
-
-In general, protesting is very similar to voting: both are many individuals 
-expressing their opinion.
-These opinions can be sensitive, hence we desire to have similar properties of 
-verification and privacy for participation in a protest as there is for voting.
-In the context of (electronic) voting protocols, there are three requirements 
-for verification~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
-\begin{frame}
+We desire three verifiability requirements:
 \begin{requirements}[V]
-\item\label{EligibilityVerif} Eligibility: anyone can verify that each vote 
-  cast is legitimate.
+\item\label{EligibilityVerif} Eligibility: anyone can verify that each 
+  participation proof provides temporal and spatial eligibility and that it has 
+  not been counted before.
 \item\label{UniversalVerif} Universal verifiability: anyone can verify that the 
-  result is according to the cast votes.
-\item\label{IndividualVerif} Individual verifiability: every voter can verify 
-  that their vote is included in the result.
+  result is according to the submitted participation proofs.
+\item\label{IndividualVerif} Individual verifiability: every participant can 
+  verify that their participation proof is included in the global count.
 \end{requirements}
-\end{frame}
 We can translate these to the case of participation in a demonstration, then 
 each vote would be replaced by a proof of participation.
 
