@@ -6,12 +6,22 @@
 \subsection{Assumptions}
 
 We assume that every participant has a device similar to a smartphone.
+Throughout this text, when we refer to a participant, say Alice, we actually 
+mean a principal which can perform cryptographic operations and communicate with 
+other local devices on Alice's behalf.
 (This means that we essentially provide a lower bound for the participation 
-count, since some participants might not have any smartphone.)
-It must be a portable device which can perform cryptographic operations and 
-communicate with other devices during the protest, e.g.\ through an ad-hoc 
-network.
-I.e.\ no connection to the Internet is necessary during the protest.
+count, since some participants might not have such a device.)
+
+\mode<presentation>{%
+\begin{frame}
+  \begin{center}
+    Alice $:=$ Alice's cryptographic device
+  \end{center}
+\end{frame}
+}
+
+No connection to any global network the Internet is necessary during the 
+protest.
 During the protest these devices are computationally limited by their 
 batteries.
 Before and after the protest, we assume that the devices have Internet 
@@ -49,11 +59,6 @@ some logically centralized certificate authority.
 E.g.\ that we can use the cryptographic keys stored in the chip of the national 
 identity card or passport.
 We need this to prevent Sybil attacks~\cite{SybilAttack}.
-\begin{frame}
-\begin{remark}
-  I.e.\ provided we can prevent Sybil.
-\end{remark}
-\end{frame}
 
 \subsection{What is \protect\emph{a} protest?}%
 \label{WhatIsAProtest}
