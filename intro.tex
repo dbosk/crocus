@@ -135,57 +135,44 @@ Electronic voting (and voting in general) require strong verifiability and
 privacy properties.
 We will adapt these requirements to the setting of protests.
 
-There are three requirements for 
-verification~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
-\begin{frame}
-\begin{requirements}[V]
-\item\label{EligibilityVerif} Eligibility: anyone can verify that each vote 
-  cast is legitimate.
-\item\label{UniversalVerif} Universal verifiability: anyone can verify that the 
-  result is according to the cast votes.
-\item\label{IndividualVerif} Individual verifiability: every voter can verify 
-  that their vote is included in the result.
-\end{requirements}
-\end{frame}
+Voting has three requirements for 
+verifiability~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}.
+\begin{itemize}
+  \item Eligibility: anyone can verify that each vote cast is legitimate.
+  \item Universal verifiability: anyone can verify that the result is according 
+    to the cast votes.
+  \item Individual verifiability: every voter can verify that their vote is 
+    included in the result.
+\end{itemize}
 We translate the votes into \emph{proofs of participation}.
-Both universal and individual verifiability remain the same.
+Universal and individual verifiability remain the same: anyone can verify the 
+participation count by counting the proofs.
 The eligibility requirement is slightly different:
 for protests the eligibility requirement must include temporal and spatial 
-eligibility --- that each proof of participation satisfies some temporal and 
+eligibility, i.e.\ that each proof of participation satisfies some temporal and 
 spatial relation to the protest.
+In essence, the proof must bind the person to the time and location of the 
+protest.
 We will define these more formally in \cref{Verification}.
 
-There are also three requirements for 
+There are also three levels of 
 privacy~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
-\begin{frame}
-\begin{requirements}[P]
-\item\label{VotePrivacy} Vote privacy: the voting does not reveal any 
-  individual vote.
-\item\label{ReceiptFreeness} Receipt freeness: the voting system does not 
-  provide any data that can be used as a proof of how the voter voted.
-\item\label{CoercionResistance} Coercion resistance: a voter cannot cooperate 
-  with a coercer to prove the vote was cast in any particular way.
-\end{requirements}
-\pause{}
-\mode<presentation>{%
-  \begin{remark}
-    P\ref{CoercionResistance} \(\implies\)
-    P\ref{ReceiptFreeness} \(\implies\)
-    P\ref{VotePrivacy}
-  \end{remark}
-}
-\end{frame}
-\Textcite{VerifyingPrivacyPropertiesOfVotingProtocols} showed that 
-\cref{CoercionResistance} implies \cref{ReceiptFreeness}, which in turn implies
-\cref{VotePrivacy}.
+\begin{itemize}
+  \item\label{VotePrivacy} Vote privacy: the voting does not reveal any 
+    individual vote.
+  \item\label{ReceiptFreeness} Receipt freeness: the voting system does not 
+    provide any data that can be used as a proof of how the voter voted.
+  \item\label{CoercionResistance} Coercion resistance: a voter cannot cooperate 
+    with a coercer to prove the vote was cast in any particular way.
+\end{itemize}
 We note that we cannot improve the privacy of participating protesters, if they 
 are caught during a protest there is nothing we can do.
-But if they participate and they are not caught, then using our proposed tool 
-should not incur any additional risk.
+But if they are not caught in the act, then using our proposed tool should not 
+incur any additional risk.
 Thus we will adapt the idea of receipt freeness (see \cref{Privacy} for a 
-detailed definition).
-In essence, upon completing the protocol, Alice will have nothing that Eve can 
-use to tie her to her participation proof.
+detailed definition) to the protest context.
+In essence, upon completing the protocol, Eve cannot link Alice to Alice's 
+participation proof --- even with Alice's cooperation.
 
 \subsection{Contributions}
 
