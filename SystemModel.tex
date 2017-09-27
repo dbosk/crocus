@@ -181,30 +181,33 @@ Furthermore it must provide the time and the location of the participation.
 More formally, we define a participation proof as follows.
 
 \begin{definition}[Participation proof]
-  A \emph{participation proof} is a tuple \((id; t_s, t_e; lp; \sigma)\), where
-  \(id, t_s, t_e\) are as in \cref{DefProtest},
-  \(lp\) is a location proof and
-  \(\sigma\) is a signature over the proof.
+  A \emph{witness signature}\footnote{%
+    \Iac{LPS}?
+  }is a tuple \[(pid; id; t_s, t_e; x, y; \sigma),\] where
+  \(pid\) is a protester's identity,
+  \(id, t_s, t_e, x, y\) are as in \cref{DefProtest} and
+  \(\sigma\) is a signature over the values in the tuple.
+  A \emph{participation proof} \[P_{i, j} = \{ (pid; id; t_s, t_e; x, y; \sigma) 
+    \mid pid = i, id = j\}\] for a protester \(i\) participating in protest 
+  \(j\) is the set of all witness signatures with the same protester and protest 
+  identifiers.
 \end{definition}
 
-\begin{frame}
-  \mode<presentation>{%
-  \begin{definition}[Participation proof]
-    \begin{itemize}
-      \item A \emph{participation proof} is a tuple \((id; t_s, t_e; lp; 
-          \sigma)\), where
-      \item \(id, t_s, t_e\) are as before,
-      \item \(lp\) is a location proof and
-      \item \(\sigma\) is a signature over the proof.
-    \end{itemize}
-  \end{definition}
-
-  \pause{}
-  }
-\begin{question}
-  How should this one relate to the \acp{LP} and \ac{tposet}?
-\end{question}
-\end{frame}
+\mode<presentation>{%
+  \begin{frame}
+    \begin{definition}[Participation proof]
+      \begin{itemize}
+        \item A \emph{witness signature} is a tuple \((pid; id; t_s, t_e; x, y; 
+            \sigma)\), where
+        \item \(pid\) is a protester's identity,
+        \item \(id, t_s, t_e, x, y\) are as before,
+        \item \(\sigma\) is a signature over the values.
+        \item A \emph{participation proof} \(P_{i, j} = \{ (pid; id; t_s, t_e; x, 
+            y; \sigma) \mid pid = i, id = j\}\).
+      \end{itemize}
+    \end{definition}
+  \end{frame}
+}
 
 \subsection{Adversary model}
 
