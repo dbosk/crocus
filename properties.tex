@@ -138,122 +138,19 @@ This leaves us with \cref{ReceiptFreeness,VotePrivacy}.
 
 \subsubsection{Participation-proof privacy}
 
-A demonstration is very different from voting in one sense: at a demonstration, 
-Alice must be physically present and that very presence shows her support for 
-the cause.
-In voting, on the other hand, everyone is present and Alice has multiple 
-options which are not revealed by her mere presence.
-% XXX Check if unlinkable is the correct term
-Hence, if Alice submits a proof of participation, the proof must be unlinkable 
-to Alice, yet, if Alice submits another proof, those two proofs must be 
-linkable (due to eligibility verification, \cref{EligibilityVerif}) so that 
-Alice is not counted twice.
-This is fine, since we do not want to catch any cheater, we just do not want to
-count them more than once.
-
-\mode<presentation>{%
 \begin{frame}
-  \begin{remark}
-    \begin{itemize}
-      \item Voting: different alternatives when participating.
-      \item Protesting: participation implies the alternative.
-    \end{itemize}
-  \end{remark}
-
-  \pause{}
-
-  \begin{idea}[Proof privacy]
-    \begin{itemize}
-      \item Eve shouldn't be able to link Alice's published proof back to 
-        Alice.
-      \item But if Alice publishes two proofs, those two are linkable.
-
-        \pause{}
-
-      \item We're not interested in unmasking trolls, just not count them more 
-        than once.
-    \end{itemize}
-  \end{idea}
-\end{frame}
-}
-
-\begin{frame}
-  \begin{remark}
-    Unique ring signatures~\cite{UniqueRingSignatures} has this property: two 
-    signatures are linked with high probability.
-  \end{remark}
-
-  \begin{question}
-    Can we link a verified key to a unique ring signature key?
-  \end{question}
-
-  \pause{}
-
-  \begin{question}
-    How to submit the proofs to the system?
-  \end{question}
+\begin{definition}[Proof indistinguishability]
+  \dots
+\end{definition}
 \end{frame}
 
 \subsubsection{Receipt freeness}
 
-Receipt freeness implies that Alice enjoys deniability against Eve:
-Eve should not be able to use the published proof to tie it to Alice, even if 
-Eve has access to Alice's device (i.e.\ all her private keys).
-E.g.\ Eve should not be able to reproduce the same proof and thus verify that 
-Alice has created one of the proofs.
-
-\mode<presentation>{%
 \begin{frame}
-  \begin{remark}
-    \begin{itemize}
-      \item The proof itself is a sort of receipt.
-        
-        \pause{}
-
-      \item If Eve compromises Alice's device, she can use it to verify that 
-        she participated.
-
-        \pause{}
-
-      \item We need a signature scheme that cannot reproduce the same signature 
-        when run on the same inputs.
-    \end{itemize}
-  \end{remark}
+\begin{definition}[Receipt freeness/deniability]
+  \dots
+\end{definition}
 \end{frame}
-}
-
-\begin{frame}
-\mode<presentation>{%
-  \begin{idea}[Receipt freeness (deniability)]
-    \begin{itemize}
-      \item Alice submits her proof.
-      \item She stores the hash of the head of the \ac{tposet}.
-      \item She removes the proof and signature key.
-
-        \pause{}
-
-      \item E.g.\ a short-term and a long-term credential, then Alice can 
-        drop the short-term credential.
-
-      \item But Alice should still not be able to participate twice.
-    \end{itemize}
-  \end{idea}
-}
-
-  \pause{}
-
-  \begin{question}
-    Is there such a signature scheme?
-    Can we construct it?
-  \end{question}
-\end{frame}
-
-Say that Alice submits her proof and stores the hash of the head of the 
-\ac{tposet} after her proof is included.
-Now she can remove her proof and just keep the hash to verify that her proof is 
-still there.
-She can also remove her signature key, so that Eve cannot use it to reproduce 
-the signature using the same inputs.
 
 \subsubsection{Architecture}
 
