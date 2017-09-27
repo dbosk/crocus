@@ -1,11 +1,71 @@
 \mode*
-\section{Desired properties}%
+\section{Desired security properties}%
 \label{Properties}
 
+%\subsection{An overview of the adversary}
+
+We have three \emph{malicious} adversaries: Alice, Eve and Rusuk.
+Alice the activist (and all the protesters) try to increase the count.
+Eve the totalitarian dictator tries to decrease the count.
+Additionally, Eve tries to deanonymize the participants to arrest them or 
+\enquote{convince} them to change their minds.
+Finally, we have Rusuk who is represents another nation state.
+Rusuk has some interest in affecting the state of Eve's regime, for Rusuk's own 
+gain, thus supporting either Eve or Alice as he see fits.
+Rusuk will thus also try to either increase or decrease the count.
+We will now formally define some security properties specifying the 
+computational effort needed by the adversaries to succeed.
 We categorize the desired properties into verifiability and privacy.
 
-\subsection{Verification}%
-\label{Verification}
+\mode<presentation>{%
+\begin{frame}
+  \begin{block}{Alice the activist}
+    \begin{itemize}
+      \item Alice organizes the protest against Eve's regime.
+      \item Alice wants to have a high participation count.
+      \item She tries to increase it.
+      \item So does \emph{all the protesters}.
+    \end{itemize}
+  \end{block}
+
+  \pause{}
+
+  \begin{block}{Eve the fake-news populist}
+    \begin{itemize}
+      \item Eve's regime is target of the protest.
+      \item She wants to have a low participation count.
+      \item She tries to decrease it.
+    \end{itemize}
+  \end{block}
+\end{frame}
+}
+
+\mode<presentation>{%
+\begin{frame}
+  \begin{block}{Eve the totalitarian dictator}
+    \begin{itemize}
+      \item Eve wants to \enquote{convince} activists to support her.
+      \item She wants to find all activists.
+      \item She tries to identify (deanonymize) participants.
+    \end{itemize}
+  \end{block}
+\end{frame}
+}
+
+\mode<presentation>{%
+\begin{frame}
+  \begin{block}{Rusuk the nation state}
+    \begin{itemize}
+      \item Rusuk benefits from the situation in Evestan.
+      \item He wants the outcome to be the most beneficial.
+      \item He will try to increase or decrease the participation count.
+    \end{itemize}
+  \end{block}
+\end{frame}
+}
+
+\subsection{Verifiability}%
+\label{Verifiability}
 
 We desire three verifiability requirements:
 \begin{requirements}[V]

@@ -73,27 +73,16 @@ We will define a protest as an event that is uniquely identified by its cause,
 its time and its location.
 More specifically, we will use the following definition.
 
+\begin{frame}
 \begin{definition}[Protest]\label{DefProtest}
-  A \emph{subprotest} is a tuple \((id; t_s, t_e; x, y)\), where
+  A \emph{subprotest} is a tuple \((id, t, l)\) where
   \(id\in \Z_{2^\lambda}\) is an identifier,
-  \((t_s, t_e)\in \R^2\) is a time interval,
-  \((x, y)\in \R^2\) are the coordinates of the location.
+  \(t = \interval{t_s}{t_e}\subseteq \R\) is a time interval and
+  \(l = N_\epsilon(x, y)\subseteq \R^2\) is the location (an 
+  \(\epsilon\)-neighbourhood of \((x,y)\)).
   A \emph{protest} is a set of subprotests sharing the same \(id\).
 \end{definition}
-
-\mode<presentation>{%
-\begin{frame}
-\begin{definition}[Protest]
-  \begin{itemize}
-    \item A \emph{subprotest} is a tuple \((id; t_s, t_e; x, y)\), where
-    \item \(id\in \Z_{2^\lambda}\) is an identifier,
-    \item \((t_s, t_e)\in \R^2\) is a time interval,
-    \item \((x, y)\in \R^2\) are the coordinates of the location.
-    \item A \emph{protest} is a set of subprotests sharing the same \(id\).
-  \end{itemize}
-\end{definition}
 \end{frame}
-}
 
 The protests described above can be captured using this definition by splitting 
 them up into subprotests.
@@ -102,171 +91,53 @@ we can just sum up the results.
 The same for marches, the marching path can be divided into subprotests with 
 coarse coordinates that slightly overlap.
 
+\subsection{Participation and count}
+
 Each participant who want to be counted must submit a participation proof.
-The proof must be associated with the protest, i.e.\ contain its \(id\).
-Furthermore it must provide the time and the location of the participation.
-More formally, we define a participation proof as follows.
+The proof must be associated with the protest, i.e.\ its \(id\), time and 
+location.
+We use witnesses to associate the proof to the location.
+The proof and its witnesses are stored in a set, as there should be only unique 
+witnesses.
 
-\begin{definition}[Participation proof]
-  A \emph{witness signature}\footnote{%
-    \Iac{LPS}?
-  }is a tuple \[(pid; id; t_s, t_e; x, y; \sigma),\] where
-  \(pid\) is a protester's identity,
-  \(id, t_s, t_e, x, y\) are as in \cref{DefProtest} and
-  \(\sigma\) is a signature over the values in the tuple.
-  A \emph{participation proof} \[P_{i, j} = \{ (pid; id; t_s, t_e; x, y; \sigma) 
-    \mid pid = i, id = j\}\] for a protester \(i\) participating in protest 
-  \(j\) is the set of all witness signatures with the same protester and protest 
-  identifiers.
+\begin{frame}
+\begin{definition}[Witness]
+  A \emph{witness} \(w = (pid, id, t, l, wid)\) is a tuple where
+  \(id, t, l\) are as in \cref{DefProtest},
+  \(pid\) uniquely identifies the protester and \(wid\) uniquely identifies the 
+  person who issued the witness.
+  We let \(W\) be the set of all witnesses.
 \end{definition}
-
-\mode<presentation>{%
-  \begin{frame}
-    \begin{definition}[Participation proof]
-      \begin{itemize}
-        \item A \emph{witness signature} is a tuple \((pid; id; t_s, t_e; x, y; 
-            \sigma)\), where
-        \item \(pid\) is a protester's identity,
-        \item \(id, t_s, t_e, x, y\) are as before,
-        \item \(\sigma\) is a signature over the values.
-        \item A \emph{participation proof} \(P_{i, j} = \{ (pid; id; t_s, t_e; x, 
-            y; \sigma) \mid pid = i, id = j\}\).
-      \end{itemize}
-    \end{definition}
-  \end{frame}
-}
-
-\subsection{Adversary model}
-
-We have three adversaries: Alice herself, Eve and Rusuk.
-Alice the protest organizer tries to increase the count.
-Eve the totalitarian dictator tries to decrease the count.
-Additionally, Eve tries to deanonymize the participants.
-Finally, we have Rusuk who is the head of another nation state.
-Rusuk has some interest in affecting the state of Eve's regime, for Rusuk's own 
-gain, thus supporting either Eve or Alice.
-Rusuk will thus also try to either increase or decrease the count.
-
-\mode<presentation>{%
-\begin{frame}
-  \begin{block}{Alice the activist}
-    \begin{itemize}
-      \item Alice organizes the protest against Eve's regime.
-      \item Alice wants to have a high participation count.
-      \item She tries to increase it.
-    \end{itemize}
-  \end{block}
-
-  \pause{}
-
-  \begin{block}{Eve the fake-news populist}
-    \begin{itemize}
-      \item Eve's regime is target of the protest.
-      \item She wants to have a low participation count.
-      \item She tries to decrease it.
-    \end{itemize}
-  \end{block}
 \end{frame}
-}
 
-\mode<presentation>{%
+A subset of the witnesses forms a participation proof for a protester.
+
 \begin{frame}
-  \begin{block}{Eve the totalitarian dictator}
-    \begin{itemize}
-      \item Eve wants to \enquote{convince} activists to support her.
-      \item She wants to find all activists.
-      \item She tries to identify (deanonymize) participants.
-    \end{itemize}
-  \end{block}
+\begin{definition}[Participation proof]
+  A \emph{participation proof} of protester \(i\) participating in protest \(j\) 
+  is the set
+  \begin{align}
+    \nonumber
+    p_{i, j} =
+    \left\{ (pid, id, t, l, wid)\in W \mid
+    %\right. &
+    pid = i, id = j,
+    %\\ & \left.
+    t \subseteq t_j, l\subseteq l_j \right\},
+  \end{align}
+  of all witnesses with the same protester and protest identifiers, witness time 
+  interval \(t\) and location \(l\) is within those of the protest \(j\) (i.e.\ 
+  \(t_j\) and \(l_j\)).
+\end{definition}
 \end{frame}
-}
 
-\mode<presentation>{%
-\begin{frame}
-  \begin{block}{Rusuk the nation state}
-    \begin{itemize}
-      \item Rusuk benefits from the situation in Evestan.
-      \item He wants the outcome to be the most beneficial.
-      \item He will try to increase or decrease the participation count.
-    \end{itemize}
-  \end{block}
-\end{frame}
-}
-
-More formally \dots
-
-
-\mode<all>\endinput
-
-\section{Old stuff}
-
-We can divide the problem into three parts:
-\begin{itemize}
-  \item Register participants in the system.
-  \item Collect the necessary data.
-  \item Perform the counting and verification.
-\end{itemize}
-
-To register the participants we might be able to piggy-back on existing 
-\acp{PKI} and blind signatures --- similarly as for voting systems.
-
-There are several issues that must be treated:
-\begin{itemize}
-  \item Each location proof must be bound to one individual's participation.
-    One protester must not be able to create two unique location proofs and be 
-    able to increase the number of participants, that would violate 
-    \cref{EligibilityVerif} above.
-    In other words, we must prevent the Sybil attack.
-
-  \item A group of people should not be able to generate \acp{LP} to make it 
-    look as if they participated in the protest but actually stayed at home.
-    This means that all \acp{LP} must be linked to each other.
-    If a protest has hundreds of thousands of participants, then this linking 
-    must be achieved efficiently.
-\end{itemize}
-
-The model will be a public anonymous blackboard.
-We will use this blackboard to publish locations proofs after the protest.
-
-We want the following properties:
-\begin{description}
-  \item[Correctness] We want to count everyone once and only once.
-  \item[Unforgeability] Participation should not be possible to forge.
-    I.e.\ non-participants should not be able to say they were present.
-    This together with correctness will provide authenticity to the protest 
-    verification.
-  \item[Anonymity] Given the data published on the blackboard, the adversary 
-    should not be able to tell two participants apart.
-  \item[Decentralized] There should be no central authority.
-\end{description}
-
-Can the adversary publish a public-key looking random string to sabotage the 
-blackboard?
-
-Basically the properties that we are interested in are similar to those of 
-electronic voting, so we would like to reuse as many definitions from there as 
-possible.
-
-\subsection{Decentralization}
-
-In \ac{PROPS} the prover must have a secret signed by \iac{CA}.
-This \ac{CA} can be implemented as a secret-sharing scheme.
-Usually these have a fixed threshold \((t, n)\).
-This can be achieved by commitments, then the shared secret is computed.
-However, it would be interesting to have the threshold dynamically adapt to the 
-number of participants, i.e.\ participants can join later too.
-
-Can the adversary then \enquote{join} enough many to throw off the threshold?
-
-\subsection{Correctness and Unforgeability}
-
-Each prover must reach a threshold of witnesses \(k\).
-We must be able to prevent a prover to collect \(2k\) witnesses and then 
-publishing two proofs.
-We therefore must achieve conditional linkability between the \acp{LP} 
-published on the blackboard.
-If a second \ac{LP} for a secret is published, then those should be linkable.
-This might be possible to achieve with unique group 
-signatures~\cite{UniqueGroupSignatures,UniqueRingSignatures,ListSignatures}.
-
+We can now define the participation count as follows.
+\begin{definition}[Participation count]
+  We define the \emph{participation count} of a protest \(id\) as the 
+  cardinality \(|P_{id}^{s,\theta}|\) of the set of participation proofs \[
+    P_{id}^{s,\theta} = \left\{ p_{i,j} \mid
+      j = id, s(p_{i,j})\geq \theta \right\}
+  \] for some strength function \(s\colon \powerset(W)\to \interval{0}{1}\) and 
+  a threshold \(\theta\).
+\end{definition}
 
