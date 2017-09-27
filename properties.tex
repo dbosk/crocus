@@ -143,11 +143,6 @@ This will only expand the interval of possible creation into the past.
 This will not help their cause, as anyone will recognize that the proof could 
 be created at any time in that interval, i.e.\ possibly before the protest.
 
-\begin{question}
-  How hard is it to reuse old proofs?
-  Forge all signatures due to changed values?
-\end{question}
-
 \subsubsection{Spatial eligibility}
 
 \Cref{SpatiallyRelated} binds the data spatially to the location, which allows 
@@ -190,15 +185,6 @@ surveillance footage.
   \end{idea}
 \end{frame}
 }
-
-\begin{question}
-  Why should anyone trust these witnesses?
-  What are the assumptions?
-  Signed over a short period of time?\footnote{%
-    In a sense, if they collude they have shown support for the cause.
-    As long as they are not Sybil it should be fine?
-  }
-\end{question}
 
 \mode<none>{%
 \begin{frame}
@@ -262,29 +248,6 @@ However, this requires some assumptions:
   time-stamping server must be available during the protest.
   Or the proofs must be submitted to the \ac{tposet} during the protest.
 \end{remark}
-
-\begin{question}
-  Trusted party for the group signatures?
-\end{question}
-\begin{question}
-  How can we do \acp{LP} with 1000s of witnesses each?
-  Can we do some preprocessing?
-  Ad-hoc networks, broadcast \acp{LP}?
-\end{question}
-\begin{question}
-  Must tie credentials to something unique: phone, phone subscription?
-  Cannot register twice, government control?
-\end{question}
-
-\begin{question}
-  What if Alice acts as a witness for Eve's agents?
-  Can that violate her privacy?
-\end{question}
-\begin{question}
-  What if Eve's agents act as witnesses?
-  Can they track their signatures to track users?
-  Can Alice detect if this happens?
-\end{question}
 
 \subsubsection{Linkability and designated protest}
 
@@ -375,8 +338,6 @@ Similarly for universal verifiability.
 If the storage is public, then anyone can download all the proofs, verify their 
 eligibility and count them.
 Thus anyone can verify the result, which fulfils \cref{UniversalVerif}.
-To have any verifiability, we need the storage to be immutable --- i.e.\ it 
-prevents malicious changes.
 
 \mode<presentation>{%
 \begin{frame}
