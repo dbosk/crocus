@@ -137,7 +137,10 @@ We can now define the participation count as follows.
   cardinality \(|P_{id}^{s,\theta}|\) of the set of participation proofs \[
     P_{id}^{s,\theta} = \left\{ p_{i,j} \mid
       j = id, s(p_{i,j})\geq \theta \right\}
-  \] for some strength function \(s\colon \powerset(W)\to \interval{0}{1}\) and 
-  a threshold \(\theta\).
+  \] for some strength function \(s\colon \powerset(W)\to \R_+\) and a threshold 
+  \(\theta\).
 \end{definition}
 
+The strength function \(s\) can be used to e.g.\ regulate trust in witnesses.
+A trivial example would be for \(s\) to return the number of witnesses and thus 
+let \(\theta\) to be the threshold of the number of required witnesses.
