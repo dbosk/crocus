@@ -132,6 +132,7 @@ A subset of the witnesses forms a participation proof for a protester.
 \end{frame}
 
 We can now define the participation count as follows.
+\begin{frame}
 \begin{definition}[Participation count]
   We define the \emph{participation count} of a protest \(id\) as the 
   cardinality \(|P_{id}^{s,\theta}|\) of the set of participation proofs \[
@@ -140,6 +141,19 @@ We can now define the participation count as follows.
   \] for some strength function \(s\colon \powerset(W)\to \R_+\) and a threshold 
   \(\theta\).
 \end{definition}
+
+\pause{}
+
+\mode<presentation>{%
+  \begin{example}
+    \begin{itemize}
+      \item The strength function can regulate trust in witnesses.
+      \item E.g.\ return the number of witnesses.
+      \item \(\theta\) would control threshold of number of witnesses.
+    \end{itemize}
+  \end{example}
+}
+\end{frame}
 
 The strength function \(s\) can be used to e.g.\ regulate trust in witnesses.
 A trivial example would be for \(s\) to return the number of witnesses and thus 
