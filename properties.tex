@@ -125,10 +125,12 @@ There are two aspects of temporal eligibility.
 The adversary can try to forge a witness for a future protest and the adversary 
 can try to forge a witness for a past protest.
 
-We first introduce something we call a \emph{time-authenticator tag}.
+The first thing we want to do is to prevent Alice from collecting witnesses for 
+a future protest.
+For this, we introduce something we call a \emph{time-authenticator tag}.
 This is an unpredictable value \(\tau_t\) which is published at time \(t\).
 The idea is that it is difficult to guess \(\tau_t\) for a given \(t\) in 
-advance, i.e.\ the use of \(\tau_t\) must have happened after time \(t\) with 
+advance, i.e.\ any use of \(\tau_t\) must have happened after time \(t\) with 
 high probability.
 
 \begin{definition}[Predicting the future]
@@ -153,6 +155,15 @@ chance of winning will be
 \end{equation}
 for some polynomial \(p(\cdot)\).
 This will be negligible for sufficiently a large \(\lambda\).
+
+\begin{definition}[Collision]
+  Given tag \(\tau\), probability of collision?
+\end{definition}
+
+\begin{definition}[Changing the past]
+  Given a witness for time \(t\), change it to time \(t'\).
+  \dots
+\end{definition}
 
 \begin{definition}[Forging past witnesses]
   \dots
