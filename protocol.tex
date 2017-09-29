@@ -1,102 +1,27 @@
 \section{Protocol}
 
-We have the following participants:
-\begin{itemize}
-  \item Alice the organizer,
-  \item Bob the participating protester,
-  \item Jane the trustworthy journalist,
-  \item Eve the evil autocrat, and finally
-  \item Rusuk the foreign nation state.
-\end{itemize}
+We will start by giving an overview of the protocol.
+We have a number of participants.
+We have a cothority who provide the storage in a decentralized manner.
+The cothority should consist of independent actors, preferably with conflicting 
+interests so that they will not collude.
+We have Alice the organizer and Bob the participant who are both protesters.
+We have the trustworthy journalist Jane who is present but not participating in 
+the protest.
+The protesters will witness each others participation proofs, e.g.\ Alice will 
+witness Bob's proof and Bob will witness Alice's proof.
+The result of witnessing a proof is a proof share (essentially a witness 
+signature).
+Jane will also participate in witnessing the protesters' proofs.
+The witnessing is done through local interaction.
+As soon as Alice and Bob have departed from the protest they upload their proofs 
+(i.e.\ all proof shares) to the cothority for indefinite storage.
+Since each proof consists of one proof share for each witness, each witness 
+could potentially upload the proof share themselves to the cothority.
+This would have the same effect but with added redundancy, in case Alice or Bob 
+cannot upload them themselves.
 
-\subsubsection{Temporal eligibility}
-
-\Cref{CreatedBeforeEnd,CreatedAfterStart} requires a \emph{partially ordered 
-  set}\footnote{%
-  A relation \(\preceq\) which is reflexive, antisymmetric and transitive.
-} of objects.
-If some objects in the set relate to known points in time, then the partial 
-order relates the data to the time of the event.
-This allows us to \emph{verify the data temporally}.
-
-One primitive that fulfils \cref{CreatedAfterStart,CreatedBeforeEnd} is a 
-blockchain.
-There are also other structures, e.g.\ a directed graph that 
-converges~\cite{BlockchainFreeCryptocurrencies}.
-(See \cref{PosetGraph}.)
-For generality, we will use the terminology of 
-\textcite{BlockchainFreeCryptocurrencies} and simply call this storage 
-structure \iac{tposet}.
-
-\begin{frame}
-\begin{figure}
-  \centering
-  \input{fig/tposet.tex}
-  \mode<article>{%
-    \caption{%
-      Alice submits proof \(p_A\) and Bob submits proof \(p_B\).
-      We have \(t_s\prec p_A, p_B\prec t_e\), but \((p_A, p_B)\notin \prec\) 
-      are incomparable.
-    }\label{PosetGraph}
-  }
-\end{figure}
-
-\mode<presentation>{%
-  \only<1,2>{%
-    \begin{idea}[Temporal eligibility]
-      \begin{itemize}
-        \item We need a partially ordered set (poset).
-
-          \pause{}
-
-        \item There is a mechanism that provides this property: a blockchain.
-        \item There are also other structures, e.g.\ a directed 
-          graph~\cite{BlockchainFreeCryptocurrencies}.
-      \end{itemize}
-    \end{idea}
-  }
-  \only<3>{%
-    \begin{idea}[Created before end]
-      \begin{itemize}
-        \item Submit the proof to storage.
-        \item The proof must've been created before it was included.
-        \item If included before \(t_e\), then it was created before \(t_e\).
-      \end{itemize}
-    \end{idea}
-  }
-  \only<4>{%
-    \begin{idea}[Created after start]
-      \begin{itemize}
-        \item Include an unpredictable value in the proof.
-        \item This could be e.g.\ the hash of the \enquote{head} of the 
-          \ac{tposet}, (\(t_s\) in the figure).
-        \item This prevents creating proofs for future protests.
-      \end{itemize}
-    \end{idea}
-  }
-}
-\end{frame}
-
-\Cref{CreatedBeforeEnd} is straight-forward, Alice and Bob simply add their 
-proofs to the \ac{tposet} \emph{in (time-wise) relation to the event}.
-In \cref{PosetGraph}, if \(t_e\) is verifiably related to the end of the 
-protest, then the relation will guarantee that \(p_A, p_B\) were created before 
-the end of the protest.
-Then we know that they cannot have been created after the event.
-
-For \cref{CreatedAfterStart} Alice and Bob must include an unpredictable value 
-in their proofs, e.g.\ \(t_s\) in \cref{PosetGraph}.
-This means that if \(t_s\) is sufficiently close (time-wise) to the protest and 
-has sufficiently high entropy, then Alice or Bob cannot create a proof and keep 
-it for a future protest.
-
-They can use an older value (pick one from the history of the \ac{tposet}) when 
-they create their proofs.
-This will only expand the interval of possible creation into the past.
-This will not help their cause, as anyone will recognize that the proof could 
-be created at any time in that interval, i.e.\ possibly before the protest.
-
-\subsubsection{Spatial eligibility}
+\subsection{Location proofs and spatial eligibility}
 
 \Cref{SpatiallyRelated} binds the data spatially to the location, which allows 
 us to \emph{verify the data spatially}.
@@ -281,6 +206,99 @@ its \enquote{manifesto}.
   }
 }
 \end{frame}
+
+\subsection{Storage and temporal eligibility}
+
+We will use the storage to provide temporal eligibility.
+\Cref{CreatedBeforeEnd,CreatedAfterStart} requires a \emph{partially ordered 
+  set}\footnote{%
+  A relation \(\preceq\) which is reflexive, antisymmetric and transitive.
+} of objects.
+(See \cref{PosetGraph}.)
+If some objects in the set relate to known points in time, then the partial 
+order relates the data to the time of the event.
+This allows us to \emph{verify the data temporally}.
+One primitive that fulfils these requirements is a blockchain.
+There are also other structures, e.g.\ a directed graph that 
+converges~\cite{BlockchainFreeCryptocurrencies}, that also provides the required 
+properties.
+However, we will use the blockchain in our discussion for simplicity.
+
+There are exactly two properties that we need.
+The first property we need is decentralized, immutable storage with a general 
+form of time-stamping.
+I.e.\ once we commit something to the blockchain it will remain there and we do 
+not have to trust any central authority.
+We can also relate commitments to time, e.g.\ in Bitcoin~\cite{Bitcoin} a new 
+block appears approximately every 10 minutes.
+
+The second property we need is an unpredictable number whose time of publication 
+can be verified.
+For this property, we will use the head of the blockchain.
+The hash value of the head of the blockchain at a given time will be difficult 
+to predict ahead of time.
+%(See \cref{SecurityAnalysis} for a security analysis.)
+We want to use this to ensure that proofs are created after a certain point in 
+time.
+
+\begin{frame}
+\begin{figure}
+  \centering
+  \input{fig/tposet.tex}
+  \mode<article>{%
+    \caption{%
+      Alice submits proof \(p_A\) and Bob submits proof \(p_B\).
+      We have \(t_s\prec p_A, p_B\prec t_e\), but \((p_A, p_B)\notin \prec\) 
+      are incomparable.
+    }\label{PosetGraph}
+  }
+\end{figure}
+
+\mode<presentation>{%
+  \only<1,2>{%
+    \begin{idea}[Temporal eligibility]
+      \begin{itemize}
+        \item We need a partially ordered set (poset).
+
+          \pause{}
+
+        \item There is a mechanism that provides this property: a blockchain.
+        \item There are also other structures, e.g.\ a directed 
+          graph~\cite{BlockchainFreeCryptocurrencies}.
+      \end{itemize}
+    \end{idea}
+  }
+  \only<3>{%
+    \begin{idea}[Created before end]
+      \begin{itemize}
+        \item Submit the proof to storage.
+        \item The proof must've been created before it was included.
+        \item If included before \(t_e\), then it was created before \(t_e\).
+      \end{itemize}
+    \end{idea}
+  }
+  \only<4>{%
+    \begin{idea}[Created after start]
+      \begin{itemize}
+        \item Include an unpredictable value in the proof.
+        \item This could be e.g.\ the hash of the \enquote{head} of the 
+          \ac{tposet}, (\(t_s\) in the figure).
+        \item This prevents creating proofs for future protests.
+      \end{itemize}
+    \end{idea}
+  }
+}
+\end{frame}
+
+\Cref{CreatedBeforeEnd} is straight-forward, Alice and Bob simply commit their 
+proofs to the blockchain as soon as possible after they have participated in the 
+protest.
+Thus we can infer that a proof (or proof share) was created at the latest when 
+it was committed.
+For \cref{CreatedAfterStart} Alice and Bob must include the hash value of a 
+block in the blockchain.
+Then it is clear that the proof must have been created after that block (since 
+predicting such a value is hard).
 
 \subsubsection{Individual and universal verifiability}
 
