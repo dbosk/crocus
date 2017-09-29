@@ -1,10 +1,12 @@
 SRC+=	contents.tex
 SRC+=	abstract.tex
 SRC+=	intro.tex
-SRC+=	properties.tex
 SRC+=	SystemModel.tex
-SRC+=	security.tex
+SRC+=	properties.tex
 SRC+=	RelatedWork.tex
+SRC+= 	primitives.tex
+SRC+= 	protocol.tex
+SRC+=	security.tex
 SRC+=	conclusions.tex
 SRC+=	acknowledgements.tex
 
