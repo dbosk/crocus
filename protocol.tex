@@ -45,7 +45,7 @@ converges~\cite{BlockchainFreeCryptocurrencies}, that also provides the required
 properties.
 However, we will use the blockchain in our discussion for simplicity.
 
-There are exactly two properties that we need.
+There are three properties that we need from the storage system.
 The first property we need is decentralized, immutable storage with a general 
 form of time-stamping.
 I.e.\ once we commit something to the blockchain it will remain there and we do 
@@ -61,6 +61,13 @@ to predict ahead of time.
 %(See \cref{SecurityAnalysis} for a security analysis.)
 We want to use this to ensure that proofs are created after a certain point in 
 time.
+
+The third property is that once we have committed some data, we do not need to 
+keep the data itself, but we can store some confirmation value instead.
+E.g.\ using blockchains, we can store the hash of the block where our data was 
+committed, while this block remains we are sure that our data remains committed 
+--- even if we no longer remember what our data looked like.
+We will use this property to approximate the property of receipt freeness.
 
 \begin{frame}
 \begin{figure}
