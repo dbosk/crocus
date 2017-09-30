@@ -23,51 +23,10 @@ cannot upload them themselves.
 
 We will now describe the protocol in more details.
 We will describe it in the same order as outlined above:
-starting with the storage and its required properties, then constructing the 
-participation proof (shares) and submitting the proof shares to storage.
-Finally, we will conclude with how to verify the proofs and produce the 
+starting with the construction of the participation proof (shares) and 
+submitting the proof shares to storage.
+Then we will conclude with how to verify the proofs and produce the 
 participation count.
-
-\subsection{Storage and temporal eligibility}
-
-We will use the storage to provide temporal eligibility.
-\Cref{CreatedBeforeEnd,CreatedAfterStart} requires a \emph{partially ordered 
-  set}\footnote{%
-  A relation \(\preceq\) which is reflexive, antisymmetric and transitive.
-} of objects.
-(See \cref{PosetGraph}.)
-If some objects in the set relate to known points in time, then the partial 
-order relates the data to the time of the event.
-This allows us to \emph{verify the data temporally}.
-One primitive that fulfils these requirements is a blockchain.
-There are also other structures, e.g.\ a directed graph that 
-converges~\cite{BlockchainFreeCryptocurrencies}, that also provides the required 
-properties.
-However, we will use the blockchain in our discussion for simplicity.
-
-There are three properties that we need from the storage system.
-The first property we need is decentralized, immutable storage with a general 
-form of time-stamping.
-I.e.\ once we commit something to the blockchain it will remain there and we do 
-not have to trust any central authority.
-We can also relate commitments to time, e.g.\ in Bitcoin~\cite{Bitcoin} a new 
-block appears approximately every 10 minutes.
-
-The second property we need is an unpredictable number whose time of publication 
-can be verified.
-For this property, we will use the head of the blockchain.
-The hash value of the head of the blockchain at a given time will be difficult 
-to predict ahead of time.
-%(See \cref{SecurityAnalysis} for a security analysis.)
-We want to use this to ensure that proofs are created after a certain point in 
-time.
-
-The third property is that once we have committed some data, we do not need to 
-keep the data itself, but we can store some confirmation value instead.
-E.g.\ using blockchains, we can store the hash of the block where our data was 
-committed, while this block remains we are sure that our data remains committed 
---- even if we no longer remember what our data looked like.
-We will use this property to approximate the property of receipt freeness.
 
 \begin{frame}
 \begin{figure}
@@ -118,6 +77,8 @@ We will use this property to approximate the property of receipt freeness.
 }
 \end{frame}
 
+\subsection{Constructing the participation-proof shares}
+
 With the above properties, \cref{CreatedBeforeEnd} is straight-forward: Alice 
 and Bob simply commit their proofs to the blockchain as soon as possible after 
 they have participated in the protest.
@@ -127,8 +88,6 @@ For \cref{CreatedAfterStart}, Alice and Bob must include the hash value of an
 existing block in the blockchain.
 Then it is clear that the proof must have been created after that block (since 
 predicting such a value is hard).
-
-\subsection{Constructing the participation-proof shares}
 
 \subsubsection{Linkability and designated protest}
 
@@ -316,7 +275,7 @@ However, this requires some assumptions:
   Or the proofs must be submitted to the \ac{tposet} during the protest.
 \end{remark}
 
-\subsubsection{Individual and universal verifiability}
+\subsection{Verifying the proofs}
 
 If the proofs are stored publicly, then an individual can check that their 
 proof has been included (committed) there.
