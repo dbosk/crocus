@@ -30,33 +30,7 @@ participation count.
 
 \subsection{Constructing the participation-proof shares}
 
-With the above properties, \cref{CreatedBeforeEnd} is straight-forward: Alice 
-and Bob simply commit their proofs to the blockchain as soon as possible after 
-they have participated in the protest.
-Thus we can infer that a proof (or proof share) was created at the latest when 
-it was committed.
-For \cref{CreatedAfterStart}, Alice and Bob must include the hash value of an 
-existing block in the blockchain.
-Then it is clear that the proof must have been created after that block (since 
-predicting such a value is hard).
-
-\subsubsection{Linkability and designated protest}
-
-\Cref{CountOnce} is required to prevent Sybil attacks, i.e.\ that one 
-individual can provide two proofs of participation and thus be counted twice.
-That situation should be detectable.
-We can do this by ensuring that Alice cannot produce two valid proofs which
-are unlinkable.
-This can be done by including a signature made by a verified key.
-(We will discuss the privacy aspects in \cref{Privacy}.)
-
-\Cref{DesignatedEvent} focuses on the problem that there might be a counter 
-protest at the same time and place, these would have the same spatial and 
-temporal properties.
-To distinguish them, we also need to prove for which of these events that a 
-proof is designated.
-This can be achieved by a unique identifier for a protest, e.g.\ the hash of 
-its \enquote{manifesto}.
+An overview of the structure of a proof is available in \cref{ProofFig}.
 
 \begin{frame}
 \begin{figure}
@@ -64,10 +38,10 @@ its \enquote{manifesto}.
   \mode<presentation>{%
     \only<1>{%
       \begin{tikzpicture}
-        \tikzset{grow'=right,level distance=5em}
+        \tikzset{grow'=left,level distance=5em}
         \Tree [.proof
         {share}
-        [.{share} {\(x,y\)} {$t_s$} [.{\color{red}osig} {$t_s'$} ]
+        [.{share} {\(x,y\)} {$t_s'$} [.{\color{red}osig} {$t_s$} ]
         %[.tsig {$t_s''$} ]
         ]
         {share}
@@ -77,11 +51,11 @@ its \enquote{manifesto}.
   }
   \only<2>{%
     \begin{tikzpicture}
-      \tikzset{grow'=right,level distance=5em}
+      \tikzset{grow'=left,level distance=5em}
       \Tree [.proof
       {share}
-      [.{share} {\(x,y\)} {$t_s$} [.{osig} 
-      [.{\mode<presentation>{\color{red}}\(id\)} manifesto ] {$t_s'$} ]
+      [.{share} {\(x,y\)} {$t_s'$} [.{osig} 
+      [.{\mode<presentation>{\color{red}}\(id\)} manifesto ] {$t_s$} ]
       %[.tsig {$t_s''$} ]
       ]
       {share}
@@ -95,7 +69,8 @@ its \enquote{manifesto}.
       protest and the head of the \ac{tposet}.
       Whenever possible, the witness signature should include proof that the 
       witness themself has been witnessed by a trusted witness (tsig).
-    }
+    }%
+    \label{ProofFig}
   }
 \end{figure}
 
@@ -119,6 +94,19 @@ its \enquote{manifesto}.
   }
 }
 \end{frame}
+
+\subsubsection{Temporal eligibility}
+
+Given the properties of the storage (in \cref{StorageProperties}), 
+\cref{CreatedBeforeEnd} is straight-forward: Alice and Bob simply commit their 
+proofs to the blockchain as soon as possible after they have participated in the 
+protest.
+Thus we can infer that a proof (or proof share) was created at the latest when 
+it was committed.
+For \cref{CreatedAfterStart}, Alice and Bob must include the hash value of an 
+existing block in the blockchain (\(t_s\) in \cref{ProofFig}).
+Then it is clear that the proof must have been created after that block (since 
+predicting such a value is hard).
 
 \subsubsection{Location proofs and spatial eligibility}
 
