@@ -95,6 +95,38 @@ An overview of the structure of a proof is available in \cref{ProofFig}.
 }
 \end{frame}
 
+
+\subsubsection{Linkability and designated protest}
+
+\Cref{CountOnce} is required to prevent Sybil attacks, i.e.\ that one individual 
+can provide two participation proofs and thus be counted twice.
+That situation should be detectable.
+We can do this by ensuring that Alice cannot produce two valid proofs which
+are unlinkable.
+\Cref{DesignatedEvent} is to prevent Alice from reusing the same proof (or proof 
+share) for another event.
+E.g.\ there might be a counter protest at the same time and place, these would 
+have the same spatial and temporal properties.
+To distinguish them, we also need to prove for which of these events that a 
+proof is designated.
+The idea is to construct a unique identifier for a protest.
+
+We will start with the latter.
+The identifier of the protest must be regulated, for the same reasons as for the 
+user identifiers --- otherwise a counter-protest can simply choose the same 
+protest identifier.
+As was pointed out in \cref{CauseIsTheCommonDenominator}, the cause is at the 
+root of what defines a protest.
+The cause can be captured in some sort of \enquote{manifesto}, thus, we will use 
+the hash value of the manifesto as identifier of the protest.
+(As shown in \cref{ProofFig}.)
+
+\Textcite{HowToWinTheCloneWars} created an \emph{interactive} credential system 
+which allows anonymous authentication at most \(n\) times\footnote{%
+  Possibly there is another system that makes it non-interactive, see issue 
+  \#27.
+}.
+
 \subsubsection{Temporal eligibility}
 
 Given the properties of the storage (in \cref{StorageProperties}), 
