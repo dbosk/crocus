@@ -36,7 +36,11 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
 \begin{frame}
 \begin{figure}
   \centering
-  \begin{tikzpicture}[<-,item/.style={rectangle,draw}]
+  \begin{tikzpicture}[%
+    -Latex,
+    item/.style={rectangle,draw},
+    edge from parent/.style={}
+    ]
     \tikzset{%
       %grow'=left,%
       %level distance=5em%
