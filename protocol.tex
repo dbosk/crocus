@@ -80,9 +80,17 @@ protest identifier.
 As was pointed out in \cref{CauseIsTheCommonDenominator}, the cause is at the 
 root of what defines a protest.
 The cause can be captured in some sort of \enquote{manifesto}, thus, we will use 
-the hash value of the manifesto as identifier of the protest.
-(As shown as manifesto and \(id\) in \cref{ProofFig}.)
+the hash value of the manifesto as identifier of the protest (cause).
+(As shown as manifesto and cause identifier \(cid\) in \cref{ProofFig}.)
 
+To practically propagate this identifier to the protesters the organizer can 
+have a placard with a large QR code that either contains the entire manifesto or 
+at least links to a website hosting the manifesto.
+The user can scan this QR code with a protesting app which will automatically 
+fetch it, show it to the protester for approval and then compute the identifier 
+\(cid\).
+
+Next we need to consider the protesters' identifiers to prevent Sybil attacks.
 \Textcite{HowToWinTheCloneWars} created an \emph{interactive} credential system 
 which allows anonymous authentication at most \(n\) times\footnote{%
   Possibly there is another scheme that makes it non-interactive, e.g.\ by 
