@@ -35,64 +35,26 @@ An overview of the structure of a proof is available in \cref{ProofFig}.
 \begin{frame}
 \begin{figure}
   \centering
-  \mode<presentation>{%
-    \only<1>{%
-      \begin{tikzpicture}
-        \tikzset{grow'=left,level distance=5em}
-        \Tree [.proof
-        {share}
-        [.{share} {\(x,y\)} {$t_s'$} [.{\color{red}osig} {$t_s$} ]
-        %[.tsig {$t_s''$} ]
-        ]
-        {share}
-        ]
-      \end{tikzpicture}
-    }
-  }
-  \only<2>{%
-    \begin{tikzpicture}
-      \tikzset{grow'=left,level distance=5em}
-      \Tree [.proof
-      {share}
-      [.{share} {\(x,y\)} {$t_s'$} [.{osig} 
-      [.{\mode<presentation>{\color{red}}\(id\)} manifesto ] {$t_s$} ]
-      %[.tsig {$t_s''$} ]
-      ]
-      {share}
-      ]
-    \end{tikzpicture}
-  }
+  \begin{tikzpicture}
+    \tikzset{grow'=left,level distance=5em}
+    \Tree [.proof
+    {share}
+    [.{share} {\(wid\)} {\(l\)} {$t_s$} [.{\(pid\)} [.{\(cid\)} manifesto ] ]
+    %[.tsig {$t_s''$} ]
+    ]
+    {share}
+    ]
+  \end{tikzpicture}
   \mode<article>{%
-    \caption{%
-      The proof depends on several witness signatures (share), each of which 
-      depends on the owner's signature (osig), which depends on the \(id\) of the
-      protest and the head of the \ac{tposet}.
-      Whenever possible, the witness signature should include proof that the 
-      witness themself has been witnessed by a trusted witness (tsig).
-    }%
-    \label{ProofFig}
-  }
+  \caption{%
+    The proof depends on several proof shares.
+    Each share depends on the protester's identifier (\(pid\), which depends on 
+    the cause identifier, \(cid\)),
+    the head of the blockchain (\(t_s\)), the location (\(l\)) and the witness 
+    identifier (\(wid\)).
+  }}%
+  \label{ProofFig}
 \end{figure}
-
-\mode<presentation>{%
-  \only<1>{%
-    \begin{idea}[Count once]
-      \begin{itemize}
-        \item Any two proofs by the same individual are linkable.
-        \item Includes signature made by a verified key.
-      \end{itemize}
-    \end{idea}
-  }
-
-  \only<2>{%
-    \begin{idea}[Designated event]
-      \begin{itemize}
-        \item Include a protest-specific identifier.
-        \item E.g.\ hash of the \enquote{manifesto}.
-      \end{itemize}
-    \end{idea}
-  }
-}
 \end{frame}
 
 
@@ -119,13 +81,21 @@ As was pointed out in \cref{CauseIsTheCommonDenominator}, the cause is at the
 root of what defines a protest.
 The cause can be captured in some sort of \enquote{manifesto}, thus, we will use 
 the hash value of the manifesto as identifier of the protest.
-(As shown in \cref{ProofFig}.)
+(As shown as manifesto and \(id\) in \cref{ProofFig}.)
 
 \Textcite{HowToWinTheCloneWars} created an \emph{interactive} credential system 
 which allows anonymous authentication at most \(n\) times\footnote{%
-  Possibly there is another system that makes it non-interactive, see issue 
-  \#27.
+  Possibly there is another scheme that makes it non-interactive, e.g.\ by 
+  \Textcite{Psignatures}, see issue \#27.
 }.
+Alice has a \ac{PRF} key \(k\) and a blind signature on \(k\) included in her 
+national identity-card (by assumption).
+She will use \(k\) to compute \(pid\gets PRF_k(id)\), which is her anonymous 
+identity during the protest.
+She must also provide \iac{NIZK} proof that \(pid = PRF_k(id)\) and that she 
+knows a signature by the identity authority on \(k\).
+Thus \(pid\) will be used as the unique identifier in the proof shares and the 
+\ac{NIZK} proof will prove the eligibility of \(pid\).
 
 \subsubsection{Temporal eligibility}
 
