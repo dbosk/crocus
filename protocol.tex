@@ -36,15 +36,45 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
 \begin{frame}
 \begin{figure}
   \centering
-  \begin{tikzpicture}
-    \tikzset{grow'=left,level distance=5em}
-    \Tree [.proof
-    {share}
-    [.{share} {\(wid\)} {\(l\)} {$t_s$} [.{\(pid\)} [.{\(cid\)} manifesto ] ]
-    %[.tsig {$t_s''$} ]
-    ]
-    {share}
-    ]
+  \begin{tikzpicture}[<-,item/.style={rectangle,draw}]
+    \tikzset{%
+      %grow'=left,%
+      %level distance=5em%
+    }
+    \node[item] (proof) {Proof share}
+      child {%
+        node[item] (pid) {$pid$}
+        child {%
+          node[item] (cid) {$cid$}
+          child {%
+            node[item] (manifesto) {Manifesto}
+          }
+        }
+      }
+      child {%
+        node[item] (ts) {$t_s$}
+      }
+      child {%
+        node[item] (l) {$l$}
+      }
+      child {%
+        node[item] (wid) {$wid$}
+      }
+      ;
+
+      \path[every node/.style={font=\small}]
+      (wid) edge[bend left] node [anchor=north] {$PRF_{k_w}(\cdot)$} (pid)
+      (cid) edge node [anchor=east] {$H(\cdot)$} (manifesto)
+      (pid) edge node [anchor=east] {$PRF_{k_p}(\cdot)$} (cid)
+      ;
+
+%    \Tree [.proof
+%    {share}
+%    [.{share} {\(wid\)} {\(l\)} {$t_s$} [.{\(pid\)} [.{\(cid\)} manifesto ] ]
+%    %[.tsig {$t_s''$} ]
+%    ]
+%    {share}
+%    ]
   \end{tikzpicture}
   \mode<article>{%
   \caption{%
