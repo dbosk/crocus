@@ -109,11 +109,6 @@ Alice has a \ac{PRF} key \(k\) and a blind signature on \(k\) included in her
 national identity-card (by assumption).
 She will use \(k\) to compute \(pid\gets PRF_k(id)\), which is her anonymous 
 identity during the protest.
-She must also provide \iac{NIZK} proof that \(pid = PRF_k(id)\) and that she 
-knows a signature by the identity authority on \(k\).
-Thus \(pid\) will be used as the unique identifier in the proof shares (and all 
-computations below) whereas the \ac{NIZK} proof will be used separately to prove 
-the validity (eligibility) of \(pid\).
 
 \subsubsection{Temporal eligibility, created after start}
 
@@ -240,6 +235,12 @@ Thus we can infer that a proof (or proof share) was created at the latest when
 it was committed.
 
 \subsection{Verifying the proofs}
+
+Alice must also provide \iac{NIZK} proof that \(pid = PRF_k(id)\) and that she 
+knows a signature by the identity authority on \(k\).
+Thus \(pid\) will be used as the unique identifier in the proof shares (and all 
+computations below) whereas the \ac{NIZK} proof will be used separately to prove 
+the validity (eligibility) of \(pid\).
 
 If the proofs are stored publicly, then an individual can check that their 
 proof has been included (committed) there.
