@@ -165,11 +165,11 @@ Next we need to consider the protesters' identifiers to prevent Sybil attacks.
 which allows anonymous authentication at most \(n\) times\footnote{%
   Possibly there is another scheme that makes it non-interactive, e.g.\ by 
   \Textcite{Psignatures}, see issue \#27.
-}.
+}, where \(n = 1\) in our scenario.
 Alice has a \ac{PRF} key \(k\) and a blind signature on \(k\) included in her 
 national identity-card (by assumption).
-She will use \(k\) to compute \(pid\gets PRF_k(id)\), which is her anonymous 
-identity during the protest.
+She will use \(k\) to compute \(pid\gets PRF_k(cid)\), which is her anonymous 
+identity during the protest (shown as \(pid\) in \cref{fig:ProofFig}).
 
 \subsubsection{Temporal eligibility, created after start}
 
