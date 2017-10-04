@@ -92,24 +92,41 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
   \mode<article>{%
   \caption{%
     Structure of a proof share.
-    The protester's identifier \(pid\) is computed using the protester's key 
-    \(k_p\).
-    The witness's identifier \(wid\) is computed using the witness's key 
-    \(k_w\).
+    The protester \(P\)'s identifier \(pid\) is computed using the protester's 
+    key \(k_P\).
+    The witness \(W\)'s identifier \(wid\) is computed using the witness's key 
+    \(k_W\).
     \(t_s\) is a time interval and \(l\) is the coordinates of an area.
+    The protest (cause) identifier \(cid\) is the hash value of the manifesto.
   }}%
   \label{fig:ProofFig}
-\end{figure}
+\end{figure}%
 \end{frame}
 
+\begin{frame}
 \begin{figure}
   \centering
-  \dots
+  \begin{minipage}{\linewidth}
+    \begin{align*}
+      O\to \text{all}\colon & \text{manifesto} \\
+      P\colon & pid\gets PRF_{k_P}(cid) \\
+      P\to W\colon & pid \\
+      W\colon & wid\gets PRF_{k_W}(pid), \\
+        & wsig\gets PRF_{k_W}(wid, t_s, l) \\
+      W\to P\colon & (wid, t_s, l, wsig) \\
+      W\to S\colon & (pid, wid, t_s, l, wsig) \\
+      P\to S\colon & (pid, wid, t_s, l, wsig)
+    \end{align*}
+  \end{minipage}
   \caption{%
     An overview of message exchanges.
+    The organizer \(O\) broadcasts the manifesto.
+    \(P\), \(W\) and their computations are as in \cref{fig:ProofFig}.
+    Finally, both \(P\) and \(W\) submits the proof share to the storage \(S\).
   }%
   \label{fig:ProtocolOverview}
 \end{figure}
+\end{frame}
 
 \subsubsection{Linkability and designated protest}
 
