@@ -56,37 +56,47 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
         }
       }
       child {%
+        node[item] (wid) {$wid$}
+      }
+      child {%
         node[item] (ts) {$t_s$}
       }
       child {%
         node[item] (l) {$l$}
       }
       child {%
-        node[item] (wid) {$wid$}
+        node[item] (wsig) {$wsig$}
       }
       ;
 
       \path[every node/.style={font=\small}]
-      (wid) edge[bend left] node [anchor=north] {$PRF_{k_w}(\cdot)$} (pid)
-      (cid) edge node [anchor=east] {$H(\cdot)$} (manifesto)
-      (pid) edge node [anchor=east] {$PRF_{k_p}(\cdot)$} (cid)
+      (pid) edge node [anchor=east] {$\in$} (proof)
+      (ts) edge node [anchor=east] {$\in$} (proof)
+      (l) edge node [anchor=east] {$\in$} (proof)
+      (wid) edge node [anchor=east] {$\in$} (proof)
+      (wsig) edge node [anchor=east] {$\in$} (proof)
       ;
 
-%    \Tree [.proof
-%    {share}
-%    [.{share} {\(wid\)} {\(l\)} {$t_s$} [.{\(pid\)} [.{\(cid\)} manifesto ] ]
-%    %[.tsig {$t_s''$} ]
-%    ]
-%    {share}
-%    ]
+      \path[every node/.style={font=\small}]
+      (manifesto) edge node [anchor=east] {$H(\cdot)$} (cid)
+      (cid) edge node [anchor=east] {$PRF_{k_p}(\cdot)$} (pid)
+      (pid) edge[bend right] node [anchor=north west] {$PRF_{k_w}(\cdot)$} (wid)
+      % wsig
+      (l) edge[bend right] (wsig)
+      (ts) edge[bend right] (wsig)
+      (wid) edge[bend right] node [anchor=north west] {$PRF_{k_w}(\cdot, \cdot, 
+        \cdot)$} (wsig)
+      ;
+
   \end{tikzpicture}
   \mode<article>{%
   \caption{%
-    The proof depends on several proof shares.
-    Each share depends on the protester's identifier (\(pid\), which depends on 
-    the cause identifier, \(cid\)),
-    the head of the blockchain (\(t_s\)), the location (\(l\)) and the witness 
-    identifier (\(wid\)).
+    Structure of a proof share.
+    The protester's identifier \(pid\) is computed using the protester's key 
+    \(k_p\).
+    The witness's identifier \(wid\) is computed using the witness's key 
+    \(k_w\).
+    \(t_s\) is a time interval and \(l\) is the coordinates of an area.
   }}%
   \label{fig:ProofFig}
 \end{figure}
