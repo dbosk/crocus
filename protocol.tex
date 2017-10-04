@@ -30,7 +30,8 @@ participation count.
 
 \subsection{Constructing the participation-proof shares}
 
-An overview of the structure of a proof is available in \cref{ProofFig}.
+An overview of the final structure of a proof is given in \cref{fig:ProofFig} 
+and an overview of the communication is given in \cref{fig:ProtocolOverview}.
 
 \begin{frame}
 \begin{figure}
@@ -53,10 +54,18 @@ An overview of the structure of a proof is available in \cref{ProofFig}.
     the head of the blockchain (\(t_s\)), the location (\(l\)) and the witness 
     identifier (\(wid\)).
   }}%
-  \label{ProofFig}
+  \label{fig:ProofFig}
 \end{figure}
 \end{frame}
 
+\begin{figure}
+  \centering
+  \dots
+  \caption{%
+    \dots
+  }%
+  \label{fig:ProtocolOverview}
+\end{figure}
 
 \subsubsection{Linkability and designated protest}
 
@@ -81,7 +90,7 @@ As was pointed out in \cref{CauseIsTheCommonDenominator}, the cause is at the
 root of what defines a protest.
 The cause can be captured in some sort of \enquote{manifesto}, thus, we will use 
 the hash value of the manifesto as identifier of the protest (cause).
-(As shown as manifesto and cause identifier \(cid\) in \cref{ProofFig}.)
+(As shown as manifesto and cause identifier \(cid\) in \cref{fig:ProofFig}.)
 
 To practically propagate this identifier to the protesters the organizer can 
 have a placard with a large QR code that either contains the entire manifesto or 
@@ -111,7 +120,7 @@ the validity (eligibility) of \(pid\).
 Given the properties of the storage (in \cref{StorageProperties}), for 
 \cref{CreatedAfterStart}, Alice and Bob must include the hash value of an 
 existing block in the blockchain in each proof share (shown as \(t_s\) in 
-\cref{ProofFig}).
+\cref{fig:ProofFig}).
 Then it is clear that the proof must have been created after that block (since 
 predicting such a value is hard).
 
