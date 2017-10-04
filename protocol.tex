@@ -288,12 +288,26 @@ However, this requires some assumptions:
 
 \subsubsection{Temporal eligibility, created before end}
 
+The proofs (shares) can be submitted to storage in two steps:
+first, committing them to the blockchain; second, to submit all the required 
+data.
+This will allow some time for computing all the required \ac{NIZK} proofs 
+(discussed in the following section).
+
 Given the properties of the storage system in \cref{StorageProperties}, 
-\cref{CreatedBeforeEnd} is straight-forward: Alice and Bob simply commit their 
-proofs to the blockchain as soon as possible after they have participated in the 
-protest.
+\cref{CreatedBeforeEnd} is straight-forward: once a proof share is created it 
+should be committed to the blockchain as soon as possible.
 Thus we can infer that a proof (or proof share) was created at the latest when 
 it was committed.
+
+We note that there are at least two entities who know each proof share, the 
+protester and the witness.
+Alice and Bob simply commit their proofs (i.e.\ all proof shares of their 
+proofs) to the blockchain as soon as possible after they have participated in 
+the protest.
+The witnesses do the same, they commit all the proof shares that they helped 
+create.
+(Shown in \cref{fig:ProtocolOverview}.)
 
 \subsection{Verifying the proofs}
 
