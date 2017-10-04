@@ -102,19 +102,16 @@ She will use \(k\) to compute \(pid\gets PRF_k(id)\), which is her anonymous
 identity during the protest.
 She must also provide \iac{NIZK} proof that \(pid = PRF_k(id)\) and that she 
 knows a signature by the identity authority on \(k\).
-Thus \(pid\) will be used as the unique identifier in the proof shares and the 
-\ac{NIZK} proof will prove the eligibility of \(pid\).
+Thus \(pid\) will be used as the unique identifier in the proof shares (and all 
+computations below) whereas the \ac{NIZK} proof will be used separately to prove 
+the validity (eligibility) of \(pid\).
 
-\subsubsection{Temporal eligibility}
+\subsubsection{Temporal eligibility, created after start}
 
-Given the properties of the storage (in \cref{StorageProperties}), 
-\cref{CreatedBeforeEnd} is straight-forward: Alice and Bob simply commit their 
-proofs to the blockchain as soon as possible after they have participated in the 
-protest.
-Thus we can infer that a proof (or proof share) was created at the latest when 
-it was committed.
-For \cref{CreatedAfterStart}, Alice and Bob must include the hash value of an 
-existing block in the blockchain (\(t_s\) in \cref{ProofFig}).
+Given the properties of the storage (in \cref{StorageProperties}), for 
+\cref{CreatedAfterStart}, Alice and Bob must include the hash value of an 
+existing block in the blockchain in each proof share (shown as \(t_s\) in 
+\cref{ProofFig}).
 Then it is clear that the proof must have been created after that block (since 
 predicting such a value is hard).
 
@@ -223,6 +220,15 @@ However, this requires some assumptions:
   time-stamping server must be available during the protest.
   Or the proofs must be submitted to the \ac{tposet} during the protest.
 \end{remark}
+
+\subsubsection{Temporal eligibility, created before end}
+
+Given the properties of the storage system in \cref{StorageProperties}, 
+\cref{CreatedBeforeEnd} is straight-forward: Alice and Bob simply commit their 
+proofs to the blockchain as soon as possible after they have participated in the 
+protest.
+Thus we can infer that a proof (or proof share) was created at the latest when 
+it was committed.
 
 \subsection{Verifying the proofs}
 
