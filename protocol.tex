@@ -79,12 +79,12 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
 
       \path[every node/.style={font=\small}]
       (manifesto) edge node [anchor=east] {$H(\cdot)$} (cid)
-      (cid) edge node [anchor=east] {$PRF_{k_p}(\cdot)$} (pid)
-      (pid) edge[bend right] node [anchor=north west] {$PRF_{k_w}(\cdot)$} (wid)
+      (cid) edge node [anchor=east] {$PRF_{k_P}(\cdot)$} (pid)
+      (pid) edge[bend right] node [anchor=north west] {$PRF_{k_W}(\cdot)$} (wid)
       % wsig
       (l) edge[bend right] (wsig)
       (ts) edge[bend right] (wsig)
-      (wid) edge[bend right] node [anchor=north west] {$PRF_{k_w}(\cdot, \cdot, 
+      (wid) edge[bend right] node [anchor=north west] {$PRF_{k_W}(\cdot, \cdot, 
         \cdot)$} (wsig)
       ;
 
