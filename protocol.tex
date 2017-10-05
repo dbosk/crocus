@@ -174,11 +174,13 @@ identity during the protest (shown as \(pid\) in \cref{fig:ProofFig}).
 \subsubsection{Temporal eligibility, created after start}
 
 Given the properties of the storage (in \cref{StorageProperties}), for 
-\cref{CreatedAfterStart}, Alice and Bob must include the hash value of an 
+\cref{CreatedAfterStart}, each witness must include the hash value of an 
 existing block in the blockchain in each proof share (shown as \(t_s\) in 
 \cref{fig:ProofFig}).
 Then it is clear that the proof must have been created after that block (since 
 predicting such a value is hard).
+This value can either be provided to the witness by the protester or the witness 
+uses the value of the last known block.
 
 \subsubsection{Location proofs and spatial eligibility}
 
