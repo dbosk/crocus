@@ -109,8 +109,10 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
   \begin{minipage}{\linewidth}
     \begin{align*}
       O\to \text{all}\colon & \text{manifesto} \\
-      P\colon & pid\gets PRF_{k_P}(cid) \\
+      P\colon & cid\gets H(\text{manifesto}), \\
+        & pid\gets PRF_{k_P}(cid) \\
       P\to W\colon & pid \\
+      W\leftrightarrow P\colon & \text{perform distance bounding} \\
       W\colon & wid\gets PRF_{k_W}(pid), \\
         & wsig\gets PRF_{k_W}(wid, t_s, l) \\
       W\to P\colon & (wid, t_s, l, wsig) \\
@@ -184,109 +186,18 @@ uses the value of the last known block.
 
 \subsubsection{Location proofs and spatial eligibility}
 
-\Cref{SpatiallyRelated} binds the data spatially to the location, which allows 
-us to \emph{verify the data spatially}.
+According to \cref{SpatiallyRelated} Alice and Bob must bind their proofs 
+(shares) spatially to the location, which would allow us to verify that they 
+were actually in that location.
+The role of the witnesses, e.g.\ Jane, is to provide this property.
+Jane can do this by using a distance-bounding protocol to ensure that the secret 
+associated with Alice or Bob must be within limited physical distance.
 
-If we include \iac{LP}, this will tie the proof to the physical location and, 
-thus, solve \cref{SpatiallyRelated}.
-The \ac{LP} is \enquote{witnessed} (signed) by other participants.
-The \ac{LP} contains coarse coordinates of the location, which must be within 
-the protest area to be valid.
-This allows Bob the protester to move within the protest area to collect 
-witnesses (signatures).
-It also provides privacy since the location cannot be used to deanonymize Bob's 
-proof --- e.g.\ to correlate the location in his proof with captured 
-surveillance footage.
-
-\mode<presentation>{%
-\begin{frame}
-  \begin{figure}
-    \centering
-    \begin{tikzpicture}
-      \tikzset{grow'=right,level distance=5em}
-      \Tree [.Proof
-      [.{wsig} {\(x,y\)} {$t_s$} ]
-      {\dots}
-      [.{wsig} {\dots} ]
-      ]
-    \end{tikzpicture}
-  \end{figure}
-
-  \begin{idea}[Spatial eligibility]
-    \begin{itemize}
-      \item Include \iac{LP} which is \enquote{witnessed} (signed) by other 
-        participants.
-      \item We have a coarse location, just within the protest area.
-      \item This allows protesters to move around to collect signatures.
-      \item This provides privacy for the location, e.g.\ cannot map to 
-        surveillance cameras.
-    \end{itemize}
-  \end{idea}
-\end{frame}
-}
-
-\mode<none>{%
-\begin{frame}
-  \begin{idea}[Transitive trust]
-    \begin{itemize}
-      \item Trusted journalist Jane attends to report.
-      \item She witnesses Alice's proof.
-
-        \pause{}
-
-      \item Alice witnesses Bob's proof.
-      \item Alice's (secret key's) transportation is physically limited.
-      \item Trust on Bob's proof is proportional to time from when Jane 
-        witnessed Alice's proof.
-    \end{itemize}
-  \end{idea}
-\end{frame}
-
-\begin{frame}
-  \begin{figure}
-    \centering
-    \begin{tikzpicture}
-      \tikzset{grow'=right,level distance=5em}
-      \Tree [.Proof
-      [.{wsig} {\(x,y\)} {$t_s$} [.{\color{red}tsig} {$t_s'$} ] ]
-      {\dots}
-      [.{wsig} {\dots} ]
-      ]
-    \end{tikzpicture}
-  \end{figure}
-
-  \begin{remark}
-    \begin{itemize}
-      \item Secret key in hardware.
-      \item Alice's witness signature must depend on Jane's.
-      \item High-precision relation to time?
-    \end{itemize}
-  \end{remark}
-\end{frame}
-}
-
-We will introduce a notion of transitivity for trust in these proofs.
-The \emph{trusted} journalist Jane attends the protest to report on it.
-She witnesses some participants' \acp{LP}, say Alice's \ac{LP} for example.
-Now Alice's \ac{LP} can be trusted as correct at that point in time.
-Alice's ability to travel is physically limited.
-Thus a verifier can trust any \ac{LP} that Alice witnesses proportionally to 
-the time that has passed since Jane witnessed Alice's \ac{LP}.
-We can apply this argument recursively for any other participant's \ac{LP} that 
-Alice has witnessed.
-However, this requires some assumptions:
-\begin{itemize}
-  \item It is actually Alice's signing key must have physically limited travel.
-    This can be assumed for signing keys that are embedded into hardware by 
-    some trusted person.
-  \item Alice's witness signature must depend on Jane's witness signature, to 
-    prove that Alice signed after Jane.
-\end{itemize}
-\begin{remark}
-  This probably requires high-precision timestamps, i.e.\ a trusted 
-  time-stamping server must be available during the protest.
-  Or the proofs must be submitted to the \ac{tposet} during the protest.
-\end{remark}
+Alice will send her \(pid\) to Jane to start the witness protocol.
+Then they do the distance bounding \dots
+If Jane is convinced that Alice's secret is within the desired proximity, she 
+will compute her witness identifier \(wid\) and witness signature \(wsig\) and 
+send them to Alice.
 
 \subsubsection{Temporal eligibility, created before end}
 
