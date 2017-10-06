@@ -1,3 +1,4 @@
+\mode*
 \section{Protocol}
 
 We will start by giving an overview of the protocol.
@@ -120,12 +121,13 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
       P\to S\colon & (pid, wid, t_s, l, wsig)
     \end{align*}
   \end{minipage}
+  \mode<article>{%
   \caption{%
     An overview of message exchanges.
     The organizer \(O\) broadcasts the manifesto.
     \(P\), \(W\) and their computations are as in \cref{fig:ProofFig}.
     Finally, both \(P\) and \(W\) submits the proof share to the storage \(S\).
-  }%
+  }}%
   \label{fig:ProtocolOverview}
 \end{figure}
 \end{frame}
@@ -222,7 +224,17 @@ The witnesses do the same, they commit all the proof shares that they helped
 create.
 (Shown in \cref{fig:ProtocolOverview}.)
 
-\subsection{Verifying the proofs}
+\subsection{Verifying the participation count}
+
+There are three parts to verifying the participation count.
+First, we must verify the eligibility of each proof, i.e.\ of all its shares.
+
+\subsubsection{Verifying eligibility}
+
+To verify the eligibility of a proof share, we must verify that \(pid\), \(wid\) 
+and \(wsig\) are not just randomly generated numbers but they actually depend on 
+the keys \(k_P\) and \(k_W\) (as illustrated in \cref{fig:ProofFig}).
+We will do this with \ac{NIZK} proofs.
 
 Alice must also provide \iac{NIZK} proof that \(pid = PRF_k(id)\) and that she 
 knows a signature by the identity authority on \(k\).
@@ -238,86 +250,13 @@ If the storage is public, then anyone can download all the proofs, verify their
 eligibility and count them.
 Thus anyone can verify the result, which fulfils \cref{UniversalVerif}.
 
-\mode<presentation>{%
-\begin{frame}
-  \begin{idea}[Individual verifiability]
-    \begin{itemize}
-      \item Proofs are stored (committed) publicly.
-      \item Each participant can check that their proof is indeed included.
-    \end{itemize}
-  \end{idea}
+\subsubsection{Universal verifiability}
 
-  \pause{}
+\dots
 
-  \begin{idea}[Universal verifiability]
-    \begin{itemize}
-      \item Proofs are stored (committed) publicly.
-      \item Anyone can download all proofs, verify eligibility and then count 
-        them.
-    \end{itemize}
-  \end{idea}
-\end{frame}
-}
+\subsubsection{Individual verifiability and receipt freeness}
 
-\subsubsection{Participation-proof privacy}
-
-A demonstration is very different from voting in one sense: at a demonstration, 
-Alice must be physically present and that very presence shows her support for 
-the cause.
-In voting, on the other hand, everyone is present and Alice has multiple 
-options which are not revealed by her mere presence.
-% XXX Check if unlinkable is the correct term
-Hence, if Alice submits a proof of participation, the proof must be unlinkable 
-to Alice, yet, if Alice submits another proof, those two proofs must be 
-linkable (due to eligibility verification, \cref{EligibilityVerif}) so that 
-Alice is not counted twice.
-This is fine, since we do not want to catch any cheater, we just do not want to
-count them more than once.
-
-\mode<presentation>{%
-\begin{frame}
-  \begin{remark}
-    \begin{itemize}
-      \item Voting: different alternatives when participating.
-      \item Protesting: participation implies the alternative.
-    \end{itemize}
-  \end{remark}
-
-  \pause{}
-
-  \begin{idea}[Proof privacy]
-    \begin{itemize}
-      \item Eve shouldn't be able to link Alice's published proof back to 
-        Alice.
-      \item But if Alice publishes two proofs, those two are linkable.
-
-        \pause{}
-
-      \item We're not interested in unmasking trolls, just not count them more 
-        than once.
-    \end{itemize}
-  \end{idea}
-\end{frame}
-}
-
-\begin{frame}
-  \begin{remark}
-    Unique ring signatures~\cite{UniqueRingSignatures} has this property: two 
-    signatures are linked with high probability.
-  \end{remark}
-
-  \begin{question}
-    Can we link a verified key to a unique ring signature key?
-  \end{question}
-
-  \pause{}
-
-  \begin{question}
-    How to submit the proofs to the system?
-  \end{question}
-\end{frame}
-
-\subsubsection{Receipt freeness}
+\dots
 
 Receipt freeness implies that Alice enjoys deniability against Eve:
 Eve should not be able to use the published proof to tie it to Alice, even if 
@@ -325,94 +264,10 @@ Eve has access to Alice's device (i.e.\ all her private keys).
 E.g.\ Eve should not be able to reproduce the same proof and thus verify that 
 Alice has created one of the proofs.
 
-\mode<presentation>{%
-\begin{frame}
-  \begin{remark}
-    \begin{itemize}
-      \item The proof itself is a sort of receipt.
-        
-        \pause{}
-
-      \item If Eve compromises Alice's device, she can use it to verify that 
-        she participated.
-
-        \pause{}
-
-      \item We need a signature scheme that cannot reproduce the same signature 
-        when run on the same inputs.
-    \end{itemize}
-  \end{remark}
-\end{frame}
-}
-
-\begin{frame}
-\mode<presentation>{%
-  \begin{idea}[Receipt freeness (deniability)]
-    \begin{itemize}
-      \item Alice submits her proof.
-      \item She stores the hash of the head of the \ac{tposet}.
-      \item She removes the proof and signature key.
-
-        \pause{}
-
-      \item E.g.\ a short-term and a long-term credential, then Alice can 
-        drop the short-term credential.
-
-      \item But Alice should still not be able to participate twice.
-    \end{itemize}
-  \end{idea}
-}
-
-  \pause{}
-
-  \begin{question}
-    Is there such a signature scheme?
-    Can we construct it?
-  \end{question}
-\end{frame}
-
 Say that Alice submits her proof and stores the hash of the head of the 
 \ac{tposet} after her proof is included.
 Now she can remove her proof and just keep the hash to verify that her proof is 
 still there.
 She can also remove her signature key, so that Eve cannot use it to reproduce 
 the signature using the same inputs.
-
-
-\subsubsection{Architecture}
-
-We also have an architectural problem.
-If the system is only run by volunteering activists, then Eve can simply 
-analyse network traffic and look for people running nodes in the system.
-
-\begin{question}
-  Shall we offer a platform that is run by a variety of institutions who 
-  offers to verify protests?
-  Or go strictly peer-to-peer?
-\end{question}
-
-\begin{question}
-  If strictly peer-to-peer, and only run by protesters, one can infer that 
-  they are protesters by running such a node.
-  Can this be mitigated?
-\end{question}
-
-Similarly, we have the problem of how protesters submit their proofs to the 
-system.
-This must be done anonymously.
-Otherwise Eve can analyse the network traffic to find out who submitted proofs 
-to the system.
-The main problem here is that the participants must be indistinguishable from 
-non-participants.
-This means that we cannot use special-purpose anonymizing 
-technologies.
-
-\begin{question}
-  How do we submit the proofs to storage?
-  Voting normally uses mix-nets (provable shuffles).
-\end{question}
-
-\begin{remark}
-  We must mix participants with non-participants.
-\end{remark}
 
