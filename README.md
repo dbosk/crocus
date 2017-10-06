@@ -51,6 +51,9 @@ File structure
 
 `ProtestVerif-paper.tex` contains the specifics for the paper and 
 `ProtestVerif-slides.tex` contains the specifics for the slides.
+There is also `shortslides.tex` which can be used to produce a very short slide 
+deck (useful for meetings).
+
 The only thing that needs editing in these files is the list of authors, 
 separate lists in each (due to different packages handling the list of authors 
 and their affiliations).
