@@ -197,6 +197,7 @@ associated with Alice or Bob must be within limited physical distance.
 
 Alice will send her \(pid\) to Jane to start the witness protocol.
 Then they do the distance bounding \dots
+[See issue \#22 for the discussion.]
 If Jane is convinced that Alice's secret is within the desired proximity, she 
 will compute her witness identifier \(wid\) and witness signature \(wsig\) and 
 send them to Alice.
@@ -228,29 +229,43 @@ create.
 
 There are three parts to verifying the participation count.
 First, we must verify the eligibility of each proof, i.e.\ of all its shares.
+Second, we must count these valid proofs.
+Third, each protester must check that their proof is indeed registered so that 
+it can be counted.
 
 \subsubsection{Eligibility and universal verifiability}
 
+Universal verifiability (\cref{UniversalVerif}) means that anyone should be able 
+to count the valid proofs.
+To do this we must be able to verify the eligibility of a proof (i.e.\ of all 
+its shares) and then count it if valid.
 To verify the eligibility of a proof share, we must verify that \(pid\), \(wid\) 
 and \(wsig\) are not just randomly generated numbers but they actually depend on 
 the keys \(k_P\) and \(k_W\) (as illustrated in \cref{fig:ProofFig}).
 We will do this with \ac{NIZK} proofs.
+We note that these proofs are not needed until the verification step after the 
+protest.
+Thus \(pid, wid, wsig\) can be used in the proof shares (and all computations 
+above) whereas their respective \ac{NIZK} proof can be computed and published 
+after the protest.
 
-Alice must also provide \iac{NIZK} proof that \(pid = PRF_k(id)\) and that she 
-knows a signature by the identity authority on \(k\).
-Thus \(pid\) will be used as the unique identifier in the proof shares (and all 
-computations below) whereas the \ac{NIZK} proof will be used separately to prove 
-the validity (eligibility) of \(pid\).
+Alice must provide \iac{NIZK} proof showing that \(pid = PRF_{k_P}(id)\) and 
+that she knows a signature by the identity authority on \(k_P\).
+\dots
+[Details of how to do this, or maybe that will be in \cref{BuildingBlocks}. See 
+issue \#27 for discussion.]
 
-If the proofs are stored publicly, then an individual can check that their 
-proof has been included (committed) there.
-Thus \cref{IndividualVerif} is fulfilled.
-Similarly for universal verifiability.
-If the storage is public, then anyone can download all the proofs, verify their 
-eligibility and count them.
-Thus anyone can verify the result, which fulfils \cref{UniversalVerif}.
+In the same manner, each witness must also provide \iac{NIZK} proofs for \(wid = 
+  PRF_{k_W}(pid)\) and \(wsig = PRF_{k_W}(wid, t_s, l)\) as well as that the 
+witness knows a signature by the identity authority on \(k_W\).
+With these \ac{NIZK} proofs anyone can verify the validity, i.e.\ the 
+eligibility, of the proof shares and thus also count them.
 
 \subsubsection{Individual verifiability and receipt freeness}
+
+If the proofs are stored publicly, then an individual can check that their proof 
+has been included (committed) there.
+Thus \cref{IndividualVerif} is fulfilled.
 
 \dots
 
