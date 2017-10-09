@@ -76,8 +76,10 @@ More specifically, we will use the following definition.
 
 \begin{frame}
 \begin{definition}[Protest]\label{DefProtest}
-  A \emph{subprotest} is a tuple \((id, t, l)\) where
-  \(id\in \Z_{2^\lambda}\) is an identifier,
+  A \emph{subprotest} is a tuple \((cid, t, l)\) where
+  \(cid\in \Z_{2^\lambda}\) is the cause\footnote{%
+    I.e.\ the cause of the protest.
+  } identifier,
   \(t = \interval{t_s}{t_e}\subseteq \R\) is a time interval and
   \(l = N_\epsilon(x, y)\subseteq \R^2\) is the location (an 
   \(\epsilon\)-neighbourhood of \((x,y)\)).
@@ -103,8 +105,8 @@ witnesses.
 
 \begin{frame}
 \begin{definition}[Witness]
-  A \emph{witness} \(w = (pid, id, t, l, wid)\) is a tuple where
-  \(id, t, l\) are as in \cref{DefProtest},
+  A \emph{witness} \(w = (pid, cid, t, l, wid)\) is a tuple where
+  \(cid, t, l\) are as in \cref{DefProtest},
   \(pid\) uniquely identifies the protester and \(wid\) uniquely identifies the 
   person who issued the witness.
   We let \(W\) be the set of all witnesses.
@@ -120,9 +122,9 @@ A subset of the witnesses forms a participation proof for a protester.
   \begin{align}
     \nonumber
     p_{i, j} =
-    \left\{ (pid, id, t, l, wid)\in W \mid
+    \left\{ (pid, cid, t, l, wid)\in W \mid
     %\right. &
-    pid = i, id = j,
+    pid = i, cid = j,
     %\\ & \left.
     t \subseteq t_j, l\subseteq l_j \right\},
   \end{align}
@@ -135,10 +137,10 @@ A subset of the witnesses forms a participation proof for a protester.
 We can now define the participation count as follows.
 \begin{frame}
 \begin{definition}[Participation count]
-  We define the \emph{participation count} of a protest \(id\) as the 
-  cardinality \(|P_{id}^{s,\theta}|\) of the set of participation proofs \[
-    P_{id}^{s,\theta} = \left\{ p_{i,j} \mid
-      j = id, s(p_{i,j})\geq \theta \right\}
+  We define the \emph{participation count} of a protest \(cid\) as the 
+  cardinality \(|P_{cid}^{s,\theta}|\) of the set of participation proofs \[
+    P_{cid}^{s,\theta} = \left\{ p_{i,j} \mid
+      j = cid, s(p_{i,j})\geq \theta \right\}
   \] for some strength function \(s\colon \powerset(W)\to \R_+\) and a threshold 
   \(\theta\).
 \end{definition}
