@@ -268,22 +268,17 @@ eligibility, of the proof shares and thus also count them.
 
 \subsubsection{Individual verifiability and receipt freeness}
 
-If the proofs are stored publicly, then an individual can check that their proof 
-has been included (committed) there.
-Thus \cref{IndividualVerif} is fulfilled.
+The purpose of individual verifiability (\cref{IndividualVerif}) is to prevent 
+an adversary from dropping participation proofs.
+Thus each protester must verify that their own proof is indeed included.
+This can be accomplished as follows.
+After Alice commited to her proof (share) in the blockchain, she stores the hash 
+of the block.
+At a later time, she can still verify that the block is indeed still there.
+At this point, this hash value is the only thing she must store for individual 
+verifiability.
 
-\dots
-
-Receipt freeness implies that Alice enjoys deniability against Eve:
-Eve should not be able to use the published proof to tie it to Alice, even if 
-Eve has access to Alice's device (i.e.\ all her private keys).
-E.g.\ Eve should not be able to reproduce the same proof and thus verify that 
-Alice has created one of the proofs.
-
-Say that Alice submits her proof and stores the hash of the head of the 
-\ac{tposet} after her proof is included.
-Now she can remove her proof and just keep the hash to verify that her proof is 
-still there.
-She can also remove her signature key, so that Eve cannot use it to reproduce 
-the signature using the same inputs.
-
+More specifically, to achieve receipt freeness (\cref{ReceiptFreeness}) Alice 
+must remove her secret PRF key, \(k_A\).
+With this key Eve can verify that Alice has submitted a proof by computing 
+\(pid'\gets PRF_{k_A}(cid)\) and compare \(pid = pid'\).
