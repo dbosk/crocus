@@ -43,6 +43,13 @@ make ProtestVerif-paper.pdf
 Simply running `make` will result in `make all` which compiles paper and 
 slides.
 
+To update the code (i.e. pull the latest version) you must update the submodules 
+after the pull:
+```
+git pull
+git submodule update
+```
+
 
 File structure
 -------------------------------------------------------------------------------
