@@ -38,16 +38,21 @@ converges~\cite{BlockchainFreeCryptocurrencies}, that also provides the required
 properties.
 However, we will use the blockchain in our discussion for simplicity.
 
-There are three properties that we need from the storage system.
-The first property we need is decentralized, immutable storage with a general 
-form of time-stamping.
-I.e.\ once we commit something to the blockchain it will remain there and we do 
-not have to trust any central authority.
-We can also relate commitments to time, e.g.\ in Bitcoin~\cite{Bitcoin} a new 
-block appears approximately every 10 minutes.
+There are five properties that we need from the storage system, all of which 
+makes a blockchain-like structure suitable.
+First, we need immutability.
+I.e.\ once we commit something to the blockchain it will remain there.
+We will use this to ensure verifiability, the data must remain to be verifiable.
 
-The second property we need is an unpredictable number whose time of publication 
-can be verified.
+Second, we need a general form of time-stamping.
+I.e.\ we must be able to relate commitments to time, e.g.\ in 
+Bitcoin~\cite{Bitcoin} a new block appears approximately every 10 minutes.
+This coarse-grained form of time-stamping is enough for our purposes.
+We will use this property to ensure that proofs are created before a certain 
+point in time.
+
+Third, we need an unpredictable number whose time of publication can be 
+verified.
 For this property, we will use the head of the blockchain.
 The hash value of the head of the blockchain at a given time will be difficult 
 to predict ahead of time.
@@ -55,10 +60,13 @@ to predict ahead of time.
 We want to use this to ensure that proofs are created after a certain point in 
 time.
 
-The third property is that once we have committed some data, we do not need to 
-keep the data itself, but we can store some confirmation value instead.
+Fourth, once we have committed some data, we do not need to keep the data 
+itself, but we can store some confirmation value instead.
 E.g.\ using blockchains, we can store the hash of the block where our data was 
 committed, while this block remains we are sure that our data remains committed 
 --- even if we no longer remember what our data looked like.
 We will use this property to approximate the property of receipt freeness.
+
+Finally, if the storage is decentralized we do not have to trust any central 
+authority, which is the usual case for blockchains.
 
