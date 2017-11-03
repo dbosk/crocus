@@ -8,7 +8,6 @@ SRC+= 	primitives.tex
 SRC+= 	protocol.tex
 SRC+=	security.tex
 SRC+=	conclusions.tex
-SRC+=	acknowledgements.tex
 
 FIGS+= 	fig/tposet.tex
 
