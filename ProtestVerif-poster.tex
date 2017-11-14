@@ -1,0 +1,35 @@
+\documentclass[ignorenonframetext]{beamer}
+\usepackage[orientation=portrait,size=a0,scale=1.5]{beamerposter}
+\usepackage{textpos}
+
+\usetheme{Berlin}
+\setbeamercovered{transparent}
+\setbeamertemplate{bibliography item}[text]
+
+\addtobeamertemplate{block end}{}{\vspace*{2ex}} % White space under blocks
+\addtobeamertemplate{block alerted end}{}{\vspace*{2ex}} % White space under highlighted (alert) blocks
+\setlength{\belowcaptionskip}{2ex} % White space under figures
+\setlength\belowdisplayshortskip{2ex} % White space under equations
+
+\input{preamble.tex}
+\input{preamble-slides.tex}
+
+\title{Securely and Privately Verifiable Protests}
+\author{%
+  Daniel Bosk <dbosk@kth.se>\inst{1}
+  \and
+  Sonja Buchegger\inst{1}
+  \and
+  Sébastien Gambs\inst{2}
+}
+\institute{%
+  \inst{1}
+  KTH Royal Institute of Technology, Stockholm,
+  \and
+  \inst{2}
+  Université de Quebec à Montreal,
+}
+
+\begin{document}\begin{frame}[t]
+  \input{contents-poster.tex}
+\end{frame}\end{document}
