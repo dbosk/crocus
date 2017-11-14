@@ -33,7 +33,7 @@ ProtestVerif-paper.pdf: ${SRC} ${FIGS} ${DEPENDS}
 
 
 .PHONY: all
-#all: ProtestVerif-slides.pdf
+all: ProtestVerif-slides.pdf
 
 ProtestVerif-slides.pdf: ProtestVerif-slides.tex
 ProtestVerif-slides.pdf: preamble.tex preamble-slides.tex
@@ -41,7 +41,7 @@ ProtestVerif-slides.pdf: ${SRC} ${FIGS} ${DEPENDS}
 
 
 .PHONY: all
-#all: shortslides.pdf
+all: shortslides.pdf
 
 shortslides.pdf: shortslides.tex protocol.tex
 
