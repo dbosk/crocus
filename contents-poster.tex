@@ -16,23 +16,26 @@
       \begin{itemize}
         \item Alice organizes a protest against Eve's regime.
         \item Bob, Carol and others show up.
-        \item We want to know how many showed up to support Alice's cause.
+        \item Must know how many showed up to support Alice's cause.
       \end{itemize}
     \end{blueblock}
 
-    \begin{figure}
+    \begin{orangeblock}{Currently most popular method}
+      \centering
       \includegraphics[width=0.9\linewidth]{fig/Jacobs-method.jpg}
-      \caption{%
-        Mostly used method, Jacob's method: divide the area into regions, 
-        estimate the density in each region, sum them up.
-      }
-    \end{figure}
+      \begin{itemize}
+        \item Mostly used method, Jacob's method.
+        \item Divide the area into regions, estimate the density in each 
+          region, sum them up.
+        \item \color{red} Cannot handle cumulative counts.
+      \end{itemize}
+    \end{orangeblock}
 
     \begin{orangeblock}{Computer vision methods}
       \begin{itemize}
         \item Computer vision does object recognition.
         \item Requires photos/video that cover the entire location, all the time.
-        \item This will count people twice.
+        \item \color{red} This will count people twice.
       \end{itemize}
     \end{orangeblock}
 
@@ -40,19 +43,16 @@
       \begin{itemize}
         \item Scan active mobile phones in the area.
         \item This requires some extra equipment.
-        \item This catches bystanders who are not protesting.
+        \item \color{red} This catches bystanders who are not protesting.
       \end{itemize}
     \end{orangeblock}
 
     \begin{redblock}{Verifying protest participation}
       \begin{itemize}
-        \item Alice organizes a protest against Eve's regime.
-        \item Bob, Carol and others show up.
         \item {\color{olive!10!green!90} Alice wants to show that many support 
             her cause.}
         \item {\color{red} Eve wants to show that few support Alice's cause.}
-        \item It's an adversarial setting!
-        \item We need verifiable results.
+        \item Adversarial setting, requires verifiable results!
       \end{itemize}
     \end{redblock}
 
