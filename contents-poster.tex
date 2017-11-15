@@ -56,7 +56,7 @@
       \end{itemize}
     \end{redblock}
 
-    \begin{blueblock}{Requirements}
+    \begin{blueblock}{Requirements for verifiability}
       \begin{itemize}
         \item\label{EligibilityVerif} Eligibility: anyone can verify that each 
           participation proof provides temporal and spatial eligibility and that 
@@ -71,6 +71,13 @@
       \end{itemize}
     \end{blueblock}
 
+    \begin{blueblock}{Requirements for privacy}
+      \begin{itemize}
+        \item The verifiability protocol should not increase the risk already 
+          incurred by attending.
+      \end{itemize}
+    \end{blueblock}
+
     \begin{greenblock}{Our approach}
       \dots
     \end{greenblock}
@@ -81,7 +88,7 @@
 
   \begin{column}{0.32\linewidth}
 
-    \begin{block}{Designated protest}
+    \begin{blackblock}{Designated protest}
       \begin{itemize}
         \item A protest is identified by its cause, captured in a 
           manifesto.
@@ -90,9 +97,9 @@
         \item It's difficult to create a second manifesto that disagrees but 
           gets the same identifier.
       \end{itemize}
-    \end{block}
+    \end{blackblock}
 
-    \begin{block}{Privacy-preserving linkability}
+    \begin{blackblock}{Privacy-preserving linkability}
       \begin{itemize}
         \item We want linkability to prevent Sybil attacks.
         \item We also want privacy.
@@ -103,9 +110,9 @@
         \item The accompanying \ac{NIZK} proof prevents cheating (used during 
           verification).
       \end{itemize}
-    \end{block}
+    \end{blackblock}
 
-    \begin{block}{Temporal eligibility}
+    \begin{blackblock}{Temporal eligibility}
       \begin{itemize}
         \item We use a blockchain for commitments, freshness.
         \item Freshness: a protester must include the head (hash value) of the 
@@ -115,9 +122,9 @@
         \item Commitments: when a proof share is prepared, it is committed to 
           the blockchain for timestamping.
       \end{itemize}
-    \end{block}
+    \end{blackblock}
 
-    \begin{block}{Location proofs and spatial eligibility}
+    \begin{blackblock}{Location proofs and spatial eligibility}
       \begin{itemize}
         \item Each proof must be bound to the location.
         \item This is done using witnesses.
@@ -125,19 +132,19 @@
         \item If in proximity, the witness will issue a witness identifier and 
           signature (\(wid, wsig\)).
       \end{itemize}
-    \end{block}
+    \end{blackblock}
 
-\begin{block}{Verifying the participation count}
+    \begin{blueblock}{Verifying the participation count}
+      \begin{enumerate}
+        \item We must verify the eligibility of each proof, i.e.\ of all its 
+          shares.
+        \item We must count these valid proofs.
+        \item Each protester must check that their proof is indeed registered so 
+          that it can be counted.
+      \end{enumerate}
+    \end{blueblock}
 
-There are three parts to verifying the participation count.
-First, we must verify the eligibility of each proof, i.e.\ of all its shares.
-Second, we must count these valid proofs.
-Third, each protester must check that their proof is indeed registered so that 
-it can be counted.
-
-\end{block}
-
-\begin{block}{Eligibility and universal verifiability}
+\begin{blackblock}{Eligibility and universal verifiability}
 
 Universal verifiability (\cref{UniversalVerif}) means that anyone should be able 
 to count the valid proofs.
@@ -165,9 +172,9 @@ witness knows a signature by the identity authority on \(k_W\).
 With these \ac{NIZK} proofs anyone can verify the validity, i.e.\ the 
 eligibility, of the proof shares and thus also count them.
 
-\end{block}
+\end{blackblock}
 
-\begin{block}{Individual verifiability and receipt freeness}
+\begin{blackblock}{Individual verifiability and receipt freeness}
 
 The purpose of individual verifiability (\cref{IndividualVerif}) is to prevent 
 an adversary from dropping participation proofs.
@@ -184,7 +191,7 @@ must remove her secret PRF key, \(k_A\).
 With this key Eve can verify that Alice has submitted a proof by computing 
 \(pid'\gets PRF_{k_A}(cid)\) and compare \(pid = pid'\).
 
-\end{block}
+\end{blackblock}
 
   \end{column}
 
