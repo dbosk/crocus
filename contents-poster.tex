@@ -264,7 +264,8 @@ With this key Eve can verify that Alice has submitted a proof by computing
           P\to S\colon & H(pid, wid, t_s, l, wsig) \\
           W\to S\colon & (pid, wid, t_s, l, wsig),\\
           & NIZK(wid = PRF_{k_W}(pid), \\
-          & wsig = PRF_{k_W}(wid, t_s, l), \exists sign(k_W)) \\
+            & wsig = PRF_{k_W}(wid, t_s, l), \\
+            & \exists sign(k_W)) \\
           P\to S\colon & (pid, wid, t_s, l, wsig),\\
           & NIZK(pid = PRF_{k_P}(cid), \exists sign(k_P))
         \end{align*}
