@@ -12,33 +12,37 @@
 
   \begin{column}{0.32\linewidth}
 
-    \begin{block}{Scenario: The crowd-counting problem}
+    \begin{blueblock}{Scenario: The crowd-counting problem}
       \begin{itemize}
         \item Alice organizes a protest against Eve's regime.
         \item Bob, Carol and others show up.
-        \item We want to know how many showed up to support Alice.
+        \item We want to know how many showed up to support Alice's cause.
       \end{itemize}
-    \end{block}
+    \end{blueblock}
 
     \begin{figure}
       \includegraphics[width=0.9\linewidth]{fig/Jacobs-method.jpg}
+      \caption{%
+        Mostly used method, Jacob's method: divide the area into regions, 
+        estimate the density in each region, sum them up.
+      }
     \end{figure}
 
-    \begin{example}[Current methods]
+    \begin{orangeblock}{Computer vision methods}
       \begin{itemize}
         \item Computer vision does object recognition.
         \item Requires photos/video that cover the entire location, all the time.
         \item This will count people twice.
       \end{itemize}
-    \end{example}
+    \end{orangeblock}
 
-    \begin{example}[Suggested ideas]
+    \begin{orangeblock}{Other methods}
       \begin{itemize}
         \item Scan active mobile phones in the area.
         \item This requires some extra equipment.
         \item This catches bystanders who are not protesting.
       \end{itemize}
-    \end{example}
+    \end{orangeblock}
 
     \begin{redblock}{Verifying protest participation}
       \begin{itemize}
@@ -52,17 +56,24 @@
       \end{itemize}
     \end{redblock}
 
-    \begin{requirements}[V]
-    \item\label{EligibilityVerif} Eligibility: anyone can verify that each 
-      participation proof provides temporal and spatial eligibility and that it 
-      has not been counted before.
+    \begin{blueblock}{Requirements}
+      \begin{itemize}
+        \item\label{EligibilityVerif} Eligibility: anyone can verify that each 
+          participation proof provides temporal and spatial eligibility and that 
+          it has not been counted before.
 
-    \item\label{UniversalVerif} Universal verifiability: anyone can verify that 
-      the result is according to the submitted participation proofs.
+        \item\label{UniversalVerif} Universal verifiability: anyone can verify 
+          that the result is according to the submitted participation proofs.
 
-    \item\label{IndividualVerif} Individual verifiability: every participant can 
-      verify that their participation proof is included in the global count.
-    \end{requirements}
+        \item\label{IndividualVerif} Individual verifiability: every participant 
+          can verify that their participation proof is included in the global 
+          count.
+      \end{itemize}
+    \end{blueblock}
+
+    \begin{greenblock}{Our approach}
+      \dots
+    \end{greenblock}
 
   \end{column}
 
