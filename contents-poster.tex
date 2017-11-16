@@ -98,7 +98,21 @@
 
   \begin{column}{0.32\linewidth}
 
-    \begin{blackblock}{Designated protest}
+    \begin{greenblock}{Our approach: during protest}
+      \begin{itemize}
+        \item The organizer publishes the protest's manifesto (e.g.\ QR-code on 
+          placard).
+        \item Each protester scans the QR code, computes a protest (cause) 
+          identifier (\(cid\)) to designate their participation.
+        \item Each protester computes a personal identifier (\(pid\)), 
+          unlinkable between protests,
+        \item Each protester acts as witness (unlinkable between protesters) for 
+          other protesters by creating participation-proof shares.
+        \item Proof shares vouches for temporal and spatial eligibility.
+      \end{itemize}
+    \end{greenblock}
+
+    \begin{whiteblock}{Designated protest}
       \begin{itemize}
         \item A protest is identified by its cause, captured in a 
           manifesto.
@@ -107,22 +121,22 @@
         \item It's difficult to create a second manifesto that disagrees but 
           gets the same identifier.
       \end{itemize}
-    \end{blackblock}
+    \end{whiteblock}
 
-    \begin{blackblock}{Privacy-preserving linkability}
+    \begin{whiteblock}{Privacy-preserving linkability}
       \begin{itemize}
-        \item We want linkability to prevent Sybil attacks.
-        \item We also want privacy.
-        \item We use techniques from anonymous credentials to create identifiers 
+        \item Need linkability during a protest to prevent Sybil attacks.
+        \item Also need privacy.
+        \item Uses techniques from anonymous credentials to create identifiers 
           (\(pid, wid\) in figures).
         \item The identifiers are random but unique per protest, i.e.\ depends 
           on \(cid\).
         \item The accompanying \ac{NIZK} proof prevents cheating (used during 
           verification).
       \end{itemize}
-    \end{blackblock}
+    \end{whiteblock}
 
-    \begin{blackblock}{Temporal eligibility}
+    \begin{whiteblock}{Temporal eligibility}
       \begin{itemize}
         \item We use a blockchain for commitments, freshness.
         \item Freshness: a protester must include the head (hash value) of the 
@@ -132,9 +146,9 @@
         \item Commitments: when a proof share is prepared, it is committed to 
           the blockchain for timestamping.
       \end{itemize}
-    \end{blackblock}
+    \end{whiteblock}
 
-    \begin{blackblock}{Location proofs and spatial eligibility}
+    \begin{whiteblock}{Location proofs and spatial eligibility}
       \begin{itemize}
         \item Each proof must be bound to the location.
         \item This is done using witnesses.
@@ -142,66 +156,41 @@
         \item If in proximity, the witness will issue a witness identifier and 
           signature (\(wid, wsig\)).
       \end{itemize}
-    \end{blackblock}
+    \end{whiteblock}
 
-    \begin{blueblock}{Verifying the participation count}
-      \begin{enumerate}
-        \item We must verify the eligibility of each proof, i.e.\ of all its 
-          shares.
-        \item We must count these valid proofs.
-        \item Each protester must check that their proof is indeed registered so 
-          that it can be counted.
-      \end{enumerate}
-    \end{blueblock}
+    \begin{greenblock}{Our approach: after the protest}
+      \begin{itemize}
+        \item Proof shares are committed to a blockchain as soon as possible.
+        \item \ac{NIZK} proofs are submitted whenever convenient.
+        \item Anyone can verify the proofs: eligibility, universal and 
+          individual verifiability.
+        \item Must be done for all shares and their \ac{NIZK} proofs.
+        \item Count all \(pid\)s with valid proofs.
+      \end{itemize}
+    \end{greenblock}
 
-\begin{blackblock}{Eligibility and universal verifiability}
+    \begin{whiteblock}{Eligibility and universal verifiability}
+      \begin{itemize}
+        \item Verify that \(pid\), \(wid\) and \(wsig\) are correct, i.e.\ verify 
+          their \ac{NIZK} proofs.
+        \item \ac{NIZK} proofs must show \(pid = PRF_{k_P}(id)\) and \(k_P\) is 
+          signed by \iac{CA}.
+        \item \ac{NIZK} proofs must show \(wid = PRF_{k_W}(pid), wsig = 
+            PRF_{k_W}(wid, t_s, l)\) and \(k_W\) is signed by \iac{CA}.
+      \end{itemize}
+    \end{whiteblock}
 
-Universal verifiability (\cref{UniversalVerif}) means that anyone should be able 
-to count the valid proofs.
-To do this we must be able to verify the eligibility of a proof (i.e.\ of all 
-its shares) and then count it if valid.
-To verify the eligibility of a proof share, we must verify that \(pid\), \(wid\) 
-and \(wsig\) are not just randomly generated numbers but they actually depend on 
-the keys \(k_P\) and \(k_W\) (as illustrated in \cref{fig:ProofFig}).
-We will do this with \ac{NIZK} proofs.
-We note that these proofs are not needed until the verification step after the 
-protest.
-Thus \(pid, wid, wsig\) can be used in the proof shares (and all computations 
-above) whereas their respective \ac{NIZK} proof can be computed and published 
-after the protest.
-
-Alice must provide \iac{NIZK} proof showing that \(pid = PRF_{k_P}(id)\) and 
-that she knows a signature by the identity authority on \(k_P\).
-\dots
-[Details of how to do this, or maybe that will be in \cref{BuildingBlocks}. See 
-issue \#27 for discussion.]
-
-In the same manner, each witness must also provide \iac{NIZK} proofs for \(wid = 
-  PRF_{k_W}(pid)\) and \(wsig = PRF_{k_W}(wid, t_s, l)\) as well as that the 
-witness knows a signature by the identity authority on \(k_W\).
-With these \ac{NIZK} proofs anyone can verify the validity, i.e.\ the 
-eligibility, of the proof shares and thus also count them.
-
-\end{blackblock}
-
-\begin{blackblock}{Individual verifiability and receipt freeness}
-
-The purpose of individual verifiability (\cref{IndividualVerif}) is to prevent 
-an adversary from dropping participation proofs.
-Thus each protester must verify that their own proof is indeed included.
-This can be accomplished as follows.
-After Alice commited to her proof (share) in the blockchain, she stores the hash 
-of the block.
-At a later time, she can still verify that the block is indeed still there.
-At this point, this hash value is the only thing she must store for individual 
-verifiability.
-
-More specifically, to achieve receipt freeness (\cref{ReceiptFreeness}) Alice 
-must remove her secret PRF key, \(k_A\).
-With this key Eve can verify that Alice has submitted a proof by computing 
-\(pid'\gets PRF_{k_A}(cid)\) and compare \(pid = pid'\).
-
-\end{blackblock}
+    \begin{whiteblock}{Individual verifiability and receipt freeness}
+      \begin{itemize}
+        \item Each protester can verify that their proof is available on the 
+          blockchain.
+        \item Protester no longer needs to keep the proof, just the hash.
+        \item Eve can use \(k_P\) to redo the computations to verify 
+          participation:
+          \[pid'\gets PRF_{k_A}(cid) \text{ and compare } pid = pid'.\]
+        \item However, requires arrest.
+      \end{itemize}
+    \end{whiteblock}
 
   \end{column}
 

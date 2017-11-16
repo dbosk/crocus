@@ -33,9 +33,22 @@
 \ProvideDocumentEnvironment{blackblock}{m}
 {\begin{darkblock}{black}{#1}}
 {\end{darkblock}}
-\ProvideDocumentEnvironment{blackblock}{m}
-{\begin{lightblock}{black}{#1}}
-{\end{lightblock}}
+\ProvideDocumentEnvironment{whiteblock}{m}{%
+  \setbeamercolor{block body}{bg=white!10,fg=black}
+  \setbeamercolor{block title}{bg=white,fg=black}
+  \setbeamercolor{local structure}{fg=black}
+  \begin{block}{#1}
+}{%
+  \end{block}
+}
+\ProvideDocumentEnvironment{bwblock}{m}{%
+  \setbeamercolor{block body}{bg=white!10,fg=black}
+  \setbeamercolor{block title}{bg=black,fg=white}
+  \setbeamercolor{local structure}{fg=black}
+  \begin{block}{#1}
+}{%
+  \end{block}
+}
 
 \ProvideDocumentEnvironment{redblock}{m}
 {\begin{darkblock}{red}{#1}}
