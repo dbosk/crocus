@@ -303,7 +303,8 @@
           W\leftrightarrow P\colon & \text{perform distance bounding} \\
           W\colon & wid\gets PRF_{k_W}(pid), \\
           & wsig\gets PRF_{k_W}(wid, t_s, l) \\
-          W\to P\colon & (wid, t_s, l, wsig) \\
+          W\to P\colon & (wid, t_s, l, wsig) \\[-1em]
+          && \text{during} \\ \hline && \text{after} \\[-1em]
           W\to S\colon & H(pid, wid, t_s, l, wsig) \\
           P\to S\colon & H(pid, wid, t_s, l, wsig) \\
           W\to S\colon & (pid, wid, t_s, l, wsig),\\
