@@ -56,10 +56,16 @@ ProtestVerif-poster.pdf: ${SRC} ${FIGS} ${DEPENDS}
 ProtestVerif-poster.pdf: fig/kth_cmyk.eps fig/uqam.pdf
 fig/uqam.pdf: fig/uqam.svg
 
+ProtestVerif-poster.pdf: fig/qr.eps
+fig/qr.eps: qr.txt
+	cat $< | qrencode -t EPS > $@
+
 
 .PHONY: clean
 clean:
 	${RM} ProtestVerif-paper.pdf ProtestVerif-slides.pdf
+	${RM} ProtestVerif-poster.pdf fig/uqam.pdf fig/uqam.pdf_tex
+	${RM} fig/qr.eps
 
 
 .PHONY: wc todo

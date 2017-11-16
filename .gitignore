@@ -4,6 +4,9 @@ ProtestVerif-poster.pdf
 shortslides.pdf
 bibsp.sty
 ltxobj/
+fig/uqam.pdf
+fig/uqam.pdf_tex
+fig/qr.eps
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
