@@ -83,18 +83,19 @@
       \end{itemize}
     \end{blueblock}
 
-    \begin{greenblock}{Our approach}
+    \begin{greenblock}{Our approach: user's perspective}
       \begin{itemize}
-        \item The organizer publishes the protest's manifesto (e.g.\ QR-code on 
-          placard).
-        \item Each protester scans the QR code, computes a protest (cause) 
-          identifier (\(cid\)).
-        \item Each protester computes a personal identifier (\(pid\)), 
-          unlinkable between protests,
-        \item Each protester acts as witness (unlinkable between protesters) for 
-          other protesters by creating participation-proof shares.
-        \item Proof shares are committed to a blockchain.
-        \item Anyone can verify the proofs (all shares) and count them.
+        \item The organizer publishes the protest's manifesto, e.g.\ QR-code on 
+          placard.
+        \item Each protester has a smartphone with a protest app.
+        \item Each protester scans the QR code with the app.
+        \item The app communicates with other apps locally, e.g.\ ad-hoc network 
+          or Bluetooth.
+        \item The apps issues participation proofs to each other.
+        \item Once there is an Internet connection, the proofs are submitted to 
+          a blockchain.
+        \item Anyone can verify the proofs on the blockchain and count the valid 
+          ones.
       \end{itemize}
     \end{greenblock}
 
@@ -106,15 +107,15 @@
 
     \begin{greenblock}{Our approach: during protest}
       \begin{itemize}
-        \item The organizer publishes the protest's manifesto (e.g.\ QR-code on 
-          placard).
-        \item Each protester scans the QR code, computes a protest (cause) 
-          identifier (\(cid\)) to designate their participation.
+        \item The organizer publishes the protest's manifesto.
+        \item Each protester reads it, approves it, computes a protest (cause) 
+          identifier (\(cid\)) to designate which protest they participate in.
         \item Each protester computes a personal identifier (\(pid\)), 
           unlinkable between protests,
         \item Each protester acts as witness (unlinkable between protesters) for 
           other protesters by creating participation-proof shares.
         \item Proof shares vouches for temporal and spatial eligibility.
+        \item A threshold-based number of valid shares is a valid proof.
       \end{itemize}
     \end{greenblock}
 
@@ -123,7 +124,7 @@
         \item A protest is identified by its cause, captured in a 
           manifesto.
         \item The hash of the manifesto provides an unpredictable identifier 
-          (\(cid\) in figures).
+          (\(cid\) in \cref{ProofShare,Protocol}).
         \item It's difficult to create a second manifesto that disagrees but 
           gets the same identifier.
       \end{itemize}
@@ -134,7 +135,7 @@
         \item Need linkability during a protest to prevent Sybil attacks.
         \item Also need privacy.
         \item Uses techniques from anonymous credentials to create identifiers 
-          (\(pid, wid\) in figures).
+          (\(pid, wid\) in \cref{ProofShare,Protocol}).
         \item The identifiers are random but unique per protest, i.e.\ depends 
           on \(cid\).
         \item The accompanying \ac{NIZK} proof prevents cheating (used during 
@@ -146,7 +147,8 @@
       \begin{itemize}
         \item We use a blockchain for commitments, freshness.
         \item Freshness: a protester must include the head (hash value) of the 
-          blockchain in their proof shares (\(t_s\) in figures).
+          blockchain in their proof shares (\(t_s\) in 
+          \cref{ProofShare,Protocol}).
         \item This value is difficult to guess and prevents preparing proofs too 
           long in advance.
         \item Commitments: when a proof share is prepared, it is committed to 
@@ -156,7 +158,8 @@
 
     \begin{whiteblock}{Location proofs and spatial eligibility}
       \begin{itemize}
-        \item Each proof must be bound to the location.
+        \item Each proof must be bound to the location (\(l\) in 
+          \cref{ProofShare,Protocol}).
         \item This is done using witnesses.
         \item A witness runs a distance-bounding protocol to ensure proximity.
         \item If in proximity, the witness will issue a witness identifier and 
@@ -193,8 +196,8 @@
         \item Protester no longer needs to keep the proof, just the hash.
         \item Eve can use \(k_P\) to redo the computations to verify 
           participation:
-          \[pid'\gets PRF_{k_A}(cid) \text{ and compare } pid = pid'.\]
-        \item However, requires arrest.
+          \[pid'\gets PRF_{k_P}(cid) \text{ and compare } pid = pid'.\]
+        \item However, requires arrest and access to key.
       \end{itemize}
     \end{whiteblock}
 
@@ -268,7 +271,7 @@
         \(t_s\) is a time interval and \(l\) is the coordinates of an area.
         The protest (cause) identifier \(cid\) is the hash value of the manifesto.
       }%
-      \label{fig:ProofFig}
+      \label{ProofShare}
     \end{figure}%
 
     \begin{figure}
@@ -299,11 +302,13 @@
         \(P\), \(W\) and their computations are as in \cref{fig:ProofFig}.
         Finally, both \(P\) and \(W\) submits the proof share to the storage \(S\).
       }%
-      \label{fig:ProtocolOverview}
+      \label{Protocol}
     \end{figure}
 
     \begin{purpleblock}{Conclusions}
-      \dots
+      \begin{itemize}
+        \item \dots
+      \end{itemize}
     \end{purpleblock}
 
     \printbibliography[heading=none]
