@@ -53,6 +53,9 @@ ProtestVerif-poster.pdf: ProtestVerif-poster.tex contents-poster.tex
 ProtestVerif-poster.pdf: preamble.tex preamble-slides.tex
 ProtestVerif-poster.pdf: ${SRC} ${FIGS} ${DEPENDS}
 
+ProtestVerif-poster.pdf: fig/kth_cmyk.eps fig/uqam.pdf
+fig/uqam.pdf: fig/uqam.svg
+
 
 .PHONY: clean
 clean:
