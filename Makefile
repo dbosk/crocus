@@ -50,8 +50,8 @@ shortslides.pdf: shortslides.tex protocol.tex
 all: ProtestVerif-poster.pdf
 
 ProtestVerif-poster.pdf: ProtestVerif-poster.tex contents-poster.tex
-ProtestVerif-slides.pdf: preamble.tex preamble-slides.tex
-ProtestVerif-slides.pdf: ${SRC} ${FIGS} ${DEPENDS}
+ProtestVerif-poster.pdf: preamble.tex preamble-slides.tex
+ProtestVerif-poster.pdf: ${SRC} ${FIGS} ${DEPENDS}
 
 
 .PHONY: clean
