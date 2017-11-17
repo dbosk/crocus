@@ -26,7 +26,11 @@
   \end{column}
 \end{columns}
 
+\vfill
+
 \includegraphics[width=\linewidth]{art/ProtestVerif.png}
+
+\vfill
 
 \begin{columns}[t]
 
@@ -36,23 +40,10 @@
       \begin{itemize}
         \item Alice wants to show that many support her cause.
         \item Eve wants to show that few support Alice's cause.
-        \item \color{red} Adversarial setting, requires verifiable results!
+        \item {\color{red} Adversarial setting, requires verifiable results!}
+          (E.g.\ \cref{TrumpInauguration}.)
       \end{itemize}
     \end{redblock}
-
-    \begin{figure}
-      \centering
-      \includegraphics[width=0.9\linewidth]{fig/Jacobs-method.jpg}
-      \caption{%
-        Jacobs Method, currently most used method.
-        Divide into regions, estimate density in each region, sum up.
-        Image: popularmechanics.com
-      }\label{JacobsMethod}
-    \end{figure}
-
-  \end{column}
-
-  \begin{column}{0.32\linewidth}
 
     \begin{blueblock}{Requirements for verifiability}
       \begin{itemize}
@@ -78,6 +69,24 @@
 
   \end{column}
 
+  \hfill
+
+  \begin{column}{0.32\linewidth}
+
+    \begin{figure}
+      \centering
+      \includegraphics[width=0.9\linewidth]{fig/trump.jpg}
+      \caption{%
+        What can we trust?
+        (Hint: not much.)
+        Image: Reddit/The\_Donald, Twitter.
+      }\label{TrumpInauguration}
+    \end{figure}
+
+  \end{column}
+
+  \hfill
+
   \begin{column}{0.32\linewidth}
 
     \begin{greenblock}{Our approach}
@@ -97,12 +106,11 @@
 
 \end{columns}
 
-\vspace{5em}
+\vfill
 
 \begin{columns}[t]
 
   \begin{column}{0.32\linewidth}
-
     \begin{figure}
       \centering
       \begin{tikzpicture}[%
@@ -186,9 +194,9 @@
           W\to S\colon & H(pid, wid, t_s, l, wsig) \\
           P\to S\colon & H(pid, wid, t_s, l, wsig) \\
           W\to S\colon & (pid, wid, t_s, l, wsig),\\
-            & NIZK( wid = PRF_{k_W}(pid), \\
-            & wsig = PRF_{k_W}(wid, t_s, l), \\
-            & \exists sign(k_W)) \\
+          & NIZK( wid = PRF_{k_W}(pid), \\
+          & wsig = PRF_{k_W}(wid, t_s, l), \\
+          & \exists sign(k_W)) \\
           P\to S\colon & (pid, wid, t_s, l, wsig),\\
           & NIZK(pid = PRF_{k_P}(cid), \exists sign(k_P))
         \end{align*}
@@ -202,7 +210,6 @@
       \label{Protocol}
     \end{figure}
 
-    \printbibliography[heading=none]
 
   \end{column}
 
@@ -236,22 +243,49 @@
       \end{itemize}
     \end{blackblock}
 
+    \begin{block}{More info}
+      \centering
+      \includegraphics[width=0.4\linewidth]{fig/qr.eps}
+    \end{block}
+
+    \printbibliography[heading=none]
+
   \end{column}
 
   \hfill
 
   \begin{column}{0.32\linewidth}
 
-    \begin{block}{More info}
-      \begin{center}
-        \includegraphics[width=0.4\linewidth]{fig/qr.eps}
-      \end{center}
-    \end{block}
+    \begin{figure}
+      \centering
+      \includegraphics[width=\linewidth]{fig/Jacobs-method.jpg}
+      \caption{%
+        Jacobs Method, currently most used method.
+        Divide into regions, estimate density in each region, sum up.
+        Image: popularmechanics.com
+      }\label{JacobsMethod}
+    \end{figure}
 
-  \end{column}
+    \begin{purpleblock}{Current crowd-counting methods}
+      \begin{itemize}
+        \item Most used method, Jacobs Method (\cref{JacobsMethod}).
+        \item {\color{red} Cannot handle cumulative counts, faces problems 
+            illustrated by \cref{TrumpInauguration}.}
+        \item Computer vision does object recognition; requires photos/video 
+          that cover the entire location, all the time.
+        \item {\color{red} This will still count people twice.}
+        \item Scan active mobile phones (or similar) in the area.
+        \item This requires some extra equipment.
+        \item {\color{red} This catches bystanders who are not protesting.}
+        \item {\color{red} Neither method can distinguish two close but 
+            different protests (e.g.\ pro- and anti-protests).}
+      \end{itemize}
+    \end{purpleblock}
+
+\end{column}
 
 \end{columns}
 
 \flushright
-Special thanks to xkcd.com who, over many years, has inspired the stylistic 
+Special thanks to xkcd.com which, over many years, has inspired the stylistic 
 presentation of this poster.

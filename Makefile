@@ -60,6 +60,7 @@ ProtestVerif-poster.pdf: fig/qr.eps
 fig/qr.eps: qr.txt
 	cat $< | qrencode -t EPS > $@
 
+ProtestVerif-poster.pdf: fig/trump.jpg fig/Jacobs-method.jpg
 ProtestVerif-poster.pdf: art/ProtestVerif.png art/ProtestVerif-UN.png
 
 art/ProtestVerif.png: art/ProtestVerif.xcf
