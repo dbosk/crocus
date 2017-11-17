@@ -26,50 +26,11 @@
   \end{column}
 \end{columns}
 
+\includegraphics[width=\linewidth]{art/ProtestVerif.png}
+
 \begin{columns}[t]
 
   \begin{column}{0.32\linewidth}
-
-    \begin{blueblock}{Scenario: The crowd-counting problem}
-      \begin{itemize}
-        \item Alice organizes a protest against Eve's regime.
-        \item Bob, Carol and others show up.
-        \item Must know how many showed up to support Alice's cause.
-      \end{itemize}
-    \end{blueblock}
-
-    \begin{figure}
-      \centering
-      \includegraphics[width=0.9\linewidth]{fig/Jacobs-method.jpg}
-      \caption{%
-        Jacob's method. Image: popularmechanics.com
-      }\label{JacobsMethod}
-    \end{figure}
-
-    \begin{whiteblock}{Jacob's method, most used method}
-      \begin{itemize}
-        \item Most used method, Jacob's method (\cref{JacobsMethod}).
-        \item Divide the area into regions, estimate the density in each 
-          region, sum them up.
-        \item \color{red} Cannot handle cumulative counts.
-      \end{itemize}
-    \end{whiteblock}
-
-    \begin{whiteblock}{Computer vision methods}
-      \begin{itemize}
-        \item Computer vision does object recognition.
-        \item Requires photos/video that cover the entire location, all the time.
-        \item \color{red} This will count people twice.
-      \end{itemize}
-    \end{whiteblock}
-
-    \begin{whiteblock}{Other methods}
-      \begin{itemize}
-        \item Scan active mobile phones in the area.
-        \item This requires some extra equipment.
-        \item \color{red} This catches bystanders who are not protesting.
-      \end{itemize}
-    \end{whiteblock}
 
     \begin{redblock}{Verifying protest participation}
       \begin{itemize}
@@ -78,6 +39,20 @@
         \item \color{red} Adversarial setting, requires verifiable results!
       \end{itemize}
     \end{redblock}
+
+    \begin{figure}
+      \centering
+      \includegraphics[width=0.9\linewidth]{fig/Jacobs-method.jpg}
+      \caption{%
+        Jacobs Method, currently most used method.
+        Divide into regions, estimate density in each region, sum up.
+        Image: popularmechanics.com
+      }\label{JacobsMethod}
+    \end{figure}
+
+  \end{column}
+
+  \begin{column}{0.32\linewidth}
 
     \begin{blueblock}{Requirements for verifiability}
       \begin{itemize}
@@ -101,127 +76,30 @@
       \end{itemize}
     \end{blueblock}
 
-    \begin{greenblock}{Our approach: overview}
-      \begin{itemize}
-        \item The organizer publishes the protest's manifesto, e.g.\ QR-code on 
-          placard.
-        \item Each protester has a smartphone with a protest app.
-        \item Each protester scans the QR code with the app.
-        \item The app communicates with other apps locally, e.g.\ ad-hoc network 
-          or Bluetooth.
-        \item The apps issues participation proofs to each other.
-        \item Once there is an Internet connection, the proofs are submitted to 
-          a blockchain.
-        \item Anyone can verify the proofs on the blockchain and count the valid 
-          ones.
-      \end{itemize}
-    \end{greenblock}
-
   \end{column}
-
-  \hfill
 
   \begin{column}{0.32\linewidth}
 
-    \begin{greenblock}{Our approach: during protest}
+    \begin{greenblock}{Our approach}
       \begin{itemize}
-        \item The organizer publishes the protest's manifesto.
-        \item Each protester reads it, approves it, computes a protest (cause) 
-          identifier (\(cid\)) to designate which protest they participate in.
-        \item Each protester computes a personal identifier (\(pid\)), 
-          unlinkable between protests,
-        \item Each protester acts as witness (unlinkable between protesters) for 
-          other protesters by creating participation-proof shares.
-        \item Proof shares vouches for temporal and spatial eligibility.
-        \item A threshold-based number of valid shares is a valid proof.
+        \item Provides a \emph{lower bound} of the participation count.
+        \item Provides a verifiable participation count.
+        \item Provides privacy based on anonymous credentials.
+        \item The only added risk (over not using this) is if someone can use 
+          your secret key.
+        \item Requires only local connectivity during the protest.
       \end{itemize}
     \end{greenblock}
 
-    \begin{whiteblock}{Designated protest}
-      \begin{itemize}
-        \item A protest is identified by its cause, captured in a 
-          manifesto.
-        \item The hash of the manifesto provides an unpredictable identifier 
-          (\(cid\) in \cref{ProofShare,Protocol}).
-        \item It's difficult to create a second manifesto that disagrees but 
-          gets the same identifier.
-      \end{itemize}
-    \end{whiteblock}
-
-    \begin{whiteblock}{Privacy-preserving linkability}
-      \begin{itemize}
-        \item Need linkability during a protest to prevent Sybil attacks.
-        \item Also need privacy.
-        \item Uses techniques from anonymous credentials to create identifiers 
-          (\(pid, wid\) in \cref{ProofShare,Protocol}).
-        \item The identifiers are random but unique per protest, i.e.\ depends 
-          on \(cid\).
-        \item The accompanying \ac{NIZK} proof prevents cheating (used during 
-          verification).
-      \end{itemize}
-    \end{whiteblock}
-
-    \begin{whiteblock}{Temporal eligibility}
-      \begin{itemize}
-        \item We use a blockchain for commitments, freshness.
-        \item Freshness: a protester must include the head (hash value) of the 
-          blockchain in their proof shares (\(t_s\) in 
-          \cref{ProofShare,Protocol}).
-        \item This value is difficult to guess and prevents preparing proofs too 
-          long in advance.
-        \item Commitments: when a proof share is prepared, it is committed to 
-          the blockchain for timestamping.
-      \end{itemize}
-    \end{whiteblock}
-
-    \begin{whiteblock}{Location proofs and spatial eligibility}
-      \begin{itemize}
-        \item Each proof must be bound to the location (\(l\) in 
-          \cref{ProofShare,Protocol}).
-        \item This is done using witnesses.
-        \item A witness runs a distance-bounding protocol to ensure proximity.
-        \item If in proximity, the witness will issue a witness identifier and 
-          signature (\(wid, wsig\)).
-      \end{itemize}
-    \end{whiteblock}
-
-    \begin{greenblock}{Our approach: after the protest}
-      \begin{itemize}
-        \item Proof shares are committed to a blockchain as soon as possible.
-        \item \ac{NIZK} proofs are submitted whenever convenient.
-        \item Anyone can verify the proofs: eligibility, universal and 
-          individual verifiability.
-        \item Must be done for all shares and their \ac{NIZK} proofs.
-        \item Count all \(pid\)s with valid proofs.
-      \end{itemize}
-    \end{greenblock}
-
-    \begin{whiteblock}{Eligibility and universal verifiability}
-      \begin{itemize}
-        \item Verify that \(pid\), \(wid\) and \(wsig\) are correct, i.e.\ verify 
-          their \ac{NIZK} proofs.
-        \item \ac{NIZK} proofs must show \(pid = PRF_{k_P}(id)\) and \(k_P\) is 
-          signed by \iac{CA}.
-        \item \ac{NIZK} proofs must show \(wid = PRF_{k_W}(pid), wsig = 
-            PRF_{k_W}(wid, t_s, l)\) and \(k_W\) is signed by \iac{CA}.
-      \end{itemize}
-    \end{whiteblock}
-
-    \begin{whiteblock}{Individual verifiability and receipt freeness}
-      \begin{itemize}
-        \item Each protester can verify that their proof is available on the 
-          blockchain.
-        \item Protester no longer needs to keep the proof, just the hash.
-        \item Eve can use \(k_P\) to redo the computations to verify 
-          participation:
-          \[pid'\gets PRF_{k_P}(cid) \text{ and compare } pid = pid'.\]
-        \item However, requires arrest and access to key.
-      \end{itemize}
-    \end{whiteblock}
+    \includegraphics[width=\linewidth]{art/ProtestVerif-UN.png}
 
   \end{column}
 
-  \hfill
+\end{columns}
+
+\vspace{5em}
+
+\begin{columns}[t]
 
   \begin{column}{0.32\linewidth}
 
@@ -304,11 +182,11 @@
           W\colon & wid\gets PRF_{k_W}(pid), \\
           & wsig\gets PRF_{k_W}(wid, t_s, l) \\
           W\to P\colon & (wid, t_s, l, wsig) \\[-1em]
-          && \text{during} \\ \hline && \text{after} \\[-1em]
+          && \text{during protest} \\ \hline && \text{after protest} \\[-1em]
           W\to S\colon & H(pid, wid, t_s, l, wsig) \\
           P\to S\colon & H(pid, wid, t_s, l, wsig) \\
           W\to S\colon & (pid, wid, t_s, l, wsig),\\
-          & NIZK(wid = PRF_{k_W}(pid), \\
+            & NIZK( wid = PRF_{k_W}(pid), \\
             & wsig = PRF_{k_W}(wid, t_s, l), \\
             & \exists sign(k_W)) \\
           P\to S\colon & (pid, wid, t_s, l, wsig),\\
@@ -324,26 +202,56 @@
       \label{Protocol}
     \end{figure}
 
-    \begin{purpleblock}{Conclusions}
-      \begin{itemize}
-        \item Provides a \emph{lower bound} of the participation count.
-        \item Provides a verifiable participation count, as strong as the 
-          blockchain is immutable.
-        \item Provides privacy based on anonymous credentials.
-        \item The only added risk (over not using this) is if someone can use 
-          your secret key (\(k_P\)).
-        \item Requires only local connectivity during the protest.
-      \end{itemize}
-    \end{purpleblock}
-
     \printbibliography[heading=none]
 
-    %\vspace{10cm}
-    \begin{center}
-      \includegraphics[width=0.5\linewidth]{fig/qr.eps}
-    \end{center}
+  \end{column}
+
+  \hfill
+
+  \begin{column}{0.32\linewidth}
+
+    \begin{blackblock}{Technically, during protest}
+      \begin{itemize}
+        \item The organizer publishes the protest's manifesto.
+        \item Each protester reads it, approves it, computes a protest (cause) 
+          identifier (\(cid\)) to designate which protest they participate in.
+        \item Each protester computes a personal identifier (\(pid\)), 
+          unlinkable between protests,
+        \item Each protester acts as witness (unlinkable between protesters) for 
+          other protesters by creating participation-proof shares.
+        \item Proof shares vouches for temporal and spatial eligibility.
+        \item A threshold-based number of valid shares is a valid proof.
+      \end{itemize}
+    \end{blackblock}
+
+    \begin{blackblock}{Technically, after the protest}
+      \begin{itemize}
+        \item Proof shares are committed to a blockchain as soon as possible.
+        \item \Ac{NIZK} proofs of correctness of \(PRF\) computations and 
+          validity of keys are submitted whenever convenient.
+        \item Anyone can verify the proofs: eligibility, universal and 
+          individual verifiability.
+        \item Must be done for all shares and their \ac{NIZK} proofs.
+        \item Count all \(pid\)s with valid proofs.
+      \end{itemize}
+    \end{blackblock}
+
+  \end{column}
+
+  \hfill
+
+  \begin{column}{0.32\linewidth}
+
+    \begin{block}{More info}
+      \begin{center}
+        \includegraphics[width=0.4\linewidth]{fig/qr.eps}
+      \end{center}
+    \end{block}
 
   \end{column}
 
 \end{columns}
 
+\flushright
+Special thanks to xkcd.com who, over many years, has inspired the stylistic 
+presentation of this poster.

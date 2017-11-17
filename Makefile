@@ -60,6 +60,15 @@ ProtestVerif-poster.pdf: fig/qr.eps
 fig/qr.eps: qr.txt
 	cat $< | qrencode -t EPS > $@
 
+ProtestVerif-poster.pdf: art/ProtestVerif.png art/ProtestVerif-UN.png
+
+art/ProtestVerif.png: art/ProtestVerif.xcf
+art/ProtestVerif-UN.png: art/ProtestVerif-UN.xcf
+
+art/ProtestVerif.png art/ProtestVerif-UN.png:
+	xcf2png $< -o $@
+	convert -trim $@ $@
+
 
 .PHONY: clean
 clean:
