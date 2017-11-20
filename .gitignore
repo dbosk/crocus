@@ -90,7 +90,7 @@ acs-*.bib
 
 # knitr
 *-concordance.tex
-*.tikz
+#*.tikz
 *-tikzDictionary
 
 # listings
