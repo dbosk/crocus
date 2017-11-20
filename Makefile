@@ -46,9 +46,36 @@ all: shortslides.pdf
 shortslides.pdf: shortslides.tex protocol.tex
 
 
+.PHONY: all
+all: ProtestVerif-poster.pdf
+
+ProtestVerif-poster.pdf: ProtestVerif-poster.tex contents-poster.tex
+ProtestVerif-poster.pdf: preamble.tex preamble-slides.tex
+ProtestVerif-poster.pdf: ${SRC} ${FIGS} ${DEPENDS}
+
+ProtestVerif-poster.pdf: fig/kth_cmyk.eps fig/uqam.pdf
+fig/uqam.pdf: fig/uqam.svg
+
+ProtestVerif-poster.pdf: fig/qr.eps
+fig/qr.eps: qr.txt
+	cat $< | qrencode -t EPS > $@
+
+ProtestVerif-poster.pdf: fig/trump.jpg fig/Jacobs-method.jpg
+ProtestVerif-poster.pdf: art/ProtestVerif.png art/ProtestVerif-UN.png
+
+art/ProtestVerif.png: art/ProtestVerif.xcf
+art/ProtestVerif-UN.png: art/ProtestVerif-UN.xcf
+
+art/ProtestVerif.png art/ProtestVerif-UN.png:
+	xcf2png $< -o $@
+	convert -trim $@ $@
+
+
 .PHONY: clean
 clean:
 	${RM} ProtestVerif-paper.pdf ProtestVerif-slides.pdf
+	${RM} ProtestVerif-poster.pdf fig/uqam.pdf fig/uqam.pdf_tex
+	${RM} fig/qr.eps
 
 
 .PHONY: wc todo

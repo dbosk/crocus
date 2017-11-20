@@ -50,6 +50,9 @@ git pull
 git submodule update
 ```
 
+You will also need xcftools and ImageMagick to convert the GIMP images (.xcf) to 
+PNG (.png).
+
 
 File structure
 -------------------------------------------------------------------------------
