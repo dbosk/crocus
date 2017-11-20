@@ -78,6 +78,12 @@
       \includegraphics[width=0.9\linewidth]{fig/trump.jpg}
       \caption{%
         What can we trust?
+        This picture was posted on Twitter (and linked from Reddit) to argue 
+        that the news reporting on the participation count was \enquote{fake 
+          news} and that Trump's supporters arrived later.
+        Even if the picture labelled \enquote{REALITY} would be from the same 
+        event (difficult to verify), it is difficult to accurately compare due 
+        to the angle.
         Image: Reddit/The\_Donald, Twitter.
       }\label{TrumpInauguration}
     \end{figure}
@@ -91,11 +97,13 @@
     \begin{greenblock}{Our approach}
       \begin{itemize}
         \item Provides a \emph{lower bound} of the participation count.
-        \item Provides a verifiable participation count.
+        \item This lower bound is cryptographically verifiable.
         \item Provides privacy based on anonymous credentials.
         \item The only added risk (over not using this) is if someone can use 
           your secret key.
         \item Requires only local connectivity during the protest.
+        \item Requires no trust in the source (as in \cref{TrumpInauguration}), 
+          only that IDs are issued correctly.
       \end{itemize}
     \end{greenblock}
 
