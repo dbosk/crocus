@@ -97,23 +97,26 @@ coarse coordinates that slightly overlap.
 \subsection{Participation and count}
 
 Each participant who want to be counted must submit a participation proof.
-The proof must be associated with the protest, i.e.\ its \(id\), time and 
-location.
-We use witnesses to associate the proof to the location.
-The proof and its witnesses are stored in a set, as there should be only unique 
-witnesses.
+The proof must be associated with the protest, i.e.\ its identifier \(cid\), 
+time and location.
+We use witnesses to associate the proof to the location by creating a proof 
+share.
+A witness is only allowed to create one proof share per protester.
+The proof and its proof shares are stored in a set, as there should be only 
+unique proof shares.
 
 \begin{frame}
-\begin{definition}[Witness]
-  A \emph{witness} \(w = (pid, cid, t, l, wid)\) is a tuple where
+\begin{definition}[Participation-proof share]
+  A \emph{participation-proof share} \(w = (pid, cid, t, l, wid)\) is a tuple 
+  where
   \(cid, t, l\) are as in \cref{DefProtest},
-  \(pid\) uniquely identifies the protester and \(wid\) uniquely identifies the 
-  person who issued the witness.
-  We let \(W\) be the set of all witnesses.
+  \(pid\) is unique for a protester and \(cid\) pair, and
+  \(wid\) is unique for a witness--protester pair.
+  We let \(W\) be the set of all proof shares.
 \end{definition}
 \end{frame}
 
-A subset of the witnesses forms a participation proof for a protester.
+A subset of the proof shares forms a participation proof for a protester.
 
 \begin{frame}
 \begin{definition}[Participation proof]
@@ -128,9 +131,9 @@ A subset of the witnesses forms a participation proof for a protester.
     %\\ & \left.
     t \subseteq t_j, l\subseteq l_j \right\},
   \end{align}
-  of all witnesses with the same protester and protest identifiers, witness time 
-  interval \(t\) and location \(l\) is within those of the protest \(j\) (i.e.\ 
-  \(t_j\) and \(l_j\)).
+  of all proof shares with the same protester and protest identifiers, witness 
+  time interval \(t\) and location \(l\) is within those of the protest \(j\) 
+  (i.e.\ \(t_j\) and \(l_j\)).
 \end{definition}
 \end{frame}
 
@@ -158,6 +161,8 @@ We can now define the participation count as follows.
 }
 \end{frame}
 
-The strength function \(s\) can be used to e.g.\ regulate trust in witnesses.
-A trivial example would be for \(s\) to return the number of witnesses and thus 
-let \(\theta\) to be the threshold of the number of required witnesses.
+The strength function \(s\) can be used to e.g.\ regulate trust in 
+witnesses.
+A trivial example would be for \(s\) to return the number of proof shares (i.e.\ 
+witnesses) and thus let \(\theta\) to be the threshold of the number of required 
+witnesses.
