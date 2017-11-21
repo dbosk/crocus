@@ -152,6 +152,48 @@
   \hfill
 
   \begin{column}{0.32\linewidth}
+
+    \begin{blackblock}{Our scheme, during protest (\cref{ProofShare}, top of 
+        \cref{Protocol})}
+      \begin{itemize}
+        \item The organizer publishes the protest's manifesto.
+        \item Each protester reads it, approves it, computes a protest (cause) 
+          identifier (\(cid\)) to designate which protest they participate in.
+        \item Each protester computes a personal identifier (\(pid\)), 
+          unlinkable between protests,
+        \item Each protester acts as witness (\(wid\), unlinkable between 
+          protesters, \(wsig\)) for other protesters by creating 
+          participation-proof shares.
+        \item Proof shares vouches for temporal and spatial eligibility.
+        \item A threshold-based number of valid shares is a valid proof.
+      \end{itemize}
+    \end{blackblock}
+
+    \begin{blackblock}{Our scheme, after the protest (bottom of 
+        \cref{Protocol})}
+      \begin{itemize}
+        \item Proof shares are committed to a blockchain as soon as possible.
+        \item \Ac{NIZK} proofs of correctness of \(PRF\) computations and 
+          validity of keys are submitted whenever convenient.
+        \item Anyone can verify the proofs: eligibility, universal and 
+          individual verifiability.
+        \item Must be done for all shares and their \ac{NIZK} proofs.
+        \item Count all \(pid\)s with valid proofs.
+      \end{itemize}
+    \end{blackblock}
+
+    \begin{block}{More info}
+      \centering
+      \includegraphics[width=0.4\linewidth]{fig/qr.eps}
+    \end{block}
+
+    \printbibliography[heading=none]
+
+  \end{column}
+
+  \hfill
+
+  \begin{column}{0.32\linewidth}
     \begin{figure}
       \centering
       \includegraphics[width=\linewidth]{fig/proofshare.tikz}
@@ -198,46 +240,6 @@
       }%
       \label{Protocol}
     \end{figure}
-
-
-  \end{column}
-
-  \hfill
-
-  \begin{column}{0.32\linewidth}
-
-    \begin{blackblock}{Technically, during protest}
-      \begin{itemize}
-        \item The organizer publishes the protest's manifesto.
-        \item Each protester reads it, approves it, computes a protest (cause) 
-          identifier (\(cid\)) to designate which protest they participate in.
-        \item Each protester computes a personal identifier (\(pid\)), 
-          unlinkable between protests,
-        \item Each protester acts as witness (unlinkable between protesters) for 
-          other protesters by creating participation-proof shares.
-        \item Proof shares vouches for temporal and spatial eligibility.
-        \item A threshold-based number of valid shares is a valid proof.
-      \end{itemize}
-    \end{blackblock}
-
-    \begin{blackblock}{Technically, after the protest}
-      \begin{itemize}
-        \item Proof shares are committed to a blockchain as soon as possible.
-        \item \Ac{NIZK} proofs of correctness of \(PRF\) computations and 
-          validity of keys are submitted whenever convenient.
-        \item Anyone can verify the proofs: eligibility, universal and 
-          individual verifiability.
-        \item Must be done for all shares and their \ac{NIZK} proofs.
-        \item Count all \(pid\)s with valid proofs.
-      \end{itemize}
-    \end{blackblock}
-
-    \begin{block}{More info}
-      \centering
-      \includegraphics[width=0.4\linewidth]{fig/qr.eps}
-    \end{block}
-
-    \printbibliography[heading=none]
 
   \end{column}
 
