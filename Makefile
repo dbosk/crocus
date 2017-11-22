@@ -73,7 +73,7 @@ art/ProtestVerif.png art/ProtestVerif-UN.png:
 
 .PHONY: clean
 clean:
-	${RM} ProtestVerif-paper.pdf ProtestVerif-slides.pdf
+	${RM} ProtestVerif-paper.pdf ProtestVerif-slides.pdf shortslides.pdf
 	${RM} ProtestVerif-poster.pdf fig/uqam.pdf fig/uqam.pdf_tex
 	${RM} fig/qr.eps
 
