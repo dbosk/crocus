@@ -2,42 +2,37 @@
 all: poster.pdf
 
 poster.pdf: poster.tex preamble.tex contents.tex
-poster.pdf: kth_cmyk.eps uqam.pdf
+poster.pdf: bibsp.sty
 
-FIG+= 	kth_cmyk.eps uqam.pdf
+FIGS+= 				kth_cmyk.eps uqam.pdf
 
 kth_cmyk.eps: 		../fig/kth_cmyk.eps
 uqam.pdf: 			../fig/uqam.pdf
 
-poster.pdf: qr.eps
-qr.eps: qr.txt
+FIGS+= 				qr.eps
+
+qr.eps: 			qr.txt
 	cat $< | qrencode -t EPS > $@
 
-poster.pdf: ../fig/trump.jpg ../fig/Jacobs-method.jpg
-poster.pdf: ../art/ProtestVerif.png ../art/ProtestVerif-UN.png
-
-FIG+= 	trump.jpg Jacobs-method.jpg
+FIGS+= 				trump.jpg Jacobs-method.jpg
 
 trump.jpg: 			../fig/trump.jpg
 Jacobs-method.jpg: 	../fig/Jacobs-method.jpg
 
-FIG+= 	ProtestVerif.png ProtestVerif-UN.png
+FIGS+= 				ProtestVerif.png ProtestVerif-UN.png
 
 ProtestVerif.png: 	../art/ProtestVerif.png
 ProtestVerif-UN.png:../art/ProtestVerif-UN.png
 
-poster.pdf: proofshare.tikz
+FIGS+= 				proofshare.tikz
 
-FIG+= 	proofshare.tikz
-
-proofshare.tikz: ../fig/proofshare.tikz
+proofshare.tikz: 	../fig/proofshare.tikz
 
 
-${FIG}:
+poster.pdf: ${FIGS}
+
+${FIGS}:
 	${LN} $< $@
-
-../%:
-	${MAKE} -C ../$(dir $@) $(notdir $@)
 
 
 .PHONY: all
@@ -48,12 +43,13 @@ posterslide.pdf: posterslide.tex trump.jpg
 
 .PHONY: clean
 clean:
-	${RM} poster.pdf
-	${RM} qr.eps
-	${RM} ${FIG}
+	${RM} poster.pdf poster.nav
+	${RM} qr-eps-converted-to.pdf
 	${MAKE} -C ../art clean
 	${MAKE} -C ../fig clean
 	${RM} posterslide.pdf
+	${RM} kth_cmyk-eps-converted-to.pdf
+	${RM} ${FIGS}
 
 .PHONY: distclean
 distclean:
@@ -70,3 +66,7 @@ include ${INCLUDE_MAKEFILES}/tex.mk
 include ${INCLUDE_MAKEFILES}/doc.mk
 INCLUDE_BIBSP=../bibsp
 include ${INCLUDE_BIBSP}/bibsp.mk
+
+../%:
+	${MAKE} -C $(dir $@) $(notdir $@)
+
