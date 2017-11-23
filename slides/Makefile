@@ -1,4 +1,4 @@
-SRC+= 	preamble.tex
+SRC+= 	preamble.tex preamble-slides.tex
 SRC+=	contents.tex
 SRC+=	abstract.tex
 SRC+=	intro.tex
@@ -49,6 +49,7 @@ print: slides-full.pdf
 
 
 preamble.tex: ../paper/preamble.tex
+preamble-slides.tex: ../paper/preamble-slides.tex
 contents.tex: ../paper/contents.tex
 abstract.tex: ../paper/abstract.tex
 intro.tex: ../paper/intro.tex
