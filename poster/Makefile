@@ -43,7 +43,7 @@ ${FIG}:
 .PHONY: all
 all: posterslide.pdf
 
-posterslide.pdf: posterslide.tex
+posterslide.pdf: posterslide.tex trump.jpg
 
 
 .PHONY: clean
