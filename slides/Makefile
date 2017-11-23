@@ -1,3 +1,4 @@
+SRC+= 	preamble.tex
 SRC+=	contents.tex
 SRC+=	abstract.tex
 SRC+=	intro.tex
@@ -9,85 +10,65 @@ SRC+= 	protocol.tex
 SRC+=	security.tex
 SRC+=	conclusions.tex
 
-FIGS+= 	fig/tposet.tex
+FIGS+= 	../fig/tposet.tikz
+FIGS+= 	../fig/proofshare.tikz
 
 DEPENDS+=	bibsp.sty
-DEPENDS+=	bibsp/crypto.bib
-DEPENDS+=	bibsp/location.bib
-DEPENDS+=	bibsp/reputation.bib
-DEPENDS+=	bibsp/auth.bib
-DEPENDS+=	bibsp/voting.bib
-DEPENDS+=	bibsp/protests.bib
-DEPENDS+=	bibsp/blockchain.bib
-DEPENDS+=	bibsp/anon.bib
-DEPENDS+=	bibsp/ecurrency.bib
+DEPENDS+=	crypto.bib
+DEPENDS+=	location.bib
+DEPENDS+=	reputation.bib
+DEPENDS+=	auth.bib
+DEPENDS+=	voting.bib
+DEPENDS+=	protests.bib
+DEPENDS+=	blockchain.bib
+DEPENDS+=	anon.bib
+DEPENDS+=	ecurrency.bib
 
 
 .PHONY: all
-all: ProtestVerif-paper.pdf
+all: slides-full.pdf
 
-#ProtestVerif-paper.pdf: lncs
-ProtestVerif-paper.pdf: ProtestVerif-paper.tex
-ProtestVerif-paper.pdf: preamble.tex preamble-paper.tex
-ProtestVerif-paper.pdf: ${SRC} ${FIGS} ${DEPENDS}
-
-
-.PHONY: all
-all: ProtestVerif-slides.pdf
-
-ProtestVerif-slides.pdf: ProtestVerif-slides.tex
-ProtestVerif-slides.pdf: preamble.tex preamble-slides.tex
-ProtestVerif-slides.pdf: ${SRC} ${FIGS} ${DEPENDS}
+slides-full.pdf: slides-full.tex
+slides-full.pdf: preamble.tex preamble-slides.tex
+slides-full.pdf: ${SRC} ${FIGS} ${DEPENDS}
 
 
 .PHONY: all
-all: shortslides.pdf
+all: slides-short.pdf
 
-shortslides.pdf: shortslides.tex protocol.tex
-
-
-.PHONY: all
-all: ProtestVerif-poster.pdf
-
-ProtestVerif-poster.pdf: ProtestVerif-poster.tex contents-poster.tex
-ProtestVerif-poster.pdf: preamble.tex preamble-slides.tex
-ProtestVerif-poster.pdf: ${SRC} ${FIGS} ${DEPENDS}
-
-ProtestVerif-poster.pdf: fig/kth_cmyk.eps fig/uqam.pdf
-fig/uqam.pdf: fig/uqam.svg
-
-ProtestVerif-poster.pdf: fig/qr.eps
-fig/qr.eps: qr.txt
-	cat $< | qrencode -t EPS > $@
-
-ProtestVerif-poster.pdf: fig/trump.jpg fig/Jacobs-method.jpg
-ProtestVerif-poster.pdf: art/ProtestVerif.png art/ProtestVerif-UN.png
-
-art/ProtestVerif.png: art/ProtestVerif.xcf
-art/ProtestVerif-UN.png: art/ProtestVerif-UN.xcf
-
-art/ProtestVerif.png art/ProtestVerif-UN.png:
-	xcf2png $< -o $@
-	convert -trim $@ $@
+slides-short.pdf: slides-short.tex protocol.tex
 
 
 .PHONY: clean
 clean:
-	${RM} ProtestVerif-paper.pdf ProtestVerif-slides.pdf shortslides.pdf
-	${RM} ProtestVerif-poster.pdf fig/uqam.pdf fig/uqam.pdf_tex
-	${RM} fig/qr.eps
+	${RM} slides-full.pdf slides-short.pdf
 
-
-.PHONY: wc todo
-PREWC=	detex
-wc todo: ${SRC}
 
 .PHONY: print
-print: ProtestVerif-paper.pdf
+print: slides-full.pdf
 
 
-INCLUDE_MAKEFILES=makefiles
+preamble.tex: ../paper/preamble.tex
+contents.tex: ../paper/contents.tex
+abstract.tex: ../paper/abstract.tex
+intro.tex: ../paper/intro.tex
+SystemModel.tex: ../paper/SystemModel.tex
+properties.tex: ../paper/properties.tex
+RelatedWork.tex: ../paper/RelatedWork.tex
+primitives.tex: ../paper/primitives.tex
+protocol.tex: ../paper/protocol.tex
+security.tex: ../paper/security.tex
+conclusions.tex: ../paper/conclusions.tex
+
+tposet.tikz: ../fig/tposet.tikz
+proofshare.tikz: ../fig/proofshare.tikz
+
+${SRC} ${FIGS}:
+	${LN} $< $@
+
+
+INCLUDE_MAKEFILES=../makefiles
 include ${INCLUDE_MAKEFILES}/tex.mk
 include ${INCLUDE_MAKEFILES}/doc.mk
-INCLUDE_BIBSP=bibsp
+INCLUDE_BIBSP=../bibsp
 include ${INCLUDE_BIBSP}/bibsp.mk
