@@ -40,6 +40,12 @@ ${FIG}:
 	${MAKE} -C ../$(dir $@) $(notdir $@)
 
 
+.PHONY: all
+all: posterslide.pdf
+
+posterslide.pdf: posterslide.tex
+
+
 .PHONY: clean
 clean:
 	${RM} poster.pdf
@@ -47,6 +53,7 @@ clean:
 	${RM} ${FIG}
 	${MAKE} -C ../art clean
 	${MAKE} -C ../fig clean
+	${RM} posterslide.pdf
 
 .PHONY: distclean
 distclean:
