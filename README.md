@@ -24,8 +24,8 @@ Pre-compiled versions and their BibTeX entries can be found under
 [Releases]: https://github.com/dbosk/ProtestVerif/releases
 
 
-Compilation
--------------------------------------------------------------------------------
+Repo structure and compilation
+===============================================================================
 
 This repo requires some submodules. Either you cloned the repo using
 ```sh
@@ -36,13 +36,6 @@ or you have to get the submodules yourself:
 git submodule update --init
 ```
 
-To compile the paper:
-```sh
-make ProtestVerif-paper.pdf
-```
-Simply running `make` will result in `make all` which compiles paper and 
-slides.
-
 To update the code (i.e. pull the latest version) you must update the submodules 
 after the pull:
 ```
@@ -50,30 +43,40 @@ git pull
 git submodule update
 ```
 
-You will also need xcftools and ImageMagick to convert the GIMP images (.xcf) to 
-PNG (.png).
+The file structure:
+
+- `paper/` contains the LaTeX code for the paper.
+
+- `slides/` contains the LaTeX code for the slides. This is a full set of slides 
+  (using `beamerarticle`) where the actual slides are in the paper source. So 
+  the actual _slide contents_ is in `paper/`.
+
+- `poster/` contains the LaTeX code for the poster. This is independent from the 
+  other two.  You will need xcftools and ImageMagick to convert the GIMP images 
+  (.xcf) to PNG (.png).
+
+Each directory contains a `Makefile` with instructions on how to build. Just run 
+`make` in the directory of interest and it will work as expected.
+
 
 
 File structure
--------------------------------------------------------------------------------
+===============================================================================
 
-`Makefile` contains the build instructions and the files' dependencies.
+`Makefile` contains the build instructions and the files' dependencies. Typing 
+`make` in the root directory will recurse into the subdirectories.
 
-`ProtestVerif-paper.tex` contains the specifics for the paper and 
-`ProtestVerif-slides.tex` contains the specifics for the slides.
-There is also `shortslides.tex` which can be used to produce a very short slide 
-deck (useful for meetings).
+`venues.md` contains a list of possible venues and approaching deadlines.
 
-The only thing that needs editing in these files is the list of authors, 
-separate lists in each (due to different packages handling the list of authors 
-and their affiliations).
+Generally, for the directories. The contents is in the file `contents.tex` and 
+most probably include other files. The preamble is kept in the `preamble.tex` 
+file.
 
-`preamble.tex` contains the main preamble. Some things must be different for 
-the paper and the slides though, e.g. theorem environments, then the 
-corresponding code must be entered into `preamble-paper.tex` and 
-`preamble-slides.tex`, respectively.
+`preamble.tex` contains the main preamble. Some things must be different for the 
+paper and the slides though, e.g. theorem environments, then the corresponding 
+code must be entered into `preamble-paper.tex` and `preamble-slides.tex`, 
+respectively.
 
 `contents.tex` contains the main contents, both for slides and paper. This file
 in turn includes other files for modularization.
 
-`venues.md` contains a list of possible venues and approaching deadlines.
