@@ -10,8 +10,9 @@ SRC+= 	protocol.tex
 SRC+=	security.tex
 SRC+=	conclusions.tex
 
-FIGS+= 	../fig/tposet.tikz
-FIGS+= 	../fig/proofshare.tikz
+FIGS+= 	tposet.tikz
+FIGS+= 	proofshare.tikz
+FIGS+= 	Jacobs-method.jpg
 
 DEPENDS+=	bibsp.sty
 DEPENDS+=	crypto.bib
@@ -63,6 +64,7 @@ conclusions.tex: ../paper/conclusions.tex
 
 tposet.tikz: ../fig/tposet.tikz
 proofshare.tikz: ../fig/proofshare.tikz
+Jacobs-method.jpg: ../fig/Jacobs-method.jpg
 
 ${SRC} ${FIGS}:
 	${LN} $< $@
