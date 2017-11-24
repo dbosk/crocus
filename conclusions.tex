@@ -17,7 +17,7 @@ not individual verifiability (\cref{IndividualVerif}).
 If they would provide individual verifiability, they would likely violate the 
 privacy requirements.
 And finally, most of the current methods are estimates, with quite some error 
-margins, so they cannot give the correct participation count.
+margins.
 
 \begin{frame}<presentation>
   \begin{block}{Verifiability}
@@ -36,61 +36,3 @@ margins, so they cannot give the correct participation count.
     \end{itemize}
   \end{block}
 \end{frame}
-
-\subsection{Open problems}
-
-\begin{frame}
-  \frametitle{Sybil}
-  \begin{question}
-    How to solve Sybil, can we piggyback on existing \acp{PKI}?
-    E.g.\ through~\cite{Cinderella}.
-  \end{question}
-
-  \begin{question}
-    Can we otherwise bind identifiable keys to unique ring signature keys?
-  \end{question}
-
-  \begin{question}
-    Can we achieve receipt freeness (deniability) and protect from Sybil?
-  \end{question}
-\end{frame}
-
-\begin{frame}
-  \begin{remark}
-    \begin{itemize}
-      \item Cannot prevent giving keys to someone (trusted).
-    \end{itemize}
-  \end{remark}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Anonymous communication}
-  \begin{question}
-    How do we submit the proofs to storage?
-  \end{question}
-
-  \mode<presentation>{%
-    \begin{remark}
-      Without anonymous submission we don't get proof privacy, thus no 
-      receipt freeness either.
-    \end{remark}
-  }
-\end{frame}
-
-\begin{frame}
-  \frametitle{Blockchains, distributed systems}
-  \begin{question}
-    \begin{itemize}
-      \item Malicious nodes want to provide Alice with a view that her proof is 
-        included.
-      \item Everyone else is provided a view without Alice.
-      \item How can we ensure a consistent view for everyone?
-    \end{itemize}
-  \end{question}
-
-  \begin{question}
-    Or recover from it?
-  \end{question}
-\end{frame}
-
-

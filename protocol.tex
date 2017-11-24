@@ -1,0 +1,284 @@
+\mode*
+\section{Protocol}
+
+We will start by giving an overview of the protocol.
+We have a number of participants.
+We have a cothority who provide the storage in a decentralized manner.
+The cothority should consist of independent actors, preferably with conflicting 
+interests so that they will not collude.
+We have Alice the organizer and Bob the participant who are both protesters.
+We have the trustworthy journalist Jane who is present but not participating in 
+the protest.
+The protesters will witness each others participation proofs, e.g.\ Alice will 
+witness Bob's proof and Bob will witness Alice's proof.
+The result of witnessing a proof is a proof share (essentially a witness 
+signature).
+Jane will also participate in witnessing the protesters' proofs.
+The witnessing is done through local interaction.
+As soon as Alice and Bob have departed from the protest they upload their proofs 
+(i.e.\ all proof shares) to the cothority for indefinite storage.
+Since each proof consists of one proof share for each witness, each witness 
+could potentially upload the proof share themselves to the cothority.
+This would have the same effect but with added redundancy, in case Alice or Bob 
+cannot upload them themselves.
+
+We will now describe the protocol in more details.
+We will describe it in the same order as outlined above:
+starting with the construction of the participation proof (shares) and 
+submitting the proof shares to storage.
+Then we will conclude with how to verify the proofs and produce the 
+participation count.
+
+\subsection{Constructing the participation-proof shares}
+
+An overview of the final structure of a proof is given in \cref{fig:ProofFig} 
+and an overview of the communication is given in \cref{fig:ProtocolOverview}.
+
+\begin{frame}
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[%
+    -Latex,
+    item/.style={rectangle,draw},
+    edge from parent/.style={}
+    ]
+    \tikzset{%
+      %grow'=left,%
+      %level distance=5em%
+    }
+    \node[item] (proof) {Proof share}
+      child {%
+        node[item] (pid) {$pid$}
+        child {%
+          node[item] (cid) {$cid$}
+          child {%
+            node[item] (manifesto) {Manifesto}
+          }
+        }
+      }
+      child {%
+        node[item] (wid) {$wid$}
+      }
+      child {%
+        node[item] (ts) {$t_s$}
+      }
+      child {%
+        node[item] (l) {$l$}
+      }
+      child {%
+        node[item] (wsig) {$wsig$}
+      }
+      ;
+
+      \path[every node/.style={font=\small}]
+      (pid) edge node [anchor=south east] {$\in$} (proof)
+      (wid) edge node [anchor=east] {$\in$} (proof)
+      (ts) edge node [anchor=east] {$\in$} (proof)
+      (l) edge node [anchor=west] {$\in$} (proof)
+      (wsig) edge node [anchor=south west] {$\in$} (proof)
+      ;
+
+      \path[every node/.style={font=\small}]
+      (manifesto) edge node [anchor=east] {$H(\cdot)$} (cid)
+      (cid) edge node [anchor=east] {$PRF_{k_P}(\cdot)$} (pid)
+      (pid) edge[bend right] node [anchor=north west] {$PRF_{k_W}(\cdot)$} (wid)
+      % wsig
+      (l) edge[bend right] (wsig)
+      (ts) edge[bend right] (wsig)
+      (wid) edge[bend right] node [anchor=north west] {$PRF_{k_W}(\cdot, \cdot, 
+        \cdot)$} (wsig)
+      ;
+
+  \end{tikzpicture}
+  \mode<article>{%
+  \caption{%
+    Structure of a proof share.
+    The protester \(P\)'s identifier \(pid\) is computed using the protester's 
+    key \(k_P\).
+    The witness \(W\)'s identifier \(wid\) is computed using the witness's key 
+    \(k_W\).
+    \(t_s\) is a time interval and \(l\) is the coordinates of an area.
+    The protest (cause) identifier \(cid\) is the hash value of the manifesto.
+  }}%
+  \label{fig:ProofFig}
+\end{figure}%
+\end{frame}
+
+\begin{frame}
+\begin{figure}
+  \centering
+  \begin{minipage}{\linewidth}
+    \begin{align*}
+      O\to \text{all}\colon & \text{manifesto} \\
+      P\colon & cid\gets H(\text{manifesto}), \\
+        & pid\gets PRF_{k_P}(cid) \\
+      P\to W\colon & pid \\
+      W\leftrightarrow P\colon & \text{perform distance bounding} \\
+      W\colon & wid\gets PRF_{k_W}(pid), \\
+        & wsig\gets PRF_{k_W}(wid, t_s, l) \\
+      W\to P\colon & (wid, t_s, l, wsig) \\
+      W\to S\colon & H(pid, wid, t_s, l, wsig) \\
+      P\to S\colon & H(pid, wid, t_s, l, wsig) \\
+      W\to S\colon & (pid, wid, t_s, l, wsig),\\
+        & NIZK(wid = PRF_{k_W}(pid), wsig = PRF_{k_W}(wid, t_s, l), \exists 
+        sign(k_W)) \\
+      P\to S\colon & (pid, wid, t_s, l, wsig),\\
+        & NIZK(pid = PRF_{k_P}(cid), \exists sign(k_P))
+    \end{align*}
+  \end{minipage}
+  \mode<article>{%
+  \caption{%
+    An overview of message exchanges.
+    The organizer \(O\) broadcasts the manifesto.
+    \(P\), \(W\) and their computations are as in \cref{fig:ProofFig}.
+    Finally, both \(P\) and \(W\) submits the proof share to the storage \(S\).
+  }}%
+  \label{fig:ProtocolOverview}
+\end{figure}
+\end{frame}
+
+\subsubsection{Linkability and designated protest}
+
+\Cref{CountOnce} is required to prevent Sybil attacks, i.e.\ that one individual 
+can provide two participation proofs and thus be counted twice.
+That situation should be detectable.
+We can do this by ensuring that Alice cannot produce two valid proofs which
+are unlinkable.
+\Cref{DesignatedEvent} is to prevent Alice from reusing the same proof (or proof 
+share) for another event.
+E.g.\ there might be a counter protest at the same time and place, these would 
+have the same spatial and temporal properties.
+To distinguish them, we also need to prove for which of these events that a 
+proof is designated.
+The idea is to construct a unique identifier for a protest.
+
+We will start with the latter.
+The identifier of the protest must be regulated, for the same reasons as for the 
+user identifiers --- otherwise a counter-protest can simply choose the same 
+protest identifier.
+As was pointed out in \cref{CauseIsTheCommonDenominator}, the cause is at the 
+root of what defines a protest.
+The cause can be captured in some sort of \enquote{manifesto}, thus, we will use 
+the hash value of the manifesto as identifier of the protest (cause).
+(As shown as manifesto and cause identifier \(cid\) in \cref{fig:ProofFig}.)
+
+To practically propagate this identifier to the protesters the organizer can 
+have a placard with a large QR code that either contains the entire manifesto or 
+at least links to a website hosting the manifesto.
+The user can scan this QR code with a protesting app which will automatically 
+fetch it, show it to the protester for approval and then compute the identifier 
+\(cid\).
+
+Next we need to consider the protesters' identifiers to prevent Sybil attacks.
+\Textcite{HowToWinTheCloneWars} created an \emph{interactive} credential system 
+which allows anonymous authentication at most \(n\) times\footnote{%
+  Possibly there is another scheme that makes it non-interactive, e.g.\ by 
+  \Textcite{Psignatures}, see issue \#27.
+}, where \(n = 1\) in our scenario.
+Alice has a \ac{PRF} key \(k\) and a blind signature on \(k\) included in her 
+national identity-card (by assumption).
+She will use \(k\) to compute \(pid\gets PRF_k(cid)\), which is her anonymous 
+identity during the protest (shown as \(pid\) in \cref{fig:ProofFig}).
+
+\subsubsection{Temporal eligibility, created after start}
+
+Given the properties of the storage (in \cref{StorageProperties}), for 
+\cref{CreatedAfterStart}, each witness must include the hash value of an 
+existing block in the blockchain in each proof share (shown as \(t_s\) in 
+\cref{fig:ProofFig}).
+Then it is clear that the proof must have been created after that block (since 
+predicting such a value is hard).
+This value can either be provided to the witness by the protester or the witness 
+uses the value of the last known block.
+
+\subsubsection{Location proofs and spatial eligibility}
+
+According to \cref{SpatiallyRelated} Alice and Bob must bind their proofs 
+(shares) spatially to the location, which would allow us to verify that they 
+were actually in that location.
+The role of the witnesses, e.g.\ Jane, is to provide this property.
+Jane can do this by using a distance-bounding protocol to ensure that the secret 
+associated with Alice or Bob must be within limited physical distance.
+
+Alice will send her \(pid\) to Jane to start the witness protocol.
+Then they do the distance bounding \dots
+[See issue \#22 for the discussion.]
+If Jane is convinced that Alice's secret is within the desired proximity, she 
+will compute her witness identifier \(wid\) and witness signature \(wsig\) and 
+send them to Alice.
+
+\subsubsection{Temporal eligibility, created before end}
+
+The proofs (shares) can be submitted to storage in two steps:
+first, committing them to the blockchain; second, to submit all the required 
+data.
+This will allow some time for computing all the required \ac{NIZK} proofs 
+(discussed in the following section).
+
+Given the properties of the storage system in \cref{StorageProperties}, 
+\cref{CreatedBeforeEnd} is straight-forward: once a proof share is created it 
+should be committed to the blockchain as soon as possible.
+Thus we can infer that a proof (or proof share) was created at the latest when 
+it was committed.
+
+We note that there are at least two entities who know each proof share, the 
+protester and the witness.
+Alice and Bob simply commit their proofs (i.e.\ all proof shares of their 
+proofs) to the blockchain as soon as possible after they have participated in 
+the protest.
+The witnesses do the same, they commit all the proof shares that they helped 
+create.
+(Shown in \cref{fig:ProtocolOverview}.)
+
+\subsection{Verifying the participation count}
+
+There are three parts to verifying the participation count.
+First, we must verify the eligibility of each proof, i.e.\ of all its shares.
+Second, we must count these valid proofs.
+Third, each protester must check that their proof is indeed registered so that 
+it can be counted.
+
+\subsubsection{Eligibility and universal verifiability}
+
+Universal verifiability (\cref{UniversalVerif}) means that anyone should be able 
+to count the valid proofs.
+To do this we must be able to verify the eligibility of a proof (i.e.\ of all 
+its shares) and then count it if valid.
+To verify the eligibility of a proof share, we must verify that \(pid\), \(wid\) 
+and \(wsig\) are not just randomly generated numbers but they actually depend on 
+the keys \(k_P\) and \(k_W\) (as illustrated in \cref{fig:ProofFig}).
+We will do this with \ac{NIZK} proofs.
+We note that these proofs are not needed until the verification step after the 
+protest.
+Thus \(pid, wid, wsig\) can be used in the proof shares (and all computations 
+above) whereas their respective \ac{NIZK} proof can be computed and published 
+after the protest.
+
+Alice must provide \iac{NIZK} proof showing that \(pid = PRF_{k_P}(cid)\) and 
+that she knows a signature by the identity authority on \(k_P\).
+\dots
+[Details of how to do this, or maybe that will be in \cref{BuildingBlocks}. See 
+issue \#27 for discussion.]
+
+In the same manner, each witness must also provide \iac{NIZK} proofs for \(wid = 
+  PRF_{k_W}(pid)\) and \(wsig = PRF_{k_W}(wid, t_s, l)\) as well as that the 
+witness knows a signature by the identity authority on \(k_W\).
+With these \ac{NIZK} proofs anyone can verify the validity, i.e.\ the 
+eligibility, of the proof shares and thus also count them.
+
+\subsubsection{Individual verifiability and receipt freeness}
+
+The purpose of individual verifiability (\cref{IndividualVerif}) is to prevent 
+an adversary from dropping participation proofs.
+Thus each protester must verify that their own proof is indeed included.
+This can be accomplished as follows.
+After Alice commited to her proof (share) in the blockchain, she stores the hash 
+of the block.
+At a later time, she can still verify that the block is indeed still there.
+At this point, this hash value is the only thing she must store for individual 
+verifiability.
+
+More specifically, to achieve receipt freeness (\cref{ReceiptFreeness}) Alice 
+must remove her secret PRF key, \(k_A\).
+With this key Eve can verify that Alice has submitted a proof by computing 
+\(pid'\gets PRF_{k_A}(cid)\) and compare \(pid = pid'\).

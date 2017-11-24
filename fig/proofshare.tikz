@@ -1,0 +1,53 @@
+\begin{tikzpicture}[%
+  -Latex,
+  item/.style={rectangle,draw},
+  edge from parent/.style={},
+  ]
+  \tikzset{%
+    %grow'=left,%
+    %level distance=5em%
+  }
+  \node[item] (proof) {Proof share}
+  child {%
+    node[item] (pid) {$pid$}
+    child {%
+      node[item] (cid) {$cid$}
+      child {%
+        node[item] (manifesto) {Manifesto}
+      }
+    }
+  }
+  child {%
+    node[item] (wid) {$wid$}
+  }
+  child {%
+    node[item] (ts) {$t_s$}
+  }
+  child {%
+    node[item] (l) {$l$}
+  }
+  child {%
+    node[item] (wsig) {$wsig$}
+  }
+  ;
+
+  \path[every node/.style={font=\small}]
+  (pid) edge node [anchor=south east] {$\in$} (proof)
+  (wid) edge node [anchor=east] {$\in$} (proof)
+  (ts) edge node [anchor=east] {$\in$} (proof)
+  (l) edge node [anchor=west] {$\in$} (proof)
+  (wsig) edge node [anchor=south west] {$\in$} (proof)
+  ;
+
+  \path[every node/.style={font=\small}]
+  (manifesto) edge node [anchor=east] {$H(\cdot)$} (cid)
+  (cid) edge node [anchor=east] {$PRF_{k_P}(\cdot)$} (pid)
+  (pid) edge[bend right] node [anchor=north west] {$PRF_{k_W}(\cdot)$} (wid)
+  % wsig
+  (l) edge[bend right] (wsig)
+  (ts) edge[bend right] (wsig)
+  (wid) edge[bend right] node [anchor=north west] {$PRF_{k_W}(\cdot, \cdot, 
+    \cdot)$} (wsig)
+  ;
+
+\end{tikzpicture}

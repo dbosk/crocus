@@ -1,6 +1,71 @@
 \mode*
 
-\section{Security}
+\section{Security and privacy analysis}%
+\label{SecurityAnalysis}
+
+We note that Alice and Bob do not trust each other, for all they know one or the 
+other could be an agent of Eve the autocrat.
+\begin{itemize}
+  \item Eve the evil autocrat,
+  \item Rusuk the foreign nation state, and finally
+\end{itemize}
+
+\subsection{Assumptions}
+
+We assume that every participant has a device similar to a smartphone.
+Throughout this text, when we refer to a participant, say Alice, we actually 
+mean a principal which can perform cryptographic operations and communicate with 
+other local devices on Alice's behalf.
+(This means that we essentially provide a lower bound for the participation 
+count, since some participants might not have such a device.)
+
+\mode<presentation>{%
+\begin{frame}
+  \begin{center}
+    Alice $:=$ Alice's cryptographic device
+  \end{center}
+\end{frame}
+}
+
+No connection to any global network the Internet is necessary during the 
+protest.
+During the protest these devices are computationally limited by their 
+batteries.
+Before and after the protest, we assume that the devices have Internet 
+connections and are not computationally limited by any battery.
+
+\mode<presentation>{%
+\begin{frame}
+  \begin{assumption}[During protest]
+    \begin{itemize}
+      \item Everyone has a smartphone.
+      \item Can use ad-hoc networks during the event.
+      \item Computations bounded by battery life.
+    \end{itemize}
+  \end{assumption}
+
+  \pause{}
+
+  \begin{assumption}[Before and after protest]
+    \begin{itemize}
+      \item Internet connection available.
+      \item Computations not bounded by battery life.
+    \end{itemize}
+  \end{assumption}
+
+  \pause{}
+
+  \begin{remark}
+    We provide a lower bound, since there might be participants without phones.
+  \end{remark}
+\end{frame}
+}
+
+We further assume that every participant has a digital certificate signed by 
+some logically centralized certificate authority.
+E.g.\ that we can use the cryptographic keys stored in the chip of the national 
+identity card or passport.
+We need this to prevent Sybil attacks~\cite{SybilAttack}.
 
 \subsection{Forging new proofs}
 

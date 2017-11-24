@@ -43,6 +43,16 @@ make ProtestVerif-paper.pdf
 Simply running `make` will result in `make all` which compiles paper and 
 slides.
 
+To update the code (i.e. pull the latest version) you must update the submodules 
+after the pull:
+```
+git pull
+git submodule update
+```
+
+You will also need xcftools and ImageMagick to convert the GIMP images (.xcf) to 
+PNG (.png).
+
 
 File structure
 -------------------------------------------------------------------------------
@@ -51,6 +61,9 @@ File structure
 
 `ProtestVerif-paper.tex` contains the specifics for the paper and 
 `ProtestVerif-slides.tex` contains the specifics for the slides.
+There is also `shortslides.tex` which can be used to produce a very short slide 
+deck (useful for meetings).
+
 The only thing that needs editing in these files is the list of authors, 
 separate lists in each (due to different packages handling the list of authors 
 and their affiliations).

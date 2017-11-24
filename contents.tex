@@ -1,10 +1,17 @@
-\title{%
-  Securely and Privately Verifying Protests
-  %Securely and Privately Verifiable Protests
+\title[PRIVO\@: securely and PRIVately Verificable PROtests]{%
+  PR$^{^{\text{I}}\text{V}^{\text{ately}}_\text{erifiable}}_{\text{Otests}}$%
+  %PRIVO\@:
+  %SPRIVO\@:
+  %Securely and Privately Verifying Protests
+  %securely and PRIvately Verifiable PROtests
   %Verifying Protests
   %Verifying Demonstrations
   %Verifying Real-World Protests
   %Verifying Physical Protests
+  \thanks{%
+    An initial discussion of this work appeared in 
+    \citetitle{FutureProtests}~\cite{FutureProtests}.
+  }
 }
 
 \maketitle
@@ -25,28 +32,39 @@
 
 % What's the problem?
 % Why is it a problem?
-\mode<all>
-\input{intro.tex}
-
 % What's the approach?
-\mode<all>
-\input{properties.tex}
+% What are the results?
+\mode<all>{%
+\input{intro.tex}
+}
 
-\mode<article>{%
+\mode<all>{%
 \input{SystemModel.tex}
 }
 
-\mode<article>{%
-\input{security.tex}
+\mode<all>{%
+\input{properties.tex}
 }
-% What are the results?
+
 \mode<article>{%
 \input{RelatedWork.tex}
 }
-\mode<all>
-\input{conclusions.tex}
 
-\input{acknowledgements.tex}
+\mode<all>{%
+\input{primitives.tex}
+}
+
+\mode<all>{%
+\input{protocol.tex}
+}
+
+\mode<all>{%
+\input{security.tex}
+}
+
+\mode<all>{%
+\input{conclusions.tex}
+}
 
 \begin{frame}[allowframebreaks]
   \printbibliography{}
