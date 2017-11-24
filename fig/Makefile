@@ -4,6 +4,10 @@ uqam.pdf: uqam.svg
 clean:
 	${RM} uqam.pdf uqam.pdf_tex
 
+.PHONY: distclean
+distclean:
+	true
+
 
 INCLUDE_MAKEFILES=../makefiles
 include ${INCLUDE_MAKEFILES}/doc.mk

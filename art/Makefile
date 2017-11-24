@@ -9,3 +9,7 @@ ProtestVerif.png ProtestVerif-UN.png:
 .PHONY: clean
 clean:
 	${RM} ProtestVerif.png ProtestVerif-UN.png
+
+.PHONY: distclean
+distclean:
+	true
