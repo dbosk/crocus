@@ -29,7 +29,8 @@ We also have the Venezuelan demonstrations where
   their support for the president's controversial plan to rewrite the 
   constitution%
 }.
-Judging from these examples, the minimal common part is the cause.
+Judging from these examples, the minimal common part is the cause.%
+\label{CauseIsTheCommonDenominator}
 
 \mode<presentation>{%
 \begin{frame}
@@ -69,14 +70,16 @@ The organizer Alice want to count everyone who participated at any time and in
 any of the locations~\cite{2016DemonstrationsInSeoul}.
 (Whereas police are only interested in the maximum crowd at any point in time, 
 to deploy enough personnel for crowd-control.)
-We will define a protest as an event that is uniquely identified by its cause, 
-its time and its location.
+We will define a protest as an event that is uniquely identified by its cause 
+(\(id\) below), its time interval (\(t\)) and its location (area \(l\)).
 More specifically, we will use the following definition.
 
 \begin{frame}
 \begin{definition}[Protest]\label{DefProtest}
-  A \emph{subprotest} is a tuple \((id, t, l)\) where
-  \(id\in \Z_{2^\lambda}\) is an identifier,
+  A \emph{subprotest} is a tuple \((cid, t, l)\) where
+  \(cid\in \Z_{2^\lambda}\) is the cause\footnote{%
+    I.e.\ the cause of the protest.
+  } identifier,
   \(t = \interval{t_s}{t_e}\subseteq \R\) is a time interval and
   \(l = N_\epsilon(x, y)\subseteq \R^2\) is the location (an 
   \(\epsilon\)-neighbourhood of \((x,y)\)).
@@ -94,23 +97,26 @@ coarse coordinates that slightly overlap.
 \subsection{Participation and count}
 
 Each participant who want to be counted must submit a participation proof.
-The proof must be associated with the protest, i.e.\ its \(id\), time and 
-location.
-We use witnesses to associate the proof to the location.
-The proof and its witnesses are stored in a set, as there should be only unique 
-witnesses.
+The proof must be associated with the protest, i.e.\ its identifier \(cid\), 
+time and location.
+We use witnesses to associate the proof to the location by creating a proof 
+share.
+A witness is only allowed to create one proof share per protester.
+The proof and its proof shares are stored in a set, as there should be only 
+unique proof shares.
 
 \begin{frame}
-\begin{definition}[Witness]
-  A \emph{witness} \(w = (pid, id, t, l, wid)\) is a tuple where
-  \(id, t, l\) are as in \cref{DefProtest},
-  \(pid\) uniquely identifies the protester and \(wid\) uniquely identifies the 
-  person who issued the witness.
-  We let \(W\) be the set of all witnesses.
+\begin{definition}[Participation-proof share]
+  A \emph{participation-proof share} \(w = (pid, cid, t, l, wid)\) is a tuple 
+  where
+  \(cid, t, l\) are as in \cref{DefProtest},
+  \(pid\) is unique for a protester and \(cid\) pair, and
+  \(wid\) is unique for a witness--protester pair.
+  We let \(W\) be the set of all proof shares.
 \end{definition}
 \end{frame}
 
-A subset of the witnesses forms a participation proof for a protester.
+A subset of the proof shares forms a participation proof for a protester.
 
 \begin{frame}
 \begin{definition}[Participation proof]
@@ -119,25 +125,25 @@ A subset of the witnesses forms a participation proof for a protester.
   \begin{align}
     \nonumber
     p_{i, j} =
-    \left\{ (pid, id, t, l, wid)\in W \mid
+    \left\{ (pid, cid, t, l, wid)\in W \mid
     %\right. &
-    pid = i, id = j,
+    pid = i, cid = j,
     %\\ & \left.
     t \subseteq t_j, l\subseteq l_j \right\},
   \end{align}
-  of all witnesses with the same protester and protest identifiers, witness time 
-  interval \(t\) and location \(l\) is within those of the protest \(j\) (i.e.\ 
-  \(t_j\) and \(l_j\)).
+  of all proof shares with the same protester and protest identifiers, witness 
+  time interval \(t\) and location \(l\) is within those of the protest \(j\) 
+  (i.e.\ \(t_j\) and \(l_j\)).
 \end{definition}
 \end{frame}
 
 We can now define the participation count as follows.
 \begin{frame}
 \begin{definition}[Participation count]
-  We define the \emph{participation count} of a protest \(id\) as the 
-  cardinality \(|P_{id}^{s,\theta}|\) of the set of participation proofs \[
-    P_{id}^{s,\theta} = \left\{ p_{i,j} \mid
-      j = id, s(p_{i,j})\geq \theta \right\}
+  We define the \emph{participation count} of a protest \(cid\) as the 
+  cardinality \(|P_{cid}^{s,\theta}|\) of the set of participation proofs \[
+    P_{cid}^{s,\theta} = \left\{ p_{i,j} \mid
+      j = cid, s(p_{i,j})\geq \theta \right\}
   \] for some strength function \(s\colon \powerset(W)\to \R_+\) and a threshold 
   \(\theta\).
 \end{definition}
@@ -155,6 +161,8 @@ We can now define the participation count as follows.
 }
 \end{frame}
 
-The strength function \(s\) can be used to e.g.\ regulate trust in witnesses.
-A trivial example would be for \(s\) to return the number of witnesses and thus 
-let \(\theta\) to be the threshold of the number of required witnesses.
+The strength function \(s\) can be used to e.g.\ regulate trust in 
+witnesses.
+A trivial example would be for \(s\) to return the number of proof shares (i.e.\ 
+witnesses) and thus let \(\theta\) to be the threshold of the number of required 
+witnesses.
