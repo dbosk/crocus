@@ -1,3 +1,7 @@
+.PHONY: all
+all: ProtestVerif.png ProtestVerif-UN.png
+
+
 ProtestVerif.png: ProtestVerif.xcf
 ProtestVerif-UN.png: ProtestVerif-UN.xcf
 
