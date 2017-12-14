@@ -140,13 +140,15 @@ verification and privacy for participation in a protest as there is for voting.
 
 Voting has three requirements for 
 verifiability~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}.
-\begin{itemize}
-  \item Eligibility: anyone can verify that each vote cast is legitimate.
-  \item Universal verifiability: anyone can verify that the result is according 
+\begin{frame}
+\begin{description}
+  \item[Eligibility] anyone can verify that each vote cast is legitimate.
+  \item[Universal verifiability] anyone can verify that the result is according 
     to the cast votes.
-  \item Individual verifiability: every voter can verify that their vote is 
+  \item[Individual verifiability] every voter can verify that their vote is 
     included in the result.
-\end{itemize}
+\end{description}
+\end{frame}
 We translate the votes into \emph{proofs of participation}.
 Universal and individual verifiability remain the same: anyone can verify the 
 participation count by counting the proofs.
@@ -157,6 +159,14 @@ spatial relation to the protest.
 In essence, the proof must bind the person to the time and location of the 
 protest.
 We will define these more formally in \cref{Verifiability}.
+
+\mode<presentation>{%
+\begin{frame}
+  \begin{description}
+    \item[Privacy] no increased risk to participants.
+  \end{description}
+\end{frame}
+}
 
 There are also three levels of 
 privacy~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
@@ -177,7 +187,9 @@ detailed definition) to the protest context.
 In essence, upon completing the protocol, Eve cannot link Alice to Alice's 
 participation proof --- even with Alice's cooperation.
 
+\mode<article>{%
 \subsection{Contributions}
+}
 
 We propose a protocol which provides a way for protests to be securely verified.
 Additionally, this verification system does not incur any additional risk to 

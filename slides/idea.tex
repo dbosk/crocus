@@ -1,0 +1,133 @@
+\mode*
+
+\section[Participating]{Participating in a protest}
+
+\subsection{Joining a protest}
+
+\begin{frame}
+  \centering
+  \includegraphics[height=0.5\textheight]{ProtestVerif-join.png}
+\end{frame}
+
+\begin{frame}
+  \begin{align*}
+    cid &\gets H(\text{\enquote{WE MUST STAND UP \dots}}) \\
+    pid &\gets PRF_{k_P}(cid)
+  \end{align*}
+\end{frame}
+
+\subsection{During in a protest}
+
+\begin{frame}
+  \centering
+  \includegraphics[height=0.5\textheight]{ProtestVerif-participating.png}
+\end{frame}
+
+\begin{frame}
+  \centering
+  \includegraphics{proofshare.tikz}
+\end{frame}
+
+\begin{frame}
+  \begin{minipage}{\linewidth}
+    \begin{align*}
+      P\to W\colon & pid \\
+      W\leftrightarrow P\colon & \text{perform distance bounding} \\
+      W\colon & wid\gets PRF_{k_W}(pid), \\
+        & wsig\gets PRF_{k_W}(wid, t_s, l) \\
+      W\to P\colon & (wid, t_s, l, wsig) \\
+    \end{align*}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}
+  % XXX Describe distance bounding
+  \dots
+\end{frame}
+
+\subsection{After the protest}
+
+\begin{frame}
+  \centering
+  \includegraphics[height=0.5\textheight]{ProtestVerif-endprotest.png}
+\end{frame}
+
+\begin{frame}
+  \begin{minipage}{\linewidth}
+    \begin{align*}
+      \{W, P\}\rightsquigarrow S\colon & H(pid, wid, t_s, l, wsig)
+    \end{align*}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}
+  \begin{minipage}{\linewidth}
+    \begin{align*}
+      W\rightsquigarrow S\colon & (pid, wid, t_s, l, wsig),\\
+        & NIZK(wid = PRF_{k_W}(pid), wsig = PRF_{k_W}(wid, t_s, l),\\
+        & \exists sign(k_W)) \\
+        P\rightsquigarrow S\colon & (pid, wid, t_s, l, wsig),\\
+        & NIZK(pid = PRF_{k_P}(cid), \exists sign(k_P))
+    \end{align*}
+  \end{minipage}
+\end{frame}
+
+
+\section[Verifying]{Verifying a protest}
+
+\begin{frame}
+  \centering
+  \includegraphics[height=0.5\textheight]{ProtestVerif-verifying.png}
+\end{frame}
+
+\subsection{Verifying proof shares}
+
+\begin{frame}
+  \begin{columns}
+    \begin{column}{0.5\linewidth}
+      \tiny
+      \includegraphics[width=\linewidth]{proofshare.tikz}
+    \end{column}
+
+    \begin{column}{0.5\linewidth}
+      \begin{itemize}
+        \item Check that \(cid\) is what you're interested in.
+        \item Verify the \ac{NIZK} proofs.
+        \item Each \(PRF\) is computed correctly.
+        \item The owner knows a signature on the key used.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\subsection{Counting proofs}
+
+\begin{frame}
+  \begin{itemize}
+    \item Each \(pid\) with more than \(t\) valid proof shares is counted.
+    \item \(t\) is a threshold set to be higher than expected size of collusion 
+      clusters.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \centering
+  \includegraphics[height=0.5\textheight]{ProtestVerif-verified.png}
+  \includegraphics[height=0.5\textheight]{ProtestVerif-UN.png}
+\end{frame}
+
+
+\section{Conclusions}
+
+\begin{frame}
+  \begin{alertblock}{Limits}
+    \begin{itemize}
+      \item Cannot trust results that are pro-government if government issues 
+        identities (Sybil).
+
+        \pause{}
+
+      \item If \emph{everyone} colludes we cannot verify the location.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
