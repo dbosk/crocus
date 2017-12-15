@@ -67,23 +67,19 @@
 \end{frame}
 
 \begin{frame}
-  \begin{minipage}{\linewidth}
-    \begin{align*}
-      \{W, P\}\rightsquigarrow S\colon & H(pid, wid, t_s, l, wsig)
-    \end{align*}
-  \end{minipage}
+  \begin{align*}
+    \{W, P\}\rightsquigarrow S\colon & H(pid, wid, t_s, l, wsig)
+  \end{align*}
 \end{frame}
 
 \begin{frame}
-  \begin{minipage}{\linewidth}
-    \begin{align*}
-      W\rightsquigarrow S\colon & (pid, wid, t_s, l, wsig),\\
-        & NIZK(wid = PRF_{k_W}(pid), wsig = PRF_{k_W}(wid, t_s, l),\\
-        & \exists sign(k_W)) \\
-        P\rightsquigarrow S\colon & (pid, wid, t_s, l, wsig),\\
-        & NIZK(pid = PRF_{k_P}(cid), \exists sign(k_P))
-    \end{align*}
-  \end{minipage}
+  \begin{align*}
+    W\rightsquigarrow S\colon & (pid, wid, t_s, l, wsig),\\
+    & NIZK(wid = PRF_{k_W}(pid), wsig = PRF_{k_W}(wid, t_s, l),\\
+    & \exists sign(k_W)) \\
+    P\rightsquigarrow S\colon & (pid, wid, t_s, l, wsig),\\
+    & NIZK(pid = PRF_{k_P}(cid), \exists sign(k_P))
+  \end{align*}
 \end{frame}
 
 
@@ -142,6 +138,11 @@
         \pause{}
 
       \item If \emph{everyone} colludes we cannot verify the location.
+
+        \pause{}
+
+      \item No terrorist-fraud resistance: some people can still stay at home, 
+        and relay responses to distance-bounding challenges.
     \end{itemize}
   \end{alertblock}
 \end{frame}
