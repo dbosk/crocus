@@ -1,7 +1,6 @@
 .PHONY: all
 all: uqam.pdf
 
-
 uqam.pdf: uqam.svg
 uqam.pdf_tex: uqam.svg
 

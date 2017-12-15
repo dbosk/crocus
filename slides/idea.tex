@@ -42,7 +42,21 @@
 
 \begin{frame}
   % XXX Describe distance bounding
-  \dots
+  \centering
+  \procedure{Distance-bounding Schnorr}{%
+    \textbf{Prover}\colon g, q = |\langle g\rangle|, x\in \ZZ_q
+    \> \>
+    \textbf{Verifier}\colon g, q, X = g^x \\
+    \beta_i \sample \bin, y \sample \ZZ_q
+    \> \> \alpha_i \sample \bin \\
+    g^y, commit(\beta_1, \dotsc, \beta_n) \> \sendmessageright*{} \> \\
+    \> \text{Rapid phase} \> \\
+    \> \sendmessageleft*{\alpha_i} \> \\
+    \> \sendmessageright*{\beta_i} \> \\
+    \> \text{Verification phase} \> \\
+    c\gets \alpha_1|\beta_2|\dotsb|\alpha_n|\beta_n \\
+    r\gets y + cx \> \sendmessageright*{} \> g^r =^? X^cY\\
+  }
 \end{frame}
 
 \subsection{After the protest}
