@@ -9,8 +9,6 @@ FIGS+= 				kth_cmyk.eps uqam.pdf
 kth_cmyk.eps: 		../fig/kth_cmyk.eps
 uqam.pdf: 			../fig/uqam.pdf
 
-FIGS+= 				qr.eps
-
 qr.eps: 			qr.txt
 	cat $< | qrencode -t EPS > $@
 
@@ -29,7 +27,7 @@ FIGS+= 				proofshare.tikz
 proofshare.tikz: 	../fig/proofshare.tikz
 
 
-poster.pdf: ${FIGS}
+poster.pdf: ${FIGS} qr.eps
 
 ${FIGS}:
 	${LN} $< $@
