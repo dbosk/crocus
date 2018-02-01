@@ -15,7 +15,7 @@ SRC+= 	protocol.tex
 SRC+=	security.tex
 SRC+=	conclusions.tex
 
-paper.pdf: ${SRC} popets
+paper.pdf: ${SRC} popets dgruyter-biblatex.sty
 
 FIGS+= 				tposet.tikz proofshare.tikz
 tposet.tikz: 		../fig/tposet.tikz
