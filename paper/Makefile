@@ -54,6 +54,7 @@ clean:
 .PHONY: distclean
 distclean:
 	${MAKE} -C ../fig distclean
+	${RM} ${FIGS}
 
 
 .PHONY: wc todo
