@@ -1,5 +1,3 @@
-\mode*
-
 \section{Introduction}%
 \label{Introduction}
 
@@ -10,73 +8,6 @@ One problem that has not yet been entirely solved is the crowd-counting
 problem, i.e.\ to verify how many participated in Alice's protest.
 Our main goal is to provide a tool which prevents both Alice and Eve from 
 cheating.
-
-\mode<presentation>{%
-\subsection{What's the problem?}
-}
-
-\begin{frame}<presentation>
-  \begin{block}{The crowd-counting problem}
-    \begin{itemize}
-      \item Alice organizes a protest against Eve's regime.
-      \item Bob, Carol and others show up.
-      \item We want to know how many showed up to support Alice.
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-\mode<presentation>{%
-\subsection{Why is it a problem?}
-}
-
-\mode<presentation>{%
-\begin{frame}
-  \begin{figure}
-    \includegraphics[height=0.9\textheight]{Jacobs-method.jpg}
-  \end{figure}
-\end{frame}
-
-\begin{frame}
-  \begin{example}
-    \begin{itemize}
-      \item Computer vision does object recognition.
-      \item Requires photos/video that cover the entire location, all the time.
-      \item This will count people twice.
-    \end{itemize}
-  \end{example}
-
-  \pause{}
-
-  \begin{example}
-    \begin{itemize}
-      \item Scan active mobile phones in the area.
-      \item This requires some extra equipment.
-      \item This catches bystanders who are not protesting.
-    \end{itemize}
-  \end{example}
-\end{frame}
-}
-
-\mode<none>{%
-\begin{frame}
-  \begin{example}
-    \begin{itemize}
-      \item South Korea 2016~\cite{2016DemonstrationsInSeoul}:
-        approximate count by imagery.
-        \begin{description}
-          \item[Organizers] 1\,000\,000
-          \item[Police] 260\,000
-        \end{description}
-
-        \pause{}
-
-      \item US 2017~\cite{2017WomensMarchesInUS}:
-        sum up people's approximations.
-      \item This makes it even difficult to estimate the error.
-    \end{itemize}
-  \end{example}
-\end{frame}
-}
 
 After many demonstrations the count by police and that by the organizers 
 differ\footnote{%
@@ -101,27 +32,8 @@ Finally, they also lack verifiability, i.e.\ everyone must trust the entity who
 does the counting.
 (We will discuss them in more detail in \cref{RelatedWork}.)
 
-\begin{frame}<presentation>
-  \begin{block}{Verifying protest participation}
-    \begin{itemize}
-      \item Alice organizes a protest against Eve's regime.
-      \item Bob, Carol and others show up.
-
-        \pause{}
-
-      \item {\color{green} Alice wants to show that many support her cause.}
-
-        \pause{}
-
-      \item {\color{red} Eve wants to show that few support Alice's cause.}
-      \item It's an adversarial setting!
-      \item We need verifiable results.
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-We can make one important observation about this problem that has seemingly 
-been ignored in the past: it is an adversarial setting.
+We can make one important observation about this problem that has seemingly been 
+ignored in the past: it is an adversarial setting.
 Alice the activist has an incentive to increase the tallied number of 
 participants, whereas Eve (and possibly other interests) have an incentive to 
 decrease the tallied number of participants.
@@ -140,7 +52,6 @@ verification and privacy for participation in a protest as there is for voting.
 
 Voting has three requirements for 
 verifiability~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}.
-\begin{frame}
 \begin{description}
   \item[Eligibility] anyone can verify that each vote cast is legitimate.
   \item[Universal verifiability] anyone can verify that the result is according 
@@ -148,7 +59,6 @@ verifiability~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}.
   \item[Individual verifiability] every voter can verify that their vote is 
     included in the result.
 \end{description}
-\end{frame}
 We translate the votes into \emph{proofs of participation}.
 Universal and individual verifiability remain the same: anyone can verify the 
 participation count by counting the proofs.
@@ -159,14 +69,6 @@ spatial relation to the protest.
 In essence, the proof must bind the person to the time and location of the 
 protest.
 We will define these more formally in \cref{Verifiability}.
-
-\mode<presentation>{%
-\begin{frame}
-  \begin{description}
-    \item[Privacy] no increased risk to participants.
-  \end{description}
-\end{frame}
-}
 
 There are also three levels of 
 privacy~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
@@ -187,9 +89,7 @@ detailed definition) to the protest context.
 In essence, upon completing the protocol, Eve cannot link Alice to Alice's 
 participation proof --- even with Alice's cooperation.
 
-\mode<article>{%
 \subsection{Contributions}
-}
 
 We propose a protocol which provides a way for protests to be securely verified.
 Additionally, this verification system does not incur any additional risk to 

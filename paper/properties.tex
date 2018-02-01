@@ -1,4 +1,3 @@
-\mode*
 \section{Desired security properties}%
 \label{Properties}
 
@@ -16,53 +15,6 @@ Rusuk will thus also try to either increase or decrease the count.
 We will now formally define some security properties specifying the 
 computational effort needed by the adversaries to succeed.
 We categorize the desired properties into verifiability and privacy.
-
-\mode<presentation>{%
-\begin{frame}
-  \begin{block}{Alice the activist}
-    \begin{itemize}
-      \item Alice organizes the protest against Eve's regime.
-      \item Alice wants to have a high participation count.
-      \item She tries to increase it.
-      \item So does \emph{all the protesters}.
-    \end{itemize}
-  \end{block}
-
-  \pause{}
-
-  \begin{block}{Eve the fake-news populist}
-    \begin{itemize}
-      \item Eve's regime is target of the protest.
-      \item She wants to have a low participation count.
-      \item She tries to decrease it.
-    \end{itemize}
-  \end{block}
-\end{frame}
-}
-
-\mode<presentation>{%
-\begin{frame}
-  \begin{block}{Eve the totalitarian dictator}
-    \begin{itemize}
-      \item Eve wants to \enquote{convince} activists to support her.
-      \item She wants to find all activists.
-      \item She tries to identify (deanonymize) participants.
-    \end{itemize}
-  \end{block}
-\end{frame}
-}
-
-\mode<presentation>{%
-\begin{frame}
-  \begin{block}{Rusuk the nation state}
-    \begin{itemize}
-      \item Rusuk benefits from the situation in Evestan.
-      \item He wants the outcome to be the most beneficial.
-      \item He will try to increase or decrease the participation count.
-    \end{itemize}
-  \end{block}
-\end{frame}
-}
 
 \subsection{Verifiability}%
 \label{Verifiability}
@@ -103,37 +55,17 @@ We can essentially divide it into the following requirements:
     \label{DesignatedEvent} prove that the data is designated for the event.
 \end{requirements}
 
-\mode<presentation>{%
-\begin{frame}
-  \begin{requirements}[V\ref*{EligibilityVerif}.]
-  \item\label{CreatedAfterStart} Prove that the data was created after the 
-    start of the event.
-  \item\label{CreatedBeforeEnd} Prove that the data was created before the end 
-    of the event.
-  \item\label{SpatiallyRelated} Prove that the data is spatially related to the 
-    physical location of the event.
-  \item\label{CountOnce} Prove that no individual can be counted more than 
-    once.
-  \item\label{DesignatedEvent} Prove that the data is designated for the event.
-\end{requirements}
-\end{frame}
-}
-
 \subsubsection{Temporal eligibility}
 
-\begin{frame}
 \begin{definition}[Forging temporal eligibility]
   \dots
 \end{definition}
-\end{frame}
 
 \subsubsection{Spatial eligibility}
 
-\begin{frame}
 \begin{definition}[Forging spatial eligibility]
   \dots
 \end{definition}
-\end{frame}
 
 \subsubsection{Linkability and designated protest}
 
@@ -157,7 +89,6 @@ of the demonstrators to mix with the participants of any counter-demonstrations
 --- since the counts will still be correct.)
 
 In voting, we have the following requirements:
-\begin{frame}
 \begin{requirements}[P]
 \item\label{VotePrivacy} Vote privacy: the voting does not reveal any 
   individual vote.
@@ -166,49 +97,22 @@ In voting, we have the following requirements:
 \item\label{CoercionResistance} Coercion resistance: a voter cannot cooperate 
   with a coercer to prove the vote was cast in any particular way.
 \end{requirements}
-\pause{}
-\mode<presentation>{%
-  \begin{remark}
-    P\ref{CoercionResistance} \(\implies\)
-    P\ref{ReceiptFreeness} \(\implies\)
-    P\ref{VotePrivacy}
-  \end{remark}
-}
-\end{frame}
-\Textcite{VerifyingPrivacyPropertiesOfVotingProtocols} showed that 
+\Citet{VerifyingPrivacyPropertiesOfVotingProtocols} showed that 
 \cref{CoercionResistance} implies \cref{ReceiptFreeness}, which in turn implies
 \cref{VotePrivacy}.
 \Cref{CoercionResistance} is probably not possible to achieve for protests:
 e.g.\ Eve can simply physically bring Alice to a protest against her will.
 This leaves us with \cref{ReceiptFreeness,VotePrivacy}.
 
-\mode<none>{%
-\begin{frame}
-  \begin{remark}
-    \begin{itemize}
-      \item Coercion resistance is difficult to achieve for voting.
-      \item It doesn't make much sense for protests.
-      \item E.g.\ Eve physically brings Alice to a protest she doesn't want to 
-        participate in.
-      \item That leaves us with receipt freeness and vote privacy.
-    \end{itemize}
-  \end{remark}
-\end{frame}
-}
-
 \subsubsection{Participation-proof privacy}
 
-\begin{frame}
 \begin{definition}[Proof indistinguishability]
   \dots
 \end{definition}
-\end{frame}
 
 \subsubsection{Receipt freeness}
 
-\begin{frame}
 \begin{definition}[Receipt freeness/deniability]
   \dots
 \end{definition}
-\end{frame}
 

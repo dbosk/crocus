@@ -1,4 +1,3 @@
-\mode*
 \section{Protocol}
 
 We will start by giving an overview of the protocol.
@@ -34,64 +33,9 @@ participation count.
 An overview of the final structure of a proof is given in \cref{fig:ProofFig} 
 and an overview of the communication is given in \cref{fig:ProtocolOverview}.
 
-\begin{frame}
 \begin{figure}
   \centering
   \includegraphics{proofshare.tikz}
-%  \begin{tikzpicture}[%
-%    -Latex,
-%    item/.style={rectangle,draw},
-%    edge from parent/.style={}
-%    ]
-%    \tikzset{%
-%      %grow'=left,%
-%      %level distance=5em%
-%    }
-%    \node[item] (proof) {Proof share}
-%      child {%
-%        node[item] (pid) {$pid$}
-%        child {%
-%          node[item] (cid) {$cid$}
-%          child {%
-%            node[item] (manifesto) {Manifesto}
-%          }
-%        }
-%      }
-%      child {%
-%        node[item] (wid) {$wid$}
-%      }
-%      child {%
-%        node[item] (ts) {$t_s$}
-%      }
-%      child {%
-%        node[item] (l) {$l$}
-%      }
-%      child {%
-%        node[item] (wsig) {$wsig$}
-%      }
-%      ;
-%
-%      \path[every node/.style={font=\small}]
-%      (pid) edge node [anchor=south east] {$\in$} (proof)
-%      (wid) edge node [anchor=east] {$\in$} (proof)
-%      (ts) edge node [anchor=east] {$\in$} (proof)
-%      (l) edge node [anchor=west] {$\in$} (proof)
-%      (wsig) edge node [anchor=south west] {$\in$} (proof)
-%      ;
-%
-%      \path[every node/.style={font=\small}]
-%      (manifesto) edge node [anchor=east] {$H(\cdot)$} (cid)
-%      (cid) edge node [anchor=east] {$PRF_{k_P}(\cdot)$} (pid)
-%      (pid) edge[bend right] node [anchor=north west] {$PRF_{k_W}(\cdot)$} (wid)
-%      % wsig
-%      (l) edge[bend right] (wsig)
-%      (ts) edge[bend right] (wsig)
-%      (wid) edge[bend right] node [anchor=north west] {$PRF_{k_W}(\cdot, \cdot, 
-%        \cdot)$} (wsig)
-%      ;
-%
-%  \end{tikzpicture}
-  \mode<article>{%
   \caption{%
     Structure of a proof share.
     The protester \(P\)'s identifier \(pid\) is computed using the protester's 
@@ -100,12 +44,10 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
     \(k_W\).
     \(t_s\) is a time interval and \(l\) is the coordinates of an area.
     The protest (cause) identifier \(cid\) is the hash value of the manifesto.
-  }}%
+  }%
   \label{fig:ProofFig}
 \end{figure}%
-\end{frame}
 
-\begin{frame}
 \begin{figure}
   \centering
   \begin{minipage}{\linewidth}
@@ -121,22 +63,21 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
       W\to S\colon & H(pid, wid, t_s, l, wsig) \\
       P\to S\colon & H(pid, wid, t_s, l, wsig) \\
       W\to S\colon & (pid, wid, t_s, l, wsig),\\
-        & NIZK(wid = PRF_{k_W}(pid), wsig = PRF_{k_W}(wid, t_s, l), \exists 
-        sign(k_W)) \\
+        & NIZK(wid = PRF_{k_W}(pid),\\
+        & wsig = PRF_{k_W}(wid, t_s, l),\\
+        & \exists sign(k_W)) \\
       P\to S\colon & (pid, wid, t_s, l, wsig),\\
         & NIZK(pid = PRF_{k_P}(cid), \exists sign(k_P))
     \end{align*}
   \end{minipage}
-  \mode<article>{%
   \caption{%
     An overview of message exchanges.
     The organizer \(O\) broadcasts the manifesto.
     \(P\), \(W\) and their computations are as in \cref{fig:ProofFig}.
     Finally, both \(P\) and \(W\) submits the proof share to the storage \(S\).
-  }}%
+  }%
   \label{fig:ProtocolOverview}
 \end{figure}
-\end{frame}
 
 \subsubsection{Linkability and designated protest}
 
@@ -171,10 +112,10 @@ fetch it, show it to the protester for approval and then compute the identifier
 \(cid\).
 
 Next we need to consider the protesters' identifiers to prevent Sybil attacks.
-\Textcite{HowToWinTheCloneWars} created an \emph{interactive} credential system 
+\Citet{HowToWinTheCloneWars} created an \emph{interactive} credential system 
 which allows anonymous authentication at most \(n\) times\footnote{%
   Possibly there is another scheme that makes it non-interactive, e.g.\ by 
-  \Textcite{Psignatures}, see issue \#27.
+  \citet{Psignatures}, see issue \#27.
 }, where \(n = 1\) in our scenario.
 Alice has a \ac{PRF} key \(k\) and a blind signature on \(k\) included in her 
 national identity-card (by assumption).

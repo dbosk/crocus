@@ -1,10 +1,5 @@
-\mode*
 \section{Related work}%
 \label{RelatedWork}
-
-\mode<presentation>{%
-\subsection{Image-based methods}
-}
 
 The seemingly most commonly used method for counting crowds at protests is 
 Jacob's method~\cite[c.f.][]{%
@@ -37,31 +32,6 @@ taken.
 However, the best we can do is to employ forensic methods to try to detect any 
 modifications.
 
-\mode<presentation>{%
-\begin{frame}
-  \begin{solution}[Jacob's method]
-    \begin{itemize}
-      \item Take aerial photos of the event.
-      \item Divide area into regions.
-      \item Estimate density in the regions.
-      \item Sum up to an estimate of the total.
-    \end{itemize}
-  \end{solution}
-
-  \pause{}
-
-  \begin{remark}
-    \begin{itemize}
-      \item Prone to errors, due to estimations.
-      \item Universally verifiable, anyone with the photos can redo the 
-        estimate.
-      \item Eligibility verifiability if photos at one snapshot in time and no 
-        overlap.
-    \end{itemize}
-  \end{remark}
-\end{frame}
-}
-
 There is an app CrowdSize~\cite{CrowdSize} which estimates the size of a crowd 
 based on a selected space.
 Then the user selects one of three pre-set density estimates: light, medium or 
@@ -78,38 +48,15 @@ Seoul
 This method is not verifiable unless the user takes a picture of the crowd, 
 then it inherits the verifiability properties of the previous method.
 
-\mode<presentation>{%
-\begin{frame}
-  \begin{solution}[CrowdSize app\footfullcite{CrowdSize}]
-    \begin{itemize}
-      \item User selects area on map.
-      \item User selects an estimate for crowd density: light, medium or dense.
-      \item App gives crowd size estimate based on size of the area and 
-        density.
-    \end{itemize}
-  \end{solution}
-
-  \pause{}
-
-  \begin{remark}
-    \begin{itemize}
-      \item This is the same method as used by police.
-      \item Not verifiable unless the user takes a picture of the crowd.
-      \item Then it will be reduced to the previous method.
-    \end{itemize}
-  \end{remark}
-\end{frame}
-}
-
 There is a body of work in the computer vision community, e.g.\ the work of 
-\textcite{NNCrowdCounting}.
+\citet{NNCrowdCounting}.
 This class of methods requires photos or video surveillance of the protest 
 location during the entire protest.
 They generally include machine learning, and thus also require a training 
 dataset to train the algorithms.
-In the work by \textcite{NNCrowdCounting}, they actually train and evaluate 
-their algorithm on different scenes, which might make this method easier to use 
-for protesting.
+In the work by \citet{NNCrowdCounting}, they actually train and evaluate their 
+algorithm on different scenes, which might make this method easier to use for 
+protesting.
 We can provide universal verifiability (\cref{UniversalVerif}) with this 
 method, since someone can always recount the participants using the recorded 
 video material.
@@ -125,30 +72,6 @@ The spatial and temporal verifiability properties are reduced to those of the
 video, which should be similar as in our discussion about the verifiability of 
 photos above.
 
-\mode<presentation>{%
-\begin{frame}
-  \begin{solution}[Computer vision]
-    \begin{itemize}
-      \item Record video of the event.
-      \item Train algorithms on part of the data.
-      \item Run algorithm to count the total.
-    \end{itemize}
-  \end{solution}
-
-  \pause{}
-
-  \begin{remark}
-    \begin{itemize}
-      \item Requires video-recording of the entire event.
-      \item Difficult to record every part.
-      \item Difficult (impossible?) to not record someone twice.
-      \item Is verifiable, though limited, if the video is public.
-      \item Authenticity can be questioned as with the photos.
-    \end{itemize}
-  \end{remark}
-\end{frame}
-}
-
 Another problem for all the above methods is exemplified by the demonstrations 
 in Seoul:
 \blockcquote{2016DemonstrationsInSeoul}{%
@@ -159,13 +82,9 @@ This is difficult to fully capture.
 If photo material is taken from angles we will additionally have problems not 
 counting people twice.
 
-\mode<presentation>{%
-\subsection{Signal-based methods}
-}
-
 During the protests in Seoul~\cite{2016DemonstrationsInSeoul} there was one 
-retail analytics company that tried to estimate the number of participants 
-using their technology.
+retail analytics company that tried to estimate the number of participants using 
+their technology.
 They scanned for MAC addresses emitted from the Wi-Fi of participants' 
 smartphones.
 However, this method required many assumptions:
@@ -181,27 +100,6 @@ As MAC address randomization get wider adoption this will be even more
 difficult, although some tracking of smartphones will still be 
 possible~\cite{WhyMACRandomizationIsNotEnough}.
 
-\mode<presentation>{%
-\begin{frame}
-  \begin{solution}[Wi-Fi tracking]
-    \begin{itemize}
-      \item Record unique Wi-Fi MAC addresses from people's smartphones.
-    \end{itemize}
-  \end{solution}
-
-  \pause{}
-
-  \begin{remark}
-    \begin{itemize}
-      \item Imprecise, requires assumptions.
-      \item Half of smartphone users turn Wi-Fi off.
-      \item MAC address randomization.
-      \item Cannot verify.
-    \end{itemize}
-  \end{remark}
-\end{frame}
-}
-
 A better proposal would be to use \enquote{IMSI catchers} (or the real cell 
 towers of the mobile network) to count unique phones at the location.
 However, there are several problems with this approach.
@@ -213,29 +111,8 @@ turn the device off.
 Finally, there will be limited verifiability, as the data recorder must be 
 trusted to record all data and do it in the relation to the event.
 
-\mode<presentation>{%
-\begin{frame}
-  \begin{solution}[IMSI catchers]
-    \begin{itemize}
-      \item Use IMSI catchers to register unique phones.
-      \item (Or use the network cell towers.)
-    \end{itemize}
-  \end{solution}
-
-  \pause{}
-
-  \begin{remark}
-    \begin{itemize}
-      \item Will include bystanders into the count.
-      \item Privacy-invading due to phones being uniquely identifying.
-      \item Cannot verify.
-    \end{itemize}
-  \end{remark}
-\end{frame}
-}
-
-\Textcite{WifiCrowdCounting} also relies of Wi-Fi, but they instead use the 
-Wi-Fi signal as a sonar to detect people.
+\Citet{WifiCrowdCounting} also relies of Wi-Fi, but they instead use the Wi-Fi 
+signal as a sonar to detect people.
 However this method is designed for indoor use and does not scale to more than 
 a crowd of 20 people.
 In either case, this type of data cannot provide verifiability.
@@ -248,17 +125,7 @@ These methods also have difficulty capturing the actual attendance of an event,
 i.e.\ the cumulative participation, not just the count at a snapshot around the 
 peak.
 
-%\mode<presentation>{%
-%\subsection{Crowd sensing}
-%}
-%
-%\dots
-
-\mode<presentation>{%
-\subsection{More exact methods}
-}
-
-The most closely related work is \textcite{CrowdCount}.
+The most closely related work is \citet{CrowdCount}.
 This is a web service which lets Alice create an event and Bob can submit his 
 location to register that he is in Alice's event.
 This solves the problem that it counts everyone (who submitted), not just the 
@@ -272,23 +139,3 @@ This can make it difficult to use if e.g.\ Alice has organized a protest
 against the government, who shuts down the cellular network or Internet 
 backbone as a means to censor the protest.
 
-\mode<presentation>{%
-\begin{frame}
-  \begin{solution}[CrowdCount\footfullcite{CrowdCount}]
-    \begin{itemize}
-      \item Register an upcoming event.
-      \item Let people \enquote{check-in} by submitting their location.
-    \end{itemize}
-  \end{solution}
-
-  \pause{}
-
-  \begin{remark}
-    \begin{itemize}
-      \item No verification, the service must be trusted.
-      \item Nothing prevents Bob from checking in twice.
-      \item Requires an Internet connection during the event.
-    \end{itemize}
-  \end{remark}
-\end{frame}
-}

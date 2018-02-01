@@ -16,7 +16,6 @@
 
 \maketitle
 
-\mode*
 
 \begin{abstract}
   \input{abstract.tex}
@@ -34,38 +33,13 @@
 % Why is it a problem?
 % What's the approach?
 % What are the results?
-\mode<all>{%
-\input{intro.tex}
-}
+\include*{intro}
+\include*{SystemModel}
+\include*{properties}
+\include*{RelatedWork}
+\include*{primitives}
+\include*{protocol}
+\include*{security}
+\include*{conclusions}
 
-\mode<all>{%
-\input{SystemModel.tex}
-}
-
-\mode<all>{%
-\input{properties.tex}
-}
-
-\mode<article>{%
-\input{RelatedWork.tex}
-}
-
-\mode<all>{%
-\input{primitives.tex}
-}
-
-\mode<all>{%
-\input{protocol.tex}
-}
-
-\mode<all>{%
-\input{security.tex}
-}
-
-\mode<all>{%
-\input{conclusions.tex}
-}
-
-\begin{frame}[allowframebreaks]
-  \printbibliography{}
-\end{frame}
+%\printbibliography{}
