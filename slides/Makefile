@@ -1,15 +1,3 @@
-SRC+= 	preamble.tex preamble-slides.tex
-SRC+=	contents.tex
-SRC+=	abstract.tex
-SRC+=	intro.tex
-SRC+=	SystemModel.tex
-SRC+=	properties.tex
-SRC+=	RelatedWork.tex
-SRC+= 	primitives.tex
-SRC+= 	protocol.tex
-SRC+=	security.tex
-SRC+=	conclusions.tex
-
 FIGS+= 	tposet.tikz
 FIGS+= 	proofshare.tikz
 FIGS+= 	Jacobs-method.jpg
@@ -34,49 +22,22 @@ DEPENDS+=	ecurrency.bib
 
 
 .PHONY: all
-all: slides-full.pdf
-
-slides-full.pdf: slides-full.tex
-slides-full.pdf: preamble.tex preamble-slides.tex
-slides-full.pdf: ${SRC} ${FIGS} ${DEPENDS}
-
-
-.PHONY: all
 all: slides-short.pdf
 
-slides-short.pdf: slides-short.tex
-slides-short.pdf: intro.tex
-slides-short.pdf: idea.tex proofshare.tikz
-slides-short.pdf: ProtestVerif-join.png ProtestVerif-participating.png
-slides-short.pdf: ProtestVerif-endprotest.png ProtestVerif-verified.png
-slides-short.pdf: ProtestVerif-verifying.png
+slides-short.pdf: slides-short.tex ${DEPENDS} ${FIGS}
+slides-short.pdf: idea.tex
 
 
 .PHONY: clean
 clean:
 	${MAKE} -C ../art clean
 	${RM} slides-full.pdf slides-short.pdf
-	${RM} ProtestVerif-UN.png ProtestVerif-endprotest.png ProtestVerif-join.png
-	${RM} ProtestVerif-participating.png ProtestVerif-verified.png
-	${RM} ProtestVerif-verifying.png ProtestVerif.png
+	${RM} ${FIGS}
 
 
 .PHONY: print
-print: slides-full.pdf
+print: slides-short.pdf
 
-
-preamble.tex: ../paper/preamble.tex
-preamble-slides.tex: ../paper/preamble-slides.tex
-contents.tex: ../paper/contents.tex
-abstract.tex: ../paper/abstract.tex
-intro.tex: ../paper/intro.tex
-SystemModel.tex: ../paper/SystemModel.tex
-properties.tex: ../paper/properties.tex
-RelatedWork.tex: ../paper/RelatedWork.tex
-primitives.tex: ../paper/primitives.tex
-protocol.tex: ../paper/protocol.tex
-security.tex: ../paper/security.tex
-conclusions.tex: ../paper/conclusions.tex
 
 tposet.tikz: ../fig/tposet.tikz
 proofshare.tikz: ../fig/proofshare.tikz
@@ -89,11 +50,8 @@ ProtestVerif-verified.png: ../art/ProtestVerif-verified.png
 ProtestVerif-verifying.png: ../art/ProtestVerif-verifying.png
 ProtestVerif-UN.png: ../art/ProtestVerif-UN.png
 
-${SRC} ${FIGS}:
+${FIGS}:
 	${LN} $< $@
-
-../%:
-	${MAKE} -C $(dir $@) $(notdir $@)
 
 
 INCLUDE_MAKEFILES=../makefiles
@@ -101,3 +59,7 @@ include ${INCLUDE_MAKEFILES}/tex.mk
 include ${INCLUDE_MAKEFILES}/doc.mk
 INCLUDE_BIBSP=../bibsp
 include ${INCLUDE_BIBSP}/bibsp.mk
+
+../%:
+	${MAKE} -C $(dir $@) $(notdir $@)
+
