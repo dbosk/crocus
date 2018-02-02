@@ -915,7 +915,7 @@
   \@starttoc{lot}%
   \if@restonecol\twocolumn\fi}
 \def\l@table{\@dottedtocline{1}{\z@}{}}
-% XXX \bibindent\parindent
+\bibindent\parindent
 \let\indexpreamble\@empty
 \renewenvironment{theindex}
  {\if@twocolumn
@@ -1589,9 +1589,9 @@
 \ifHy@draft\AtBeginDocument{\let\hyper@anchorstart\@gobble}\fi%fix hyperref-Bug
 %\RequirePackage[numbers,sort&compress]{natbib}
 \RequirePackage[natbib,style=numeric-comp,maxbibnames=99]{biblatex}
-%\setlength\bibhang\bibindent
-% XXX \def\bibfont{\sffamily\small\RaggedRight}
-%\def\bibnumfmt#1{[#1]\hfill}
+\setlength\bibhang\bibindent
+\def\bibfont{\sffamily\small\RaggedRight}
+\def\bibnumfmt#1{[#1]\hfill}
 %\@ifundefined{chapter}
 % {\renewcommand\bibsection{\section*{\refname}}}
 % {\@ifxundefined\NAT@sectionbib
