@@ -24,11 +24,8 @@ DEPENDS+=	ecurrency.bib
 .PHONY: all
 all: slides-short.pdf
 
-slides-short.pdf: slides-short.tex
-slides-short.pdf: idea.tex proofshare.tikz
-slides-short.pdf: ProtestVerif-join.png ProtestVerif-participating.png
-slides-short.pdf: ProtestVerif-endprotest.png ProtestVerif-verified.png
-slides-short.pdf: ProtestVerif-verifying.png
+slides-short.pdf: slides-short.tex ${DEPENDS} ${FIGS}
+slides-short.pdf: idea.tex
 
 
 .PHONY: clean
@@ -56,12 +53,13 @@ ProtestVerif-UN.png: ../art/ProtestVerif-UN.png
 ${FIGS}:
 	${LN} $< $@
 
-../%:
-	${MAKE} -C $(dir $@) $(notdir $@)
-
 
 INCLUDE_MAKEFILES=../makefiles
 include ${INCLUDE_MAKEFILES}/tex.mk
 include ${INCLUDE_MAKEFILES}/doc.mk
 INCLUDE_BIBSP=../bibsp
 include ${INCLUDE_BIBSP}/bibsp.mk
+
+../%:
+	${MAKE} -C $(dir $@) $(notdir $@)
+
