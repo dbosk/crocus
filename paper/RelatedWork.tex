@@ -20,6 +20,8 @@ the same photos.
 This provides universal verifiability (\cref{UniversalVerif}).
 It is difficult to achieve individual verifiability (\cref{IndividualVerif}) 
 since it is hard to verify that oneself is indeed in any of the photos.
+(It is of course possible with very detailed photos, but not currently realistic 
+to do with aerial photos.)
 We can argue eligibility verifiability (\cref{EligibilityVerif}) if all the 
 photos are taken at the same point in time with no overlap, since then no one 
 can be counted twice.
@@ -30,7 +32,7 @@ photos.
 We can try to determine from the photos themselves when and where the they were 
 taken.
 However, the best we can do is to employ forensic methods to try to detect any 
-modifications.
+modifications or other attempts at fraud.
 
 There is an app CrowdSize~\cite{CrowdSize} which estimates the size of a crowd 
 based on a selected space.
@@ -61,16 +63,17 @@ We can provide universal verifiability (\cref{UniversalVerif}) with this
 method, since someone can always recount the participants using the recorded 
 video material.
 We might be able to provide some degree of individual verifiability 
-(\cref{IndividualVerif}), but this might still be difficult.
+(\cref{IndividualVerif}), if Alice can recognize her own face in the video, but 
+this might still be difficult.
 Also, it is difficult (if not impossible) to not count people twice, thus we 
 cannot argue for eligibility verifiability (\cref{EligibilityVerif}).
-In theory, this class of methods will provide an upper bound, whereas our 
-method provides a lower bound.
-However, it is still difficult capture the entire location on surveillance 
+In theory, this class of methods will provide an upper bound, whereas our method 
+can provide a lower bound.
+However, it is still difficult to capture the entire location on surveillance 
 video, which diminishes the argument for an upper bound.
 The spatial and temporal verifiability properties are reduced to those of the 
 video, which should be similar as in our discussion about the verifiability of 
-photos above.
+photos above, i.e.\ forensic methods.
 
 Another problem for all the above methods is exemplified by the demonstrations 
 in Seoul:
@@ -105,6 +108,8 @@ towers of the mobile network) to count unique phones at the location.
 However, there are several problems with this approach.
 First, it will be difficult to register only the participants' phones, many 
 bystanders will also be counted.
+It is also difficult to differentiate between the protesters and the 
+counter-protesters.
 Second, since the phone is a unique identifier, participants might be 
 uncomfortable to be registered in association with the event and might thus 
 turn the device off.
@@ -120,7 +125,7 @@ In either case, this type of data cannot provide verifiability.
 In general for all of the above methods, the more a crowd spreads out, the more
 difficult it will be to determine its size:
 the problem is determining whether people near the event's perimeter are 
-participants of simply bystanders~\cite{HowToEstimateCrowdSize}.
+participants or simply bystanders~\cite{HowToEstimateCrowdSize}.
 These methods also have difficulty capturing the actual attendance of an event,
 i.e.\ the cumulative participation, not just the count at a snapshot around the 
 peak.
@@ -132,7 +137,7 @@ This solves the problem that it counts everyone (who submitted), not just the
 count at the snapshot of the photos.
 However, there is no verification, i.e.\ the service must be trusted to behave 
 honestly, but even then, nothing prevents Bob from submitting twice (violating 
-eligibility verification, \cref{EligibilityVerif}).
+eligibility, \cref{EligibilityVerif}).
 Another downside is that the service also requires an Internet connection 
 during the event to register as a participant.
 This can make it difficult to use if e.g.\ Alice has organized a protest 

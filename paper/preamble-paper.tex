@@ -1,13 +1,15 @@
 \usepackage[inline]{enumitem}
 \setlist[enumerate]{label*={(\arabic*)}}
 
-\newlist{properties@}{enumerate}{5}
-\setlist[properties@]{label*=P\arabic*.,ref=P\arabic*}
-\newlist{requirements@}{enumerate}{5}
-\setlist[requirements@]{label*=R\arabic*.,ref=R\arabic*}
+\newlist{properties@}{enumerate}{2}
+\setlist[properties@]{label*=\arabic*.,ref=\arabic*}
+\newlist{requirements@}{enumerate}{2}
+\setlist[requirements@]{label*=\arabic*.,ref=\arabic*}
+\setlist[requirements@,2]{ref=\arabic{requirements@i}.\arabic*}
 
 \DeclareDocumentEnvironment{properties}{o}{%
   \IfValueTF{#1}{%
+    \setlist[properties@,2]{ref=#1\arabic{properties@i}.\arabic*}
     \begin{properties@}[label*=#1\arabic*.,ref=#1\arabic*]%
   }{%
     \begin{properties@}%
@@ -17,6 +19,7 @@
 }
 \DeclareDocumentEnvironment{requirements}{o}{%
   \IfValueTF{#1}{%
+    \setlist[requirements@,2]{ref=#1\arabic{requirements@i}.\arabic*}
     \begin{requirements@}[label*=#1\arabic*.,ref=#1\arabic*]%
   }{%
     \begin{requirements@}%
