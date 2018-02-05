@@ -27,8 +27,9 @@ We also have the Venezuelan demonstrations where
   their support for the president's controversial plan to rewrite the 
   constitution%
 }.
-Judging from these examples, the minimal common part is the cause.%
+Judging from these examples, the minimal common part is the cause,%
 \label{CauseIsTheCommonDenominator}
+but there is also a location (or area) that varies over time.
 
 The organizer Alice want to count everyone who participated at any time and in 
 any of the locations~\cite{2016DemonstrationsInSeoul}.
@@ -54,15 +55,16 @@ them up into subprotests.
 Each subprotest will then be captured by our definition and to find the total 
 we can just sum up the results.
 The same for marches, the marching path can be divided into subprotests with 
-coarse coordinates that slightly overlap.
+locations (or areas) that slightly overlap.
 
 \subsection{Participation and count}
 
 Each participant who want to be counted must submit a participation proof.
 The proof must be associated with the protest, i.e.\ its identifier \(cid\), 
-time and location.
+time and location must coincide with any of its subprotests.
 We use witnesses to associate the proof to the location by creating a proof 
 share.
+% XXX what is a witness?
 A witness is only allowed to create one proof share per protester.
 The proof and its proof shares are stored in a set, as there should be only 
 unique proof shares.
@@ -71,7 +73,7 @@ unique proof shares.
   A \emph{participation-proof share} \(w = (pid, cid, t, l, wid)\) is a tuple 
   where
   \(cid, t, l\) are as in \cref{DefProtest},
-  \(pid\) is unique for a protester and \(cid\) pair, and
+  \(pid\) is unique for a protester--\(cid\) pair, and
   \(wid\) is unique for a witness--protester pair.
   We let \(W\) be the set of all proof shares.
 \end{definition}
@@ -105,6 +107,6 @@ We can now define the participation count as follows.
   \(\theta\).
 \end{definition}
 The strength function \(s\) can be used to e.g.\ regulate trust in witnesses.
-A trivial example would be for \(s\) to return the number of proof shares (i.e.\ 
+One example would be for \(s\) to return the number of proof shares (i.e.\ 
 witnesses) and thus let \(\theta\) to be the threshold of the number of required 
 witnesses.

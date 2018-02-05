@@ -6,8 +6,6 @@ Eve is an autocrat who opposes Alice's cause.
 Bob, Carol and many others participate in the protest against Eve.
 One problem that has not yet been entirely solved is the crowd-counting 
 problem, i.e.\ to verify how many participated in Alice's protest.
-Our main goal is to provide a tool which prevents both Alice and Eve from 
-cheating.
 
 After many demonstrations the count by police and that by the organizers 
 differ\footnote{%
@@ -16,11 +14,13 @@ differ\footnote{%
   Police want to estimate the count at the peak of participation, due to crowd 
   control~\cite{2016DemonstrationsInSeoul}.
 }, in some instances the difference can be hundreds of thousands.
-There are numerous examples, e.g.\ the demonstrations in South 
-Korea~\cite{2016DemonstrationsInSeoul}, Trump's 
-inauguration~\cite{HowWillWeKnowTrumpInauguralCrowdSize} or the Women's Marches 
-in the US~\cite{2017WomensMarchesInUS}, where there is difficulty in 
-establishing the actual number of participants.
+There are numerous examples where there is difficulty in establishing the actual 
+number of participants, e.g.:\@ the demonstrations against the president in 
+South Korea~\cite{2016DemonstrationsInSeoul}, Trump's inauguration 
+attendance~\cite{HowWillWeKnowTrumpInauguralCrowdSize}, the 2017 Women's March 
+in the US~\cite{2017WomensMarchesInUS}, the demonstrations against changing the 
+constitution in Venezuela~\cite{AlJazeeraOnVenezuela2017} or for the 
+independence of Catalonia~\cite{CataloniaDemonstrations}.
 The methods for counting the crowds vary.
 Most of the available methods lack precision, i.e.\ they have large error 
 margins.
@@ -39,18 +39,20 @@ participants, whereas Eve (and possibly other interests) have an incentive to
 decrease the tallied number of participants.
 In this case we have two options:
 either we trust Alice or Eve, or we must verify their claims.
-We aim for verifiable claims.
+Our main goal is to provide a scheme which prevents both Alice and Eve from 
+cheating, i.e.\ we aim for verifiable claims.
 To solve this problem, we need a verifiable participation count which is 
 protected from Sybil attacks.
 
 \subsection{Combining electronic voting and location proofs}
 
-In general, protesting is very similar to voting: both are many individuals 
-expressing their opinion.
-These opinions can be sensitive, hence we desire to have similar properties of 
-verification and privacy for participation in a protest as there is for voting.
+In general, protesting is very similar to petitions, which in turn are similar 
+to voting: all three are many individuals expressing their opinion.
+These opinions can be sensitive, e.g.\ cause for discrimination or persecution, 
+hence we desire to have similar properties of verification and privacy for 
+verifying a protest as there is for voting.
 
-Voting has three requirements for 
+Voting has (generally) three desirable requirements for 
 verifiability~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}.
 \begin{description}
   \item[Eligibility] anyone can verify that each vote cast is legitimate.
@@ -80,20 +82,31 @@ privacy~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
   \item\label{CoercionResistance} Coercion resistance: a voter cannot cooperate 
     with a coercer to prove the vote was cast in any particular way.
 \end{itemize}
-We note that we cannot improve the privacy of participating protesters, if they 
-are caught during a protest there is nothing we can do.
-But if they are not caught in the act, then using our proposed tool should not 
-incur any additional risk.
-Thus we will adapt the idea of receipt freeness (see \cref{Privacy} for a 
-detailed definition) to the protest context.
+We note that we cannot improve the privacy of participating protesters during 
+the protest: if Alice is caught during a protest there is nothing we can do.
+Actually, if there are several protests in the \emph{same location at the same 
+  time}, Alice could blend into another crowd and argue that she participated in 
+a different protest than she actually did --- and the counts would still be 
+correct afterwards.
+However, even if there is only one protest and she is not caught in the act, 
+then using our proposed tool should not incur any additional risk.
+Thus we need at least participation-proof privacy but receipt freeness (see 
+\cref{Privacy} for a detailed definition) is desired.
 In essence, upon completing the protocol, Eve cannot link Alice to Alice's 
-participation proof --- even with Alice's cooperation.
+participation proof --- even if she would compromise Alice's devices.
 
 \subsection{Contributions}
 
 We propose a protocol which provides a way for protests to be securely verified.
 Additionally, this verification system does not incur any additional risk to 
 protesters' privacy than participating in the physical protest itself.
+
+We can achieve privacy, but not receipt freeness.
+This means that there is a way for Eve to efficiently verify that Alice has 
+participated.
+However, this requires that Eve gets a copy of Alice's secret key so that she 
+can simply re-do the (deterministic) computations on the same inputs --- the 
+probability of collisions is negligible.
 
 \dots
 
