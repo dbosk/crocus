@@ -68,40 +68,32 @@ We categorize the desired properties into verifiability and privacy.
 \label{Verifiability}
 
 We desire three verifiability requirements:
-\begin{requirements}[V]
-\item\label{EligibilityVerif} Eligibility: anyone can verify that each 
-  participation proof provides temporal and spatial eligibility and that it has 
-  not been counted before.
-\item\label{UniversalVerif} Universal verifiability: anyone can verify that the 
-  result is according to the submitted participation proofs.
-\item\label{IndividualVerif} Individual verifiability: every participant can 
-  verify that their participation proof is included in the global count.
-\end{requirements}
-We can translate these to the case of participation in a demonstration, then 
-each vote would be replaced by a proof of participation.
 
-\Cref{EligibilityVerif} would in this case mean that anyone can verify that 
-each participation proof belongs to a unique individual, i.e.\ to prevent Sybil 
-attacks.
-They must also be able to verify that each proof is indeed related to the 
-event.
-We must associate the proof to the event both spatially (the correct location) 
-and temporally (it is related to the time-interval of the event).
-We can essentially divide it into the following requirements:
-\begin{requirements}[\ref*{EligibilityVerif}.]
-  \item Temporal egligibility:%
-    \label{CreatedAfterStart} prove that the data was created after the start of 
-    the event;%
-    \label{CreatedBeforeEnd} prove that the data was created before the end of 
-    the event.
-  \item Spatial eligibility:%
-    \label{SpatiallyRelated} prove that the data is spatially related to the 
-    physical location of the event.
-  \item One-proof-per-person:%
-    \label{CountOnce} prove that no individual can be counted more than once.
-  \item Designated event:%
-    \label{DesignatedEvent} prove that the data is designated for the event.
+\begin{requirements}[V]
+  \item\label{EligibilityVerif} Eligibility: anyone can verify that each 
+    participation proof provides temporal and spatial eligibility and that it 
+    has not been counted before.
+    \begin{requirements}[]
+    \item Temporal egligibility:%
+      \label{CreatedAfterStart} prove that the data was created after the start of 
+      the event;%
+      \label{CreatedBeforeEnd} prove that the data was created before the end of 
+      the event.
+    \item Spatial eligibility:%
+      \label{SpatiallyRelated} prove that the data is spatially related to the 
+      physical location of the event.
+    \item One-proof-per-person:%
+      \label{CountOnce} prove that no individual can be counted more than once.
+    \item Designated event:%
+      \label{DesignatedEvent} prove that the data is designated for the event.
+    \end{requirements}
+
+  \item\label{UniversalVerif} Universal verifiability: anyone can verify that the 
+    result is according to the submitted participation proofs.
+  \item\label{IndividualVerif} Individual verifiability: every participant can 
+    verify that their participation proof is included in the global count.
 \end{requirements}
+We will now discuss these in more detail.
 
 \mode<presentation>{%
 \begin{frame}
@@ -200,7 +192,12 @@ This leaves us with \cref{ReceiptFreeness,VotePrivacy}.
 
 \begin{frame}
 \begin{definition}[Proof indistinguishability]
-  \dots
+  Adversary chooses two messages \(m_0, m_1\) and gives them to the challenger.
+  Challenger uniformly randomly selects \(b\rgets \bin\) and runs \(c_b \gets 
+    PRF_k(m_0), c_{1-b} \gets PRF_k(m_1)\).
+  The challenger gives \(c_0, c_1\) to adversary.
+  If the adversary outputs \(b' = b\) she wins.
+  (The property should be similar to key privacy~\cite{KeyPrivacy}.)
 \end{definition}
 \end{frame}
 
@@ -208,7 +205,8 @@ This leaves us with \cref{ReceiptFreeness,VotePrivacy}.
 
 \begin{frame}
 \begin{definition}[Receipt freeness/deniability]
-  \dots
+  Adversary gets oracle access to the user?
+  User provides a witness?
 \end{definition}
 \end{frame}
 
