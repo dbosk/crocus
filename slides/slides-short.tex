@@ -37,6 +37,22 @@
 \input{preamble.tex}
 \input{preamble-slides.tex}
 
+\title[PRIVO\@: securely and PRIVately Verificable PROtests]{%
+  PR$^{^{\text{I}}\text{V}^{\text{ately}}_\text{erifiable}}_{\text{Otests}}$%
+  %PRIVO\@:
+  %SPRIVO\@:
+  %Securely and Privately Verifying Protests
+  %securely and PRIvately Verifiable PROtests
+  %Verifying Protests
+  %Verifying Demonstrations
+  %Verifying Real-World Protests
+  %Verifying Physical Protests
+  \thanks{%
+    An initial discussion of this work appeared in 
+    \citetitle{FutureProtests}~\cite{FutureProtests}.
+  }
+}
+
 \author[D.~Bosk et al. <dbosk@kth.se>]{%
   Daniel Bosk\inst{1}
   \and
@@ -54,7 +70,13 @@
 }
 
 \begin{document}
+\begin{frame}
+  \maketitle
+\end{frame}
+
 \mode<all>
-\input{protocol.tex}
+\input{intro.tex}
+\mode<all>
+\input{idea.tex}
 \mode*
 \end{document}
