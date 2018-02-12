@@ -1,0 +1,28 @@
+\subsection{Zero-knowledge proofs of knowledge}%
+\label{ZKPK}
+
+Briefly describe zero-knowledge proofs and what type of properties can be proved 
+using them, e.g.\ algebraic structures but not one-way functions.
+
+We will use the notation introduced by \citet{PKnotation}:
+\begin{equation*}
+  \PK{\alpha, \beta, \gamma}
+  {y = g^\alpha h^\beta \land y' = \hat g^\gamma}
+\end{equation*}
+which means that we prove knowledge of \(\alpha, \beta, \gamma\) ensuring that 
+\(y, y'\) are of the form \(y = g^\alpha h^\beta\) and \(y' = \hat g^\gamma\), 
+respectively.
+When a proof of knowledge is turned into a signature using the Fiat-Shamir 
+heuristic~\cite{FiatShamirHeuristic}, we will denote it as
+\begin{equation*}
+  \SPK{\alpha, \beta, \gamma}
+  {y = g^\alpha h^\beta \land y' = \hat g^\gamma}
+  {m},
+\end{equation*}
+which yields a signature on \(m\), ensuring that the issuer knew \(\alpha, 
+  \beta, \gamma\) such that \(y = g^\alpha h^\beta\) and \(y' = \hat g^\gamma\).
+
+
+\paragraph{Implementations}
+
+There are various implementations.
