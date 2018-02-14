@@ -1,14 +1,13 @@
+\mode*
 \section{Building blocks}%
 \label{Primitives}\label{BuildingBlocks}
 
 \dots
 
-\subsection{Zero-knowledge proofs}
-
-Briefly describe zero-knowledge proofs and what type of properties can be proved 
-efficiently using them, e.g.\ algebraic structures but not one-way functions.
-
-\dots
+\input{ZKPK.tex}
+\input{ZK-anon-cred.tex}
+%\input{P-signatures.tex}
+\input{DistanceBounding.tex}
 
 \subsection{Location proofs and distance bounding}
 
@@ -69,4 +68,3 @@ We will use this property to approximate the property of receipt freeness.
 
 Finally, if the storage is decentralized we do not have to trust any central 
 authority, which is the usual case for blockchains.
-
