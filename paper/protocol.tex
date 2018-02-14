@@ -112,11 +112,11 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
     \begin{align*}
       O\to \text{all}\colon & \text{manifesto} \\
       P\colon & cid\gets H(\text{manifesto}), \\
-        & pid\gets PRF_{k_P}(cid) \\
+        & pid\gets \PRF_{k_P}(cid) \\
       P\to W\colon & pid \\
       W\leftrightarrow P\colon & \text{perform distance bounding} \\
-      W\colon & wid\gets PRF_{k_W}(pid), \\
-        & wsig\gets PRF_{k_W}(wid, t_s, l) \\
+      W\colon & wid\gets \PRF_{k_W}(pid), \\
+        & wsig\gets \PRF_{k_W}(wid, t_s, l) \\
       W\to P\colon & (wid, t_s, l, wsig) \\
       W\to S\colon & H(pid, wid, t_s, l, wsig) \\
       P\to S\colon & H(pid, wid, t_s, l, wsig) \\
