@@ -1589,6 +1589,7 @@
 \ifHy@draft\AtBeginDocument{\let\hyper@anchorstart\@gobble}\fi%fix hyperref-Bug
 %\RequirePackage[numbers,sort&compress]{natbib}
 \RequirePackage[natbib,style=numeric-comp,maxbibnames=99]{biblatex}
+\defbibheading{bibliography}[\refname]{\section*{#1}}
 \setlength\bibhang\bibindent
 \def\bibfont{\sffamily\small\RaggedRight}
 \def\bibnumfmt#1{[#1]\hfill}
