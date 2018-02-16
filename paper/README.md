@@ -1,4 +1,4 @@
-# File structure
+# Document source structure
 
 The file `paper.tex` is the main file to use for compilation. It includes the 
 preamble located in `preamble.tex` and the contents in `contents.tex`.
