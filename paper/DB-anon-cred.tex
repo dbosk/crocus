@@ -1,4 +1,3 @@
-\mode*
 \section{Distance bounding anonymous credentials}%
 \label{DB-anon-cred}
 
@@ -6,9 +5,25 @@
     \operatorname{DBPK}\mleft\{\mleft(#1\mright) : #2\mright\}%
   }}
 
+We pointed out in \cref{DistanceBounding} that all security properties 
+concerning \ac{DB} assume an \emph{honest} verifier.
+This assumption does not hold in our setting, where every verifier at some point 
+also might be a (malicious) prover.
+We will introduce a new property for \ac{DB} protocols, the \ac{DBIV}.
+Then we will propose a protocol that is \ac{DBIV}, \ac{DBMF}, \ac{DBDF}, 
+\ac{DBDH} resistant but \emph{not} \ac{DBTF} resistant.
+
+\subsection{\Acl{DBIV} distance bounding}
+
 \dots
 
-\subsection{Impersonating-verifier distance bounding}
+\subsection{Reattempting \iacl{DB} Schnorr protocol}
 
-\dots
-
+In the original \ac{DB} paper by \citet{DistanceBounding}, they proposed how to 
+make the Schnorr identification scheme~\cite{Schnorr} distance bounding.
+That \ac{DB} Schnorr protocol was shown to be prone to distance 
+hijacking~\cite{DistanceHijacking}.
+We now propose another way to turn the Schnorr protocol into \iac{DB} protocol 
+which is secure against \ac{DBIV}, \ac{DBMF}, \ac{DBDF} and \ac{DBDH}.
+It will not protect against terrorist fraud, in fact, we suspect that \ac{DBIV} 
+and \ac{DBTF} resistance are mutually exclusive.
