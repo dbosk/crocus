@@ -53,7 +53,34 @@ We give an instance of \(\PKprove\) and \(\PKverify\) in \cref{PKalgorithms}.
     &
     & \(\PKverify[g, q, A]\):
     \\
+    \toprule
 
+    \(\rho\rgets \Z_q\)
+    &
+    &
+    \\
+
+    \(R\gets g^{\rho}\)
+    & \(\ProtoSendRight{R}\)
+    &
+    \\
+
+    % null
+    & \(\ProtoSendLeft{c}\)
+    & \(c\rgets \bin^k\)
+    \\
+
+    \(s\gets \rho + c\alpha\)
+    & \(\ProtoSendRight{s}\)
+    &
+    \\
+
+    % null
+    &
+    & \(R \stackrel{?}{=} g^s A^c\)
+    \\
+    
+    \bottomrule
   \end{tabular}
   \caption{%
     \(\PK{\alpha}{A = g^\alpha}\) using the Schnorr identification scheme.
