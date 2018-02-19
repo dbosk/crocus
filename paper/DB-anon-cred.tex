@@ -84,17 +84,17 @@ phase.
 
     % null
     &
-    & Prepare \(B\in \bin^{k+l}\),
+    & Prepare \(B\in \bin^{\ceil{\log_2 q}+l}\),
     \\
 
     % null
     &
-    & with \(k\) bits set to \(b\)
+    & with \(\ceil{\log_2 q}\) bits set to \(b\)
     \\
 
     \midrule
-    \multicolumn{3}{c}{\textbf{Distance-bounding}: \(\forall i: 0\leq i < k+l\)} 
-    \\
+    \multicolumn{3}{c}{\textbf{Distance-bounding}: \(\forall i: 0\leq i < 
+        \ceil{\log_2 q} + l\)} \\
 
 %    % null
 %    &
@@ -157,9 +157,9 @@ The \ac{DB} phase protects against distance fraud.
 
 The \ac{DB} phase also ensures that \iac{DBMF} adversary will fail the \ac{DB} 
 phase for at least one round.
-The verifier will send \(k+l < 2k\) challenges.
-Thus the prover reveals the \(k\) bits of either \(s_0\) or \(s_1\) and only 
-\(l\) bits of the other.
+The verifier will send \(\ceil{\log_2 q} + l < 2\ceil{\log_2 q}\) challenges.
+Thus the prover reveals all the bits of either \(s_0\) or \(s_1\) but only \(l\) 
+bits of the other.
 Thus, the adversary can buffer \(l\) bits of both \(s_0, s_1\) by requesting 
 them from the prover.
 But at this point the adversary must wait for \(b_{l+1}\) from the verifier and 
