@@ -27,20 +27,74 @@ which yields a signature \(\sigma\) on \(m\), ensuring that the issuer knew
   \hat{g}^\gamma\).
 
 
-\paragraph{Implementations}
-
-There are various implementations.
-We will rely on the Schnorr identification scheme~\cite{Schnorr}.
+\subsection{Instantiations}
 
 \NewAlgorithm{\PKprove}{PK.\!Prove}
 \NewAlgorithm{\PKverify}{PK.\!Verify}
 
-The notation in \cref{PKexample} could equivalently be seen as
+We will rely on the Schnorr identification scheme~\cite{Schnorr}, which in its 
+original form can be written as \(\PK{\alpha}{A = g^\alpha}\).
+The generalized form would be \(\PK{\alpha_1, \dotsc, \alpha_n}{A = 
+    \prod_{i=1}^n g_i^{\alpha_i}}\).
+This could equivalently be written as
 \begin{equation*}
-  \PKprove[g,h,y,y',q,\alpha,\beta,\gamma] \leftrightarrow
-  \PKverify[g,h,y,y',q],
+  \PKprove[\{g_i\}_i, q, A, \{\alpha_i\}_i] \leftrightarrow
+  \PKverify[\{g_i\}_i, q, A],
 \end{equation*}
 where \(\PKprove\) is run by the prover and \(\PKverify\) is run by the 
 verifier.
 \(\PKverify\) outputs accept (1) or reject (0).
+We give an instance of \(\PKprove\) and \(\PKverify\) in \cref{PKalgorithms}.
 
+\begin{figure*}
+  \centering
+  \begin{tabular}{lcl}
+    \(\PKprove[g, q, A, \alpha]\):
+    &
+    & \(\PKverify[g, q, A]\):
+    \\
+
+  \end{tabular}
+  \caption{%
+    \(\PK{\alpha}{A = g^\alpha}\) using the Schnorr identification scheme.
+  }%
+  \label{PKalgorithms}
+\end{figure*}
+
+\NewAlgorithm{\SPKprove}{SPK.\!Prove}
+\NewAlgorithm{\SPKverify}{SPK.\!Verify}
+
+For the non-interactive instance, \(\SPK{\alpha}{A = g^\alpha}{m}\), we use the 
+Fiat-Shamir heuristic~\cite{FiatShamirHeuristic} on the above protocol, 
+illustrated as \(\SPKprove\) and \(\SPKverify\) in \cref{SPKalgorithms}.
+
+\begin{figure*}
+  \begin{minipage}[t]{0.48\linewidth}
+    \begin{algorithmic}
+      \Function{$\SPKprove$}{$g, q, A, \alpha, m$}
+        \State{$\rho\rgets \Z_q, R\gets g^\rho$}
+        \State{$c \gets H(g|A|R|m)$}
+        \State{$s \gets \rho - c\alpha$}
+        \State{\Return{$(s, c)$}}
+      \EndFunction{}
+    \end{algorithmic}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.48\linewidth}
+    \begin{algorithmic}
+      \Function{$\SPKverify$}{$g, q, A, m, s, c$}
+        \State{$\hat R \gets g^s A^c$}
+        \If{$c = H(g|A|\hat R|m)$}
+          \State{\Return{1}}
+        \Else{}
+          \State{\Return{0}}
+        \EndIf{}
+      \EndFunction{}
+    \end{algorithmic}
+  \end{minipage}
+  \caption{%
+    \(\SPK{\alpha}{A = g^\alpha}{m}\) using the Fiat-Shamir heuristic on the 
+    Schnorr identification scheme.
+  }%
+  \label{SPKalgorithms}
+\end{figure*}
