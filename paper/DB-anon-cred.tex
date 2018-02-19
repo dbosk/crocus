@@ -138,12 +138,19 @@ The prover will only provide one of the responses: even if the adversary re-runs
 the protocol with the same challenges, the randomly chosen \(\rho_0, \rho_1\) 
 will have changed --- which thus yields another \(R_b\) in the end of the 
 protocol.
-By repeating the protocol we can bring this probability down as much as desired.
+By repeating the protocol we decrease this probability.
 
 The random delay in the \ac{DB} phase is important to prevent distance fraud.
 Otherwise \iac{DBDF} prover could just send all bits timed to the expected 
 round-trip time without waiting for the challenges.
 On the other hand, these delays must not be long enough to allow the \ac{DBMF} 
 adversary to buffer the responses from the prover.
+However, in the worst case, the \ac{DBMF} adversary will be detected in the 
+first round, since he cannot buffer any response from the prover.
+After the first round though, the adversary knows \(b\) and can get those 
+requests as quickly as possible from the prover.
+By repeating the protocol we decrease this probability.
 
-Distance hijacking, \ac{DBDH} \dots
+The protocol is also secure against distance hijacking.
+This follows from the fact that it is the authenticating bit string that is used 
+during the \ac{DB} phase.
