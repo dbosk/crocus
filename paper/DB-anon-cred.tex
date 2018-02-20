@@ -82,9 +82,19 @@ phase.
     & \(b\rgets \bin\)
     \\
 
+    % null
+    &
+    & Prepare \(B\in \bin^{\ceil{\log_2 q}+l}\),
+    \\
+
+    % null
+    &
+    & with \(\ceil{\log_2 q}\) bits set to \(b\)
+    \\
+
     \midrule
     \multicolumn{3}{c}{\textbf{Distance-bounding}: \(\forall i: 0\leq i < 
-        \ceil{\log_2 q}\)} \\
+        \ceil{\log_2 q} + l\)} \\
 
 %    % null
 %    &
@@ -93,7 +103,8 @@ phase.
 
     % null
     & \(\ProtoSendLeft{b_i}\)
-    & \(b_i\gets b\), random delay \\
+    & \(b_i\gets B[i]\)
+    \\
 
     \(r_i\gets s_{b_i}[i]\)
     & \(\ProtoSendRight{r_i}\)
@@ -140,16 +151,20 @@ will have changed --- which thus yields another \(R_b\) in the end of the
 protocol.
 By repeating the protocol we decrease this probability.
 
-The random delay in the \ac{DB} phase is important to prevent distance fraud.
-Otherwise \iac{DBDF} prover could just send all bits timed to the expected 
-round-trip time without waiting for the challenges.
-On the other hand, these delays must not be long enough to allow the \ac{DBMF} 
-adversary to buffer the responses from the prover.
-However, in the worst case, the \ac{DBMF} adversary will be detected in the 
-first round, since he cannot buffer any response from the prover.
-After the first round though, the adversary knows \(b\) and can get those 
-requests as quickly as possible from the prover.
-By repeating the protocol we decrease this probability.
+The \ac{DB} phase protects against distance fraud.
+\Iac{DBDF} prover must wait for the challenge bit \(b_i\) before responding with 
+\(r_i\).
+
+The \ac{DB} phase also ensures that \iac{DBMF} adversary will fail the \ac{DB} 
+phase for at least one round.
+The verifier will send \(\ceil{\log_2 q} + l < 2\ceil{\log_2 q}\) challenges.
+Thus the prover reveals all the bits of either \(s_0\) or \(s_1\) but only \(l\) 
+bits of the other.
+Thus, the adversary can buffer \(l\) bits of both \(s_0, s_1\) by requesting 
+them from the prover.
+But at this point the adversary must wait for \(b_{l+1}\) from the verifier and 
+then relay that challenge to the prover to receive the correct \(r_i\) --- this 
+relay will be detected.
 
 The protocol is also secure against distance hijacking.
 This follows from the fact that it is the authenticating bit string that is used 
