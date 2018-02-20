@@ -29,22 +29,23 @@ which yields a signature \(\sigma\) on \(m\), ensuring that the issuer knew
 
 \subsection{Instantiations}
 
-\NewAlgorithm{\PKprove}{PK.\!Prove}
-\NewAlgorithm{\PKverify}{PK.\!Verify}
+\NewCryptoScheme{\Schn}{Schn}
+\NewAlgorithm{\SchnProve}{\Schn.\!Prove}
+\NewAlgorithm{\SchnVerify}{\Schn.\!Verify}
 
-We will rely on the Schnorr identification scheme~\cite{Schnorr}, which in its 
-original form can be written as \(\PK{\alpha}{A = g^\alpha}\).
+We will rely on the Schnorr identification scheme~\cite{Schnorr} (\Schn), which 
+in its original form can be written as \(\PK{\alpha}{A = g^\alpha}\).
 The generalized form would be \(\PK{\alpha_1, \dotsc, \alpha_n}{A = 
     \prod_{i=1}^n g_i^{\alpha_i}}\).
 This could equivalently be written as
 \begin{equation*}
-  \PKprove[\{g_i\}_i, q, A, \{\alpha_i\}_i] \leftrightarrow
-  \PKverify[\{g_i\}_i, q, A],
+  \SchnProve[\{g_i\}_i, q, A, \{\alpha_i\}_i] \leftrightarrow
+  \SchnVerify[\{g_i\}_i, q, A],
 \end{equation*}
-where \(\PKprove\) is run by the prover and \(\PKverify\) is run by the 
+where \(\SchnProve\) is run by the prover and \(\SchnVerify\) is run by the 
 verifier.
-\(\PKverify\) outputs accept (1) or reject (0).
-We give an instance of \(\PKprove\) and \(\PKverify\) in \cref{PKalgorithms}.
+\(\SchnVerify\) outputs accept (1) or reject (0).
+We give an instance of \(\SchnProve\) and \(\SchnVerify\) in \cref{PKalgorithms}.
 We also note that
 \begin{equation*}
   \PK{\alpha, \beta}{A = g^\alpha \land B = g^\beta} = \PK{\alpha}{A = g^\alpha} 
@@ -55,9 +56,9 @@ however, the challenge \(c\) must be the same in both sub-protocols.
 \begin{figure*}
   \centering
   \begin{tabular}{lcl}
-    \(\PKprove[\{g_i\}_{i=1}^n, q, A, \{\alpha_i\}_{i=1}^n]\):
+    \(\SchnProve[\{g_i\}_{i=1}^n, q, A, \{\alpha_i\}_{i=1}^n]\):
     &
-    & \(\PKverify[\{g_i\}_{i=1}^n, q, A]\):
+    & \(\SchnVerify[\{g_i\}_{i=1}^n, q, A]\):
     \\
     \toprule
 
@@ -95,12 +96,54 @@ however, the challenge \(c\) must be the same in both sub-protocols.
   \label{PKalgorithms}
 \end{figure*}
 
-\NewAlgorithm{\SPKprove}{SPK.\!Prove}
-\NewAlgorithm{\SPKverify}{SPK.\!Verify}
+\NewCryptoScheme{\PKscheme}{PK}
+\NewAlgorithm{\PKprove}{\PKscheme.\!Prove}
+\NewAlgorithm{\PKverify}{\PKscheme.\!Verify}
+
+Schnorr (\(\Schn\)) in itself only provides honest-verifier zero-knowledge.
+To achieve malicious-verifier zero-knowledge, we have to choose \(k\) (size of 
+the challenge) logarithmic in the security parameter \(\lambda\) and repeat the 
+protocol sufficiently many times.
+
+\NewAlgorithm{\Prove}{Prove}
+\NewAlgorithm{\Verify}{Verify}
+\NewCryptoSet{\PKG}{G}
+\NewCryptoSet{\PKA}{A}
+\NewCryptoSet{\PKS}{S}
+
+\begin{figure*}
+  \begin{minipage}{0.49\linewidth}
+    \begin{algorithmic}
+      \Function{$\PKprove^S$}{$\PKG, q, A, \PKA$}
+        \For{$0\leq i\leq \log\lambda$}
+          \State{$\method{S}{\Prove[\PKG, q, A, \PKA][_{k = \log\lambda}]}$}
+        \EndFor{}
+      \EndFunction{}
+    \end{algorithmic}
+  \end{minipage}
+  \begin{minipage}{0.49\linewidth}
+    \begin{algorithmic}
+      \Function{$\PKverify^S$}{$\PKG, q, A$}
+        \For{$0\leq i\leq \log\lambda$}
+          \State{$\method{S}{\Verify[\PKG, q, A][_{k=\log\lambda}]}$}
+        \EndFor{}
+      \EndFunction{}
+    \end{algorithmic}
+  \end{minipage}
+  \caption{%
+    Transforming honest-verifier zero-knowledge to malicious-verifier 
+    zero-knowledge.
+  }%
+  \label{ZKPKalgorithms}
+\end{figure*}
+
+\NewCryptoScheme{\SSchn}{SSchn}
+\NewAlgorithm{\SPKprove}{\SSchn.\!Prove}
+\NewAlgorithm{\SPKverify}{\SSchn.\!Verify}
 
 For the non-interactive instance, \(\SPK{\alpha}{A = g^\alpha}{m}\), we use the 
-Fiat-Shamir heuristic~\cite{FiatShamirHeuristic} on the above protocol, 
-illustrated as \(\SPKprove\) and \(\SPKverify\) in \cref{SPKalgorithms}.
+Fiat-Shamir heuristic~\cite{FiatShamirHeuristic} on \Schn, illustrated as 
+\(\SPKprove\) and \(\SPKverify\) in \cref{SPKalgorithms}.
 
 \begin{figure*}
   \begin{minipage}[t]{0.49\linewidth}
