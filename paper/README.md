@@ -16,7 +16,7 @@ files:
 - `SystemModel.tex` contains the System Model section.
 - `properties.tex` contains the section on desired security properties.
 - `RelatedWork.tex` contains the section on Related Work.
-- `primitives.tex` contains the section on Building Blocks, it includes
+- `BuildingBlocks.tex` contains the section on Building Blocks, it includes
   - `ZKPK.tex` describing zero-knowledge proofs of knowledge
   - `ZK-anon-cred.tex` describes anonymous credentials.
   - `NIZK-anon-cred.tex` describes non-interactive anonymous credentials.

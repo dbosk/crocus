@@ -5,9 +5,167 @@
     \operatorname{DBPK}\mleft\{\mleft(#1\mright) : #2\mright\}%
   }}
 
+We pointed out in \cref{DistanceBounding} that all security properties 
+concerning \ac{DB} assume an \emph{honest} verifier.
+This assumption does not hold in our setting, where every verifier at some point 
+also might be a (malicious) prover.
+We will introduce a new property for \ac{DB} protocols, the \ac{DBIV}.
+Then we will propose a protocol that is \ac{DBIV}, \ac{DBMF}, \ac{DBDF}, 
+\ac{DBDH} resistant but \emph{not} \ac{DBTF} resistant.
+The protocol is based on the Schnorr identification scheme and thus allows us to 
+do \ac{DB} \ac{ZKPK}, which allows us to form distance-bounding anonymous 
+credentials.
+
+\subsection{\Acl{DBIV} distance bounding}
+
 \dots
 
-\subsection{Impersonating-verifier distance bounding}
+\subsection{Reattempting \iacl{DB} Schnorr protocol}
 
-\dots
+\NewCryptoScheme{\DBS}{DBS}
+\NewAlgorithm{\DBSprove}{\DBS.\!Prove}
+\NewAlgorithm{\DBSverify}{\DBS.\!Verify}
 
+In the original \ac{DB} paper by \citet{DistanceBounding}, they proposed how to 
+make the Schnorr identification scheme~\cite{Schnorr} distance bounding.
+That \ac{DB} Schnorr protocol was shown to be prone to distance 
+hijacking~\cite{DistanceHijacking}.
+We now propose another way to turn the Schnorr protocol into \iac{DB} protocol 
+which is secure against \ac{DBIV}, \ac{DBMF}, \ac{DBDF} and \ac{DBDH}.
+It will not protect against terrorist fraud, in fact, we suspect that \ac{DBIV} 
+and \ac{DBTF} resistance are mutually exclusive.
+
+We present the protocol in \cref{SchnorrFigure}.
+The difference from the original Schnorr protocol is that the prover commits to 
+two random values and the verifier sends two challenges.
+Then the verifier decides which commitment and challenge to use in the \ac{DB} 
+phase.
+
+\begin{figure*}
+  \centering
+  \begin{tabular}{lcl}
+    \(\DBSprove[g, q, \alpha, A = g^\alpha]\):
+    & &
+    \(\DBSverify[g, q, A]\):
+    \\
+    \toprule
+
+    \multicolumn{3}{c}{\textbf{Setup}} \\
+
+    \(\rho_0\rgets \Z_q, \rho_1\rgets \Z_q\)
+    &
+    &
+    \\
+
+    \(R_0\gets g^{\rho_0}, R_1\gets g^{\rho_1}\)
+    & \(\ProtoSendRight{R_0, R_1}\)
+    &
+    \\
+
+    % null
+    & \(\ProtoSendLeft{c_0, c_1}\)
+    & \(c_0\rgets \bin^k, c_1\rgets \bin^k\)
+    \\
+
+    \(s_0\gets \rho_0 + c_0\alpha\)
+    &
+    &
+    \\
+
+    \(s_1\gets \rho_1 + c_1\alpha\)
+    &
+    &
+    \\
+
+    % null
+    &
+    & \(b\rgets \bin\)
+    \\
+
+    % null
+    &
+    & Prepare \(B\in \bin^{\ceil{\log_2 q}+l}\),
+    \\
+
+    % null
+    &
+    & with \(\ceil{\log_2 q}\) bits set to \(b\)
+    \\
+
+    \midrule
+    \multicolumn{3}{c}{\textbf{Distance-bounding}: \(\forall i: 0\leq i < 
+        \ceil{\log_2 q} + l\)} \\
+
+%    % null
+%    &
+%    & Random delay
+%    \\
+
+    % null
+    & \(\ProtoSendLeft{b_i}\)
+    & \(b_i\gets B[i]\)
+    \\
+
+    \(r_i\gets s_{b_i}[i]\)
+    & \(\ProtoSendRight{r_i}\)
+    & Record \(\Delta t_i\)
+    \\
+
+    \midrule
+    \multicolumn{3}{c}{\textbf{Verification}}
+    \\
+
+    % null
+    &
+    & \(r = r_1|\dotsb|r_{\ceil{\log_2 q}}\)
+    \\
+
+    % null
+    &
+    & \(R_b \stackrel{?}{=} g^r A^{c_b}\)
+    \\
+    
+    \bottomrule
+  \end{tabular}
+  \caption{%
+    One-round protocol instance of the \(\DBSprove\leftrightarrow \DBSverify\) 
+    \ac{DB} Schnorr protocol for \(\PK{\alpha}{A = g^\alpha}\).
+    The protocol should be repeated in full to achieve the desired knowledge 
+    error and distance-bounding error.
+  }%
+  \label{SchnorrFigure}
+\end{figure*}
+
+The intuition behind the protocol security is as follows.
+To achieve malicious-verifier zero-knowledge we must choose \(k\) 
+logarithmically in the security parameter \(\lambda\) and repeat the protocol 
+until the knowledge error is small enough.
+This will actually also decrease the success probability of \iac{DBMF} adversary 
+in the \ac{DB} step.
+The \ac{DBMF} adversary does not know which challenge the verifier will use, 
+thus there is a \(1/2\) probability that the \ac{DBMF} adversary will guess it 
+correctly.
+The prover will only provide one of the responses: even if the adversary re-runs 
+the protocol with the same challenges, the randomly chosen \(\rho_0, \rho_1\) 
+will have changed --- which thus yields another \(R_b\) in the end of the 
+protocol.
+By repeating the protocol we decrease this probability.
+
+The \ac{DB} phase protects against distance fraud.
+\Iac{DBDF} prover must wait for the challenge bit \(b_i\) before responding with 
+\(r_i\).
+
+The \ac{DB} phase also ensures that \iac{DBMF} adversary will fail the \ac{DB} 
+phase for at least one round.
+The verifier will send \(\ceil{\log_2 q} + l < 2\ceil{\log_2 q}\) challenges.
+Thus the prover reveals all the bits of either \(s_0\) or \(s_1\) but only \(l\) 
+bits of the other.
+Thus, the adversary can buffer \(l\) bits of both \(s_0, s_1\) by requesting 
+them from the prover.
+But at this point the adversary must wait for \(b_{l+1}\) from the verifier and 
+then relay that challenge to the prover to receive the correct \(r_i\) --- this 
+relay will be detected.
+
+The protocol is also secure against distance hijacking.
+This follows from the fact that it is the authenticating bit string that is used 
+during the \ac{DB} phase.
