@@ -95,6 +95,11 @@ however, the challenge \(c\) must be the same in both sub-protocols.
   \label{PKalgorithms}
 \end{figure*}
 
+The Schnorr protocol in itself only provides honest-verifier zero-knowledge.
+To achieve malicious-verifier zero-knowledge, we have to choose \(k\) (size of 
+the challenge) logarithmic in the security parameter \(\lambda\) and repeat the 
+protocol sufficiently many times (also logarithmic in the security parameter).
+
 \NewAlgorithm{\SPKprove}{SPK.\!Prove}
 \NewAlgorithm{\SPKverify}{SPK.\!Verify}
 
