@@ -1,4 +1,4 @@
-# File structure
+# Document source structure
 
 The file `paper.tex` is the main file to use for compilation. It includes the 
 preamble located in `preamble.tex` and the contents in `contents.tex`.
@@ -21,6 +21,7 @@ files:
   - `ZK-anon-cred.tex` describes anonymous credentials.
   - `NIZK-anon-cred.tex` describes non-interactive anonymous credentials.
   - `DistanceBounding.tex` describes distance bounding.
+  - `LocationProofs.tex` describes location proofs.
 - `DB-anon-cred.tex` introduces distance-bounding anonymous credentials.
 - `protocol.tex` describes the protocol.
 - `security.tex` contains the security analysis.
