@@ -1,28 +1,67 @@
-\documentclass[a4paper]{article}
-\usepackage[noamsthm,notheorems]{beamerarticle}
-\pagestyle{plain}
+\documentclass[USenglish,oneside,twocolumn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage[natbib,style=numeric-comp,maxbibnames=99]{biblatex}
+\usepackage[big]{dgruyter-biblatex}
+\cclogo{\includegraphics{by-nc-nd.pdf}}
 
 \input{preamble.tex}
 \input{preamble-paper.tex}
 
-\usepackage{authblk}
-\author[1]{Daniel Bosk}
-\author[1]{Sonja Buchegger}
+\begin{document}
+\author*[1]{Daniel Bosk}
 \affil[1]{%
-  School of Computer Science and Communication\break{}
-  KTH Royal Institute of Technology, Stockholm\break{}
-  \texttt{\{dbosk,buc\}@kth.se}\thanks{%
-    Funded by the Swedish Foundation for Strategic Research grant SSF FFL09-0086 
-    and the Swedish Research Council grant VR 2009-3793.%
-  }
+  KTH Royal Institute of Technology, E-mail: dbosk@kth.se
 }
-\author[2]{Sébastien Gambs}
-\author[2]{Henri Pineau}
+\author[2]{Sonja Buchegger}
 \affil[2]{%
-  Université de Quebec à Montreal\break{}
-  \texttt{gambs.sebastien@uqam.ca}
+  KTH Royal Institute of Technology, E-mail: buc@kth.se
+}
+\author[3]{Sébastien Gambs}
+\affil[3]{%
+  Université de Quebec à Montreal, E-mail: sebastien.gambs@uqam.ca
+}
+\author[4]{Henri Pineau}
+\affil[4]{%
+  Université de Quebec à Montreal, E-mail: henrilouis.pineau@gmail.com
 }
 
-\begin{document}
+\title{%
+  %PR$^{^{\text{I}}\text{V}^{\text{ately}}_\text{erifiable}}_{\text{Otests}}$%
+  PRIVO:
+  %SPRIVO\@:
+  Securely and Privately Verifying Protests
+  %securely and PRIvately Verifiable PROtests
+  %Verifying Protests
+  %Verifying Demonstrations
+  %Verifying Real-World Protests
+  %Verifying Physical Protests
+%  \thanks{%
+%    An initial discussion of this work appeared in 
+%    \citetitle{FutureProtests}~\cite{FutureProtests}.
+%  }
+}
+\runningtitle{Securely and Privately Verifying Protests}
+
+%\subtitle{...}
+
+\include*{abstract}
+
+%\classification[PACS]{}
+%\communicated{...}
+%\dedication{...}
+
+\journalname{Proceedings on Privacy Enhancing Technologies}
+\DOI{Editor to enter DOI}
+\startpage{1}
+\received{..}
+\revised{..}
+\accepted{..}
+
+\journalyear{..}
+\journalvolume{..}
+\journalissue{..}
+
+
 \input{contents.tex}
 \end{document}

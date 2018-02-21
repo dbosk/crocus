@@ -17,8 +17,7 @@ SRC+= 	protocol.tex
 SRC+=	security.tex
 SRC+=	conclusions.tex
 
-paper.pdf: ${SRC}
-
+paper.pdf: ${SRC} popets dgruyter-biblatex.sty
 
 FIGS+= 				tposet.tikz proofshare.tikz
 tposet.tikz: 		../fig/tposet.tikz
@@ -56,6 +55,7 @@ clean:
 .PHONY: distclean
 distclean:
 	${MAKE} -C ../fig distclean
+	${RM} ${FIGS}
 
 
 .PHONY: wc todo

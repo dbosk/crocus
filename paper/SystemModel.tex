@@ -1,5 +1,3 @@
-\mode*
-
 \section{System model}%
 \label{SystemModel}
 
@@ -33,40 +31,6 @@ Judging from these examples, the minimal common part is the cause,%
 \label{CauseIsTheCommonDenominator}
 but there is also a location (or area) that varies over time.
 
-\mode<presentation>{%
-\begin{frame}
-  \begin{example}[Seoul 2016]
-    \begin{itemize}
-      \item Rallies every weekend.
-      \item Starting midday, lasting to late night.
-      \item Some stayed for several hours, some for only minutes.
-    \end{itemize}
-  \end{example}
-
-  \pause{}
-
-  \begin{example}[US 2017]
-    \begin{itemize}
-      \item Women's Marches in several locations.
-      \item Marched some distance.
-      \item One-time occurrence.
-    \end{itemize}
-  \end{example}
-\end{frame}
-}
-
-\mode<presentation>{%
-\begin{frame}
-  \begin{example}[Venezuela 2017]
-    \begin{itemize}
-      \item Daily anti-government rallies.
-      \item Multiple locations.
-      \item Pro-government rallies too.
-    \end{itemize}
-  \end{example}
-\end{frame}
-}
-
 The organizer Alice want to count everyone who participated at any time and in 
 any of the locations~\cite{2016DemonstrationsInSeoul}.
 (Whereas police are only interested in the maximum crowd at any point in time, 
@@ -75,7 +39,6 @@ We will define a protest as an event that is uniquely identified by its cause
 (\(id\) below), its time interval (\(t\)) and its location (area \(l\)).
 More specifically, we will use the following definition.
 
-\begin{frame}
 \begin{definition}[Protest]\label{DefProtest}
   A \emph{subprotest} is a tuple \((cid, t, l)\) where
   \(cid\in \Z_{2^\lambda}\) is the cause\footnote{%
@@ -86,7 +49,6 @@ More specifically, we will use the following definition.
   \(\epsilon\)-neighbourhood of \((x,y)\)).
   A \emph{protest} is a set of subprotests sharing the same \(id\).
 \end{definition}
-\end{frame}
 
 The protests described above can be captured using this definition by splitting 
 them up into subprotests.
@@ -107,7 +69,6 @@ A witness is only allowed to create one proof share per protester.
 The proof and its proof shares are stored in a set, as there should be only 
 unique proof shares.
 
-\begin{frame}
 \begin{definition}[Participation-proof share]
   A \emph{participation-proof share} \(w = (pid, cid, t, l, wid)\) is a tuple 
   where
@@ -116,11 +77,9 @@ unique proof shares.
   \(wid\) is unique for a witness--protester pair.
   We let \(W\) be the set of all proof shares.
 \end{definition}
-\end{frame}
 
 A subset of the proof shares forms a participation proof for a protester.
 
-\begin{frame}
 \begin{definition}[Participation proof]
   A \emph{participation proof} of protester \(i\) participating in protest \(j\) 
   is the set
@@ -137,10 +96,8 @@ A subset of the proof shares forms a participation proof for a protester.
   time interval \(t\) and location \(l\) is within those of the protest \(j\) 
   (i.e.\ \(t_j\) and \(l_j\)).
 \end{definition}
-\end{frame}
 
 We can now define the participation count as follows.
-\begin{frame}
 \begin{definition}[Participation count]
   We define the \emph{participation count} of a protest \(cid\) as the 
   cardinality \(|P_{cid}^{s,\theta}|\) of the set of participation proofs \[
@@ -149,22 +106,7 @@ We can now define the participation count as follows.
   \] for some strength function \(s\colon \powerset(W)\to \R_+\) and a threshold 
   \(\theta\).
 \end{definition}
-
-\pause{}
-
-\mode<presentation>{%
-  \begin{example}
-    \begin{itemize}
-      \item The strength function can regulate trust in witnesses.
-      \item E.g.\ return the number of witnesses.
-      \item \(\theta\) would control threshold of number of witnesses.
-    \end{itemize}
-  \end{example}
-}
-\end{frame}
-
-The strength function \(s\) can be used to e.g.\ regulate trust in 
-witnesses.
+The strength function \(s\) can be used to e.g.\ regulate trust in witnesses.
 One example would be for \(s\) to return the number of proof shares (i.e.\ 
 witnesses) and thus let \(\theta\) to be the threshold of the number of required 
 witnesses.

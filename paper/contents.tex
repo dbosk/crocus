@@ -1,69 +1,17 @@
-\title[PRIVO\@: securely and PRIVately Verificable PROtests]{%
-  PR$^{^{\text{I}}\text{V}^{\text{ately}}_\text{erifiable}}_{\text{Otests}}$%
-  %PRIVO\@:
-  %SPRIVO\@:
-  %Securely and Privately Verifying Protests
-  %securely and PRIvately Verifiable PROtests
-  %Verifying Protests
-  %Verifying Demonstrations
-  %Verifying Real-World Protests
-  %Verifying Physical Protests
-  \thanks{%
-    An initial discussion of this work appeared in 
-    \citetitle{FutureProtests}~\cite{FutureProtests}.
-  }
-}
-
 \maketitle
-
-\mode*
-
-\begin{abstract}
-  \input{abstract.tex}
-\end{abstract}
-
-\clearpage
-\tableofcontents
-\clearpage
 
 % What's the problem?
 % Why is it a problem?
 % What's the approach?
 % What are the results?
-\mode<all>{%
-\input{intro.tex}
-}
+\include*{intro}
+\include*{SystemModel}
+\include*{properties}
+\include*{RelatedWork}
+\include*{BuildingBlocks}
+\include*{DB-anon-cred}
+\include*{protocol}
+\include*{security}
+\include*{conclusions}
 
-\mode<all>{%
-\input{SystemModel.tex}
-}
-
-\mode<all>{%
-\input{properties.tex}
-}
-
-\mode<article>{%
-\input{RelatedWork.tex}
-}
-
-\mode<all>{%
-\input{BuildingBlocks.tex}
-}
-
-\input{DB-anon-cred.tex}
-
-\mode<all>{%
-\input{protocol.tex}
-}
-
-\mode<all>{%
-\input{security.tex}
-}
-
-\mode<all>{%
-\input{conclusions.tex}
-}
-
-\begin{frame}[allowframebreaks]
-  \printbibliography{}
-\end{frame}
+\printbibliography{}
