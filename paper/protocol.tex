@@ -67,8 +67,6 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
         & \pi_W = \SPK{k_W, \sigma_W}
           {wid = \PRF_{k_W}(pid), wsig = \PRF_{k_W}(wid, t_s, l), \sigma_W = 
             \Sign[k]{k_W}}{pid, wid, t_s, l, wsig} \\
-        %& NIZK(wid = PRF_{k_W}(pid), wsig = PRF_{k_W}(wid, t_s, l), \exists 
-        %sign(k_W)) \\
       P\to S\colon & (pid, wid, t_s, l, wsig, \pi_P),\quad \text{where}\\
         & \pi_P = \SPK{k_P, \sigma_P}{pid = \PRF_{k_P}(cid), \sigma_P = 
           \Sign[k]{k_P}}{pid, wid, t_s, l, wsig}
@@ -121,9 +119,9 @@ which allows anonymous authentication at most \(n\) times\footnote{%
   Possibly there is another scheme that makes it non-interactive, e.g.\ by 
   \citet{Psignatures}, see issue \#27.
 }, where \(n = 1\) in our scenario.
-Alice has a \ac{PRF} key \(k\) and a blind signature on \(k\) included in her 
+Alice has \iac{PRF} key \(k\) and a blind signature on \(k\) included in her 
 national identity-card (by assumption).
-She will use \(k\) to compute \(pid\gets PRF_k(cid)\), which is her anonymous 
+She will use \(k\) to compute \(pid\gets \PRF_k(cid)\), which is her anonymous 
 identity during the protest (shown as \(pid\) in \cref{fig:ProofFig}).
 
 \subsubsection{Temporal eligibility, created after start}
@@ -200,14 +198,14 @@ Thus \(pid, wid, wsig\) can be used in the proof shares (and all computations
 above) whereas their respective \ac{NIZK} proof can be computed and published 
 after the protest.
 
-Alice must provide \iac{NIZK} proof showing that \(pid = PRF_{k_P}(cid)\) and 
+Alice must provide \iac{NIZK} proof showing that \(pid = \PRF_{k_P}(cid)\) and 
 that she knows a signature by the identity authority on \(k_P\).
 \dots
 [Details of how to do this, or maybe that will be in \cref{BuildingBlocks}. See 
 issue \#27 for discussion.]
 
 In the same manner, each witness must also provide \iac{NIZK} proofs for \(wid = 
-  PRF_{k_W}(pid)\) and \(wsig = PRF_{k_W}(wid, t_s, l)\) as well as that the 
+  \PRF_{k_W}(pid)\) and \(wsig = \PRF_{k_W}(wid, t_s, l)\) as well as that the 
 witness knows a signature by the identity authority on \(k_W\).
 With these \ac{NIZK} proofs anyone can verify the validity, i.e.\ the 
 eligibility, of the proof shares and thus also count them.
@@ -225,6 +223,6 @@ At this point, this hash value is the only thing she must store for individual
 verifiability.
 
 More specifically, to achieve receipt freeness (\cref{ReceiptFreeness}) Alice 
-must remove her secret PRF key, \(k_A\).
+must remove her secret \ac{PRF} key, \(k_A\).
 With this key Eve can verify that Alice has submitted a proof by computing 
-\(pid'\gets PRF_{k_A}(cid)\) and compare \(pid = pid'\).
+\(pid'\gets \PRF_{k_A}(cid)\) and compare \(pid = pid'\).
