@@ -83,15 +83,13 @@ A subset of the proof shares forms a participation proof for a protester.
 \begin{definition}[Participation proof]
   A \emph{participation proof} of protester \(i\) participating in protest \(j\) 
   is the set
-  \begin{align}
+  \begin{multline}
     \nonumber
     p_{i, j} =
-    \left\{ (pid, cid, t, l, wid)\in W \mid
-    %\right. &
-    pid = i, cid = j,
-    %\\ & \left.
+    \left\{ (pid, cid, t, l, wid)\in W \mid \right. \\
+    \left. pid = i, cid = j,
     t \subseteq t_j, l\subseteq l_j \right\},
-  \end{align}
+  \end{multline}
   of all proof shares with the same protester and protest identifiers, witness 
   time interval \(t\) and location \(l\) is within those of the protest \(j\) 
   (i.e.\ \(t_j\) and \(l_j\)).
