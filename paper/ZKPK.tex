@@ -46,10 +46,10 @@ verifier.
 \(\PKverify\) outputs accept (1) or reject (0).
 We give an instance of \(\PKprove\) and \(\PKverify\) in \cref{PKalgorithms}.
 We also note that
-\begin{equation*}
-  \PK{\alpha, \beta}{A = g^\alpha \land B = g^\beta} = \PK{\alpha}{A = g^\alpha} 
-  \land \PK{\beta}{B = g^\beta},
-\end{equation*}
+\begin{multline*}
+  \PK{\alpha, \beta}{A = g^\alpha \land B = g^\beta} = \\
+  \PK{\alpha}{A = g^\alpha} \land \PK{\beta}{B = g^\beta},
+\end{multline*}
 however, the challenge \(c\) must be the same in both sub-protocols.
 
 \begin{figure*}
