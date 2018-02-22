@@ -1,8 +1,23 @@
+\subsection{Anonymous credentials}%
+\label{ZK-anon-cred}
+
+For an anonymous credential system, it is sufficient to have a commitment 
+scheme, a signature scheme and (efficient) protocols for
+\begin{enumerate*}
+  \item proving equality of two committed values;
+  \item getting a signature on a committed value (without revealing this value 
+    to the signer); and
+  \item proving knowledge of a signature on a committed 
+    value~\cite{CLsignatures}.
+\end{enumerate*}
+
+\NewCryptoScheme{\CL}{CL}
+\NewFunction{\PRF}{PRF}
+
+We will use a \(\PRF\).
+
 \subsection{Zero-knowledge proofs of knowledge}%
 \label{ZKPK}
-
-Briefly describe zero-knowledge proofs and what type of properties can be proved 
-using them, e.g.\ algebraic structures but not one-way functions.
 
 We will use the notation introduced by \citet{PKnotation}:
 \begin{equation}\label{PKexample}

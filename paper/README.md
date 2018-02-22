@@ -17,11 +17,10 @@ files:
 - `properties.tex` contains the section on desired security properties.
 - `RelatedWork.tex` contains the section on Related Work.
 - `BuildingBlocks.tex` contains the section on Building Blocks, it includes
-  - `ZKPK.tex` describing zero-knowledge proofs of knowledge
-  - `ZK-anon-cred.tex` describes anonymous credentials.
-  - `NIZK-anon-cred.tex` describes non-interactive anonymous credentials.
+  - `anon-cred.tex` describes anonymous credentials.
   - `DistanceBounding.tex` describes distance bounding.
   - `LocationProofs.tex` describes location proofs.
+  - `TimeStamp.tex` describes time stamping storage, i.e. blockchains.
 - `DB-anon-cred.tex` introduces distance-bounding anonymous credentials.
 - `protocol.tex` describes the protocol.
 - `security.tex` contains the security analysis.
