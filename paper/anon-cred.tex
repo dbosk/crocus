@@ -1,14 +1,21 @@
 \subsection{Anonymous credentials}%
 \label{ZK-anon-cred}
 
-For an anonymous credential system, it is sufficient to have a commitment 
-scheme, a signature scheme and (efficient) protocols for
+\NewCryptoScheme{\ACscheme}{AC}
+\NewAlgorithm{\ACcommit}{\ACscheme.\!Commit}
+\NewAlgorithm{\ACeq}{\ACscheme.\!ProveEqual}
+\NewAlgorithm{\ACreq}{\ACscheme.\!ReqSign}
+\NewAlgorithm{\ACissue}{\ACscheme.\!IssueSign}
+\NewAlgorithm{\ACprove}{\ACscheme.\!ProveSign}
+
+For an anonymous credential system (\(\ACscheme\)), it is sufficient to have a 
+commitment scheme (\(\ACcommit\)), a signature scheme and (efficient) protocols 
+for
 \begin{enumerate*}
-  \item proving equality of two committed values;
-  \item getting a signature on a committed value (without revealing this value 
-    to the signer); and
-  \item proving knowledge of a signature on a committed 
-    value~\cite{CLsignatures}.
+  \item proving equality of two committed values (\(\ACeq\));
+  \item getting a signature on a committed value (\(\ACreq, \ACissue\)); and
+  \item proving knowledge of a signature on a committed value 
+    (\(\ACprove\))~\cite{CLsignatures}.
 \end{enumerate*}
 
 \NewCryptoScheme{\CL}{CL}
