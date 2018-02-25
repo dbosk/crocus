@@ -1,8 +1,30 @@
+\subsection{Anonymous credentials}%
+\label{ZK-anon-cred}
+
+\NewCryptoScheme{\ACscheme}{AC}
+\NewAlgorithm{\ACcommit}{\ACscheme.\!Commit}
+\NewAlgorithm{\ACeq}{\ACscheme.\!ProveEqual}
+\NewAlgorithm{\ACreq}{\ACscheme.\!ReqSign}
+\NewAlgorithm{\ACissue}{\ACscheme.\!IssueSign}
+\NewAlgorithm{\ACprove}{\ACscheme.\!ProveSign}
+
+For an anonymous credential system (\(\ACscheme\)), it is sufficient to have a 
+commitment scheme (\(\ACcommit\)), a signature scheme and (efficient) protocols 
+for
+\begin{enumerate*}
+  \item proving equality of two committed values (\(\ACeq\));
+  \item getting a signature on a committed value (\(\ACreq, \ACissue\)); and
+  \item proving knowledge of a signature on a committed value 
+    (\(\ACprove\))~\cite{CLsignatures}.
+\end{enumerate*}
+
+\NewCryptoScheme{\CL}{CL}
+\NewFunction{\PRF}{PRF}
+
+We will use a \(\PRF\).
+
 \subsection{Zero-knowledge proofs of knowledge}%
 \label{ZKPK}
-
-Briefly describe zero-knowledge proofs and what type of properties can be proved 
-using them, e.g.\ algebraic structures but not one-way functions.
 
 We will use the notation introduced by \citet{PKnotation}:
 \begin{equation}\label{PKexample}
