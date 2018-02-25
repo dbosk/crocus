@@ -8,15 +8,20 @@
 \NewAlgorithm{\ACissue}{\ACscheme.\!IssueSign}
 \NewAlgorithm{\ACprove}{\ACscheme.\!ProveSign}
 
-For an anonymous credential system (\(\ACscheme\)), it is sufficient to have a 
-commitment scheme (\(\ACcommit\)), a signature scheme and (efficient) protocols 
-for
-\begin{enumerate*}
-  \item proving equality of two committed values (\(\ACeq\));
-  \item getting a signature on a committed value (\(\ACreq, \ACissue\)); and
-  \item proving knowledge of a signature on a committed value 
-    (\(\ACprove\))~\cite{CLsignatures}.
-\end{enumerate*}
+The anonymous credential system, \(\ACscheme\), that we require shares the core 
+idea of Anon-Pass~\cite{AnonPass}.
+Anon-Pass builds on the work of \citet{HowToWinTheCloneWars}, but makes some 
+changes and, more importantly, implements the scheme and measures performance.
+
+%For an anonymous credential system (\(\ACscheme\)), it is sufficient to have a 
+%commitment scheme (\(\ACcommit\)), a signature scheme and (efficient) protocols 
+%for
+%\begin{enumerate*}
+%  \item proving equality of two committed values (\(\ACeq\));
+%  \item getting a signature on a committed value (\(\ACreq, \ACissue\)); and
+%  \item proving knowledge of a signature on a committed value 
+%    (\(\ACprove\))~\cite{CLsignatures}.
+%\end{enumerate*}
 
 \NewCryptoScheme{\CL}{CL}
 \NewFunction{\PRF}{PRF}

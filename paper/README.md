@@ -23,5 +23,5 @@ files:
   - `LocationProofs.tex` describes location proofs.
   - `TimeStamp.tex` describes time stamping storage, i.e. blockchains.
 - `protocol.tex` describes the protocol.
-- `security.tex` contains the security analysis.
+- `analysis.tex` contains the security and performance analysis.
 - `conclusions.tex` contains the discussion and conclusions.

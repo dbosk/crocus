@@ -14,7 +14,7 @@ SRC+= 	BuildingBlocks.tex
 SRC+= 	DistanceBounding.tex anon-cred.tex DB-anon-cred.tex
 SRC+= 	LocationProofs.tex TimeStamp.tex
 SRC+= 	protocol.tex
-SRC+=	security.tex
+SRC+=	analysis.tex
 SRC+=	conclusions.tex
 
 paper.pdf: ${SRC} popets dgruyter-biblatex.sty
@@ -42,6 +42,7 @@ DEPENDS+=	protests.bib
 DEPENDS+=	blockchain.bib
 DEPENDS+=	anon.bib
 DEPENDS+=	ecurrency.bib
+DEPENDS+= 	osn.bib
 
 paper.pdf: ${DEPENDS}
 
