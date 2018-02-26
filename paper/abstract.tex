@@ -1,17 +1,18 @@
 \begin{abstract}{%
 % What's the problem?
-Say Alice organizes a protest against the current regime leader Eve.
-The protest is held in some location (or locations) and Alice wants to estimate 
-the number of participants to prove a certain support to her cause.
+We consider the following scenario. Alice organizes a protest against the current regime leader Eve.
+The protest is held in some location(s) and Alice wants to estimate 
+the number of participants to prove a certain support for her cause.
 % Why is it a problem?
 Current methods have wide margins for error.
 In addition, Alice may be tempted to cheat by estimating the number of 
-participants as high as possible whereas the government's incentive is to make 
+participants as high as possible whereas the regime's incentive is to make 
 this estimation as low as possible to support Eve.
 %                                                                                  
 % What's the approach?
-In this work, we are interested in combining location proofs with some 
-properties of electronic voting to provide verifiable participation counts.
+In this work, we combine location proofs with some 
+properties of electronic voting to provide verifiable yet
+privacy-preserving participation counts.
 Since the parties have incentives to cheat, we require transparency: in 
 particular we are aiming at a decentralized scheme that provides verifiability 
 and privacy.
@@ -20,8 +21,9 @@ and it must scale to handle large protests (i.e.\ millions of participants).
 %
 In our scheme each participant creates a participation proof with the help of 
 other participants.
-We use blockchains to commit and timestamp the participation proofs, location 
-proofs to prove connection to the physical location.
+We use blockchains to commit and timestamp the participation proofs,
+which essentially consist of location 
+proofs by distance bounding to prove connection to the physical location.
 % What's the result?
 The scheme provides verifiability, which means that every participant can verify 
 that their participation has been included --- i.e.\ individual verifiability, 
@@ -29,7 +31,7 @@ to prevent Eve from dropping data --- and that anyone can verify the correctness
 of the result --- i.e.\ universal and eligibility verifiability, to prevent any 
 malicious actor (e.g. Sybil) from affecting the result.
 Our scheme is privacy preserving in the sense that it adds no risk to a 
-participant that was not already present when not using our scheme.
+participant that was not already present when not using our scheme. 
 }\end{abstract}
 
 \keywords{%
