@@ -221,4 +221,9 @@ convince the verifier that \(y = \ACprf[x][_k]\) without revealing \(k, x\).
 
 \subsubsection{Instantiations of the anonymous credentials} 
 
-\dots
+The \(\AC\) scheme can be instantiated using the Pedersen 
+commitment~\cite{PedersenCommitment} for \(\ACcommit\),
+CL-signatures~\cite{CLsignatures} for \(\ACsign, \ACgetSig, \ACissueSig\) and
+the \ac{VRF} by \citet{DYVRF} as \(\ACprf\).
+These are used together in e.g.\ Anon-Pass~\cite{AnonPass} and by 
+\citet{HowToWinTheCloneWars} to form unclonable subscriptions.
