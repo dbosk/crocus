@@ -61,12 +61,7 @@ Each participant who wants to be counted must submit a participation proof.
 The proof must be associated with the protest, i.e.\ its identifier \(cid\), 
 time and location must coincide with any of its subprotests.
 
-In practical terms, participants witness each other's particpation
-using their smartphones running the protocol described in
-Section~\ref{protocol} and uploading their testimony to a blockchain
-after the protest. 
-
-More formally, we use witnesses to associate the proof to the location by creating a proof 
+We use witnesses to associate the proof to the location by creating a proof 
 share.
 % XXX what is a witness?
 A witness is only allowed to create one proof share per protester.
@@ -125,3 +120,12 @@ The strength function \(s\) can be used to e.g.\ regulate trust in witnesses.
 One example would be for \(s\) to return the number of proof shares (i.e.\ 
 witnesses) and thus let \(\theta\) to be the threshold of the number of required 
 witnesses.
+
+\subsection{Physical System Model}
+In practical terms, participants witness each other's particpation
+using their smartphones running the protocol described in
+Section~\ref{protocol} and uploading their testimony to a blockchain
+after the protest. They thus need connectivity at least to each other
+during the protest and Internet connectivity after. 
+
+\include*{MANETs}
