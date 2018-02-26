@@ -64,7 +64,8 @@ method, since someone can always recount the participants using the recorded
 video material.
 We might be able to provide some degree of individual verifiability 
 (\cref{IndividualVerif}), if Alice can recognize her own face in the video, but 
-this might still be difficult.
+this might still be difficult. Automatic face recognition can help
+verifiability but at the price of privacy.
 Also, it is difficult (if not impossible) to not count people twice, thus we 
 cannot argue for eligibility verifiability (\cref{EligibilityVerif}).
 In theory, this class of methods will provide an upper bound, whereas our method 
@@ -103,7 +104,7 @@ As MAC address randomization get wider adoption this will be even more
 difficult, although some tracking of smartphones will still be 
 possible~\cite{WhyMACRandomizationIsNotEnough}.
 
-A better proposal would be to use \enquote{IMSI catchers} (or the real cell 
+A better proposal would be to use \emph{IMSI catchers} (or the real cell 
 towers of the mobile network) to count unique phones at the location.
 However, there are several problems with this approach.
 First, it will be difficult to register only the participants' phones, many 
@@ -112,7 +113,8 @@ It is also difficult to differentiate between the protesters and the
 counter-protesters.
 Second, since the phone is a unique identifier, participants might be 
 uncomfortable to be registered in association with the event and might thus 
-turn the device off.
+turn the device off, even though, at least with 5G, the IMSI will not be
+transmitted in plaintext anymore. %need to cite?
 Finally, there will be limited verifiability, as the data recorder must be 
 trusted to record all data and do it in the relation to the event.
 
@@ -130,7 +132,7 @@ These methods also have difficulty capturing the actual attendance of an event,
 i.e.\ the cumulative participation, not just the count at a snapshot around the 
 peak.
 
-The most closely related work is \citet{CrowdCount}.
+One of the most closely related work is \citet{CrowdCount}.
 This is a web service which lets Alice create an event and Bob can submit his 
 location to register that he is in Alice's event.
 This solves the problem that it counts everyone (who submitted), not just the 
@@ -143,4 +145,13 @@ during the event to register as a participant.
 This can make it difficult to use if e.g.\ Alice has organized a protest 
 against the government, who shuts down the cellular network or Internet 
 backbone as a means to censor the protest.
+
+Another related approach based on devices is UrbanCount~\cite{UrbanCount} which
+uses epidemic spreading of crowd-size estimates by device-to-device
+communication to count crowds in dense urban environments with high
+node mobility and churn. There is, however, no consideration of a potentially
+adverserial setting and thus no verification or checks on
+eligibility. DiVote~\cite{DiVote}, a prior work by the same authors for
+polling in dense areas, avoids double counting but again only for
+honest participants.
 

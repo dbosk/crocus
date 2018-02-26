@@ -31,7 +31,7 @@ Judging from these examples, the minimal common part is the cause,%
 \label{CauseIsTheCommonDenominator}
 but there is also a location (or area) that varies over time.
 
-The organizer Alice want to count everyone who participated at any time and in 
+The organizer Alice wants to count everyone who participated at any time and in 
 any of the locations~\cite{2016DemonstrationsInSeoul}.
 (Whereas police are only interested in the maximum crowd at any point in time, 
 to deploy enough personnel for crowd-control.)
@@ -41,9 +41,7 @@ More specifically, we will use the following definition.
 
 \begin{definition}[Protest]\label{DefProtest}
   A \emph{subprotest} is a tuple \((cid, t, l)\) where
-  \(cid\in \Z_{2^\lambda}\) is the cause\footnote{%
-    I.e.\ the cause of the protest.
-  } identifier,
+  \(cid\in \Z_{2^\lambda}\) is the identifier of the cause of the protest,
   \(t = \interval{t_s}{t_e}\subseteq \R\) is a time interval and
   \(l = N_\epsilon(x, y)\subseteq \R^2\) is the location (an 
   \(\epsilon\)-neighbourhood of \((x,y)\)).
@@ -59,9 +57,10 @@ locations (or areas) that slightly overlap.
 
 \subsection{What is a proper count?}
 
-Each participant who want to be counted must submit a participation proof.
+Each participant who wants to be counted must submit a participation proof.
 The proof must be associated with the protest, i.e.\ its identifier \(cid\), 
 time and location must coincide with any of its subprotests.
+
 We use witnesses to associate the proof to the location by creating a proof 
 share.
 % XXX what is a witness?
@@ -77,6 +76,19 @@ unique proof shares.
   \(wid\) is unique for a witness--protester pair.
   We let \(W\) be the set of all proof shares.
 \end{definition}
+%Sonja asks: do the same pair of people (witness-protester) get the
+%same wid on a different protest? The pid is unique for protester-cid
+%pair thus the id of a protester at a particular protest. Pid is thus
+%derived from the protester id (which has no term) and the protest id
+%(cid)? In analogy, wid is derived from pid (and thus cid) of both
+%participants, protesters i and j, say, where i witnesses j at cid and
+%simultaneously symmetrically j witnesses i?
+%Using wid and w is confusing since we changed the terminology to use
+%proof shares instead of the previous witness (as in testimony, not
+%person). wid sounds like it would be the id of the witness person,
+%pid sounds like it would be the id of the protester being witnessed,
+%we have defined neither and they might not be needed, but it is
+%confusing to read.
 
 A subset of the proof shares forms a participation proof for a protester.
 
@@ -108,3 +120,12 @@ The strength function \(s\) can be used to e.g.\ regulate trust in witnesses.
 One example would be for \(s\) to return the number of proof shares (i.e.\ 
 witnesses) and thus let \(\theta\) to be the threshold of the number of required 
 witnesses.
+
+\subsection{Physical System Model}
+In practical terms, participants witness each other's particpation
+using their smartphones running the protocol described in
+\cref{protocol} and uploading their testimony to a blockchain
+after the protest. They thus need connectivity at least to each other
+during the protest and Internet connectivity after. 
+
+\include*{MANETs}

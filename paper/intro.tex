@@ -1,50 +1,88 @@
 \section{Introduction}%
 \label{Introduction}
 
-Alice is an activist who organizes a protest for some cause.
-Eve is an autocrat who opposes Alice's cause.
-Bob, Carol and many others participate in the protest against Eve.
-One problem that has not yet been entirely solved is the crowd-counting 
-problem, i.e.\ to verify how many participated in Alice's protest.
+\emph{Context.} Consider the following illustrative scenario in which Alice is an activist that organizes a protest against the current regime leader Eve in some location(s).
+On one hand, Alice wants to estimate the number of participants to prove a certain support for her cause.
+On the other hand, Eve is an autocrat who opposes Alice's cause.
+Bob, Carol and many others participate in the protest for Alice's cause against Eve.
+However, they might also be willing to do so in a manner that does not leave any digital traces because of the fear of retribution against them from Eve's regime. 
+To realize this objective a reliable yet privacy-preserving crowd-counting mechanism is needed, which to the best of our knowledge is a problem that has not yet been entirely solved.
 
-After many demonstrations the count by police and that by the organizers 
-differ\footnote{%
-  This is actually quite natural, they have different goals.
-  The organizers want to count everyone who ever participated.
-  Police want to estimate the count at the peak of participation, due to crowd 
-  control~\cite{2016DemonstrationsInSeoul}.
-}, in some instances the difference can be hundreds of thousands.
-There are numerous examples where there is difficulty in establishing the actual 
-number of participants, e.g.:\@ the demonstrations against the president in 
-South Korea~\cite{2016DemonstrationsInSeoul}, Trump's inauguration 
-attendance~\cite{HowWillWeKnowTrumpInauguralCrowdSize}, the 2017 Women's March 
-in the US~\cite{2017WomensMarchesInUS}, the demonstrations against changing the 
-constitution in Venezuela~\cite{AlJazeeraOnVenezuela2017} or for the 
-independence of Catalonia~\cite{CataloniaDemonstrations}.
-The methods for counting the crowds vary.
-Most of the available methods lack precision, i.e.\ they have large error 
-margins.
-They can only give an estimate for a particular snapshot in time, e.g.\ at the 
-peak of the event, not the cumulative participation count --- at least not 
-without counting some people multiple times, which in turn increases the error 
-of the estimation.
-Finally, they also lack verifiability, i.e.\ everyone must trust the entity who
-does the counting.
-(We will discuss them in more detail in \cref{RelatedWork}.)
+Historically, there are many examples of protests in which the count estimated by police and that by the organizers 
+differ significantly, sometimes in the order of hundreds of thousands.
+The difference is actually quite natural as both parties have different objectives.
+More precisely, the organizers want to count everyone who have participated while the police want to estimate the count at the peak of participation, due to crowd control~\cite{2016DemonstrationsInSeoul}.
+Among the numerous recent examples in which it is difficult to establish the actual number of participants, we can cite the demonstrations against the president in South Korea~\cite{2016DemonstrationsInSeoul}, Trump's inauguration attendance~\cite{HowWillWeKnowTrumpInauguralCrowdSize}, the 2017 Women's March in the US~\cite{2017WomensMarchesInUS}, the demonstrations against the change of constitution in Venezuela~\cite{AlJazeeraOnVenezuela2017} or for the independence of Catalonia~\cite{CataloniaDemonstrations}.
 
-We can make one important observation about this problem that has seemingly been 
-ignored in the past: it is an adversarial setting.
-Alice the activist has an incentive to increase the tallied number of 
-participants, whereas Eve (and possibly other interests) have an incentive to 
-decrease the tallied number of participants.
-In this case we have two options:
-either we trust Alice or Eve, or we must verify their claims.
-Our main goal is to provide a scheme which prevents both Alice and Eve from 
-cheating, i.e.\ we aim for verifiable claims.
-To solve this problem, we need a verifiable participation count which is 
-protected from Sybil attacks.
+Existing methods for crowd-counting varies significantly in terms of approaches (we will review them in details in \cref{RelatedWork}).
+However, most of them lack precision (\emph{i.e.}, they have large error margins) and they can only give an estimate for a particular snapshot in time (\emph{e.g.}, at the peak of the event). 
+In particular, the existing methods cannot estimate reliably the cumulative participation count --- at least not without counting some persons multiple times, which in turn increases the error of the estimation.
+In addition, they also lack verifiability as everyone has to trust the entity responsible for performing the counting.
+Finally, one important observation about crowd-counting that has been adequately addressed in the design of current crowd-counting solutions is that it is actually an adversarial setting. 
 
-\subsection{Combining electronic voting and location proofs}
+Indeed, going back to our example Alice the activist has an incentive to increase the tallied number of participants, whereas Eve (and possibly other entities) have an incentive to decrease the tallied number of participants.
+In this case, we are left with two options: either we trust Alice or Eve or we have to be able to verify their claims.
+In this paper, our main objective is to provide a scheme preventing both Alice and Eve from cheating (\emph{i.e.}, their claim should be verifiable).
+To solve this issue, we need a verifiable participation count that can resist to Sybil attacks while still preserving the participants'
+privacy to the extent possible given their physical presence at the protest. 
+More precisely, our solution will not be able to prevent a physical eavesdropper from recognizing a particular individual in a protest. 
+Nonetheless, we can ensure that none of the digital traces generated by a participant in our scheme can be associated to his identity and that his actions are also unlinkable.
+
+%Seb: I suggest that we give a name to the protocol to be able to refer to it more adequately
+\emph{Contributions} We propose a scheme that provides a way for protests to be securely verified.
+Additionally, this verification system does not incur any additional risk to 
+protesters' privacy than participating in the physical protest itself.
+
+In contrast to the traditional assumption of honest verifiers in
+distance-bounding algorithms, we propose a way to turn the Schnorr
+protocol into a distance-bounding protocol that allows for a malicious
+verifier. In addition, this allows us to form distance-bounding
+anonymous credentials.
+
+\subsection{Limitations and Assumptions}
+
+We can achieve privacy, but not receipt freeness.
+This means that there is a way for Eve to efficiently verify that Alice has 
+participated.
+However, this requires that Eve gets a copy of Alice's secret key so that she 
+can simply re-do the (deterministic) computations on the same inputs --- the 
+probability of collisions is negligible.
+
+%\dots
+
+Some of our assumptions (see \cref{assumptions} for more
+detailed descriptions) are not yet
+realized. Not all (or even many) protesters, especially in countries
+with oppressive regimes, currently possess smartphones. Digital
+certificates signed by a central authority are not yet widely
+available and if we rely on government-issued credentials, we cannot prevent the government 
+from performing Sybil attacks --- since it can issue arbitrarily many 
+\emph{valid} credentials. In this case we cannot verify any pro-government protests where Eve's authoritarian regime wants to organize a pro-regime protest to 
+demonstrate its \emph{wide 
+  support}~\cite[e.g.][]{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
+Distance bounding on phones is currently not feasible within a
+meaningful range of distance for our scenario. 
+
+The assumptions might
+become sufficiently realistic in the near future, though, with
+smartphone penetration on the rise, increased digitalization and government-issued credentials
+available in some countries already now (e.g., Estonia, Germany), and
+distance-bounding chips~\footnote{ https://www.3db-access.com } currently available with a range of 200 m that
+might not unrealistically be integrated in phones or smartcards in the
+future. 
+
+\emph{Outline.} The paper is organized as follows. 
+First, we define the system model for verifiable privacy-preserving crowd counting.  We then
+present the desired security properties for such a system and subsequently discuss related
+work in terms of these properties. We give the relevant background on
+the building blocks of our solution and then describe our proposal for
+distance-bounding anonymous credentials that copes with a malicious
+(impersonating) verifier. We then present the protocol constructed
+from the building blocks, its security and privacy analysis, and
+finally our conclusions. 
+
+%Seb: I suggest that we move this part to system model
+\subsection{Combining properties of electronic voting with location proofs}
 
 In general, protesting is very similar to petitions, which in turn are similar 
 to voting: all three are many individuals expressing their opinion.
@@ -82,39 +120,21 @@ privacy~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
   \item\label{CoercionResistance} Coercion resistance: a voter cannot cooperate 
     with a coercer to prove the vote was cast in any particular way.
 \end{itemize}
-We note that we cannot improve the privacy of participating protesters during 
-the protest: if Alice is caught during a protest there is nothing we can do.
-Actually, if there are several protests in the \emph{same location at the same 
-  time}, Alice could blend into another crowd and argue that she participated in 
+We note that we cannot actually improve the privacy of participating protesters during 
+the protest: if Alice is caught during a protest or other
+crowd-counting mechanisms based on photographic or video evidence are
+used to identify Alice, there is nothing we
+can do. In our proposed solution, however, we aim at verifiable
+participation count that does not add any threats to the participants'
+privacy. For instance, if there are counter-protests in the \emph{same location at the same 
+  time}, Alice could even blend into another crowd and argue that she participated in 
 a different protest than she actually did --- and the counts would still be 
 correct afterwards.
 However, even if there is only one protest and she is not caught in the act, 
-then using our proposed tool should not incur any additional risk.
+then using our proposed mechanism should not incur any additional risk.
 Thus we need at least participation-proof privacy but receipt freeness (see 
 \cref{Privacy} for a detailed definition) is desired.
 In essence, upon completing the protocol, Eve cannot link Alice to Alice's 
-participation proof --- even if she would compromise Alice's devices.
-
-\subsection{Contributions}
-
-We propose a protocol which provides a way for protests to be securely verified.
-Additionally, this verification system does not incur any additional risk to 
-protesters' privacy than participating in the physical protest itself.
-
-We can achieve privacy, but not receipt freeness.
-This means that there is a way for Eve to efficiently verify that Alice has 
-participated.
-However, this requires that Eve gets a copy of Alice's secret key so that she 
-can simply re-do the (deterministic) computations on the same inputs --- the 
-probability of collisions is negligible.
-
-\dots
-
-Sometimes Eve's authoritarian regime wants to organize a pro-regime protest to 
-demonstrate its \enquote{wide 
-  support}~\cite[e.g.][]{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
-If we rely on government-issued credentials, we cannot prevent the government 
-from performing Sybil attacks --- since it can issue arbitrarily many 
-\enquote{valid} credentials.
-This means that we cannot verify any pro-government protests.
-
+participation proof --- even if she were to compromise Alice's
+devices.
+%Sonja says: I'm confused: can we or can we not provide this?

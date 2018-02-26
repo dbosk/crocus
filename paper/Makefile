@@ -43,6 +43,7 @@ DEPENDS+=	blockchain.bib
 DEPENDS+=	anon.bib
 DEPENDS+=	ecurrency.bib
 DEPENDS+= 	osn.bib
+DEPENDS+=	adhocnets.bib
 
 paper.pdf: ${DEPENDS}
 

@@ -1,42 +1,35 @@
-\begin{abstract}{%
+\begin{abstract}
+{
 % What's the problem?
-Say Alice organizes a protest against the current regime leader Eve.
-The protest is held in some location (or locations) and Alice wants to estimate 
-the number of participants to prove a certain support to her cause.
+The problem of participation estimation is a fundamental democratic issue in the context of protests in which the number of participants directly reflects the strength of the interest of the public society towards the topic of the protest.
+%Seb: I put this part in comment because I think it is better to keep the scenario for the introduction and rather to be short in the abstract
+%We consider the following scenario. Alice organizes a protest against the current regime leader Eve.
+%The protest is held in some location(s) and Alice wants to estimate 
+%the number of participants to prove a certain support for her cause.
 % Why is it a problem?
-Current methods have wide margins for error.
-In addition, Alice may be tempted to cheat by estimating the number of 
-participants as high as possible whereas the government's incentive is to make 
-this estimation as low as possible to support Eve.
-%                                                                                  
+Current methods for crowd counting have wide margins for error in addition of being generally quite privacy-invasive.
+Moreover, the organizers of the protest may be tempted to cheat by inflating the number of participants as high as possible whereas the government's incentive is to make this estimation as low as possible if the protect is directed against it.                                                                                  
 % What's the approach?
-In this work, we are interested in combining location proofs with some 
-properties of electronic voting to provide verifiable participation counts.
-Since the parties have incentives to cheat, we require transparency: in 
-particular we are aiming at a decentralized scheme that provides verifiability 
-and privacy.
-More specifically, the scheme should be distributed, not depend on any authority 
-and it must scale to handle large protests (i.e.\ millions of participants).
+In this paper, we propose a novel approach to this problem by combining location proofs with some properties of electronic voting to provide verifiable yet privacy-preserving participation counts.
+Since the parties have incentives to cheat, transparency is a fundamental requirement that we achieve through a decentralized scheme providing both verifiability and privacy.
+More specifically, the proposed scheme is distributed, does not depend on any authority and it must scale to handle large protests (\emph{i.e.}, \ millions of participants).
 %
-In our scheme each participant creates a participation proof with the help of 
-other participants.
-We use blockchains to commit and timestamp the participation proofs, location 
-proofs to prove connection to the physical location.
+In our scheme, each participant creates a participation proof with the collaboration of other participants, called witnesses, in a privacy-preserving manner (\emph{i.e.}, without requiring to reveal his identity or the identities of witnesses).
+The blockchain is used to commit and timestamp the participation proofs, which essentially consist of location proofs in which a privacy-preserving distance-bounding protocol is used by a participant to prove his proximity to the witnesses.
 % What's the result?
-The scheme provides verifiability, which means that every participant can verify 
-that their participation has been included --- i.e.\ individual verifiability, 
-to prevent Eve from dropping data --- and that anyone can verify the correctness 
-of the result --- i.e.\ universal and eligibility verifiability, to prevent any 
-malicious actor (e.g. Sybil) from affecting the result.
-Our scheme is privacy preserving in the sense that it adds no risk to a 
-participant that was not already present when not using our scheme.
-}\end{abstract}
+Our scheme provides verifiability, which means that each participant can verify that his participation has been included in the final count--- \emph{i.e.}\ individual verifiability, 
+to prevent the regime in place from dropping data --- and that anyone can verify the correctness of the result --- \emph{i.e.}\ universal and eligibility verifiability, to prevent any malicious actor (\emph{e.g.}, Sybil attack) from affecting the result.
+%Seb: we need to be careful about how we formulate the following sentence
+%Our scheme provides these verifiability properties in a privacy-preserving manner in the sense that it adds no risk to a participant that was not already present when not using our scheme. 
+}
+\end{abstract}
 
 \keywords{%
-  crowd counting;
-  protesting;
-  electronic voting;
-  location proof;
-  privacy
+  Crowd estimation;
+  Protest;
+  Electronic voting;
+  Location proof;
+  Distance-bounding;
+  Privacy.
 }
 
