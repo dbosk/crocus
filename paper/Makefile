@@ -42,7 +42,7 @@ DEPENDS+=	protests.bib
 DEPENDS+=	blockchain.bib
 DEPENDS+=	anon.bib
 DEPENDS+=	ecurrency.bib
-
+DEPENDS+=	adhocnets.bib
 paper.pdf: ${DEPENDS}
 
 
