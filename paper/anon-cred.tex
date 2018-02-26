@@ -173,13 +173,21 @@ algorithms and properties.
 
 \(\AC\) must provide a commitment scheme, \(\ACcommit\), and algorithms 
 \(\ACeq\leftrightarrow \ACverifyEq\).
-A prover can use \(\ACeq[c, o, c', o', x]\) to convince a verifier that \(c = 
-  \ACcommit[x, o], c' = \ACcommit[x, o']\), i.e.\ both commitments are 
-commitments to the same value \(x\).
+% XXX Review requirements of AC.commit
+We prefer that the commitment scheme is \emph{perfectly hiding} and 
+computationally binding, rather than the other way\footnote{%
+  We are more concerned with long-term privacy, thus information-theoretic 
+  hiding.
+}.
+A prover can use \(\ACeq[c, o, c', o', x]\leftrightarrow \ACverifyEq[c, c']\) to 
+convince a verifier that \(c = \ACcommit[x, o], c' = \ACcommit[x, o']\), i.e.\ 
+both commitments are commitments to the same value \(x\) --- without revealing 
+\(x\).
 
-%\NewAlgorithm{\ACsign}{\AC.\!Sign}
+\NewAlgorithm{\ACsign}{\AC.\!Sign}
 \NewAlgorithm{\ACgetSig}{\AC.\!GetSig}
 \NewAlgorithm{\ACissueSig}{\AC.\!IssueSig}
+
 \NewAlgorithm{\ACproveSig}{\AC.\!ProveSig}
 \NewAlgorithm{\ACverifySig}{\AC.\!VerifySig}
 
@@ -187,10 +195,25 @@ commitments to the same value \(x\).
 on a commtted value (\(\ACgetSig\leftrightarrow \ACissueSig\)) and to prove 
 knowledge of a signature on a committed value (\(\ACproveSig\leftrightarrow 
   \ACverifySig\)).
+The prover commits to a value \(x\) with commitment \(c\gets \ACcommit[x, o]\) 
+and opening \(o\).
+The he uses \(\sigma\gets \ACgetSig[x, c, o, vk]\leftrightarrow \ACissueSig[c, 
+  sk]\), where \((vk, sk)\) is the signature--verification keypair, to obtain a 
+signature \(\sigma = \ACsign[x][_{sk}]\) on the value \(x\).
+
+At a later point, the prover wants to prove to a verifier that he knows \(x\) 
+and a signature \(\sigma\) on \(x\) made by the owner of \(pk\), i.e.\ without 
+revealing \(x\) nor \(\sigma\).
+The prover and verifier will run the protocol \(\ACproveSig[x, \sigma, 
+  pk]\leftrightarrow \ACverifySig[pk]\).
 
 \NewAlgorithm{\ACprf}{\AC.\!PRF}
 \NewAlgorithm{\ACprovePRF}{\AC.\!ProvePRF}
 \NewAlgorithm{\ACverifyPRF}{\AC.\!VerifyPRF}
+
+Finally we need \iac{PRF}, \(\ACprf\), such that there exists a protocol 
+\(\ACprovePRF[k, y, x]\leftrightarrow \ACverifyPRF[y]\) such that the prover can 
+convince the verifier that \(y = \ACprf[x][_k]\) without revealing \(k, x\).
 
 % XXX Replace \PRF
 \NewFunction{\PRF}{PRF}
