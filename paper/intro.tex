@@ -1,13 +1,12 @@
 \section{Introduction}%
 \label{Introduction}
 
-Elaborating on the scenario sketched in the abstract, Alice is an
-activist who organizes a protest for some cause.
-Eve is an autocrat who opposes Alice's cause.
-Bob, Carol and many others participate in the protest for Alice's
-cause and thus against Eve. To verify how many participated in Alice's
-protest, a reliable crowd-counting mechanism is needed which is a 
-problem that has not yet been entirely solved.
+Consider the following scenario in which Alice is an activist that organizes a protest against the current regime leader Eve in some location(s).
+On one hand, Alice wants to estimate the number of participants to prove a certain support for her cause.
+On the other hand, Eve is an autocrat who opposes Alice's cause.
+Bob, Carol and many others participate in the protest for Alice's cause against Eve.
+However, they might also be willing to do so in a manner that does not leave any digital traces because of the fear of retribution against them from Eve's regime. 
+To verify how many participated in Alice's protest, a reliable yet privacy-preserving crowd-counting mechanism is needed, which to the best of our knowledge is a problem that has not yet been entirely solved.
 
 After many demonstrations the count by police and that by the organizers 
 differ, for legitimate\footnote{%
@@ -134,8 +133,8 @@ with oppressive regimes, currently possess smartphones. Digital
 certificates signed by a central authority are not yet widely
 available and if we rely on government-issued credentials, we cannot prevent the government 
 from performing Sybil attacks --- since it can issue arbitrarily many 
-\enquote{valid} credentials. In this case we cannot verify any pro-government protests where Eve's authoritarian regime wants to organize a pro-regime protest to 
-demonstrate its \enquote{wide 
+\emph{valid} credentials. In this case we cannot verify any pro-government protests where Eve's authoritarian regime wants to organize a pro-regime protest to 
+demonstrate its \emph{wide 
   support}~\cite[e.g.][]{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
 Distance bounding on phones is currently not feasible within a
 meaningful range of distance for our scenario. 
