@@ -1,34 +1,15 @@
 \subsection{Anonymous credentials}%
 \label{ZK-anon-cred}
 
-\NewCryptoScheme{\ACscheme}{AC}
-\NewAlgorithm{\ACcommit}{\ACscheme.\!Commit}
-\NewAlgorithm{\ACeq}{\ACscheme.\!ProveEqual}
-\NewAlgorithm{\ACreq}{\ACscheme.\!ReqSign}
-\NewAlgorithm{\ACissue}{\ACscheme.\!IssueSign}
-\NewAlgorithm{\ACprove}{\ACscheme.\!ProveSign}
-
-The anonymous credential system, \(\ACscheme\), that we require shares the core 
-idea of Anon-Pass~\cite{AnonPass}.
+The anonymous credential system that we require shares the core idea of 
+Anon-Pass~\cite{AnonPass}.
 Anon-Pass builds on the work of \citet{HowToWinTheCloneWars}, but makes some 
 changes and, more importantly, implements the scheme and measures performance.
+We will proceed with a short note on notation about \ac{ZKPK}, then we will 
+proceed with the desired properties for the anonymous credentials.
 
-%For an anonymous credential system (\(\ACscheme\)), it is sufficient to have a 
-%commitment scheme (\(\ACcommit\)), a signature scheme and (efficient) protocols 
-%for
-%\begin{enumerate*}
-%  \item proving equality of two committed values (\(\ACeq\));
-%  \item getting a signature on a committed value (\(\ACreq, \ACissue\)); and
-%  \item proving knowledge of a signature on a committed value 
-%    (\(\ACprove\))~\cite{CLsignatures}.
-%\end{enumerate*}
 
-\NewCryptoScheme{\CL}{CL}
-\NewFunction{\PRF}{PRF}
-
-We will use a \(\PRF\).
-
-\subsection{Zero-knowledge proofs of knowledge}%
+\subsubsection{Zero-knowledge proofs of knowledge}%
 \label{ZKPK}
 
 We will use the notation introduced by \citet{PKnotation}:
@@ -54,7 +35,7 @@ which yields a signature \(\sigma\) on \(m\), ensuring that the issuer knew
   \hat{g}^\gamma\).
 
 
-\subsection{Instantiations}
+\subsubsection{Instantiations of the \acs{ZKPK} protocols}
 
 \NewAlgorithm{\PKprove}{PK.\!Prove}
 \NewAlgorithm{\PKverify}{PK.\!Verify}
@@ -167,3 +148,54 @@ illustrated as \(\SPKprove\) and \(\SPKverify\) in \cref{SPKalgorithms}.
   }%
   \label{SPKalgorithms}
 \end{figure*}
+
+
+\subsubsection{Needed properties}
+
+%For an anonymous credential system (\(\ACscheme\)), it is sufficient to have a 
+%commitment scheme (\(\ACcommit\)), a signature scheme and (efficient) protocols 
+%for
+%\begin{enumerate*}
+%  \item proving equality of two committed values (\(\ACeq\));
+%  \item getting a signature on a committed value (\(\ACreq, \ACissue\)); and
+%  \item proving knowledge of a signature on a committed value 
+%    (\(\ACprove\))~\cite{CLsignatures}.
+%\end{enumerate*}
+
+\NewCryptoScheme{\AC}{AC}
+
+We need an anonymous credential system, \(\AC\), which provides the following 
+algorithms and properties.
+
+\NewAlgorithm{\ACcommit}{\AC.\!Commit}
+\NewAlgorithm{\ACeq}{\AC.\!ProveEq}
+\NewAlgorithm{\ACverifyEq}{\AC.\!VerifyEq}
+
+\(\AC\) must provide a commitment scheme, \(\ACcommit\), and algorithms 
+\(\ACeq\leftrightarrow \ACverifyEq\).
+A prover can use \(\ACeq[c, o, c', o', x]\) to convince a verifier that \(c = 
+  \ACcommit[x, o], c' = \ACcommit[x, o']\), i.e.\ both commitments are 
+commitments to the same value \(x\).
+
+%\NewAlgorithm{\ACsign}{\AC.\!Sign}
+\NewAlgorithm{\ACgetSig}{\AC.\!GetSig}
+\NewAlgorithm{\ACissueSig}{\AC.\!IssueSig}
+\NewAlgorithm{\ACproveSig}{\AC.\!ProveSig}
+\NewAlgorithm{\ACverifySig}{\AC.\!VerifySig}
+
+\(\AC\) must also provide a signature scheme with protocols to get a signature 
+on a commtted value (\(\ACgetSig\leftrightarrow \ACissueSig\)) and to prove 
+knowledge of a signature on a committed value (\(\ACproveSig\leftrightarrow 
+  \ACverifySig\)).
+
+\NewAlgorithm{\ACprf}{\AC.\!PRF}
+\NewAlgorithm{\ACprovePRF}{\AC.\!ProvePRF}
+\NewAlgorithm{\ACverifyPRF}{\AC.\!VerifyPRF}
+
+% XXX Replace \PRF
+\NewFunction{\PRF}{PRF}
+
+
+\subsubsection{Instantiations of the anonymous credentials} 
+
+\dots
