@@ -1,5 +1,43 @@
-\subsection{Timestamping storage: blockchains}%
+\subsection{Time-stamping service, or, blockchains}%
 \label{StorageProperties}
+
+\NewCryptoScheme{\TS}{TS}
+\NewAlgorithm{\TSget}{\TS.\!Get}
+\NewAlgorithm{\TSstamp}{\TS.\!Stamp}
+\NewAlgorithm{\TSverify}{\TS.\!Verify}
+\NewAlgorithm{\TStime}{\TS.\!Time}
+
+We need a time-stamping service, \(\TS\), with algorithms \(\TSget\), 
+\(\TSstamp\) and \(\TStime\) such that
+\begin{itemize}
+  \item \(\rho \gets \TSget\) yields a value \(\rho\) at time \(t\), \(\rho\) is 
+    difficult to guess before time \(t\) and \(\TStime[\rho] = t\);
+  \item \(\pi\gets \TSstamp[x]\) yields a value \(\pi\) at time \(t\) such that 
+    \(\TSverify[x, \pi]\to 1\) and \(\TStime[\pi] = t\).
+\end{itemize}
+
+With these building blocks we can ensure that a message \(m\) was created within 
+the time interval \(\interval{t_0}{t_1}\).
+After time \(t_0\), request \(\rho_{t_0}\gets \TSget\).
+Before time \(t_1\), submit \(h\gets \Hash[m, \rho_{t_0}]\) to the time-stamping 
+service to get \(\pi_{t_1}\gets \TSstamp[h]\).
+
+Now we can use \((\rho_{t_0}, m, \pi_{t_1})\) to prove that \(m\) was created 
+within the time interval \(\interval{t_0}{t_1}\).
+The verifier computes \(h'\gets \Hash[m, \rho_{t_0}]\) and checks whether 
+\(\TSverify[h', \pi_{t_1}] = 1\) and \(\TStime[\rho_{t_0}] = t_0\land 
+  \TStime[\pi_{t_1}] = t_1\).
+
+We can instantiate \(\TS\) using a blockchain.
+The \(\TSstamp[x]\) algorithm will simply include \(x\)
+
+\(\TSget\) will return the hash of the current head of the chain.
+This value is difficult to predict since it depends on all submitted 
+transactions.
+This forces us to make the assumption that the adversary cannot control 
+\emph{all} transactions that are submitted to the blockchain.
+As long as one non-adversarial transaction is submitted it will be 
+unpredictable.
 
 We will use the storage to provide the temporal eligibility property.
 \Cref{CreatedBeforeEnd,CreatedAfterStart} requires a \emph{partially ordered 
