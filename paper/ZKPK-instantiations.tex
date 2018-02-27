@@ -4,9 +4,9 @@
 \NewAlgorithm{\PKverify}{PK.\!Verify}
 
 We will rely on the Schnorr identification scheme~\cite{Schnorr}, which in its 
-original form can be written as \(\PK{\alpha}{A = g^\alpha}\).
-The generalized form would be \(\PK{\alpha_1, \dotsc, \alpha_n}{A = 
-    \prod_{i=1}^n g_i^{\alpha_i}}\).
+original form can be written as \(\PK[\alpha][A = g^\alpha]\).
+The generalized form would be \(\PK[\alpha_1, \dotsc, \alpha_n][A = 
+    \prod_{i=1}^n g_i^{\alpha_i}]\).
 This could equivalently be written as
 \begin{equation*}
   \PKprove[\{g_i\}_i, q, A, \{\alpha_i\}_i] \leftrightarrow
@@ -18,8 +18,8 @@ verifier.
 We give an instance of \(\PKprove\) and \(\PKverify\) in \cref{PKalgorithms}.
 We also note that
 \begin{multline*}
-  \PK{\alpha, \beta}{A = g^\alpha \land B = g^\beta} = \\
-  \PK{\alpha}{A = g^\alpha} \land \PK{\beta}{B = g^\beta},
+  \PK[\alpha, \beta][A = g^\alpha \land B = g^\beta] = \\
+  \PK[\alpha][A = g^\alpha] \land \PK[\beta][B = g^\beta],
 \end{multline*}
 however, the challenge \(c\) must be the same in both sub-protocols.
 
@@ -59,7 +59,7 @@ however, the challenge \(c\) must be the same in both sub-protocols.
     
   \end{tabular}
   \caption{%
-    \(\PK{\alpha_1, \dotsc, \alpha_n}{A = \prod_{i=1}^n g_i^{\alpha_i}}\) using 
+    \(\PK[\alpha_1, \dotsc, \alpha_n][A = \prod_{i=1]^n g_i^{\alpha_i}}\) using 
     the Schnorr identification scheme.
   }%
   \label{PKalgorithms}
@@ -74,7 +74,7 @@ the security parameter).
 \NewAlgorithm{\SPKprove}{SPK.\!Prove}
 \NewAlgorithm{\SPKverify}{SPK.\!Verify}
 
-For the non-interactive instance, \(\SPK{\alpha}{A = g^\alpha}{m}\), we use the 
+For the non-interactive instance, \(\SPK[\alpha][A = g^\alpha][m]\), we use the 
 Fiat-Shamir heuristic~\cite{FiatShamirHeuristic} on the above protocol, 
 illustrated as \(\SPKprove\) and \(\SPKverify\) in \cref{SPKalgorithms}.
 
@@ -106,7 +106,7 @@ illustrated as \(\SPKprove\) and \(\SPKverify\) in \cref{SPKalgorithms}.
     \end{algorithmic}
   \end{minipage}
   \caption{%
-    \(\SPK{\alpha_1, \dotsc, \alpha_n}{A = \prod_{i=1}^n g_i^{\alpha_i}}{m}\) 
+    \(\SPK[\alpha_1, \dotsc, \alpha_n][A = \prod_{i=1}^n g_i^{\alpha_i}][m]\) 
     using the Fiat-Shamir heuristic on the Schnorr identification scheme.
   }%
   \label{SPKalgorithms}
