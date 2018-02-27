@@ -87,7 +87,11 @@ One way they can do this is to say that the result does not contain all
 participation proofs.
 Statements such as this should be proved: provide a valid but missing proof.
 
-\section{Performance}
+\section{Performance and implementation}
+
+\subsection{Implementation on smartphones}
+Technological progress has enabled more advanced cryptography on Smart-cards and Smartphones which could be used to implement our solution : Benchmarks have shown that Android devices are now fast enough to efficiently implement Privacy Enhancing Technologies (PETs), with a Samsung Galaxy S i9000 being able to execute Idemix in  \SI{153}{\milli\second}. However, those benchmarks also demonstrate that SmartCards remain slow to process complex protocols such as Idemix  (taking between \SI{4}{\second} and \SI{8}{\second} to process it), despite promising efforts such as the IRMA project.
+
 \subsection{Threshold of witnesses}
 
 Assume that every person has 5000 contacts in their contact 
@@ -100,3 +104,5 @@ This yields \(
   \SI{8}{\milli\second}\times 6000 = \SI{48000}{\milli\second} = 
   \SI{48}{\second}.
 \) of processing.
+
+\subsection{Blockchain feasability}
