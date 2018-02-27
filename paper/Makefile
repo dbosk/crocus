@@ -11,6 +11,7 @@ SRC+=	SystemModel.tex
 SRC+=	properties.tex
 SRC+=	RelatedWork.tex
 SRC+= 	BuildingBlocks.tex
+SRC+= 	ZKPK.tex
 SRC+= 	DistanceBounding.tex anon-cred.tex DB-anon-cred.tex
 SRC+= 	LocationProofs.tex TimeStamp.tex
 SRC+= 	protocol.tex

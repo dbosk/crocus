@@ -17,52 +17,64 @@ We need an anonymous credential system, \(\AC\), which provides the following
 algorithms and properties.
 
 \NewAlgorithm{\ACcommit}{\AC.\!Commit}
-\NewAlgorithm{\ACeq}{\AC.\!ProveEq}
-\NewAlgorithm{\ACverifyEq}{\AC.\!VerifyEq}
 
-\(\AC\) must provide a commitment scheme, \(\ACcommit\), and algorithms 
-\(\ACeq\leftrightarrow \ACverifyEq\).
+\(\AC\) must provide a commitment scheme, \(\ACcommit\), and algorithms such 
+that the prover can convince a verifier that he knows the commitment, i.e.
+\begin{equation*}
+  \PK[k, o][c = \ACcommit[k,o]].
+\end{equation*}
+%and that two commitments are commitments to the same value:
+%\begin{multline*}
+%  \mleftright
+%  \PK\left\{ \left(k, o, o'\right) : \right. \\
+%    \left. c = \ACcommit[k,o]\land c' = \ACcommit[k,o'] \right\}.
+%\end{multline*}
 % XXX Review requirements of AC.commit
 We prefer that the commitment scheme is \emph{perfectly hiding} and 
 computationally binding, rather than the other way\footnote{%
   We are more concerned with long-term privacy, thus information-theoretic 
   hiding.
 }.
-A prover can use \(\ACeq[c, o, c', o', x]\leftrightarrow \ACverifyEq[c, c']\) to 
-convince a verifier that \(c = \ACcommit[x, o], c' = \ACcommit[x, o']\), i.e.\ 
-both commitments are commitments to the same value \(x\) --- without revealing 
-\(x\).
 
 \NewAlgorithm{\ACsign}{\AC.\!Sign}
+\NewAlgorithm{\ACblind}{\AC.\!BlindSig}
+\NewAlgorithm{\ACverifySig}{\AC.\!VerifySig}
 \NewAlgorithm{\ACgetSig}{\AC.\!GetSig}
 \NewAlgorithm{\ACissueSig}{\AC.\!IssueSig}
-
 \NewAlgorithm{\ACproveSig}{\AC.\!ProveSig}
-\NewAlgorithm{\ACverifySig}{\AC.\!VerifySig}
 
-\(\AC\) must also provide a signature scheme with protocols to get a signature 
-on a commtted value (\(\ACgetSig\leftrightarrow \ACissueSig\)) and to prove 
-knowledge of a signature on a committed value (\(\ACproveSig\leftrightarrow 
-  \ACverifySig\)).
-The prover commits to a value \(x\) with commitment \(c\gets \ACcommit[x, o]\) 
+\(\AC\) must also provide a (blindable) signature scheme with protocols to get a 
+signature on a committed value (\(\ACgetSig\leftrightarrow \ACissueSig\)) and to 
+prove knowledge of a signature on a committed value 
+(\(\ACproveSig\leftrightarrow \ACverifySig\)).
+
+The prover commits to a value \(k\) with commitment \(c\gets \ACcommit[k, o]\) 
 and opening \(o\).
-The he uses \(\sigma\gets \ACgetSig[x, c, o, vk]\leftrightarrow \ACissueSig[c, 
-  sk]\), where \((vk, sk)\) is the signature--verification keypair, to obtain a 
-signature \(\sigma = \ACsign[x][_{sk}]\) on the value \(x\).
+Then he uses \(\sigma\gets \ACgetSig\leftrightarrow \ACissueSig\) to obtain a 
+signature \(\sigma = \ACsign[k][_{sk}]\) on the value \(k\), where \(sk\) is the 
+signing key of the signer.
 
-At a later point, the prover wants to prove to a verifier that he knows \(x\) 
-and a signature \(\sigma\) on \(x\) made by the owner of \(pk\), i.e.\ without 
-revealing \(x\) nor \(\sigma\).
-The prover and verifier will run the protocol \(\ACproveSig[x, \sigma, 
-  pk]\leftrightarrow \ACverifySig[pk]\).
+At a later point, the prover wants to prove to a verifier that he knows \(k\) 
+and a signature \(\sigma\) on \(k\) made by the owner of \(pk\) (corresponding 
+to \(sk\)), i.e.\ without revealing \(k\) nor \(\sigma\).
+The prover and verifier will run the protocol \(\ACproveSig\leftrightarrow 
+  \ACverifySig\) to prove the following:
+\begin{equation*}
+  \PK[k][\sigma' = \ACblind[\ACsign[k][_{sk}]]].
+\end{equation*}
 
 \NewAlgorithm{\ACprf}{\AC.\!PRF}
 \NewAlgorithm{\ACprovePRF}{\AC.\!ProvePRF}
 \NewAlgorithm{\ACverifyPRF}{\AC.\!VerifyPRF}
 
 Finally we need \iac{PRF}, \(\ACprf\), such that there exists a protocol 
-\(\ACprovePRF[k, y, x]\leftrightarrow \ACverifyPRF[y]\) such that the prover can 
-convince the verifier that \(y = \ACprf[x][_k]\) without revealing \(k, x\).
+\(\ACprovePRF\leftrightarrow \ACverifyPRF\) which implements the following 
+\ac{PK}:
+\begin{equation*}
+  \PK[k][y = \ACprf[x][_k]],
+\end{equation*}
+i.e.\ that the prover can convince the verifier that \(y = \ACprf[x][_k]\) 
+without revealing \(k\).
 
 % XXX Replace \PRF
 \NewFunction{\PRF}{PRF}
@@ -72,7 +84,8 @@ convince the verifier that \(y = \ACprf[x][_k]\) without revealing \(k, x\).
 
 The \(\AC\) scheme can be instantiated using the Pedersen 
 commitment~\cite{PedersenCommitment} for \(\ACcommit\),
-CL-signatures~\cite{CLsignatures} for \(\ACsign, \ACgetSig, \ACissueSig\) and
+CL-signatures~\cite{CLsignatures} (or adapted CL-signatures as 
+in~\cite{AnonPass}) for \(\ACsign, \ACblind, \ACgetSig, \ACissueSig\) and
 the \ac{VRF} by \citet{DY-VRF} as \(\ACprf\).
 These are used together in e.g.\ Anon-Pass~\cite{AnonPass} and by 
 \citet{HowToWinTheCloneWars} to form unclonable anonymous credentials for 
