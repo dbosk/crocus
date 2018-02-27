@@ -11,10 +11,11 @@ SRC+=	SystemModel.tex
 SRC+=	properties.tex
 SRC+=	RelatedWork.tex
 SRC+= 	BuildingBlocks.tex
-SRC+= 	anon-cred.tex DistanceBounding.tex LocationProofs.tex TimeStamp.tex
-SRC+= 	DB-anon-cred.tex
+SRC+= 	ZKPK.tex
+SRC+= 	DistanceBounding.tex anon-cred.tex DB-anon-cred.tex
+SRC+= 	LocationProofs.tex TimeStamp.tex
 SRC+= 	protocol.tex
-SRC+=	security.tex
+SRC+=	analysis.tex
 SRC+=	conclusions.tex
 
 paper.pdf: ${SRC} popets dgruyter-biblatex.sty
@@ -42,7 +43,9 @@ DEPENDS+=	protests.bib
 DEPENDS+=	blockchain.bib
 DEPENDS+=	anon.bib
 DEPENDS+=	ecurrency.bib
+DEPENDS+= 	osn.bib
 DEPENDS+=	adhocnets.bib
+
 paper.pdf: ${DEPENDS}
 
 

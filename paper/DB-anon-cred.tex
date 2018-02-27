@@ -1,8 +1,15 @@
-\section{Distance bounding anonymous credentials}%
+\subsection{Distance bounding anonymous credentials}%
 \label{DB-anon-cred}
 
-\ProvideDocumentCommand{\DBPK}{m m}{\ensuremath{%
-    \operatorname{DBPK}\mleft\{\mleft(#1\mright) : #2\mright\}%
+\ProvideDocumentCommand{\DBPK}{o o}{\ensuremath{%
+    \operatorname{DBPK}%
+    \IfValueT{#1}{%
+      \IfValueTF{#2}{%
+        \mleft\{\mleft(#1\mright) : #2\mright\}%
+      }{%
+        \mleft\{#1\mright\}%
+      }%
+    }%
   }}
 
 We pointed out in \cref{DistanceBounding} that all security properties 
@@ -16,11 +23,7 @@ The protocol is based on the Schnorr identification scheme and thus allows us to
 do \ac{DB} \ac{ZKPK}, which allows us to form distance-bounding anonymous 
 credentials.
 
-\subsection{\Acl{DBIV} distance bounding}
-
-\dots
-
-\subsection{Reattempting \iacl{DB} Schnorr protocol}
+\subsubsection{Reattempting \iacl{DB} Schnorr protocol}
 
 \NewCryptoScheme{\DBS}{DBS}
 \NewAlgorithm{\DBSprove}{\DBS.\!Prove}
@@ -128,7 +131,7 @@ phase.
   \end{tabular}
   \caption{%
     One-round protocol instance of the \(\DBSprove\leftrightarrow \DBSverify\) 
-    \ac{DB} Schnorr protocol for \(\PK{\alpha}{A = g^\alpha}\).
+    \ac{DB} Schnorr protocol for \(\PK[\alpha][A = g^\alpha]\).
     The protocol should be repeated in full to achieve the desired knowledge 
     error and distance-bounding error.
   }%

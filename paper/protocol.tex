@@ -58,19 +58,19 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
         & pid\gets \PRF_{k_P}(cid) \\
       P\to W\colon & pid \\
       W\leftrightarrow P\colon &
-        \DBPK{k_P, \sigma_P}{pid = \PRF_{k_P}(cid), \sigma_P = \Sign[k]{k_P}} \\
+        \DBPK[k_P, \sigma_P][pid = \PRF_{k_P}(cid), \sigma_P = \Sign[k]{k_P}] \\
       W\colon & wid\gets \PRF_{k_W}(pid), \\
         & wsig\gets \PRF_{k_W}(wid, t_s, l) \\
       W\to P\colon & (wid, t_s, l, wsig) \\
       W\to S\colon & H(pid, wid, t_s, l, wsig) \\
       P\to S\colon & H(pid, wid, t_s, l, wsig) \\
       W\to S\colon & (pid, wid, t_s, l, wsig, \pi_W),\quad \text{where}\\
-        & \pi_W = \SPK{k_W, \sigma_W}
-          {wid = \PRF_{k_W}(pid), wsig = \PRF_{k_W}(wid, t_s, l), \sigma_W = 
-            \Sign[k]{k_W}}{pid, wid, t_s, l, wsig} \\
+        & \pi_W = \SPK[k_W, \sigma_W]%
+          [wid = \PRF_{k_W}(pid), wsig = \PRF_{k_W}(wid, t_s, l), \sigma_W = 
+            \Sign[k]{k_W}][pid, wid, t_s, l, wsig] \\
       P\to S\colon & (pid, wid, t_s, l, wsig, \pi_P),\quad \text{where}\\
-        & \pi_P = \SPK{k_P, \sigma_P}{pid = \PRF_{k_P}(cid), \sigma_P = 
-          \Sign[k]{k_P}}{pid, wid, t_s, l, wsig}
+        & \pi_P = \SPK[k_P, \sigma_P][pid = \PRF_{k_P}(cid), \sigma_P = 
+          \Sign[k]{k_P}][pid, wid, t_s, l, wsig]
     \end{align*}
   \end{minipage}
   \caption{%

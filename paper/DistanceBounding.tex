@@ -1,14 +1,33 @@
 \subsection{Distance bounding}%
 \label{DistanceBounding}
 
-Briefly describe \ac{DB} protocols.
-Describe the different desirable properties for \ac{DB}:
+% XXX Better intro to distance bounding
+\Ac{DB} protocols were first suggested by \citet{DistanceBounding}.
+Over the years the desirable properties of \ac{DB} protocols can be summarized 
+as follows:
 \begin{itemize}
+    % XXX Describe the DB frauds in more detail, i.e. explain them.
   \item \ac{DBMF} resistance,
   \item \ac{DBDF} resistance,
   \item \ac{DBDH} resistance,
   \item \ac{DBTF} resistance,
   \item \ac{DBIF} resistance,
 \end{itemize}
+There are two lines of attempts at formalizing the above properties: one by 
+\citet{DB-BMV} and another by \citet{DB-DFKO}.
 
-
+The majority of the existing \ac{DB} protocols are symmetric and thus requires 
+an honest verifier.
+There has been less work done in the domain of asymmetric (or public-key) 
+\ac{DB} protocols.
+Unfortunately, our setting requires a public-key \ac{DB} protocol with a 
+\emph{malicious verifier} who will try to \emph{impersonate the prover}.
+The verifier might also try to track the provers and map their identities to 
+their actions, thus we also require privacy.
+This leads to the requirement of a \ac{DB} \ac{ZKPK}, or simply \ac{DBPK}, with 
+resistance to all the frauds mentioned above as well as against this verifier 
+who will attempt to impersonate the prover.
+More specifically, we must combine such \iac{DB} with anonymous credentials, 
+which we will describe next.
+The anonymous credential system will affect what properties we require of the 
+\ac{DBPK}, e.g.\ that it  must be \iac{PK} for discrete logarithms.

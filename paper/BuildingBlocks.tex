@@ -1,10 +1,33 @@
 \section{Building blocks}%
 \label{Primitives}\label{BuildingBlocks}
 
-\dots
+We need a few primitives with special properties to build our protocol.
 
+\subsection{Collision-resistant hash functions}
+
+\NewAlgorithm{\Hash}{H}
+\NewAlgorithm{\algA}{A}
+
+One primitive that we need is a collision-resistant hash function, \Hash.
+
+\begin{definition}[Collision resistance]
+  Let \(\lambda\) denote the security parameter.
+  We say that a hash function, \(\Hash\), is collision resistant if for any 
+  \ac{PPT} algorithm \(\algA\) we have that
+  \begin{multline*}
+    \Pr\left[ x_1, x_2\gets \algA[1^\lambda] :
+      \right. \\ \left.
+      \Hash[x_1] = \Hash[x_2] \land x_1\neq x_2 \right] < \negl[\lambda].
+  \end{multline*}
+\end{definition}
+
+Thus we can instantiate \(\Hash\) with any algorithm from the SHA-2 or SHA-3 
+families.
+
+\input{ZKPK.tex}
 \input{DistanceBounding.tex}
 \input{anon-cred.tex}
+\input{DB-anon-cred.tex}
 \input{LocationProofs.tex}
 \input{TimeStamp.tex}
 

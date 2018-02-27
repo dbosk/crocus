@@ -17,11 +17,11 @@ files:
 - `properties.tex` contains the section on desired security properties.
 - `RelatedWork.tex` contains the section on Related Work.
 - `BuildingBlocks.tex` contains the section on Building Blocks, it includes
-  - `anon-cred.tex` describes anonymous credentials.
   - `DistanceBounding.tex` describes distance bounding.
+  - `anon-cred.tex` describes anonymous credentials.
+  - `DB-anon-cred.tex` introduces distance-bounding anonymous credentials.
   - `LocationProofs.tex` describes location proofs.
   - `TimeStamp.tex` describes time stamping storage, i.e. blockchains.
-- `DB-anon-cred.tex` introduces distance-bounding anonymous credentials.
 - `protocol.tex` describes the protocol.
-- `security.tex` contains the security analysis.
+- `analysis.tex` contains the security and performance analysis.
 - `conclusions.tex` contains the discussion and conclusions.
