@@ -1,72 +1,51 @@
-\section{System model}%
+\section{Defining and formalizing protest and crowd estimation}%
 \label{SystemModel}
 
-\subsection{What is \protect\emph{a} protest?}%
-\label{WhatIsAProtest}
+%\subsection{What is \protect\emph{a} protest?}%
+%\label{WhatIsAProtest}
 
-Protests can vary considerably.
-To be able to estimate the participation count for one, we first need to define
-what should be counted.
-
+\emph{Defining the concept of protest.} To be able to estimate the participation count for a protest, we first need to define this concept and what should be counted.
 Let us start by considering some examples.
 During the demonstrations against the South Korean president in Seoul
 \blockcquote{2016DemonstrationsInSeoul}{%
-  \textins*{t}he rallies stretch\textins{ed} from midday to late night --- some 
-  people stay\textins{ed} for several hours, others just several minutes%
+  \textins*{t}he rallies stretch\textins{ed} from midday to late night --- some people stay\textins{ed} for several hours, others just several minutes%
 }.
 These rallies were all in the same location in the capital and repeated every 
 weekend for the duration of a few weeks.
-The Women's Marches~\cite{2017WomensMarchesInUS}, on the other hand, occurred 
-in parallel in many locations.
-We also have the Venezuelan demonstrations where
+The Women's Marches~\cite{2017WomensMarchesInUS}, on the other hand, occurred in parallel in many locations.
+We also have the Venezuelan demonstrations in which
 \blockcquote{2017VenezuelaProtestFrequency}{%
   anti-government demonstrators have staged daily protests across Venezuela%
 } while
 \blockcquote{AlJazeeraOnVenezuela2017}{%
-  pro-government workers sang and danced as they staged a rival march to show 
-  their support for the president's controversial plan to rewrite the 
-  constitution%
+  pro-government workers sang and danced as they staged a rival march to show their support for the president's controversial plan to rewrite the constitution%
 }.
 Judging from these examples, the minimal common part is the cause,%
-\label{CauseIsTheCommonDenominator}
-but there is also a location (or area) that varies over time.
+\label{CauseIsTheCommonDenominator} but there is also a location (or area) that varies over time.
 
-The organizer Alice wants to count everyone who participated at any time and in 
-any of the locations~\cite{2016DemonstrationsInSeoul}.
-(Whereas police are only interested in the maximum crowd at any point in time, 
-to deploy enough personnel for crowd-control.)
-We will define a protest as an event that is uniquely identified by its cause 
-(\(id\) below), its time interval (\(t\)) and its location (area \(l\)).
+For the rest of the paper, we will refer to the organizer as Alice.
+Assume that the objective of Alice is to count everyone who participated at any time and in any of the locations~\cite{2016DemonstrationsInSeoul}\footnote{Note that the objective does not necessarily align with the definition of the police whose interest could be to determine the maximum crowd at any point in time, to deploy enough personnel for crowd-control.}.
+Formally, we define a protest as an event that is uniquely identified by its cause (\(id\) below), its time interval (\(t\)) and its location (area \(l\)).
 More specifically, we will use the following definition.
 
 \begin{definition}[Protest]\label{DefProtest}
-  A \emph{subprotest} is a tuple \((cid, t, l)\) where
-  \(cid\in \Z_{2^\lambda}\) is the identifier of the cause of the protest,
-  \(t = \interval{t_s}{t_e}\subseteq \R\) is a time interval and
-  \(l = N_\epsilon(x, y)\subseteq \R^2\) is the location (an 
-  \(\epsilon\)-neighbourhood of \((x,y)\)).
+  A \emph{subprotest} is a tuple \((cid, t, l)\) in which \(cid\in \Z_{2^\lambda}\) is the identifier of the cause of the protest,
+  \(t = \interval{t_s}{t_e}\subseteq \R\) is a time interval and \(l = N_\epsilon(x, y)\subseteq \R^2\) is the location (an \(\epsilon\)-neighbourhood of \((x,y)\)).
   A \emph{protest} is a set of subprotests sharing the same \(id\).
 \end{definition}
 
-The protests described above can be captured using this definition by splitting 
+The protests described in the previous examples can be captured using this definition by splitting 
 them up into subprotests.
-Each subprotest will then be captured by our definition and to find the total 
-we can just sum up the results.
-The same for marches, the marching path can be divided into subprotests with 
-locations (or areas) that slightly overlap.
+Each subprotest will then be captured by our definition and to estimate the total participation to the protest we can just sum up the estimates obtained.
+Similarly for march, the marching path can be divided into subprotests with locations (or areas) that slightly overlap.
 
-\subsection{What is a proper count?}
+\emph{Formalizing the notion of crowd estimation.} Each participant who wants to be counted must submit a participation proof.
+The proof must be associated with the protest (\emph{i.e.}, its identifier \(cid\)), time and location must coincide with any of its subprotests.
 
-Each participant who wants to be counted must submit a participation proof.
-The proof must be associated with the protest, i.e.\ its identifier \(cid\), 
-time and location must coincide with any of its subprotests.
-
-We use witnesses to associate the proof to the location by creating a proof 
+We use other participants, that we called \emph{witnesses} to associate the proof to the location by creating a proof 
 share.
-% XXX what is a witness?
-A witness is only allowed to create one proof share per protester.
-The proof and its proof shares are stored in a set, as there should be only 
-unique proof shares.
+A witness is only allowed to create one proof share per protester to avoid the risk of inflation.
+The participation proof and its proof shares are stored in a set, as there should be only unique proof shares.
 
 \begin{definition}[Participation-proof share]
   A \emph{participation-proof share} \(w = (pid, cid, t, l, wid)\) is a tuple 
@@ -109,23 +88,17 @@ A subset of the proof shares forms a participation proof for a protester.
 
 We can now define the participation count as follows.
 \begin{definition}[Participation count]
-  We define the \emph{participation count} of a protest \(cid\) as the 
-  cardinality \(|P_{cid}^{s,\theta}|\) of the set of participation proofs \[
+  We define the \emph{participation count} of a protest \(cid\) as the cardinality \(|P_{cid}^{s,\theta}|\) of the set of participation proofs \[
     P_{cid}^{s,\theta} = \left\{ p_{i,j} \mid
       j = cid, s(p_{i,j})\geq \theta \right\}
   \] for some strength function \(s\colon \powerset(W)\to \R_+\) and a threshold 
   \(\theta\).
 \end{definition}
-The strength function \(s\) can be used to e.g.\ regulate trust in witnesses.
-One example would be for \(s\) to return the number of proof shares (i.e.\ 
-witnesses) and thus let \(\theta\) to be the threshold of the number of required 
-witnesses.
+The strength function \(s\) can be used to regulate trust in witnesses.
+One example would be for \(s\) to return the number of proof shares (\emph{i.e.}, witnesses) and thus let \(\theta\) to be the threshold of the number of required witnesses.
 
-\subsection{Physical System Model}
-In practical terms, participants witness each other's particpation
-using their smartphones running the protocol described in
-\cref{protocol} and uploading their testimony to a blockchain
-after the protest. They thus need connectivity at least to each other
-during the protest and Internet connectivity after. 
+\emph{System model and physical assumptions.}
+In practical terms, participants witness each other's particpation using their smartphones running the protocol described in \cref{protocol} and uploading their testimony to a blockchain after the protest. 
+Thus, they need connectivity at least to each other during the protest and Internet connectivity after. 
 
 \include*{MANETs}
