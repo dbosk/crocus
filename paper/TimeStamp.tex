@@ -28,7 +28,7 @@ The verifier computes \(h'\gets \Hash[m, \rho_{t_0}]\) and checks whether
 \(\TSverify[h', \pi_{t_1}] = 1\) and \(\TStime[\rho_{t_0}] = t_0\land 
   \TStime[\pi_{t_1}] = t_1\).
 
-We can instantiate \(\TS\) using a blockchain.
+We can instantiate \(\TS\) using a blockchain, \eg OmniLedger~\cite{OmniLedger}.
 The \(\TSstamp[x]\) algorithm will simply include \(x\) in the blockchain.
 \(\TSget\) will return the hash of the current head of the chain.
 This value is difficult to predict since it depends on all submitted 
