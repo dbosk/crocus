@@ -57,8 +57,11 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
       P\colon & t_s\gets \TSget \\
       W\colon & t_s'\gets \TSget \\
       P\colon & cid\gets \Hash[\text{manifesto}], \\
-        & pid\gets \ACprf[_{k_P}][cid]
-      & \text{\small Join} \\ \midrule && \text{\small Participation} \\[-1.5em]
+        & pid\gets \ACprf[_{k_P}][cid] \\[-1em]
+      \noalign{\hfill\small Join}
+      \midrule
+      \noalign{\hfill\small Participation}
+      \\[-3em]
       P\to W\colon & pid \\
       P\leftrightarrow W\colon &
         \DBPK\mleft\{ (k_P) : \mright. \\
@@ -66,9 +69,11 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
         & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{ssk}][k_P]] \mright\} \\
       W\colon & wid\gets \ACprf[_{k_W}][pid], \\
         & wsig\gets \ACprf[_{k_W}][wid, t_s, t_s', l] \\
-      W\to P\colon & (wid, t_s, t_s', l, wsig)
-      & \text{\small Participation} \\ \midrule && \text{\small Submission} 
-      \\[-1.5em]
+      W\to P\colon & (wid, t_s, t_s', l, wsig) \\[-1em]
+      \noalign{\hfill\small Participation}
+      \midrule
+      \noalign{\hfill\small Submission}
+      \\[-2em]
       W\colon & t_e\gets \TSstamp[\Hash[pid, wid, t_s, t_s', l, wsig]] \\
       P\colon & t_e\gets \TSstamp[\Hash[pid, wid, t_s, t_s', l, wsig]] \\
       W\to S\colon & (pid, wid, t_s, t_s', t_e, l, wsig, \pi_W),\quad 
