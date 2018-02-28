@@ -29,8 +29,7 @@ The verifier computes \(h'\gets \Hash[m, \rho_{t_0}]\) and checks whether
   \TStime[\pi_{t_1}] = t_1\).
 
 We can instantiate \(\TS\) using a blockchain.
-The \(\TSstamp[x]\) algorithm will simply include \(x\)
-
+The \(\TSstamp[x]\) algorithm will simply include \(x\) in the blockchain.
 \(\TSget\) will return the hash of the current head of the chain.
 This value is difficult to predict since it depends on all submitted 
 transactions.
@@ -38,49 +37,20 @@ This forces us to make the assumption that the adversary cannot control
 \emph{all} transactions that are submitted to the blockchain.
 As long as one non-adversarial transaction is submitted it will be 
 unpredictable.
+The blockchain must also be continuously extended, \eg as in
+Bitcoin~\cite{Bitcoin}, where a new block appears approximately every 10 
+minutes.
+This coarse-grained form of time-stamping is enough for our purposes.
 
-We will use the storage to provide the temporal eligibility property.
-\Cref{CreatedBeforeEnd,CreatedAfterStart} requires a \emph{partially ordered 
-  set}\footnote{%
-  A relation \(\preceq\) which is reflexive, antisymmetric and transitive.
-} of objects.
-If some objects in the set relate to known points in time, then the partial 
-order relates the data to the time of the event.
-This allows us to \emph{verify the data temporally}.
-One primitive that fulfils these requirements is a blockchain.
-There are also other structures, \eg a directed graph that 
-converges~\cite{BlockchainFreeCryptocurrencies}, that also provides the required 
-properties.
-However, we will use the blockchain in our discussion for simplicity.
-
-There are five properties that we need from the storage system, all of which 
-makes a blockchain-like structure suitable.
-First, we need immutability.
-\Ie once we commit something to the blockchain it will remain there.
+There are some additional properties that we need from \(\TS\).
+First, we need immutability, \ie once we commit something (through \(\TSstamp\)) 
+it will remain there.
+This is usually true for blockchains.
 We will use this to ensure verifiability, the data must remain to be verifiable.
 
-Second, we need a general form of time-stamping.
-\Ie we must be able to relate commitments to time, \eg in 
-Bitcoin~\cite{Bitcoin} a new block appears approximately every 10 minutes.
-This coarse-grained form of time-stamping is enough for our purposes.
-We will use this property to ensure that proofs are created before a certain 
-point in time.
-
-Third, we need an unpredictable number whose time of publication can be 
-verified.
-For this property, we will use the head of the blockchain.
-The hash value of the head of the blockchain at a given time will be difficult 
-to predict ahead of time.
-%(See \cref{SecurityAnalysis} for a security analysis.)
-We want to use this to ensure that proofs are created after a certain point in 
-time.
-
-Fourth, once we have committed some data, we do not need to keep the data 
+Second, once we have committed some data, we do not need to keep the data 
 itself, but we can store some confirmation value instead.
 \Eg using blockchains, we can store the hash of the block where our data was 
 committed, while this block remains we are sure that our data remains committed 
 --- even if we no longer remember what our data looked like.
 We will use this property to approximate the property of receipt freeness.
-
-Finally, if the storage is decentralized we do not have to trust any central 
-authority, which is the usual case for blockchains.
