@@ -21,7 +21,7 @@
     node[item] (wid) {$wid$}
   }
   child {%
-    node[item] (ts) {$t_s$}
+    node[item] (ts) {$t_s, t_s'$}
   }
   child {%
     node[item] (l) {$l$}
@@ -40,14 +40,14 @@
   ;
 
   \path[every node/.style={font=\small}]
-  (manifesto) edge node [anchor=east] {$H(\cdot)$} (cid)
-  (cid) edge node [anchor=east] {$PRF_{k_P}(\cdot)$} (pid)
-  (pid) edge[bend right] node [anchor=north west] {$PRF_{k_W}(\cdot)$} (wid)
+  (manifesto) edge node [anchor=east] {$\Hash[\cdot]$} (cid)
+  (cid) edge node [anchor=east] {$\ACprf[_{k_P}][\cdot]$} (pid)
+  (pid) edge[bend right] node [anchor=north west] {$\ACprf[_{k_W}][\cdot]$} (wid)
   % wsig
   (l) edge[bend right] (wsig)
   (ts) edge[bend right] (wsig)
-  (wid) edge[bend right] node [anchor=north west] {$PRF_{k_W}(\cdot, \cdot, 
-    \cdot)$} (wsig)
+  (wid) edge[bend right] node [anchor=north west] {$\ACprf[_{k_W}][\cdot, \cdot, 
+  \cdot]$} (wsig)
   ;
 
 \end{tikzpicture}

@@ -49,38 +49,51 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
   \label{fig:ProofFig}
 \end{figure}%
 
-\begin{figure*}
+\begin{figure}
   \centering
   \begin{minipage}{\linewidth}
     \begin{align*}
       O\to \text{all}\colon & \text{manifesto} \\
-      P\colon & cid\gets H(\text{manifesto}), \\
-        & pid\gets \PRF_{k_P}(cid) \\
+      P\colon & t_s\gets \TSget \\
+      W\colon & t_s'\gets \TSget \\
+      P\colon & cid\gets \Hash[\text{manifesto}], \\
+        & pid\gets \ACprf[_{k_P}][cid]
+      & \text{\small Join} \\ \midrule && \text{\small Participation} \\[-1.5em]
       P\to W\colon & pid \\
-      W\leftrightarrow P\colon &
-        \DBPK[k_P, \sigma_P][pid = \PRF_{k_P}(cid), \sigma_P = \Sign[k]{k_P}] \\
-      W\colon & wid\gets \PRF_{k_W}(pid), \\
-        & wsig\gets \PRF_{k_W}(wid, t_s, l) \\
-      W\to P\colon & (wid, t_s, l, wsig) \\
-      W\to S\colon & H(pid, wid, t_s, l, wsig) \\
-      P\to S\colon & H(pid, wid, t_s, l, wsig) \\
-      W\to S\colon & (pid, wid, t_s, l, wsig, \pi_W),\quad \text{where}\\
-        & \pi_W = \SPK[k_W, \sigma_W]%
-          [wid = \PRF_{k_W}(pid), wsig = \PRF_{k_W}(wid, t_s, l), \sigma_W = 
-            \Sign[k]{k_W}][pid, wid, t_s, l, wsig] \\
-      P\to S\colon & (pid, wid, t_s, l, wsig, \pi_P),\quad \text{where}\\
-        & \pi_P = \SPK[k_P, \sigma_P][pid = \PRF_{k_P}(cid), \sigma_P = 
-          \Sign[k]{k_P}][pid, wid, t_s, l, wsig]
+      P\leftrightarrow W\colon &
+        \DBPK\mleft\{ (k_P) : \mright. \\
+        & \qquad pid = \ACprf[_{k_P}][cid], \\
+        & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{ssk}][k_P]] \mright\} \\
+      W\colon & wid\gets \ACprf[_{k_W}][pid], \\
+        & wsig\gets \ACprf[_{k_W}][wid, t_s, t_s', l] \\
+      W\to P\colon & (wid, t_s, t_s', l, wsig)
+      & \text{\small Participation} \\ \midrule && \text{\small Submission} 
+      \\[-1.5em]
+      W\colon & t_e\gets \TSstamp[\Hash[pid, wid, t_s, t_s', l, wsig]] \\
+      P\colon & t_e\gets \TSstamp[\Hash[pid, wid, t_s, t_s', l, wsig]] \\
+      W\to S\colon & (pid, wid, t_s, t_s', t_e, l, wsig, \pi_W),\quad 
+      \text{where} \\
+        & \pi_W = \SPK\mleft\{ (k_W) : \mright. \\
+        & \qquad wid = \ACprf[_{k_W}][pid], \\
+        & \qquad wsig = \ACprf[_{k_W}][wid, t_s, t_s', l], \\
+        & \qquad \mleft. \sigma_W' = \ACblind[\ACsign[_{ssk}][k_W]]\mright\} \\
+        & \qquad\qquad (pid, wid, t_s, t_s', l, wsig) \\
+      P\to S\colon & (pid, wid, t_s, t_s', t_e, l, wsig, \pi_P),\quad 
+      \text{where}\\
+        & \pi_P = \SPK\mleft\{ (k_P) : \mright. \\
+        & \qquad pid = \ACprf[_{k_P}][cid], \\
+        & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{ssk}][k_P]] \mright\} \\
+        & \qquad\qquad (pid, wid, t_s, t_s', l, wsig)
     \end{align*}
   \end{minipage}
   \caption{%
-    An overview of message exchanges.
+    An overview of of the Join, Participation and Submission phases of \PRIVO\@.
     The organizer \(O\) broadcasts the manifesto.
     \(P\), \(W\) and their computations are as in \cref{fig:ProofFig}.
     Finally, both \(P\) and \(W\) submits the proof share to the storage \(S\).
   }%
   \label{fig:ProtocolOverview}
-\end{figure*}
+\end{figure}
 
 \subsubsection{Linkability and designated protest}
 
@@ -122,8 +135,8 @@ which allows anonymous authentication at most \(n\) times\footnote{%
 }, where \(n = 1\) in our scenario.
 Alice has \iac{PRF} key \(k\) and a blind signature on \(k\) included in her 
 national identity-card (by assumption).
-She will use \(k\) to compute \(pid\gets \PRF_k(cid)\), which is her anonymous 
-identity during the protest (shown as \(pid\) in \cref{fig:ProofFig}).
+She will use \(k\) to compute \(pid\gets \ACprf[_k][cid]\), which is her 
+anonymous identity during the protest (shown as \(pid\) in \cref{fig:ProofFig}).
 
 \subsubsection{Temporal eligibility, created after start}
 
@@ -199,15 +212,15 @@ Thus \(pid, wid, wsig\) can be used in the proof shares (and all computations
 above) whereas their respective \ac{NIZK} proof can be computed and published 
 after the protest.
 
-Alice must provide \iac{NIZK} proof showing that \(pid = \PRF_{k_P}(cid)\) and 
-that she knows a signature by the identity authority on \(k_P\).
+Alice must provide \iac{NIZK} proof showing that \(pid = \ACprf[_{k_P}][cid]\) 
+and that she knows a signature by the identity authority on \(k_P\).
 \dots
 [Details of how to do this, or maybe that will be in \cref{BuildingBlocks}. See 
 issue \#27 for discussion.]
 
 In the same manner, each witness must also provide \iac{NIZK} proofs for \(wid = 
-  \PRF_{k_W}(pid)\) and \(wsig = \PRF_{k_W}(wid, t_s, l)\) as well as that the 
-witness knows a signature by the identity authority on \(k_W\).
+  \ACprf[_{k_W}][pid]\) and \(wsig = \ACprf[_{k_W}][wid, t_s, l]\) as well as 
+that the witness knows a signature by the identity authority on \(k_W\).
 With these \ac{NIZK} proofs anyone can verify the validity, \ie the 
 eligibility, of the proof shares and thus also count them.
 
@@ -226,4 +239,4 @@ verifiability.
 More specifically, to achieve receipt freeness (\cref{ReceiptFreeness}) Alice 
 must remove her secret \ac{PRF} key, \(k_A\).
 With this key Eve can verify that Alice has submitted a proof by computing 
-\(pid'\gets \PRF_{k_A}(cid)\) and compare \(pid = pid'\).
+\(pid'\gets \ACprf[_{k_A}][cid]\) and compare \(pid = pid'\).
