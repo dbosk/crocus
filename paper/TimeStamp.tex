@@ -29,23 +29,21 @@ The verifier computes \(h'\gets \Hash[m, \rho_{t_0}]\) and checks whether
   \TStime[\pi_{t_1}] = t_1\).
 
 We can instantiate \(\TS\) using a blockchain, \eg OmniLedger~\cite{OmniLedger}.
-The \(\TSstamp[x]\) algorithm will simply include \(x\) in the blockchain.
+The \(\TSstamp[x]\) algorithm will simply include \(x\) in the blockchain and 
+return the block into which \(x\) was included.
 \(\TSget\) will return the hash of the current head of the chain.
 This value is difficult to predict since it depends on all submitted 
-transactions.
-This forces us to make the assumption that the adversary cannot control 
-\emph{all} transactions that are submitted to the blockchain.
-As long as one non-adversarial transaction is submitted it will be 
-unpredictable.
+transactions and usually some randomness, \eg nonces and miners' secrets.
 The blockchain must also be continuously extended, \eg as in
 Bitcoin~\cite{Bitcoin}, where a new block appears approximately every 10 
 minutes.
-This coarse-grained form of time-stamping is enough for our purposes.
+So having a dedicated blockchain for a protest will not do, it is better to use 
+a blockchain which is also used for other things too.
 
-There are some additional properties that we need from \(\TS\).
+There are some additional properties that we need from \(\TS\), which are 
+implied by blockchains.
 First, we need immutability, \ie once we commit something (through \(\TSstamp\)) 
 it will remain there.
-This is usually true for blockchains.
 We will use this to ensure verifiability, the data must remain to be verifiable.
 
 Second, once we have committed some data, we do not need to keep the data 
