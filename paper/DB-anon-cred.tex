@@ -31,12 +31,11 @@ anonymous credentials.
 We note, however, that this protocol only provides \ac{DBMF}, \ac{DBDF}, 
 \ac{DBDH} and \ac{DBIF} resistance --- \ie not \ac{DBTF} resistance.
 
-\subsubsection{Reattempting \iacl{DB} Schnorr protocol}
-
 \NewCryptoScheme{\DBS}{DBS}
 \NewAlgorithm{\DBSprove}{\DBS.\!Prove}
 \NewAlgorithm{\DBSverify}{\DBS.\!Verify}
 
+\emph{Reattempting \iacl{DB} Schnorr protocol.}
 In the original \ac{DB} paper by \citet{DistanceBounding}, they proposed how to 
 make the Schnorr identification scheme~\cite{Schnorr} distance bounding.
 That \ac{DB} Schnorr protocol was shown to be prone to distance 
