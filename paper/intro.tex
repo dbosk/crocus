@@ -1,11 +1,11 @@
 \section{Introduction}%
 \label{Introduction}
 
-\emph{Context.} Consider the following illustrative scenario in which Alice is an activist that organizes a protest against the current regime leader Eve in some location(s).
-On one hand, Alice wants to estimate the number of participants to prove a certain support for her cause.
-On the other hand, Eve is an autocrat who opposes Alice's cause.
-Bob, Carol and many others participate in the protest for Alice's cause against Eve.
-However, they might only be willing to do so in a manner that does not leave any digital traces because of the fear of retribution against them from Eve's regime. 
+\emph{Context.} Consider the following illustrative scenario in which Alice is an activist that organizes a protest against the current regime leader Grace in some location(s).
+On the one hand, Alice wants to estimate the number of participants to prove a certain support for her cause.
+On the other hand, Grace is an autocrat who opposes Alice's cause.
+Bob, Carol and many others participate in the protest for Alice's cause against Grace.
+However, they might only be willing to do so in a manner that does not leave any digital traces because of the fear of retribution against them from Grace's regime. 
 To realize this objective a reliable yet privacy-preserving crowd-counting mechanism is needed, which to the best of our knowledge is a problem that has not yet been entirely solved.
 
 Historically, there are many examples of protests in which the count estimated by police and that by the organizers 
@@ -22,9 +22,9 @@ In addition, they also lack verifiability.
 %Sonja says: I commented this out as it doesn't apply to all. Sometimes you have to trust the data but can count yourself (pictures) or can even take pictures yourself but that's not really verifiability either.
 
 Finally, one important observation about crowd-counting that has not been adequately addressed in the design of current crowd-counting solutions is that it is actually an adversarial setting. 
-Indeed, going back to our example, Alice the activist has an incentive to increase the tallied number of participants, whereas Eve (and possibly other entities) have an incentive to decrease it.
-In this case, we are left with two options: either we trust Alice or Eve or we have to be able to verify their claims.
-In this paper, our main objective is to provide a scheme preventing both Alice and Eve from cheating (\ie their claim should be verifiable).
+Indeed, going back to our example, Alice the activist has an incentive to increase the tallied number of participants, whereas Grace (and possibly other entities) have an incentive to decrease it.
+In this case, we are left with two options: either we trust Alice or Grace or we have to be able to verify their claims.
+In this paper, our main objective is to provide a scheme preventing both Alice and Grace from cheating (\ie their claim should be verifiable).
 To solve this issue, we need a verifiable participation count that can resist Sybil attacks while still preserving the participants'
 privacy to the extent possible given their physical presence at the protest. 
 More precisely, our solution will not be able to prevent an observer (physically present or looking at photos or videos) from recognizing a particular individual at a protest. 
@@ -65,7 +65,7 @@ However, in \PRIVO, we aim at verifiable participation count that does not add a
 For instance, if there are counter-protests in the \emph{same location at the same time}, Alice could even blend into another crowd and argue that she participated in a different protest than she actually did --- and the counts would still be correct afterwards.
 However, even if there is only one protest and she is not caught in the act, then using our proposed mechanism should not incur any additional risk.
 Thus we need at least participation-proof privacy but receipt freeness (see \cref{Privacy} for a detailed definition) is desired.
-In essence, this means that upon completing the protocol, Eve cannot link Alice to Alice's participation proof --- even if she were to compromise Alice's device.
+In essence, this means that upon completing the protocol, Grace cannot link Alice to Alice's participation proof --- even if she were to compromise Alice's device.
 %Sonja says: I'm confused: can we or can we not provide this?
 %Seb: I agree with Sonja, it is not clear whether we achieve it or not
 
@@ -73,7 +73,7 @@ In essence, this means that upon completing the protocol, Eve cannot link Alice 
 \emph{Contributions.} In this paper, our main contribution is to propose \PRIVO, a privacy-preserving scheme providing a way to securely estimate crowd count in protests.
 Additionally, this verification system does not incur any additional risk to protesters' privacy beyond the ones related to physically participating in the protest in the first place.
 
-In contrast to the traditional assumption of honest verifiers in distance-bounding algorithms, we propose a way to turn the Schnorr protocol into a distance-bounding protocol that allows for a malicious verifier.
+In contrast to the traditional assumption of honest (or at most honest-but-curious) verifiers in distance-bounding algorithms, we propose a way to turn the Schnorr protocol into a distance-bounding protocol that allows for a malicious verifier.\footnote{The particular adversary we have in mind here, a verifier impersonating a prover, is actually implicitly covered in public-key distance-bounding protocols such as ProProx~\cite{ProProx}, even though they do not explicitly consider malicious verifiers.}
 %Seb: above, we should put the reference to the Schnorr protocol 
 In addition, this allows us to form distance-bounding anonymous credentials.
 
@@ -81,7 +81,7 @@ In addition, this allows us to form distance-bounding anonymous credentials.
 In particular, not all (or even many) protesters, especially in countries with oppressive regimes, currently possess smartphones.
 In addition, digital certificates signed by a central authority are not yet widely available and if we rely on government-issued credentials, we cannot prevent the government from performing Sybil attacks --- since it can issue arbitrarily many \emph{valid} credentials. 
 %Seb: maybe to prevent the above issue, we could require the individual to generate his secret key and only use the authority to obtain a certification on his public key (in the spirit of blind signature)
-In this case, it does not make sense to verify any pro-government protests in which Eve's authoritarian regime wants to organize a pro-regime protest to demonstrate its wide support~\cite[e.g.][]{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
+In this case, it does not make sense to verify any pro-government protests in which Grace's authoritarian regime wants to organize a pro-regime protest to demonstrate its wide support~\cite[e.g.][]{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
 Finally, achieving distance-bounding protocols on smartphones is currently not feasible within a meaningful range of distance needed for our scenario. 
 
 However, we believe that some assumptions might become sufficiently realistic in the near future, due to the smartphone penetration being on the rise and the increased digitalization and government-issued credentials available in some countries already now (\eg Estonia and Germany)
@@ -89,12 +89,11 @@ In addition, the distance-bounding chips\footnote{\url{https://www.3db-access.co
 One of the short-term objectives is to be able to integrate them in phones or smartcards in the near-future, and even phones with off-the-shelf hardware running in RFID-emulation mode have shown promising results~\cite{DBonSmartphones}.
 
 \PRIVO achieves privacy, but not receipt freeness.
-This means that there is a way for Eve to efficiently verify that Alice has to the participated.
-However, this requires Eve to be able to get a copy of Alice's secret key so that she can simply re-do the (deterministic) computations on the same inputs (the probability of collisions being negligible).
+This means that there is a way for Grace to efficiently verify that Alice has to the participated.
+However, this requires Grace to be able to get a copy of Alice's secret key so that she can simply re-do the (deterministic) computations on the same inputs (the probability of collisions being negligible).
 
 %Seb: to do, update the outline
 \emph{Outline.} The paper is organized as follows. 
 First, we define and formalize the notion of protest and discuss how is relationship with electronic voting in \cref{SystemModel}.  
 We then present the desired security properties for such a system and subsequently discuss related work in terms of these properties. 
-We give the relevant background on the building blocks of our solution \PRIVO and then describe our proposal for distance-bounding anonymous credentials that copes with a malicious (impersonating) verifier. 
-Finally, we present the protocol constructed from the building blocks, its security and privacy analysis, and conclude with a discussion. 
+We give the relevant background on the building blocks of our solution, including our proposal for distance-bounding anonymous credentials that cope with a malicious (impersonating) verifier. \PRIVO, the protocol constructed from the building blocks, is presented next and we analyze its security and privacy as well as performance and implementation issues. We conclude with a discussion. 
