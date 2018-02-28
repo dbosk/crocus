@@ -97,8 +97,36 @@ We can now define the participation count as follows.
 The strength function \(s\) can be used to regulate trust in witnesses.
 One example would be for \(s\) to return the number of proof shares (\ie witnesses) and thus let \(\theta\) to be the threshold of the number of required witnesses.
 
-\emph{System model and physical assumptions.}
-In practical terms, participants witness each other's particpation using their smartphones running the protocol described in \cref{protocol} and uploading their testimony to a blockchain after the protest. 
-Thus, they need connectivity at least to each other during the protest and Internet connectivity after. 
+\emph{System model and physical assumptions.} \label{assumptions}
+Throughout this text, when we refer to a participant, say Alice, we actually 
+mean an agent which can perform cryptographic operations and communicate with 
+other local devices on Alice's behalf. We assume that every participant has a digital certificate signed by 
+some logically centralized certificate authority.
+\Eg that we can use the cryptographic keys stored in the chip of the national 
+identity card or passport.
+We need this to prevent Sybil attacks~\cite{SybilAttack}.
+
+In practical terms, participants witness each other's particpation
+using their smartphones (or similar devices) running the protocol described in
+\cref{protocol} and uploading their testimony (\ie proof shares) to the blockchain after the protest. 
+During the protest the devices are computationally limited by their 
+batteries and need connectivity at to each other but no connection to
+any global network or the Internet is necessary. Before and
+after the protest, we assume that the devices have Internet  
+connections and are not computationally limited by any battery.
 
 \include*{MANETs}
+
+
+
+
+%assumptions about smartphones:
+%(This means that we essentially provide a lower bound for the participation 
+%count, since some participants might not have such a device.)
+%Sonja says: is this still true? Given mafia fraud we can't guarantee
+%that, right?
+
+
+
+
+
