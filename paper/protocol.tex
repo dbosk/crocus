@@ -1,6 +1,23 @@
 \section{\PRIVO:\@ A protocol for protest outcome verification}%
 \label{protocol}
 
+\NewCryptoScheme{\PRIVOscheme}{PRIVO}
+\NewAlgorithm{\PRIVOsetup}{\PRIVOscheme.\!Setup}
+\NewAlgorithm{\PRIVOjoin}{\PRIVOscheme.\!Join}
+\NewAlgorithm{\PRIVOparticipate}{\PRIVOscheme.\!Participate}
+\NewAlgorithm{\PRIVOsubmit}{\PRIVOscheme.\!Submit}
+
+We now present \PRIVO, a protocol for securely and PRIvately Verifying PROtests.
+The protocol consists of four phases: the setup, join, participation and 
+submission phases.
+We have an identification authority \(\ID\), an organizer Oscar, \(\O\), a 
+protester Alice (\(\A\)) and a witness Bob \(\B\).
+
+\NewCryptoEntity{\ID}{ID}
+
+\emph{Setup.}
+During the setup phase, we set up the needed keys.
+
 We will start by giving an overview of the protocol.
 We have a number of participants.
 We have a cothority who provide the storage in a decentralized manner.
