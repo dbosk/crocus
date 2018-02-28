@@ -55,9 +55,10 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
     \begin{align*}
       O\to \text{all}\colon & \text{manifesto} \\
       P\colon & t_s\gets \TSget \\
-      W\colon & t_s'\gets \TSget \\
-      P\colon & cid\gets \Hash[\text{manifesto}], \\
-        & pid\gets \ACprf[_{k_P}][cid] \\[-1em]
+        & cid\gets \Hash[\text{manifesto}], \\
+        & pid\gets \ACprf[_{k_P}][cid] \\
+      W\colon & t_s'\gets \TSget
+      \\[-1em]
       \noalign{\hfill\small Join}
       \midrule
       \noalign{\hfill\small Participation}
@@ -69,7 +70,8 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
         & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{ssk}][k_P]] \mright\} \\
       W\colon & wid\gets \ACprf[_{k_W}][pid], \\
         & wsig\gets \ACprf[_{k_W}][wid, t_s, t_s', l] \\
-      W\to P\colon & (wid, t_s, t_s', l, wsig) \\[-1em]
+      W\to P\colon & (wid, t_s, t_s', l, wsig)
+      \\[-1em]
       \noalign{\hfill\small Participation}
       \midrule
       \noalign{\hfill\small Submission}
