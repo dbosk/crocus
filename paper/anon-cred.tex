@@ -51,7 +51,7 @@ prove knowledge of a signature on a committed value
 The prover commits to a value \(k\) with commitment \(c\gets \ACcommit[k, o]\) 
 and opening \(o\).
 Then he uses \(\sigma\gets \ACgetSig\leftrightarrow \ACissueSig\) to obtain a 
-signature \(\sigma = \ACsign[k][_{sk}]\) on the value \(k\), where \(sk\) is the 
+signature \(\sigma = \ACsign[_{sk}][k]\) on the value \(k\), where \(sk\) is the 
 signing key of the signer.
 
 At a later point, the prover wants to prove to a verifier that he knows \(k\) 
@@ -60,7 +60,7 @@ to \(sk\)), \ie without revealing \(k\) nor \(\sigma\).
 The prover and verifier will run the protocol \(\ACproveSig\leftrightarrow 
   \ACverifySig\) to prove the following:
 \begin{equation*}
-  \PK[k][\sigma' = \ACblind[\ACsign[k][_{sk}]]].
+  \PK[k][\sigma' = \ACblind[\ACsign[_{sk}][k]]].
 \end{equation*}
 
 \NewAlgorithm{\ACprf}{\AC.\!PRF}
@@ -71,13 +71,10 @@ Finally we need \iac{PRF}, \(\ACprf\), such that there exists a protocol
 \(\ACprovePRF\leftrightarrow \ACverifyPRF\) which implements the following 
 \ac{PK}:
 \begin{equation*}
-  \PK[k][y = \ACprf[x][_k]],
+  \PK[k][y = \ACprf[_k][x]],
 \end{equation*}
-\ie that the prover can convince the verifier that \(y = \ACprf[x][_k]\) 
-without revealing \(k\).
-
-% XXX Replace \PRF
-\NewFunction{\PRF}{PRF}
+\ie that the prover can convince the verifier that \(y = \ACprf[_k][x]\) without 
+revealing \(k\).
 
 
 \subsubsection{Instantiations of the anonymous credentials} 
