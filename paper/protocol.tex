@@ -9,14 +9,14 @@ interests so that they will not collude.
 We have Alice the organizer and Bob the participant who are both protesters.
 We have the trustworthy journalist Jane who is present but not participating in 
 the protest.
-The protesters will witness each others participation proofs, e.g.\ Alice will 
+The protesters will witness each others participation proofs, \eg Alice will 
 witness Bob's proof and Bob will witness Alice's proof.
 The result of witnessing a proof is a proof share (essentially a witness 
 signature).
 Jane will also participate in witnessing the protesters' proofs.
 The witnessing is done through local interaction.
 As soon as Alice and Bob have departed from the protest they upload their proofs 
-(i.e.\ all proof shares) to the cothority for indefinite storage.
+(\ie all proof shares) to the cothority for indefinite storage.
 Since each proof consists of one proof share for each witness, each witness 
 could potentially upload the proof share themselves to the cothority.
 This would have the same effect but with added redundancy, in case Alice or Bob 
@@ -84,14 +84,14 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
 
 \subsubsection{Linkability and designated protest}
 
-\Cref{CountOnce} is required to prevent Sybil attacks, i.e.\ that one individual 
+\Cref{CountOnce} is required to prevent Sybil attacks, \ie that one individual 
 can provide two participation proofs and thus be counted twice.
 That situation should be detectable.
 We can do this by ensuring that Alice cannot produce two valid proofs which
 are unlinkable.
 \Cref{DesignatedEvent} is to prevent Alice from reusing the same proof (or proof 
 share) for another event.
-E.g.\ there might be a counter protest at the same time and place, these would 
+\Eg there might be a counter protest at the same time and place, these would 
 have the same spatial and temporal properties.
 To distinguish them, we also need to prove for which of these events that a 
 proof is designated.
@@ -117,7 +117,7 @@ fetch it, show it to the protester for approval and then compute the identifier
 Next we need to consider the protesters' identifiers to prevent Sybil attacks.
 \Citet{HowToWinTheCloneWars} created an \emph{interactive} credential system 
 which allows anonymous authentication at most \(n\) times\footnote{%
-  Possibly there is another scheme that makes it non-interactive, e.g.\ by 
+  Possibly there is another scheme that makes it non-interactive, \eg by 
   \citet{Psignatures}, see issue \#27.
 }, where \(n = 1\) in our scenario.
 Alice has \iac{PRF} key \(k\) and a blind signature on \(k\) included in her 
@@ -141,7 +141,7 @@ uses the value of the last known block.
 According to \cref{SpatiallyRelated} Alice and Bob must bind their proofs 
 (shares) spatially to the location, which would allow us to verify that they 
 were actually in that location.
-The role of the witnesses, e.g.\ Jane, is to provide this property.
+The role of the witnesses, \eg Jane, is to provide this property.
 Jane can do this by using a distance-bounding protocol to ensure that the secret 
 associated with Alice or Bob must be within limited physical distance.
 
@@ -168,7 +168,7 @@ it was committed.
 
 We note that there are at least two entities who know each proof share, the 
 protester and the witness.
-Alice and Bob simply commit their proofs (i.e.\ all proof shares of their 
+Alice and Bob simply commit their proofs (\ie all proof shares of their 
 proofs) to the blockchain as soon as possible after they have participated in 
 the protest.
 The witnesses do the same, they commit all the proof shares that they helped 
@@ -178,7 +178,7 @@ create.
 \subsection{Verifying the participation count}
 
 There are three parts to verifying the participation count.
-First, we must verify the eligibility of each proof, i.e.\ of all its shares.
+First, we must verify the eligibility of each proof, \ie of all its shares.
 Second, we must count these valid proofs.
 Third, each protester must check that their proof is indeed registered so that 
 it can be counted.
@@ -187,7 +187,7 @@ it can be counted.
 
 Universal verifiability (\cref{UniversalVerif}) means that anyone should be able 
 to count the valid proofs.
-To do this we must be able to verify the eligibility of a proof (i.e.\ of all 
+To do this we must be able to verify the eligibility of a proof (\ie of all 
 its shares) and then count it if valid.
 To verify the eligibility of a proof share, we must verify that \(pid\), \(wid\) 
 and \(wsig\) are not just randomly generated numbers but they actually depend on 
@@ -208,7 +208,7 @@ issue \#27 for discussion.]
 In the same manner, each witness must also provide \iac{NIZK} proofs for \(wid = 
   \PRF_{k_W}(pid)\) and \(wsig = \PRF_{k_W}(wid, t_s, l)\) as well as that the 
 witness knows a signature by the identity authority on \(k_W\).
-With these \ac{NIZK} proofs anyone can verify the validity, i.e.\ the 
+With these \ac{NIZK} proofs anyone can verify the validity, \ie the 
 eligibility, of the proof shares and thus also count them.
 
 \subsubsection{Individual verifiability and receipt freeness}

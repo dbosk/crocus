@@ -48,7 +48,7 @@ If some objects in the set relate to known points in time, then the partial
 order relates the data to the time of the event.
 This allows us to \emph{verify the data temporally}.
 One primitive that fulfils these requirements is a blockchain.
-There are also other structures, e.g.\ a directed graph that 
+There are also other structures, \eg a directed graph that 
 converges~\cite{BlockchainFreeCryptocurrencies}, that also provides the required 
 properties.
 However, we will use the blockchain in our discussion for simplicity.
@@ -56,11 +56,11 @@ However, we will use the blockchain in our discussion for simplicity.
 There are five properties that we need from the storage system, all of which 
 makes a blockchain-like structure suitable.
 First, we need immutability.
-I.e.\ once we commit something to the blockchain it will remain there.
+\Ie once we commit something to the blockchain it will remain there.
 We will use this to ensure verifiability, the data must remain to be verifiable.
 
 Second, we need a general form of time-stamping.
-I.e.\ we must be able to relate commitments to time, e.g.\ in 
+\Ie we must be able to relate commitments to time, \eg in 
 Bitcoin~\cite{Bitcoin} a new block appears approximately every 10 minutes.
 This coarse-grained form of time-stamping is enough for our purposes.
 We will use this property to ensure that proofs are created before a certain 
@@ -77,7 +77,7 @@ time.
 
 Fourth, once we have committed some data, we do not need to keep the data 
 itself, but we can store some confirmation value instead.
-E.g.\ using blockchains, we can store the hash of the block where our data was 
+\Eg using blockchains, we can store the hash of the block where our data was 
 committed, while this block remains we are sure that our data remains committed 
 --- even if we no longer remember what our data looked like.
 We will use this property to approximate the property of receipt freeness.

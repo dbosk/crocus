@@ -4,7 +4,7 @@
 \subsection{The \acs*{CA} Problems}
 
 One issue is the \ac{CA}.
-One direction we can take to solve this is by threshold signatures, e.g.\ 
+One direction we can take to solve this is by threshold signatures, \eg 
 \cite{FSThresholdSignatures}.
 This way the participants can jointly issue new certificates, by signing them 
 using the threshold signature scheme.
@@ -18,7 +18,7 @@ keep \(n\) and \(t\) fixed.
 
 Another direction on solving the \ac{CA} problem, is if we can use already 
 existing \acp{PKI} instead.
-E.g.\ Sweden has a deployed national \ac{eID} system; usually these are RSA or 
+\Eg Sweden has a deployed national \ac{eID} system; usually these are RSA or 
 DSA keys --- \((pq, e), (p, q, d): ed = 1\pmod{(p-1)(q-1)}\) --- signed by 
 running everything through a hash function and the sign that value.
 Due to the use of the hash function we cannot prove in zero knowledge that we 
@@ -28,9 +28,9 @@ they do not reveal the identity, but that we can if needed --- similar to
 a commitment which we reveal only in emergencies.
 
 It would be interesting to solve the W--P collusion attack, where the witness 
-reports false \acp{LPS}, e.g.\ we would need to prevent that a group of 
+reports false \acp{LPS}, \eg we would need to prevent that a group of 
 individuals fake this information at home.
-One possibility in our scenario is that e.g.\ an external journalist on 
+One possibility in our scenario is that \eg an external journalist on 
 location can create \iac{LPS}, because a journalist is generally trusted.
 This would be useful as occasionally journalists are also captured, and anyone 
 that escaped should be able to show a convincing proof.
@@ -43,7 +43,7 @@ In relation to the previous, it would be interesting to be able to tie the
 Then, even if no external journalist is on location, the participants can rely 
 on their online reputation.
 One option would be to have a reputation system in a global location-proof 
-system, another would be to tie it to a reputation system already used in e.g.\ 
+system, another would be to tie it to a reputation system already used in \eg 
 \iac{OSN}.
 One possible solution would be to include a commitment in the \ac{LPS} and when 
 necessary use it to tie it to the online identity.
@@ -62,7 +62,7 @@ computation, this would reduce the complexity further.
 
 To make it even more efficient, it would be desirable to make the proofs 
 \enquote{transitive}.
-I.e.\ if Alice the prover has \acp{LPS} from a set of witnesses, then she can 
+\Ie if Alice the prover has \acp{LPS} from a set of witnesses, then she can 
 act as a witness and issue \iac{LPS} which includes her previous \acp{LPS}.
 Speaking in graphs, we want to be able to join sub-graphs instead of having to 
 join node-by-node.

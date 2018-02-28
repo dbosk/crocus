@@ -56,7 +56,7 @@ signing key of the signer.
 
 At a later point, the prover wants to prove to a verifier that he knows \(k\) 
 and a signature \(\sigma\) on \(k\) made by the owner of \(pk\) (corresponding 
-to \(sk\)), i.e.\ without revealing \(k\) nor \(\sigma\).
+to \(sk\)), \ie without revealing \(k\) nor \(\sigma\).
 The prover and verifier will run the protocol \(\ACproveSig\leftrightarrow 
   \ACverifySig\) to prove the following:
 \begin{equation*}
@@ -73,7 +73,7 @@ Finally we need \iac{PRF}, \(\ACprf\), such that there exists a protocol
 \begin{equation*}
   \PK[k][y = \ACprf[x][_k]],
 \end{equation*}
-i.e.\ that the prover can convince the verifier that \(y = \ACprf[x][_k]\) 
+\ie that the prover can convince the verifier that \(y = \ACprf[x][_k]\) 
 without revealing \(k\).
 
 % XXX Replace \PRF
@@ -87,7 +87,7 @@ commitment~\cite{PedersenCommitment} for \(\ACcommit\),
 CL-signatures~\cite{CLsignatures} (or adapted CL-signatures as 
 in~\cite{AnonPass}) for \(\ACsign, \ACblind, \ACgetSig, \ACissueSig\) and
 the \ac{VRF} by \citet{DY-VRF} as \(\ACprf\).
-These are used together in e.g.\ Anon-Pass~\cite{AnonPass} and by 
+These are used together in \eg Anon-Pass~\cite{AnonPass} and by 
 \citet{HowToWinTheCloneWars} to form unclonable anonymous credentials for 
 subscriptions.
 We will, however, modify the \ac{ZKPK} protocols slightly, by making them 
