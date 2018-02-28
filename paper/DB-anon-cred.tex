@@ -12,16 +12,24 @@
     }%
   }}
 
-We pointed out in \cref{DistanceBounding} that all security properties 
-concerning \ac{DB} assume an \emph{honest} verifier.
+We pointed out in \cref{DistanceBounding} that the majority of all \ac{DB} 
+protocols that provide the above security properties assume an \emph{honest} 
+verifier.
 This assumption does not hold in our setting, where every verifier at some point 
 also might be a (malicious) prover.
-We will introduce a new property for \ac{DB} protocols, the \ac{DBIV}.
-Then we will propose a protocol that is \ac{DBIV}, \ac{DBMF}, \ac{DBDF}, 
-\ac{DBDH} resistant but \emph{not} \ac{DBTF} resistant.
-The protocol is based on the Schnorr identification scheme and thus allows us to 
-do \ac{DB} \ac{ZKPK}, which allows us to form distance-bounding anonymous 
-credentials.
+We thus need public-key \ac{DB}, and more specifically \ac{DBPK}.
+
+There is a protocol which provide \ac{DBPK} with all the desired properties from 
+above, ProProx~\cite{ProProx}.
+(Note that~\cite{ProProx} uses the abbreviation PoPoK, for Proof of Proximity of 
+Knowledge.)
+However, ProProx provides \iac{DBPK} protocol for quadratic residues, \ie for 
+proving \(\DBPK[\alpha][a = \alpha^2]\).
+We, on the other hand, need \iac{DBPK} protocol for discrete logarithms.
+We will now introduce such a protocol which will allow us to do \ac{DB} 
+anonymous credentials.
+We note, however, that this protocol only provides \ac{DBMF}, \ac{DBDF}, 
+\ac{DBDH} and \ac{DBIF} resistance --- \ie not \ac{DBTF} resistance.
 
 \subsubsection{Reattempting \iacl{DB} Schnorr protocol}
 
@@ -35,14 +43,13 @@ That \ac{DB} Schnorr protocol was shown to be prone to distance
 hijacking~\cite{DistanceHijacking}.
 We now propose another way to turn the Schnorr protocol into \iac{DB} protocol 
 which is secure against \ac{DBIV}, \ac{DBMF}, \ac{DBDF} and \ac{DBDH}.
-It will not protect against terrorist fraud, in fact, we suspect that \ac{DBIV} 
-and \ac{DBTF} resistance are mutually exclusive.
+It will not protect against terrorist fraud, although this would be desirable.
 
 We present the protocol in \cref{SchnorrFigure}.
 The difference from the original Schnorr protocol is that the prover commits to 
 two random values and the verifier sends two challenges.
-Then the verifier decides which commitment and challenge to use in the \ac{DB} 
-phase.
+Then the verifier presents to the prover which commitment and challenge to use 
+during the \ac{DB} phase.
 
 \begin{figure*}
   \centering
