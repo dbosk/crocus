@@ -3,15 +3,15 @@
 
 %\subsection{An overview of the adversary}
 
-We have three \emph{malicious} adversaries: Alice, Eve and Rusuk.
+We have three \emph{malicious} adversaries: Alice, Grace and Mallory.
 Alice the activist (and all the protesters) try to increase the count.
-Eve the totalitarian dictator tries to decrease the count.
-Additionally, Eve tries to deanonymize the participants to arrest them or 
+Grace the totalitarian dictator tries to decrease the count.
+Additionally, Grace tries to deanonymize the participants to arrest them or 
 \emph{convince} them to change their minds.
-Finally, we have Rusuk who is represents another nation state.
-Rusuk has some interest in affecting the state of Eve's regime, for Rusuk's own 
-gain, thus supporting either Eve or Alice as he see fits.
-Rusuk will thus also try to either increase or decrease the count.
+Finally, we have Mallory who is represents another nation state.
+Mallory has some interest in affecting the state of Grace's regime, for Mallory's own 
+gain, thus supporting either Grace or Alice as he see fits.
+Mallory will thus also try to either increase or decrease the count.
 We will now formally define some security properties specifying the 
 computational effort needed by the adversaries to succeed.
 We categorize the desired properties into verifiability and privacy.
@@ -37,7 +37,7 @@ We desire three verifiability requirements:
     \item One-proof-per-person:%
       \label{CountOnce} prove that no individual can be counted more than once.
     \item Designated event:%
-      \label{DesignatedEvent} prove that the data is designated for the event.
+      \label{DesignatedGracent} prove that the data is designated for the event.
     \end{requirements}
 
   \item\label{UniversalVerif} Universal verifiability: anyone can verify that the 
@@ -93,7 +93,7 @@ In voting, we have the following requirements:
 \cref{CoercionResistance} implies \cref{ReceiptFreeness}, which in turn implies
 \cref{VotePrivacy}.
 \Cref{CoercionResistance} is probably not possible to achieve for protests:
-\eg Eve can simply physically bring Alice to a protest against her will.
+\eg Grace can simply physically bring Alice to a protest against her will.
 This leaves us with \cref{ReceiptFreeness,VotePrivacy}.
 
 \subsubsection{Participation-proof privacy}
