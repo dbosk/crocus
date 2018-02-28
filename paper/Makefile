@@ -45,6 +45,7 @@ DEPENDS+=	anon.bib
 DEPENDS+=	ecurrency.bib
 DEPENDS+= 	osn.bib
 DEPENDS+=	adhocnets.bib
+DEPENDS+= 	references.bib
 
 paper.pdf: ${DEPENDS}
 
