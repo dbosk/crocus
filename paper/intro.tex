@@ -35,9 +35,11 @@ These opinions can be sensitive (\eg be a cause for discrimination or persecutio
 
 Voting has (generally) three desirable requirements for verifiability~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}.
 \begin{description}
-  \item[Eligibility]: anyone can verify that each vote cast is legitimate.
-  \item[Universal verifiability]: anyone can verify that the result is according to the cast votes.
-  \item[Individual verifiability]: every voter can verify that their vote is included in the result.
+  \item[Eligibility:] anyone can verify that each vote cast is legitimate.
+  \item[Universal verifiability:] anyone can verify that the result is according 
+    to the cast votes.
+  \item[Individual verifiability:] every voter can verify that their vote is 
+    included in the result.
 \end{description}
 We translate the votes into \emph{proofs of participation}.
 Universal and individual verifiability remain the same: anyone can verify the participation count by counting the proofs.
@@ -48,9 +50,11 @@ We will define these more formally in \cref{Verifiability}.
 
 There are also three levels of privacy~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
 \begin{description}
-  \item[VotePrivacy]: the voting does not reveal the individual vote.
-  \item[ReceiptFreeness]: the voting system does not provide any data that can be used as a proof of how the voter voted.
-  \item[CoercionResistance]: a voter cannot cooperate with a coercer to prove the vote was cast in any particular way.
+  \item[Vote privacy:] the voting does not reveal the individual vote.
+  \item[Receipt freeness:] the voting system does not provide any data that can 
+    be used as a proof of how the voter voted.
+  \item[Coercion pesistance:] a voter cannot cooperate with a coercer to prove 
+    the vote was cast in any particular way.
 \end{description}
 We note that we cannot actually improve the privacy of participating protesters during the protest: if Alice is caught during a protest or other crowd-counting mechanisms based on photographic or video evidence are used to identify Alice, there is nothing we can do. 
 %Seb: suggestion maybe we should put the following part in the discussion
