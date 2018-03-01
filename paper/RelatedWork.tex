@@ -1,6 +1,8 @@
 \section{Related work}%
 \label{RelatedWork}
 
+\subsection{Crowd counting methods}
+
 The seemingly most commonly used method for counting crowds at protests is \emph{Jacob's method}~\cite[c.f.][]{%
   2016DemonstrationsInSeoul,%
   BBCHowToCountProtestNumbers,%
@@ -90,3 +92,5 @@ For instance, if Alice has organized a protest against Eve's regime, who shuts d
 
 Another related approach based on devices is UrbanCount~\cite{UrbanCount}, which uses epidemic spreading of crowd-size estimates by device-to-device communication to count crowds in dense urban environments with highnode mobility and churn. There is, however, no consideration of a potentially adverserial setting and thus no verification or checks on eligibility. DiVote~\cite{DiVote}, a prior work by the same authors for polling in dense areas, avoids double counting but again only work for
 honest participants.
+
+\input{LocationProofs.tex}

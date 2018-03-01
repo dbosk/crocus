@@ -1,8 +1,9 @@
 \section{Building blocks}%
 \label{Primitives}\label{BuildingBlocks}
 
-We need a few primitives with special properties to build our protocol.
+In this section, we will briefly review the primitives that form the building blocks of \PRIVO.
 
+%Seb: I am not sure that to explain hash functions as they are really basic primitives
 \subsection{Collision-resistant hash functions}
 
 \NewAlgorithm{\Hash}{H}
@@ -12,8 +13,7 @@ One primitive that we need is a collision-resistant hash function, \Hash.
 
 \begin{definition}[Collision resistance]
   Let \(\lambda\) denote the security parameter.
-  We say that a hash function, \(\Hash\), is collision resistant if for any 
-  \ac{PPT} algorithm \(\algA\) we have that
+  We say that a hash function, \(\Hash\), is collision resistant if for any \ac{PPT} algorithm \(\algA\) we have that
   \begin{multline*}
     \Pr\left[ x_1, x_2\gets \algA[1^\lambda] :
       \right. \\ \left.
@@ -21,13 +21,18 @@ One primitive that we need is a collision-resistant hash function, \Hash.
   \end{multline*}
 \end{definition}
 
-Thus we can instantiate \(\Hash\) with any algorithm from the SHA-2 or SHA-3 
-families.
+\(\Hash\) can be instantiated with any algorithm from the SHA-2 or SHA-3 families.
 
 \input{ZKPK.tex}
-\input{DistanceBounding.tex}
+
 \input{anon-cred.tex}
+
+%\input{LocationProofs.tex}
+%Seb: I have mode the location proofs to the 
+
+\input{DistanceBounding.tex}
+
 \input{DB-anon-cred.tex}
-\input{LocationProofs.tex}
+
 \input{TimeStamp.tex}
 
