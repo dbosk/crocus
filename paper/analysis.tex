@@ -2,33 +2,12 @@
 \label{SecurityAnalysis}
 
 We note that Alice and Bob do not trust each other, for all they know one or the 
-other could be an agent of Eve the autocrat.
+other could be an agent of Grace the autocrat.
 \begin{itemize}
-  \item Eve the evil autocrat,
-  \item Rusuk the foreign nation state, and finally
+  \item Grace the evil autocrat,
+  \item Mallory the foreign nation state, and finally
 \end{itemize}
 
-\subsection{Assumptions} \label{assumptions}
-
-We assume that every participant has a device similar to a smartphone.
-Throughout this text, when we refer to a participant, say Alice, we actually 
-mean a principal which can perform cryptographic operations and communicate with 
-other local devices on Alice's behalf.
-(This means that we essentially provide a lower bound for the participation 
-count, since some participants might not have such a device.)
-
-No connection to any global network the Internet is necessary during the 
-protest.
-During the protest these devices are computationally limited by their 
-batteries.
-Before and after the protest, we assume that the devices have Internet 
-connections and are not computationally limited by any battery.
-
-We further assume that every participant has a digital certificate signed by 
-some logically centralized certificate authority.
-\Eg that we can use the cryptographic keys stored in the chip of the national 
-identity card or passport.
-We need this to prevent Sybil attacks~\cite{SybilAttack}.
 
 \subsection{Forging new proofs}
 
@@ -39,7 +18,7 @@ It follows from the digital signatures used that proofs are difficult to forge.
 We consider two ways of reusing participation proofs:
 \begin{enumerate}
   \item Alice and Bob can reuse old proofs by modifying the identifiers.
-  \item Eve can reuse proofs by creating a manifesto which yields the same 
+  \item Grace can reuse proofs by creating a manifesto which yields the same 
     identifier as Alice's protest, then try to create new nodes in the 
     \ac{tposet} that matches the ones used in the old proofs.
 \end{enumerate}
@@ -47,10 +26,10 @@ We will now estimate the difficulty of both types of attacks.
 
 \subsubsection{Finding second preimages}
 
-Eve (possibly with Rusuk's aid) wants to arrange a counter-protest.
+Grace (possibly with Mallory's aid) wants to arrange a counter-protest.
 One way to get a higher participation count is to use the same identifier as 
 Alice's protest.
-Since the identifier for the protest is the hash value of the manifest, Eve 
+Since the identifier for the protest is the hash value of the manifest, Grace 
 must find a second preimage for the hash function.
 
 % XXX Rephrase identifier problem as a game
@@ -64,7 +43,7 @@ must find a second preimage for the hash function.
   second preimage property?
 \end{question}
 
-Alice wants to arrange another protest against Eve.
+Alice wants to arrange another protest against Grace.
 Her manifesto can remain the same, thus the protest identifier remains the 
 same.
 She wants to reuse some old proofs.
@@ -82,7 +61,7 @@ hashes.
 
 \subsection{Individual verifiability}
 
-Eve and Rusuk has an incentive to lower the confidence in the result.
+Grace and Mallory have an incentive to lower the confidence in the result.
 One way they can do this is to say that the result does not contain all 
 participation proofs.
 Statements such as this should be proved: provide a valid but missing proof.
@@ -104,5 +83,3 @@ This yields \(
   \SI{8}{\milli\second}\times 6000 = \SI{48000}{\milli\second} = 
   \SI{48}{\second}.
 \) of processing.
-
-\subsection{Blockchain feasability}
