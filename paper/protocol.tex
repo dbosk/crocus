@@ -3,20 +3,37 @@
 
 \NewCryptoScheme{\PRIVOscheme}{PRIVO}
 \NewAlgorithm{\PRIVOsetup}{\PRIVOscheme.\!Setup}
+\NewAlgorithm{\PRIVOreg}{\PRIVOscheme.\!Register}
 \NewAlgorithm{\PRIVOjoin}{\PRIVOscheme.\!Join}
 \NewAlgorithm{\PRIVOparticipate}{\PRIVOscheme.\!Participate}
 \NewAlgorithm{\PRIVOsubmit}{\PRIVOscheme.\!Submit}
 
+\NewCryptoEntity{\Alice}{A}
+\NewCryptoEntity{\Bob}{B}
+\NewCryptoEntity{\Carol}{C}
+
 We now present \PRIVO, a protocol for securely and PRIvately Verifying PROtests.
 The protocol consists of four phases: the setup, join, participation and 
 submission phases.
-We have an identification authority \(\ID\), an organizer Oscar, \(\O\), a 
-protester Alice (\(\A\)) and a witness Bob \(\B\).
+We have several roles.
+We have \iac{CA} who is responsible for a one-to-one mapping between a person's 
+identity and a cryptographic key.
+We have the protesters Alice (\(\Alice\)), Bob (\(\Bob\)) and Carol (\(\Carol\)) 
+who want to participate in a given protest.
 
-\NewCryptoEntity{\ID}{ID}
-
-\emph{Setup.}
-During the setup phase, we set up the needed keys.
+\emph{Setup: \((spk, ssk)\gets \PRIVOsetup\).}
+The setup phase is for the \ac{CA} to set up all the needed keys.
+The \ac{CA} starts by generating a service public-private key-pair \((spk, 
+  ssk)\) by the following.
+\(\gets \PRIVOsetup[1^\lambda]\), where \(\lambda\) is the security parameter, 
+and then publishes \(spk\).
+\begin{algorithmic}
+  \Function{\PRIVOsetup}{$1^\lambda$}
+    \State{$spk\gets (g, G, q, \dots)$}
+    \State{$ssk\gets (g, G, q, \dots)$}
+    \State{\Return{$(spk, ssk)$}}
+  \EndFunction
+\end{algorithmic}
 
 We will start by giving an overview of the protocol.
 We have a number of participants.
