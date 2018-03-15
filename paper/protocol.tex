@@ -95,9 +95,9 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
         & pid\gets \ACprf[_{k_P}][cid] \\
       W\colon & t_s'\gets \TSget
       \\[-1em]
-      \noalign{\hfill\small Join}
+      \noalign{\hfill Join}
       \midrule
-      \noalign{\hfill\small Participation}
+      \noalign{\hfill Participation}
       \\[-3em]
       P\to W\colon & pid \\
       P\leftrightarrow W\colon &
@@ -108,9 +108,9 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
         & wsig\gets \ACprf[_{k_W}][wid, t_s, t_s', l] \\
       W\to P\colon & (wid, t_s, t_s', l, wsig)
       \\[-1em]
-      \noalign{\hfill\small Participation}
+      \noalign{\hfill Participation}
       \midrule
-      \noalign{\hfill\small Submission}
+      \noalign{\hfill Submission}
       \\[-2em]
       W\colon & t_e\gets \TSstamp[\Hash[pid, wid, t_s, t_s', l, wsig]] \\
       P\colon & t_e\gets \TSstamp[\Hash[pid, wid, t_s, t_s', l, wsig]] \\
