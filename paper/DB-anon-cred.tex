@@ -39,7 +39,8 @@ scheme~\cite{Schnorr}.
 That \ac{DB} Schnorr protocol was shown to be prone to distance 
 hijacking~\cite{DistanceHijacking}.
 We now propose another way to turn the Schnorr protocol into \iac{DB} protocol 
-which is secure against \ac{DBIV}, \ac{DBMF}, \ac{DBDF} and \ac{DBDH}.
+which is secure against \ac{DBMF}, \ac{DBDF}, \ac{DBDH} and an impersonating 
+verifier (\ie public-key).
 It will not protect against terrorist fraud, although ideally this property should be desirable.
 
 We present the protocol in \cref{SchnorrFigure}.
@@ -57,7 +58,7 @@ Afterwards, the verifier presents to the prover which commitment and challenge t
 
     \multicolumn{3}{c}{\textbf{Setup}} \\
 
-    \(\rho_0\rgets \Z_q, \rho_1\rgets \Z_q\)
+    \(\rho_0\rgets \ZZ_q, \rho_1\rgets \ZZ_q\)
     &
     &
     \\

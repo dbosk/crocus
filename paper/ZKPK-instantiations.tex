@@ -32,7 +32,7 @@ however, the challenge \(c\) must be the same in both sub-protocols.
     \\
     \midrule
 
-    \(\forall i, 1\leq i\leq n\colon \rho_i\rgets \Z_q\)
+    \(\forall i, 1\leq i\leq n\colon \rho_i\rgets \ZZ_q\)
     &
     &
     \\
@@ -82,7 +82,7 @@ illustrated as \(\SPKprove\) and \(\SPKverify\) in \cref{SPKalgorithms}.
   \begin{minipage}[t]{0.49\linewidth}
     \begin{algorithmic}
       \Function{$\SPKprove$}{$\{g_i\}_i, q, A, \{\alpha_i\}_i, m$}
-        \State{\(\forall i, 1\leq i\leq n\colon \rho_i\rgets \Z_q\)}
+        \State{\(\forall i, 1\leq i\leq n\colon \rho_i\rgets \ZZ_q\)}
         \State{\(R\gets \prod_{i=1}^n g_i^{\rho_i}\)}
         \State{$c \gets H(\{g_i\}_i|A|R|m)$}
         \For{$1\leq i\leq n$}
