@@ -2,15 +2,6 @@
 \label{protocol}
 
 \NewCryptoScheme{\PRIVOscheme}{PRIVO}
-\NewAlgorithm{\PRIVOsetup}{Setup}
-\NewAlgorithm{\PRIVOreg}{Register}
-\NewAlgorithm{\PRIVOjoin}{Join}
-\NewAlgorithm{\PRIVOparticipate}{Participate}
-\NewAlgorithm{\PRIVOsubmit}{Submit}
-
-\NewCryptoEntity{\Alice}{A}
-\NewCryptoEntity{\Bob}{B}
-\NewCryptoEntity{\Carol}{C}
 
 We now present \PRIVO, a protocol for securely and PRIvately Verifying PROtests.
 The protocol consists of four phases: the setup, join, participation and 
@@ -18,12 +9,25 @@ submission phases.
 We have several roles.
 We have \iac{CA} who is responsible for a one-to-one mapping between a person's 
 identity and a cryptographic key.
-We have the protesters Alice (\(\Alice\)), Bob (\(\Bob\)) and Carol (\(\Carol\)) 
-who want to participate in a given protest.
+We have the protesters who want to participate in a given protest.
+A protester can assume three different roles:
+\begin{enumerate*}
+\item We have the \emph{organizer} who will simply write a manifesto for the 
+  protest and spread to others.
+\item A \emph{participant} participates in the protest (and asks witnesses to 
+  vouch for his presence).
+\item A \emph{witness} provides proofs to participants that state the 
+  participant was indeed participating and the proofs are verifiable by third 
+  parties.
+\end{enumerate*}
+In general, there is one organizer and every protester will act as both 
+participant and witness.
 
 The setup and registration phases are the same as in Anon-Pass~\cite{AnonPass}.
 We have simply adapted their description for our notation, but tried to keep 
 them as similar as possible.
+
+\NewAlgorithm{\PRIVOsetup}{Setup}
 
 \emph{Setup: \((spk, ssk)\gets \PRIVOsetup\).}
 The setup phase is for the \ac{CA} to set up all the needed keys.
@@ -40,33 +44,98 @@ Choose \(x,y,z\rgets \ZZ_q\) uniformly at random and set \(X = g^x, Y = g^y, Z =
 Then the service public key \(spk = (q, G, G_T, g, X, Y, Z)\) and the service 
 private key \(ssk = (x, y, z)\).
 
+\NewAlgorithm{\PRIVOreg}{Register}
+
 \emph{Registration: \(sk\gets 
     \Proto{\PRIVOreg[_P][spk]}{\PRIVOreg[_{CA}][ssk]}\).}
 During the registration phase, each protester will generate a secret key and 
 obtain a signature on it by the \ac{CA} --- without revealing it to the \ac{CA}.
 Thus each protester will have a signed secret key, the \ac{CA} will issue only 
 one signature per protester but will not know who has which key.
-The protester chooses \(d, r\gets \ZZ_q\) uniformly randomly and sets \(M = g^d 
+The protester chooses \(k, r\gets \ZZ_q\) uniformly randomly and sets \(M = g^k 
   Z^r\) and send \(M\) to the server.
 The protester acts as prover and the \ac{CA} as verifier while they perform the 
-following \ac{ZKPK} protocol: \(\PK[d,r][M = g^d Z^r]\).
+following \ac{ZKPK} protocol: \(\PK[k,r][M = g^k Z^r]\).
 If the proof succeeds, the \ac{CA} chooses \(a\gets \ZZ_q^*\) and sets \(A = 
   g^a\).
-Then it forms the signature \(s = (A, B = A^y, Z_B = B^z = Z^{ay}, C = A^x 
+Then it forms the signature \(\sigma = (A, B = A^y, Z_B = B^z = Z^{ay}, C = A^x 
   M^{axy})\) and sends it to the protester.
 The protester verifies that the following equations hold:
 \begin{align*}
   A &\neq 1 \\
   e(g, B) &= e(Y, A) \\
   e(g, Z_B) &= e(Z, B) \\
-  e(g, C) &= e(X, A) e(X, B)^d e(X, Z_B)^r.
+  e(g, C) &= e(X, A) e(X, B)^k e(X, Z_B)^r.
 \end{align*}
-Upon success, the protester uses \(sk = (s, d, r)\).
+Upon success, the protester uses \(sk = (\sigma, k, r)\).
 
 The setup and registration phases can be done once and the keys reused for an 
 arbitrary number of protests.
 Thus it would be suitable to have the registration phase as part of the issuance 
 of \eg national identity cards, passports or \acp{eID}.
+
+\emph{Creating a protest: the manifesto.}
+The organizer will write a manifesto for the protest, \ie to capture the cause.
+This manifesto is simply any intelligible text.
+He will distribute this manifesto to people: on the Web, on placards, \etc.
+If they agree, they will use it to join the protest.
+
+\NewAlgorithm{\PRIVOjoin}{Join}
+
+\emph{Joining participant: \((pid, t_s)\gets 
+    \PRIVOjoin[_P][\text{manifesto}]\).}
+A participant who wants to join the protest will use the manifesto to compute an 
+identifier for the cause, \(cid\gets \Hash[\text{manifesto}]\).
+Then this identifier is used to create the participant's protest-specific 
+identifier, \(pid\gets \ACprf[_{sk}][cid]\) (in 
+\cref{fig:ProofFig,fig:ProtocolOverview}).
+More specifically, \(pid = g_T^{1/(k+cid)}\) (remember that \(sk = (\sigma, k, 
+  r)\)).
+The participant should also get a time-correlated random value from the 
+time-stamping service, \(t_s\gets \TSget\).
+
+\emph{Joining witness: \(t_s'\gets \PRIVOjoin_W\).}
+The witness simply should simply get a time-correlated random value from the 
+time-stamping service, \(t_s'\gets \TSget\).
+(We do this for redundancy, the newest of \(t_s\) and \(t_s'\) will set the 
+start of the time interval of creation for the proof share.).
+
+\NewAlgorithm{\PRIVOparticipate}{Participate}
+\NewAlgorithm{\PRIVOwitness}{Witness}
+
+\emph{Participating: \(\pi\gets
+    \Proto{\PRIVOparticipate[cid, sk_P]}{\PRIVOwitness[sk_W, spk]}\),}
+The participant reblinds its signature \(\sigma\) on its secret key: choose 
+\(r_1, r_2\gets \ZZ_q^*\) and let \(
+  \hat\sigma = (\hat A = A^{r_1},
+                \hat B = B^{r_1},
+                \hat Z_B = Z_B^{r_1},
+                \hat C = C^{r_1 r_2}).
+\) (It is not necessary to compute a new \(\hat\sigma\) more than once per 
+\(pid\).)
+The participant sends \((pid, \hat\sigma)\) to the witness.
+The witness verifies that
+\begin{align*}
+  \hat A &\neq 1 \\
+  e(g, \hat B) &= e(Y, \hat A) \\
+  e(g, \hat Z_B) &= e(Z, \hat B).
+\end{align*}
+Both the participant and the witness compute
+\begin{align*}
+  v &= e(g, \hat C) \\
+  v_x &= e(X, \hat A) \\
+  v_{xy} &= e(X, \hat B) \\
+  v_{xy}' &= e(X, \hat Z_B).
+\end{align*}
+Then they run the following \ac{DBPK} with the participant as the prover and the 
+witness as the verifier:
+\begin{multline*}
+  \DBPK\left\{(k, r, r') : v^{r'} = v_x v_{xy}^k v_{xy}^{\prime r} \land
+    pid = g_T^{1/(k+cid)} \right\}.
+\end{multline*}
+
+\NewAlgorithm{\PRIVOsubmit}{Submit}
+
 
 \subsection{Old}
 
@@ -127,7 +196,7 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
       O\to \text{all}\colon & \text{manifesto} \\
       P\colon & t_s\gets \TSget \\
         & cid\gets \Hash[\text{manifesto}], \\
-        & pid\gets \ACprf[_{k_P}][cid] \\
+        & pid\gets \ACprf[_{sk_P}][cid] \\
       W\colon & t_s'\gets \TSget
       \\[-1em]
       \noalign{\hfill Join}
@@ -136,38 +205,41 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
       \\[-3em]
       P\to W\colon & pid \\
       P\leftrightarrow W\colon &
-        \DBPK\mleft\{ (k_P) : \mright. \\
-        & \qquad pid = \ACprf[_{k_P}][cid], \\
-        & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{ssk}][k_P]] \mright\} \\
-      W\colon & wid\gets \ACprf[_{k_W}][pid], \\
-        & wsig\gets \ACprf[_{k_W}][wid, t_s, t_s', l] \\
+        \DBPK\mleft\{ (sk_P) : \mright. \\
+        & \qquad pid = \ACprf[_{sk_P}][cid], \\
+        & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{ssk}][sk_P]] \mright\} 
+        \\
+      W\colon & wid\gets \ACprf[_{sk_W}][pid], \\
+        & wsig\gets \ACprf[_{sk_W}][wid, t_s, t_s', l] \\
       W\to P\colon & (wid, t_s, t_s', l, wsig)
       \\[-1em]
       \noalign{\hfill Participation}
       \midrule
       \noalign{\hfill Submission}
       \\[-2em]
-      W\colon & t_e\gets \TSstamp[\Hash[pid, wid, t_s, t_s', l, wsig]] \\
       P\colon & t_e\gets \TSstamp[\Hash[pid, wid, t_s, t_s', l, wsig]] \\
+      W\colon & t_e'\gets \TSstamp[\Hash[pid, wid, t_s, t_s', l, wsig]] \\
       W\to S\colon & (pid, wid, t_s, t_s', t_e, l, wsig, \pi_W),\quad 
       \text{where} \\
-        & \pi_W = \SPK\mleft\{ (k_W) : \mright. \\
-        & \qquad wid = \ACprf[_{k_W}][pid], \\
-        & \qquad wsig = \ACprf[_{k_W}][wid, t_s, t_s', l], \\
-        & \qquad \mleft. \sigma_W' = \ACblind[\ACsign[_{ssk}][k_W]]\mright\} \\
+        & \pi_W = \SPK\mleft\{ (sk_W) : \mright. \\
+        & \qquad wid = \ACprf[_{sk_W}][pid], \\
+        & \qquad wsig = \ACprf[_{sk_W}][wid, t_s, t_s', l], \\
+        & \qquad \mleft. \sigma_W' = \ACblind[\ACsign[_{ssk}][sk_W]]\mright\} \\
         & \qquad\qquad (pid, wid, t_s, t_s', l, wsig) \\
       P\to S\colon & (pid, wid, t_s, t_s', t_e, l, wsig, \pi_P),\quad 
       \text{where}\\
-        & \pi_P = \SPK\mleft\{ (k_P) : \mright. \\
-        & \qquad pid = \ACprf[_{k_P}][cid], \\
-        & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{ssk}][k_P]] \mright\} \\
+        & \pi_P = \SPK\mleft\{ (sk_P) : \mright. \\
+        & \qquad pid = \ACprf[_{sk_P}][cid], \\
+        & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{ssk}][sk_P]] \mright\} 
+        \\
         & \qquad\qquad (pid, wid, t_s, t_s', l, wsig)
     \end{align*}
   \end{minipage}
   \caption{%
     An overview of of the Join, Participation and Submission phases of \PRIVO.\@
     The organizer \(O\) broadcasts the manifesto.
-    \(P\), \(W\) and their computations are as in \cref{fig:ProofFig}.
+    The protester \(P\), witness \(W\) and their computations are as in 
+    \cref{fig:ProofFig}.
     Finally, both \(P\) and \(W\) submits the proof share to the storage \(S\).
   }%
   \label{fig:ProtocolOverview}
