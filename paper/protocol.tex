@@ -2,11 +2,11 @@
 \label{protocol}
 
 \NewCryptoScheme{\PRIVOscheme}{PRIVO}
-\NewAlgorithm{\PRIVOsetup}{\PRIVOscheme.\!Setup}
-\NewAlgorithm{\PRIVOreg}{\PRIVOscheme.\!Register}
-\NewAlgorithm{\PRIVOjoin}{\PRIVOscheme.\!Join}
-\NewAlgorithm{\PRIVOparticipate}{\PRIVOscheme.\!Participate}
-\NewAlgorithm{\PRIVOsubmit}{\PRIVOscheme.\!Submit}
+\NewAlgorithm{\PRIVOsetup}{Setup}
+\NewAlgorithm{\PRIVOreg}{Register}
+\NewAlgorithm{\PRIVOjoin}{Join}
+\NewAlgorithm{\PRIVOparticipate}{Participate}
+\NewAlgorithm{\PRIVOsubmit}{Submit}
 
 \NewCryptoEntity{\Alice}{A}
 \NewCryptoEntity{\Bob}{B}
@@ -21,19 +21,54 @@ identity and a cryptographic key.
 We have the protesters Alice (\(\Alice\)), Bob (\(\Bob\)) and Carol (\(\Carol\)) 
 who want to participate in a given protest.
 
+The setup and registration phases are the same as in Anon-Pass~\cite{AnonPass}.
+We have simply adapted their description for our notation, but tried to keep 
+them as similar as possible.
+
 \emph{Setup: \((spk, ssk)\gets \PRIVOsetup\).}
 The setup phase is for the \ac{CA} to set up all the needed keys.
-The \ac{CA} starts by generating a service public-private key-pair \((spk, 
-  ssk)\) by the following.
-\(\gets \PRIVOsetup[1^\lambda]\), where \(\lambda\) is the security parameter, 
-and then publishes \(spk\).
-\begin{algorithmic}
-  \Function{\PRIVOsetup}{$1^\lambda$}
-    \State{$spk\gets (g, G, q, \dots)$}
-    \State{$ssk\gets (g, G, q, \dots)$}
-    \State{\Return{$(spk, ssk)$}}
-  \EndFunction
-\end{algorithmic}
+The \ac{CA} generates a service public-private key-pair \((spk, ssk)\) as 
+follows.
+Let \(G = \gen g\) be a group with generator \(g\) and prime order \(q\).
+Let \(G_T\) be a group such that there is a bilinear pairing \(e\colon G\times 
+  G\to G_T\)\footnote{%
+  \Ie \(e(g_1^a, g_2^b) = e(g_1, g_2)^{ab}\) and if \(G = \gen{g_1} = 
+    \gen{g_2}\) then \(G_T = \gen{e(g_1, g_2)}\).
+}.
+Choose \(x,y,z\rgets \ZZ_q\) uniformly at random and set \(X = g^x, Y = g^y, Z = 
+  g^z\).
+Then the service public key \(spk = (q, G, G_T, g, X, Y, Z)\) and the service 
+private key \(ssk = (x, y, z)\).
+
+\emph{Registration: \(sk\gets 
+    \Proto{\PRIVOreg[_P][spk]}{\PRIVOreg[_{CA}][ssk]}\).}
+During the registration phase, each protester will generate a secret key and 
+obtain a signature on it by the \ac{CA} --- without revealing it to the \ac{CA}.
+Thus each protester will have a signed secret key, the \ac{CA} will issue only 
+one signature per protester but will not know who has which key.
+The protester chooses \(d, r\gets \ZZ_q\) uniformly randomly and sets \(M = g^d 
+  Z^r\) and send \(M\) to the server.
+The protester acts as prover and the \ac{CA} as verifier while they perform the 
+following \ac{ZKPK} protocol: \(\PK[d,r][M = g^d Z^r]\).
+If the proof succeeds, the \ac{CA} chooses \(a\gets \ZZ_q^*\) and sets \(A = 
+  g^a\).
+Then it forms the signature \(s = (A, B = A^y, Z_B = B^z = Z^{ay}, C = A^x 
+  M^{axy})\) and sends it to the protester.
+The protester verifies that the following equations hold:
+\begin{align*}
+  A &\neq 1 \\
+  e(g, B) &= e(Y, A) \\
+  e(g, Z_B) &= e(Z, B) \\
+  e(g, C) &= e(X, A) e(X, B)^d e(X, Z_B)^r.
+\end{align*}
+Upon success, the protester uses \(sk = (s, d, r)\).
+
+The setup and registration phases can be done once and the keys reused for an 
+arbitrary number of protests.
+Thus it would be suitable to have the registration phase as part of the issuance 
+of \eg national identity cards, passports or \acp{eID}.
+
+\subsection{Old}
 
 We will start by giving an overview of the protocol.
 We have a number of participants.
