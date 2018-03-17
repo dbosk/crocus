@@ -24,6 +24,17 @@
 \usepackage{tikz-qtree}
 
 \usepackage{bibsp}
+\NewAlgorithm{\Hash}{H}
+\NewCryptoScheme{\AC}{AC}
+\NewAlgorithm{\ACsign}{\AC.\!Sign}
+\NewAlgorithm{\ACblind}{\AC.\!BlindSig}
+\NewAlgorithm{\ACverifySig}{\AC.\!VerifySig}
+\NewAlgorithm{\ACgetSig}{\AC.\!GetSig}
+\NewAlgorithm{\ACissueSig}{\AC.\!IssueSig}
+\NewAlgorithm{\ACproveSig}{\AC.\!ProveSig}
+\NewAlgorithm{\ACprf}{\AC.\!PRF}
+\NewAlgorithm{\ACprovePRF}{\AC.\!ProvePRF}
+\NewAlgorithm{\ACverifyPRF}{\AC.\!VerifyPRF}
 
 \DeclareDocumentCommand{\keywords}{m}{%
   \par
