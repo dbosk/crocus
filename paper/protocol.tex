@@ -55,7 +55,10 @@ one signature per protester but will not know who has which key.
 The protester chooses \(k, r\gets \ZZ_q\) uniformly randomly and sets \(M = g^k 
   Z^r\) and send \(M\) to the server.
 The protester acts as prover and the \ac{CA} as verifier while they perform the 
-following \ac{ZKPK} protocol: \(\PK[k,r][M = g^k Z^r]\).
+following \ac{ZKPK} protocol:
+\[
+  \PK[k,r][M = g^k Z^r].
+\]
 If the proof succeeds, the \ac{CA} chooses \(a\gets \ZZ_q^*\) and sets \(A = 
   g^a\).
 Then it forms the signature \(\sigma = (A, B = A^y, Z_B = B^z = Z^{ay}, C = A^x 
@@ -95,7 +98,7 @@ The participant should also get a time-correlated random value from the
 time-stamping service, \(t_s\gets \TSget\).
 
 \emph{Joining witness: \(t_s'\gets \PRIVOjoin_W\).}
-The witness simply should simply get a time-correlated random value from the 
+The witness should simply get a time-correlated random value from the 
 time-stamping service, \(t_s'\gets \TSget\).
 (We do this for redundancy, the newest of \(t_s\) and \(t_s'\) will set the 
 start of the time interval of creation for the proof share.).
@@ -107,25 +110,25 @@ start of the time interval of creation for the proof share.).
     \Proto{\PRIVOparticipate[cid, sk_P]}{\PRIVOwitness[sk_W, spk]}\),}
 The participant reblinds its signature \(\sigma\) on its secret key: choose 
 \(r_1, r_2\gets \ZZ_q^*\) and let \(
-  \hat\sigma = (\hat A = A^{r_1},
-                \hat B = B^{r_1},
-                \hat Z_B = Z_B^{r_1},
-                \hat C = C^{r_1 r_2}).
-\) (It is not necessary to compute a new \(\hat\sigma\) more than once per 
+  \tilde\sigma = (\tilde A = A^{r_1},
+                  \tilde B = B^{r_1},
+                  \tilde Z_B = Z_B^{r_1},
+                  \hat C = C^{r_1 r_2}).
+\) (It is not necessary to compute a new \(\tilde\sigma\) more than once per 
 \(pid\).)
-The participant sends \((pid, \hat\sigma)\) to the witness.
+The participant sends \((pid, \tilde\sigma)\) to the witness.
 The witness verifies that
 \begin{align*}
-  \hat A &\neq 1 \\
-  e(g, \hat B) &= e(Y, \hat A) \\
-  e(g, \hat Z_B) &= e(Z, \hat B).
+  \tilde A          &\neq 1 \\
+  e(g, \tilde B)    &= e(Y, \tilde A) \\
+  e(g, \tilde Z_B)  &= e(Z, \tilde B).
 \end{align*}
 Both the participant and the witness compute
 \begin{align*}
   v &= e(g, \hat C) \\
-  v_x &= e(X, \hat A) \\
-  v_{xy} &= e(X, \hat B) \\
-  v_{xy}' &= e(X, \hat Z_B).
+  v_x &= e(X, \tilde A) \\
+  v_{xy} &= e(X, \tilde B) \\
+  v_{xy}' &= e(X, \tilde Z_B).
 \end{align*}
 Then they run the following \ac{DBPK} with the participant as the prover and the 
 witness as the verifier:
