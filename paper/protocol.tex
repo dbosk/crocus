@@ -134,8 +134,9 @@ Then they run the following \ac{DBPK} with the participant as the prover and the
 witness as the verifier:
 \begin{multline*}
   \DBPK\left\{(k, r, r') : v^{r'} = v_x v_{xy}^k v_{xy}^{\prime r} \land
-    pid = g_T^{1/(k+cid)} \right\}.
+    pid = g_T^{1/(k+cid)} \right\},
 \end{multline*}
+where \(r' = 1/r_2\).
 
 \NewAlgorithm{\PRIVOsubmit}{Submit}
 
