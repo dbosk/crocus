@@ -97,85 +97,6 @@ More specifically, \(pid = g_T^{1/(k+cid)}\) (remember that \(sk = (\sigma, k,
 The participant should also get a time-correlated random value from the 
 time-stamping service, \(t_s\gets \TSget\).
 
-\emph{Joining witness: \(t_s'\gets \PRIVOjoin_W\).}
-The witness should simply get a time-correlated random value from the 
-time-stamping service, \(t_s'\gets \TSget\).
-(We do this for redundancy, the newest of \(t_s\) and \(t_s'\) will set the 
-start of the time interval of creation for the proof share.).
-
-\NewAlgorithm{\PRIVOparticipate}{Participate}
-\NewAlgorithm{\PRIVOwitness}{Witness}
-
-\emph{Participating: \(\pi\gets
-    \Proto{\PRIVOparticipate[cid, sk_P]}{\PRIVOwitness[sk_W, spk]}\),}
-The participant reblinds its signature \(\sigma\) on its secret key: choose 
-\(r_1, r_2\gets \ZZ_q^*\) and let \(
-  \tilde\sigma = (\tilde A = A^{r_1},
-                  \tilde B = B^{r_1},
-                  \tilde Z_B = Z_B^{r_1},
-                  \hat C = C^{r_1 r_2}).
-\) (It is not necessary to compute a new \(\tilde\sigma\) more than once per 
-\(pid\).)
-The participant sends \((pid, \tilde\sigma)\) to the witness.
-The witness verifies that
-\begin{align*}
-  \tilde A          &\neq 1 \\
-  e(g, \tilde B)    &= e(Y, \tilde A) \\
-  e(g, \tilde Z_B)  &= e(Z, \tilde B).
-\end{align*}
-Both the participant and the witness compute
-\begin{align*}
-  v &= e(g, \hat C) \\
-  v_x &= e(X, \tilde A) \\
-  v_{xy} &= e(X, \tilde B) \\
-  v_{xy}' &= e(X, \tilde Z_B).
-\end{align*}
-Then they run the following \ac{DBPK} with the participant as the prover and the 
-witness as the verifier:
-\begin{multline*}
-  \DBPK\left\{(k, r, r') : v^{r'} = v_x v_{xy}^k v_{xy}^{\prime r} \land
-    pid = g_T^{1/(k+cid)} \right\},
-\end{multline*}
-where \(r' = 1/r_2\).
-
-\NewAlgorithm{\PRIVOsubmit}{Submit}
-
-
-\subsection{Old}
-
-We will start by giving an overview of the protocol.
-We have a number of participants.
-We have a cothority who provide the storage in a decentralized manner.
-The cothority should consist of independent actors, preferably with conflicting 
-interests so that they will not collude.
-We have Alice the organizer and Bob the participant who are both protesters.
-We have the trustworthy journalist Jane who is present but not participating in 
-the protest.
-The protesters will witness each others participation proofs, \eg Alice will 
-witness Bob's proof and Bob will witness Alice's proof.
-The result of witnessing a proof is a proof share (essentially a witness 
-signature).
-Jane will also participate in witnessing the protesters' proofs.
-The witnessing is done through local interaction.
-As soon as Alice and Bob have departed from the protest they upload their proofs 
-(\ie all proof shares) to the cothority for indefinite storage.
-Since each proof consists of one proof share for each witness, each witness 
-could potentially upload the proof share themselves to the cothority.
-This would have the same effect but with added redundancy, in case Alice or Bob 
-cannot upload them themselves.
-
-We will now describe the protocol in more details.
-We will describe it in the same order as outlined above:
-starting with the construction of the participation proof (shares) and 
-submitting the proof shares to storage.
-Then we will conclude with how to verify the proofs and produce the 
-participation count.
-
-\subsection{Constructing the participation-proof shares}
-
-An overview of the final structure of a proof is given in \cref{fig:ProofFig} 
-and an overview of the communication is given in \cref{fig:ProtocolOverview}.
-
 \begin{figure}
   \centering
   \footnotesize
@@ -215,7 +136,7 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
         \\
       W\colon & wid\gets \ACprf[_{sk_W}][pid], \\
         & wsig\gets \ACprf[_{sk_W}][wid, t_s, t_s', l] \\
-      W\to P\colon & (wid, t_s, t_s', l, wsig)
+      W\to P\colon & (wid, t_s', l, wsig)
       \\[-1em]
       \noalign{\hfill Participation}
       \midrule
@@ -248,6 +169,119 @@ and an overview of the communication is given in \cref{fig:ProtocolOverview}.
   }%
   \label{fig:ProtocolOverview}
 \end{figure}
+
+\emph{Joining witness: \(t_s'\gets \PRIVOjoin_W\).}
+The witness should simply get a time-correlated random value from the 
+time-stamping service, \(t_s'\gets \TSget\).
+(We do this for redundancy, the newest of \(t_s\) and \(t_s'\) will set the 
+start of the time interval of creation for the proof share.).
+
+\NewAlgorithm{\PRIVOparticipate}{Participate}
+\NewAlgorithm{\PRIVOwitness}{Witness}
+
+\emph{Participating: \(\pi\gets
+    \Proto{\PRIVOparticipate[cid, sk_P]}{\PRIVOwitness[sk_W, spk]}\),}
+In the participating phase the participant and the witness constructs the proof 
+share of the participant (\cref{fig:ProofFig}).
+The participant reblinds its signature \(\sigma\) on its secret key: choose 
+\(r_1, r_2\gets \ZZ_q^*\) and let \(
+  \tilde\sigma = (\tilde A = A^{r_1},
+                  \tilde B = B^{r_1},
+                  \tilde Z_B = Z_B^{r_1},
+                  \hat C = C^{r_1 r_2}).
+\) (It is not necessary to compute a new \(\tilde\sigma\) more than once per 
+\(pid\).)
+The participant sends \((pid, \tilde\sigma)\) to the witness.
+The witness verifies that
+\begin{align*}
+  \tilde A          &\neq 1 \\
+  e(g, \tilde B)    &= e(Y, \tilde A) \\
+  e(g, \tilde Z_B)  &= e(Z, \tilde B).
+\end{align*}
+Both the participant and the witness compute
+\begin{align*}
+  v &= e(g, \hat C) \\
+  v_x &= e(X, \tilde A) \\
+  v_{xy} &= e(X, \tilde B) \\
+  v_{xy}' &= e(X, \tilde Z_B).
+\end{align*}
+Then they run the following \ac{DBPK} with the participant as the prover and the 
+witness as the verifier:
+\begin{multline*}
+  \mleftright
+  \DBPK\left\{(k, r, r') : v^{r'} = v_x v_{xy}^k v_{xy}^{\prime r} \land
+    pid = g_T^{1/(k+cid)} \right\}.
+\end{multline*}
+where \(r' = 1/r_2\).
+We can rewrite \(pid = g_T^{1/(k+cid)}\) as \(pid^k = g_T g_T^{-cid}\).
+Then the \ac{PK} can be designed as follows (remember that this \ac{PK} should 
+be run as \iac{DBPK} and be repeated multiple times to achieve security).
+The participant chooses \(r_k, r_r, r_{r'}\rgets \ZZ_q\) uniformly randomly, 
+sets \(R_1 = v^{r_{r'}} v_{xy}^{r_k} v_{xy}^{\prime r_r}\) and \(R_2 = 
+  pid^{r_k}\) and sends \(R_1, R_2\) to the witness.
+The witness replies with a challenge \(c\).
+The participant then computes
+\begin{align*}
+s_k &= -ck + r_k, \\
+s_r &= -cr + r_r, \\
+s_{r'} &= cr' + r_{r'}
+\end{align*}
+and sends them to the witness.
+The witness checks whether
+\begin{align*}
+  v_x^c R_1 &\overset{\mathclap{?}}{=} v^{s_{r'}} v_{xy}^{s_k} v_{xy}^{\prime 
+    s_r}, \\
+  \mleft(g_T pid^{-cid}\mright)^{-c} R_2 &\overset{\mathclap{?}}{=} pid^{s_k}.
+\end{align*}
+If the proof succeeds the witness will compute \(wid\gets \ACprf[_{sk_W}][pid] = 
+  g_T^{1/(k_W+pid)}\) (as above) and in the same way \(wsig\gets 
+  \ACprf[_{sk_W}][\Hash[pid, wid, t_s, t_s', l]]\).
+Then the witness returns \((wid, t_s', l, wsig)\) to the participant.
+Now both the participant and the witness have the tuple \(\pi = (pid, wid, t_s, 
+  t_s', l, wsig)\) which constitutes a proof share of the participant 
+(\cref{fig:ProofFig}).
+
+\NewAlgorithm{\PRIVOsubmit}{Submit}
+
+\emph{Submission: \(\pi'\gets \PRIVOsubmit[cid, pid, wid, t_s, t_s', l, 
+    wsig]\).}
+\dots
+
+
+\subsection{Old}
+
+We will start by giving an overview of the protocol.
+We have a number of participants.
+We have a cothority who provide the storage in a decentralized manner.
+The cothority should consist of independent actors, preferably with conflicting 
+interests so that they will not collude.
+We have Alice the organizer and Bob the participant who are both protesters.
+We have the trustworthy journalist Jane who is present but not participating in 
+the protest.
+The protesters will witness each others participation proofs, \eg Alice will 
+witness Bob's proof and Bob will witness Alice's proof.
+The result of witnessing a proof is a proof share (essentially a witness 
+signature).
+Jane will also participate in witnessing the protesters' proofs.
+The witnessing is done through local interaction.
+As soon as Alice and Bob have departed from the protest they upload their proofs 
+(\ie all proof shares) to the cothority for indefinite storage.
+Since each proof consists of one proof share for each witness, each witness 
+could potentially upload the proof share themselves to the cothority.
+This would have the same effect but with added redundancy, in case Alice or Bob 
+cannot upload them themselves.
+
+We will now describe the protocol in more details.
+We will describe it in the same order as outlined above:
+starting with the construction of the participation proof (shares) and 
+submitting the proof shares to storage.
+Then we will conclude with how to verify the proofs and produce the 
+participation count.
+
+\subsection{Constructing the participation-proof shares}
+
+An overview of the final structure of a proof is given in \cref{fig:ProofFig} 
+and an overview of the communication is given in \cref{fig:ProtocolOverview}.
 
 \subsubsection{Linkability and designated protest}
 

@@ -47,8 +47,8 @@
   % wsig
   (l) edge[bend right] (wsig)
   (ts) edge[bend right] (wsig)
-  (wid) edge[bend right] node [anchor=north west] {$\ACprf[_{sk_W}][\cdot, 
-  \cdot, \cdot]$} (wsig)
+  (wid) edge[bend right] node [anchor=north] {$(\ACprf[_{sk_W}]\circ 
+  \Hash)(\cdot, \cdot, \cdot)$} (wsig)
   ;
 
 \end{tikzpicture}
