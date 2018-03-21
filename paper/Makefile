@@ -15,7 +15,7 @@ SRC+= 	ZKPK.tex
 SRC+= 	DistanceBounding.tex anon-cred.tex DB-anon-cred.tex
 SRC+= 	LocationProofs.tex TimeStamp.tex
 SRC+= 	protocol.tex
-SRC+=	analysis.tex
+SRC+=	analysis-security.tex analysis-performance.tex
 SRC+=	conclusions.tex
 
 paper.pdf: ${SRC} popets dgruyter-biblatex.sty
