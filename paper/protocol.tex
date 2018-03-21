@@ -104,7 +104,6 @@ time-stamping service, \(t_s\gets \TSget\).
 
 \begin{figure}
   \centering
-  \footnotesize
   \includegraphics{proofshare.tikz}
   \caption{%
     Structure of a proof share.
@@ -120,7 +119,6 @@ time-stamping service, \(t_s\gets \TSget\).
 
 \begin{figure}
   \centering
-  \footnotesize
   \begin{minipage}{\linewidth}
     \begin{align*}
       O\to \text{all}\colon & \text{manifesto} \\
@@ -212,10 +210,10 @@ Both the participant and the witness compute
 \end{align*}
 Then they run the following \ac{DBPK} with the participant as the prover and the 
 witness as the verifier:
-\begin{multline*}
-  \mleftright
-  \DBPK\left\{(k, r, r') : v^{r'} = v_x v_{xy}^k v_{xy}^{\prime r} \land
-    pid = g_T^{1/(k+cid)} \right\}.
+\begin{multline*}\label{eq:DBPK}
+  \DBPK\left\{(k, r, r') :
+    v^{r'} = v_x v_{xy}^k v_{xy}^{\prime r} \quad \land \right. \\
+      \left. pid = g_T^{1/(k+cid)} \right\}.
 \end{multline*}
 where \(r' = 1/r_2\).
 We can rewrite \(pid = g_T^{1/(k+cid)}\) as \(pid^k = g_T g_T^{-cid}\).
@@ -227,9 +225,9 @@ sets \(R_1 = v^{r_{r'}} v_{xy}^{r_k} v_{xy}^{\prime r_r}\) and \(R_2 =
 The witness replies with a challenge \(c\).
 The participant then computes
 \begin{align*}
-s_k &= -ck + r_k, \\
-s_r &= -cr + r_r, \\
-s_{r'} &= cr' + r_{r'}
+  s_k &= -ck + r_k, \\
+  s_r &= -cr + r_r, \\
+  s_{r'} &= cr' + r_{r'}
 \end{align*}
 and sends them to the witness.
 The witness checks whether
@@ -238,13 +236,17 @@ The witness checks whether
     s_r}, \\
   \mleft(g_T pid^{-cid}\mright)^{-c} R_2 &\overset{\mathclap{?}}{=} pid^{s_k}.
 \end{align*}
-If the proof succeeds the witness will compute \(wid\gets \ACprf[_{sk_W}][pid] = 
-  g_T^{1/(k_W+pid)}\) (as above) and in the same way \(wsig\gets 
-  \ACprf[_{sk_W}][\Hash[pid, wid, t_s, t_s', l]]\).
-Then the witness returns \((wid, t_s', l, wsig)\) to the participant.
-Now both the participant and the witness have the tuple \(\pi = (pid, wid, t_s, 
-  t_s', l, wsig)\) which constitutes a proof share of the participant 
-(\cref{fig:ProofFig}).
+If the proof succeeds the witness will compute \(
+  wid\gets \ACprf[_{sk_W}][pid] = g_T^{1/(k_W+pid)}
+\) (as above) and in the same way \(
+  wsig\gets \ACprf[_{sk_W}][\Hash[pid, wid, t_s, t_s', l]]
+\).
+Then the witness returns \(
+  (wid, t_s', l, wsig)
+\) to the participant.
+Now both the participant and the witness have the tuple \(
+  \pi = (pid, wid, t_s, t_s', l, wsig)
+\) which constitutes a proof share of the participant (\cref{fig:ProofFig}).
 
 \NewAlgorithm{\PRIVOsubmit}{Submit}
 
@@ -255,15 +257,14 @@ time-stamping service and receive the proof of commitment, \(t_e\gets
   \TSstamp[\Hash[pid, wid, t_s, t_s', l, wsig]]\).
 The remaining operations are not time critical.
 The participant computes \iac{NIZK} proof \(\pi_{pid}\) which shows the 
-correctness of \(pid\).
+correctness of \(pid\), \ie we simply use the Fiat-Shamir heuristic to turn the 
+\ac{DBPK} above into \iac{NIZK} proof.
 More specifically,
 \begin{multline*}
-  \pi_{pid}\gets \SPK\left\{ (sk_P) : \right. \\
-    \begin{aligned}
-      pid &= \ACprf[_{sk_P}][cid] \quad \land \\
-      \sigma_P' &= \left. \ACblind[\ACsign[_{ssk}][sk_P]] \right\}
-    \end{aligned} \\
-      (cid, pid, wid, t_s, t_s', l, wsig).
+  \pi_{pid}\gets \SPK\left\{(k, r, r') : \phantom{g_T^{1/(k+cid)}}\right. \\
+      v^{r'} = v_x v_{xy}^k v_{xy}^{\prime r} \land
+      pid = \left. g_T^{1/(k+cid)} \right\} \\
+        (cid, pid, wid, t_s, t_s', l, wsig).
 \end{multline*}
 Finally, the participant uploads the tuple \[
   (cid, pid, wid, t_s, t_s', t_e, l, wsig, \pi_{pid})
