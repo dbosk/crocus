@@ -212,11 +212,11 @@ Both the participant and the witness compute
 \end{align*}
 Then they run the following \ac{DBPK} with the participant as the prover and the 
 witness as the verifier:
-\begin{multline}\label{eq:DBPK}
+\begin{multline*}\label{eq:DBPK}
   \DBPK\left\{(k, r, r') :
     v^{r'} = v_x v_{xy}^k v_{xy}^{\prime r} \quad \land \right. \\
       \left. pid = g_T^{1/(k+cid)} \right\}.
-\end{multline}
+\end{multline*}
 where \(r' = 1/r_2\).
 We can rewrite \(pid = g_T^{1/(k+cid)}\) as \(pid^k = g_T g_T^{-cid}\).
 Then the \ac{PK} can be designed as follows (remember that this \ac{PK} should 
@@ -260,15 +260,13 @@ time-stamping service and receive the proof of commitment, \(t_e\gets
 The remaining operations are not time critical.
 The participant computes \iac{NIZK} proof \(\pi_{pid}\) which shows the 
 correctness of \(pid\), \ie we simply use the Fiat-Shamir heuristic to turn the 
-\ac{DBPK} in \cref{eq:DBPK} into \iac{NIZK} proof.
+\ac{DBPK} above into \iac{NIZK} proof.
 More specifically,
 \begin{multline*}
-  \pi_{pid}\gets \SPK\left\{ (sk_P) : \right. \\
-    \begin{aligned}
-      pid &= \ACprf[_{sk_P}][cid] \quad \land \\
-      \sigma_P' &= \left. \ACblind[\ACsign[_{ssk}][sk_P]] \right\}
-    \end{aligned} \\
-      (cid, pid, wid, t_s, t_s', l, wsig).
+  \pi_{pid}\gets \SPK\left\{(k, r, r') : \phantom{g_T^{1/(k+cid)}}\right. \\
+      v^{r'} = v_x v_{xy}^k v_{xy}^{\prime r} \land
+      pid = \left. g_T^{1/(k+cid)} \right\} \\
+        (cid, pid, wid, t_s, t_s', l, wsig).
 \end{multline*}
 Finally, the participant uploads the tuple \[
   (cid, pid, wid, t_s, t_s', t_e, l, wsig, \pi_{pid})
