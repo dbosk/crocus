@@ -149,20 +149,20 @@ time-stamping service, \(t_s\gets \TSget\).
       \\[-2em]
       P\colon & t_e\gets \TSstamp[\Hash[pid, wid, t_s, t_s', l, wsig]] \\
       W\colon & t_e'\gets \TSstamp[\Hash[pid, wid, t_s, t_s', l, wsig]] \\
-      W\to S\colon & (pid, wid, t_s, t_s', t_e, l, wsig, \pi_W),\quad 
+      W\to S\colon & (pid, wid, t_s, t_s', t_e, l, wsig, \pi_{wid, wsig}),\quad 
       \text{where} \\
-        & \pi_W = \SPK\mleft\{ (sk_W) : \mright. \\
+        & \pi_{wid, wsig} = \SPK\mleft\{ (sk_W) : \mright. \\
         & \qquad wid = \ACprf[_{sk_W}][pid], \\
         & \qquad wsig = \ACprf[_{sk_W}][wid, t_s, t_s', l], \\
         & \qquad \mleft. \sigma_W' = \ACblind[\ACsign[_{ssk}][sk_W]]\mright\} \\
         & \qquad\qquad (pid, wid, t_s, t_s', l, wsig) \\
-      P\to S\colon & (pid, wid, t_s, t_s', t_e, l, wsig, \pi_P),\quad 
+      P\to S\colon & (cid, pid, wid, t_s, t_s', t_e, l, wsig, \pi_{pid}),\quad 
       \text{where}\\
-        & \pi_P = \SPK\mleft\{ (sk_P) : \mright. \\
+        & \pi_{pid} = \SPK\mleft\{ (sk_P) : \mright. \\
         & \qquad pid = \ACprf[_{sk_P}][cid], \\
         & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{ssk}][sk_P]] \mright\} 
         \\
-        & \qquad\qquad (pid, wid, t_s, t_s', l, wsig)
+        & \qquad\qquad (cid, pid, wid, t_s, t_s', l, wsig)
     \end{align*}
   \end{minipage}
   \caption{%
@@ -248,9 +248,46 @@ Now both the participant and the witness have the tuple \(\pi = (pid, wid, t_s,
 
 \NewAlgorithm{\PRIVOsubmit}{Submit}
 
-\emph{Submission: \(\pi'\gets \PRIVOsubmit[cid, pid, wid, t_s, t_s', l, 
+\emph{Submission: \(\pi'\gets \PRIVOsubmit[_P][cid, pid, wid, t_s, t_s', l, 
     wsig]\).}
-\dots
+The participant should as soon as possible commit the proof-share data to the 
+time-stamping service and receive the proof of commitment, \(t_e\gets 
+  \TSstamp[\Hash[pid, wid, t_s, t_s', l, wsig]]\).
+The remaining operations are not time critical.
+The participant computes \iac{NIZK} proof \(\pi_{pid}\) which shows the 
+correctness of \(pid\).
+More specifically,
+\begin{multline*}
+  \pi_{pid}\gets \SPK\left\{ (sk_P) : \right. \\
+    \begin{aligned}
+      pid &= \ACprf[_{sk_P}][cid] \quad \land \\
+      \sigma_P' &= \left. \ACblind[\ACsign[_{ssk}][sk_P]] \right\}
+    \end{aligned} \\
+      (cid, pid, wid, t_s, t_s', l, wsig).
+\end{multline*}
+Finally, the participant uploads the tuple \[
+  (cid, pid, wid, t_s, t_s', t_e, l, wsig, \pi_{pid})
+\] for permanent storage.
+
+\emph{Submission: \(\pi''\gets \PRIVOsubmit[_W][pid, wid, t_s, t_s', l, 
+    wsig]\).}
+The witness should, just as the participant, commit the proof-share data to the 
+time-stamping service, \(t_e'\gets \TSstamp[\Hash[pid, wid, t_s, t_s', l, 
+  wsig]]\).
+Then, without any time requirements, the witness computes \iac{NIZK} proof 
+\(\pi_{wid, wsig}\) as follows:
+\begin{multline*}
+  \pi_{wid, wsig}\gets \SPK\left\{ (sk_W) : \right. \\
+    \begin{aligned}
+      wid &= \ACprf[_{sk_W}][pid] \quad \land \\
+      wsig &= \ACprf[_{sk_W}][wid, t_s, t_s', l] \quad \land \\
+      \sigma_W' &= \left. \ACblind[\ACsign[_{ssk}][sk_W]] \right\}
+    \end{aligned} \\
+      (pid, wid, t_s, t_s', l, wsig).
+\end{multline*}
+Finally, the witness uploads the tuple \[
+  (pid, wid, t_s, t_s', t_e', l, wsig, \pi_{wid, wsig})
+\] for permanent storage.
 
 
 \subsection{Old}
