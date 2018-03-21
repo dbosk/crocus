@@ -1,5 +1,6 @@
 \usepackage{newclude}
 %\usepackage[british]{babel}
+%\usepackage[hypertexnames=false]{hyperref}
 \usepackage{hyperref}
 \usepackage{xparse}
 \usepackage{xspace}
@@ -9,6 +10,8 @@
 \renewcommand{\foreignabbrfont}{}
 
 \usepackage{interval}
+\let\intrvl\interval
+\let\interval\undefined
 
 \usepackage{algorithm}
 \usepackage{algpseudocode}
@@ -39,6 +42,8 @@
 \crefname{requirements@ii}{requirement}{requirements}
 \Crefname{requirements@i}{Requirement}{Requirements}
 \Crefname{requirements@ii}{Requirement}{Requirements}
+
+\usepackage{autonum}
 
 \usepackage{tikz}
 \usepackage{tikzscale}
