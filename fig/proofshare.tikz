@@ -41,13 +41,14 @@
 
   \path[every node/.style={font=\small}]
   (manifesto) edge node [anchor=east] {$\Hash[\cdot]$} (cid)
-  (cid) edge node [anchor=east] {$\ACprf[_{k_P}][\cdot]$} (pid)
-  (pid) edge[bend right] node [anchor=north west] {$\ACprf[_{k_W}][\cdot]$} (wid)
+  (cid) edge node [anchor=east] {$\ACprf[_{sk_P}][\cdot]$} (pid)
+  (pid) edge[bend right] node [anchor=north west] {$\ACprf[_{sk_W}][\cdot]$} 
+  (wid)
   % wsig
   (l) edge[bend right] (wsig)
   (ts) edge[bend right] (wsig)
-  (wid) edge[bend right] node [anchor=north west] {$\ACprf[_{k_W}][\cdot, \cdot, 
-  \cdot]$} (wsig)
+  (wid) edge[bend right] node [anchor=north] {$(\ACprf[_{sk_W}]\circ 
+  \Hash)(\cdot, \cdot, \cdot)$} (wsig)
   ;
 
 \end{tikzpicture}

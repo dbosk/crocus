@@ -29,8 +29,11 @@ Formally, we define a protest as an event that is uniquely identified by its cau
 More specifically, we will use the following definition.
 
 \begin{definition}[Protest]\label{DefProtest}
-  A \emph{subprotest} is a tuple \((cid, t, l)\) in which \(cid\in \Z_{2^\lambda}\) is the identifier of the cause of the protest,
-  \(t = \interval{t_s}{t_e}\subseteq \R\) is a time interval and \(l = N_\epsilon(x, y)\subseteq \R^2\) is the location (an \(\epsilon\)-neighbourhood of \((x,y)\)).
+  A \emph{subprotest} is a tuple \((cid, t, l)\) in which \(cid\in 
+    \ZZ_{2^\lambda}\) is the identifier of the cause of the protest,
+  \(t = \interval{t_s}{t_e}\subseteq \RR\) is a time interval and \(l = 
+    N_\epsilon(x, y)\subseteq \RR^2\) is the location (an 
+  \(\epsilon\)-neighbourhood of \((x,y)\)).
   A \emph{protest} is a set of subprotests sharing the same \(id\).
 \end{definition}
 
@@ -91,8 +94,8 @@ We can now define the participation count as follows.
   We define the \emph{participation count} of a protest \(cid\) as the cardinality \(|P_{cid}^{s,\theta}|\) of the set of participation proofs \[
     P_{cid}^{s,\theta} = \left\{ p_{i,j} \mid
       j = cid, s(p_{i,j})\geq \theta \right\}
-  \] for some strength function \(s\colon \powerset(W)\to \R_+\) and a threshold 
-  \(\theta\).
+  \] for some strength function \(s\colon \powerset(W)\to \RR_+\) and a 
+  threshold \(\theta\).
 \end{definition}
 The strength function \(s\) can be used to regulate trust in witnesses.
 One example would be for \(s\) to return the number of proof shares (\ie witnesses) and thus let \(\theta\) to be the threshold of the number of required witnesses.
