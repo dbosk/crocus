@@ -66,20 +66,3 @@ One way they can do this is to say that the result does not contain all
 participation proofs.
 Statements such as this should be proved: provide a valid but missing proof.
 
-\section{Performance and implementation}
-
-\subsection{Implementation on smartphones or smart-cards}
-Technological progress has enabled more advanced cryptography on Smart-cards and Smartphones which could be used to implement our solution : Benchmarks~\cite{Benchmarking} have shown that Android devices are now fast enough to efficiently implement Privacy Enhancing Technologies (PETs), with a Samsung Galaxy S i9000 being able to execute Idemix in  \SI{153}{\milli\second}. However, those benchmarks also demonstrate that SmartCards remain slow to process complex protocols such as Idemix or U-Prove (taking between \SI{4}{\second} and \SI{8}{\second} to process them). While the limited processing power of many embarked systems has been a challenge, Idemix has been succesfully implemented to prove the posession of credentials on Java Cards by Bichsel et al. in 2009~\cite{Bichsel} and the IRMA project, released in 2014, aimed to achieve an implementation « suitable for real life transactions »~\cite{IRMA} while maintaining security and privacy for its users. 
-
-\subsection{Threshold of witnesses}
-
-Assume that every person has 5000 contacts in their contact 
-book~\cite{DifficultyOfPrivateContactDiscovery}.
-Then it would be reasonable to set the threshold of at least 6000 witnesses.
-According to the Anon-Pass performance measures~\cite{AnonPass} each witness 
-signature would require \SI{8}{\milli\second} per core on a quad-core Intel 
-\SI{2.66}{\giga\hertz} Core 2 processor.
-This yields \(
-  \SI{8}{\milli\second}\times 6000 = \SI{48000}{\milli\second} = 
-  \SI{48}{\second}.
-\) of processing.
