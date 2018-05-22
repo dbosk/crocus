@@ -25,37 +25,47 @@ Judging from these examples, the minimal common part is the cause,%
 
 For the rest of the paper, we will refer to the organizer as Alice.
 Assume that the objective of Alice is to count everyone who participated at any time and in any of the locations~\cite{2016DemonstrationsInSeoul}\footnote{Note that the objective does not necessarily align with the definition of the police whose interest could be to determine the maximum crowd at any point in time, to deploy enough personnel for crowd-control.}.
-Formally, we define a protest as an event that is uniquely identified by its cause (\(id\) below), its time interval (\(t\)) and its location (area \(l\)).
+
+\NewVariable{\cid}{cid}
+
+Formally, we define a protest as an event that is uniquely identified by its 
+cause (\(\cid\) below), its time interval (\(t\)) and its location (area \(l\)).
 More specifically, we will use the following definition.
 
 \begin{definition}[Protest]\label{DefProtest}
-  A \emph{subprotest} is a tuple \((cid, t, l)\) in which \(cid\in 
+  A \emph{subprotest} is a tuple \((\cid, t, l)\) in which \(\cid\in 
     \ZZ_{2^\lambda}\) is the identifier of the cause of the protest,
-  \(t = \interval{t_s}{t_e}\subseteq \RR\) is a time interval and \(l = 
-    N_\epsilon(x, y)\subseteq \RR^2\) is the location (an 
-  \(\epsilon\)-neighbourhood of \((x,y)\)).
-  A \emph{protest} is a set of subprotests sharing the same \(id\).
+  \(t = \interval{t_s}{t_e}\subseteq \RR\) is a time interval and \(l \subseteq 
+    \RR^2\) is the location.
+  A \emph{protest} is a set of subprotests sharing the same \(\cid\).
 \end{definition}
 
 The protests described in the previous examples can be captured using this definition by splitting 
 them up into subprotests.
 Each subprotest will then be captured by our definition and to estimate the total participation to the protest we can just sum up the estimates obtained.
-Similarly for march, the marching path can be divided into subprotests with locations (or areas) that slightly overlap.
+Similarly for marches, the marching path can be divided into subprotests with 
+locations (or areas) that slightly overlap.
 
-\emph{Formalizing the notion of crowd estimation.} Each participant who wants to be counted must submit a participation proof.
+\emph{Formalizing the notion of crowd estimation.} Each participant who wants to 
+be counted must submit a \emph{participation proof}.
 The proof must be associated with the protest (\ie its identifier \(cid\)), time and location must coincide with any of its subprotests.
 
-We use other participants, that we called \emph{witnesses} to associate the proof to the location by creating a proof 
-share.
-A witness is only allowed to create one proof share per protester to avoid the risk of inflation.
+We use other participants, that we called \emph{witnesses} to associate the 
+proof to the location by creating a \emph{proof share}.
+A witness is only allowed to create one proof share per protester to avoid the 
+risk of inflation.
 The participation proof and its proof shares are stored in a set, as there should be only unique proof shares.
 
+\NewVariable{\pid}{pid}
+\NewVariable{\wid}{wid}
+
 \begin{definition}[Participation-proof share]
-  A \emph{participation-proof share} \(w = (pid, cid, t, l, wid)\) is a tuple 
-  where
-  \(cid, t, l\) are as in \cref{DefProtest},
-  \(pid\) is unique for a protester--\(cid\) pair, and
-  \(wid\) is unique for a witness--protester pair.
+  A \emph{participation-proof share} \((\pid, \cid, t, l, \wid)\) is a tuple 
+  where:
+  \(\cid, t, l\) are as in \cref{DefProtest};
+  \(\pid\) is a function of the protester's identity and \(\cid\); and
+  \(\wid\) is a function of the witness' identity and 
+  \(\pid\).
   We let \(W\) be the set of all proof shares.
 \end{definition}
 \sonja{do the same pair of people (witness-protester) get the
@@ -71,6 +81,7 @@ person). wid sounds like it would be the id of the witness person,
 pid sounds like it would be the id of the protester being witnessed,
 we have defined neither and they might not be needed, but it is
 confusing to read.}
+\daniel{I made some minor changes, any better?}
 
 A subset of the proof shares forms a participation proof for a protester.
 
@@ -80,8 +91,8 @@ A subset of the proof shares forms a participation proof for a protester.
   \begin{multline}
     \nonumber
     p_{i, j} =
-    \left\{ (pid, cid, t, l, wid)\in W \mid \right. \\
-    \left. pid = i, cid = j,
+    \left\{ (\pid, \cid, t, l, \wid)\in W \mid \right. \\
+    \left. \pid = i, \cid = j,
     t \subseteq t_j, l\subseteq l_j \right\},
   \end{multline}
   of all proof shares with the same protester and protest identifiers, witness 
@@ -91,32 +102,36 @@ A subset of the proof shares forms a participation proof for a protester.
 
 We can now define the participation count as follows.
 \begin{definition}[Participation count]
-  We define the \emph{participation count} of a protest \(cid\) as the cardinality \(|P_{cid}^{s,\theta}|\) of the set of participation proofs \[
-    P_{cid}^{s,\theta} = \left\{ p_{i,j} \mid
-      j = cid, s(p_{i,j})\geq \theta \right\}
+  We define the \emph{participation count} of a protest \(\cid\) as the 
+  cardinality \(|P_{\cid}^{s,\theta}|\) of the set of participation proofs \[
+    P_{\cid}^{s,\theta} = \left\{ p_{i,j} \mid
+      j = \cid, s(p_{i,j})\geq \theta \right\}
   \] for some strength function \(s\colon \powerset(W)\to \RR_+\) and a 
   threshold \(\theta\).
 \end{definition}
 The strength function \(s\) can be used to regulate trust in witnesses.
 One example would be for \(s\) to return the number of proof shares (\ie witnesses) and thus let \(\theta\) to be the threshold of the number of required witnesses.
+Another example would be to return the number of proof shares issued by trusted 
+witnesses and set \(\theta = 1\) to require at least one proof share issued by a 
+trusted witness.
 
-\emph{System model and physical assumptions.} \label{assumptions}
+\emph{System model and physical assumptions.}\label{assumptions}
 Throughout this text, when we refer to a participant, say Alice, we actually 
 mean an agent which can perform cryptographic operations and communicate with 
 other local devices on Alice's behalf. We assume that every participant has a digital certificate signed by 
 some logically centralized certificate authority.
-\Eg that we can use the cryptographic keys stored in the chip of the national 
-identity card or passport.
+\Eg that we can use the cryptographic keys of any national electronic identity 
+system, identity card or passport.
 We need this to prevent Sybil attacks~\cite{SybilAttack}.
 
-In practical terms, participants witness each other's particpation
+In practical terms, participants witness each other's participation
 using their smartphones (or similar devices) running the protocol described in
-\cref{protocol} and uploading their testimony (\ie proof shares) to the blockchain after the protest. 
-During the protest the devices are computationally limited by their 
-batteries and need connectivity at to each other but no connection to
-any global network or the Internet is necessary. Before and
-after the protest, we assume that the devices have Internet  
-connections and are not computationally limited by any battery.
+\cref{protocol} and uploading their testimony (\ie proof shares) to a blockchain 
+after the protest. During the protest the devices are computationally limited by 
+their batteries and need local connectivity to each other but no connection to
+any global network such as the Internet is necessary. Before and
+after the protest, we assume that the devices have global connectivity, \ie 
+Internet  connections, and are not computationally limited by any battery.
 
 \include*{MANETs}
 
