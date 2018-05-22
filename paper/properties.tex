@@ -4,13 +4,13 @@
 %\subsection{An overview of the adversary}
 
 On our setting, we have three potential adversaries: Alice, Eve and Mallory.
-%Seb: I changed the name of Grace to Eve to be consistent with the introduction
+\seb{I changed the name of Grace to Eve to be consistent with the introduction}
 Alice is a participant to the protest and thus she might be also interested in manipulating the system to increase the count (\eg she might have an incentive to do so as an activist).
 In contrast, the aim of Eve, the totalitarian dictator, is to decrease the count but also additionally to deanonymize some of the participants in order to arrest them or convince them to change their minds.
 Finally, Mallory represents another nation state and has some interest in affecting the stability of Eve's regime, for Mallory's own 
 gain, thus supporting either Eve or Alice as he see fits.
 Thus, the objective of Mallory will also be to either increase or decrease the count.
-%Seb: we have to justify why Mallory is not captured either by Alice or Eve
+\seb{we have to justify why Mallory is not captured either by Alice or Eve}
 In addition, Mallory could also have simply for objective to cause a denial-of-service attack on the architecture of \PRIVO.
 In the following two subsections, we will now formally define some security properties specifying the computational effort needed by the adversaries to succeed.
 
@@ -57,7 +57,7 @@ To define these properties more formally in the context of protest, we desire th
 
 We will now discuss these properties in more details focusing in particular to the one related specifically to the protest.
 
-%Seb: to complete
+\seb{to complete}
 \subsubsection{Temporal eligibility}
 
 \begin{definition}[Forging temporal eligibility]
@@ -84,7 +84,7 @@ We will now discuss these properties in more details focusing in particular to t
 In addition to the verification requirements, we also need to formalize the privacy properties.
 As we indirectly pointed out earlier, we focus on the privacy provided to Alice and the protesters.
 In particular our objective is that as long as Alice can conceal her identity at the demonstration and escape without arrest, her support is recorded in the data without her privacy being violated.
-%Seb: I think this sentence should be clarified
+\seb{I think this sentence should be clarified}
 (Following this line of thinking, it can actually be beneficial for the privacy of the protesters to mix with the participants of any counter-protests --- since the counts will still be correct.)
 
 In voting protocols, there are also three levels of privacy~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
@@ -99,15 +99,15 @@ In voting protocols, there are also three levels of privacy~\cite{VerifyingPriva
 \eg Grace can simply physically bring Alice to a protest against her will.
 This leaves us with \cref{ReceiptFreeness,VotePrivacy}.
 
-We note that we cannot actually improve the privacy of participating protesters during the protest: if Alice is caught during a protest or other crowd-counting mechanisms based on photographic or video evidence are used to identify Alice, there is nothing we can do. 
-%Seb: suggestion maybe we should put the following part in the discussion
+We note that we cannot actually improve the privacy of participating protesters during the protest: if Alice is caught during a protest or other crowd-counting mechanisms based on photographic or video evidence are used to identify Alice, there is nothing we can do.
+\seb{suggestion maybe we should put the following part in the discussion}
 However, in \PRIVO, we aim at verifiable participation count that does not add any threats to the participants' privacy. 
 For instance, if there are counter-protests in the \emph{same location at the same time}, Alice could even blend into another crowd and argue that she participated in a different protest than she actually did --- and the counts would still be correct afterwards.
 However, even if there is only one protest and she is not caught in the act, then using our proposed mechanism should not incur any additional risk.
 Thus we need at least participation-proof privacy but receipt freeness is also desired.
 In essence, this means that upon completing the protocol, Eve cannot link Alice to Alice's participation proof --- even if she were to compromise Alice's device.
-%Sonja says: I'm confused: can we or can we not provide this?
-%Seb: I agree with Sonja, it is not clear whether we achieve it or not
+\sonja{I'm confused: can we or can we not provide this?}
+\seb{I agree with Sonja, it is not clear whether we achieve it or not}
 
 \subsubsection{Participation-proof privacy}
 
