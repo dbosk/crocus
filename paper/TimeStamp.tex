@@ -22,15 +22,18 @@ Now we can use \((\rho_{t_0}, m, \pi_{t_1})\) to prove that \(m\) was created wi
 The verifier computes \(h'\gets \Hash[m, \rho_{t_0}]\) and checks whether \(\TSverify[h', \pi_{t_1}] = 1\) and \(\TStime[\rho_{t_0}] = t_0\land \TStime[\pi_{t_1}] = t_1\).
 
 We can instantiate \(\TS\) using a blockchain, \eg OmniLedger~\cite{OmniLedger}.
-The \(\TSstamp[x]\) algorithm will simply include \(x\) in the blockchain and return the block into which \(x\) was included.
+The \(\TSstamp[x]\) algorithm will simply include \(x\) in the blockchain and 
+return the identifier of the block into which \(x\) was included.
 \(\TSget\) will return the hash of the current head of the chain.
 This value is difficult to predict since it depends on all submitted transactions and usually some randomness (\eg nonces and miners' secrets).
 The blockchain must also be continuously extended, such as in Bitcoin~\cite{Bitcoin}, in which a new block appears approximately every 10 minutes.
-Having a dedicated blockchain for a protest will not do, and thus it is better to use a blockchain which is also used for other things too.
+Having a dedicated blockchain for a protest will not do, and thus it is better 
+to use a blockchain which is used for other things too.
 
 There are some additional properties that we need from \(\TS\), which are implied by blockchains.
 First, we need \emph{immutability}, to ensure that once we commit something (through \(\TSstamp\)) it will remain there.
 We will use this to ensure verifiability as the data must remain to be verifiable.
 Second, once we have committed some data, we do not need to keep the data itself, but we can store some confirmation value instead.
-For instance using blockchains, we can store the hash of the block in which our data was committed, while this block remains we are sure that our data remains committed --- even if we no longer remember what our data looked like.
-We will use this property to approximate the property of receipt freeness.
+For instance using blockchains, we can store the hash of the block in which our 
+data was committed, while this block remains we are sure that our data remains 
+committed --- even if we no longer remember what our data looked like.
