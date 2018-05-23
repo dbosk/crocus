@@ -41,9 +41,10 @@
 
   \path[every node/.style={font=\small}]
   (manifesto) edge node [anchor=east] {$\Hash[\cdot]$} (cid)
-  (cid) edge node [anchor=east] {$\ACprf[_{sk_P}][\cdot]$} (pid)
-  (pid) edge[bend right] node [anchor=north west] {$\ACprf[_{sk_W}][\cdot]$} 
-  (wid)
+  (cid) edge node [anchor=north east,rotate=-30]
+    {$\ACprf[_{sk_P}][\cdot]$} (pid)
+  (pid) edge[bend right] node [anchor=north west,rotate=-30]
+    {$\ACprf[_{sk_W}][\cdot]$} (wid)
   % wsig
   (l) edge[bend right] (wsig)
   (ts) edge[bend right] (wsig)
