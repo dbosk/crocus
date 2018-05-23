@@ -3,7 +3,8 @@
 
 \NewScheme{\PRIVOscheme}{PRIVO}
 
-We now present \PRIVO, a protocol for securely and PRIvately Verifying PROtests.
+We now present \PRIVO, a protocol for securely and PRIvately Verifying PROtest 
+Outcomes.
 The protocol consists of four phases: the setup, join, participation and 
 submission phases.
 We have several roles.
@@ -49,7 +50,7 @@ Choose \(x,y,z\rgets \ZZ_q\) uniformly at random and set \(X = g^x, Y = g^y, Z =
 Then the service public key \(spk = (q, G, G_T, g, X, Y, Z)\) and the service 
 private key \(ssk = (x, y, z)\).
 
-\NewAlgorithm{\PRIVOreg}{Register}
+\NewAlgorithm{\PRIVOreg}{Reg}
 
 \emph{Registration: \(sk\gets 
     \Proto{\PRIVOreg[_P][spk]}{\PRIVOreg[_{CA}][ssk]}\).}
@@ -57,14 +58,14 @@ During the registration phase, each protester will generate a secret key and
 obtain a signature on it by the \ac{CA} --- without revealing it to the \ac{CA}.
 Thus each protester will have a signed secret key, the \ac{CA} will issue only 
 one signature per protester but will not know who has which key.
-The protester chooses \(k, r\gets \ZZ_q\) uniformly randomly and sets \(M = g^k 
-  Z^r\) and send \(M\) to the server.
+The protester chooses \(k, r\rgets \ZZ_q\) uniformly randomly and sets \(M = g^k 
+  Z^r\) and sends \(M\) to the server.
 The protester acts as prover and the \ac{CA} as verifier while they perform the 
 following \ac{ZKPK} protocol:
 \[
   \PK[k,r][M = g^k Z^r].
 \]
-If the proof succeeds, the \ac{CA} chooses \(a\gets \ZZ_q^*\) and sets \(A = 
+If the proof succeeds, the \ac{CA} chooses \(a\rgets \ZZ_q^*\) and sets \(A = 
   g^a\).
 Then it forms the signature \(\sigma = (A, B = A^y, Z_B = B^z = Z^{ay}, C = A^x 
   M^{axy})\) and sends it to the protester.
@@ -89,11 +90,12 @@ He will distribute this manifesto to people: on the Web, on placards, \etc.
 If they agree, they will use it to join the protest.
 
 \NewAlgorithm{\PRIVOjoin}{Join}
+\NewVariable{\mfst}{manifesto}
 
 \emph{Joining participant: \((pid, t_s)\gets 
     \PRIVOjoin[_P][\text{manifesto}]\).}
 A participant who wants to join the protest will use the manifesto to compute an 
-identifier for the cause, \(cid\gets \Hash[\text{manifesto}]\).
+identifier for the cause, \(cid\gets \Hash[\mfst]\).
 Then this identifier is used to create the participant's protest-specific 
 identifier, \(pid\gets \ACprf[_{sk}][cid]\) (in 
 \cref{fig:ProofFig,fig:ProtocolOverview}).
@@ -170,7 +172,8 @@ time-stamping service, \(t_s\gets \TSget\).
     The organizer \(O\) broadcasts the manifesto.
     The protester \(P\), witness \(W\) and their computations are as in 
     \cref{fig:ProofFig}.
-    Finally, both \(P\) and \(W\) submits the proof share to the storage \(S\).
+    Finally, both \(P\) and \(W\) submits the proof share to some permanent 
+    storage \(S\).
   }%
   \label{fig:ProtocolOverview}
 \end{figure}
@@ -181,7 +184,7 @@ time-stamping service, \(t_s'\gets \TSget\).
 (We do this for redundancy, the newest of \(t_s\) and \(t_s'\) will set the 
 start of the time interval of creation for the proof share.).
 
-\NewAlgorithm{\PRIVOparticipate}{Participate}
+\NewAlgorithm{\PRIVOparticipate}{Prticip}
 \NewAlgorithm{\PRIVOwitness}{Witness}
 
 \emph{Participating: \(\pi\gets
@@ -189,7 +192,7 @@ start of the time interval of creation for the proof share.).
 In the participating phase the participant and the witness constructs the proof 
 share of the participant (\cref{fig:ProofFig}).
 The participant reblinds its signature \(\sigma\) on its secret key: choose 
-\(r_1, r_2\gets \ZZ_q^*\) and let \(
+\(r_1, r_2\rgets \ZZ_q^*\) and let \(
   \tilde\sigma = (\tilde A = A^{r_1},
                   \tilde B = B^{r_1},
                   \tilde Z_B = Z_B^{r_1},
@@ -274,6 +277,7 @@ Finally, the participant uploads the tuple \[
 The witness should, just as the participant, commit the proof-share data to the 
 time-stamping service, \(t_e'\gets \TSstamp[\Hash[pid, wid, t_s, t_s', l, 
   wsig]]\).
+(This is for redundancy only.)
 Then, without any time requirements, the witness computes \iac{NIZK} proof 
 \(\pi_{wid, wsig}\) as follows:
 \begin{multline*}

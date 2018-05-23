@@ -13,7 +13,7 @@
     child {%
       node[item] (cid) {$cid$}
       child {%
-        node[item] (manifesto) {Manifesto}
+        node[item] (manifesto) {$\mfst$}
       }
     }
   }
