@@ -108,31 +108,20 @@ indeed the one she is looking for.
 Thus we cannot provide receipt freeness.
 (See \cref{Conclusions} for further discussion.)
 
-We note that we cannot actually improve the privacy of participating protesters during the protest: if Alice is caught during a protest or other crowd-counting mechanisms based on photographic or video evidence are used to identify Alice, there is nothing we can do.
-\seb{suggestion maybe we should put the following part in the discussion}
-However, in \PRIVO, we aim at verifiable participation count that does not add any threats to the participants' privacy. 
-For instance, if there are counter-protests in the \emph{same location at the same time}, Alice could even blend into another crowd and argue that she participated in a different protest than she actually did --- and the counts would still be correct afterwards.
-However, even if there is only one protest and she is not caught in the act, then using our proposed mechanism should not incur any additional risk.
-Thus we need at least participation-proof privacy but receipt freeness is also desired.
-In essence, this means that upon completing the protocol, Eve cannot link Alice to Alice's participation proof --- even if she were to compromise Alice's device.
-\sonja{I'm confused: can we or can we not provide this?}
-\seb{I agree with Sonja, it is not clear whether we achieve it or not}
-
-\subsubsection{Participation-proof privacy}
-
-\begin{definition}[Proof indistinguishability]
-  Adversary chooses two messages \(m_0, m_1\) and gives them to the challenger.
-  Challenger uniformly randomly selects \(b\rgets \bin\) and runs \(c_b \gets 
-    PRF_k(m_0), c_{1-b} \gets PRF_k(m_1)\).
-  The challenger gives \(c_0, c_1\) to adversary.
-  If the adversary outputs \(b' = b\) she wins.
-  (The property should be similar to key privacy~\cite{KeyPrivacy}.)
-\end{definition}
-
-\subsubsection{Receipt freeness}
-
-\begin{definition}[Receipt freeness/deniability]
-  Adversary gets oracle access to the user?
-  User provides a witness?
-\end{definition}
+This leaves us with what should correspond to vote privacy.
+We need unlinkability between Alice's identity and Alice's participation proof.
+Given a participation proof, Grace will not be able to tell if it belongs to 
+Alice or Bob.
+This is stronger than vote privacy, where Grace may know that Alice voted but 
+not what she voted, whereas here she may not know whether Alice \enquote{voted} 
+or not.
+Thus participants and non-participants must be indistinguishable.
+As this is quite difficult to achieve, we settle for something slightly weaker:
+\begin{requirements}[P]
+\item\label{ProtestInd} Participants of two different protests must be 
+  indistinguishable.
+\end{requirements}
+Thus Alice can always argue to be part of any counter-protest while actually 
+supporting the protest, which, in fact, is a slight increase in privacy over 
+ordinary protests.
 
