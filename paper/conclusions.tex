@@ -1,4 +1,5 @@
-\section{Conclusions}
+\section{Conclusions}%
+\label{Conclusions}
 
 We have introduced \PRIVO, a protocol for verifiably counting
 participants at protests. Despite the verification, the privacy of the
@@ -34,3 +35,14 @@ considerable undercount in most scenarios, but it presents a first
 step toward accurate verifiable yet privacy-preserving crowd counting
 by showing how it can be done in theory at least and in practice once
 some assumptions become more realistic. 
+
+When it comes to receipt freeness, our construction does not allow it.
+The very property that prevents Alice from cheating by creating \(\pid, \pid'\), 
+such that \(\pid \neq \pid'\), is the property that allows Grace to verify 
+Alice's participation proof.
+If Grace can perform computations using Alice's key, Grace can input the 
+\(\cid\) of interest and see if the resulting \(\pid\) is available on the 
+blockchain.
+To mitigate this situation, Alice could delete her key, in which case she cannot 
+participate in any future protest.
+
