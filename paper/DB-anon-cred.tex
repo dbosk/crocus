@@ -20,13 +20,12 @@ There is a protocol which provide \ac{DBPK} with all the desired properties from
 above, ProProx~\cite{ProProx}.
 (Note that~\cite{ProProx} uses the abbreviation PoPoK, for Proof of Proximity of 
 Knowledge, instead of \ac{DBPK}.)
-However, ProProx provides \iac{DBPK} protocol for quadratic residues (\ie for 
-proving \(\DBPK[\alpha][a = \alpha^2]\)) while in our context, we need 
-\iac{DBPK} protocol for discrete logarithms.
+However, ProProx provides \iac{DBPK} protocol for quadratic residues (\ie 
+protocols of the form \(\DBPK[\alpha][a = \alpha^2]\)) while in our context, we 
+need \iac{DBPK} protocol for discrete logarithms (\ie \(\DBPK[\alpha][a = 
+  g^\alpha]\)).
 To realize this, we will now introduce such a protocol that will allow us to do 
 \ac{DB} anonymous credentials.
-We note, however, that this protocol only provides \ac{DBMF}, \ac{DBDF}, 
-\ac{DBDH} and \ac{DBIF} resistance --- but not \ac{DBTF} resistance.
 
 \NewScheme{\DBS}{DBS}
 \NewAlgorithm{\DBSprove}{\DBS.\!Prove}
@@ -38,10 +37,10 @@ design a distance-bounding protocol based on the Schnorr identification
 scheme~\cite{Schnorr}.
 That \ac{DB} Schnorr protocol was shown to be prone to distance 
 hijacking~\cite{DistanceHijacking}.
+(It could not fulfil \ac{DBTF} either.)
 We now propose another way to turn the Schnorr protocol into \iac{DB} protocol 
-which is secure against \ac{DBMF}, \ac{DBDF}, \ac{DBDH} and an impersonating 
-verifier (\ie public-key).
-It will not protect against terrorist fraud, although ideally this property should be desirable.
+which is secure against \ac{DBMF}, \ac{DBDF}, \ac{DBDH}, \ac{DBTF} and an 
+impersonating verifier (\ie it is public-key).
 
 We present the protocol in \cref{SchnorrFigure}.
 The difference from the original Schnorr protocol is that the prover commits to two random values and the verifier sends two challenges.
@@ -155,5 +154,11 @@ Thus the prover reveals all the bits of either \(s_0\) or \(s_1\) but only \(l\)
 Thus, the adversary can buffer \(l\) bits of both \(s_0, s_1\) by requesting them from the prover.
 However at this point the adversary must wait for \(b_{l+1}\) from the verifier and then relay that challenge to the prover to receive the correct \(r_i\) --- this relay will be detected.
 
-The protocol is also secure against distance hijacking due to the fact that it is the authenticating bit string that is used 
-during the \ac{DB} phase.
+The protocol is \ac{DBTF} resistant, if the malicious prover gives both 
+responses to the adversary, the adversary can compute the secret key.
+This follows from the fact that it is \iac{ZKPK}, \ie there is an extractor that 
+can extract the secret.
+
+The protocol is also secure against distance hijacking due to the fact that it 
+is the authenticating bit string that is used during the \ac{DB} phase, not the 
+challenge bit string as in Brands-Chaum.
