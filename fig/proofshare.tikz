@@ -9,16 +9,16 @@
   }
   \node[item] (proof) {Proof share}
   child {%
-    node[item] (pid) {$pid$}
+    node[item] (pid) {$\pid$}
     child {%
-      node[item] (cid) {$cid$}
+      node[item] (cid) {$\cid$}
       child {%
         node[item] (manifesto) {$\mfst$}
       }
     }
   }
   child {%
-    node[item] (wid) {$wid$}
+    node[item] (wid) {$\wid$}
   }
   child {%
     node[item] (ts) {$t_s, t_s'$}
@@ -27,7 +27,7 @@
     node[item] (l) {$l$}
   }
   child {%
-    node[item] (wsig) {$wsig$}
+    node[item] (wsig) {$\wsig$}
   }
   ;
 
@@ -42,13 +42,13 @@
   \path[every node/.style={font=\small}]
   (manifesto) edge node [anchor=east] {$\Hash[\cdot]$} (cid)
   (cid) edge node [anchor=north east,rotate=-30]
-    {$\ACprf[_{sk_P}][\cdot]$} (pid)
+    {$\ACprf[_{\sk_P}][\cdot]$} (pid)
   (pid) edge[bend right] node [anchor=north west,rotate=-30]
-    {$\ACprf[_{sk_W}][\cdot]$} (wid)
+    {$\ACprf[_{\sk_W}][\cdot]$} (wid)
   % wsig
   (l) edge[bend right] (wsig)
   (ts) edge[bend right] (wsig)
-  (wid) edge[bend right] node [anchor=167] {$(\ACprf_{sk_W}\circ \Hash)(\cdot, 
+  (wid) edge[bend right] node [anchor=167] {$(\ACprf_{\sk_W}\circ \Hash)(\cdot, 
   \cdot, \cdot)$} (wsig)
   ;
 

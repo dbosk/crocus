@@ -1,25 +1,23 @@
 \section{Security and privacy analysis}%
 \label{SecurityAnalysis}
 
-\subsection{Constructing the participation-proof shares}
-
-\subsubsection{Linkability and designated protest}
-
-\NewVariable{\sk}{sk}
+\paragraph{Linkability and designated protest}
 
 \Cref{CountOnce} is required to prevent Sybil attacks, \ie that one individual 
 can provide two participation proofs and thus be counted twice.
 This is prevented by the use of \(\pid\).
 To be counted twice, Alice must produce a \(\pid'\neq \pid\) and a signature
-\begin{align*}
-\pi_{\pid'} &= \SPK\mleft\{ (\sk') : \mright. \\
-            & \qquad pid = \ACprf[_{\sk'}][cid], \\
-            & \qquad \mleft. \sigma = \ACblind[\ACsign[_{ssk}][\sk']] \mright\} 
-            \\
-            & \qquad\qquad (\cid, \pid', \wid', t_s, t_s', l, wsig').
-\end{align*}
-\daniel{There are several approaches for Alice to do this, we should describe 
-  them.}
+\begin{multline*}
+\pi_{\pid'} = \SPK\mleft\{ (\sk') : \mright. \\
+  \begin{aligned}
+    \pid' &= \ACprf[_{\sk'}][\cid], \\
+    \sigma &= \mleft. \ACblind[\ACsign[_{\ssk}][\sk']] \mright\}
+  \end{aligned} \\
+    (\cid, \pid', \wid', t_s, t_s', l, \wsig').
+\end{multline*}
+\daniel{There are several approaches for Alice to do this, \eg attacking the 
+  \(\SPK\)-signature, the \(\AC\)-signature, \etc.
+  I think we should describe them.}
 
 \Cref{DesignatedEvent} is to prevent Alice from reusing the same proof (or proof 
 share) for another event --- or someone else using her proof-share for another 
@@ -29,7 +27,7 @@ Thus to reuse the proof share for another protest, with a different manifesto,
 one must find a second preimage \(\mfst'\) such that \(\cid = \Hash[\mfst] = 
   \Hash[\mfst']\).
 
-\subsubsection{Temporal eligibility, created after start}
+\paragraph{Temporal eligibility, created after start}
 
 Given the properties of the storage (in \cref{StorageProperties}), for 
 \cref{CreatedAfterStart}, each witness must include the hash value of an 
@@ -40,7 +38,7 @@ predicting such a value is hard).
 This value can either be provided to the witness by the protester or the witness 
 uses the value of the last known block.
 
-\subsubsection{Location proofs and spatial eligibility}
+\paragraph{Location proofs and spatial eligibility}
 
 According to \cref{SpatiallyRelated} Alice and Bob must bind their proofs 
 (shares) spatially to the location, which would allow us to verify that they 
@@ -49,14 +47,14 @@ The role of the witnesses, \eg Jane, is to provide this property.
 Jane can do this by using a distance-bounding protocol to ensure that the secret 
 associated with Alice or Bob must be within limited physical distance.
 
-Alice will send her \(pid\) to Jane to start the witness protocol.
+Alice will send her \(\pid\) to Jane to start the witness protocol.
 Then they do the distance bounding \dots
 [See issue \#22 for the discussion.]
 If Jane is convinced that Alice's secret is within the desired proximity, she 
-will compute her witness identifier \(wid\) and witness signature \(wsig\) and 
+will compute her witness identifier \(\wid\) and witness signature \(\wsig\) and 
 send them to Alice.
 
-\subsubsection{Temporal eligibility, created before end}
+\paragraph{Temporal eligibility, created before end}
 
 The proofs (shares) can be submitted to storage in two steps:
 first, committing them to the blockchain; second, to submit all the required 
@@ -93,24 +91,24 @@ Universal verifiability (\cref{UniversalVerif}) means that anyone should be able
 to count the valid proofs.
 To do this we must be able to verify the eligibility of a proof (\ie of all 
 its shares) and then count it if valid.
-To verify the eligibility of a proof share, we must verify that \(pid\), \(wid\) 
-and \(wsig\) are not just randomly generated numbers but they actually depend on 
+To verify the eligibility of a proof share, we must verify that \(\pid\), \(\wid\) 
+and \(\wsig\) are not just randomly generated numbers but they actually depend on 
 the keys \(k_P\) and \(k_W\) (as illustrated in \cref{fig:ProofFig}).
 We will do this with \ac{NIZK} proofs.
 We note that these proofs are not needed until the verification step after the 
 protest.
-Thus \(pid, wid, wsig\) can be used in the proof shares (and all computations 
+Thus \(\pid, \wid, \wsig\) can be used in the proof shares (and all computations 
 above) whereas their respective \ac{NIZK} proof can be computed and published 
 after the protest.
 
-Alice must provide \iac{NIZK} proof showing that \(pid = \ACprf[_{k_P}][cid]\) 
+Alice must provide \iac{NIZK} proof showing that \(\pid = \ACprf[_{k_P}][\cid]\) 
 and that she knows a signature by the identity authority on \(k_P\).
 \dots
 [Details of how to do this, or maybe that will be in \cref{BuildingBlocks}. See 
 issue \#27 for discussion.]
 
-In the same manner, each witness must also provide \iac{NIZK} proofs for \(wid = 
-  \ACprf[_{k_W}][pid]\) and \(wsig = \ACprf[_{k_W}][wid, t_s, l]\) as well as 
+In the same manner, each witness must also provide \iac{NIZK} proofs for \(\wid = 
+  \ACprf[_{k_W}][\pid]\) and \(\wsig = \ACprf[_{k_W}][\wid, t_s, l]\) as well as 
 that the witness knows a signature by the identity authority on \(k_W\).
 With these \ac{NIZK} proofs anyone can verify the validity, \ie the 
 eligibility, of the proof shares and thus also count them.
@@ -130,7 +128,7 @@ verifiability.
 More specifically, to achieve receipt freeness (\cref{ReceiptFreeness}) Alice 
 must remove her secret \ac{PRF} key, \(k_A\).
 With this key Grace can verify that Alice has submitted a proof by computing 
-\(pid'\gets \ACprf[_{k_A}][cid]\) and compare \(pid = pid'\).
+\(\pid'\gets \ACprf[_{k_A}][\cid]\) and compare \(\pid = \pid'\).
 
 
 \subsection{Old}
