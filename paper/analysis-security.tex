@@ -29,6 +29,7 @@ one must find a second preimage \(\mfst'\) such that \(\cid = \Hash[\mfst] =
 
 \paragraph{Temporal eligibility, created after start}
 
+\daniel{Rewrite this paragraph, do proper analysis.}
 Given the properties of the storage (in \cref{StorageProperties}), for 
 \cref{CreatedAfterStart}, each witness must include the hash value of an 
 existing block in the blockchain in each proof share (shown as \(t_s\) in 
@@ -40,45 +41,23 @@ uses the value of the last known block.
 
 \paragraph{Location proofs and spatial eligibility}
 
+\daniel{Discuss the two alternative approaches: trusted Jane and collusion 
+  threshold.
+  Do actual security analysis.}
 According to \cref{SpatiallyRelated} Alice and Bob must bind their proofs 
 (shares) spatially to the location, which would allow us to verify that they 
 were actually in that location.
-The role of the witnesses, \eg Jane, is to provide this property.
-Jane can do this by using a distance-bounding protocol to ensure that the secret 
-associated with Alice or Bob must be within limited physical distance.
-
-Alice will send her \(\pid\) to Jane to start the witness protocol.
-Then they do the distance bounding \dots
-[See issue \#22 for the discussion.]
-If Jane is convinced that Alice's secret is within the desired proximity, she 
-will compute her witness identifier \(\wid\) and witness signature \(\wsig\) and 
-send them to Alice.
+The role of the witnesses is to provide this property.
 
 \paragraph{Temporal eligibility, created before end}
 
-The proofs (shares) can be submitted to storage in two steps:
-first, committing them to the blockchain; second, to submit all the required 
-data.
-This will allow some time for computing all the required \ac{NIZK} proofs 
-(discussed in the following section).
-
-Given the properties of the storage system in \cref{StorageProperties}, 
-\cref{CreatedBeforeEnd} is straight-forward: once a proof share is created it 
-should be committed to the blockchain as soon as possible.
-Thus we can infer that a proof (or proof share) was created at the latest when 
-it was committed.
-
-We note that there are at least two entities who know each proof share, the 
-protester and the witness.
-Alice and Bob simply commit their proofs (\ie all proof shares of their 
-proofs) to the blockchain as soon as possible after they have participated in 
-the protest.
-The witnesses do the same, they commit all the proof shares that they helped 
-create.
-(Shown in \cref{fig:ProtocolOverview}.)
+The proofs are committed to the blockchain, thus they cannot have been created 
+after.
+\daniel{Do a proper security analysis.}
 
 \subsection{Verifying the participation count}
 
+\daniel{Rewrite!}
 There are three parts to verifying the participation count.
 First, we must verify the eligibility of each proof, \ie of all its shares.
 Second, we must count these valid proofs.
@@ -87,6 +66,7 @@ it can be counted.
 
 \subsubsection{Eligibility and universal verifiability}
 
+\daniel{Do actual security analysis.}
 Universal verifiability (\cref{UniversalVerif}) means that anyone should be able 
 to count the valid proofs.
 To do this we must be able to verify the eligibility of a proof (\ie of all 
@@ -95,106 +75,17 @@ To verify the eligibility of a proof share, we must verify that \(\pid\), \(\wid
 and \(\wsig\) are not just randomly generated numbers but they actually depend on 
 the keys \(k_P\) and \(k_W\) (as illustrated in \cref{fig:ProofFig}).
 We will do this with \ac{NIZK} proofs.
-We note that these proofs are not needed until the verification step after the 
-protest.
-Thus \(\pid, \wid, \wsig\) can be used in the proof shares (and all computations 
-above) whereas their respective \ac{NIZK} proof can be computed and published 
-after the protest.
 
-Alice must provide \iac{NIZK} proof showing that \(\pid = \ACprf[_{k_P}][\cid]\) 
-and that she knows a signature by the identity authority on \(k_P\).
-\dots
-[Details of how to do this, or maybe that will be in \cref{BuildingBlocks}. See 
-issue \#27 for discussion.]
+\subsubsection{Individual verifiability}
 
-In the same manner, each witness must also provide \iac{NIZK} proofs for \(\wid = 
-  \ACprf[_{k_W}][\pid]\) and \(\wsig = \ACprf[_{k_W}][\wid, t_s, l]\) as well as 
-that the witness knows a signature by the identity authority on \(k_W\).
-With these \ac{NIZK} proofs anyone can verify the validity, \ie the 
-eligibility, of the proof shares and thus also count them.
-
-\subsubsection{Individual verifiability and receipt freeness}
-
+\daniel{Do actual security analysis.
+  This is reduced to the security of the blockchain.}
 The purpose of individual verifiability (\cref{IndividualVerif}) is to prevent 
 an adversary from dropping participation proofs.
 Thus each protester must verify that their own proof is indeed included.
-This can be accomplished as follows.
 After Alice commited to her proof (share) in the blockchain, she stores the hash 
 of the block.
 At a later time, she can still verify that the block is indeed still there.
 At this point, this hash value is the only thing she must store for individual 
 verifiability.
-
-More specifically, to achieve receipt freeness (\cref{ReceiptFreeness}) Alice 
-must remove her secret \ac{PRF} key, \(k_A\).
-With this key Grace can verify that Alice has submitted a proof by computing 
-\(\pid'\gets \ACprf[_{k_A}][\cid]\) and compare \(\pid = \pid'\).
-
-
-\subsection{Old}
-
-We note that Alice and Bob do not trust each other, for all they know one or the 
-other could be an agent of Grace the autocrat.
-\begin{itemize}
-  \item Grace the evil autocrat,
-  \item Mallory the foreign nation state, and finally
-\end{itemize}
-
-
-\subsection{Forging new proofs}
-
-It follows from the digital signatures used that proofs are difficult to forge.
-
-\subsection{Reusing participation proofs}
-
-We consider two ways of reusing participation proofs:
-\begin{enumerate}
-  \item Alice and Bob can reuse old proofs by modifying the identifiers.
-  \item Grace can reuse proofs by creating a manifesto which yields the same 
-    identifier as Alice's protest, then try to create new nodes in the 
-    \ac{tposet} that matches the ones used in the old proofs.
-\end{enumerate}
-We will now estimate the difficulty of both types of attacks.
-
-\subsubsection{Finding second preimages}
-
-Grace (possibly with Mallory's aid) wants to arrange a counter-protest.
-One way to get a higher participation count is to use the same identifier as 
-Alice's protest.
-Since the identifier for the protest is the hash value of the manifest, Grace 
-must find a second preimage for the hash function.
-
-% XXX Rephrase identifier problem as a game
-\begin{proposition}
-  Given \(x\) and \(H(x) = y\), the probability of finding an \(x'\) such that 
-  \(H(x') = y\) is \(\frac{1}{\lambda-1}\).
-\end{proposition}
-
-\begin{question}
-  What if we use a Merkle tree instead of only a hash, will that change the 
-  second preimage property?
-\end{question}
-
-Alice wants to arrange another protest against Grace.
-Her manifesto can remain the same, thus the protest identifier remains the 
-same.
-She wants to reuse some old proofs.
-The head value that are included in the proofs extend them too far back into 
-time.
-The digital signatures prevents her from changing them.
-So an alternative is to create nodes in the \ac{tposet} which has the same 
-hashes.
-
-\subsection{Spoofing locations}
-
-\subsubsection{Trust propagation for witnesses}
-
-\dots
-
-\subsection{Individual verifiability}
-
-Grace and Mallory have an incentive to lower the confidence in the result.
-One way they can do this is to say that the result does not contain all 
-participation proofs.
-Statements such as this should be proved: provide a valid but missing proof.
 
