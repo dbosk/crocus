@@ -6,7 +6,7 @@ participants at protests. Despite the verification, the privacy of the
 participants is preserved to the extent possible by their physical
 presence at the protest. To achieve that, we adapted the Schnorr
 protocol to develop distance-bounding anonymous credentials. Except for receipt
-freeness (\cref{ReceiptFreeness}), which we cannot guarantee if the adversary gets access to
+freeness, which we cannot guarantee if the adversary gets access to
 Alice's device and secret PRF key after her participation has
 been witnessed and before she had a chance to
 delete it, \PRIVO
@@ -16,7 +16,7 @@ and location required for protests.
 In general, none of the related works fulfills the eligibility verifiability 
 \cref{%
   CountOnce,%
-  CreatedAfterStart,CreatedBeforeEnd,SpatiallyRelated,%
+  TemporallyRelated,SpatiallyRelated,%
 }.
 To some extent, some techniques do fulfill \cref{DesignatedEvent}, since people 
 usually use placards in the protests.
