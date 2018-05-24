@@ -103,8 +103,8 @@ To forge a witness signature, Alice must produce a \(\wid'\) such that
       (\pid, \wid', t_s, t_s', l, \wsig'),
 \end{multline*}
 while not knowing a signature on the secret key \(\sk_W'\).
-Thus she must get break the \(\AC\) scheme to succeed or get a valid signature 
-on \(\sk_W'\) from the \ac{CA}.
+Thus she must break the \(\AC\) scheme to succeed or get a valid signature on 
+\(\sk_W'\) from the \ac{CA}.
 (Note that Alice can produce one witness signature for herself, since she has 
 access to her own \(\sk_P\), but no more.)
 
@@ -137,5 +137,22 @@ one must find a second preimage \(\mfst'\) such that \(\cid = \Hash[\mfst] =
 
 \subsection{Privacy}
 
-\daniel{Must write up privacy analysis.
-  However, must complement the privacy definition for this.}
+We start with \cref{ProtestUnlink}, that Alice's proofs must be unlinkable 
+across protests (but linkable within one protest due to \cref{CountOnce}).
+It follows from the properties of \(\ACprf\) that \(\pid = 
+  \ACprf[_{\sk_P}][\cid]\) and \(\pid' = \ACprf[_{\sk_P}][\cid']\) are 
+unlinkable if \(\cid\neq \cid'\).
+
+Now to \cref{ProofUnlink}.
+Say that a witness works for Grace.
+This witness interacts with Alice directly, \ie has (physically) identified her.
+The witness also learns Alice's \(\pid\), but not \(\cid\), to compute \(\wid\) 
+and to verify the \ac{DBPK}.
+\daniel{This assumes that I will do the changes to hide \(\cid\) from the 
+  witness in the \ac{DBPK}.}
+Afterwards, Alice publishes \(\pid\) and \(\cid\) together as part of the proof 
+share.
+The probability of a colliding \(\pid = \ACprf[_\sk][\cid']\) for some \(\cid' 
+  \neq \cid\) and \(\sk \neq \sk_P\) is \enquote{small}.
+\daniel{Fix this.}
+Now Grace can link \(\cid\) (and thus the opinions in the manifesto) to Alice.
