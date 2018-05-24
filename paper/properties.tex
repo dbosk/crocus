@@ -111,16 +111,15 @@ This leaves us with what should correspond to vote privacy.
 We need unlinkability between Alice's identity and Alice's participation proof.
 Given a participation proof, Grace will not be able to tell if it belongs to 
 Alice or Bob.
-This is stronger than vote privacy, where Grace may know that Alice voted but 
-not what she voted, whereas here she may not know whether Alice \enquote{voted} 
-or not.
-Thus participants and non-participants must be indistinguishable.
-As this is quite difficult to achieve, we settle for something slightly weaker:
+Furthermore, if Grace has managed to link one proof to Alice's, she should not 
+be able to link another proof as a consequence.
+Hence, we can summarize our needed properties as follows:
 \begin{requirements}[P]
-\item\label{ProtestInd} Participants of two different protests must be 
-  indistinguishable.
+\item\label{ProofUnlink} Participants must be unlinkable to their proofs.
+\item\label{ProtestUnlink} Participants (or proofs for the same participant) 
+  must be unlinkable between different protests.
 \end{requirements}
-Thus Alice can always argue to be part of any counter-protest while actually 
-supporting the protest, which, in fact, is a slight increase in privacy over 
-ordinary protests.
+Thus Alice can always argue to be part of the protest in Grace's favour instead 
+of any protest against Grace, which, in fact, is a slight increase in privacy 
+over ordinary protests.
 
