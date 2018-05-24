@@ -39,8 +39,8 @@ We will now analyse these.
 \paragraph{Temporal eligibility}%
 \label{analysis-temporal}
 
-\Cref{TemporallyRelated} ensures freshness, \ie that we cannot simply resubmit 
-an old proof as a new one.
+\Cref{TemporallyRelated} ensures freshness, \ie that Alice cannot simply 
+resubmit an old proof as a new one.
 In general, freshness requires the prover to respond to an unpredictable 
 challenge.
 The challenge here is to include the hash value at the head of the blockchain at 
@@ -60,6 +60,7 @@ have been published on the blockchain before being included in her proof share.
 
 According to \cref{TemporallyRelated}, we must also prove that a proof share has 
 not been created after a certain time.
+Otherwise Grace can argue that the proof share was created after the protest.
 The hash values of the proof shares are committed to the blockchain, thus there 
 is a negligible probability that they were created after that.
 Alice would have to choose a value \(y\) in the domain of the hash function 
@@ -70,25 +71,34 @@ If \(\Hash\) is collision resistant, then finding \emph{any} preimage is hard.
 \paragraph{Spatial eligibility}%
 \label{analysis-spatial}
 
-\daniel{Discuss the two alternative approaches: trusted Jane and collusion 
-  threshold.
-  Do actual security analysis.}
-According to \cref{SpatiallyRelated} Alice and Bob must bind their proofs 
-(shares) spatially to the location, which would allow us to verify that they 
-were actually in that location.
-The role of the witnesses is to provide this property.
+\Cref{SpatiallyRelated} is achieved by having a witness vouch that Alice was 
+indeed on the location when the proof share was created.
+Thus we must ensure that Alice cannot forge undeserved witness signatures.
+To forge a witness signature, Alice must produce a \(\wid'\) such that
+\begin{multline*}
+  \pi_{\wid', \wsig'}\gets \SPK\left\{ (\sk_W') : \right. \\
+    \begin{aligned}
+      \wid' &= \ACprf[_{\sk_W'}][\pid] \quad \land \\
+      \wsig' &= \ACprf[_{\sk_W'}][\wid', t_s, t_s', l] \quad \land \\
+      \sigma_W'' &= \left. \ACblind[\ACsign[_{\ssk}][\sk_W']] \right\}
+    \end{aligned} \\
+      (\pid, \wid', t_s, t_s', l, \wsig'),
+\end{multline*}
+while not knowing a signature on the secret key \(\sk_W'\).
+Thus she must get break the \(\AC\) scheme to succeed or get a valid signature 
+on \(\sk_W'\) from the \ac{CA}.
 
 \paragraph{Linkability}%
 \label{analysis-linkability}
 
-\Cref{CountOnce} is required to prevent Sybil attacks, \ie that one individual 
-can provide two participation proofs and thus be counted twice.
+\Cref{CountOnce} is required to prevent Sybil attacks, \ie that Alice can 
+provide two participation proofs and thus be counted twice.
 This is prevented by the use of \(\pid\).
 To be counted twice, Alice must produce a \(\pid'\neq \pid\).
 Due to the deterministic property of \(\ACprf\), Alice must produce a new key 
 \(\sk_P'\) and make the witness accept in the protocol
 \begin{multline*}
-\PK\mleft\{ (\sk_P') : \pid' = \ACprf[_{\sk_P'}][\cid], \mright. \\
+\PK\mleft\{ (\sk_P') : \pid' = \ACprf[_{\sk_P'}][\cid] \quad \land \mright. \\
     \sigma_P'' = \mleft. \ACblind[\ACsign[_{\ssk}][\sk_P']] \mright\}
 \end{multline*}
 while she does not know a valid signature on \(\sk_P'\).
@@ -106,27 +116,23 @@ Thus to reuse the proof share for another protest, with a different manifesto,
 one must find a second preimage \(\mfst'\) such that \(\cid = \Hash[\mfst] = 
   \Hash[\mfst']\).
 
-\paragraph{Forging proof shares}
+%\paragraph{Forging proof shares}
+%
+%\daniel{This is work-in-progress.}
+%Alice can attempt to forge the full proof directly, \ie
+%\begin{multline*}
+%\pi_{\pid'} = \SPK\mleft\{ (\sk_P') : \mright. \\
+%  \begin{aligned}
+%    \pid' &= \ACprf[_{\sk_P'}][\cid], \\
+%    \sigma_P'' &= \mleft. \ACblind[\ACsign[_{\ssk}][\sk_P']] \mright\}
+%  \end{aligned} \\
+%    (\cid, \pid', \wid', t_s, t_s', l, \wsig')
+%\end{multline*}
+%and consequently
+%and thus solve same problem twice (once for \(pid'\) and once for \(\wid'\)).
+%
 
-\daniel{This is work-in-progress.}
-Alice can attempt to forge the full proof directly, \ie
-\begin{multline*}
-\pi_{\pid'} = \SPK\mleft\{ (\sk_P') : \mright. \\
-  \begin{aligned}
-    \pid' &= \ACprf[_{\sk_P'}][\cid], \\
-    \sigma_P'' &= \mleft. \ACblind[\ACsign[_{\ssk}][\sk_P']] \mright\}
-  \end{aligned} \\
-    (\cid, \pid', \wid', t_s, t_s', l, \wsig')
-\end{multline*}
-and consequently
-\begin{multline*}
-  \pi_{\wid', \wsig'}\gets \SPK\left\{ (\sk_W') : \right. \\
-    \begin{aligned}
-      \wid' &= \ACprf[_{\sk_W'}][\pid'] \quad \land \\
-      \wsig' &= \ACprf[_{\sk_W'}][\wid', t_s, t_s', l] \quad \land \\
-      \sigma_W'' &= \left. \ACblind[\ACsign[_{\ssk}][\sk_W']] \right\}
-    \end{aligned} \\
-      (\pid', \wid', t_s, t_s', l, \wsig'),
-\end{multline*}
-and thus solve same problem twice (once for \(pid'\) and once for \(\wid'\)).
+\subsection{Privacy}
 
+\daniel{Must write up privacy analysis.
+  However, must complement the privacy definition for this.}
