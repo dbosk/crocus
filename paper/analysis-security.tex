@@ -36,19 +36,39 @@ that the proof is indeed designated for the event (designated-event
 eligibility).
 We will now analyse these.
 
-\paragraph{Temporal eligibility, created after start}
+\paragraph{Temporal eligibility}%
+\label{analysis-temporal}
 
-\daniel{Rewrite this paragraph, do proper analysis.}
-Given the properties of the storage (in \cref{StorageProperties}), for 
-\cref{CreatedAfterStart}, each witness must include the hash value of an 
-existing block in the blockchain in each proof share (shown as \(t_s\) in 
-\cref{fig:ProofFig}).
-Then it is clear that the proof must have been created after that block (since 
-predicting such a value is hard).
-This value can either be provided to the witness by the protester or the witness 
-uses the value of the last known block.
+\Cref{TemporallyRelated} ensures freshness, \ie that we cannot simply resubmit 
+an old proof as a new one.
+In general, freshness requires the prover to respond to an unpredictable 
+challenge.
+The challenge here is to include the hash value at the head of the blockchain at 
+the time of the proof's creation (included as \(t_s\) and \(t_s'\) in the proof 
+share).
+As per construction of blockchains, the hash value at the head depends on the 
+previous blocks in the chain.
+Thus the predictability of \(t_s\) depends on the predictability of the blocks, 
+which depends on the predictability of the transactions and the nonce needed by 
+the miner.
+The transactions in turn depend on the signatures made by the signing keys 
+corresponding to the used transactions.
+If these were predictable, our adversary could spend arbitrary transactions in 
+the blockchain --- which is designed to be hard.
+Thus Alice can predict \(t_s\) with negligible probability, \ie \(t_s\) must 
+have been published on the blockchain before being included in her proof share.
 
-\paragraph{Location proofs and spatial eligibility}
+According to \cref{TemporallyRelated}, we must also prove that a proof share has 
+not been created after a certain time.
+The hash values of the proof shares are committed to the blockchain, thus there 
+is a negligible probability that they were created after that.
+Alice would have to choose a value \(y\) in the domain of the hash function 
+\(\Hash\) and then find a preimage \(x\) such that \(y = \Hash[x]\) and \(x\) is 
+a valid proof.
+If \(\Hash\) is collision resistant, then finding \emph{any} preimage is hard.
+
+\paragraph{Spatial eligibility}%
+\label{analysis-spatial}
 
 \daniel{Discuss the two alternative approaches: trusted Jane and collusion 
   threshold.
@@ -58,18 +78,38 @@ According to \cref{SpatiallyRelated} Alice and Bob must bind their proofs
 were actually in that location.
 The role of the witnesses is to provide this property.
 
-\paragraph{Temporal eligibility, created before end}
-
-The proofs are committed to the blockchain, thus they cannot have been created 
-after.
-\daniel{Do a proper security analysis.}
-
-\paragraph{Linkability and designated protest}
+\paragraph{Linkability}%
+\label{analysis-linkability}
 
 \Cref{CountOnce} is required to prevent Sybil attacks, \ie that one individual 
 can provide two participation proofs and thus be counted twice.
 This is prevented by the use of \(\pid\).
-To be counted twice, Alice must produce a \(\pid'\neq \pid\) and two signatures:
+To be counted twice, Alice must produce a \(\pid'\neq \pid\).
+Due to the deterministic property of \(\ACprf\), Alice must produce a new key 
+\(\sk_P'\) and make the witness accept in the protocol
+\begin{multline*}
+\PK\mleft\{ (\sk_P') : \pid' = \ACprf[_{\sk_P'}][\cid], \mright. \\
+    \sigma_P'' = \mleft. \ACblind[\ACsign[_{\ssk}][\sk_P']] \mright\}
+\end{multline*}
+while she does not know a valid signature on \(\sk_P'\).
+This is thus reduced to the security of the \(\AC\) scheme and how often Alice 
+can get a valid signature on a secret key from the \ac{CA}.
+
+\paragraph{Designated protest}%
+\label{analysis-designated}
+
+\Cref{DesignatedEvent} is to prevent Alice from reusing the same proof (or proof 
+share) for another event --- or someone else using her proof-share for another 
+event.
+This is prevented with the use of \(\cid\) in the proof shares.
+Thus to reuse the proof share for another protest, with a different manifesto, 
+one must find a second preimage \(\mfst'\) such that \(\cid = \Hash[\mfst] = 
+  \Hash[\mfst']\).
+
+\paragraph{Forging proof shares}
+
+\daniel{This is work-in-progress.}
+Alice can attempt to forge the full proof directly, \ie
 \begin{multline*}
 \pi_{\pid'} = \SPK\mleft\{ (\sk_P') : \mright. \\
   \begin{aligned}
@@ -78,7 +118,7 @@ To be counted twice, Alice must produce a \(\pid'\neq \pid\) and two signatures:
   \end{aligned} \\
     (\cid, \pid', \wid', t_s, t_s', l, \wsig')
 \end{multline*}
-and
+and consequently
 \begin{multline*}
   \pi_{\wid', \wsig'}\gets \SPK\left\{ (\sk_W') : \right. \\
     \begin{aligned}
@@ -86,18 +126,7 @@ and
       \wsig' &= \ACprf[_{\sk_W'}][\wid', t_s, t_s', l] \quad \land \\
       \sigma_W'' &= \left. \ACblind[\ACsign[_{\ssk}][\sk_W']] \right\}
     \end{aligned} \\
-      (\pid', \wid', t_s, t_s', l, \wsig').
+      (\pid', \wid', t_s, t_s', l, \wsig'),
 \end{multline*}
-
-\daniel{There are several approaches for Alice to do this, \eg attacking the 
-  \(\SPK\)-signature, the \(\AC\)-signature, \etc.
-  I think we should describe them.}
-
-\Cref{DesignatedEvent} is to prevent Alice from reusing the same proof (or proof 
-share) for another event --- or someone else using her proof-share for another 
-event.
-This is done with the use of \(\cid\) in the proof shares.
-Thus to reuse the proof share for another protest, with a different manifesto, 
-one must find a second preimage \(\mfst'\) such that \(\cid = \Hash[\mfst] = 
-  \Hash[\mfst']\).
+and thus solve same problem twice (once for \(pid'\) and once for \(\wid'\)).
 
