@@ -68,26 +68,6 @@ Alice would have to choose a value \(y\) in the domain of the hash function
 a valid proof.
 If \(\Hash\) is collision resistant, then finding \emph{any} preimage is hard.
 
-\paragraph{Spatial eligibility}%
-\label{analysis-spatial}
-
-\Cref{SpatiallyRelated} is achieved by having a witness vouch that Alice was 
-indeed on the location when the proof share was created.
-Thus we must ensure that Alice cannot forge undeserved witness signatures.
-To forge a witness signature, Alice must produce a \(\wid'\) such that
-\begin{multline*}
-  \pi_{\wid', \wsig'}\gets \SPK\left\{ (\sk_W') : \right. \\
-    \begin{aligned}
-      \wid' &= \ACprf[_{\sk_W'}][\pid] \quad \land \\
-      \wsig' &= \ACprf[_{\sk_W'}][\wid', t_s, t_s', l] \quad \land \\
-      \sigma_W'' &= \left. \ACblind[\ACsign[_{\ssk}][\sk_W']] \right\}
-    \end{aligned} \\
-      (\pid, \wid', t_s, t_s', l, \wsig'),
-\end{multline*}
-while not knowing a signature on the secret key \(\sk_W'\).
-Thus she must get break the \(\AC\) scheme to succeed or get a valid signature 
-on \(\sk_W'\) from the \ac{CA}.
-
 \paragraph{Linkability}%
 \label{analysis-linkability}
 
@@ -104,6 +84,27 @@ Due to the deterministic property of \(\ACprf\), Alice must produce a new key
 while she does not know a valid signature on \(\sk_P'\).
 This is thus reduced to the security of the \(\AC\) scheme and how often Alice 
 can get a valid signature on a secret key from the \ac{CA}.
+
+\paragraph{Spatial eligibility}%
+\label{analysis-spatial}
+
+\Cref{SpatiallyRelated} is achieved by having a witness vouch that Alice was 
+indeed on the location when the proof share was created.
+Thus we must ensure that Alice cannot forge undeserved witness signatures, which 
+is ensured using the same linkability mechanism as above.
+To forge a witness signature, Alice must produce a \(\wid'\) such that
+\begin{multline*}
+  \pi_{\wid', \wsig'}\gets \SPK\left\{ (\sk_W') : \right. \\
+    \begin{aligned}
+      \wid' &= \ACprf[_{\sk_W'}][\pid] \quad \land \\
+      \wsig' &= \ACprf[_{\sk_W'}][\wid', t_s, t_s', l] \quad \land \\
+      \sigma_W'' &= \left. \ACblind[\ACsign[_{\ssk}][\sk_W']] \right\}
+    \end{aligned} \\
+      (\pid, \wid', t_s, t_s', l, \wsig'),
+\end{multline*}
+while not knowing a signature on the secret key \(\sk_W'\).
+Thus she must get break the \(\AC\) scheme to succeed or get a valid signature 
+on \(\sk_W'\) from the \ac{CA}.
 
 \paragraph{Designated protest}%
 \label{analysis-designated}
