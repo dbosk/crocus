@@ -1,31 +1,40 @@
 \section{Security and privacy analysis}%
 \label{SecurityAnalysis}
 
-\paragraph{Linkability and designated protest}
+\subsection{Individual and universal verifiability}%
+\label{analysis-individual}%
+\label{analysis-universal}
 
-\Cref{CountOnce} is required to prevent Sybil attacks, \ie that one individual 
-can provide two participation proofs and thus be counted twice.
-This is prevented by the use of \(\pid\).
-To be counted twice, Alice must produce a \(\pid'\neq \pid\) and a signature
-\begin{multline*}
-\pi_{\pid'} = \SPK\mleft\{ (\sk') : \mright. \\
-  \begin{aligned}
-    \pid' &= \ACprf[_{\sk'}][\cid], \\
-    \sigma &= \mleft. \ACblind[\ACsign[_{\ssk}][\sk']] \mright\}
-  \end{aligned} \\
-    (\cid, \pid', \wid', t_s, t_s', l, \wsig').
-\end{multline*}
-\daniel{There are several approaches for Alice to do this, \eg attacking the 
-  \(\SPK\)-signature, the \(\AC\)-signature, \etc.
-  I think we should describe them.}
+\Cref{IndividualVerif} requires that Alice and Bob, as participants, can verify 
+that their participation proofs (proof shares) are indeed included.
+As all proof shares (\ie \(\cid, \pid, \wid, t_s, t_s', t_e, t_e', l, \wsig, 
+  \pi_\pid, \pi_{\wid, \wsig}\)) are committed to the blockchain and available 
+from public storage (see \cref{fig:ProtocolOverview}).
+Alice and Bob can simply check that all of their proof shares are indeed there 
+and thus the security of individual verifiability depends on the properties of 
+the blockchain and storage.
 
-\Cref{DesignatedEvent} is to prevent Alice from reusing the same proof (or proof 
-share) for another event --- or someone else using her proof-share for another 
-event.
-This is done with the use of \(\cid\) in the proof shares.
-Thus to reuse the proof share for another protest, with a different manifesto, 
-one must find a second preimage \(\mfst'\) such that \(\cid = \Hash[\mfst] = 
-  \Hash[\mfst']\).
+\Cref{UniversalVerif} requires that also anyone can verify the result and that 
+all participation proofs counted indeed are eligible.
+As the proof shares are committed and stored publicly, anyone can download them, 
+verify eligibility (\ie verify \(\pi_\pid, \pi_{\wid, \wsig}\)) the proofs and 
+count them.
+As for individual verifiability, the security of universal verifiability is 
+reduced to the properties of the blockchain and storage but also the eligibility 
+verification, which we will discuss next.
+
+\subsection{Eligibility verifiability}%
+\label{analysis-eligibility}
+
+\Cref{EligibilityVerif} states that anyone must be able to determine the 
+authenticity of the relevant attributes of the data.
+We have several attributes that must be verifiable:
+time of creation (temporal eligibility),
+physical location of \(\sk_P\) at creation (spatial eligibility),
+recognize two proofs from the same person (one-proof-per-person eligibility) and 
+that the proof is indeed designated for the event (designated-event 
+eligibility).
+We will now analyse these.
 
 \paragraph{Temporal eligibility, created after start}
 
@@ -55,37 +64,40 @@ The proofs are committed to the blockchain, thus they cannot have been created
 after.
 \daniel{Do a proper security analysis.}
 
-\subsection{Verifying the participation count}
+\paragraph{Linkability and designated protest}
 
-\daniel{Rewrite!}
-There are three parts to verifying the participation count.
-First, we must verify the eligibility of each proof, \ie of all its shares.
-Second, we must count these valid proofs.
-Third, each protester must check that their proof is indeed registered so that 
-it can be counted.
+\Cref{CountOnce} is required to prevent Sybil attacks, \ie that one individual 
+can provide two participation proofs and thus be counted twice.
+This is prevented by the use of \(\pid\).
+To be counted twice, Alice must produce a \(\pid'\neq \pid\) and two signatures:
+\begin{multline*}
+\pi_{\pid'} = \SPK\mleft\{ (\sk_P') : \mright. \\
+  \begin{aligned}
+    \pid' &= \ACprf[_{\sk_P'}][\cid], \\
+    \sigma_P'' &= \mleft. \ACblind[\ACsign[_{\ssk}][\sk_P']] \mright\}
+  \end{aligned} \\
+    (\cid, \pid', \wid', t_s, t_s', l, \wsig')
+\end{multline*}
+and
+\begin{multline*}
+  \pi_{\wid', \wsig'}\gets \SPK\left\{ (\sk_W') : \right. \\
+    \begin{aligned}
+      \wid' &= \ACprf[_{\sk_W'}][\pid'] \quad \land \\
+      \wsig' &= \ACprf[_{\sk_W'}][\wid', t_s, t_s', l] \quad \land \\
+      \sigma_W'' &= \left. \ACblind[\ACsign[_{\ssk}][\sk_W']] \right\}
+    \end{aligned} \\
+      (\pid', \wid', t_s, t_s', l, \wsig').
+\end{multline*}
 
-\subsubsection{Eligibility and universal verifiability}
+\daniel{There are several approaches for Alice to do this, \eg attacking the 
+  \(\SPK\)-signature, the \(\AC\)-signature, \etc.
+  I think we should describe them.}
 
-\daniel{Do actual security analysis.}
-Universal verifiability (\cref{UniversalVerif}) means that anyone should be able 
-to count the valid proofs.
-To do this we must be able to verify the eligibility of a proof (\ie of all 
-its shares) and then count it if valid.
-To verify the eligibility of a proof share, we must verify that \(\pid\), \(\wid\) 
-and \(\wsig\) are not just randomly generated numbers but they actually depend on 
-the keys \(k_P\) and \(k_W\) (as illustrated in \cref{fig:ProofFig}).
-We will do this with \ac{NIZK} proofs.
-
-\subsubsection{Individual verifiability}
-
-\daniel{Do actual security analysis.
-  This is reduced to the security of the blockchain.}
-The purpose of individual verifiability (\cref{IndividualVerif}) is to prevent 
-an adversary from dropping participation proofs.
-Thus each protester must verify that their own proof is indeed included.
-After Alice commited to her proof (share) in the blockchain, she stores the hash 
-of the block.
-At a later time, she can still verify that the block is indeed still there.
-At this point, this hash value is the only thing she must store for individual 
-verifiability.
+\Cref{DesignatedEvent} is to prevent Alice from reusing the same proof (or proof 
+share) for another event --- or someone else using her proof-share for another 
+event.
+This is done with the use of \(\cid\) in the proof shares.
+Thus to reuse the proof share for another protest, with a different manifesto, 
+one must find a second preimage \(\mfst'\) such that \(\cid = \Hash[\mfst] = 
+  \Hash[\mfst']\).
 
