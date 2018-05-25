@@ -19,9 +19,16 @@ However, it is difficult to achieve individual verifiability (\cref{IndividualVe
 We can argue that it also achieves eligibility (\cref{EligibilityVerif}) if all the photos are taken at the same point in time with no overlap, since then no one can be counted twice.
 Unfortunately, we can only get the peak participation with this method.
 When it comes to spatial and temporal eligibility, we have to rely on pictures (\eg by determining from the photos themselves when and where the they were taken).
-However, this is prone to cheating and the best we can do is to employ forensic methods to try to detect any modifications or other attempts at fraud.
+However, this is prone to cheating --- and subject to a variety of 
+misinformation techniques --- and the best we can do is to employ forensic 
+methods to try to detect any modifications or other attempts at fraud.
+
 \seb{maybe we should also give information about the privacy level reached by 
   this different method}
+From a privacy perspective, all techniques based on photo or video material are 
+as privacy preserving as the protesters make themselves.
+There is a risk that participants are recognizable from the material if they do 
+not wear masks.
 
 Among more recent methods, there is an application called CrowdSize~\cite{CrowdSize} that can estimate the size of a crowd 
 based on a selected space.
@@ -29,6 +36,7 @@ Once the user has specified the zone, he selects one of three pre-set density es
 \seb{what are the meaning of the choice of density estimates, it is a way to 
   specify an apriori assumption about the density of the crowd or to choose 
   between a min, average, max estimates?}
+\daniel{Yes.}
 This is similar to the method usually used by police (\eg for the protests in Seoul):
 \blockcquote{2016DemonstrationsInSeoul}{%
   \textins*{p}olice presume\textins*{d} that, when sitting, six people would 
@@ -84,13 +92,8 @@ Second, since the phone has a unique identifier, participants might be uncomfort
 transmitted in plaintext anymore. %need to cite?
 Finally, there will be limited verifiability, as the data recorder must be trusted to record all data in the relation to the protest.
 
-\daniel{I think we can cut this paragraph as it is not directly relevant}
-\Citet{WifiCrowdCounting} also relies of Wi-Fi, but they instead use the Wi-Fi signal as a sonar to detect people.
-However this method is designed for indoor use and does not scale to more than a 
-crowd of 20 persons, which makes it unfit to use in protest.
-In addition, this type of data does not provide verifiability.
-
-In general for all of the above methods, the more a crowd spreads out, the more difficult it will be to determine its size.
+In general for all of the above methods, the more a crowd spreads out, the more 
+difficult it will be to determine its size.
 In particular, one of the challenge is determining whether people near the event's perimeter are participants or simply bystanders~\cite{HowToEstimateCrowdSize}.
 These methods also have difficulty capturing the actual attendance of an event (\ie, the cumulative participation, not just the count at a snapshot around the peak).
 
