@@ -144,7 +144,11 @@ It follows from the properties of \(\ACprf\) that \(\pid =
 unlinkable if \(\cid\neq \cid'\).
 
 Now to \cref{ProofUnlink}.
-Say that a witness works for Grace.
+Given \(\pid\), Grace cannot distinguish whether \(\pid = 
+  \ACprf[_{\sk_A}][\cid]\), \(\pid = \ACprf[_{\sk_A}][\cid']\) or \(\pid = 
+  \ACprf[_{\sk_B}][\cid]\) due to the properties of \(\AC\).
+
+However, say that a witness works for Grace.
 This witness interacts with Alice directly, \ie has (physically) identified her.
 The witness also learns Alice's \(\pid\), but not \(\cid\), to compute \(\wid\) 
 and to verify the \ac{DBPK}.
