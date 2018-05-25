@@ -12,12 +12,8 @@
     }%
   }}
 
-We pointed out in \cref{DistanceBounding} that the majority of all \ac{DB} protocols that provide the above security properties assume an \emph{honest} verifier.
-This assumption does not hold in our setting, in which every verifier might also be at some point a (malicious) prover.
-We thus need public-key \ac{DB}, and more specifically \ac{DBPK}.
-
-There is a protocol which provide \ac{DBPK} with all the desired properties from 
-above, ProProx~\cite{ProProx}.
+There is a protocol which provide \ac{DBPK} with all the desired properties 
+from above, ProProx~\cite{ProProx}.
 (Note that~\cite{ProProx} uses the abbreviation PoPoK, for Proof of Proximity of 
 Knowledge, instead of \ac{DBPK}.)
 However, ProProx provides \iac{DBPK} protocol for quadratic residues (\ie 
@@ -37,7 +33,7 @@ design a distance-bounding protocol based on the Schnorr identification
 scheme~\cite{Schnorr}.
 That \ac{DB} Schnorr protocol was shown to be prone to distance 
 hijacking~\cite{DistanceHijacking}.
-(It could not fulfil \ac{DBTF} either.)
+(It was not secure against terrorist fraud either.)
 We now propose another way to turn the Schnorr protocol into \iac{DB} protocol 
 which is secure against \ac{DBMF}, \ac{DBDF}, \ac{DBDH}, \ac{DBTF} and an 
 impersonating verifier (\ie it is public-key).
