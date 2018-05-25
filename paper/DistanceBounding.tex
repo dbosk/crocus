@@ -12,15 +12,19 @@ Time critical phases are complemented by slow phases during which the time is no
 
 The main security requirements of \ac{DB} protocols can be summarized as follows:
 \begin{itemize}
-  \item \ac{DBMF}: the adversary illegitimately authenticates, possibly using a 
-    far-away honest prover.
-  \item\ac{DBTF}: a malicious prover helps an accomplice to authenticate.
-    \item \ac{DBDF}: a legitimate but malicious prover wants to fool the verifier on the distance between them.
-  \item \ac{DBDH}: similar to \ac{DBDF}, sometimes using the presence of an honest prover close to the verifier.
-  \item \ac{DBIF}: the adversary plays against a simplified version of the protocol without any distance estimation.
+  \item \acf{DBMF}: the adversary illegitimately authenticates, possibly using 
+    a far-away honest prover.
+  \item\acf{DBTF}: a legitimate but malicious prover helps a 
+    close-to-the-verifier accomplice to authenticate.
+  \item \acf{DBDF}: a legitimate but malicious prover wants to fool the 
+    verifier on the distance between them.
+  \item \acf{DBDH}: similar to \ac{DBDF}, sometimes using the presence of an 
+    honest prover close to the verifier.
+  \item \acf{DBIF}: the adversary plays against a simplified version of the 
+    protocol without any distance estimation.
 \end{itemize}
-\daniel{Describe the DB frauds in more detail, \ie explain them.}
-There are two lines of attempts at formalizing the above properties: one by \citet{DB-BMV} and another by \citet{DB-DFKO}.
+There are two lines of attempts at formalizing the above properties: one by 
+\citet{DB-BMV} and another by \citet{DB-DFKO}.
 
 The majority of the existing \ac{DB} protocols are symmetric and thus requires an honest verifier.
 Indeed, in this context it does not make sense to protect against the verifier 
