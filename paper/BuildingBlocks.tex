@@ -3,8 +3,6 @@
 
 In this section, we will briefly review the primitives that form the building blocks of \PRIVO.
 
-\seb{I am not sure that to explain hash functions as they are really basic 
-  primitives}
 \subsection{Collision-resistant hash functions}
 
 \NewAlgorithm{\Hash}{H}
@@ -12,15 +10,15 @@ In this section, we will briefly review the primitives that form the building bl
 
 One primitive that we need is a collision-resistant hash function, \Hash.
 
-\begin{definition}[Collision resistance]
-  Let \(\lambda\) denote the security parameter.
-  We say that a hash function, \(\Hash\), is collision resistant if for any \ac{PPT} algorithm \(\algA\) we have that
-  \begin{multline*}
-    \Pr\left[ x_1, x_2\gets \algA[1^\lambda] :
-      \right. \\ \left.
-      \Hash[x_1] = \Hash[x_2] \land x_1\neq x_2 \right] < \negl[\lambda].
-  \end{multline*}
-\end{definition}
+%\begin{definition}[Collision resistance]
+%  Let \(\lambda\) denote the security parameter.
+%  We say that a hash function, \(\Hash\), is collision resistant if for any \ac{PPT} algorithm \(\algA\) we have that
+%  \begin{multline*}
+%    \Pr\left[ x_1, x_2\gets \algA[1^\lambda] :
+%      \right. \\ \left.
+%      \Hash[x_1] = \Hash[x_2] \land x_1\neq x_2 \right] < \negl[\lambda].
+%  \end{multline*}
+%\end{definition}
 
 \(\Hash\) can be instantiated with any algorithm from the SHA-2 or SHA-3 families.
 
