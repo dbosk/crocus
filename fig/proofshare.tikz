@@ -7,7 +7,8 @@
     %grow'=left,%
     %level distance=5em%
   }
-  \node[item] (proof) {Proof share}
+  \node[item] (proof) {$\SPK[\sk_W][\wid = \cdots, \sigma' = \cdots][\cdot, 
+  \cdot, \cdot, \cdot]$}
   child {%
     node[item] (pid) {$\pid$}
     child {%
@@ -26,9 +27,6 @@
   child {%
     node[item] (l) {$l$}
   }
-  child {%
-    node[item] (wsig) {$\wsig$}
-  }
   ;
 
   \path[every node/.style={font=\small}]
@@ -36,7 +34,6 @@
   (wid) edge node [anchor=east] {$\in$} (proof)
   (ts) edge node [anchor=east] {$\in$} (proof)
   (l) edge node [anchor=west] {$\in$} (proof)
-  (wsig) edge node [anchor=south west] {$\in$} (proof)
   ;
 
   \path[every node/.style={font=\small}]
@@ -45,11 +42,6 @@
     {$\ACprf[_{\sk_P}][\cdot]$} (pid)
   (pid) edge[bend right] node [anchor=north west,rotate=-30]
     {$\ACprf[_{\sk_W}][\cdot]$} (wid)
-  % wsig
-  (l) edge[bend right] (wsig)
-  (ts) edge[bend right] (wsig)
-  (wid) edge[bend right] node [anchor=167] {$(\ACprf_{\sk_W}\circ \Hash)(\cdot, 
-  \cdot, \cdot)$} (wsig)
   ;
 
 \end{tikzpicture}

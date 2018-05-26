@@ -39,12 +39,14 @@ which is secure against \ac{DBMF}, \ac{DBDF}, \ac{DBDH}, \ac{DBTF} and an
 impersonating verifier (\ie it is public-key).
 
 We present the protocol in \cref{SchnorrFigure}.
-The difference from the original Schnorr protocol is that the prover commits to two random values and the verifier sends two challenges.
-Afterwards, the verifier presents to the prover which commitment and challenge to use during the \ac{DB} phase.
+The difference from the original Schnorr protocol is that the prover commits to 
+one random value but the verifier sends two challenges.
+The verifier presents to the prover which commitment and challenge to use 
+during the \ac{DB} phase.
 
 \begin{figure*}
   \centering
-  \begin{tabular}{lcl}
+  \begin{tabular}{p{5cm}cp{5cm}}
     \(\DBSprove[g, q, \alpha, A = g^\alpha]\):
     & &
     \(\DBSverify[g, q, A]\):
@@ -53,13 +55,8 @@ Afterwards, the verifier presents to the prover which commitment and challenge t
 
     \multicolumn{3}{c}{\textbf{Setup}} \\
 
-    \(\rho_0\rgets \ZZ_q, \rho_1\rgets \ZZ_q\)
-    &
-    &
-    \\
-
-    \(R_0\gets g^{\rho_0}, R_1\gets g^{\rho_1}\)
-    & \(\ProtoSendRight{R_0, R_1}\)
+    \(\rho\rgets \ZZ_q, R\gets g^{\rho}\)
+    & \(\ProtoSendRight{R}\)
     &
     \\
 
@@ -68,29 +65,15 @@ Afterwards, the verifier presents to the prover which commitment and challenge t
     & \(c_0\rgets \bin^k, c_1\rgets \bin^k\)
     \\
 
-    \(s_0\gets \rho_0 + c_0\alpha\)
-    &
-    &
-    \\
-
-    \(s_1\gets \rho_1 + c_1\alpha\)
-    &
-    &
-    \\
-
-    % null
+    \(s_0\gets \rho + c_0\alpha \pmod q\)
     &
     & \(b\rgets \bin\)
     \\
 
-    % null
+    \(s_1\gets \rho + c_1\alpha \pmod q\)
     &
-    & Prepare \(B\in \bin^{\ceil{\log_2 q}+l}\),
-    \\
-
-    % null
-    &
-    & with \(\ceil{\log_2 q}\) bits set to \(b\)
+    & Prepare \(B\in \bin^{\ceil{\log_2 q}+l}\), with \(\ceil{\log_2 q}\) bits 
+    set to \(b\).
     \\
 
     \midrule
@@ -118,12 +101,13 @@ Afterwards, the verifier presents to the prover which commitment and challenge t
 
     % null
     &
-    & \(r = r_1|\dotsb|r_{\ceil{\log_2 q}}\)
+    & Construct \(r = s_b\) as the concatenation of \(r_i\)'s for which \(b_i = 
+      b\).
     \\
 
     % null
     &
-    & \(R_b \stackrel{?}{=} g^r A^{c_b}\)
+    & \(R \stackrel{?}{=} g^r A^{c_b}\)
     \\
     
   \end{tabular}
