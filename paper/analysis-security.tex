@@ -118,6 +118,26 @@ Thus to reuse the proof share for another protest, with a different manifesto,
 one must find a second preimage \(\mfst'\) such that \(\cid = \Hash[\mfst] = 
   \Hash[\mfst']\).
 
+There is also another case of collision that we must prevent.
+Consider that Alice computes \(\pid = \ACprf[_\sk][\cid]\) for some cause 
+identifier \(\cid\) and some witnesses computes \(\wid_1, \dotsc, \wid_n\), 
+with \(\wid_i = \ACprf[_{\sk_i}][\pid]\).
+Now, if Alice would construct a manifesto \(m\) such that \(\Hash[m] = \pid\), 
+then \(\wid_1, \dotsc, \wid_n\) would be valid participant identifiers for the 
+protest with manifesto \(m\).
+This means that we must separate the mechanisms used for participating and 
+witnessing.
+The protocol achieves this by the fact that \[
+  \prf_{\wid} = \SPK[\sk_i][\dotsc][\pid, \wid, t_s, t_s', l]
+\]
+does not include \(\cid\) whereas \[
+  \prf_{\pid} = \SPK[\sk_i][\dotsc][\cid, \pid, \wid, t_s, t_s', l]
+\]
+does.
+Thus the verification process differs for the two types of proofs.
+(An alternative approach would have been to compute them differently, \eg 
+\(\pid = \AC[PRF]_{\sk}(x) = g_T^{\sk+x}\) but \(\wid = g_T^{\sk+x+1}\).)
+
 %\paragraph{Forging proof shares}
 %
 %\daniel{This is work-in-progress.}
