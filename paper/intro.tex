@@ -39,21 +39,7 @@ The latter allows us to replace the use of the plain Schnorr's protocol in the \
 %Seb: I have put the following sentence because due to the amount of current work recently in distance-bounding, I believe that our sentence should be made more reasonable 
 %and thus we are, to the best of our knowledge, the first to provide \ac{DB} anonymous credentials.
 
-\emph{Limitations and assumptions.} Some of the assumptions that are required for implementing our proposition are not yet realized% (briefly, use of smartphones, unique identities, distance bounding - 
-(see \cref{assumptions} for a more detailed description). 
-In particular, not all (or even many) protesters, especially in countries with oppressive regimes, currently possess smartphones.
-In addition, digital certificates signed by a central authority are not yet widely available and if we rely on government-issued credentials, we cannot prevent the government from performing Sybil attacks --- since it can issue arbitrarily many \emph{valid} credentials.
-In this case, it does not make sense to verify any pro-government protests in which Grace's authoritarian regime wants to demonstrate its wide support, \eg~\cite{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
-Finally, achieving distance-bounding protocols on smartphones is currently not feasible within a meaningful range of distance needed for our scenario.
-Indeed, existing smartphones lack the required hardware to do the distance bounding fast enough.
 
-However, we believe that some assumptions might become sufficiently realistic in a near future, due to the smartphone penetration being on the rise and the increased digitalization and government-issued credentials available in some countries already now (\eg Estonia, Germany and Sweden).
-In addition, the distance-bounding chips\footnote{\url{https://www.3db-access.com}} currently available on the market can already enable proofs of proximity for any range of up to 200 meters.
-One of the short-term objectives is to be able to integrate them in phones or smartcards in the near-future, and even phones with off-the-shelf hardware running in RFID-emulation mode have shown promising results~\cite{DBonSmartphones}.
-
-Another limitation of \PRIVO is that it achieves privacy but not receipt freeness.
-This means that there is a way for Grace to efficiently verify that Alice has participated if she is able to get a copy of Alice's secret key.
-Indeed, in this case Grace can simply re-do the (deterministic) computations on the same inputs (the probability of collisions being negligible).
 
 \emph{Outline.} 
 The paper is organized as follows. 
