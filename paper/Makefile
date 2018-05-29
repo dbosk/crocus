@@ -16,6 +16,7 @@ SRC+= 	DistanceBounding.tex anon-cred.tex DB-anon-cred.tex
 SRC+= 	LocationProofs.tex TimeStamp.tex
 SRC+= 	protocol.tex
 SRC+=	analysis-security.tex analysis-performance.tex
+SRC+= 	discussion.tex
 SRC+=	conclusions.tex
 
 paper.pdf: ${SRC}
