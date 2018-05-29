@@ -35,28 +35,24 @@ More specifically, we will use the following definition.
 % subprotest
 \NewVariable{\sprtst}{p}
 
-\begin{definition}[Protest]\label{DefProtest}
-  A \emph{subprotest} is a tuple \((\cid, t, l)\) in which \(\cid\in 
-    \ZZ_{2^\lambda}\) is the identifier of the cause of the protest,
-  \(t \subseteq \RR\) is a time period and \(l \subseteq \RR^2\) is the location 
-  (topological connectedness is not necessary).
+\begin{definition}[Subprotest, Protest]\label{DefProtest}
+  A \emph{subprotest} is a tuple \((\cid, t, l)\) in which \(\cid\in \ZZ_{2^\lambda}\) is the identifier of the cause of the protest,
+  \(t \subseteq \RR\) is a time period and \(l \subseteq \RR^2\) is the location (the topological connectedness is not necessary).
   A \emph{protest} is a set of subprotests sharing the same \(\cid\).
 \end{definition}
 
-The protests described in the previous examples can be captured using this definition by splitting 
-them up into subprotests.
-Each subprotest will then be captured by our definition and to estimate the total participation to the protest we can just sum up the estimates obtained.
-Similarly for marches, the marching path can be divided into subprotests with 
-locations (or areas) that slightly overlap.
+The protests described in the previous examples can be captured using this definition by decomposing them up into subprotests.
+Each subprotest will then be encapsulated by our definition and to estimate the total participation to the protest we can just sum up the estimates obtained.
+Similarly for marches, the marching path can be divided into subprotests with locations (or areas) that slightly overlap.
 
-\emph{Formalizing the notion of crowd estimation.} Each participant who wants to 
-be counted must submit a \emph{participation proof}.
-The proof must be associated with the protest (\ie its identifier \(cid\)), time and location must coincide with any of its subprotests.
+\emph{Formalizing the notion of crowd estimation.} 
+Each participant who wants to be counted must submit a \emph{participation proof}.
+The proof must be associated with the protest (\ie its identifier \(cid\)), and its time and location must coincide with one of the subprotests.
 
-We use \emph{witnesses} to associate the proof to the location by creating a 
-\emph{proof share}.
-A witness is only allowed to create one proof share per protester to avoid the 
-risk of inflation.
+Our protocol relies on \emph{witnesses} to certify and associate the proof to the location by creating a \emph{proof share}.
+A witness is only allowed to create one proof share per protester to avoid the risk of inflation.
+Note that a participant to a protest can take the role of a protester but also act as witness for other protesters.
+%Seb: the sentence below is not very clear, it should be rephrased to make it clearer
 The participation proof and its proof shares are stored in a set, as there should be only unique proof shares.
 
 % proof share
@@ -68,17 +64,11 @@ The participation proof and its proof shares are stored in a set, as there shoul
 % witness identifier
 \NewVariable{\wid}{wid}
 
-\begin{definition}[Participation-proof share]
-  A \emph{participation-proof share} \(\psh = (\cid, t, l, \pid, \wid)\) is a 
-  tuple where:
-  \(\cid, t, l\) are as in \cref{DefProtest};
-  \(\pid\) is a protester's pseudonym for the protest identified by \(\cid\); 
-  and
-  \(\wid\) is a witness's pseudonym for a protester with pseudonym \(\pid\).
-  We say that \(\psh\) is part of a subprotest \(p = (\cid', t', l')\) iff 
-  \(\cid = \cid', t\subseteq t', l\subseteq l'\) and denote this by \(\psh 
-    \sqsubseteq p\).
-  We let \(\pshs\) be the set of all proof shares.
+\begin{definition}[Proof share]
+A \emph{proof share} \(\psh = (\cid, t, l, \pid, \wid)\) is a tuple in which: \(\cid, t, l\) are as in \cref{DefProtest};
+  \(\pid\) is a protester's pseudonym for the protest identified by \(\cid\); and \(\wid\) is a witness's pseudonym for a protester with pseudonym \(\pid\).
+  We say that \(\psh\) is part of a subprotest \(p = (\cid', t', l')\) if and only if \(\cid = \cid', t\subseteq t', l\subseteq l'\) and denote this by \(\psh \sqsubseteq p\).
+  We define \(\pshs\) as the set of all proof shares.
 \end{definition}
 
 A subset of the proof shares forms a participation proof for a protester.
@@ -90,39 +80,35 @@ A subset of the proof shares forms a participation proof for a protester.
 
 \begin{definition}[Participation proof]%
   \label{DefParticipationProof}
-  A \emph{participation proof} of protester with pseudonym \(\pid\) 
-  participating in a protest \(\prtst = \{ (\cid, t_i, l_i) \}_i\) is the set
+  A \emph{participation proof} of protester with pseudonym \(\pid\) participating in a protest \(\prtst = \{ (\cid, t_i, l_i) \}_i\) is the set
   \begin{multline}
     \nonumber
     \prf_{\pid, \prtst} =
     \left\{ \psh = (\cid, t, l, \pid, \wid)\in \pshs \mid
       \exists \sprtst\in \prtst\colon \psh\sqsubseteq \sprtst \right\}
   \end{multline}
-  of all proof shares with the same protester and protest identifiers, 
-  witnessing time interval \(t\) and location \(l\) is within those of the 
-  protest.
-  We denote by \(\prfs\) the set of all proofs.
+  of all proof shares with the same protester and protest identifiers, witnessing time interval \(t\) and location \(l\) is within those of the protest.
+We denote by \(\prfs\) the set of all proofs.
 \end{definition}
 
 % strength
 \NewFunction{\str}{\varsigma}
 
 We can now define the participation count as follows.
+
 \begin{definition}[Participation count]
   We define the \emph{participation count} of a protest \(\prtst\) (as in 
   \cref{DefParticipationProof}) as the cardinality \(|\prfs_{P}^{\str,\theta}|\) 
   of the set of participation proofs \[
     \prfs_{\prtst}^{\str,\theta} = \left\{ \prf_{i,P} \in \prfs \mid
       \str(\prf_{i,j})\geq \theta \right\}
-  \] for some strength function \(\str\colon \powerset(\pshs)\to \RR_+\) and a 
-  threshold \(\theta\).
+  \] for some strength function \(\str\colon \powerset(\pshs)\to \RR_+\) and a threshold \(\theta\).
 \end{definition}
-The strength function \(\str\) can be used to regulate trust in witnesses.
-One example would be for \(\str\) to return the number of unique witnesses and 
-thus let \(\theta\) to be the threshold of the number of required witnesses.
-Another example would be to return the number of proof shares issued by trusted 
-witnesses and set \(\theta = 1\) to require at least one proof share issued by a 
-trusted witness.
+
+The strength function \(\str\) can be used to regulate the trust in the participation count estimated.
+One example would be for \(\str\) to return the number of unique witnesses and thus let \(\theta\) to be the threshold of the number of required witnesses.
+%Seb: we should define clearly the different type of witnesses (for instance unique and trusted witnesses)
+Another example would be to return the number of proof shares issued by trusted witnesses and set \(\theta = 1\) to require at least one proof share issued by a trusted witness.
 
 
 
