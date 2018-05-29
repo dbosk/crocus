@@ -5,12 +5,18 @@
 
 We now present \PRIVO, a protocol for securely and PRIvately Verifying PROtest 
 Outcomes.
-The protocol consists of four phases: the setup, join, participation and 
-submission phases.
+The protocol consists of five phases: the setup, join, participation, 
+submission and verification phases.
+The setup is described in \cref{ProtocolSetup}.
+The join, participation and submission phases are described in 
+\cref{ProtocolDuring}.
+Finally, the verification phase is described in \cref{ProtocolVerification}.
+
 We have several roles.
 We have \iac{CA} who is responsible for a one-to-one mapping between a person's 
 identity and a cryptographic key.
-We have the protesters who want to participate in a given protest.
+The \ac{CA} is only involved in the setup phase.
+We also have the protesters who want to participate in a given protest.
 A protester can assume three different roles:
 \begin{enumerate*}
 \item We have the \emph{organizer} who will simply write a manifesto for the 
@@ -24,14 +30,12 @@ A protester can assume three different roles:
 In general, there is one organizer and every protester will act as both 
 participant and witness.
 
-The setup and registration phases are the same as in Anon-Pass~\cite{AnonPass}.
-We have simply adapted their description for our notation, but tried to keep 
-them as similar as possible.
+\subsection{The setup phase}
 
-The join, participation and submission phases are illustrated in 
-\cref{fig:ProtocolOverview}.
-The participation proof share that will be constructed in the participation 
-phase is illustrated in \cref{fig:ProofFig}.
+The setup phase is only run once and is the same as in 
+Anon-Pass~\cite{AnonPass}.
+We have simply adapted their description for our notation, but otherwise tried 
+to keep them as similar as possible.
 
 \NewAlgorithm{\PRIVOsetup}{Setup}
 \NewVariable{\sk}{sk}
@@ -85,6 +89,14 @@ The setup and registration phases can be done once and the keys reused for an
 arbitrary number of protests.
 Thus it would be suitable to have the registration phase as part of the issuance 
 of \eg national identity cards, passports or \acp{eID}.
+
+\subsection{Creating, joining, participating in a protest and submitting 
+  proofs}
+
+The join, participation and submission phases are illustrated in 
+\cref{fig:ProtocolOverview}.
+The participation proof share that will be constructed in the participation 
+phase is illustrated in \cref{fig:ProofFig}.
 
 \emph{Creating a protest: the manifesto.}
 The organizer will write a manifesto for the protest, \ie to capture the cause.
@@ -301,3 +313,6 @@ Finally, the witness uploads the tuple \[
 \] for permanent storage.
 \daniel{Return \(\pi''\), as specified as output.}
 
+\subsection{Verifying the participation count}
+
+\dots
