@@ -18,14 +18,10 @@ SRC+= 	protocol.tex
 SRC+=	analysis-security.tex analysis-performance.tex
 SRC+=	conclusions.tex
 
-paper.pdf: ${SRC} popets dgruyter-biblatex.sty
+paper.pdf: ${SRC}
 
-FIGS+= 				tposet.tikz proofshare.tikz
-tposet.tikz: 		../fig/tposet.tikz
+FIGS+= 				proofshare.tikz
 proofshare.tikz: 	../fig/proofshare.tikz
-
-FIGS+= 				Jacobs-method.jpg
-Jacobs-method.jpg: 	../fig/Jacobs-method.jpg
 
 ${FIGS}:
 	${LN} $< $@
