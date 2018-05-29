@@ -11,11 +11,11 @@
 %    (\(\ACprove\))~\cite{CLsignatures}.
 %\end{enumerate*}
 
-\NewScheme{\AC}{AC}
+%\NewScheme{\AC}{AC}
 
 We need an anonymous credential system, \(\AC\), which provides the following algorithms and properties.
 
-\NewAlgorithm{\ACcommit}{\AC.\!Commit}
+%\NewAlgorithm{\ACcommit}{\AC.\!Commit}
 
 \(\AC\) must provide a commitment scheme, \(\ACcommit\), and algorithms such that the prover can convince a verifier that he knows the commitment, which means that:
 \begin{equation*}
@@ -30,12 +30,12 @@ We need an anonymous credential system, \(\AC\), which provides the following al
 % XXX Review requirements of AC.commit
 We will require that the commitment scheme is \emph{perfectly hiding} and computationally binding, rather than the other way around\footnote{We are more concerned with long-term privacy, and thus we are looking for information-theoretic hiding.}.
 
-\NewAlgorithm{\ACsign}{\AC.\!Sign}
-\NewAlgorithm{\ACblind}{\AC.\!BlindSig}
-\NewAlgorithm{\ACverifySig}{\AC.\!VerifySig}
-\NewAlgorithm{\ACgetSig}{\AC.\!GetSig}
-\NewAlgorithm{\ACissueSig}{\AC.\!IssueSig}
-\NewAlgorithm{\ACproveSig}{\AC.\!ProveSig}
+%\NewAlgorithm{\ACsign}{\AC.\!Sign}
+%\NewAlgorithm{\ACblind}{\AC.\!BlindSig}
+%\NewAlgorithm{\ACverifySig}{\AC.\!VerifySig}
+%\NewAlgorithm{\ACgetSig}{\AC.\!GetSig}
+%\NewAlgorithm{\ACissueSig}{\AC.\!IssueSig}
+%\NewAlgorithm{\ACproveSig}{\AC.\!ProveSig}
 
 \(\AC\) must also provide a (blindable) signature scheme with protocols to get a signature on a committed value (\(\ACgetSig\leftrightarrow \ACissueSig\)) and to prove knowledge of a signature on a committed value (\(\ACproveSig\leftrightarrow \ACverifySig\)).
 
@@ -49,9 +49,9 @@ The prover and verifier will run the protocol \(\ACproveSig\leftrightarrow
   \PK[k][\sigma' = \ACblind[\ACsign[_{sk}][k]]].
 \end{equation*}
 
-\NewAlgorithm{\ACprf}{\AC.\!PRF}
-\NewAlgorithm{\ACprovePRF}{\AC.\!ProvePRF}
-\NewAlgorithm{\ACverifyPRF}{\AC.\!VerifyPRF}
+%\NewAlgorithm{\ACprf}{\AC.\!PRF}
+%\NewAlgorithm{\ACprovePRF}{\AC.\!ProvePRF}
+%\NewAlgorithm{\ACverifyPRF}{\AC.\!VerifyPRF}
 
 Finally we need \iac{PRF}, \(\ACprf\), such that there exists a protocol \(\ACprovePRF\leftrightarrow \ACverifyPRF\) which implements the following 
 \ac{PK}:

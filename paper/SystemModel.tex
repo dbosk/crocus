@@ -26,17 +26,9 @@ Judging from these examples, the minimal common part is the cause,%
 For the rest of the paper, we will refer to the organizer as Alice.
 Assume that the objective of Alice is to count everyone who participated at any time and in any of the locations~\cite{2016DemonstrationsInSeoul}\footnote{Note that the objective does not necessarily align with the definition of the police whose interest could be to determine the maximum crowd at any point in time, to deploy enough personnel for crowd-control.}.
 
-% cause identifier
-\NewVariable{\cid}{cid}
-
 Formally, we define a protest as an event that is uniquely identified by its 
 cause (\(\cid\) below), its time interval (\(t\)) and its location (area \(l\)).
 More specifically, we will use the following definition.
-
-% protest
-\NewVariable{\prtst}{P}
-% subprotest
-\NewVariable{\sprtst}{p}
 
 \begin{definition}[Protest]\label{DefProtest}
   A \emph{subprotest} is a tuple \((\cid, t, l)\) in which \(\cid\in 
@@ -62,15 +54,6 @@ A witness is only allowed to create one proof share per protester to avoid the
 risk of inflation.
 The participation proof and its proof shares are stored in a set, as there should be only unique proof shares.
 
-% proof share
-\NewVariable{\psh}{s}
-% proof shares
-\NewVariable{\pshs}{S}
-% protester identifier
-\NewVariable{\pid}{pid}
-% witness identifier
-\NewVariable{\wid}{wid}
-
 \begin{definition}[Participation-proof share]
   A \emph{participation-proof share} \(\psh = (\cid, t, l, \pid, \wid)\) is a 
   tuple where:
@@ -85,11 +68,6 @@ The participation proof and its proof shares are stored in a set, as there shoul
 \end{definition}
 
 A subset of the proof shares forms a participation proof for a protester.
-
-% proof
-\NewVariable{\prf}{\pi}
-% proofs
-\NewVariable{\prfs}{\Pi}
 
 \begin{definition}[Participation proof]%
   \label{DefParticipationProof}
@@ -146,8 +124,6 @@ after the protest, we assume that the devices have global connectivity, \ie
 Internet  connections, and are not computationally limited by any battery.
 
 \include*{MANETs}
-
-
 
 
 %assumptions about smartphones:
