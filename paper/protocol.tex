@@ -1,7 +1,7 @@
 \section{\PRIVO:\@ A protocol for protest outcome verification}%
 \label{Protocol}
 
-%\NewScheme{\PRIVOscheme}{PRIVO}
+\NewScheme{\PRIVOscheme}{PRIVO}
 
 We now present \PRIVO, a protocol for securely and PRIvately Verifying PROtest 
 Outcomes.
@@ -34,9 +34,9 @@ The participation proof share that will be constructed in the participation
 phase is illustrated in \cref{fig:ProofFig}.
 
 \NewAlgorithm{\PRIVOsetup}{Setup}
-%\NewVariable{\sk}{sk}
-%\NewVariable{\spk}{spk}
-%\NewVariable{\ssk}{ssk}
+\NewVariable{\sk}{sk}
+\NewVariable{\spk}{spk}
+\NewVariable{\ssk}{ssk}
 
 \emph{Setup: \((\spk, \ssk)\gets \PRIVOsetup\).}
 The setup phase is for the \ac{CA} to set up all the needed keys.
@@ -93,9 +93,9 @@ He will distribute this manifesto to people: on the Web, on placards, \etc.
 If they agree, they will use it to join the protest.
 
 \NewAlgorithm{\PRIVOjoin}{Join}
-%\NewVariable{\mfst}{manifesto}
-%\NewVariable{\cid}{cid}
-%\NewVariable{\pid}{pid}
+\NewVariable{\mfst}{manifesto}
+\NewVariable{\cid}{cid}
+\NewVariable{\pid}{pid}
 
 \emph{Joining participant: \((\pid, t_s)\gets 
     \PRIVOjoin[_P][\text{manifesto}]\).}
@@ -109,7 +109,7 @@ More specifically, \(\pid = g_T^{1/(k+\cid)}\) (remember that \(\sk = (\sigma,
 The participant should also get a time-correlated random value from the 
 time-stamping service, \(t_s\gets \TSget\).
 
-%\NewVariable{\wid}{wid}
+\NewVariable{\wid}{wid}
 
 \begin{figure}
   \centering
