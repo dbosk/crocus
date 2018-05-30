@@ -71,7 +71,8 @@ The participation proof and its proof shares are stored in a set, as there shoul
 % witness identifier
 \NewVariable{\wid}{wid}
 
-\begin{definition}[Participation-proof share]
+\begin{definition}[Participation-proof share]%
+  \label{DefProofShare}\label{DefProofShares}
   A \emph{participation-proof share} \(\psh = (\cid, t, l, \pid, \wid)\) is a 
   tuple where:
   \(\cid, t, l\) are as in \cref{DefProtest};
@@ -92,7 +93,7 @@ A subset of the proof shares forms a participation proof for a protester.
 \NewVariable{\prfs}{\Pi}
 
 \begin{definition}[Participation proof]%
-  \label{DefParticipationProof}
+  \label{DefParticipationProof}\label{DefParticipationProofs}
   A \emph{participation proof} of protester with pseudonym \(\pid\) 
   participating in a protest \(\prtst = \{ (\cid, t_i, l_i) \}_i\) is the set
   \begin{multline}
@@ -117,7 +118,7 @@ We can now define the participation count as follows.
   \cref{DefParticipationProof}) as the cardinality \(|\prfs_{P}^{\str,\theta}|\) 
   of the set of participation proofs \[
     \prfs_{\prtst}^{\str,\theta} = \left\{ \prf_{i,P} \in \prfs \mid
-      \str(\prf_{i,j})\geq \theta \right\}
+      \str(\prf_{i,P})\geq \theta \right\}
   \] for some strength function \(\str\colon \powerset(\pshs)\to \RR_+\) and a 
   threshold \(\theta\).
 \end{definition}
@@ -127,8 +128,4 @@ thus let \(\theta\) to be the threshold of the number of required witnesses.
 Another example would be to return the number of proof shares issued by trusted 
 witnesses and set \(\theta = 1\) to require at least one proof share issued by a 
 trusted witness.
-
-
-
-
 
