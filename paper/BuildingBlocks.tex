@@ -1,14 +1,14 @@
 \section{Building blocks}%
 \label{Primitives}\label{BuildingBlocks}
 
-In this section, we will briefly review the primitives that form the building blocks of \PRIVO.
+In this section, we will briefly review the primitives forming the building blocks of \PRIVO.
 
 \subsection{Collision-resistant hash functions}
 
 \NewAlgorithm{\Hash}{H}
 \NewAlgorithm{\algA}{A}
 
-One primitive that we need is a collision-resistant hash function, \Hash.
+One primitive that we need is a collision-resistant hash function \Hash.
 
 %\begin{definition}[Collision resistance]
 %  Let \(\lambda\) denote the security parameter.
@@ -20,14 +20,11 @@ One primitive that we need is a collision-resistant hash function, \Hash.
 %  \end{multline*}
 %\end{definition}
 
-\(\Hash\) can be instantiated with any algorithm from the SHA-2 or SHA-3 families.
+\(\Hash\) can be instantiated for instance for any algorithm from the SHA-2 or SHA-3 families.
 
 \input{ZKPK.tex}
 
 \input{anon-cred.tex}
-
-%\input{LocationProofs.tex}
-%Seb: I have mode the location proofs to the 
 
 \input{DistanceBounding.tex}
 
