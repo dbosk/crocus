@@ -104,6 +104,10 @@ To forge a witness signature, Alice must produce a \(\wid'\) such that
 while not knowing a signature on the secret key \(\sk_W'\).
 Thus she must break the \(\AC\) scheme to succeed or get a valid signature on 
 \(\sk_W'\) from the \ac{CA}.
+She can do the latter by finding people willing to collude.
+However, in the two alternatives in \cref{ProtocolVerification}, we either 
+assume that we can trust (certain) witnesses or that Alice cannot collude with 
+more than a threshold \(\theta\) of witnesses.
 (Note that Alice can produce one witness signature for herself, since she has 
 access to her own \(\sk_P\), but no more.)
 
