@@ -69,6 +69,22 @@ authoritarian regimes, they are in several democracies.
 We believe that it as important to implement systems such as ours to prevent any 
 democracy of slipping down the slope towards dictatorship.
 
+\emph{Blockchain efficiency.}
+One problem can arise in the case of no trusted witnesses.
+If we set the threshold too high, we need to submit more proof shares than the 
+blockchain can handle within a reasonable time.
+As an example, consider a protest with 1\,000\,000 participants.
+If we use trusted witnesses, each participant only needs to acquire one proof 
+share from a trusted witness.
+Thus there will be 1\,000\,000 proof shares submitted to the blockchain in 
+total.
+If we consider OmniLedger~\cite{OmniLedger}, it can do approximately 1500 
+transactions per second.
+This means it will take 11 minutes to process all the proof shares.
+On the other hand, if we do not use trusted witnesses, but a threshold 
+\(\theta\) of, say, \(\theta = 1000\), then it will take 7 days before all 
+transactions are committed to the blockchain.
+
 
 %assumptions about smartphones:
 %(This means that we essentially provide a lower bound for the participation 
@@ -107,3 +123,4 @@ In addition, Mallory could also have simply as her objective to cause a
 denial-of-service attack on the architecture of \PRIVO.
 
 Mallory cannot create keys valid in another nation state.
+
