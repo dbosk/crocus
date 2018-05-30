@@ -5,12 +5,18 @@
 
 We now present \PRIVO, a protocol for securely and PRIvately Verifying PROtest 
 Outcomes.
-The protocol consists of four phases: the setup, join, participation and 
-submission phases.
+The protocol consists of five phases: the setup, join, participation, 
+submission and verification phases.
+The setup is described in \cref{ProtocolSetup}.
+The join, participation and submission phases are described in 
+\cref{ProtocolDuring}.
+Finally, the verification phase is described in \cref{ProtocolVerification}.
+
 We have several roles.
 We have \iac{CA} who is responsible for a one-to-one mapping between a person's 
 identity and a cryptographic key.
-We have the protesters who want to participate in a given protest.
+The \ac{CA} is only involved in the setup phase.
+We also have the protesters who want to participate in a given protest.
 A protester can assume three different roles:
 \begin{enumerate*}
 \item We have the \emph{organizer} who will simply write a manifesto for the 
@@ -24,14 +30,12 @@ A protester can assume three different roles:
 In general, there is one organizer and every protester will act as both 
 participant and witness.
 
-The setup and registration phases are the same as in Anon-Pass~\cite{AnonPass}.
-We have simply adapted their description for our notation, but tried to keep 
-them as similar as possible.
+\subsection{The setup phase}
 
-The join, participation and submission phases are illustrated in 
-\cref{fig:ProtocolOverview}.
-The participation proof share that will be constructed in the participation 
-phase is illustrated in \cref{fig:ProofFig}.
+The setup phase is only run once and is the same as in 
+Anon-Pass~\cite{AnonPass}.
+We have simply adapted their description for our notation, but otherwise tried 
+to keep them as similar as possible.
 
 \NewAlgorithm{\PRIVOsetup}{Setup}
 \NewVariable{\sk}{sk}
@@ -85,6 +89,14 @@ The setup and registration phases can be done once and the keys reused for an
 arbitrary number of protests.
 Thus it would be suitable to have the registration phase as part of the issuance 
 of \eg national identity cards, passports or \acp{eID}.
+
+\subsection{Creating, joining, participating in a protest and submitting 
+  proofs}
+
+The join, participation and submission phases are illustrated in 
+\cref{fig:ProtocolOverview}.
+The participation proof share that will be constructed in the participation 
+phase is illustrated in \cref{fig:ProofFig}.
 
 \emph{Creating a protest: the manifesto.}
 The organizer will write a manifesto for the protest, \ie to capture the cause.
@@ -301,3 +313,50 @@ Finally, the witness uploads the tuple \[
 \] for permanent storage.
 \daniel{Return \(\pi''\), as specified as output.}
 
+\subsection{Verifying the participation count}%
+\label{ProtocolVerification}
+
+There are various ways for verifying the participation count, we will cover the 
+two suggested just after \cref{DefParticipationCount}.
+In the first approach, we do not trust individual witnesses, instead we 
+\emph{assume} that it is difficult for Alice to find more than \(\theta\) 
+witnesses willing to collude.
+Thus we require at least \(\theta\) witnesses to accept a participation proof 
+as valid.
+In the second approach, we trust certain witnesses but not others.
+Thus to accept a participation proof as valid, we require at least one trusted 
+witness.
+
+\paragraph{Without trusted witnesses}
+
+To verify the participation count for a protest \(P = (\cid, t, l)\) (see 
+\cref{DefProtest}), a verifier must download all the proof shares \(\psh_i = 
+  (\cid, \pid_i, \wid_i, t_s^{(i)}, t_s^{\prime (i)}, t_e^{(i)}, t_e^{\prime 
+    (i)}, l_i, \prf_{\pid_i}, \prf_{\wid_i})\), from the blockchain and verify 
+\(\prf_{\pid_i}\) and \(\prf_{\wid_i}\) and that the interval starting at the 
+latest of \(t_s^{(i)}, t_s^{\prime (i)}\) and ending at the earliest of 
+\(t_e^{(i)}, t_e^{\prime (i)}\) is a subset of \(t\) and that \(l_i\subseteq 
+  l\).
+Any proof share that does not verify correctly will be discarded.
+At this point, the verifier has constructed the set \(S\) from 
+\cref{DefProofShares} and can thus construct any participation proof 
+\(\prf_{\pid_i, P}\) as in \cref{DefParticipationProof}.
+
+Now, we simply define \(\str[\prf_{\pid_i, P}] = |\prf_{\pid_i, P}|\) and then 
+the verifier can compute the participation count \(|\prfs_P^{\str, \theta}|\) 
+as in \cref{DefParticipationCount}.
+
+\paragraph{With trusted witnesses}
+
+For the this approach, we must adapt the selection of proof shares from the 
+blockchain by selecting only proof shares issued by witnesses that the verifier 
+trusts.
+Thus the verifier must be able to recognize proof shares issued by trusted 
+witnesses, but as \(\prf_\wid\) is currently constructed, this is not possible.
+So trusted witnesses must complement their proofs by a digital signature that 
+the verifier can recognize.
+
+When \(S\) only contains proof shares issued by witnesses the verifier trusts, 
+we let \(\str[\prf_{\pid_i, P}] = 1\) and let \(\theta = 1\).
+Then the verifier can compute the participation count \(|\prfs_P^{\str, 
+    \theta}|\) as in \cref{DefParticipationCount}.
