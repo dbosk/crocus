@@ -148,7 +148,7 @@ time-stamping service, \(t_s\gets \TSget\).
       P\to W\colon & \pid \\
       P\leftrightarrow W\colon &
         \PPK\mleft\{ (\sk_P) : \mright. \\
-        & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
+        & \qquad \pid = \ACprf[_{\sk_P}][\cid] \quad \land \\
         & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{\ssk}][\sk_P]] \mright\} 
         \\
       W\colon & \wid\gets \ACprf[_{\sk_W}][\pid] \\
@@ -163,14 +163,14 @@ time-stamping service, \(t_s\gets \TSget\).
       W\to S\colon & (\pid, \wid, t_s, t_s', t_e, l, \pi_{\wid}),\quad 
       \text{where} \\
         & \pi_{\wid} = \SPK\mleft\{ (\sk_W) : \mright. \\
-        & \qquad \wid = \ACprf[_{\sk_W}][\pid], \\
+        & \qquad \wid = \ACprf[_{\sk_W}][\pid] \quad \land \\
         & \qquad \mleft. \sigma_W' = \ACblind[\ACsign[_{\ssk}][\sk_W]]\mright\} 
         \\
         & \qquad\qquad (\pid, \wid, t_s, t_s', l) \\
       P\to S\colon & (\cid, \pid, \wid, t_s, t_s', t_e, l, \pi_{\pid}),\quad 
       \text{where}\\
         & \pi_{\pid} = \SPK\mleft\{ (\sk_P) : \mright. \\
-        & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
+        & \qquad \pid = \ACprf[_{\sk_P}][\cid] \quad \land \\
         & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{\ssk}][\sk_P]] \mright\} 
         \\
         & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l)
@@ -196,7 +196,7 @@ start of the time interval of creation for the proof share.).
 \NewAlgorithm{\PRIVOparticipate}{Prticip}
 \NewAlgorithm{\PRIVOwitness}{Witness}
 
-\emph{Participating: \(\pi\gets
+\emph{Participating: \(\psh\gets
     \Proto{\PRIVOparticipate[\cid, \sk_P]}{\PRIVOwitness[\sk_W, \spk]}\),}
 In the participating phase the participant and the witness constructs the proof 
 share of the participant (\cref{fig:ProofFig}).
@@ -226,8 +226,11 @@ Then they run the following \ac{PPK} with the participant as the prover and the
 witness as the verifier:
 \begin{multline*}
   \mleftright
-  \PPK\left\{(k, r, r') : v^{r'} = v_x v_{xy}^k v_{xy}^{\prime r} \land
-    \pid = g_T^{1/(k+\cid)} \right\}.
+  \PPK\left\{(k, r, r', \cid, o) : \right. \\
+    v^{r'} = v_x v_{xy}^k v_{xy}^{\prime r} \land \pid = g_T^{1/(k+\cid)} \land 
+    \\
+    \left. c = \ACcommit[\cid, o]
+  \right\}.
 \end{multline*}
 where \(r' = 1/r_2\).
 We can rewrite \(\pid = g_T^{1/(k+\cid)}\) as \(\pid^k = g_T g_T^{-\cid}\).
@@ -254,7 +257,7 @@ The witness checks whether
 If the proof succeeds the witness will compute \(\wid\gets 
   \ACprf[_{\sk_W}][\pid] = g_T^{1/(k_W+\pid)}\) (as above).
 Then the witness returns \((\wid, t_s', l)\) to the participant.
-Now both the participant and the witness have the tuple \(\pi = (\pid, \wid, 
+Now both the participant and the witness have the tuple \(\psh = (\pid, \wid, 
   t_s, t_s', l)\) which constitutes a proof share of the participant 
 (\cref{fig:ProofFig}).
 
