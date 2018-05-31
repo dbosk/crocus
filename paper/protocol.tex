@@ -159,7 +159,7 @@ time-stamping service, \(t_s\gets \TSget\).
       \\[-3em]
       P\to W\colon & \pid \\
       P\leftrightarrow W\colon &
-        \DBPK\mleft\{ (\sk_P) : \mright. \\
+        \PPK\mleft\{ (\sk_P) : \mright. \\
         & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
         & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{\ssk}][\sk_P]] \mright\} 
         \\
@@ -234,17 +234,17 @@ Both the participant and the witness compute
   v_{xy} &= e(X, \tilde B) \\
   v_{xy}' &= e(X, \tilde Z_B).
 \end{align*}
-Then they run the following \ac{DBPK} with the participant as the prover and the 
+Then they run the following \ac{PPK} with the participant as the prover and the 
 witness as the verifier:
 \begin{multline*}
   \mleftright
-  \DBPK\left\{(k, r, r') : v^{r'} = v_x v_{xy}^k v_{xy}^{\prime r} \land
+  \PPK\left\{(k, r, r') : v^{r'} = v_x v_{xy}^k v_{xy}^{\prime r} \land
     \pid = g_T^{1/(k+\cid)} \right\}.
 \end{multline*}
 where \(r' = 1/r_2\).
 We can rewrite \(\pid = g_T^{1/(k+\cid)}\) as \(\pid^k = g_T g_T^{-\cid}\).
 Then the \ac{PK} can be designed as follows (remember that this \ac{PK} should 
-be run as \iac{DBPK} and be repeated multiple times to achieve security).
+be run as \iac{PPK} and be repeated multiple times to achieve security).
 The participant chooses \(r_k, r_r, r_{r'}\rgets \ZZ_q\) uniformly randomly, 
 sets \(R_1 = v^{r_{r'}} v_{xy}^{r_k} v_{xy}^{\prime r_r}\) and \(R_2 = 
   \pid^{r_k}\) and sends \(R_1, R_2\) to the witness.
