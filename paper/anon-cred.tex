@@ -64,6 +64,7 @@ This means that the prover can convince the verifier that \(y = \ACprf[_k][x]\) 
 \emph{Possible instantiations.}
 The \(\AC\) scheme can be instantiated using the Pedersen commitment~\cite{PedersenCommitment} for \(\ACcommit\),
 CL-signatures~\cite{CLsignatures} (or adapted CL-signatures as in~\cite{AnonPass}) for \(\ACsign, \ACblind, \ACgetSig, \ACissueSig\) and the \ac{VRF} by \citet{DY-VRF} as \(\ACprf\).
-These are used together in \eg Anon-Pass~\cite{AnonPass} and by \citet{HowToWinTheCloneWars} to form unclonable anonymous credentials for subscriptions.
-%Seb: maybe we should provide a little bit more of background of the two papers cited above and why they are relevant for our approach
+These are used together in \eg Anon-Pass~\cite{AnonPass} and by
+\citet{HowToWinTheCloneWars} to form unclonable anonymous credentials
+for subscriptions. We use their mechanisms but change the basis of the authentication window (epoch) from a time interval to a protest (cause).
 However, we will modify the \ac{ZKPK} protocols slightly, by making them \acl{DB}.
