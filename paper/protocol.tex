@@ -3,8 +3,8 @@
 
 \NewScheme{\PRIVOscheme}{PRIVO}
 
-We now present \PRIVO, a protocol for securely and PRIvately Verifying PROtest 
-Outcomes.
+We now present \PRIVO, a protocol for securely and privately verifying crowd 
+counts.
 The protocol consists of five phases: the setup, join, participation, 
 submission and verification phases.
 The setup is described in \cref{ProtocolSetup}.
@@ -30,7 +30,8 @@ A protester can assume three different roles:
 In general, there is one organizer and every protester will act as both 
 participant and witness.
 
-\subsection{The setup phase}
+\subsection{The setup phase}%
+\label{ProtocolSetup}
 
 The setup phase is only run once and is the same as in 
 Anon-Pass~\cite{AnonPass}.
@@ -91,7 +92,8 @@ Thus it would be suitable to have the registration phase as part of the issuance
 of \eg national identity cards, passports or \acp{eID}.
 
 \subsection{Creating, joining, participating in a protest and submitting 
-  proofs}
+  proofs}%
+\label{ProtocolDuring}
 
 The join, participation and submission phases are illustrated in 
 \cref{fig:ProtocolOverview}.
