@@ -13,6 +13,15 @@ fulfills all verification and privacy properties we derived from those
 of electronic voting complemented by the specific constraints on time
 and location required for protests. 
 
+Of separate interest, we can now provide distance bounding for authenticating 
+more general attributes than provided by previous \ac{DB} protocols.
+All privacy-preserving \ac{DB} protocols have so far focused on identity-based 
+authentication, but not authentication of general attributes, as is the case 
+for anonymous credentials.
+With our contribution, Alice can now prove more complex statements to Bob, \eg 
+that she is older than 18 but younger than 40 without revealing her actual age,  
+and at the same time Bob can be sure that Alice is not just relaying messages 
+from her older sister Carol.
 
 In general, none of the related works fulfills the eligibility
 verifiability (one proof per person, temporal and spatial eligibility ---
