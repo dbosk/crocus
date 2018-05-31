@@ -35,9 +35,18 @@ This verification system does not incur any additional risk to protesters' priva
 Our second contribution is an adaptation of the Schnorr's protocol~\cite{Schnorr} for \ac{DB}, but which is different from that of \textcite{DistanceBounding}.
 Our adaptation fulfills all the requirements for modern \ac{DB} protocols, including \ac{DBDH} (which was an attack against Brands-Chaum).
 More importantly, it is public-key, handles malicious impersonating verifiers, fulfills \ac{DBTF} resistance and provides a \ac{PK} for discrete logarithms.
-The latter allows us to replace the use of the plain Schnorr's protocol in the \ac{ZKPK} used in anonymous credentials. 
-%Seb: I have put the following sentence because due to the amount of current work recently in distance-bounding, I believe that our sentence should be made more reasonable 
-%and thus we are, to the best of our knowledge, the first to provide \ac{DB} anonymous credentials.
+The latter allows us to replace the use of the plain Schnorr's protocol in the 
+\ac{ZKPK} used in anonymous credentials.
+\seb{I have put the following sentence because due to the amount of current 
+  work recently in distance-bounding, I believe that our sentence should be 
+  made more reasonable:
+  \enquote{and thus we are, to the best of our knowledge, the first to provide 
+    \ac{DB} anonymous credentials.}}
+\daniel{I quickly looked through the papers from 2015--2018, none seem to do 
+  this, they are more about authenticating identities (possibly anonymously), 
+  but not fully fledged anonymous credentials --- where we can prove \eg that 
+  Alice is indeed older than 18 without revealing her age and that it is not a 
+  relay (due to \ac{DB}).}
 
 \emph{Outline.} 
 The paper is organized as follows. 
