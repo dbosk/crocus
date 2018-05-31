@@ -212,6 +212,8 @@ start of the time interval of creation for the proof share.).
     \Proto{\PRIVOparticipate[\cid, \sk_P]}{\PRIVOwitness[\sk_W, \spk]}\),}
 In the participating phase the participant and the witness constructs the proof 
 share of the participant (\cref{fig:ProofFig}).
+The participant commits to \(\cid\), \ie computes \(c = g^\cid Z^{r_\cid}\), 
+where \(r_\cid\rgets \ZZ_q\) is chosen uniformly randomly.
 The participant reblinds its signature \(\sigma\) on its secret key: choose 
 \(r_1, r_2\rgets \ZZ_q^*\) and let \(
   \tilde\sigma = (\tilde A = A^{r_1},
@@ -238,10 +240,10 @@ Then they run the following \ac{PPK} with the participant as the prover and the
 witness as the verifier:
 \begin{multline*}
   \mleftright
-  \PPK\left\{(k, r, r', \cid, o) : \right. \\
+  \PPK\left\{(k, r, r', \cid, r_\cid) : \right. \\
     v^{r'} = v_x v_{xy}^k v_{xy}^{\prime r} \land \pid = g_T^{1/(k+\cid)} \land 
     \\
-    \left. c = \ACcommit[\cid, o]
+    \left. c = g^\cid Z^{r_\cid}
   \right\}.
 \end{multline*}
 where \(r' = 1/r_2\).
