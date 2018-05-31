@@ -31,6 +31,9 @@ We now propose another way to turn the Schnorr protocol into a public-key \iac{D
 We present the protocol in \cref{SchnorrFigure}.
 The main difference with the original Schnorr protocol is that the prover commits to one random value but the verifier sends two challenges.
 The verifier presents to the prover which commitments and challenges to use during the \ac{DB} phase.
+To achieve the \ac{DB} properties we must run this protocol more rounds than if 
+we only need to achieve \ac{PK}.
+The security is summarized in \cref{DBSchnorrSecurity}.
 
 \begin{figure*}
   \centering
@@ -105,6 +108,23 @@ The verifier presents to the prover which commitments and challenges to use duri
   }%
   \label{SchnorrFigure}
 \end{figure*}
+
+\begin{table}
+  \caption{\label{DBSchnorrSecurity}%
+    Summary of the security of the \ac{DB} Schnorr protocol for \(n\) rounds.
+  }
+  \centering
+  \begin{tabular}{lr}
+    \toprule
+    \textbf{Property} & \textbf{Bits of security} \\
+    \midrule
+    Soundness (\acs{PK} and \acs{DBIF}) & \(k\cdot n\) \\
+    \Acl{DBDF} & \((\log_2 q + l)\cdot n\) \\
+    \Acl{DBMF} & \(n\) \\
+    %\Acf{DBDH} & \(kn\) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 The intuition behind the protocol security is as follows.
 To achieve malicious-verifier zero-knowledge, choose \(k\) logarithmically with respect to the security parameter \(\lambda\) and repeat the protocol until the knowledge error is small enough.
