@@ -65,5 +65,9 @@ This means that the prover can convince the verifier that \(y = \ACprf[_k][x]\) 
 The \(\AC\) scheme can be instantiated using the Pedersen commitment~\cite{PedersenCommitment} for \(\ACcommit\),
 CL-signatures~\cite{CLsignatures} (or adapted CL-signatures as in~\cite{AnonPass}) for \(\ACsign, \ACblind, \ACgetSig, \ACissueSig\) and the \ac{VRF} by \citet{DY-VRF} as \(\ACprf\).
 These are used together in \eg Anon-Pass~\cite{AnonPass} and by \citet{HowToWinTheCloneWars} to form unclonable anonymous credentials for subscriptions.
-%Seb: maybe we should provide a little bit more of background of the two papers cited above and why they are relevant for our approach
-However, we will modify the \ac{ZKPK} protocols slightly, by making them \acl{DB}.
+\Ie a user remains unlinkable between different interactions, yet cannot use it 
+twice (or \(n\) times) at the same time, \eg for sharing with a friend.
+We will use this to prevent reuse within the same event (protest) rather than 
+within the same time interval.
+However, we will use our \ac{DB} version of the Schnorr protocol 
+(\cref{DBSchnorr}) for the \ac{ZKPK} protocols.

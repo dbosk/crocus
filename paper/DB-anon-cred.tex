@@ -23,7 +23,8 @@ To realize this, we will now introduce such a protocol in order to enable us to 
 \NewAlgorithm{\DBSprove}{\DBS.\!Prove}
 \NewAlgorithm{\DBSverify}{\DBS.\!Verify}
 
-\emph{Reattempting a distance-bounding Schnorr protocol.}
+\emph{Reattempting a distance-bounding Schnorr protocol.}%
+\label{DBSchnorr}
 In the original \ac{DB} paper by \citet{DistanceBounding}, one of the distance-bounding protocol is based on the Schnorr identification scheme~\cite{Schnorr}.
 However, this \ac{DB} Schnorr protocol was shown to be prone to distance hijacking~\cite{DistanceHijacking}, in addition of also not being secure against terrorist fraud either.
 We now propose another way to turn the Schnorr protocol into a public-key \iac{DB} protocol which is secure against \ac{DBMF}, \ac{DBDF}, \ac{DBDH}, \ac{DBTF} and an impersonating verifier.
