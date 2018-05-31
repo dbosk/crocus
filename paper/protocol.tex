@@ -272,7 +272,7 @@ Now both the participant and the witness have the tuple \(\pi = (\pid, \wid,
 
 \NewAlgorithm{\PRIVOsubmit}{Submit}
 
-\emph{Submission: \(\pi'\gets \PRIVOsubmit[_P][\cid, \pid, \wid, t_s, t_s', 
+\emph{Submission: \(\psh_P\gets \PRIVOsubmit[_P][\cid, \pid, \wid, t_s, t_s', 
     l]\).}
 The participant should as soon as possible commit the proof-share data to the 
 time-stamping service and receive the proof of commitment, \(t_e\gets 
@@ -290,10 +290,10 @@ More specifically,
       (\cid, \pid, \wid, t_s, t_s', l).
 \end{multline*}
 Finally, the participant uploads the tuple \[
-  \pi' = (\cid, \pid, \wid, t_s, t_s', t_e, l, \pi_{\pid})
+  \psh_P = (\cid, \pid, \wid, t_s, t_s', t_e, l, \pi_{\pid})
 \] for permanent storage.
 
-\emph{Submission: \(\pi''\gets \PRIVOsubmit[_W][\pid, \wid, t_s, t_s', l]\).}
+\emph{Submission: \(\psh_W\gets \PRIVOsubmit[_W][\pid, \wid, t_s, t_s', l]\).}
 The witness should, just as the participant, commit the proof-share data to the 
 time-stamping service, \(t_e'\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]]\).
 (This is for redundancy only.)
@@ -308,7 +308,7 @@ Then, without any time requirements, the witness computes \iac{NIZK} proof
       (\pid, \wid, t_s, t_s', l).
 \end{multline*}
 Finally, the witness uploads the tuple \[
-  \pi'' = (\pid, \wid, t_s, t_s', t_e', l, \pi_{\wid})
+  \psh_W = (\pid, \wid, t_s, t_s', t_e', l, \pi_{\wid})
 \] for permanent storage.
 
 \subsection{Verifying the participation count}%
