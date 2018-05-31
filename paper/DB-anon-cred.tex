@@ -1,8 +1,8 @@
 \subsection{Distance-bounding anonymous credentials}%
 \label{DB-anon-cred}
 
-\ProvideDocumentCommand{\DBPK}{o o}{\ensuremath{%
-    \operatorname{DBPK}%
+\ProvideDocumentCommand{\PPK}{o o}{\ensuremath{%
+    \operatorname{PPK}%
     \IfValueT{#1}{%
       \IfValueTF{#2}{%
         \mleft\{\mleft(#1\mright) : #2\mright\}%
@@ -12,8 +12,11 @@
     }%
   }}
 
-One protocol exists in the literature providing \ac{DBPK} with all the desired properties described previously, ProProx~\cite{ProProx}\footnote{Note that~\cite{ProProx} uses the abbreviation PoPoK, for Proof of Proximity of Knowledge, instead of \ac{DBPK}.}.
-However, ProProx provides \iac{DBPK} protocol for quadratic residues (\ie protocols of the form \(\DBPK[\alpha][a = \alpha^2]\)) while in our context, we need \iac{DBPK} protocol for discrete logarithms (\ie \(\DBPK[\alpha][a = g^\alpha]\)).
+One protocol exists in the literature that provides \acp{PPK} with all the 
+desired properties described previously, ProProx~\cite{ProProx}\footnote{Note 
+  that~\cite{ProProx} uses the abbreviation PoPoK, we prefer \acs{PPK} for 
+  shorter notation.}.
+However, ProProx provides \iac{PPK} protocol for quadratic residues (\ie protocols of the form \(\PPK[\alpha][a = \alpha^2]\)) while in our context, we need \iac{PPK} protocol for discrete logarithms (\ie \(\PPK[\alpha][a = g^\alpha]\)).
 To realize this, we will now introduce such a protocol in order to enable us to have \ac{DB} anonymous credentials.
 
 \NewScheme{\DBS}{DBS}
