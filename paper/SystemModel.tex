@@ -25,10 +25,8 @@ varies over time.
 
 For the rest of the paper, we will refer to the organizer as Alice.
 Assume that the objective of Alice is to count everyone who participated at any time and in any of the locations~\cite{2016DemonstrationsInSeoul}\footnote{Remark that the objective does not necessarily align with the definition of the police whose interest could be to determine the maximum crowd at any point in time to deploy enough personnel for crowd-control.}.
-
 % cause identifier
 \NewVariable{\cid}{cid}
-
 Formally, we define a protest as an event that is uniquely identified by its cause \(\cid\), its time interval \(t\) and its location (area) \(l\).
 More specifically, we will use the following definition.
 
@@ -70,11 +68,8 @@ The participation proof and its proof shares are stored in a set, as there shoul
   \label{DefProofShare}\label{DefProofShares}
   A \emph{proof share} \(\psh = (\cid, t, l, \pid, \wid)\) is a tuple in which: 
   \(\cid, t, l\) are as in \cref{DefProtest};
-  \(\pid\) is a protester's pseudonym for the protest identified by \(\cid\); 
-  and
-  \(\wid\) is a witness's pseudonym for a protester with pseudonym \(\pid\).
-  We say that \(\psh\) is part of a subprotest \(\sprtst = (\cid', t', l')\) if 
-  and only if \(\cid = \cid', t\subseteq t', l\subseteq l'\) and denote this by 
+  \(\pid\) is a protester's pseudonym for the protest identified by \(\cid\); and \(\wid\) is a witness's pseudonym for a protester with pseudonym \(\pid\).
+  We say that \(\psh\) is part of a subprotest \(\sprtst = (\cid', t', l')\) if and only if \(\cid = \cid', t\subseteq t', l\subseteq l'\) and denote this by 
   \(\psh \sqsubseteq \sprtst\).
   We define \(\pshs\) as the set of all proof shares.
 \end{definition}
@@ -88,8 +83,7 @@ A subset of the proof shares forms a participation proof for a protester.
 
 \begin{definition}[Participation proof]%
   \label{DefParticipationProof}\label{DefParticipationProofs}
-  A \emph{participation proof} of a protester with pseudonym \(\pid\) who 
-  participates in a protest \(\prtst = \{ (\cid, t_i, l_i) \}_i\) is the set
+  A \emph{participation proof} of a protester with pseudonym \(\pid\) who participates in a protest \(\prtst = \{ (\cid, t_i, l_i) \}_i\) is the set
   \begin{multline}
     \nonumber
     \prf_{\pid, \prtst} =
@@ -106,8 +100,7 @@ A subset of the proof shares forms a participation proof for a protester.
 We can now define the participation count as follows.
 \begin{definition}[Participation count]%
   \label{DefParticipationCount}
-  We define the \emph{participation count} of a protest \(\prtst\) (as in 
-  \cref{DefParticipationProof}) as the cardinality 
+  We define the \emph{participation count} of a protest \(\prtst\) (as in \cref{DefParticipationProof}) as the cardinality 
   \(|\prfs_{P}^{\str,\theta}|\) of the set of participation proofs \[
     \prfs_{\prtst}^{\str,\theta} = \left\{ \prf_{i,P} \in \prfs \mid
       \str(\prf_{i,P})\geq \theta \right\}
@@ -118,6 +111,6 @@ We can now define the participation count as follows.
 The strength function \(\str\) can be used to regulate the trust in the participation count estimated.
 One example would be for \(\str\) to return the number of unique witnesses and thus let \(\theta\) to be the threshold of the number of required witnesses.
 %Seb: we should define clearly the different type of witnesses (for instance unique and trusted witnesses)
-Another example would be to return the number of proof shares issued
-by trusted witnesses (e.g., the independent journalist Jane) and set \(\theta = 1\) to require at least one proof share issued by a trusted witness.
-
+Another possibility would be to also have a particular type of witnesses, called trusted witnesses, participating to the protest. 
+For instance, the role of the trusted witness could be taken by Jane, the independent journalist. 
+In this situation, the strength function could be defined with respect to the number of proof shares issued by trusted witnesses and set \(\theta = 1\) to require at least one proof share issued by a trusted witness.
