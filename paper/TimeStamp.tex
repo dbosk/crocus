@@ -7,8 +7,7 @@
 \NewAlgorithm{\TSverify}{\TS.\!Verify}
 \NewAlgorithm{\TStime}{\TS.\!Time}
 
-We need a time-stamping service, \(\TS\), with algorithms \(\TSget\), 
-\(\TSstamp\) and \(\TStime\) such that
+We need a time-stamping service, \(\TS\), with algorithms \(\TSget\), \(\TSstamp\) and \(\TStime\) such that
 \begin{itemize}
   \item \(\rho \gets \TSget\) yields a value \(\rho\) at time \(t\), \(\rho\) is difficult to guess before time \(t\) and \(\TStime[\rho] = t\);
   \item \(\pi\gets \TSstamp[x]\) yields a value \(\pi\) at time \(t\) such that \(\TSverify[x, \pi]\to 1\) and \(\TStime[\pi] = t\).
@@ -21,19 +20,17 @@ Before time \(t_1\), submit \(h\gets \Hash[m, \rho_{t_0}]\) to the time-stamping
 Now we can use \((\rho_{t_0}, m, \pi_{t_1})\) to prove that \(m\) was created within the time interval \(\interval{t_0}{t_1}\).
 The verifier computes \(h'\gets \Hash[m, \rho_{t_0}]\) and checks whether \(\TSverify[h', \pi_{t_1}] = 1\) and \(\TStime[\rho_{t_0}] = t_0\land \TStime[\pi_{t_1}] = t_1\).
 
-We can instantiate \(\TS\) using a blockchain, \eg OmniLedger~\cite{OmniLedger}.
-The \(\TSstamp[x]\) algorithm will simply include \(x\) in the blockchain and 
-return the identifier of the block into which \(x\) was included.
+We can instantiate \(\TS\) using a blockchain such as for instance OmniLedger~\cite{OmniLedger}.
+The \(\TSstamp[x]\) algorithm will simply include \(x\) in the blockchain and return the identifier of the block into which \(x\) was included.
 \(\TSget\) will return the hash of the current head of the chain.
-This value is difficult to predict since it depends on all submitted transactions and usually some randomness (\eg nonces and miners' secrets).
+This value is difficult to predict since it depends on all submitted transactions and additional randomness (\eg nonces and miners' secrets).
 The blockchain must also be continuously extended, such as in Bitcoin~\cite{Bitcoin}, in which a new block appears approximately every 10 minutes.
-Having a dedicated blockchain for a protest will not do, and thus it is better 
-to use a blockchain which is used for other things too.
+%Seb: why is the idea of using a dedicated blockchain not appropriate? we should give more arguments to justify it
+Having a dedicated blockchain for a protest is not appropriate, and thus it is better to use a generic blockchain that is used also for other things.
 
 There are some additional properties that we need from \(\TS\), which are implied by blockchains.
 First, we need \emph{immutability}, to ensure that once we commit something (through \(\TSstamp\)) it will remain there.
-We will use this to ensure verifiability as the data must remain to be verifiable.
+Immutability will also ensure verifiability as the data must remain available to be verifiable.
 Second, once we have committed some data, we do not need to keep the data itself, but we can store some confirmation value instead.
-For instance using blockchains, we can store the hash of the block in which our 
-data was committed, while this block remains we are sure that our data remains 
-committed --- even if we no longer remember what our data looked like.
+For instance in a blockchain, we can store the hash of the block in which our data was committed.
+As a consequence as this block will remain, we are also sure that our data stay committed.% --- even if we no longer remember what our data looked like.
