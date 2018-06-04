@@ -3,127 +3,73 @@
 
 %\subsection{An overview of the adversary}
 
-On our setting, we have three potential adversaries: Alice, Eve and Mallory.
-%Seb: I changed the name of Grace to Eve to be consistent with the introduction
+To go back to the scenario stated in the introduction in our setting, we have two potential adversaries: Alice and Grace.
 Alice is a participant to the protest and thus she might be also interested in manipulating the system to increase the count (\eg she might have an incentive to do so as an activist).
-In contrast, the aim of Eve, the totalitarian dictator, is to decrease the count but also additionally to deanonymize some of the participants in order to arrest them or convince them to change their minds.
-Finally, Mallory represents another nation state and has some interest in affecting the stability of Eve's regime, for Mallory's own 
-gain, thus supporting either Eve or Alice as he see fits.
-Thus, the objective of Mallory will also be to either increase or decrease the count.
-%Seb: we have to justify why Mallory is not captured either by Alice or Eve
-In addition, Mallory could also have simply for objective to cause a denial-of-service attack on the architecture of \PRIVO.
-In the following two subsections, we will now formally define some security properties specifying the computational effort needed by the adversaries to succeed.
-
-Note that in general terms, protesting is very similar to petitions, which in turn are similar to voting: all three situations correspond to many individuals expressing their opinion.
-These opinions can be sensitive (\eg be a cause for discrimination or persecution), hence we desire to have similar properties of verification and privacy for verifying a protest as there is for voting. 
-To draw on this analogy, afterwards we will discuss the relationship between voting and protesting when categorizing the security requirements into verifiability and privacy properties.
+In contrast, the aim of Grace, the totalitarian dictator, is to decrease the count but also additionally to re-identify some of the participants in order to arrest them or forcefully convince them to change their minds.
+In the following two subsections, we will define the desired security properties.
 
 \subsection{Verifiability}%
 \label{Verifiability}
 
+We note that, in general terms, protesting is very similar to petitions, which in turn are similar to voting.
+Indeed, all three situations correspond to cases in which many individuals express their opinion.
+These opinions can be sensitive (\eg be a cause for discrimination or persecution), hence we desire to have similar properties of verification and privacy for verifying a protest as there are for voting.
+
 Voting has (generally) three desirable requirements for verifiability~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}.
 \begin{description}
-  \item[Eligibility:] anyone can verify that each vote cast is legitimate.
-  \item[Universal verifiability:] anyone can verify that the result is according 
-    to the cast votes.
-  \item[Individual verifiability:] every voter can verify that their vote is 
-    included in the result.
+  \item[Eligibility:] anyone can verify that each cast vote is legitimate.
+  \item[Universal verifiability:] anyone can verify that the result is according to the cast votes.
+  \item[Individual verifiability:] each voter can verify that his vote is included in the result.
 \end{description}
-We translate the votes into \emph{proofs of participation}.
-Universal and individual verifiability remain the same: anyone can verify the participation count by counting the proofs.
-The eligibility requirement is slightly different: for protests the eligibility requirement must include temporal and spatial 
-eligibility (\ie each proof of participation satisfies some temporal and spatial relation to the protest).
+In our context, votes are translated into \emph{participation proofs}.
+Universal and individual verifiability remain the same, in the sense that anyone can verify the participation count by counting the proofs.
+The eligibility requirement is slightly different as for protests it must include temporal and spatial eligibility (\ie each participation proof satisfies some temporal and spatial relation to the protest).
 In essence, the proof must bind the person to the time and location of the protest.
 
-To define these properties more formally in the context of protest, we desire three verifiability requirements, among which eligibility can be further broken up in four subproperties:
+To define these properties more formally in the context of protest, we define three verifiability requirements, among which eligibility can be further broken up into four subproperties:
 \begin{requirements}[V]
-  \item\label{EligibilityVerif} \emph{Eligibility}: anyone can verify that each participation proof provides temporal and spatial eligibility and that it has not been counted before.
+  \item\label{EligibilityVerif} \emph{Eligibility}: anyone can verify that each participation proof provides temporal and spatial eligibility and that only one participation proof is counted per individual.
     \begin{requirements}
-    \item \emph{Temporal eligibility}:%
-      \label{CreatedAfterStart} prove that the proof was created after the start of the protest and
-      %\label{CreatedBeforeEnd} prove that the proof was created 
-      before the end of the protest.
-    \item \emph{Spatial eligibility}
-      \label{SpatiallyRelated} prove that the proof is spatially related to the physical location or journey of the protest.
-    \item \emph{One-proof-per-person}:%
-      \label{CountOnce} prove that no individual can be counted more than once for a particular protest.
-    \item \emph{Designated event}:%
-      \label{DesignatedEvent} prove that the proof is designated for the protest.
+    \item\label{TemporallyRelated} \emph{Temporal eligibility}: prove that the proof was created after the start of the protest and before the end of the protest.
+    \item\label{SpatiallyRelated} \emph{Spatial eligibility}: prove that the proof is spatially related to the physical location or journey of the protest.
+    \item\label{CountOnce} \emph{One-proof-per-person}: prove that no individual can be counted more than once for a particular protest.
+    \item\label{DesignatedEvent} \emph{Designated event}: prove that the proof is associated to particular designated protest.
     \end{requirements}
 
   \item\label{UniversalVerif} \emph{Universal verifiability}: anyone can verify that the result obtained match the submitted participation proofs.
-  \item\label{IndividualVerif} \emph{Individual verifiability}: each participant can verify that their participation proof is included in the global count.
+
+  \item\label{IndividualVerif} \emph{Individual verifiability}: each participant can verify that his participation proof is included in the global count.
 \end{requirements}
-
-We will now discuss these properties in more details focusing in particular to the one related specifically to the protest.
-
-%Seb: to complete
-\subsubsection{Temporal eligibility}
-
-\begin{definition}[Forging temporal eligibility]
-  \dots
-\end{definition}
-
-\subsubsection{Spatial eligibility}
-
-\begin{definition}[Forging spatial eligibility]
-  \dots
-\end{definition}
-
-\subsubsection{Linkability and designated protest}
-
-\dots
-
-\subsubsection{Individual and universal verifiability}
-
-\dots
 
 \subsection{Privacy}%
 \label{Privacy}
 
-In addition to the verification requirements, we also need to formalize the privacy properties.
-As we indirectly pointed out earlier, we focus on the privacy provided to Alice and the protesters.
-In particular our objective is that as long as Alice can conceal her identity at the demonstration and escape without arrest, her support is recorded in the data without her privacy being violated.
-%Seb: I think this sentence should be clarified
-(Following this line of thinking, it can actually be beneficial for the privacy of the protesters to mix with the participants of any counter-protests --- since the counts will still be correct.)
+In addition to the verification requirements, we also need to define the privacy properties.
+In voting protocols, there are mainly three levels of privacy~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
+\begin{description}
+\item[Vote privacy:] the voting does not reveal any individual vote.
+\item[Receipt freeness:] the voting system does not provide any data that can be used as a proof of how the voter voted.
+\item[Coercion resistance:] a voter cannot cooperate with a coercer to prove the vote was cast in any particular way.
+\end{description}
+\Citet{VerifyingPrivacyPropertiesOfVotingProtocols} showed that coercion resistance implies receipt freeness, which in turn implies vote privacy.
+Coercion resistance is probably not possible to achieve for protests.
+For instance, someone could simply physically bring Alice to a protest against her will.
 
-In voting protocols, there are also three levels of privacy~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
+In essence, receipt freeness means that upon completing the protocol, Grace cannot link Alice to Alice's participation proof --- even if she were to compromise Alice's device or Alice accepts to collaborate with Grace.
+As we will see, if Grace gets Alice's device, she can re-do the computations on the same inputs.
+Since, in our case, the algorithms are deterministic and collisions are negligible, she will produce the same output and can thus conclude that Alice is indeed the one she is looking for.
+Thus, we cannot provide receipt freeness (see \cref{Conclusion} for further discussions on this issue).
+
+As a consequence, this leaves us with with what would correspond to vote privacy.
+In particular, we need unlinkability between Alice's long-term identity and Alice's participation proof.
+Given a participation proof, Grace will not be able to tell if it belongs to Alice or Bob.
+Furthermore, if Grace has managed to link one proof to Alice's, she should not be able to link another proof (\eg, from a different protest) as a consequence.
+Hence, we can summarize the needed privacy properties as follows:
 \begin{requirements}[P]
-\item\label{VotePrivacy} \emph{Vote privacy}: the voting does not reveal any individual vote.
-\item\label{ReceiptFreeness} \emph{Receipt freeness}: the voting system does not provide any data that can be used as a proof of how the voter voted.
-\item\label{CoercionResistance} \emph{Coercion resistance}: a voter cannot cooperate with a coercer to prove the vote was cast in any particular way.
+\item\label{ProofUnlink} \emph{Anonymity}: participants must be unlinkable to their proofs.
+\item\label{ProtestUnlink} \emph{Unlinkability}: participants (or proofs issued by the same participant) must be unlinkable between different protests.
 \end{requirements}
 
-\Citet{VerifyingPrivacyPropertiesOfVotingProtocols} showed that \cref{CoercionResistance} implies \cref{ReceiptFreeness}, which in turn implies \cref{VotePrivacy}. 
-\Cref{CoercionResistance} is probably not possible to achieve for protests:
-\eg Grace can simply physically bring Alice to a protest against her will.
-This leaves us with \cref{ReceiptFreeness,VotePrivacy}.
-
-We note that we cannot actually improve the privacy of participating protesters during the protest: if Alice is caught during a protest or other crowd-counting mechanisms based on photographic or video evidence are used to identify Alice, there is nothing we can do. 
-%Seb: suggestion maybe we should put the following part in the discussion
-However, in \PRIVO, we aim at verifiable participation count that does not add any threats to the participants' privacy. 
-For instance, if there are counter-protests in the \emph{same location at the same time}, Alice could even blend into another crowd and argue that she participated in a different protest than she actually did --- and the counts would still be correct afterwards.
-However, even if there is only one protest and she is not caught in the act, then using our proposed mechanism should not incur any additional risk.
-Thus we need at least participation-proof privacy but receipt freeness is also desired.
-In essence, this means that upon completing the protocol, Eve cannot link Alice to Alice's participation proof --- even if she were to compromise Alice's device.
-%Sonja says: I'm confused: can we or can we not provide this?
-%Seb: I agree with Sonja, it is not clear whether we achieve it or not
-
-\subsubsection{Participation-proof privacy}
-
-\begin{definition}[Proof indistinguishability]
-  Adversary chooses two messages \(m_0, m_1\) and gives them to the challenger.
-  Challenger uniformly randomly selects \(b\rgets \bin\) and runs \(c_b \gets 
-    PRF_k(m_0), c_{1-b} \gets PRF_k(m_1)\).
-  The challenger gives \(c_0, c_1\) to adversary.
-  If the adversary outputs \(b' = b\) she wins.
-  (The property should be similar to key privacy~\cite{KeyPrivacy}.)
-\end{definition}
-
-\subsubsection{Receipt freeness}
-
-\begin{definition}[Receipt freeness/deniability]
-  Adversary gets oracle access to the user?
-  User provides a witness?
-\end{definition}
+As a result of these properties, if there are two protests in parallel (\eg, one against Grace's regime and one in favor) Alice can always argue to be part of the protest in Grace's favor instead of any protest against Grace.
+This is, in fact, is a slight increase in privacy over ordinary protests.
 

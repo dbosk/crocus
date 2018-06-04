@@ -7,27 +7,25 @@
     %grow'=left,%
     %level distance=5em%
   }
-  \node[item] (proof) {Proof share}
+  \node[item] (proof) {$\SPK[\sk_W][\wid = \cdots, \sigma' = \cdots][\cdot, 
+  \cdot, \cdot, \cdot]$}
   child {%
-    node[item] (pid) {$pid$}
+    node[item] (pid) {$\pid$}
     child {%
-      node[item] (cid) {$cid$}
+      node[item] (cid) {$\cid$}
       child {%
-        node[item] (manifesto) {Manifesto}
+        node[item] (manifesto) {$\mfst$}
       }
     }
   }
   child {%
-    node[item] (wid) {$wid$}
+    node[item] (wid) {$\wid$}
   }
   child {%
     node[item] (ts) {$t_s, t_s'$}
   }
   child {%
     node[item] (l) {$l$}
-  }
-  child {%
-    node[item] (wsig) {$wsig$}
   }
   ;
 
@@ -36,19 +34,14 @@
   (wid) edge node [anchor=east] {$\in$} (proof)
   (ts) edge node [anchor=east] {$\in$} (proof)
   (l) edge node [anchor=west] {$\in$} (proof)
-  (wsig) edge node [anchor=south west] {$\in$} (proof)
   ;
 
   \path[every node/.style={font=\small}]
   (manifesto) edge node [anchor=east] {$\Hash[\cdot]$} (cid)
-  (cid) edge node [anchor=east] {$\ACprf[_{sk_P}][\cdot]$} (pid)
-  (pid) edge[bend right] node [anchor=north west] {$\ACprf[_{sk_W}][\cdot]$} 
-  (wid)
-  % wsig
-  (l) edge[bend right] (wsig)
-  (ts) edge[bend right] (wsig)
-  (wid) edge[bend right] node [anchor=north west] {$\ACprf[_{sk_W}][\cdot, 
-  \cdot, \cdot]$} (wsig)
+  (cid) edge node [anchor=north east,rotate=-30]
+    {$\ACprf[_{\sk_P}][\cdot]$} (pid)
+  (pid) edge[bend right] node [anchor=north west,rotate=-30]
+    {$\ACprf[_{\sk_W}][\cdot]$} (wid)
   ;
 
 \end{tikzpicture}

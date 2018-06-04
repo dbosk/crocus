@@ -30,6 +30,16 @@
 \addbibresource{adhocnets.bib}
 \addbibresource{references.bib}
 
+\usepackage{tikz}
+\usepackage{tikzscale}
+\usetikzlibrary{arrows.meta}
+
+%\DeclareDocumentCommand{\keywords}{m}{%
+%  \par
+%  \textbf{Keywords:} #1
+%}
+\usepackage[operators,sets,asymptotics]{cryptocode}
+
 \usepackage[capitalize]{cleveref}
 \crefname{properties@i}{property}{properties}
 \crefname{properties@ii}{property}{properties}
@@ -40,16 +50,7 @@
 \Crefname{requirements@i}{Requirement}{Requirements}
 \Crefname{requirements@ii}{Requirement}{Requirements}
 
-\usepackage{tikz}
-\usepackage{tikzscale}
-\usetikzlibrary{arrows.meta}
-\usepackage{tikz-qtree}
-
-%\DeclareDocumentCommand{\keywords}{m}{%
-%  \par
-%  \textbf{Keywords:} #1
-%}
-\usepackage[operators,sets,asymptotics]{cryptocode}
-
+\usepackage{amssymb}
 \usepackage{bibsp}
 
+\input{revision.tex}

@@ -1,8 +1,8 @@
-\subsection{Distance bounding anonymous credentials}%
+\subsection{Distance-bounding anonymous credentials}%
 \label{DB-anon-cred}
 
-\ProvideDocumentCommand{\DBPK}{o o}{\ensuremath{%
-    \operatorname{DBPK}%
+\ProvideDocumentCommand{\PPK}{o o}{\ensuremath{%
+    \operatorname{PPK}%
     \IfValueT{#1}{%
       \IfValueTF{#2}{%
         \mleft\{\mleft(#1\mright) : #2\mright\}%
@@ -12,44 +12,26 @@
     }%
   }}
 
-We pointed out in \cref{DistanceBounding} that the majority of all \ac{DB} protocols that provide the above security properties assume an \emph{honest} verifier.
-This assumption does not hold in our setting, in which every verifier might also be at some point a (malicious) prover.
-We thus need public-key \ac{DB}, and more specifically \ac{DBPK}.
+One protocol exists in the literature that provides \acp{PPK} with most of the desired properties described previously, ProProx~\cite{ProProx}\footnote{Note that~\cite{ProProx} uses the abbreviation PoPoK, we prefer \acs{PPK} for shorter notation.}.
+However, ProProx is not secure against a malicious verifier and does not provide \iac{PPK} protocol for quadratic residues (\ie protocols of the form \(\PPK[\alpha][a = \alpha^2]\)) while in our context, we need \iac{PPK} protocol for discrete logarithms (\ie \(\PPK[\alpha][a = g^\alpha]\)).
+To realize this, we will now introduce such a protocol in order to enable us to have \ac{DB} anonymous credentials.
 
-There is a protocol which provide \ac{DBPK} with all the desired properties from 
-above, ProProx~\cite{ProProx}.
-(Note that~\cite{ProProx} uses the abbreviation PoPoK, for Proof of Proximity of 
-Knowledge, instead of \ac{DBPK}.)
-However, ProProx provides \iac{DBPK} protocol for quadratic residues (\ie for 
-proving \(\DBPK[\alpha][a = \alpha^2]\)) while in our context, we need 
-\iac{DBPK} protocol for discrete logarithms.
-To realize this, we will now introduce such a protocol that will allow us to do 
-\ac{DB} anonymous credentials.
-We note, however, that this protocol only provides \ac{DBMF}, \ac{DBDF}, 
-\ac{DBDH} and \ac{DBIF} resistance --- but not \ac{DBTF} resistance.
-
-\NewCryptoScheme{\DBS}{DBS}
+\NewScheme{\DBS}{DBS}
 \NewAlgorithm{\DBSprove}{\DBS.\!Prove}
 \NewAlgorithm{\DBSverify}{\DBS.\!Verify}
 
-\emph{Reattempting \iacl{DB} Schnorr protocol.}
-In the original \ac{DB} paper by \citet{DistanceBounding}, they show how to 
-design a distance-bounding protocol based on the Schnorr identification 
-scheme~\cite{Schnorr}.
-That \ac{DB} Schnorr protocol was shown to be prone to distance 
-hijacking~\cite{DistanceHijacking}.
-We now propose another way to turn the Schnorr protocol into \iac{DB} protocol 
-which is secure against \ac{DBMF}, \ac{DBDF}, \ac{DBDH} and an impersonating 
-verifier (\ie public-key).
-It will not protect against terrorist fraud, although ideally this property should be desirable.
+\emph{Reattempting a distance-bounding Schnorr protocol.}
+In the original \ac{DB} paper by \citet{DistanceBounding}, one of the distance-bounding protocol is based on the Schnorr identification scheme~\cite{Schnorr}.
+However, this \ac{DB} Schnorr protocol was shown to be prone to distance hijacking~\cite{DistanceHijacking}, in addition of also not being secure against terrorist fraud either.
+We now propose another way to turn the Schnorr protocol into a public-key \iac{DB} protocol which is secure against \ac{DBMF}, \ac{DBDF}, \ac{DBDH}, \ac{DBTF} and an impersonating verifier.
 
 We present the protocol in \cref{SchnorrFigure}.
-The difference from the original Schnorr protocol is that the prover commits to two random values and the verifier sends two challenges.
-Afterwards, the verifier presents to the prover which commitment and challenge to use during the \ac{DB} phase.
+The main difference with the original Schnorr protocol is that the prover commits to one random value but the verifier sends two challenges.
+The verifier presents to the prover which commitments and challenges to use during the \ac{DB} phase.
 
 \begin{figure*}
   \centering
-  \begin{tabular}{lcl}
+  \begin{tabular}{p{5cm}cp{5cm}}
     \(\DBSprove[g, q, \alpha, A = g^\alpha]\):
     & &
     \(\DBSverify[g, q, A]\):
@@ -58,13 +40,8 @@ Afterwards, the verifier presents to the prover which commitment and challenge t
 
     \multicolumn{3}{c}{\textbf{Setup}} \\
 
-    \(\rho_0\rgets \ZZ_q, \rho_1\rgets \ZZ_q\)
-    &
-    &
-    \\
-
-    \(R_0\gets g^{\rho_0}, R_1\gets g^{\rho_1}\)
-    & \(\ProtoSendRight{R_0, R_1}\)
+    \(\rho\rgets \ZZ_q, R\gets g^{\rho}\)
+    & \(\ProtoSendRight{R}\)
     &
     \\
 
@@ -73,29 +50,15 @@ Afterwards, the verifier presents to the prover which commitment and challenge t
     & \(c_0\rgets \bin^k, c_1\rgets \bin^k\)
     \\
 
-    \(s_0\gets \rho_0 + c_0\alpha\)
-    &
-    &
-    \\
-
-    \(s_1\gets \rho_1 + c_1\alpha\)
-    &
-    &
-    \\
-
-    % null
+    \(s_0\gets \rho + c_0\alpha \pmod q\)
     &
     & \(b\rgets \bin\)
     \\
 
-    % null
+    \(s_1\gets \rho + c_1\alpha \pmod q\)
     &
-    & Prepare \(B\in \bin^{\ceil{\log_2 q}+l}\),
-    \\
-
-    % null
-    &
-    & with \(\ceil{\log_2 q}\) bits set to \(b\)
+    & Prepare \(B\in \bin^{\ceil{\log_2 q}+l}\), with \(\ceil{\log_2 q}\) bits 
+    set to \(b\).
     \\
 
     \midrule
@@ -123,12 +86,13 @@ Afterwards, the verifier presents to the prover which commitment and challenge t
 
     % null
     &
-    & \(r = r_1|\dotsb|r_{\ceil{\log_2 q}}\)
+    & Construct \(r = s_b\) as the concatenation of \(r_i\)'s for which \(b_i = 
+      b\).
     \\
 
     % null
     &
-    & \(R_b \stackrel{?}{=} g^r A^{c_b}\)
+    & \(R \stackrel{?}{=} g^r A^{c_b}\)
     \\
     
   \end{tabular}
@@ -140,7 +104,7 @@ Afterwards, the verifier presents to the prover which commitment and challenge t
 \end{figure*}
 
 The intuition behind the protocol security is as follows.
-To achieve malicious-verifier zero-knowledge we must choose \(k\) logarithmically in the security parameter \(\lambda\) and repeat the protocol until the knowledge error is small enough.
+To achieve malicious-verifier zero-knowledge, choose \(k\) logarithmically with respect to the security parameter \(\lambda\) and repeat the protocol until the knowledge error is small enough.
 This will actually also decrease the success probability of \iac{DBMF} adversary in the \ac{DB} step.
 Indeed, the \ac{DBMF} adversary does not know which challenge the verifier will use, thus there is a \(1/2\) probability that the \ac{DBMF} adversary will guess it correctly.
 The prover will only provide one of the responses: even if the adversary re-runs the protocol with the same challenges, the randomly chosen \(\rho_0, \rho_1\) will have changed --- which thus yields another \(R_b\) in the end of the protocol.
@@ -148,12 +112,12 @@ A sequential repetition of protocol will decrease this probability.
 
 The \ac{DB} phase protects against distance fraud.
 \Iac{DBDF} prover must wait for the challenge bit \(b_i\) before responding with \(r_i\).
-
 The \ac{DB} phase also ensures that \iac{DBMF} adversary will fail the \ac{DB} phase for at least one round.
 The verifier will send \(\ceil{\log_2 q} + l < 2\ceil{\log_2 q}\) challenges.
-Thus the prover reveals all the bits of either \(s_0\) or \(s_1\) but only \(l\) bits of the other.
+Afterwards, the prover reveals all the bits of either \(s_0\) or \(s_1\) but only \(l\) bits of the other.
 Thus, the adversary can buffer \(l\) bits of both \(s_0, s_1\) by requesting them from the prover.
-However at this point the adversary must wait for \(b_{l+1}\) from the verifier and then relay that challenge to the prover to receive the correct \(r_i\) --- this relay will be detected.
+However, at this point the adversary must wait for \(b_{l+1}\) challenge bits from the verifier and then relay that challenge to the prover to receive the correct \(r_i\) --- this relay will be detected.
 
-The protocol is also secure against distance hijacking due to the fact that it is the authenticating bit string that is used 
-during the \ac{DB} phase.
+The protocol is \ac{DBTF}-resistant, indeed if the malicious prover gives both responses to the adversary, the adversary can compute his secret key.
+This follows from the fact that it is \iac{ZKPK}, which means there is an extractor that can leak the secret.
+The protocol is also secure against distance hijacking due to the fact that it is the authenticated bitstring that is used during the \ac{DB} phase, not the challenge bitstring as in the protocol of Brands-Chaum.

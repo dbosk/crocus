@@ -1,0 +1,129 @@
+\section{Security and privacy analysis}%
+\label{SecurityAnalysis}
+
+\subsection{Individual and universal verifiability}%
+\label{analysis-individual}%
+\label{analysis-universal}
+
+\Cref{IndividualVerif} requires that Alice and Bob, as participants, can verify that their participation proofs (\ie proof shares) are indeed included in the count computed.
+As all proof shares (\ie \(\cid, \pid, \wid, t_s, t_s', t_e, t_e', l, \pi_\pid, \pi_{\wid}\)) are committed to the blockchain and available from a public and permanent storage (see \cref{fig:ProtocolOverview}).
+Thus, Alice and Bob can simply check that all of their proof shares are indeed there and the security of individual verifiability depends on the properties of the blockchain and storage.
+
+\Cref{UniversalVerif} requires also that anyone can check the result and that all participation proofs counted are legitimate.
+As the proof shares are committed and stored publicly, anyone can download them, verify eligibility (\ie verify \(\pi_\pid, \pi_{\wid}\)) the proofs and count them.
+As for individual verifiability, the security of universal verifiability is reduced to the properties of the blockchain and storage but also the eligibility verification, which we will discuss next.
+
+\subsection{Eligibility verifiability}
+\label{analysis-eligibility}
+
+\Cref{EligibilityVerif} states that anyone must be able to determine the authenticity of the relevant attributes of the data.
+In \PRIVO, we have several attributes that must be verifiable: the time of creation (\ie, temporal eligibility), the physical location of \(\sk_P\) at creation (\ie, spatial eligibility), recognition of two proofs originating from the same person (\ie, one-proof-per-person eligibility) and that the proof is indeed designated for the event (\ie, designated-event eligibility).
+We will now analyze these properties.
+
+\paragraph{Temporal eligibility}
+\label{analysis-temporal}
+
+\Cref{TemporallyRelated} ensures freshness, as Alice cannot simply resubmit an old proof as a new one.
+In general, freshness requires the prover to respond to an unpredictable challenge.
+The challenge here is to include the hash value at the head of the blockchain at the time of the proof's creation (included as \(t_s\) and \(t_s'\) in the proof share).
+As it is the case in the construction of blockchains, the hash value at the head depends on the previous blocks in the chain.
+Thus, the predictability of \(t_s\) depends on the predictability of the blocks, which depends on the predictability of the transactions and the nonce needed by the miner.
+In turn, the transactions depend on the signatures made by the signing keys corresponding to the used transactions.
+If these were predictable, the adversary could conduct arbitrary transactions in the blockchain --- which is assumed to be hard by design.
+Thus, Alice can predict \(t_s\) only with negligible probability, as \(t_s\) must have been published on the blockchain before being included in her proof share.
+
+According to \cref{TemporallyRelated}, we must also prove that a proof share has not been created after a certain time.
+Otherwise, Grace could argue that the proof share was created after the protest, thus defeating the purpose of our protocol.
+The hash values of the proof shares are committed to the blockchain, which means that there is a negligible probability that they were created after that.
+Alice would have to choose a value \(y\) in the domain of the hash function \(\Hash\) and then find a pre-image \(x\) such that \(y = \Hash[x]\) and \(x\) is a valid proof.
+If \(\Hash\) is collision resistant, finding \emph{any} preimage is hard.
+
+\paragraph{Linkability}
+\label{analysis-linkability}
+
+\Cref{CountOnce} is required to prevent Sybil attacks, in the sense that Alice cannot provide two participation proofs for specific protest and thus be counted twice.
+This possibility is prevented by the use of \(\pid\).
+Indeed to be counted twice, Alice must produce a \(\pid'\neq \pid\).
+Due to the deterministic property of \(\ACprf\), Alice must produce a new key \(\sk_P'\) and make the witness accept in the protocol
+\begin{multline*}
+\PK\mleft\{ (\sk_P') : \pid' = \ACprf[_{\sk_P'}][\cid] \quad \land \mright. \\
+    \sigma_P'' = \mleft. \ACblind[\ACsign[_{\ssk}][\sk_P']] \mright\}
+\end{multline*}
+while she does not know a valid signature on \(\sk_P'\).
+As a consequence, this is reduced to the security of the \(\AC\) scheme and how often Alice can get a valid signature on a secret key from the \ac{CA}.
+
+\paragraph{Spatial eligibility}
+\label{analysis-spatial}
+
+\Cref{SpatiallyRelated} is achieved by having a witness vouch anonymously that Alice was indeed on the location when the proof share was created.
+To realize this, we have to ensure that Alice cannot forge witness signatures, which is realized by using the same linkability mechanism as above.
+To forge a witness signature, Alice must produce a \(\wid'\) such that
+\begin{multline*}
+  \pi_{\wid'}\gets \SPK\left\{ (\sk_W') : \right. \\
+    \begin{aligned}
+      \wid' &= \ACprf[_{\sk_W'}][\pid] \quad \land \\
+      \sigma_W'' &= \left. \ACblind[\ACsign[_{\ssk}][\sk_W']] \right\}
+    \end{aligned} \\
+      (\pid, \wid', t_s, t_s', l),
+\end{multline*}
+while not knowing a signature on the secret key \(\sk_W'\).
+Thus, she must break the \(\AC\) scheme to succeed or get a valid signature on \(\sk_W'\) from the \ac{CA}.
+The latter could be done if she can find people willing to collude.
+However, due to the assumptions done in \cref{ProtocolVerification}, we either assume that we can trust (dedicated) witnesses or that Alice cannot collude with more than a threshold \(\theta\) of witnesses (of course this two approach could be combine).
+Remark that Alice can produce one witness signature for herself, since she has access to her own \(\sk_P\), but no more.
+
+\paragraph{Designated protest}
+\label{analysis-designated}
+
+\Cref{DesignatedEvent} is to prevent Alice (or someone else) from reusing the same proof (or proof share) for another event.
+This possibility is prevented through the use of \(\cid\) in the proof shares.
+To reuse the proof share for another protest, with a different manifesto, one must find a second preimage \(\mfst'\) such that \(\cid = \Hash[\mfst] = \Hash[\mfst']\).
+
+There exists another case of collision that we must prevent.
+Consider the situation in which Alice computes \(\pid = \ACprf[_\sk][\cid]\) for some cause identifier \(\cid\) and some witnesses computes \(\wid_1, \dotsc, \wid_n\), with \(\wid_i = \ACprf[_{\sk_i}][\pid]\).
+Now, if Alice construct a manifesto \(m\) such that \(\Hash[m] = \pid\), then \(\wid_1, \dotsc, \wid_n\) would be valid participant identifiers for the protest with manifesto \(m\).
+This means that we must separate the mechanisms used for participating and witnessing.
+The protocol achieves this by the fact that \[
+  \prf_{\wid} = \SPK[\sk_i][\dotsc][\pid, \wid, t_s, t_s', l]
+\]
+does not include \(\cid\) whereas \[
+  \prf_{\pid} = \SPK[\sk_i][\dotsc][\cid, \pid, \wid, t_s, t_s', l]
+\]
+does.
+Thus, the verification process differs for the two types of proofs.
+(An alternative approach would have been to compute them differently, for instance \(\pid = \AC[PRF]_{\sk}(x) = g_T^{1/(\sk+x)}\) but \(\wid = g_T^{1/(\sk+x+1)}\).)
+
+%\paragraph{Forging proof shares}
+%
+%\daniel{This is work-in-progress.}
+%Alice can attempt to forge the full proof directly, \ie
+%\begin{multline*}
+%\pi_{\pid'} = \SPK\mleft\{ (\sk_P') : \mright. \\
+%  \begin{aligned}
+%    \pid' &= \ACprf[_{\sk_P'}][\cid], \\
+%    \sigma_P'' &= \mleft. \ACblind[\ACsign[_{\ssk}][\sk_P']] \mright\}
+%  \end{aligned} \\
+%    (\cid, \pid', \wid', t_s, t_s', l)
+%\end{multline*}
+%and consequently
+%and thus solve same problem twice (once for \(pid'\) and once for \(\wid'\)).
+%
+
+\subsection{Privacy}
+
+We start with \cref{ProtestUnlink}, that Alice's proofs must be unlinkable across protests but linkable within one protest due to \cref{CountOnce}.
+It follows from the properties of \(\ACprf\) that \(\pid =  \ACprf[_{\sk_P}][\cid]\) and \(\pid' = \ACprf[_{\sk_P}][\cid']\) are unlinkable if \(\cid\neq \cid'\).
+
+Afterwards to get the property \cref{ProofUnlink}.
+Given \(\pid\), Grace cannot distinguish whether \(\pid = \ACprf[_{\sk_A}][\cid]\), \(\pid = \ACprf[_{\sk_A}][\cid']\) or \(\pid = \ACprf[_{\sk_B}][\cid]\) due to the properties of \(\AC\).
+
+However, consider the situation in which the witness works for Grace.
+This witness interacts with Alice directly and might have (physically) identified her.
+The witness also learns Alice's \(\pid\), but not \(\cid\), to compute \(\wid\) and to verify the \ac{PPK}.
+\daniel{This assumes that I will do the changes to hide \(\cid\) from the witness in the \ac{PPK}.}
+Afterwards, Alice publishes \(\pid\) and \(\cid\) together as part of the proof 
+share.
+The probability of a colliding \(\pid = \ACprf[_\sk][\cid']\) for some \(\cid' 
+  \neq \cid\) and \(\sk \neq \sk_P\) is \enquote{small}.
+\daniel{Fix this.}
+If this occurs, Grace could link \(\cid\) (and thus the opinions in the manifesto) to Alice.
