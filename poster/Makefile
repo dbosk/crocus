@@ -4,6 +4,12 @@ all: poster.pdf
 poster.pdf: poster.tex preamble.tex contents.tex
 poster.pdf: bibsp.sty
 
+preamble.tex: 		../paper/preamble.tex
+	${LN} $^ $@
+
+revision.tex: 		../paper/revision.tex
+	${LN} $^ $@
+
 FIGS+= 				kth_cmyk.eps uqam.pdf
 
 kth_cmyk.eps: 		../fig/kth_cmyk.eps
