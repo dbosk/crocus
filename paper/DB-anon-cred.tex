@@ -1,24 +1,13 @@
 \subsection{Distance-bounding anonymous credentials}%
 \label{DB-anon-cred}
 
-\ProvideDocumentCommand{\PPK}{o o}{\ensuremath{%
-    \operatorname{PPK}%
-    \IfValueT{#1}{%
-      \IfValueTF{#2}{%
-        \mleft\{\mleft(#1\mright) : #2\mright\}%
-      }{%
-        \mleft\{#1\mright\}%
-      }%
-    }%
-  }}
-
-One protocol exists in the literature that provides \acp{PPK} with most of the desired properties described previously, ProProx~\cite{ProProx}\footnote{Note that~\cite{ProProx} uses the abbreviation PoPoK, we prefer \acs{PPK} for shorter notation.}.
+One protocol exists in the literature that provides \acp{PPK} with most of the 
+desired properties described previously, ProProx~\cite{ProProx}\footnote{Note 
+  that~\cite{ProProx} uses the abbreviation PoPoK, we prefer \acs{PPK} for 
+  shorter notation.}.
 However, ProProx is not secure against a malicious verifier and does not provide \iac{PPK} protocol for quadratic residues (\ie protocols of the form \(\PPK[\alpha][a = \alpha^2]\)) while in our context, we need \iac{PPK} protocol for discrete logarithms (\ie \(\PPK[\alpha][a = g^\alpha]\)).
 To realize this, we will now introduce such a protocol in order to enable us to have \ac{DB} anonymous credentials.
 
-\NewScheme{\DBS}{DBS}
-\NewAlgorithm{\DBSprove}{\DBS.\!Prove}
-\NewAlgorithm{\DBSverify}{\DBS.\!Verify}
 
 \emph{Reattempting a distance-bounding Schnorr protocol.}
 In the original \ac{DB} paper by \citet{DistanceBounding}, one of the distance-bounding protocol is based on the Schnorr identification scheme~\cite{Schnorr}.

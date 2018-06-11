@@ -26,14 +26,11 @@ varies over time.
 For the rest of the paper, we will refer to the organizer as Alice.
 Assume that the objective of Alice is to count everyone who participated at any time and in any of the locations~\cite{2016DemonstrationsInSeoul}\footnote{Remark that the objective does not necessarily align with the definition of the police whose interest could be to determine the maximum crowd at any point in time to deploy enough personnel for crowd-control.}.
 % cause identifier
-\NewVariable{\cid}{cid}
 Formally, we define a protest as an event that is uniquely identified by its cause \(\cid\), its time interval \(t\) and its location (area) \(l\).
 More specifically, we will use the following definition.
 
 % protest
-\NewVariable{\prtst}{P}
 % subprotest
-\NewVariable{\sprtst}{p}
 
 \begin{definition}[Subprotest, Protest]\label{DefProtest}
   A \emph{subprotest} is a tuple \((\cid, t, l)\) in which \(\cid\in \ZZ_{2^\lambda}\) is the identifier of the cause of the protest,
@@ -56,13 +53,9 @@ Note that a participant to a protest can take the role of a protester but also a
 The participation proof and its proof shares are stored in a set, as there should be only unique proof shares.
 
 % proof share
-\NewVariable{\psh}{s}
 % proof shares
-\NewVariable{\pshs}{S}
 % protester identifier
-\NewVariable{\pid}{pid}
 % witness identifier
-\NewVariable{\wid}{wid}
 
 \begin{definition}[Proof share]%
   \label{DefProofShare}\label{DefProofShares}
@@ -77,9 +70,7 @@ The participation proof and its proof shares are stored in a set, as there shoul
 A subset of the proof shares forms a participation proof for a protester.
 
 % proof
-\NewVariable{\prf}{\pi}
 % proofs
-\NewVariable{\prfs}{\Pi}
 
 \begin{definition}[Participation proof]%
   \label{DefParticipationProof}\label{DefParticipationProofs}

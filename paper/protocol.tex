@@ -1,7 +1,6 @@
 \section{\PRIVO:\@ A protocol for crowd counting estimation}%
 \label{Protocol}
 
-\NewScheme{\PRIVOscheme}{PRIVO}
 
 We now present \PRIVO, a protocol for securely and privately verifying crowd counts.
 The protocol consists of five phases: setup, join, participation, submission and verification phases.
@@ -27,10 +26,6 @@ In general, there is one organizer and every protester will act alternatively as
 The setup phase is only run once and is the same as in Anon-Pass~\cite{AnonPass}.
 More precisely, we have simply adapted their description to our notation, but otherwise we have the setting as similar as possible.
 
-\NewAlgorithm{\PRIVOsetup}{Setup}
-\NewVariable{\sk}{sk}
-\NewVariable{\spk}{spk}
-\NewVariable{\ssk}{ssk}
 
 \emph{Setup: \((\spk, \ssk)\gets \PRIVOsetup\).}
 During setup phase, the \ac{CA} creates all the needed keys.
@@ -43,7 +38,6 @@ Let \(G_T\) be a group such that there is a bilinear pairing \(e\colon G\times G
 Choose \(x,y,z\rgets \ZZ_q\) uniformly at random and set \(X = g^x, Y = g^y, Z = g^z\).
 The service public key is set to \(\spk = (q, G, G_T, g, X, Y, Z)\) and the service private key to \(\ssk = (x, y, z)\).
 
-\NewAlgorithm{\PRIVOreg}{Reg}
 
 \emph{Registration: \(\sk\gets 
     \Proto{\PRIVOreg[_P][\spk]}{\PRIVOreg[_{CA}][\ssk]}\).}
@@ -80,10 +74,6 @@ This manifesto could take the form of any intelligible text.
 The organizer will then distribute this manifesto to people through any means he wants (\eg on the Web, on placards, \etc).
 If they agree on the cause, they will use the knowledge of the manifesto to join the protest.
 
-\NewAlgorithm{\PRIVOjoin}{Join}
-\NewVariable{\mfst}{manifesto}
-\NewVariable{\cid}{cid}
-\NewVariable{\pid}{pid}
 
 \emph{Joining as a participant: \((\pid, t_s)\gets 
     \PRIVOjoin[_P][\text{manifesto}]\).}
@@ -93,7 +83,6 @@ Afterwards, this identifier is used to create the protest-specific identifier fo
 More specifically, \(\pid = g_T^{1/(k+\cid)}\) (remember that \(\sk = (\sigma, k, r)\)).
 The participant should also receive a time-correlated random value from the time-stamping service, \(t_s\gets \TSget\).
 
-\NewVariable{\wid}{wid}
 
 \begin{figure}
   \centering
@@ -169,8 +158,6 @@ The participant should also receive a time-correlated random value from the time
 The witness should simply get a time-correlated random value from the time-stamping service, \(t_s'\gets \TSget\).
 Remark that we do this for redundancy, the newest of \(t_s\) and \(t_s'\) will be set the start of the time interval of creation for the proof share.
 
-\NewAlgorithm{\PRIVOparticipate}{Prticip}
-\NewAlgorithm{\PRIVOwitness}{Witness}
 
 \emph{Participation: \(\pi\gets
     \Proto{\PRIVOparticipate[\cid, \sk_P]}{\PRIVOwitness[\sk_W, \spk]}\),}
@@ -225,7 +212,6 @@ If the proof succeeds, the witness computes \(\wid\gets \ACprf[_{\sk_W}][\pid] =
 Following this, the witness returns \((\wid, t_s', l)\) to the participant.
 As a consequence, both the participant and the witness have the tuple \(\pi = (\pid, \wid, t_s, t_s', l)\), which forms a proof share of the participant (\cref{fig:ProofFig}).
 
-\NewAlgorithm{\PRIVOsubmit}{Submit}
 
 \emph{Submission: \(\psh_P\gets \PRIVOsubmit[_P][\cid, \pid, \wid, t_s, t_s',  l]\).}
 The participant should as soon as possible commit the proof-share data to the time-stamping service and receive the proof of commitment, \(t_e\gets 
