@@ -1,7 +1,5 @@
 \subsubsection{Instantiations of the \acs{ZKPK} protocols}
 
-\NewAlgorithm{\PKprove}{PK.\!Prove}
-\NewAlgorithm{\PKverify}{PK.\!Verify}
 
 We will rely on the Schnorr identification scheme~\cite{Schnorr}, which in its 
 original form can be written as \(\PK[\alpha][A = g^\alpha]\).
@@ -71,8 +69,6 @@ the challenge, see \cref{PKalgorithms}) logarithmic in the security parameter
 \(\lambda\) and repeat the protocol sufficiently many times (also logarithmic in 
 the security parameter).
 
-\NewAlgorithm{\SPKprove}{SPK.\!Prove}
-\NewAlgorithm{\SPKverify}{SPK.\!Verify}
 
 For the non-interactive instance, \(\SPK[\alpha][A = g^\alpha][m]\), we use the 
 Fiat-Shamir heuristic~\cite{FiatShamirHeuristic} on the above protocol, 

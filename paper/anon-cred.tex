@@ -11,11 +11,9 @@
 %    (\(\ACprove\))~\cite{CLsignatures}.
 %\end{enumerate*}
 
-\NewScheme{\AC}{AC}
 
 We need an anonymous credential system, \(\AC\), which provides the following algorithms and properties.
 
-\NewAlgorithm{\ACcommit}{\AC.\!Commit}
 
 \(\AC\) must provide a commitment scheme, \(\ACcommit\), and algorithms such that the prover can convince a verifier that he knows the commitment, which means that:
 \begin{equation*}
@@ -31,12 +29,6 @@ We need an anonymous credential system, \(\AC\), which provides the following al
 We will require the commitment scheme to be \emph{perfectly hiding} and computationally binding, rather than the other way around.
 Indeed, we are more concerned with long-term privacy, which means that we are looking for information-theoretic security with respect to confidentiality.
 
-\NewAlgorithm{\ACsign}{\AC.\!Sign}
-\NewAlgorithm{\ACblind}{\AC.\!BlindSig}
-\NewAlgorithm{\ACverifySig}{\AC.\!VerifySig}
-\NewAlgorithm{\ACgetSig}{\AC.\!GetSig}
-\NewAlgorithm{\ACissueSig}{\AC.\!IssueSig}
-\NewAlgorithm{\ACproveSig}{\AC.\!ProveSig}
 
 \(\AC\) must also contain a (blindable) signature scheme with the associated protocols enabling one to get a signature on a committed value (\(\ACgetSig\leftrightarrow \ACissueSig\)) and to prove knowledge of a signature on a committed value (\(\ACproveSig\leftrightarrow \ACverifySig\)).
 
@@ -49,9 +41,6 @@ The prover and verifier will run the protocol \(\ACproveSig\leftrightarrow \ACve
   \PK[k][\sigma' = \ACblind[\ACsign[_{sk}][k]]].
 \end{equation*}
 
-\NewAlgorithm{\ACprf}{\AC.\!PRF}
-\NewAlgorithm{\ACprovePRF}{\AC.\!ProvePRF}
-\NewAlgorithm{\ACverifyPRF}{\AC.\!VerifyPRF}
 
 Finally, we need \iac{PRF}, \(\ACprf\), such that there exists a protocol \(\ACprovePRF\leftrightarrow \ACverifyPRF\) implementing the following 
 \ac{PK}:
@@ -64,7 +53,6 @@ This means that the prover can convince the verifier that \(y = \ACprf[_k][x]\) 
 \emph{Possible instantiations.}
 The \(\AC\) scheme can be instantiated using the Pedersen commitment~\cite{PedersenCommitment} for \(\ACcommit\),
 CL-signatures~\cite{CLsignatures} (or adapted CL-signatures as in~\cite{AnonPass}) for \(\ACsign, \ACblind, \ACgetSig, \ACissueSig\) and the \ac{VRF} by \citet{DY-VRF} as \(\ACprf\).
-These are used together in \eg Anon-Pass~\cite{AnonPass} and by \citet{HowToWinTheCloneWars} to form unclonable anonymous credentials for subscriptions.
 These are used together in \eg Anon-Pass~\cite{AnonPass} and by 
 \citet{HowToWinTheCloneWars} to form unclonable anonymous credentials for 
 subscriptions.
@@ -72,3 +60,4 @@ We use their mechanisms but change the basis of the authentication window
 (epoch) from a time interval to a protest (cause).
 However, we will use our \ac{DB} version of the Schnorr protocol 
 (\cref{DBSchnorr}) for the \ac{ZKPK} protocols.
+

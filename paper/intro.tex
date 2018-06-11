@@ -32,21 +32,12 @@ their identity and that any witnessing is also unlinkable.
 \emph{Contributions.} In this paper, our first main contribution is to propose \PRIVO, a privacy-preserving scheme providing a way to securely estimate crowd count in protests.
 This verification system does not incur any additional risk to protesters' privacy beyond the ones related to physically participating in the protest in the first place.
 
-Our second contribution is an adaptation of the Schnorr's protocol~\cite{Schnorr} for \ac{DB}, but which is different from that of \textcite{DistanceBounding}.
+Our second contribution is an adaptation of the Schnorr protocol~\cite{Schnorr} for \ac{DB}, but which is different from that of \textcite{DistanceBounding}.
 Our adaptation fulfills all the requirements for modern \ac{DB} protocols, including \ac{DBDH} (which was an attack against Brands-Chaum).
 More importantly, it is public-key, handles malicious impersonating verifiers, fulfills \ac{DBTF} resistance and provides a \ac{PK} for discrete logarithms.
-The latter allows us to replace the use of the plain Schnorr's protocol in the 
-\ac{ZKPK} used in anonymous credentials.
-\seb{I have put the following sentence because due to the amount of current 
-  work recently in distance-bounding, I believe that our sentence should be 
-  made more reasonable:
-  \enquote{and thus we are, to the best of our knowledge, the first to provide 
-    \ac{DB} anonymous credentials.}}
-\daniel{I quickly looked through the papers from 2015--2018, none seem to do 
-  this, they are more about authenticating identities (possibly anonymously), 
-  but not fully fledged anonymous credentials --- where we can prove \eg that 
-  Alice is indeed older than 18 without revealing her age and that it is not a 
-  relay (due to \ac{DB}).}
+The latter allows us to replace the use of the plain Schnorr protocol in the \ac{ZKPK} used in anonymous credentials.
+%Seb: once again I think it is too strong to say that are the first to provide distance-bounding anonymous credentials as a a distance-bounding anonymous protocol can already be considered an anonymous credential in the sense that it allows to authenticate anonymously in addition of providing proximity testing
+%and thus we are, to the best of our knowledge, the first to provide \ac{DB} anonymous credentials.
 
 \emph{Outline.} 
 The paper is organized as follows. 
@@ -54,5 +45,5 @@ First, we define and formalize the notion of protest and discuss its relationshi
 Then, we introduce the desired security properties for such a system (\cref{Properties}) and subsequently discuss related work in 
 terms of these properties (\cref{RelatedWork}). 
 Afterwards, we give the relevant background on the building blocks of our solution, including our proposal for distance-bounding anonymous credentials that cope with a malicious (impersonating) verifier (\cref{BuildingBlocks}). 
-\PRIVO, the protocol constructed from these building blocks, is then detailed in \cref{Protocol} before an analysis of its security and privacy (\cref{SecurityAnalysis}) as well as a discussion of the performance and implementation issues (\cref{PerformanceAnalysis}). 
+\PRIVO, the protocol constructed from these building blocks, is then detailed in \cref{Protocol} before an analysis of its security and privacy (\cref{SecurityAnalysis}). 
 Finally, we conclude with a discussion and future works in \cref{Conclusion}.
