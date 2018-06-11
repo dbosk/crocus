@@ -24,8 +24,14 @@ DEPENDS+=	ecurrency.bib
 .PHONY: all
 all: slides-short.pdf
 
-slides-short.pdf: slides-short.tex ${DEPENDS} ${FIGS}
+slides-short.pdf: slides-short.tex preamble.tex ${DEPENDS} ${FIGS}
 slides-short.pdf: idea.tex
+
+preamble.tex: ../paper/preamble.tex
+revision.tex: ../paper/revision.tex
+
+preamble.tex revision.tex:
+	${LN} $< $@
 
 
 .PHONY: clean
@@ -33,6 +39,7 @@ clean:
 	${MAKE} -C ../art clean
 	${RM} slides-full.pdf slides-short.pdf
 	${RM} ${FIGS}
+	${RM} preamble.tex revision.tex
 
 
 .PHONY: print
