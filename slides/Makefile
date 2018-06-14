@@ -1,4 +1,4 @@
-FIGS+= 	tposet.tikz
+FIGS+= 	trump.jpg
 FIGS+= 	proofshare.tikz
 FIGS+= 	Jacobs-method.jpg
 
@@ -24,7 +24,7 @@ DEPENDS+=	ecurrency.bib
 .PHONY: all
 all: slides-short.pdf
 
-slides-short.pdf: slides-short.tex preamble.tex ${DEPENDS} ${FIGS}
+slides-short.pdf: slides-short.tex preamble.tex revision.tex ${DEPENDS} ${FIGS}
 slides-short.pdf: idea.tex
 
 preamble.tex: ../paper/preamble.tex
@@ -46,7 +46,7 @@ clean:
 print: slides-short.pdf
 
 
-tposet.tikz: ../fig/tposet.tikz
+trump.jpg: ../fig/trump.jpg
 proofshare.tikz: ../fig/proofshare.tikz
 Jacobs-method.jpg: ../fig/Jacobs-method.jpg
 
