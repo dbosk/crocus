@@ -8,6 +8,7 @@ FIGS+= 	ProtestVerif-endprotest.png
 FIGS+= 	ProtestVerif-verifying.png
 FIGS+= 	ProtestVerif-verified.png
 FIGS+= 	ProtestVerif-UN.png
+FIGS+= 	map-with-dots.png
 
 DEPENDS+=	bibsp.sty
 DEPENDS+=	crypto.bib
@@ -56,6 +57,9 @@ ProtestVerif-endprotest.png: ../art/ProtestVerif-endprotest.png
 ProtestVerif-verified.png: ../art/ProtestVerif-verified.png
 ProtestVerif-verifying.png: ../art/ProtestVerif-verifying.png
 ProtestVerif-UN.png: ../art/ProtestVerif-UN.png
+
+map-with-dots.png:
+	curl -o $@ https://i.amz.mshcdn.com/IXXVklwgW0nwbCXSJb1tWHLx2H4=/fit-in/1200x9600/http%3A%2F%2Fmashable.com%2Fwp-content%2Fuploads%2F2014%2F05%2FScreen-Shot-2014-05-01-at-3.56.31-PM.png
 
 ${FIGS}:
 	${LN} $< $@

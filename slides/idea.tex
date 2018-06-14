@@ -47,6 +47,13 @@
 \subsection{Verifying proof shares}
 
 \begin{frame}
+  \vspace{-2em}
+  \begin{center}
+    \((\cid, \pid, \wid, t_s, t_s', l, \pi_P, \pi_W)\) on blockchain.
+  \end{center}
+
+  \pause
+
   \begin{columns}
     \begin{column}{0.6\linewidth}
       \tiny
@@ -54,12 +61,18 @@
     \end{column}
 
     \begin{column}{0.5\linewidth}
-      \begin{itemize}
+      \begin{enumerate}
         \item Check that \(cid\) is what you're interested in.
+
+          \pause
+
         \item Verify the \ac{NIZK} proofs.
-        \item Each \(PRF\) is computed correctly.
+
+          \pause
+
+        \item Each \(\ACprf\) is computed correctly.
         \item The owner knows a signature on the key used.
-      \end{itemize}
+      \end{enumerate}
     \end{column}
   \end{columns}
 \end{frame}
@@ -67,20 +80,8 @@
 \subsection{Counting proofs}
 
 \begin{frame}
-  \begin{example}[No trusted witnesses]
-    \begin{itemize}
-      \item Each \(pid\) with more than \(t\) valid proof shares is counted.
-      \item \(t\) is a threshold set to be higher than expected size of collusion 
-        clusters.
-    \end{itemize}
-  \end{example}
-
-  \begin{example}[Trusted witnesses]
-    \begin{itemize}
-      \item Alternatively, each \(\pid\) with a proof share issued by a trusted 
-        witness is counted.
-    \end{itemize}
-  \end{example}
+  \centering
+  \includegraphics[width=\linewidth]{map-with-dots.png}
 \end{frame}
 
 \begin{frame}
@@ -165,6 +166,8 @@
         throughput, \eg OmniLedger.
     \end{itemize}
   \end{greenblock}
+
+  \pause
 
   \begin{alertblock}{Limits}
     \begin{itemize}
