@@ -1,4 +1,4 @@
-\subsection{Time-stamping service -- blockchains}%
+\subsection{Time-stamping service -- distributed ledger}%
 \label{StorageProperties}
 
 
@@ -15,7 +15,7 @@ Before time \(t_1\), submit \(h\gets \Hash[m, \rho_{t_0}]\) to the time-stamping
 Now we can use \((\rho_{t_0}, m, \pi_{t_1})\) to prove that \(m\) was created within the time interval \(\interval{t_0}{t_1}\).
 The verifier computes \(h'\gets \Hash[m, \rho_{t_0}]\) and checks whether \(\TSverify[h', \pi_{t_1}] = 1\) and \(\TStime[\rho_{t_0}] = t_0\land \TStime[\pi_{t_1}] = t_1\).
 
-We can instantiate \(\TS\) using a blockchain such as for instance OmniLedger~\cite{OmniLedger}.
+We can instantiate \(\TS\) using a distributed ledger, for instance a blockchain instance such as OmniLedger~\cite{OmniLedger}.
 The \(\TSstamp[x]\) algorithm will simply include \(x\) in the blockchain and return the identifier of the block into which \(x\) was included.
 \(\TSget\) will return the hash of the current head of the chain.
 This value is difficult to predict since it depends on all submitted transactions and additional randomness (\eg nonces and miners' secrets).
@@ -28,4 +28,5 @@ First, we need \emph{immutability}, to ensure that once we commit something (thr
 Immutability will also ensure verifiability as the data must remain available to be verifiable.
 Second, once we have committed some data, we do not need to keep the data itself, but we can store some confirmation value instead.
 For instance in a blockchain, we can store the hash of the block in which our data was committed.
-As a consequence as this block will remain, we are also sure that our data stay committed.% --- even if we no longer remember what our data looked like.
+As a consequence, as this block will remain, we are also sure that our data stay committed.\sonja{`` --- even if we no longer remember what our data looked like.'' This was commented out, but the question remains: can we still count?}
+

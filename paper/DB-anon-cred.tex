@@ -5,18 +5,22 @@ One protocol exists in the literature that provides \acp{PPK} with most of the
 desired properties described previously, ProProx~\cite{ProProx}\footnote{Note 
   that~\cite{ProProx} uses the abbreviation PoPoK, we prefer \acs{PPK} for 
   shorter notation.}.
-However, ProProx is not secure against a malicious verifier and does not provide \iac{PPK} protocol for quadratic residues (\ie protocols of the form \(\PPK[\alpha][a = \alpha^2]\)) while in our context, we need \iac{PPK} protocol for discrete logarithms (\ie \(\PPK[\alpha][a = g^\alpha]\)).
+However, ProProx is not secure against a malicious verifier and does
+not \sonja{I think ``not'' should be removed} provide \iac{PPK} protocol for quadratic residues (\ie protocols of the form \(\PPK[\alpha][a = \alpha^2]\)) while in our context, we need \iac{PPK} protocol for discrete logarithms (\ie \(\PPK[\alpha][a = g^\alpha]\)).
 To realize this, we will now introduce such a protocol in order to enable us to have \ac{DB} anonymous credentials.
 
 
 \emph{Reattempting a distance-bounding Schnorr protocol.}%
 \label{DBSchnorr}
 In the original \ac{DB} paper by \citet{DistanceBounding}, one of the distance-bounding protocol is based on the Schnorr identification scheme~\cite{Schnorr}.
-However, this \ac{DB} Schnorr protocol was shown to be prone to distance hijacking~\cite{DistanceHijacking}, in addition of also not being secure against terrorist fraud either.
-We now propose another way to turn the Schnorr protocol into a public-key \iac{DB} protocol which is secure against \ac{DBMF}, \ac{DBDF}, \ac{DBDH}, \ac{DBTF} and an impersonating verifier.
+However, this \ac{DB} Schnorr protocol was shown to be prone to distance hijacking~\cite{DistanceHijacking}, in addition to not being secure against terrorist fraud.
+We now propose another way to turn the Schnorr protocol into a
+public-key \iac{DB} protocol which is secure against \ac{DBMF},
+\ac{DBDF}, \ac{DBDH}, \ac{DBTF} and an impersonating
+verifier. \sonja{contrast with \ac{DBIF}}
 
 We present the protocol in \cref{SchnorrFigure}.
-The main difference with the original Schnorr protocol is that the prover commits to one random value but the verifier sends two challenges.
+The main difference to the original Schnorr protocol is that the prover commits to one random value but the verifier sends two challenges.
 The verifier presents to the prover which commitments and challenges to use during the \ac{DB} phase.
 
 \begin{figure*}
@@ -97,8 +101,8 @@ The intuition behind the protocol security is as follows.
 To achieve malicious-verifier zero-knowledge, choose \(k\) logarithmically with respect to the security parameter \(\lambda\) and repeat the protocol until the knowledge error is small enough.
 This will actually also decrease the success probability of \iac{DBMF} adversary in the \ac{DB} step.
 Indeed, the \ac{DBMF} adversary does not know which challenge the verifier will use, thus there is a \(1/2\) probability that the \ac{DBMF} adversary will guess it correctly.
-The prover will only provide one of the responses: even if the adversary re-runs the protocol with the same challenges, the randomly chosen \(\rho_0, \rho_1\) will have changed --- which thus yields another \(R_b\) in the end of the protocol.
-A sequential repetition of protocol will decrease this probability.
+The prover will only provide one of the responses: even if the adversary re-runs the protocol with the same challenges, the randomly chosen \(\rho_0, \rho_1\) will have changed --- which thus yields another \(R_b\) at the end of the protocol.
+A sequential repetition of the protocol will decrease this probability.
 
 The \ac{DB} phase protects against distance fraud.
 \Iac{DBDF} prover must wait for the challenge bit \(b_i\) before responding with \(r_i\).
@@ -110,4 +114,7 @@ However, at this point the adversary must wait for \(b_{l+1}\) challenge bits fr
 
 The protocol is \ac{DBTF}-resistant, indeed if the malicious prover gives both responses to the adversary, the adversary can compute his secret key.
 This follows from the fact that it is \iac{ZKPK}, which means there is an extractor that can leak the secret.
-The protocol is also secure against distance hijacking due to the fact that it is the authenticated bitstring that is used during the \ac{DB} phase, not the challenge bitstring as in the protocol of Brands-Chaum.
+The protocol is also secure against distance hijacking due to the fact
+that it is the authenticated bitstring that is used during the \ac{DB}
+phase, not the challenge bitstring as in the protocol of Brands-Chaum.
+\sonja{this is analysis but not in the analysis section}

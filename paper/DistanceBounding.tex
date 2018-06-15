@@ -7,7 +7,7 @@ As a consequence, mechanisms ensuring the physical proximity between a verifier 
 \Ac{DB} protocols precisely enable the verifier to estimate an upper bound on his distance to the prover by measuring the time-of-flight of short challenge-response messages (or rounds) exchanged during time-critical phases. 
 Time critical phases are complemented by slow phases during which the time is not taking into account. 
 At the end of a \Ac{DB} protocol, the verifier should be able to determine if the prover is legitimate AND in his vicinity.
-In this sense, \Ac{DB} protocols combines at the same time the classical properties of authentication protocols with the possibility of verifying the physical proximity.
+In this sense, \Ac{DB} protocols combine the classical properties of authentication protocols with the possibility of verifying the physical proximity.
 
 The main attacks against \ac{DB} protocols can be summarized as follows:
 \begin{itemize}
@@ -16,14 +16,14 @@ The main attacks against \ac{DB} protocols can be summarized as follows:
   \item \Acf{DBTF}: a legitimate but malicious prover helps an accomplice close to the verifier to authenticate.
 %Seb: the two following properties should be defined more precisely
   \item \Acf{DBDH}: similar to \ac{DBDF} but using the presence of an honest prover close to the verifier.
-  \item \Acf{DBIF}: the adversary plays against a simplified version of the protocol without any distance estimation.
+  \item \Acf{DBIF}: the adversary plays against a simplified version of the protocol without any distance estimation. \sonja{contrast with impersonating verifier}
 \end{itemize}
 There are two lines of attempts at formalizing the above properties: one by \citet{DB-BMV} and another by \citet{DB-DFKO}.
 
-The majority of the existing \ac{DB} protocols are symmetric and thus requires an honest verifier.
+The majority of the existing \ac{DB} protocols are symmetric and thus require an honest verifier.
 Indeed, in this context it does not make sense to protect against the verifier as he can easily impersonate the prover as he has a knowledge of his secret key.
 There has been less work done in the domain of asymmetric (or public-key) \ac{DB} protocols.
-Unfortunately, our setting requires a public-key \ac{DB} protocol with a \emph{malicious verifier} who will potentially try to \emph{impersonate the prover}.
+Our setting requires a public-key \ac{DB} protocol with a \emph{malicious verifier} who will potentially try to \emph{impersonate the prover}.
 The verifier might also try to track the provers and map their identities to their actions, thus we also require privacy.
 This leads to the requirement of a \ac{DB} \ac{ZKPK}, or simply \ac{PPK}, with resistance to all the frauds mentioned above as well as against a verifier who will attempt to impersonate the prover.
 More specifically, we must combine such \iac{DB} with anonymous credentials (which we do in \cref{DB-anon-cred}).
