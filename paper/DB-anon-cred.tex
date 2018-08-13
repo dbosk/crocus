@@ -136,10 +136,10 @@ Guessing \(b\) yields \(1/2\) probability \emph{per round} that the \ac{DBMF}
 adversary will guess it correctly.
 Since we must execute the protocol \(n\) times, this is reduced to \(2^{-n}\).
 The adversary can also guess the remaining \(|q|-l\) bits, for which the 
-probability of success is \(2^{-(|q|-l)}\) per round or, in total, 
-\(2^{-(|q|-l)n}\).
-Thus, the success probability of the \ac{DBMF} adversary is 
-\(2^{-n}+2^{-(|q|-l)n}\).
+probability of success is \(2^{-(|q|-l)}\) (note that this is independent of 
+the rounds).
+Thus, the success probability of the \ac{DBMF} adversary is \emph{at most} 
+\(2^{-n}+2^{-(|q|-l)}\).
 
 %The prover will only provide one of the responses and \(l\) bits of the other. 
 %Even if the adversary re-runs the protocol with the same challenges, the 
@@ -164,5 +164,4 @@ phase, not the challenge bitstring as in the protocol of Brands-Chaum.
 Finally, a malicious verifier who wants to impersonate a prover can guess the 
 remaining \(|q|-l\) bits after the protocol finished to compute the secret of 
 the prover.
-The probability that this succeeds is \(2^{-(|q|-l)}\) or, in total, 
-\(2^{-(|q|-l)n}\).
+The probability that this succeeds is, as above, \(2^{-(|q|-l)}\).
