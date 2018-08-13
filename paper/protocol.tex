@@ -9,7 +9,7 @@ The join, participation and submission phases are detailed in \cref{ProtocolDuri
 Finally, the verification phase is presented in \cref{ProtocolVerification}.
 
 Several entities are involved in our protocol.
-First, the \iac{CA} is responsible for certifying a one-to-one mapping between a person's identity and a cryptographic key.
+First, \iac{CA} is responsible for certifying a one-to-one mapping between a person's identity and a cryptographic key.
 The \ac{CA} is only involved in the setup phase.
 Second, a protester is an individual who wants to participate in a given protest.
 A protester can assume three different roles:
@@ -28,7 +28,7 @@ More precisely, we have simply adapted their description to our notation, but ot
 
 
 \emph{Setup: \((\spk, \ssk)\gets \PRIVOsetup\).}
-During setup phase, the \ac{CA} creates all the needed keys.
+During the setup phase, the \ac{CA} creates all the needed keys.
 First, the \ac{CA} generates a service public-private key-pair \((\spk, \ssk)\) as follows.
 Let \(G = \gen g\) be a group with generator \(g\) and prime order \(q\).
 Let \(G_T\) be a group such that there is a bilinear pairing \(e\colon G\times G\to G_T\)\footnote{%
@@ -62,7 +62,7 @@ Upon success, the protester sets \(\sk = (\sigma, k, r)\).
 The setup and registration phases can be done once and the keys can be reused for an arbitrary number of protests.
 Thus, the registration phase could be easily integrated as part of the issuance of national identity cards, passports or \acp{eID}.
 
-\subsection{Creation, join and participation to a protest and submission of proofs}%
+\subsection{Creation, join and participation in a protest and submission of proofs}%
 \label{ProtocolDuring}
 
 The join, participation and submission phases are illustrated in \cref{fig:ProtocolOverview}.
@@ -92,7 +92,8 @@ The participant should also receive a time-correlated random value from the time
     Structure of a proof share.
     The protest (cause) identifier \(\cid\) is the hash value of the manifesto.
     The protester \(P\)'s identifier \(\pid\) is computed using the protester's key \(\sk_P\) and \(\cid\).
-    The witness \(W\)'s identifier \(\wid\) is computed using the witness's key \(\sk_W\) and \(\pid\).
+    The witness \(W\)'s identifier \(\wid\) is computed using the
+    witness's key \(\sk_W\) and \sonja{the other's?}\(\pid\).
     \(t_s, t_s'\) are the last heads of the blockchain seen by the protester and witness, respectively, and \(l\) is an area.
     All values are signed by the witness while also proving the correctness of \(\wid\) and knowledge of a signature on \(\sk_W\).
   }%
@@ -156,12 +157,12 @@ The participant should also receive a time-correlated random value from the time
 
 \emph{Joining as a witness: \(t_s'\gets \PRIVOjoin_W\).}
 The witness should simply get a time-correlated random value from the time-stamping service, \(t_s'\gets \TSget\).
-Remark that we do this for redundancy, the newest of \(t_s\) and \(t_s'\) will be set the start of the time interval of creation for the proof share.
+Note that we do this for redundancy, the newest of \(t_s\) and \(t_s'\) will be set the start of the time interval of creation for the proof share.
 
 
 \emph{Participation: \(\pi\gets
     \Proto{\PRIVOparticipate[\cid, \sk_P]}{\PRIVOwitness[\sk_W, \spk]}\),}
-In the participation phase, the participant and the witness constructs the proof share of the participant (\cref{fig:ProofFig}).
+In the participation phase, the participant and the witness construct the proof share of the participant (\cref{fig:ProofFig}).
 The participant blinds his signature \(\sigma\) on his secret key by choosing \(r_1, r_2\rgets \ZZ_q^*\) and generates \(
   \tilde\sigma = (\tilde A = A^{r_1},
                   \tilde B = B^{r_1},
