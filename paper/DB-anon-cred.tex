@@ -109,8 +109,8 @@ The prover must know the responses for both challenges to successfully pass the
 The intuition behind the protocol security is as follows.
 To achieve malicious-verifier zero-knowledge, choose \(k\) logarithmically with 
 respect to the security parameter \(\lambda\) and repeat the protocol \(n\) 
-times, such that the knowledge error, \((2^{-k})^n\), is small enough.
-This will actually also decrease the success probability of the attacks 
+times, such that the knowledge error, \(2^{-kn}\), becomes small enough.
+This is also needed to decrease the success probability of some of adversaries 
 presented below.
 
 The \ac{DB} phase protects against distance fraud.
