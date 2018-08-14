@@ -2,7 +2,7 @@ version: 2
 jobs:
 	build:
 		docker:
-			- image: dbosk:makefiles
+			- image: dbosk/makefiles
 		steps:
 			- checkout
 			- run: git submodule update --init
