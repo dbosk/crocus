@@ -1,40 +1,30 @@
-\subsection{Distance bounding}%
+\subsection{Distance-bounding protocols}%
 \label{DistanceBounding}
 
-\Ac{DB} protocols were first suggested by \citet{DistanceBounding} to prevent 
-relay attacks in contactless communications in which the adversary forwards a 
-communication between a prover and a possibly far-away verifier to authenticate. 
-These attacks cannot be prevented by cryptographic tools as they are independent 
-of the semantics of the messages exchanged, so mechanisms ensuring the physical 
-proximity between a verifier and a prover must be used.
+\Ac{DB} protocols were first suggested by \citet{DistanceBounding} to prevent relay attacks in contactless communications in which the adversary forwards a communication between a prover and a possibly far-away verifier to authenticate. 
+These attacks cannot be prevented by cryptographic means as they are independent of the semantics of the messages exchanged.
+As a consequence, mechanisms ensuring the physical proximity between a verifier and a prover should be used instead.
 \Ac{DB} protocols precisely enable the verifier to estimate an upper bound on his distance to the prover by measuring the time-of-flight of short challenge-response messages (or rounds) exchanged during time-critical phases. 
-Time critical phases are complemented by slow phases during which the time is not taking into account.At the end of a \Ac{DB} protocol, the verifier should be able to determine if the prover is legitimate and in his vicinity.
+Time critical phases are complemented by slow phases during which the time is not taking into account. 
+At the end of a \Ac{DB} protocol, the verifier should be able to determine if the prover is legitimate AND in his vicinity.
+In this sense, \Ac{DB} protocols combine the classical properties of authentication protocols with the possibility of verifying the physical proximity.
 
-The main security requirements of \ac{DB} protocols can be summarized as follows:
+The main attacks against \ac{DB} protocols can be summarized as follows:
 \begin{itemize}
-  \item \acf{DBMF}: the adversary illegitimately authenticates, possibly using 
-    a far-away honest prover.
-  \item\acf{DBTF}: a legitimate but malicious prover helps a 
-    close-to-the-verifier accomplice to authenticate.
-  \item \acf{DBDF}: a legitimate but malicious prover wants to fool the 
-    verifier on the distance between them.
-  \item \acf{DBDH}: similar to \ac{DBDF}, sometimes using the presence of an 
-    honest prover close to the verifier.
-  \item \acf{DBIF}: the adversary plays against a simplified version of the 
-    protocol without any distance estimation.
+  \item \Acf{DBDF}: a legitimate but malicious prover wants to fool the verifier on the distance between them.
+  \item \Acf{DBMF}: the adversary illegitimately authenticates, possibly using a far-away honest prover.
+  \item \Acf{DBTF}: a legitimate but malicious prover helps an accomplice close to the verifier to authenticate.
+%Seb: the two following properties should be defined more precisely
+  \item \Acf{DBDH}: similar to \ac{DBDF} but using the presence of an honest prover close to the verifier.
+  \item \Acf{DBIF}: the adversary plays against a simplified version of the protocol without any distance estimation. \sonja{contrast with impersonating verifier}
 \end{itemize}
-There are two lines of attempts at formalizing the above properties: one by 
-\citet{DB-BMV} and another by \citet{DB-DFKO}.
+There are two lines of attempts at formalizing the above properties: one by \citet{DB-BMV} and another by \citet{DB-DFKO}.
 
-The majority of the existing \ac{DB} protocols are symmetric and thus requires an honest verifier.
-Indeed, in this context it does not make sense to protect against the verifier 
-as he can easily impersonate the prover as he has a knowledge of his secret key.
+The majority of the existing \ac{DB} protocols are symmetric and thus require an honest verifier.
+Indeed, in this context it does not make sense to protect against the verifier as he can easily impersonate the prover as he has a knowledge of his secret key.
 There has been less work done in the domain of asymmetric (or public-key) \ac{DB} protocols.
-Unfortunately, our setting requires a public-key \ac{DB} protocol with a \emph{malicious verifier} who will try to \emph{impersonate the prover}.
+Our setting requires a public-key \ac{DB} protocol with a \emph{malicious verifier} who will potentially try to \emph{impersonate the prover}.
 The verifier might also try to track the provers and map their identities to their actions, thus we also require privacy.
-This leads to the requirement of a \ac{DB} \ac{ZKPK}, or simply \ac{DBPK}, with resistance to all the frauds mentioned above as well as against this verifier 
-who will attempt to impersonate the prover.
-More specifically, we must combine such \iac{DB} with anonymous credentials 
-(which we do in \cref{DB-anon-cred}).
-The anonymous credential system will affect what properties we require of the \ac{DBPK}, (\eg that it must be \iac{PKE} for discrete logarithms).
-
+This leads to the requirement of a \ac{DB} \ac{ZKPK}, or simply \ac{PPK}, with resistance to all the frauds mentioned above as well as against a verifier who will attempt to impersonate the prover.
+More specifically, we must combine such \iac{DB} with anonymous credentials (which we do in \cref{DB-anon-cred}).
+The choice of the anonymous credential system will affect the properties we require of the \ac{PPK} (\eg that it must be \iac{PKE} for discrete logarithms).
