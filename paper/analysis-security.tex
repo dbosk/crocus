@@ -6,11 +6,13 @@
 \label{analysis-universal}
 
 \Cref{IndividualVerif} requires that Alice and Bob, as participants, can verify that their participation proofs (\ie proof shares) are indeed included in the count computed.
-As all proof shares (\ie \(\cid, \pid, \wid, t_s, t_s', t_e, t_e', l, \pi_\pid, \pi_{\wid}\)) are committed to the blockchain and available from a public and permanent storage (see \cref{fig:ProtocolOverview}).
+All proof shares (\ie \(\cid, \pid, \wid, t_s, t_s', t_e, t_e', l, \pi_\pid, \pi_{\wid}\)) are committed to the blockchain and available from a public and permanent storage (see \cref{fig:ProtocolOverview}).
 Thus, Alice and Bob can simply check that all of their proof shares are indeed there and the security of individual verifiability depends on the properties of the blockchain and storage.
 
-\Cref{UniversalVerif} requires also that anyone can check the result and that all participation proofs counted are legitimate.
-As the proof shares are committed and stored publicly, anyone can download them, verify eligibility (\ie verify \(\pi_\pid, \pi_{\wid}\)) the proofs and count them.
+\Cref{UniversalVerif}  includes that anyone can check the result and that all participation proofs counted are legitimate.
+As the proof shares are committed and stored publicly, anyone can
+download them, verify eligibility (\ie verify \(\pi_\pid,
+\pi_{\wid}\)) of the proofs and count them.
 As for individual verifiability, the security of universal verifiability is reduced to the properties of the blockchain and storage but also the eligibility verification, which we will discuss next.
 
 \subsection{Eligibility verifiability}
@@ -41,7 +43,9 @@ If \(\Hash\) is collision resistant, finding \emph{any} preimage is hard.
 \paragraph{Linkability}
 \label{analysis-linkability}
 
-\Cref{CountOnce} is required to prevent Sybil attacks, in the sense that Alice cannot provide two participation proofs for specific protest and thus be counted twice.
+\Cref{CountOnce} is required to prevent Sybil attacks, in the sense
+that Alice cannot provide two (or more) participation proofs for a
+specific protest and thus be counted more than once.
 This possibility is prevented by the use of \(\pid\).
 Indeed to be counted twice, Alice must produce a \(\pid'\neq \pid\).
 Due to the deterministic property of \(\ACprf\), Alice must produce a new key \(\sk_P'\) and make the witness accept in the protocol
@@ -69,8 +73,8 @@ To forge a witness signature, Alice must produce a \(\wid'\) such that
 while not knowing a signature on the secret key \(\sk_W'\).
 Thus, she must break the \(\AC\) scheme to succeed or get a valid signature on \(\sk_W'\) from the \ac{CA}.
 The latter could be done if she can find people willing to collude.
-However, due to the assumptions done in \cref{ProtocolVerification}, we either assume that we can trust (dedicated) witnesses or that Alice cannot collude with more than a threshold \(\theta\) of witnesses (of course this two approach could be combine).
-Remark that Alice can produce one witness signature for herself, since she has access to her own \(\sk_P\), but no more.
+However, due to the assumptions made in \cref{ProtocolVerification}, we either assume that we can trust (dedicated) witnesses or that Alice cannot collude with more than a threshold \(\theta\) of witnesses (of course these two approaches could be combined).
+Note that Alice can produce one witness signature for herself, since she has access to her own \(\sk_P\), but no more.
 
 \paragraph{Designated protest}
 \label{analysis-designated}
@@ -81,7 +85,7 @@ To reuse the proof share for another protest, with a different manifesto, one mu
 
 There exists another case of collision that we must prevent.
 Consider the situation in which Alice computes \(\pid = \ACprf[_\sk][\cid]\) for some cause identifier \(\cid\) and some witnesses computes \(\wid_1, \dotsc, \wid_n\), with \(\wid_i = \ACprf[_{\sk_i}][\pid]\).
-Now, if Alice construct a manifesto \(m\) such that \(\Hash[m] = \pid\), then \(\wid_1, \dotsc, \wid_n\) would be valid participant identifiers for the protest with manifesto \(m\).
+Now, if Alice constructs a manifesto \(m\) such that \(\Hash[m] = \pid\), then \(\wid_1, \dotsc, \wid_n\) would be valid participant identifiers for the protest with manifesto \(m\).
 This means that we must separate the mechanisms used for participating and witnessing.
 The protocol achieves this by the fact that \[
   \prf_{\wid} = \SPK[\sk_i][\dotsc][\pid, \wid, t_s, t_s', l]

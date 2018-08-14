@@ -1,10 +1,10 @@
 \section{Discussion}%
-\label{discussion}
+\label{Discussion}
 
 \subsection{System model and physical assumptions}
 \label{assumptions}
 
-Throughout this paper, each time we have refer to a participant, such as Alice, we actually mean a personal device that can perform cryptographic operations and communicate with other local devices on Alice's behalf. 
+Throughout this paper, each time we refer to a participant, such as Alice, we actually mean a personal device that can perform cryptographic operations and communicate with other local devices on Alice's behalf. 
 Furthermore, we assume that each participant has a digital certificate signed by the \ac{CA}.
 For instance, we could use the cryptographic keys of any national electronic identity system, identity card or passport.
 This assumption is needed to prevent Sybil attacks~\cite{SybilAttack}.
@@ -25,7 +25,7 @@ In this case, it does not make sense to verify any pro-government protests in wh
 Finally, achieving distance-bounding protocols on smartphones is currently not feasible within a meaningful range of distance needed for our scenario.
 Indeed, existing smartphones lack the required hardware to conduct the distance bounding fast enough.
 
-However, we believe that some of these assumptions might become sufficiently realistic in a near future, due to the smartphone penetration being on the rise and the increased digitalization and government-issued credentials already available in some countries now (\eg Estonia,Germany and Sweden). 
+However, we believe that some of these assumptions might become sufficiently realistic in the near future, due to the smartphone penetration being on the rise and the increased digitalization and government-issued credentials already available in some countries now (\eg Estonia, Germany, and Sweden). 
 The speed of adoption will depend on the architecture of these systems.
 For instance, the system used in Sweden, BankID, is implemented in software and can thus be easily upgraded to include the anonymous credentials that \PRIVO need.
 As for coverage of the population: more than \SI{95}{\%} of people in the ages 21--50 uses BankID, it is \SI{88}{\%} for ages 51--60 and \SI{76}{\%} for ages 61--70\footnote{Official statistics, in Swedish:  \url{https://www.bankid.com/assets/bankid/stats/2018/statistik-2018-04.pdf}.}.
@@ -95,7 +95,7 @@ Indeed, in this situation Grace can simply re-do the (deterministic) computation
 More precisely, if Grace can perform computations using Alice's key, Grace can input the \(\cid\) of interest and see if the resulting \(\pid\) is available on the blockchain.  
 To mitigate this situation, Alice could delete her key, in which case she cannot participate in any future protest.  
 
-As implied by the last statement, this lead to a problem of credential renewing.  
+As implied by the last statement, this leads to a problem of credential renewing.  
 Indeed as with all identity cards, passports \etc, the lifetime of the document is limited and this latter must be renewed at regular intervals.  
 The rate at which Alice is allowed to renew her credentials affects to what extent she can perform Sybil attacks. 
 Another facet concerning receipt freeness is traffic analysis. 
@@ -105,14 +105,14 @@ However, as the miner collects many transactions, Alice should have plausible de
 Counting votes is also more straightforward than counting protest participation. 
 Depending on the value of interest (\eg peak participation, total participation, individual sub-protests or counting participation only once for the cause, etc.), different ways of counting are
 possible and valid. 
-Since anyone can read the data, one can verify the results given the parameters of choice.
+Since anyone can read the data, they can verify the results given the parameters of choice.
 
 \subsection{Other actors}
 
-Without verifiable binding to a location, even the use of distance-bounding protocols do not prevent collusions such as protesters meeting at a safe location away from the official site. 
+Without verifiable binding to a location, even distance-bounding protocols do not prevent collusions such as protesters meeting at a safe location away from the official site. 
 To address that, one can use trusted infrastructure (for an example by media see~\cite{LeMondeProtestingSolution}) or people such as journalists. 
 Given the conflict of interest of potentially state-provided infrastructure for political protests, we opt for the trusted journalist, Jane, who reveals her identity after the protest and thus can be used as a trusted witness. 
-In practice, there can be any many Janes and, as with the different ways of counting, there does not need to be an agreement on who is trusted as anyone can set the eligibility criteria for their count.
+In practice, there can be any number of  Janes and, as with the different ways of counting, there does not need to be an agreement on who is trusted as anyone can set the eligibility criteria for their count.
 
 Finally, Mallory represents another nation state and has some interest in affecting the stability of Grace's regime, for Mallory's own gain, thus supporting either Grace or Alice as she see fits.  
 Thus, the objective of Mallory will also be to either increase or decrease the count. 
