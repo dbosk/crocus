@@ -1,7 +1,7 @@
 .PHONY: all
 all: poster.pdf
 
-poster.pdf: poster.tex preamble.tex contents.tex
+poster.pdf: poster.tex preamble.tex contents.tex revision.tex
 poster.pdf: bibsp.sty
 
 preamble.tex: 		../paper/preamble.tex
@@ -54,6 +54,7 @@ clean:
 	${RM} posterslide.pdf
 	${RM} kth_cmyk-eps-converted-to.pdf
 	${RM} ${FIGS}
+	${RM} revision.tex
 
 .PHONY: distclean
 distclean:
