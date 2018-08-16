@@ -16,7 +16,7 @@ files:
 - `SystemModel.tex` contains the System Model section.
 - `properties.tex` contains the section on desired security properties.
 - `RelatedWork.tex` contains the section on Related Work.
-- `BuildingBlocks.tex` contains the section on Building Blocks, it includes
+- `building-blocks.tex` contains the section on Building Blocks, it includes
   - `DistanceBounding.tex` describes distance bounding.
   - `anon-cred.tex` describes anonymous credentials.
   - `DB-anon-cred.tex` introduces distance-bounding anonymous credentials.
