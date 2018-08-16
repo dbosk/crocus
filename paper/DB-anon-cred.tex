@@ -1,4 +1,4 @@
-\subsection{Distance-bounding anonymous credentials}%
+\section{Distance-bounding anonymous credentials}%
 \label{DB-anon-cred}
 
 One protocol exists in the literature that provides \acp{PPK} with most of the 
@@ -11,8 +11,8 @@ protocol for quadratic residues (\ie protocols of the form \(\PPK[\alpha][a =
 logarithms (\ie \(\PPK[\alpha][a = g^\alpha]\)).
 To realize this, we will now introduce such a protocol in order to enable us to have \ac{DB} anonymous credentials.
 
+\subsection{Reattempting a distance-bounding Schnorr protocol}
 
-\emph{Reattempting a distance-bounding Schnorr protocol.}
 In the original \ac{DB} paper by \citet{DistanceBounding}, one of the distance-bounding protocol is based on the Schnorr identification scheme~\cite{Schnorr}.
 However, this \ac{DB} Schnorr protocol was shown to be prone to distance hijacking~\cite{DistanceHijacking}, in addition to not being secure against terrorist fraud.
 We now propose another way to turn the Schnorr protocol into a
@@ -105,6 +105,8 @@ The prover must know the responses for both challenges to successfully pass the
   }%
   \label{SchnorrFigure}
 \end{figure*}
+
+\subsection{Security analysis}
 
 The intuition behind the protocol security is as follows.
 To achieve malicious-verifier zero-knowledge, choose \(k\) logarithmically with 
