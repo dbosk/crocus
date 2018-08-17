@@ -245,28 +245,42 @@ Then, without any time requirements, the witness computes \iac{NIZK} proof
 \end{multline*}
 Finally, the witness uploads the tuple \[ \psh_W = (\pid, \wid, t_s, t_s', t_e', l, \pi_{\wid}) \] for permanent storage.
 
-\subsection{Verifying the participation count}
+\subsection{Verifying the participation count}%
 \label{ProtocolVerification}
 
 While there are various ways for verifying the participation count, hereafter we will detail the two suggested just after \cref{DefParticipationCount}.
 In the first approach, we do not trust individual witnesses, rather we \emph{assume} that it is difficult for Alice to find more than \(\theta\) witnesses willing to collude.
 Thus, the strength comes from the number of witnesses and we require at least \(\theta\) witnesses to accept a participation proof as valid.
-In the second approach, we have a higher trust in specific witnesses.
+In the second approach, we have a higher trust in specific witnesses and no 
+trust in others.
 In this case, to accept a participation proof as valid, we require at least one trusted witness, the independent journalist Jane.
 
-\paragraph{Without trusted witnesses}
-
-To verify the participation count for a protest \(P = (\cid, t, l)\) (see \cref{DefProtest}), a verifier must download all the proof shares \(\psh_i =   (\cid, \pid_i, \wid_i, t_s^{(i)}, t_s^{\prime (i)}, t_e^{(i)}, t_e^{\prime   (i)}, l_i, \prf_{\pid_i}, \prf_{\wid_i})\), from the blockchain and verify \(\prf_{\pid_i}\) and \(\prf_{\wid_i}\) and that the interval starting at the latest of \(t_s^{(i)}, t_s^{\prime (i)}\) and ending at the earliest of \(t_e^{(i)}, t_e^{\prime (i)}\) is a subset of \(t\) and that \(l_i\subseteq  l\).
+To verify the participation count for a protest \(P = (\cid, t, l)\) (see 
+\cref{DefProtest}), a verifier must download all the proof shares \(\psh_i =   
+  (\cid, \pid_i, \wid_i, t_s^{(i)}, t_s^{\prime (i)}, t_e^{(i)}, t_e^{\prime   
+    (i)}, l_i, \prf_{\pid_i}, \prf_{\wid_i})\), from the blockchain and verify 
+\(\prf_{\pid_i}\) and \(\prf_{\wid_i}\) and that the interval starting at the 
+latest of \(t_s^{(i)}, t_s^{\prime (i)}\) and ending at the earliest of 
+\(t_e^{(i)}, t_e^{\prime (i)}\) is a subset of \(t\) and that \(l_i\subseteq  
+  l\).
 Any proof share that does not verify correctly will be discarded.
-At this point, the verifier has constructed the set \(S\) from \cref{DefProofShares} and can thus construct any participation proof \(\prf_{\pid_i, P}\) as in \cref{DefParticipationProof}.
+At this point, the verifier has constructed the set \(S\) from 
+\cref{DefProofShares} and can thus construct any participation proof 
+\(\prf_{\pid_i, P}\) as in \cref{DefParticipationProof}.
+Now the verifier can compute the participation count \(|\prfs_P^{\str, 
+    \theta}|\) as in \cref{DefParticipationCount}.
+It is the strength function \(\str\) that differ in the two cases we give.
 
-Now, we simply define \(\str[\prf_{\pid_i, P}] = |\prf_{\pid_i, P}|\) and then the verifier can compute the participation count \(|\prfs_P^{\str, \theta}|\) as in \cref{DefParticipationCount}.
+In the case \emph{without} trusted witnesses, the verifier simply define 
+\(\str[\prf_{\pid_i, P}] = |\prf_{\pid_i, P}|\) and set \(\theta\) to our 
+desired thresold.
 
-\paragraph{With trusted witnesses}
-
-For this approach, we must adapt the selection of proof shares from the blockchain by selecting only proof shares issued by witnesses that the verifier trusts.
-Thus the verifier must be able to recognize proof shares issued by trusted witnesses, but as \(\prf_\wid\) is currently constructed, this is not possible.
-So trusted witnesses must complement their proofs by a digital signature that the verifier can recognize.
-
-When \(S\) only contains proof shares issued by witnesses the verifier trusts, we let \(\str[\prf_{\pid_i, P}] = 1\) and let \(\theta = 1\).
-Afterwards, the verifier can compute the participation count \(|\prfs_P^{\str, \theta}|\) as in \cref{DefParticipationCount}.
+In the case \emph{with} trusted witnesses, each trusted witness must inform the 
+verifier of which proof shares that he or she has signed, \eg by giving a list 
+of all such proof shares or digitally sign each proof share.
+Then the verifier defines \[
+  \str[\prf_{\pid_i, P}] = \begin{cases}
+    1 & \text{if \(\prf_{\pid_i, P}\) is such a proof share} \\
+    0 & \text{otherwise}
+  \end{cases}
+\] and sets \(\theta = 1\).
