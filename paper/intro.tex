@@ -32,7 +32,8 @@ their identity and that any witnessing is also unlinkable.
 \emph{Contributions.} In this paper, our first main contribution is to propose \PRIVO, a privacy-preserving scheme providing a way to securely estimate crowd count in protests.
 \sonja{commented out for repetition:This verification system does not incur any additional risk to protesters' privacy beyond the ones related to physically participating in the protest in the first place.}
 
-Our second contribution is an adaptation of the Schnorr protocol~\cite{Schnorr} for \ac{DB}, but which is different from that of \textcite{distance-bounding}.
+Our second contribution is an adaptation of the Schnorr protocol~\cite{Schnorr} 
+for \ac{DB}, but which is different from that of \textcite{DistanceBounding}.
 Our adaptation fulfills all the requirements for modern \ac{DB} protocols, including \ac{DBDH} (which was an attack against Brands-Chaum).
 More importantly, it is public-key, handles malicious impersonating verifiers, fulfills \ac{DBTF} and other types of resistance (see \cref{distance-bounding}), and provides a \ac{PK} for discrete logarithms.
 The latter allows us to replace the use of the plain Schnorr protocol in the \ac{ZKPK} used in anonymous credentials.
