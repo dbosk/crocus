@@ -21,7 +21,7 @@ files:
   - `anon-cred.tex` describes anonymous credentials.
   - `DB-anon-cred.tex` introduces distance-bounding anonymous credentials.
   - `LocationProofs.tex` describes location proofs.
-  - `TimeStamp.tex` describes time stamping storage, i.e. blockchains.
+  - `timestamp.tex` describes time stamping storage, i.e. blockchains.
 - `protocol.tex` describes the protocol.
 - `analysis.tex` contains the security and performance analysis.
 - `conclusions.tex` contains the discussion and conclusions.
