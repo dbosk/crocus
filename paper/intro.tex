@@ -15,7 +15,7 @@ Even without foul play, the difference is quite natural as both parties have dif
 More precisely, the organizers want to count everyone who participated while the police want to estimate the count at the peak of participation, due to crowd control~\cite{2016DemonstrationsInSeoul}.
 Among the numerous recent examples in which it is difficult to establish the actual number of participants, there are the demonstrations against the president in South Korea~\cite{2016DemonstrationsInSeoul}, Trump's inauguration attendance~\cite{HowWillWeKnowTrumpInauguralCrowdSize}, the 2017 Women's March in the US~\cite{2017WomensMarchesInUS}, the demonstrations against the change of constitution in Venezuela~\cite{AlJazeeraOnVenezuela2017} or for the independence of Catalonia~\cite{CataloniaDemonstrations}.
 
-Existing methods for crowd-counting vary significantly in terms of approaches (we will review them in detail in \cref{RelatedWork}).
+Existing methods for crowd-counting vary significantly in terms of approaches (we will review them in detail in \cref{related-work}).
 However, most of them lack precision (\ie they have large error margins) and they can only give an estimate for a particular snapshot in time (\eg at the peak of the event). 
 In particular, the existing methods cannot reliably estimate the cumulative participation count --- at least not without counting some persons multiple times, which in turn increases the error of the estimation.
 In addition, they lack verifiability in the sense that one has to trust the third party responsible for implementing the counting method. 
@@ -43,7 +43,7 @@ The latter allows us to replace the use of the plain Schnorr protocol in the \ac
 The paper is organized as follows. 
 First, we define and formalize the notion of protest and discuss its relationship with the domain of electronic voting (\cref{SystemModel}).  
 Then, we introduce the desired security properties for such a system (\cref{Properties}) and subsequently discuss related work in 
-terms of these properties (\cref{RelatedWork}). 
+terms of these properties (\cref{related-work}). 
 Afterwards, we give the relevant background on the building blocks of our solution, including our proposal for distance-bounding anonymous credentials that cope with a malicious (impersonating) verifier (\cref{building-blocks}). 
 \PRIVO, the protocol constructed from these building blocks, is then detailed in \cref{Protocol} before an analysis of its security and privacy (\cref{SecurityAnalysis}). 
 Finally, we conclude with a discussion \cref{Discussion} and future work in \cref{Conclusion}.
