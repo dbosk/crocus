@@ -7,7 +7,7 @@ paper.pdf: preamble.tex preamble-paper.tex
 SRC+=	contents.tex
 SRC+=	abstract.tex
 SRC+=	intro.tex
-SRC+=	SystemModel.tex
+SRC+=	system-model.tex
 SRC+=	properties.tex
 SRC+=	related-work.tex
 SRC+= 	building-blocks.tex

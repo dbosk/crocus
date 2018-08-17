@@ -13,7 +13,7 @@ The file `contents.tex` contains the main contents which includes the following
 files:
 - `abstract.tex` contains the abstract.
 - `intro.tex` contains the Introduction section.
-- `SystemModel.tex` contains the System Model section.
+- `system-model.tex` contains the System Model section.
 - `properties.tex` contains the section on desired security properties.
 - `related-work.tex` contains the section on Related Work.
 - `building-blocks.tex` contains the section on Building Blocks, it includes
