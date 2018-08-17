@@ -17,7 +17,7 @@ files:
 - `properties.tex` contains the section on desired security properties.
 - `RelatedWork.tex` contains the section on Related Work.
 - `building-blocks.tex` contains the section on Building Blocks, it includes
-  - `DistanceBounding.tex` describes distance bounding.
+  - `distance-bounding.tex` describes distance bounding.
   - `anon-cred.tex` describes anonymous credentials.
   - `DB-anon-cred.tex` introduces distance-bounding anonymous credentials.
   - `LocationProofs.tex` describes location proofs.
