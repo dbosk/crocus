@@ -20,7 +20,7 @@ files:
   - `distance-bounding.tex` describes distance bounding.
   - `anon-cred.tex` describes anonymous credentials.
   - `DB-anon-cred.tex` introduces distance-bounding anonymous credentials.
-  - `LocationProofs.tex` describes location proofs.
+  - `location-proofs.tex` describes location proofs.
   - `timestamp.tex` describes time stamping storage, i.e. blockchains.
 - `protocol.tex` describes the protocol.
 - `analysis.tex` contains the security and performance analysis.
