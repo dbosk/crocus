@@ -15,14 +15,14 @@ download them, verify eligibility (\ie verify \(\pi_\pid,
 \pi_{\wid}\)) of the proofs and count them.
 As for individual verifiability, the security of universal verifiability is reduced to the properties of the blockchain and storage but also the eligibility verification, which we will discuss next.
 
-\subsection{Eligibility verifiability}
+\subsection{Eligibility verifiability}%
 \label{analysis-eligibility}
 
 \Cref{EligibilityVerif} states that anyone must be able to determine the authenticity of the relevant attributes of the data.
 In \PRIVO, we have several attributes that must be verifiable: the time of creation (\ie, temporal eligibility), the physical location of \(\sk_P\) at creation (\ie, spatial eligibility), recognition of two proofs originating from the same person (\ie, one-proof-per-person eligibility) and that the proof is indeed designated for the event (\ie, designated-event eligibility).
 We will now analyze these properties.
 
-\paragraph{Temporal eligibility}
+\paragraph{Temporal eligibility}%
 \label{analysis-temporal}
 
 \Cref{TemporallyRelated} ensures freshness, as Alice cannot simply resubmit an old proof as a new one.
@@ -40,7 +40,7 @@ The hash values of the proof shares are committed to the blockchain, which means
 Alice would have to choose a value \(y\) in the domain of the hash function \(\Hash\) and then find a pre-image \(x\) such that \(y = \Hash[x]\) and \(x\) is a valid proof.
 If \(\Hash\) is collision resistant, finding \emph{any} preimage is hard.
 
-\paragraph{Linkability}
+\paragraph{Linkability}%
 \label{analysis-linkability}
 
 \Cref{CountOnce} is required to prevent Sybil attacks, in the sense
@@ -56,7 +56,7 @@ Due to the deterministic property of \(\ACprf\), Alice must produce a new key \(
 while she does not know a valid signature on \(\sk_P'\).
 As a consequence, this is reduced to the security of the \(\AC\) scheme and how often Alice can get a valid signature on a secret key from the \ac{CA}.
 
-\paragraph{Spatial eligibility}
+\paragraph{Spatial eligibility}%
 \label{analysis-spatial}
 
 \Cref{SpatiallyRelated} is achieved by having a witness vouch anonymously that Alice was indeed on the location when the proof share was created.
@@ -76,7 +76,7 @@ The latter could be done if she can find people willing to collude.
 However, due to the assumptions made in \cref{ProtocolVerification}, we either assume that we can trust (dedicated) witnesses or that Alice cannot collude with more than a threshold \(\theta\) of witnesses (of course these two approaches could be combined).
 Note that Alice can produce one witness signature for herself, since she has access to her own \(\sk_P\), but no more.
 
-\paragraph{Designated protest}
+\paragraph{Designated protest}%
 \label{analysis-designated}
 
 \Cref{DesignatedEvent} is to prevent Alice (or someone else) from reusing the same proof (or proof share) for another event.
