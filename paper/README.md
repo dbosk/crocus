@@ -14,7 +14,7 @@ files:
 - `abstract.tex` contains the abstract.
 - `intro.tex` contains the Introduction section.
 - `system-model.tex` contains the System Model section.
-- `properties.tex` contains the section on desired security properties.
+- `security-properties.tex` contains the section on desired security properties.
 - `related-work.tex` contains the section on Related Work.
 - `building-blocks.tex` contains the section on Building Blocks, it includes
   - `distance-bounding.tex` describes distance bounding.
