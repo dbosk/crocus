@@ -9,6 +9,7 @@ SRC+=	abstract.tex
 SRC+=	intro.tex
 SRC+=	system-model.tex
 SRC+= 	protest-model.tex
+SRC+= 	adversary-model.tex
 SRC+=	security-properties.tex
 SRC+=	related-work.tex
 SRC+= 	building-blocks.tex
