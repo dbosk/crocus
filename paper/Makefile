@@ -26,6 +26,9 @@ paper.pdf: ${SRC}
 FIGS+= 				proofshare.tikz
 proofshare.tikz: 	../fig/proofshare.tikz
 
+FIGS+= 				system-model.png
+system-model.png: 	../fig/system-model.png
+
 ${FIGS}:
 	${LN} $< $@
 
@@ -53,12 +56,12 @@ paper.pdf: ${DEPENDS}
 .PHONY: clean
 clean:
 	${RM} paper.pdf
+	${RM} ${FIGS}
 	${MAKE} -C ../fig clean
 
 .PHONY: distclean
 distclean:
 	${MAKE} -C ../fig distclean
-	${RM} ${FIGS}
 
 
 .PHONY: wc todo
