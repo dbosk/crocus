@@ -11,7 +11,8 @@ protocol for quadratic residues (\ie protocols of the form \(\PPK[\alpha][a =
 logarithms (\ie \(\PPK[\alpha][a = g^\alpha]\)).
 To realize this, we will now introduce such a protocol in order to enable us to have \ac{DB} anonymous credentials.
 
-\subsection{Reattempting a distance-bounding Schnorr protocol}
+\subsection{Reattempting a distance-bounding Schnorr protocol}%
+\label{DBSchnorr}
 
 In the original \ac{DB} paper by \citet{DistanceBounding}, one of the distance-bounding protocol is based on the Schnorr identification scheme~\cite{Schnorr}.
 However, this \ac{DB} Schnorr protocol was shown to be prone to distance hijacking~\cite{DistanceHijacking}, in addition to not being secure against terrorist fraud.
