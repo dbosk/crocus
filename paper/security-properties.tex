@@ -51,11 +51,24 @@ In voting protocols, there are mainly three levels of privacy~\cite{VerifyingPri
 \item[Receipt freeness:] the voting system does not provide any data that can be used as a proof of how the voter voted.
 \item[Coercion resistance:] a voter cannot cooperate with a coercer to prove the vote was cast in any particular way.
 \end{description}
-\sonja{discussion about applicable properties here, more sources and alternative properties}
+
 \Citet{VerifyingPrivacyPropertiesOfVotingProtocols} showed that coercion resistance implies receipt freeness, which in turn implies vote privacy.
-Coercion resistance is probably not possible to achieve for protests.
+Coercion resistance is not possible to achieve for protests.
 For instance, someone could simply physically bring Alice to a protest against her will.
 
+\sonja{discussion about applicable properties here, more sources and alternative properties}
+\sonja{new}
+Difference to e-voting:
+physical presence means support for a cause if there is one protest. If there is a counterprotest, physical presence with that group means support for the counterprotest. In our system, it gets more ambiguous as the participants are counted if all of the following is true 1) they participate in the protocol, 2) they use the protest identifier (cause) for which the count is done, 2) they meet the eligibility criteria, and 3) they receive enough proof shares, 4) that are uploaded to the ledger. Thus one could participate in a protest and be counted even when physically present at a counter-protest if the two protests are co-located and the participant chooses the corresponding cause/identifier of the original protest.
+
+Given that all conditions for being counted in a protest are met, individual verifiability implies a receipt, because being counted implies support for a cause. This also means that besides physical force, coercion can happen by forcing the participate to show a receipt. We thus have to decide between individual verifiability and the privacy properties for e-voting or define privacy properties suitable for the scenario. The ultimate privacy requirement is thus stronger here: in contrast to voting, where it is the content of the vote itself that needs to be unlinkable to the voter, here the fact of having cast a vote at all needs to be unlinkable.
+
+The privacy properties we need in this context are
+
+involuntary participant unlinkability: unless the participant discloses the receipt (by revealing her identity), there is no link between the protest data on the ledger and the identity of the participant.
+
+involuntary witness unlinkability: unless the witness discloses the receipt (by revealing her identity), there is no link between the protest data on the ledger and the identity of the witness.
+\sonja{old}
 In essence, receipt freeness means that upon completing the protocol, Grace cannot link Alice to Alice's participation proof --- even if she were to compromise Alice's device or Alice accepts to collaborate with Grace.
 As we will see, if Grace gets Alice's device, she can re-do the computations on the same inputs.
 Since, in our case, the algorithms are deterministic and collisions are negligible, she will produce the same output and can thus conclude that Alice is indeed the one she is looking for.
