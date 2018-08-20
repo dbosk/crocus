@@ -1,47 +1,5 @@
-\subsection{Security requirements}%
-\label{security-properties}
-
-To go back to the scenario stated in the introduction, we have two potential 
-adversaries: Alice and Grace.
-Alice is a participant of the protest and thus she might be also interested in manipulating the system to increase the count (\eg she might have an incentive to do so as an activist).
-In contrast, the aim of Grace, the government Alice protests against, is to not only decrease the count, but also to re-identify some of the participants in order to arrest them or forcefully convince them to change their minds.
-In the following two subsections, we will define the desired security properties.
-
-\subsubsection{Verifiability}%
-\label{Verifiability}
-
-We note that, in general terms, protesting is very similar to petitions, which in turn are similar to voting.
-Indeed, all three situations correspond to cases in which many individuals express their opinion.
-These opinions can be sensitive (\eg be a cause for discrimination or persecution), hence we desire to have similar properties of verification and privacy for verifying a protest as there are for voting.
-
-Voting has (generally) three desirable requirements for verifiability~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}.
-\begin{description}
-  \item[Eligibility:] anyone can verify that each cast vote is legitimate.
-  \item[Universal verifiability:] anyone can verify that the result is according to the cast votes.
-  \item[Individual verifiability:] each voter can verify that his vote is included in the result.
-\end{description}
-In our context, votes are translated into \emph{participation proofs}.
-Universal and individual verifiability remain the same, in the sense that anyone can verify the participation count by counting the proofs.
-The eligibility requirement is slightly different as for protests it must include temporal and spatial eligibility (\ie each participation proof satisfies some temporal and spatial relation to the protest).
-In essence, the proof must bind the person to the time and location of the protest.
-
-To define these properties more formally in the context of protest, we define three verifiability requirements, among which eligibility can be further broken up into four subproperties:
-\begin{requirements}[V]
-  \item\label{EligibilityVerif} \emph{Eligibility}: anyone can verify that each participation proof provides temporal and spatial eligibility and that only one participation proof is counted per individual.
-    \begin{requirements}
-    \item\label{TemporallyRelated} \emph{Temporal eligibility}: prove that the proof was created after the start of the protest and before the end of the protest.
-    \item\label{SpatiallyRelated} \emph{Spatial eligibility}: prove that the proof is spatially related to the physical location or journey of the protest.
-    \item\label{CountOnce} \emph{One-proof-per-person}: prove that no individual can be counted more than once for a particular protest.
-    \item\label{DesignatedEvent} \emph{Designated event}: prove that the proof is associated to particular designated protest.
-    \end{requirements}
-
-  \item\label{UniversalVerif} \emph{Universal verifiability}: anyone can verify that the result obtained match the submitted participation proofs.
-
-  \item\label{IndividualVerif} \emph{Individual verifiability}: each participant can verify that his participation proof is included in the global count.
-\end{requirements}
-
-\subsubsection{Privacy}%
-\label{Privacy}
+\subsection{Privacy requirements}%
+\label{privacy-properties}
 
 In addition to the verification requirements, we also need to define the privacy properties.
 In voting protocols, there are mainly three levels of privacy~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
