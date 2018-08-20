@@ -1,9 +1,8 @@
 \subsection{Security requirements}%
 \label{security-properties}
 
-%\subsubsection{An overview of the adversary}
-
-To go back to the scenario stated in the introduction, we have two potential adversaries: Alice and Grace.
+To go back to the scenario stated in the introduction, we have two potential 
+adversaries: Alice and Grace.
 Alice is a participant of the protest and thus she might be also interested in manipulating the system to increase the count (\eg she might have an incentive to do so as an activist).
 In contrast, the aim of Grace, the government Alice protests against, is to not only decrease the count, but also to re-identify some of the participants in order to arrest them or forcefully convince them to change their minds.
 In the following two subsections, we will define the desired security properties.
@@ -59,15 +58,30 @@ For instance, someone could simply physically bring Alice to a protest against h
 \sonja{discussion about applicable properties here, more sources and alternative properties}
 \sonja{new}
 Difference to e-voting:
-physical presence means support for a cause if there is one protest. If there is a counterprotest, physical presence with that group means support for the counterprotest. In our system, it gets more ambiguous as the participants are counted if all of the following is true 1) they participate in the protocol, 2) they use the protest identifier (cause) for which the count is done, 2) they meet the eligibility criteria, and 3) they receive enough proof shares, 4) that are uploaded to the ledger. Thus one could participate in a protest and be counted even when physically present at a counter-protest if the two protests are co-located and the participant chooses the corresponding cause/identifier of the original protest.
+physical presence means support for a cause if there is one protest. If there is a counterprotest, physical presence with that group means support for the counterprotest. In our system, it gets more ambiguous as the participants are counted if all of the following is true
+\begin{enumerate*}
+\item they participate in the protocol,
+\item they use the protest identifier (cause) for which the count is done,
+\item they meet the eligibility criteria, and
+\item they receive enough proof shares,
+\item that are uploaded to the ledger.
+\end{enumerate*}
+Thus one could participate in a protest and be counted even when physically 
+present at a counter-protest if the two protests are co-located and the 
+participant chooses the corresponding cause/identifier of the original protest.
 
 Given that all conditions for being counted in a protest are met, individual verifiability implies a receipt, because being counted implies support for a cause. This also means that besides physical force, coercion can happen by forcing the participate to show a receipt. We thus have to decide between individual verifiability and the privacy properties for e-voting or define privacy properties suitable for the scenario. The ultimate privacy requirement is thus stronger here: in contrast to voting, where it is the content of the vote itself that needs to be unlinkable to the voter, here the fact of having cast a vote at all needs to be unlinkable.
 
 The privacy properties we need in this context are
+\begin{description}
+  \item[involuntary participant unlinkability] unless the participant discloses 
+    the receipt (by revealing her identity), there is no link between the 
+    protest data on the ledger and the identity of the participant.
 
-involuntary participant unlinkability: unless the participant discloses the receipt (by revealing her identity), there is no link between the protest data on the ledger and the identity of the participant.
-
-involuntary witness unlinkability: unless the witness discloses the receipt (by revealing her identity), there is no link between the protest data on the ledger and the identity of the witness.
+  \item[involuntary witness unlinkability] unless the witness discloses the 
+    receipt (by revealing her identity), there is no link between the protest 
+    data on the ledger and the identity of the witness.
+\end{description}
 \sonja{old}
 In essence, receipt freeness means that upon completing the protocol, Grace cannot link Alice to Alice's participation proof --- even if she were to compromise Alice's device or Alice accepts to collaborate with Grace.
 As we will see, if Grace gets Alice's device, she can re-do the computations on the same inputs.
