@@ -1,25 +1,31 @@
 \subsection{System, communication and adversary model}%
 \label{adversary-model}
 
-We provide system model with three adversaries of varying strength.
-We will start with the base model and then successively increase the 
-adversary's strength.
+We provide a system model with various adversaries.
+We provide three adversaries of varying strength for the protester and two for 
+the witness.
 
-\paragraph{The base malicious witness--storage model}
+\paragraph{The protester adversary}
 
 There are three players: the protest participant (with identity) \(P\), a 
 witness (with identity) \(W\) and the storage \(S\).
 The adversary \(A\) controls \(W\) and \(S\).
 
-The protester \(P\) and the witness \(W\) communicate.
-Each learn only the protocol data \(d_{P,W}(\cid, P)\) and when it happened 
-\(t_{P,W}\), but specifically \emph{not} the real identities \(P\) and \(W\) 
-directly --- only if it appears in the data \(d_{P,W}(\cid, P)\).
-The protester \(P\) communicates with \(S\), where \(S\) only learns 
-\(f(d_{P,W}(\cid, P))\), for some function \(f\), and the time of the 
-communication (\(t_{P,S}\)) but not the real identities.
-As the adversary controls \(W\) and \(S\) he learns everything that they do, 
-but can additionally correlate what he learns from \(W\) and \(S\).
+\begin{definition}[Base protester adversary]\label{base-protester-adversary}
+  The protester \(P\) and the witness \(W\) communicate.
+  Each learn only the protocol data \(d_{P,W}(\cid, P)\) and when it happened 
+  \(t_{P,W}\)\footnote{%
+    Specifically, they do \emph{not} learn the real identities \(P\) and \(W\) 
+    directly, only if those appear in the data \(d_{P,W}(\cid, P)\).
+  }.
+  The protester \(P\) communicates with \(S\), where \(S\) only learns 
+  \(f(d_{P,W}(\cid, P))\), for some function \(f\), and the time of the 
+  communication (\(t_{P,S}\)) but not the real identities.
+  The adversary controls \(W\) and \(S\) and thus learns everything that they 
+  do, but can additionally correlate what he learns from \(W\) and \(S\).
+\end{definition}
+
+This definition is illustrated in \cref{fig:system-model}.
 
 \begin{figure}
   \centering
@@ -37,12 +43,39 @@ but can additionally correlate what he learns from \(W\) and \(S\).
   }
 \end{figure}
 
-\paragraph{The stronger malicious witness--storage model}
+We find \cref{base-protester-adversary} suitable when the protester and witness 
+both move in a crowd and there is no way for the witness to decide exactly with 
+whom he or she communicates with.
+However, in some situations this might not be the case, \eg the crowd is not 
+dense.
+In these situations the witness will likely see the face of the protester.
+We capture this by the following definition.
 
-Now the witness \(W\) learns the protester \(P\)'s identity.
-(\(P\) will also learn \(W\)'s identity.)
-However, \(S\) still does not learn \(P\)'s identity.
+\begin{definition}[Stonger protester adversary]%
+  \label{stronger-protester-adversary}
+  The situation is the same as in \cref{base-protester-adversary}, but now the 
+  witness \(W\) learns the protester \(P\)'s identity.
+  (\(P\) will also learn \(W\)'s identity.)
+  However, \(S\) still does not learn \(P\)'s identity.
+\end{definition}
 
-\paragraph{The strongest malicious witness--storage model}
+One reason to not allow \(S\) to learn \(P\)'s identity is that for this 
+communication \(P\) has options, such as \ac{Tor}, for anonymous communication.
+However, given a strong enough adversary, such anonymous communication might 
+not be possible.
+Hence the following definition.
 
-Now \(S\) also learns \(P\)'s identity.
+\begin{definition}[Strongest protester adversary]%
+  \label{strongest-protester-adversary}
+  Everything is the same as in \cref{stronger-protester-adversary}, except that 
+  now \(S\) also learns \(P\)'s identity.
+\end{definition}
+
+\paragraph{The witness adversary}
+
+The players are still the same, but now the adversary controls other players.
+In particular, the adversary controls the protester \(P\) and the storage 
+\(S\).
+
+\dots
+
