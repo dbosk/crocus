@@ -1,0 +1,22 @@
+\begin{tikzpicture}[%
+  -Latex,
+  player/.style={circle,draw},
+  node distance=1.5cm
+  ]
+  \node[player] (W) {$W$};
+  \node[player] (P) [below of=W] {$P$};
+  \node[player] (S) [right of=W] {$S$};
+  \node[player] (A) [above of=S] {$A$};
+
+  \path
+  (W) edge node {} (S)
+  (P) edge [bend right] node {} (W)
+  (W) edge [bend right] node [left] {$d_{P,W}(\cid, P)$} (P)
+  (P) edge node [anchor=north west] {$f(d_{P,W}(\cid, P))$} (S) ;
+
+  \path
+  (W) edge node {} (A)
+  (A) edge [bend right] node {} (W)
+  (S) edge [bend right] node {} (A)
+  (A) edge node {} (S) ;
+\end{tikzpicture}

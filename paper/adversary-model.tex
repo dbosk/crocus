@@ -25,13 +25,13 @@ The adversary \(A\) controls \(W\) and \(S\).
   do, but can additionally correlate what he learns from \(W\) and \(S\).
 \end{definition}
 
-This definition is illustrated in \cref{fig:system-model}.
+This definition is illustrated in \cref{fig:protester-adversary}.
 
 \begin{figure}
   \centering
-  \includegraphics[width=\columnwidth]{system-model.png}
-  \caption{\label{fig:system-model}%
-    An overview of the system model.
+  \includegraphics{base-protester-adversary.tikz}
+  \caption{\label{fig:protester-adversary}%
+    An overview of the base protester adversary model.
     The protester with real identity \(P\) and witness with real identity \(W\) 
     communicate and each learn only the protocol data, \(d_{P,W}(\cid, P)\), 
     and the time it happened, \(t_{P,W}\).
@@ -73,9 +73,37 @@ Hence the following definition.
 
 \paragraph{The witness adversary}
 
-The players are still the same, but now the adversary controls other players.
-In particular, the adversary controls the protester \(P\) and the storage 
+The players are still the same, but now the adversary controls other players: 
+in particular, the adversary controls the protester \(P\) and the storage 
 \(S\).
 
-\dots
+\begin{definition}[Base witness adversary]\label{base-witness-adversary}
+  The witness \(W\) and the protester \(P\) communicate.
+  They learn some protocol data \(d_{W,P}(W)\).
+  The witness later communicates with \(S\), where \(S\) only learns 
+  \(f(d_{W,P}(W))\), for some function \(f\), and the time it happened, 
+  \(t_{W,S}\).
+  The adversary controls \(P\) and \(S\).
+\end{definition}
+
+\Cref{base-witness-adversary} is the analogous to 
+\cref{base-protester-adversary}.
+It is illustrated in \cref{fig:witness-adversary}.
+
+\begin{figure}
+  \centering
+  \includegraphics{base-witness-adversary.tikz}
+  \caption{\label{fig:witness-adversary}%
+    An overview of the base witness adversary model.
+    The protester with real identity \(P\) and witness with real identity \(W\) 
+    communicate and each learn only the protocol data, \(d_{P,W}(W)\), and the 
+    time it happened, \(t_{P,W}\).
+    The witness submit some function of the protocol data \(f(d_{P,W}(W))\) to 
+    the storage \(S\), who learns only that and the time it happened, 
+    \(t_{P,S}\).
+    Both the protester \(P\) and storage \(S\) are controlled by the adversary 
+    \(A\).
+  }
+\end{figure}
+
 

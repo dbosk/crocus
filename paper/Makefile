@@ -27,8 +27,11 @@ paper.pdf: ${SRC}
 FIGS+= 				proofshare.tikz
 proofshare.tikz: 	../fig/proofshare.tikz
 
-FIGS+= 				system-model.png
-system-model.png: 	../fig/system-model.png
+FIGS+= 				base-protester-adversary.tikz
+base-protester-adversary.tikz: ../fig/base-protester-adversary.tikz
+
+FIGS+= 				base-witness-adversary.tikz
+base-witness-adversary.tikz: ../fig/base-witness-adversary.tikz
 
 ${FIGS}:
 	${LN} $< $@
