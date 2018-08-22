@@ -4,19 +4,35 @@
 \daniel{The main idea is that the adversary cannot link the protester's real 
   identity \(P\) to the protest cause \cid.}
 
-In addition to the verification requirements, we also need to define the privacy properties.
-In voting protocols, there are mainly three levels of privacy~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
+In addition to the verification requirements, we also need to define the 
+privacy properties.
+In voting protocols, there are mainly three levels of 
+privacy~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
 \begin{description}
-\item[Vote privacy:] the voting does not reveal any individual vote.
-\item[Receipt freeness:] the voting system does not provide any data that can be used as a proof of how the voter voted.
-\item[Coercion resistance:] a voter cannot cooperate with a coercer to prove the vote was cast in any particular way.
+  \item[Vote privacy:] the voting does not reveal any individual vote.
+  \item[Receipt freeness:] the voting system does not provide any data that can 
+    be used as a proof of how the voter voted.
+  \item[Coercion resistance:] a voter cannot cooperate with a coercer to prove 
+    the vote was cast in any particular way.
 \end{description}
 
-\Citet{VerifyingPrivacyPropertiesOfVotingProtocols} showed that coercion resistance implies receipt freeness, which in turn implies vote privacy.
 Coercion resistance is not possible to achieve for protests.
-For instance, someone could simply physically bring Alice to a protest against her will.
+For instance, someone could simply physically bring Alice to a protest against 
+her will.
+Receipt freeness, while desirable, is not \emph{always} desirable.
+For instance, the location proof might be useful to prove presence to a third 
+party, \eg for strengthening the authenticity of witness information.
 
-\sonja{discussion about applicable properties here, more sources and alternative properties}
+Thus privacy remains.
+For the protester we want unlinkability between a protester's real identity 
+\(P\) and the cause identifier \(\cid\).
+For the witness, we want unlinkability between a witness's identity \(W\) and a 
+location \(l\).
+
+\daniel{End of edits so far.}
+
+\sonja{discussion about applicable properties here, more sources and 
+  alternative properties}
 \sonja{new}
 Difference to e-voting:
 physical presence means support for a cause if there is one protest. If there is a counterprotest, physical presence with that group means support for the counterprotest. In our system, it gets more ambiguous as the participants are counted if all of the following is true
@@ -31,17 +47,33 @@ Thus one could participate in a protest and be counted even when physically
 present at a counter-protest if the two protests are co-located and the 
 participant chooses the corresponding cause/identifier of the original protest.
 
-Given that all conditions for being counted in a protest are met, individual verifiability implies a receipt, because being counted implies support for a cause. This also means that besides physical force, coercion can happen by forcing the participate to show a receipt. We thus have to decide between individual verifiability and the privacy properties for e-voting or define privacy properties suitable for the scenario. The ultimate privacy requirement is thus stronger here: in contrast to voting, where it is the content of the vote itself that needs to be unlinkable to the voter, here the fact of having cast a vote at all needs to be unlinkable.
+Given that all conditions for being counted in a protest are met, individual 
+verifiability implies a receipt \daniel{no, I know my proof is included in 
+  block 0xdeadbeef in the blockchain, so as long as 0xdeadbeef is there I'm 
+  sure my block is counted (individual verifiability); but if I give 0xdeadbeef 
+  to you, you cannot know for sure if 0xdeadbeef says anything or I made it up, 
+  hence receipt-freeness} because being counted implies support for a cause. 
+This also means that besides physical force, coercion can happen by forcing the 
+participate to show a receipt. \daniel{The only receipt we have is the private 
+  key of the protester, with that key the adversary can compute \(\pid = 
+    \ACprf[_k][\cid]\) and check that \(\pid\) is indeed in the ledger.}
+We thus have to decide between individual verifiability and the privacy 
+properties for e-voting or define privacy properties suitable for the scenario. 
+The ultimate privacy requirement is thus stronger here: in contrast to voting, 
+where it is the content of the vote itself that needs to be unlinkable to the 
+voter, here the fact of having cast a vote at all needs to be unlinkable.
 
 The privacy properties we need in this context are the following:
 \begin{description}
-  \item[Involuntary participant unlinkability:] unless the participant 
-    discloses the receipt (by revealing her identity), there is no link between 
-    the protest data on the ledger and the identity of the participant.
+  \item[Involuntary participant unlinkability:] \daniel{the name has a 
+      double-negative ring to me} unless the participant discloses the receipt 
+    (by revealing her identity), there is no link between the protest data on 
+    the ledger and the identity of the participant.
 
-  \item[Involuntary witness unlinkability:] unless the witness discloses the 
-    receipt (by revealing her identity), there is no link between the protest 
-    data on the ledger and the identity of the witness.
+  \item[Involuntary witness unlinkability:] \daniel{and double-negative here 
+      too of course} unless the witness discloses the receipt (by revealing her 
+    identity), there is no link between the protest data on the ledger and the 
+    identity of the witness.
 \end{description}
 \sonja{old}
 In essence, receipt freeness means that upon completing the protocol, Grace cannot link Alice to Alice's participation proof --- even if she were to compromise Alice's device or Alice accepts to collaborate with Grace.
