@@ -79,16 +79,19 @@ in particular, the adversary controls the protester \(P\) and the storage
 
 \begin{definition}[Base witness adversary]\label{base-witness-adversary}
   The witness \(W\) and the protester \(P\) communicate.
-  They learn some protocol data \(d_{W,P}(W)\).
+  They learn some protocol data \(d_{W,P}(W)\) and the time it took place, 
+  \(t_{P,W}\).
   The witness later communicates with \(S\), where \(S\) only learns 
   \(f(d_{W,P}(W))\), for some function \(f\), and the time it happened, 
   \(t_{W,S}\).
-  The adversary controls \(P\) and \(S\).
+  The adversary controls \(S\).
 \end{definition}
 
 \Cref{base-witness-adversary} is the analogous to 
 \cref{base-protester-adversary}.
-It is illustrated in \cref{fig:witness-adversary}.
+The rationale is the same as for \cref{base-protester-adversary}, the witness 
+\(W\) can submit to \(S\) over an anonymous channel, such as \ac{Tor}.
+\Cref{fig:witness-adversary} illustrates the roles and relations.
 
 \begin{figure}
   \centering
@@ -100,10 +103,9 @@ It is illustrated in \cref{fig:witness-adversary}.
     time it happened, \(t_{P,W}\).
     The witness submit some function of the protocol data \(f(d_{P,W}(W))\) to 
     the storage \(S\), who learns only that and the time it happened, 
-    \(t_{P,S}\).
+    \(t_{W,S}\).
     Both the protester \(P\) and storage \(S\) are controlled by the adversary 
     \(A\).
   }
 \end{figure}
-
 

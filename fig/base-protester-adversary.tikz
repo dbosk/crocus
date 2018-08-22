@@ -1,22 +1,24 @@
 \begin{tikzpicture}[%
   -Latex,
   player/.style={circle,draw},
+  adv/.style={circle,draw,color=red},
   node distance=1.5cm
   ]
-  \node[player] (W) {$W$};
+  \node[adv] (W) {$W$};
   \node[player] (P) [below of=W] {$P$};
-  \node[player] (S) [right of=W] {$S$};
-  \node[player] (A) [above of=S] {$A$};
+  \node[adv] (S) [right of=W] {$S$};
+  \node[adv] (A) [above of=S] {$A$};
 
   \path
-  (W) edge node {} (S)
+  (W) edge [color=red] node {} (S)
   (P) edge [bend right] node {} (W)
-  (W) edge [bend right] node [left] {$d_{P,W}(\cid, P)$} (P)
-  (P) edge node [anchor=north west] {$f(d_{P,W}(\cid, P))$} (S) ;
+  (W) edge [bend right,color=red] node [left] {\color{black}$d_{P,W}(\cid, P), 
+  t_{P,W}$} (P)
+  (P) edge node [anchor=north west] {$f(d_{P,W}(\cid, P)), t_{P,S}$} (S) ;
 
   \path
-  (W) edge node {} (A)
-  (A) edge [bend right] node {} (W)
-  (S) edge [bend right] node {} (A)
-  (A) edge node {} (S) ;
+  (W) edge [color=red] node {} (A)
+  (A) edge [bend right,color=red] node {} (W)
+  (S) edge [bend right,color=red] node {} (A)
+  (A) edge [color=red] node {} (S) ;
 \end{tikzpicture}
