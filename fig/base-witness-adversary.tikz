@@ -6,17 +6,17 @@
   \node[player] (W) {$W$};
   \node[player] (P) [below of=W] {$P$};
   \node[player] (S) [right of=W] {$S$};
-  \node[player] (A) [below of=S] {$A$};
+  \node[player] (A) [above of=S] {$A$};
 
   \path
   (P) edge node {} (S)
   (P) edge [bend right] node {} (W)
   (W) edge [bend right] node [left] {$d_{P,W}(W)$} (P)
-  (W) edge node [anchor=south west,rotate=30] {$f(d_{P,W}(W))$} (S) ;
+  (W) edge node [anchor=south east,rotate=-30] {$f(d_{P,W}(W))$} (S) ;
 
   \path
-  (P) edge [bend right] node {} (A)
-  (A) edge node {} (P)
-  (S) edge node {} (A)
+  %(P) edge [bend right] node {} (A)
+  %(A) edge node {} (P)
+  (S) edge [bend right] node {} (A)
   (A) edge [bend right] node {} (S) ;
 \end{tikzpicture}
