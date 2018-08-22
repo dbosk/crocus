@@ -89,8 +89,6 @@ in particular, the adversary controls the protester \(P\) and the storage
 
 \Cref{base-witness-adversary} is the analogous to 
 \cref{base-protester-adversary}.
-The rationale is the same as for \cref{base-protester-adversary}, the witness 
-\(W\) can submit to \(S\) over an anonymous channel, such as \ac{Tor}.
 \Cref{fig:witness-adversary} illustrates the roles and relations.
 
 \begin{figure}
@@ -109,3 +107,14 @@ The rationale is the same as for \cref{base-protester-adversary}, the witness
   }
 \end{figure}
 
+The base rationale is the same as for \cref{base-protester-adversary}, the 
+witness \(W\) can submit to \(S\) over an anonymous channel, such as \ac{Tor}.
+Anyone who is in the same location will learn that \(W\) was present, we want 
+to prevent anyone \emph{not present} to learn that \(W\) was there --- hence we 
+do not consider the protester as part of the adversary, only \(S\).
+We thus conclude with the strongest adversary against the witness.
+
+\begin{definition}[Strongest witness adversary]
+  Things are the same as in \cref{base-witness-adversary}, except that \(S\) 
+  learns the witness' identity \(W\).
+\end{definition}
