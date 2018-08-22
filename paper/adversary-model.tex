@@ -79,10 +79,10 @@ in particular, the adversary controls the protester \(P\) and the storage
 
 \begin{definition}[Base witness adversary]\label{base-witness-adversary}
   The witness \(W\) and the protester \(P\) communicate.
-  They learn some protocol data \(d_{W,P}(W)\) and the time it took place, 
+  They learn some protocol data \(d_{W,P}(W, l)\) and the time it took place, 
   \(t_{P,W}\).
   The witness later communicates with \(S\), where \(S\) only learns 
-  \(f(d_{W,P}(W))\), for some function \(f\), and the time it happened, 
+  \(f(d_{W,P}(W, l))\), for some function \(f\), and the time it happened, 
   \(t_{W,S}\).
   The adversary controls \(S\).
 \end{definition}
@@ -97,8 +97,8 @@ in particular, the adversary controls the protester \(P\) and the storage
   \caption{\label{fig:witness-adversary}%
     An overview of the base witness adversary model.
     The protester with real identity \(P\) and witness with real identity \(W\) 
-    communicate and each learn only the protocol data, \(d_{P,W}(W)\), and the 
-    time it happened, \(t_{P,W}\).
+    communicate and each learn only the protocol data, \(d_{P,W}(W, l)\), and 
+    the time it happened, \(t_{P,W}\).
     The witness submit some function of the protocol data \(f(d_{P,W}(W))\) to 
     the storage \(S\), who learns only that and the time it happened, 
     \(t_{W,S}\).

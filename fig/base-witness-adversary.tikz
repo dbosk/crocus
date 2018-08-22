@@ -12,8 +12,9 @@
   \path
   (P) edge node {} (S)
   (P) edge [bend right] node {} (W)
-  (W) edge [bend right] node [left] {$d_{P,W}(W), t_{P,W}$} (P)
-  (W) edge node [anchor=south east,rotate=-30] {$f(d_{P,W}(W)), t_{W,S}$} (S) ;
+  (W) edge [bend right] node [left] {$d_{P,W}(W, l), t_{P,W}$} (P)
+  (W) edge node [anchor=south east,rotate=-30] {$f(d_{P,W}(W, l)), t_{W,S}$} 
+  (S) ;
 
   \path
   %(P) edge [bend right] node {} (A)
