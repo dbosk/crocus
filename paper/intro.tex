@@ -41,10 +41,26 @@ The latter allows us to replace the use of the plain Schnorr protocol in the \ac
 %and thus we are, to the best of our knowledge, the first to provide \ac{DB} anonymous credentials.
 }
 \emph{Outline.} 
-The paper is organized as follows. 
-First, we define and formalize the notion of protest and discuss its relationship with the domain of electronic voting (\cref{system-model}).  
-Then, we introduce the desired security properties for such a system (\cref{Properties}) and subsequently discuss related work in 
-terms of these properties (\cref{related-work}). 
-Afterwards, we give the relevant background on the building blocks of our solution, including our proposal for distance-bounding anonymous credentials that cope with a malicious (impersonating) verifier (\cref{building-blocks}). 
-\PRIVO, the protocol constructed from these building blocks, is then detailed in \cref{Protocol} before an analysis of its security and privacy (\cref{SecurityAnalysis}). 
-Finally, we conclude with a discussion \cref{Discussion} and future work in \cref{Conclusion}.
+The paper is organized as follows.
+First, in \cref{system-model}, we define and formalize the notion of protest 
+and define the desired verifiability properties.
+We also present our system and adversary model together with desired privacy 
+properties.
+Next, in \cref{related-work}, we discuss related work in terms of these 
+properties.
+In \cref{building-blocks}, we give the relevant background on the building 
+blocks of our solution.
+In \cref{DB-anon-cred}, we present a new \ac{DB} version of the Schnorr 
+protocol, different from that originally proposed by 
+\textcite{DistanceBounding}.
+We provide a proof of its security (all desired \ac{DB} properties) 
+\daniel{Check that this is true before publication.} and formally verify it 
+using Tamarin~\cite{TamarinDB}.
+This version of the Schnorr protocol can then be used to do general \ac{DB} 
+anonymous credentials.
+In \cref{Protocol}, we present \PRIVO, the protocol constructed from these 
+building blocks.
+This is followed by an analysis of its security and privacy 
+(\cref{SecurityAnalysis}).
+Finally, we conclude with a discussion in \cref{Discussion} and future work in 
+\cref{Conclusion}.

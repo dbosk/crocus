@@ -1,0 +1,39 @@
+\subsection{Verifiability requirements}%
+\label{verifiability-properties}
+
+We note that, in general terms, protesting is very similar to petitions, which in turn are similar to voting.
+Indeed, all three situations correspond to cases in which many individuals express their opinion.
+These opinions can be sensitive (\eg be a cause for discrimination or persecution), hence we desire to have similar properties of verification and privacy for verifying a protest as there are for voting.
+(We discuss privacy in \cref{privacy-properties}.)
+
+We draw inspiration from the three general desirable properties for 
+verifiability, as summarized by 
+\textcite{VerifyingPrivacyPropertiesOfVotingProtocols}:
+\begin{description}
+  \item[Eligibility:] anyone can verify that each cast vote is legitimate.
+  \item[Universal verifiability:] anyone can verify that the result is according to the cast votes.
+  \item[Individual verifiability:] each voter can verify that his vote is included in the result.
+\end{description}
+In our context, votes are translated into \emph{participation proofs}.
+Universal and individual verifiability remain the same, in the sense that 
+anyone can verify the participation count by counting the proofs.
+The eligibility requirement is slightly different as for protests it must include temporal and spatial eligibility (\ie each participation proof satisfies some temporal and spatial relation to the protest).
+In essence, the proof must bind the person to the time and location of the protest.
+
+To define these properties more in the context of protests, we define three 
+verifiability requirements, among which eligibility can be further broken up 
+into four subproperties:
+\begin{requirements}[V]
+  \item\label{EligibilityVerif} \emph{Eligibility}: anyone can verify that each participation proof provides temporal and spatial eligibility and that only one participation proof is counted per individual.
+    \begin{requirements}
+    \item\label{TemporallyRelated} \emph{Temporal eligibility}: prove that the proof was created after the start of the protest and before the end of the protest.
+    \item\label{SpatiallyRelated} \emph{Spatial eligibility}: prove that the proof is spatially related to the physical location or journey of the protest.
+    \item\label{CountOnce} \emph{One-proof-per-person}: prove that no individual can be counted more than once for a particular protest.
+    \item\label{DesignatedEvent} \emph{Designated event}: prove that the proof is associated to particular designated protest.
+    \end{requirements}
+
+  \item\label{UniversalVerif} \emph{Universal verifiability}: anyone can verify that the result obtained match the submitted participation proofs.
+
+  \item\label{IndividualVerif} \emph{Individual verifiability}: each participant can verify that his participation proof is included in the global count.
+\end{requirements}
+

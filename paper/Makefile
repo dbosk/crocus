@@ -8,7 +8,10 @@ SRC+=	contents.tex
 SRC+=	abstract.tex
 SRC+=	intro.tex
 SRC+=	system-model.tex
-SRC+=	security-properties.tex
+SRC+= 	protest-model.tex
+SRC+= 	verifiability-properties.tex
+SRC+= 	adversary-model.tex
+SRC+=	privacy-properties.tex
 SRC+=	related-work.tex
 SRC+= 	building-blocks.tex
 SRC+= 	ZKPK.tex
@@ -23,6 +26,12 @@ paper.pdf: ${SRC}
 
 FIGS+= 				proofshare.tikz
 proofshare.tikz: 	../fig/proofshare.tikz
+
+FIGS+= 				base-protester-adversary.tikz
+base-protester-adversary.tikz: ../fig/base-protester-adversary.tikz
+
+FIGS+= 				base-witness-adversary.tikz
+base-witness-adversary.tikz: ../fig/base-witness-adversary.tikz
 
 ${FIGS}:
 	${LN} $< $@
@@ -51,12 +60,12 @@ paper.pdf: ${DEPENDS}
 .PHONY: clean
 clean:
 	${RM} paper.pdf
+	${RM} ${FIGS}
 	${MAKE} -C ../fig clean
 
 .PHONY: distclean
 distclean:
 	${MAKE} -C ../fig distclean
-	${RM} ${FIGS}
 
 
 .PHONY: wc todo
