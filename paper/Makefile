@@ -27,11 +27,11 @@ paper.pdf: ${SRC}
 FIGS+= 				proofshare.tikz
 proofshare.tikz: 	../fig/proofshare.tikz
 
-FIGS+= 				base-protester-adversary.tikz
-base-protester-adversary.tikz: ../fig/base-protester-adversary.tikz
+FIGS+= 				base-identity-cause-adversary.tikz
+base-identity-cause-adversary.tikz: ../fig/base-identity-cause-adversary.tikz
 
-FIGS+= 				base-witness-adversary.tikz
-base-witness-adversary.tikz: ../fig/base-witness-adversary.tikz
+FIGS+= 				base-identity-location-adversary.tikz
+base-identity-location-adversary.tikz: ../fig/base-identity-location-adversary.tikz
 
 ${FIGS}:
 	${LN} $< $@

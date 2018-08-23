@@ -1,17 +1,20 @@
 \subsection{System, communication and adversary model}%
 \label{adversary-model}
 
-We provide a system model with various adversaries.
-We provide three adversaries of varying strength for the protester and two for 
-the witness.
+We provide one system model with two possible adversaries: one who tries to 
+link a protester's real identity (\(P\)) to a protest cause (\(\cid\)) and one 
+which tries to link a protester's or a witness's real identity (\(P\) 
+respectively \(W\)) to a location (\(l\)).
+We also define varying strengths of each adversary.
 
-\paragraph{The protester adversary}
+\paragraph{The identity--cause linking adversary}
 
 There are three players: the protest participant (with identity) \(P\), a 
 witness (with identity) \(W\) and the storage \(S\).
 The adversary \(A\) controls \(W\) and \(S\).
 
-\begin{definition}[Base protester adversary]\label{base-protester-adversary}
+\begin{definition}[Base identity--cause adversary]%
+  \label{base-identity-cause-adversary}
   The protester \(P\) and the witness \(W\) communicate.
   Each learn only the protocol data \(d_{P,W}(\cid, P)\) and when it happened 
   \(t_{P,W}\)\footnote{%
@@ -25,12 +28,12 @@ The adversary \(A\) controls \(W\) and \(S\).
   do, but can additionally correlate what he learns from \(W\) and \(S\).
 \end{definition}
 
-This definition is illustrated in \cref{fig:protester-adversary}.
+This definition is illustrated in \cref{fig:identity-cause-adversary}.
 
 \begin{figure}
   \centering
-  \includegraphics{base-protester-adversary.tikz}
-  \caption{\label{fig:protester-adversary}%
+  \includegraphics{base-identity-cause-adversary.tikz}
+  \caption{\label{fig:identity-cause-adversary}%
     An overview of the base protester adversary model.
     The protester with real identity \(P\) and witness with real identity \(W\) 
     communicate and each learn only the protocol data, \(d_{P,W}(\cid, P)\), 
@@ -43,17 +46,17 @@ This definition is illustrated in \cref{fig:protester-adversary}.
   }
 \end{figure}
 
-We find \cref{base-protester-adversary} suitable when the protester and witness 
-both move in a crowd and there is no way for the witness to decide exactly with 
-whom he or she communicates with.
+We find \cref{base-identity-cause-adversary} suitable when the protester and 
+witness both move in a crowd and there is no way for the witness to decide 
+exactly with whom he or she communicates with.
 However, in some situations this might not be the case, \eg the crowd is not 
 dense.
 In these situations the witness will likely see the face of the protester.
 We capture this by the following definition.
 
-\begin{definition}[Stonger protester adversary]%
-  \label{stronger-protester-adversary}
-  The situation is the same as in \cref{base-protester-adversary}, but now the 
+\begin{definition}[Stonger identity--cause adversary]%
+  \label{stronger-identity-cause-adversary}
+  The situation is the same as in \cref{base-identity-cause-adversary}, but now the 
   witness \(W\) learns the protester \(P\)'s identity.
   (\(P\) will also learn \(W\)'s identity.)
   However, \(S\) still does not learn \(P\)'s identity.
@@ -65,19 +68,20 @@ However, given a strong enough adversary, such anonymous communication might
 not be possible.
 Hence the following definition.
 
-\begin{definition}[Strongest protester adversary]%
-  \label{strongest-protester-adversary}
-  Everything is the same as in \cref{stronger-protester-adversary}, except that 
-  now \(S\) also learns \(P\)'s identity.
+\begin{definition}[Strongest identity--cause adversary]%
+  \label{strongest-identity-cause-adversary}
+  Everything is the same as in \cref{stronger-identity-cause-adversary}, except 
+  that now \(S\) also learns \(P\)'s identity.
 \end{definition}
 
-\paragraph{The witness adversary}
+\paragraph{The identity--location adversary}
 
 The players are still the same, but now the adversary controls other players: 
 in particular, the adversary controls the protester \(P\) and the storage 
 \(S\).
 
-\begin{definition}[Base witness adversary]\label{base-witness-adversary}
+\begin{definition}[Base identity--location adversary]%
+  \label{base-identity-location-adversary}
   The witness \(W\) and the protester \(P\) communicate.
   They learn some protocol data \(d_{W,P}(W, l)\) and the time it took place, 
   \(t_{P,W}\).
@@ -87,14 +91,14 @@ in particular, the adversary controls the protester \(P\) and the storage
   The adversary controls \(S\).
 \end{definition}
 
-\Cref{base-witness-adversary} is the analogous to 
-\cref{base-protester-adversary}.
-\Cref{fig:witness-adversary} illustrates the roles and relations.
+\Cref{base-identity-location-adversary} is the analogous to 
+\cref{base-identity-cause-adversary}.
+\Cref{fig:identity-location-adversary} illustrates the roles and relations.
 
 \begin{figure}
   \centering
-  \includegraphics{base-witness-adversary.tikz}
-  \caption{\label{fig:witness-adversary}%
+  \includegraphics{base-identity-location-adversary.tikz}
+  \caption{\label{fig:identity-location-adversary}%
     An overview of the base witness adversary model.
     The protester with real identity \(P\) and witness with real identity \(W\) 
     communicate and each learn only the protocol data, \(d_{P,W}(W, l)\), and 
@@ -107,7 +111,7 @@ in particular, the adversary controls the protester \(P\) and the storage
   }
 \end{figure}
 
-The base rationale is the same as for \cref{base-protester-adversary}, the 
+The base rationale is the same as for \cref{base-identity-cause-adversary}, the 
 witness \(W\) can submit to \(S\) over an anonymous channel, such as \ac{Tor}.
 Anyone who is in the same location will learn that \(W\) was present, we want 
 to prevent anyone \emph{not present} to learn that \(W\) was there --- hence we 
@@ -115,7 +119,7 @@ do not consider the protester as part of the adversary, only \(S\).
 We thus conclude with the strongest adversary against the witness.
 
 \begin{definition}[Strongest witness adversary]%
-  \label{strongest-witness-adversary}
-  Things are the same as in \cref{base-witness-adversary}, except that \(S\) 
-  learns the witness' identity \(W\).
+  \label{strongest-identity-location-adversary}
+  Things are the same as in \cref{base-identity-location-adversary}, except 
+  that \(S\) learns the witness' identity \(W\).
 \end{definition}
