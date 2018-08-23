@@ -36,7 +36,7 @@ The prover must know the responses for both challenges to successfully pass the
 
 \begin{figure*}
   \centering
-  \begin{tabular}{p{5cm}cp{5cm}}
+  \begin{tabular}{p{0.8\columnwidth}cp{0.8\columnwidth}}
     \(\DBSprove[g, q, \alpha, A = g^\alpha]\):
     & &
     \(\DBSverify[g, q, A]\):
@@ -67,7 +67,7 @@ The prover must know the responses for both challenges to successfully pass the
 
     \midrule
     \multicolumn{3}{c}{\textbf{Distance-bounding}: \(\forall i: 0\leq i < |q| + 
-        l\)} \\
+        l, j\gets 0\)} \\
 
 %    % null
 %    &
@@ -79,9 +79,14 @@ The prover must know the responses for both challenges to successfully pass the
     & \(b_i\gets B[i]\)
     \\
 
-    \(r_i\gets s_{b_i}[i]\)
+    \(r_i\gets s_{b_i}[j+(i-j)(1-b_i)]\)
     & \(\ProtoSendRight{r_i}\)
     & Record \(\Delta t_i\)
+    \\
+
+    \(j \gets j + b_i\)
+    &
+    &
     \\
 
     \midrule
