@@ -79,7 +79,7 @@ The prover must know the responses for both challenges to successfully pass the
     & \(b_i\gets B[i]\)
     \\
 
-    \(r_i\gets s_{b_i}[j+(i-j)(1-b_i)]\)
+    \(r_i\gets s_{b_i}[jb_i + (i-j)(1-b_i)]\)
     & \(\ProtoSendRight{r_i}\)
     & Record \(\Delta t_i\)
     \\
