@@ -9,7 +9,12 @@ The join, participation and submission phases are detailed in \cref{ProtocolDuri
 Finally, the verification phase is presented in \cref{ProtocolVerification}.
 
 Several entities are involved in our protocol.
-First, \iac{CA} is responsible for certifying a one-to-one mapping between a person's identity and a cryptographic key.
+First, \iac{CA} is responsible for certifying a one-to-one mapping between a 
+person's identity and a cryptographic key\footnote{%
+  This can be done by a centralized authority, such as a nation state, or a 
+  decentralized authority, as in the case of 
+  proof-of-personhood~\cite{proof-of-personhood}.
+}.
 The \ac{CA} is only involved in the setup phase.
 Second, a protester is an individual who wants to participate in a given protest.
 A protester can assume three different roles:

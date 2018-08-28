@@ -42,7 +42,7 @@ paper.pdf: ${FIGS}
 DEPENDS+=	bibsp.sty
 DEPENDS+=	crypto.bib
 DEPENDS+=	location.bib
-DEPENDS+=	reputation.bib
+DEPENDS+=	sybil.bib
 DEPENDS+=	auth.bib
 DEPENDS+=	voting.bib
 DEPENDS+=	protests.bib
