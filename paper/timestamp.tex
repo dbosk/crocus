@@ -1,11 +1,12 @@
 \subsection{Time-stamping service -- distributed ledger}%
 \label{StorageProperties}
 
-
-We need a time-stamping service, \(\TS\), with algorithms \(\TSget\), \(\TSstamp\) and \(\TStime\) such that
+We need a time-stamping service, \(\TS\), with algorithms \(\TSget\), 
+\(\TSstamp\) and \(\TStime\) such that
 \begin{itemize}
   \item \(\rho \gets \TSget\) yields a value \(\rho\) at time \(t\), \(\rho\) is difficult to guess before time \(t\) and \(\TStime[\rho] = t\);
-  \item \(\pi\gets \TSstamp[x]\) yields a value \(\pi\) at time \(t\) such that \(\TSverify[x, \pi]\to 1\) and \(\TStime[\pi] = t\).
+  \item \(\pi\gets \TSstamp[x]\) yields a value \(\pi\) at time \(t\) such that 
+    \(\TSverify[x, \pi]\to \top\) and \(\TStime[\pi] = t\).
 \end{itemize}
 
 With these building blocks we can ensure that a message \(m\) was created within the time interval \(\interval{t_0}{t_1}\).
@@ -13,7 +14,9 @@ After time \(t_0\), request \(\rho_{t_0}\gets \TSget\).
 Before time \(t_1\), submit \(h\gets \Hash[m, \rho_{t_0}]\) to the time-stamping service to get \(\pi_{t_1}\gets \TSstamp[h]\).
 
 Now we can use \((\rho_{t_0}, m, \pi_{t_1})\) to prove that \(m\) was created within the time interval \(\interval{t_0}{t_1}\).
-The verifier computes \(h'\gets \Hash[m, \rho_{t_0}]\) and checks whether \(\TSverify[h', \pi_{t_1}] = 1\) and \(\TStime[\rho_{t_0}] = t_0\land \TStime[\pi_{t_1}] = t_1\).
+The verifier computes \(h'\gets \Hash[m, \rho_{t_0}]\) and checks whether 
+\(\TSverify[h', \pi_{t_1}] = \top\) and \(\TStime[\rho_{t_0}] = t_0\land 
+  \TStime[\pi_{t_1}] = t_1\).
 
 We can instantiate \(\TS\) using a distributed ledger, for instance a blockchain instance such as OmniLedger~\cite{OmniLedger}.
 The \(\TSstamp[x]\) algorithm will simply include \(x\) in the blockchain and return the identifier of the block into which \(x\) was included.
