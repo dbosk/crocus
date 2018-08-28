@@ -30,7 +30,7 @@ This is also different from Brands-Chaum, where the prover and verifier jointly
 construct the challenge.
 (We let \(|q| = \ceil{\log_2 q}\) denote the length of \(q\) in bits.)
 The verifier will request all \(|q|\) response-bits from one challenge and only 
-\(l\) from the other.
+\(l > 0\) from the other.
 The prover must know the responses for both challenges to successfully pass the 
 \ac{DB} phase.
 
@@ -118,10 +118,12 @@ This is also needed to decrease the success probability of some of adversaries
 presented below.
 
 The \ac{DB} phase protects against distance fraud.
-\Iac{DBDF} prover must wait for the challenge bit \(b_i\) before responding 
-with \(r_i\).
-The probability of successfully guessing the order of the challenge bits is 
-\(2^{-(|q|+l)}\) per round or, in total, \(2^{-(|q|+l)n}\).
+Once the prover has received \(l+1\) challenges set to \(b\), it knows that the 
+remaining challenges must also be \(b\).
+\Iac{DBDF} prover must thus wait for the challenge bit \(b_i\) before 
+responding with \(r_i\) before at least \(l+1\) challenges.
+Thus, the probability of successfully guessing the order of the challenge bits 
+is \(2^{-(l+1)}\) per round in the worst case or, in total, \(2^{-(l+1)n}\).
 
 The \ac{DB} phase also ensures that \iac{DBMF} adversary will fail the \ac{DB} 
 phase for at least one round.
