@@ -21,7 +21,6 @@ public-key \ac{DB} protocol which is secure against \ac{DBMF},
 \ac{DBDF}, \ac{DBDH} and \ac{DBTF}.
 The public-key property implies protection against an impersonating
 verifier.
-\sonja{Contrast with \ac{DBIF}}
 
 We present the protocol in \cref{SchnorrFigure}.
 The main difference to the original Schnorr protocol is that the prover commits 
@@ -147,11 +146,6 @@ the rounds).
 Thus, the success probability of the \ac{DBMF} adversary is \emph{at most} 
 \(2^{-n}+2^{-(|q|-l)}\).
 
-%The prover will only provide one of the responses and \(l\) bits of the other. 
-%Even if the adversary re-runs the protocol with the same challenges, the 
-%randomly chosen \(\rho\) will have changed --- which thus yields another \(R\) 
-%at the end of the protocol.
-
 The protocol is \ac{DBTF}-resistant, indeed, if the malicious prover gives both 
 responses to the adversary, the adversary can compute his secret key.
 In fact, this property is tied to the knowledge extractor used in the proof of 
@@ -162,10 +156,6 @@ The probability of success of \ac{DBTF} is thus reduced to guessing \(b\), \ie
 The protocol is also secure against distance hijacking due to the fact
 that it is the authentication bitstring that is used during the \ac{DB}
 phase, not the challenge bitstring as in the protocol of Brands-Chaum.
-\sonja{this is analysis but not in the analysis section}
-\daniel{I prefer to prove the building blocks separately, then prove the full 
-  composite scheme in the analysis section.
-  This protocol with a proof would be a contribution in itself.}
 
 Finally, a malicious verifier who wants to impersonate a prover can guess the 
 remaining \(|q|-l\) bits after the protocol finished to compute the secret of 
