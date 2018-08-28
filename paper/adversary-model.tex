@@ -84,18 +84,18 @@ in particular, the adversary controls only the storage \(S\).
   \label{base-identity-location-adversary}
   The adversary controls \(S\).
   The witness \(W\) and the protester \(P\) communicate.
-  They learn some protocol data \(d_{W,P}(W, l)\) and \(d_{W,P}(P,l)\) and the 
-  time it took place, \(t_{P,W}\).
+  They learn some protocol data \(d_{P,W}(P, W, l)\) and the time it took 
+  place, \(t_{P,W}\).
   \begin{description}
     \item[The witness case:]
       The witness later communicates with \(S\), where \(S\) only learns 
-      \(f(d_{W,P}(W, l))\), for some function \(f\), and the time it happened, 
-      \(t_{W,S}\).
+      \(f(d_{P,W}(P, W, l))\), for some function \(f\), and the time it 
+      happened, \(t_{W,S}\).
       The adversary wins if he can link \(W\) and \(l\).
     \item[The protester case:]
       The protester later communicates with \(S\), where \(S\) only learns 
-      \(g(d_{W,P}(P, l))\), for some function \(g\), and the time it happened, 
-      \(t_{P,S}\).
+      \(g(d_{P,W}(P, W, l))\), for some function \(g\), and the time it 
+      happened, \(t_{P,S}\).
       The adversary wins if he can link \(P\) and \(l\).
   \end{description}
 \end{definition}
@@ -108,12 +108,12 @@ in particular, the adversary controls only the storage \(S\).
   \caption{\label{fig:identity-location-adversary}%
     An overview of the base identity--location adversary model.
     The protester with real identity \(P\) and witness with real identity \(W\) 
-    communicate and each learn only the protocol data, \(d_{P,W}(W, l)\), and 
-    the time it happened, \(t_{P,W}\).
-    The witness submits \(f(d_{P,W}(W))\), for some function \(f\), and the 
-    protester submits \(g(d_{P,W}(P,l))\), for some function \(g\), to the 
-    storage \(S\), who learns only that and the time it happened, \(t_{W,S}\) 
-    respectively \(t_{P,S}\).
+    communicate and each learn only the protocol data, \(d_{P,W}(P, W, l)\), 
+    and the time it happened, \(t_{P,W}\).
+    The witness submits \(f(d_{P,W}(P, W, l))\), for some function \(f\), and 
+    the protester submits \(g(d_{P,W}(P, W, l))\), for some function \(g\), to 
+    the storage \(S\), who learns only that and the time it happened, 
+    \(t_{W,S}\) respectively \(t_{P,S}\).
     Only the storage \(S\) is controlled by the adversary \(A\).
   }
 \end{figure}
