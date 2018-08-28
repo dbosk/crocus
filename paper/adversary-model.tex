@@ -35,13 +35,13 @@ This definition is illustrated in \cref{fig:identity-cause-adversary}.
   \centering
   \includegraphics{base-identity-cause-adversary.tikz}
   \caption{\label{fig:identity-cause-adversary}%
-    An overview of the base protester adversary model.
+    An overview of the base identity--cause adversary model.
     The protester with real identity \(P\) and witness with real identity \(W\) 
     communicate and each learn only the protocol data, \(d_{P,W}(\cid, P)\), 
     and the time it happened, \(t_{P,W}\).
-    The protester submit some function of the protocol data \(f(d_{P,W}(\cid, 
-      P))\) to the storage \(S\), who learns only that and the time it 
-    happened, \(t_{P,S}\).
+    The protester submits \(f(d_{P,W}(\cid, P))\), for some function \(f\), to 
+    the storage \(S\), who learns only that and the time it happened, 
+    \(t_{P,S}\).
     Both the witness \(W\) and storage \(S\) are controlled by the adversary 
     \(A\).
   }
@@ -100,15 +100,15 @@ in particular, the adversary controls only the storage \(S\).
   \centering
   \includegraphics{base-identity-location-adversary.tikz}
   \caption{\label{fig:identity-location-adversary}%
-    An overview of the base witness adversary model.
+    An overview of the base identity--location adversary model.
     The protester with real identity \(P\) and witness with real identity \(W\) 
     communicate and each learn only the protocol data, \(d_{P,W}(W, l)\), and 
     the time it happened, \(t_{P,W}\).
-    The witness submit some function of the protocol data \(f(d_{P,W}(W))\) to 
-    the storage \(S\), who learns only that and the time it happened, 
-    \(t_{W,S}\).
-    Both the protester \(P\) and storage \(S\) are controlled by the adversary 
-    \(A\).
+    The witness submits \(f(d_{P,W}(W))\), for some function \(f\), and the 
+    protester submits \(g(d_{P,W}(P,l))\), for some function \(g\), to the 
+    storage \(S\), who learns only that and the time it happened, \(t_{W,S}\) 
+    respectively \(t_{P,S}\).
+    Only the storage \(S\) is controlled by the adversary \(A\).
   }
 \end{figure}
 
