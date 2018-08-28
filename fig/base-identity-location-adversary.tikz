@@ -10,8 +10,10 @@
   \node[adv] (A) [above of=S] {$A$};
 
   \path
-  (P) edge [bend right] node {} (W)
-  (W) edge [bend right] node [left] {$d_{P,W}(W, l), t_{P,W}$} (P)
+  (P) edge [bend right] node [anchor=3,rotate=-30] {$d_{P,W}(P, l), t_{P,W}$} 
+  (W)
+  (W) edge [bend right] node [anchor=8,rotate=-30] {$d_{P,W}(W, l), t_{P,W}$} 
+  (P)
   (W) edge node [anchor=south east,rotate=-30] {$f(d_{P,W}(W, l)), t_{W,S}$} (S)
   (P) edge node [anchor=north west] {$g(d_{P,W}(P, l)), t_{P,S}$} (S) ;
 
