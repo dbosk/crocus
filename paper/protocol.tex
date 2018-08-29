@@ -135,7 +135,7 @@ The participant should also receive a time-correlated random value from the time
       \\[-2em]
       P\colon & t_e\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]] \\
       W\colon & t_e'\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]] \\
-      W\to S\colon & (\pid, \wid, t_s, t_s', t_e, l, \pi_{\wid}),\quad 
+      W\to S\colon & (\cid, \pid, \wid, t_s, t_s', t_e, l, \pi_{\wid}),\quad 
       \text{where} \\
         & \pi_{\wid} = \SPK\mleft\{ (\sk_W) : \mright. \\
         & \qquad \wid = \ACprf[_{\sk_W}][\pid], \\
@@ -220,8 +220,9 @@ As a consequence, both the participant and the witness have the tuple \(\pi = (\
 
 
 \emph{Submission: \(\psh_P\gets \PRIVOsubmit[_P][\cid, \pid, \wid, t_s, t_s',  l]\).}
-The participant should as soon as possible commit the proof-share data to the time-stamping service and receive the proof of commitment, \(t_e\gets 
-  \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]]\).
+The participant should as soon as possible commit the proof-share data to the 
+time-stamping service and receive the proof of commitment, \(t_e\gets 
+  \TSstamp[\Hash[\cid, \pid, \wid, t_s, t_s', l]]\).
 The remaining operations are not time critical.
 The participant computes \iac{NIZK} proof \(\pi_{\pid}\), which shows the correctness of \(\pid\).
 More specifically,
@@ -235,8 +236,11 @@ More specifically,
 \end{multline*}
 Finally, the participant uploads the tuple \[  \psh_P = (\cid, \pid, \wid, t_s, t_s', t_e, l, \pi_{\pid})\] for permanent storage.
 
-\emph{Submission: \(\psh_W\gets \PRIVOsubmit[_W][\pid, \wid, t_s, t_s', l]\).}
-The witness should, just as the participant, commit the proof-share data to the time-stamping service, \(t_e'\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]]\).
+\emph{Submission: \(\psh_W\gets \PRIVOsubmit[_W][\cid, \pid, \wid, t_s, t_s', 
+    l]\).}
+The witness should, just as the participant, commit the proof-share data to the 
+time-stamping service, \(t_e'\gets \TSstamp[\Hash[\cid, \pid, \wid, t_s, t_s', 
+  l]]\).
 (This is only for redundancy.)
 Then, without any time requirements, the witness computes \iac{NIZK} proof 
 \(\pi_{\wid}\) as follows:
@@ -246,9 +250,10 @@ Then, without any time requirements, the witness computes \iac{NIZK} proof
       \wid &= \ACprf[_{\sk_W}][\pid] \quad \land \\
       \sigma_W' &= \left. \ACblind[\ACsign[_{\ssk}][\sk_W]] \right\}
     \end{aligned} \\
-      (\pid, \wid, t_s, t_s', l).
+      (\cid, \pid, \wid, t_s, t_s', l).
 \end{multline*}
-Finally, the witness uploads the tuple \[ \psh_W = (\pid, \wid, t_s, t_s', t_e', l, \pi_{\wid}) \] for permanent storage.
+Finally, the witness uploads the tuple \[ \psh_W = (\cid, \pid, \wid, t_s, 
+  t_s', t_e', l, \pi_{\wid}) \] for permanent storage.
 
 \subsection{Verifying the participation count}%
 \label{ProtocolVerification}
