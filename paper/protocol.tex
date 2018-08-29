@@ -16,14 +16,19 @@ person's identity and a cryptographic key\footnote{%
   proof-of-personhood~\cite{proof-of-personhood}.
 }.
 The \ac{CA} is only involved in the setup phase.
-Second, a protester is an individual who wants to participate in a given protest.
-A protester can assume three different roles:
+Second, a participant is an individual who wants to participate in a given 
+protest.
+A participant can assume three different roles:
 \begin{enumerate}
 \item The \emph{organizer} has written a manifesto for the protest and forward it to others.
-\item A \emph{participant} is attending the protest and asks witnesses to vouch for his presence.
-\item A \emph{witness} provides proofs to participants that state the participant was indeed participating and such that the proofs are verifiable by third parties.
+\item A \emph{protester} is attending the protest and asks witnesses to vouch 
+  for his presence.
+\item A \emph{witness} provides proofs to protesters which state that the 
+  protester was indeed participating and such that the proofs are verifiable by 
+  third parties.
 \end{enumerate}
-In general, there is one organizer and every protester will act alternatively as both participant and witness.
+In general, there is one organizer and every participant can act alternatively 
+as both protester and witness.
 
 \subsection{Setup phase}%
 \label{ProtocolSetup}
@@ -80,13 +85,13 @@ The organizer will then distribute this manifesto to people through any means he
 If they agree on the cause, they will use the knowledge of the manifesto to join the protest.
 
 
-\emph{Joining as a participant: \((\pid, t_s)\gets 
+\emph{Joining as a protester: \((\pid, t_s)\gets 
     \PRIVOjoin[_P][\text{manifesto}]\).}
-A participant who wants to join the protest will use the manifesto to compute an identifier for the cause by hashing the manifesto, \(\cid\gets \Hash[\mfst]\).
-Afterwards, this identifier is used to create the protest-specific identifier for the participant, \(\pid\gets \ACprf[_{\sk}][\cid]\) (in 
+A protester who wants to join the protest will use the manifesto to compute an identifier for the cause by hashing the manifesto, \(\cid\gets \Hash[\mfst]\).
+Afterwards, this identifier is used to create the protest-specific identifier for the protester, \(\pid\gets \ACprf[_{\sk}][\cid]\) (in 
 \cref{fig:ProofFig,fig:ProtocolOverview}).
 More specifically, \(\pid = g_T^{1/(k+\cid)}\) (remember that \(\sk = (\sigma, k, r)\)).
-The participant should also receive a time-correlated random value from the time-stamping service, \(t_s\gets \TSget\).
+The protester should also receive a time-correlated random value from the time-stamping service, \(t_s\gets \TSget\).
 
 
 \begin{figure}
@@ -167,29 +172,29 @@ Note that we do this for redundancy, the newest of \(t_s\) and \(t_s'\) will be 
 
 \emph{Participation: \(\pi\gets
     \Proto{\PRIVOparticipate[\cid, \sk_P]}{\PRIVOwitness[\sk_W, \spk]}\),}
-In the participation phase, the participant and the witness construct the proof share of the participant (\cref{fig:ProofFig}).
-The participant blinds his signature \(\sigma\) on his secret key by choosing \(r_1, r_2\rgets \ZZ_q^*\) and generates \(
+In the participation phase, the protester and the witness construct the proof share of the protester (\cref{fig:ProofFig}).
+The protester blinds his signature \(\sigma\) on his secret key by choosing \(r_1, r_2\rgets \ZZ_q^*\) and generates \(
   \tilde\sigma = (\tilde A = A^{r_1},
                   \tilde B = B^{r_1},
                   \tilde Z_B = Z_B^{r_1},
                   \hat C = C^{r_1 r_2}).
 \) 
 Note that it is not necessary to compute a new \(\tilde\sigma\) more than once per \(\pid\).
-The participant sends \((\pid, \tilde\sigma)\) to the witness.
+The protester sends \((\pid, \tilde\sigma)\) to the witness.
 The witness verifies that
 \begin{align*}
   \tilde A          &\neq 1 \\
   e(g, \tilde B)    &= e(Y, \tilde A) \\
   e(g, \tilde Z_B)  &= e(Z, \tilde B).
 \end{align*}
-Both the participant and the witness compute
+Both the protester and the witness compute
 \begin{align*}
   v &= e(g, \hat C) \\
   v_x &= e(X, \tilde A) \\
   v_{xy} &= e(X, \tilde B) \\
   v_{xy}' &= e(X, \tilde Z_B).
 \end{align*}
-Afterwards, they run the following \ac{PPK} with the participant as the prover and the witness as the verifier:
+Afterwards, they run the following \ac{PPK} with the protester as the prover and the witness as the verifier:
 \begin{multline*}
   \mleftright
   \PPK\left\{(k, r, r') : v^{r'} = v_x v_{xy}^k v_{xy}^{\prime r} \land
@@ -198,9 +203,9 @@ Afterwards, they run the following \ac{PPK} with the participant as the prover a
 in which \(r' = 1/r_2\).
 We can rewrite \(\pid = g_T^{1/(k+\cid)}\) as \(\pid^k = g_T g_T^{-\cid}\).
 Afterwards, the \ac{PK} can be designed as follows\footnote{Remember that this \ac{PK} should be run as \iac{PPK} and repeated multiple times to achieve security.}.
-The participant chooses \(r_k, r_r, r_{r'}\rgets \ZZ_q\) uniformly at random, sets \(R_1 = v^{r_{r'}} v_{xy}^{r_k} v_{xy}^{\prime r_r}\) and \(R_2 = \pid^{r_k}\) and sends \(R_1, R_2\) to the witness.
+The protester chooses \(r_k, r_r, r_{r'}\rgets \ZZ_q\) uniformly at random, sets \(R_1 = v^{r_{r'}} v_{xy}^{r_k} v_{xy}^{\prime r_r}\) and \(R_2 = \pid^{r_k}\) and sends \(R_1, R_2\) to the witness.
 The witness replies with a challenge \(c\).
-Afterwards, the participant computes
+Afterwards, the protester computes
 \begin{align*}
 s_k &= -ck + r_k, \\
 s_r &= -cr + r_r, \\
@@ -215,15 +220,15 @@ The witness checks whether
   \pid^{s_k}.
 \end{align*}
 If the proof succeeds, the witness computes \(\wid\gets \ACprf[_{\sk_W}][\pid] = g_T^{1/(k_W+\pid)}\) (as above).
-Following this, the witness returns \((\wid, t_s', l)\) to the participant.
-As a consequence, both the participant and the witness have the tuple \(\pi = (\pid, \wid, t_s, t_s', l)\), which forms a proof share of the participant (\cref{fig:ProofFig}).
+Following this, the witness returns \((\wid, t_s', l)\) to the protester.
+As a consequence, both the protester and the witness have the tuple \(\pi = (\pid, \wid, t_s, t_s', l)\), which forms a proof share of the protester (\cref{fig:ProofFig}).
 
 
 \emph{Submission: \(\psh_P\gets \PRIVOsubmit[_P][\cid, \pid, \wid, t_s, t_s',  l]\).}
-The participant should as soon as possible commit the proof-share data to the time-stamping service and receive the proof of commitment, \(t_e\gets 
+The protester should as soon as possible commit the proof-share data to the time-stamping service and receive the proof of commitment, \(t_e\gets 
   \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]]\).
 The remaining operations are not time critical.
-The participant computes \iac{NIZK} proof \(\pi_{\pid}\), which shows the correctness of \(\pid\).
+The protester computes \iac{NIZK} proof \(\pi_{\pid}\), which shows the correctness of \(\pid\).
 More specifically,
 \begin{multline*}
   \pi_{\pid}\gets \SPK\left\{ (\sk_P) : \right. \\
@@ -233,10 +238,10 @@ More specifically,
     \end{aligned} \\
       (\cid, \pid, \wid, t_s, t_s', l).
 \end{multline*}
-Finally, the participant uploads the tuple \[  \psh_P = (\cid, \pid, \wid, t_s, t_s', t_e, l, \pi_{\pid})\] for permanent storage.
+Finally, the protester uploads the tuple \[  \psh_P = (\cid, \pid, \wid, t_s, t_s', t_e, l, \pi_{\pid})\] for permanent storage.
 
 \emph{Submission: \(\psh_W\gets \PRIVOsubmit[_W][\pid, \wid, t_s, t_s', l]\).}
-The witness should, just as the participant, commit the proof-share data to the time-stamping service, \(t_e'\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]]\).
+The witness should, just as the protester, commit the proof-share data to the time-stamping service, \(t_e'\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]]\).
 (This is only for redundancy.)
 Then, without any time requirements, the witness computes \iac{NIZK} proof 
 \(\pi_{\wid}\) as follows:
