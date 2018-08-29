@@ -154,7 +154,7 @@ The protester should also receive a time-correlated random value from the time-s
         & \qquad \wid = \ACprf[_{\sk_W}][\pid], \\
         & \qquad \mleft. \sigma_W' = \ACblind[\ACsign[_{\ssk}][\sk_W]]\mright\} 
         \\
-        & \qquad\qquad (\pid, \wid, t_s, t_s', l) \\
+        & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l) \\
       P\to S\colon & (\cid, \pid, \wid, t_s, t_s', t_e, l, \pi_{\pid}),\quad 
       \text{where}\\
         & \pi_{\pid} = \SPK\mleft\{ (\sk_P) : \mright. \\
@@ -234,8 +234,8 @@ The witness checks whether
 If the proof succeeds, the witness computes \(\wid\gets \ACprf[_{\sk_W}][\pid] = g_T^{1/(k_W+\pid)}\) (as above).
 Following this, the witness returns \((\wid, t_s', l)\) to the protester.
 As a consequence, both the protester and the witness have the tuple \(\pi = 
-  (\pid, \wid, t_s, t_s', l)\), which forms a proof share for the protester 
-(\cref{fig:ProofFig}).
+  (\cid, \pid, \wid, t_s, t_s', l)\), which forms a proof share for the 
+protester (\cref{fig:ProofFig}).
 
 
 \emph{Submission: \(\psh_P\gets \PRIVOsubmit[_P][\cid, \pid, \wid, t_s, t_s',  l]\).}
