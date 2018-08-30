@@ -111,9 +111,12 @@ The protester should also receive a time-correlated random value from the time-s
     The protest (cause) identifier \(\cid\) is the hash value of the manifesto.
     The protester \(P\)'s identifier \(\pid\) is computed using the protester's key \(\sk_P\) and \(\cid\).
     The witness \(W\)'s identifier \(\wid\) is computed using the
-    witness's key \(\sk_W\) and \sonja{the other's?}\(\pid\).
+    witness's key \(\sk_W\) and the protester's \(\pid\).
     \(t_s, t_s'\) are the last heads of the blockchain seen by the protester and witness, respectively, and \(l\) is an area.
-    All values are signed by the witness while also proving the correctness of \(\wid\) and knowledge of a signature on \(\sk_W\).
+    All values are signed by the witness (signature \(\prf_W\)) while also 
+    proving the correctness of \(\wid\) and knowledge of a signature on 
+    \(\sk_W\).
+    The protester constructs \(\prf_P\) analogously.
   }%
   \label{fig:ProofFig}
 \end{figure}%
