@@ -22,18 +22,18 @@ x added comment re: more differences between PROPS and crocus? (related work loc
 explanations:
 - protest as stand-in for event
 - different counts possible but if counting method is given, can be verified
-- roles: presence could mean participant or bystander, participant could mean protester or witness (e.g. journalist) or both
+x roles: presence could mean participant or bystander, participant could mean protester or witness (e.g. journalist) or both
 x added comment: first GENERAL DB AC
 x added comment: related work: platin.io in location proofs, details unknown but roughly relying on witnesses and graph theory (unique big cluster, assumption of honest majority)
-- IF resistance follows from Schnorr, our changes don't break Schnorr because ...
+x added comment IF resistance follows from Schnorr, our changes don't break Schnorr because ...
 x MF far-away (from verifier)
 - name verifier impersonating prover?
-- malicious verifier (only concerning impersonating prover) not handled in most DB schemes due to being symmetric. The few public-key schemes implicitly prevent this. symmetric (shared-secret) DB schemes assume an honest verifier (or honest-but-curious that tries to track) 
+x malicious verifier (only concerning impersonating prover) not handled in most DB schemes due to being symmetric. The few public-key schemes implicitly prevent this. symmetric (shared-secret) DB schemes assume an honest verifier (or honest-but-curious that tries to track) 
 - verifier impersonating prover: vulnerability we introduce against public-key DB schemes, mitigated by limiting size of l (bits of other s). Trade-off: want long l for reducing success of guessing correct sequence of challenge bits, want short l for reducing success of guessing the other s and finding alpha
 x same as proprox reason? needed because of type of AC (CL04) for PRF for deriving identifiers from ID with unlinkability to the original ID but with proof of validity of this derivation
 x proprox good in principle, but need specifics (due to CL04)  that are not provided 
 - attacks on BC by [10]
-- why two challenges (change from Schnorr): knowing the responses to both means learning alpha (TF), authentication bundled into distance bounding (additional change from BC-Schnorr) (DH), both (two challenges, auth in DB) reduce success of MF according to number of repetitions.
+x why two challenges (change from Schnorr): knowing the responses to both means learning alpha (TF), authentication bundled into distance bounding (additional change from BC-Schnorr) (DH), both (two challenges, auth in DB) reduce success of MF according to number of repetitions.
 - performance: important during protest due to resource-constrained devices (battery, computational power, storage) and limited network capacity. Less important after, at other locations with plugged-in devices
 - verification with tamarin: there is no BC Schnorr in Tamarin,  [10] assumed equivalence with Fiat-Shamir model. Not straightforward to implement Schnorr in Tamarin due to a lack of expressiveness for arithmetic needed to complement Diffie-Hellman. If not done now, left for future work.
 - pid is always the protester's pseudonym, never the witness's
