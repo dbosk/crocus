@@ -11,13 +11,13 @@ Sonja:
 tasks:
 x collect items from annotations
 x list of adversaries, a1-a4, informal
-- little edits throughout
+x little edits throughout
 - system and adv. model, abstract and concrete, move parts from discussion to model
 - privacy properties: back to p1 and p2
 x added comment re: more differences between PROPS and crocus? (related work location proofs)
 - adversary models in e-voting, which properties do they achieve under which adversary model
-- performance (sub) section
-- verification subsection in DB Schnorr section
+x performance (sub) section
+x verification subsection in DB Schnorr section
 
 explanations:
 - protest as stand-in for event
@@ -29,19 +29,19 @@ x added comment IF resistance follows from Schnorr, our changes don't break Schn
 x MF far-away (from verifier)
 - name verifier impersonating prover?
 x malicious verifier (only concerning impersonating prover) not handled in most DB schemes due to being symmetric. The few public-key schemes implicitly prevent this. symmetric (shared-secret) DB schemes assume an honest verifier (or honest-but-curious that tries to track) 
-- verifier impersonating prover: vulnerability we introduce against public-key DB schemes, mitigated by limiting size of l (bits of other s). Trade-off: want long l for reducing success of guessing correct sequence of challenge bits, want short l for reducing success of guessing the other s and finding alpha
+x added comment: verifier impersonating prover: vulnerability we introduce against public-key DB schemes, mitigated by limiting size of l (bits of other s). Trade-off: want long l for reducing success of guessing correct sequence of challenge bits, want short l for reducing success of guessing the other s and finding alpha
 x same as proprox reason? needed because of type of AC (CL04) for PRF for deriving identifiers from ID with unlinkability to the original ID but with proof of validity of this derivation
 x proprox good in principle, but need specifics (due to CL04)  that are not provided 
 - attacks on BC by [10]
 x why two challenges (change from Schnorr): knowing the responses to both means learning alpha (TF), authentication bundled into distance bounding (additional change from BC-Schnorr) (DH), both (two challenges, auth in DB) reduce success of MF according to number of repetitions.
-- performance: important during protest due to resource-constrained devices (battery, computational power, storage) and limited network capacity. Less important after, at other locations with plugged-in devices
-- verification with tamarin: there is no BC Schnorr in Tamarin,  [10] assumed equivalence with Fiat-Shamir model. Not straightforward to implement Schnorr in Tamarin due to a lack of expressiveness for arithmetic needed to complement Diffie-Hellman. If not done now, left for future work.
+x performance: important during protest due to resource-constrained devices (battery, computational power, storage) and limited network capacity. Less important after, at other locations with plugged-in devices
+x verification with tamarin: there is no BC Schnorr in Tamarin,  [10] assumed equivalence with Fiat-Shamir model. Not straightforward to implement Schnorr in Tamarin due to a lack of expressiveness for arithmetic needed to complement Diffie-Hellman. If not done now, left for future work.
 - pid is always the protester's pseudonym, never the witness's
 - Jane can use a group signature (?) for trusted journalists, clarify in other actors, "reveals her identity" at least proof ok knowledge of secret key for (group of) trusted journalist
 - add to FireChat that we likely have higher requirements on capacity and withstanding interference as everyone runs the witnessing with others continuously; messages are presumably less frequent.
 - threshold based on contacts irrelevant for online forums with large number of participants (from the same country)
-- add "at least" to blockchain times as threshold is determined at count and verification, not yet known at upload.
-- conclusion: have anonymity and unlinkability unless adversary gets private key/ID or has side information (also needs private key for proof of cause, otherwise does not learn more than without crocus)
+x add "at least" to blockchain times as threshold is determined at count and verification, not yet known at upload.
+x conclusion: have anonymity and unlinkability unless adversary gets private key/ID or has side information (also needs private key for proof of cause, otherwise does not learn more than without crocus)
 - effect of hiding cid from W: to enable hiding in the wrong crowd and still be counted for the right, i.e. to avoid discrimination of refusal to witness and detection by Grace when she acts as a witness in pro-government counter-protest
 - effect of hiding cid from witness plus blinding pid: sever link of wid that Grace has at protest (and side information) from what she sees when protester uploads their part, as there is no wid uploaded. A mandatory Jane enables blinding of pid because Jane gives a non-interactive proof that her sig(blinded pid, l, t) matches her known public key.
 - naming: P for protester and protest, change one?
