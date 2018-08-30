@@ -17,7 +17,7 @@ To realize this, we will now introduce such a protocol in order to enable us to 
 \label{DBSchnorr}
 
 In the original \ac{DB} paper by \citet{DistanceBounding}, one of the distance-bounding protocol is based on the Schnorr identification scheme~\cite{Schnorr}.
-However, this \ac{DB} Schnorr protocol was shown to be prone to distance hijacking~\cite{DistanceHijacking}, in addition to not being secure against terrorist fraud.
+However, this \ac{DB} Schnorr protocol was shown to be prone to distance hijacking~\cite{DistanceHijacking, TamarinDB}, in addition to not being secure against terrorist fraud.
 We now propose another way to turn the Schnorr protocol into a
 public-key \ac{DB} protocol which is secure against \ac{DBMF},
 \ac{DBDF}, \ac{DBDH} and \ac{DBTF}.
@@ -187,4 +187,15 @@ The probability that this succeeds is, as above,
 \(2^{-(|q|-l)}\). While the majority of \ac{DB} schemes are based on
 shared secrets and thus assume an honest verifier, this limits the
 inherent advantage of our public-key
-\ac{DB} scheme. 
+\ac{DB} scheme.  \sonja{verifier impersonating prover: vulnerability
+  we introduce against public-key DB schemes, mitigated by limiting
+  size of l (bits of other s). Trade-off: want long l for reducing
+  success of guessing correct sequence of challenge bits, want short l
+  for reducing success of guessing the other s and finding alpha}
+
+\sonja{\subsection{Formal Verification} 
+ verification with tamarin: there is no BC Schnorr in Tamarin,  [10]
+assumed equivalence with Fiat-Shamir model. Not straightforward to
+implement Schnorr in Tamarin due to a lack of expressiveness for
+arithmetic needed to complement Diffie-Hellman. If not done now, left
+for future work. }
