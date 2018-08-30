@@ -5,10 +5,12 @@ One protocol exists in the literature that provides \acp{PPK} with most of the
 desired properties described previously, ProProx~\cite{ProProx}\footnote{Note 
   that~\cite{ProProx} uses the abbreviation PoPoK, we prefer \acs{PPK} for 
   shorter notation.}.
-However, ProProx is secure against a malicious verifier and provides \iac{PPK} 
+ProProx is secure against a malicious verifier, but it provides \iac{PPK} 
 protocol for quadratic residues (\ie protocols of the form \(\PPK[\alpha][a = 
-  \alpha^2]\)) while in our context, we need \iac{PPK} protocol for discrete 
-logarithms (\ie \(\PPK[\alpha][a = g^\alpha]\)).
+  \alpha^2]\)), while in our context, we need \iac{PPK} protocol for discrete 
+logarithms (\ie \(\PPK[\alpha][a = g^\alpha]\)) due to our choice of 
+anonymous credentials whose desirable properties we list in
+\cref{ZK-anon-cred}.%, which in turn is due to their \ac{PRF} for deriving identifiers from a long-term ID with unlinkability to the original ID but with proof of validity of this derivation. 
 To realize this, we will now introduce such a protocol in order to enable us to have \ac{DB} anonymous credentials.
 
 \subsection{Reattempting a distance-bounding Schnorr protocol}%
@@ -32,6 +34,11 @@ The verifier will request all \(|q|\) response-bits from one challenge and only
 \(l > 0\) from the other.
 The prover must know the responses for both challenges to successfully pass the 
 \ac{DB} phase.
+The reason for the two challenges (change from Schnorr) is that
+knowing the responses to both means learning $\alpha$ (for
+\ac{DBTF}). Bundling the authentication into the distance bounding
+phase (additional change from Brands-Chaum) was done for \ac{DBDH},
+and both adaptations together aim at \ac{DBMF} resistance. %reducing success of MF according to number of repetitions.
 
 \begin{figure*}
   \centering
@@ -157,7 +164,13 @@ The protocol is also secure against distance hijacking due to the fact
 that it is the authentication bitstring that is used during the \ac{DB}
 phase, not the challenge bitstring as in the protocol of Brands-Chaum.
 
+\ac{DBIF} resistance follows from Schnorr.\sonja{Daniel, please
+  complete this sentence:, our changes don't break Schnorr because ...}
 Finally, a malicious verifier who wants to impersonate a prover can guess the 
 remaining \(|q|-l\) bits after the protocol finished to compute the secret of 
 the prover.
-The probability that this succeeds is, as above, \(2^{-(|q|-l)}\).
+The probability that this succeeds is, as above,
+\(2^{-(|q|-l)}\). While the majority of \ac{DB} schemes are based on
+shared secrets and thus assume an honest verifier, this limits the
+inherent advantage of our public-key
+\ac{DB} scheme. 

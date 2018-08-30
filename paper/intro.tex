@@ -13,7 +13,7 @@ To realize this objective, a reliable yet privacy-preserving crowd-counting mech
 Historically, there are many examples of protests in which the count estimated by police and that by the organizers differ significantly, sometimes in the order of hundreds of thousands.
 Even without foul play, the difference is quite natural as both parties have different objectives and metrics.
 More precisely, the organizers want to count everyone who participated while the police want to estimate the count at the peak of participation, due to crowd control~\cite{2016DemonstrationsInSeoul}.
-Among the numerous recent examples in which it is difficult to establish the actual number of participants, there are the demonstrations against the president in South Korea~\cite{2016DemonstrationsInSeoul}, Trump's inauguration attendance~\cite{HowWillWeKnowTrumpInauguralCrowdSize}, the 2017 Women's March in the US~\cite{2017WomensMarchesInUS}, the demonstrations against the change of constitution in Venezuela~\cite{AlJazeeraOnVenezuela2017} or for the independence of Catalonia~\cite{CataloniaDemonstrations}.
+Among the numerous recent examples in which it is difficult to establish the actual number of participants, there are the demonstrations against the president in South Korea~\cite{2016DemonstrationsInSeoul}, Trump's inauguration~\cite{HowWillWeKnowTrumpInauguralCrowdSize}, the 2017 Women's March in the US~\cite{2017WomensMarchesInUS}, the demonstrations against the change of constitution in Venezuela~\cite{AlJazeeraOnVenezuela2017} or for the independence of Catalonia~\cite{CataloniaDemonstrations}.
 
 Existing methods for crowd-counting vary significantly in terms of approaches (we will review them in detail in \cref{related-work}).
 However, most of them lack precision (\ie they have large error margins) and they can only give an estimate for a particular snapshot in time (\eg at the peak of the event). 
@@ -40,6 +40,8 @@ The latter allows us to replace the use of the plain Schnorr protocol in the \ac
 \seb{once again I think it is too strong to say that are the first to provide distance-bounding anonymous credentials as a a distance-bounding anonymous protocol can already be considered an anonymous credential in the sense that it allows to authenticate anonymously in addition of providing proximity testing
 %and thus we are, to the best of our knowledge, the first to provide \ac{DB} anonymous credentials.
 }
+\sonja{Daniel, can you contrast that with the other DB AC approaches, what are they not general enough for, or what can we do they can't?}
+and thus we are, to the best of our knowledge, the first to provide \emph{general} \ac{DB} anonymous credentials.
 \emph{Outline.} 
 The paper is organized as follows.
 First, in \cref{system-model}, we define and formalize the notion of protest 
@@ -64,3 +66,4 @@ This is followed by an analysis of its security and privacy
 (\cref{SecurityAnalysis}).
 Finally, we conclude with a discussion in \cref{Discussion} and future work in 
 \cref{Conclusion}.
+\sonja{add (sub) sections for performance and verification}

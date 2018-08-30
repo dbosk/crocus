@@ -11,7 +11,7 @@ During the demonstrations against the South Korean president in Seoul in 2016
 \blockcquote{2016DemonstrationsInSeoul}{%
   \textins*{t}he rallies stretch\textins{ed} from midday to late night --- some people stay\textins{ed} for several hours, others just several minutes%
 }.
-These rallies were all in the same location in the capital city and repeated every weekend for the duration of a few weeks.
+These rallies were all in the same location in the capital and repeated every weekend for the duration of a few weeks.
 The Women's Marches in 2017~\cite{2017WomensMarchesInUS}, on the other hand, occurred in parallel in many locations.
 We also have the Venezuelan demonstrations in 2017 in which \blockcquote{2017VenezuelaProtestFrequency}{%
   anti-government demonstrators have staged daily protests across Venezuela%
@@ -26,12 +26,12 @@ varies over time.
 For the rest of the paper, we will refer to the organizer as Alice.
 Assume that the objective of Alice is to count everyone who
 participated at any time and in any of the
-locations~\cite{2016DemonstrationsInSeoul} \sonja{commented out for
-  repetition: %\footnote{Note that the objective does not necessarily
+locations~\cite{2016DemonstrationsInSeoul} %\sonja{commented out for
+  %repetition: %\footnote{Note that the objective does not necessarily
               %align with the definition of the police whose interest
               %could be to determine the maximum crowd at any point in
               %time to deploy enough personnel for crowd-control.
-}.
+%}.
 % cause identifier
 Formally, we define a protest as an event that is uniquely identified by its cause \(\cid\), its time interval \(t\) and its location (area) \(l\).
 More specifically, we will use the following definition.
@@ -45,19 +45,21 @@ More specifically, we will use the following definition.
   A \emph{protest} is a set of subprotests sharing the same \(\cid\).
 \end{definition}
 
-The protests described in the previous examples can be captured using this definition by decomposing them up into subprotests.
+The protests described in the previous examples can be captured using this definition by decomposing them into subprotests.
 Each subprotest will then be encapsulated by our definition and to estimate the total participation to the protest we can just sum up the estimates obtained.
 Similarly for marches, the marching path can be divided into subprotests with locations (or areas) that slightly overlap.
 
 \emph{Formalizing the notion of crowd estimation.} 
 Each participant who wants to be counted must submit a \emph{participation proof}.
-The proof must be associated with the protest (\ie its identifier \(cid\)), and its time and location must coincide with one of the subprotests.
+The proof must be associated with the protest (\ie its cause identifier \(cid\)), and its time and location must coincide with one of the subprotests.
 
 Our protocol relies on \emph{witnesses} to certify and associate the proof to the location by creating a \emph{proof share}.
-A witness is only allowed to create one proof share per protester to avoid the risk of inflation.
+A witness is only allowed to create one proof share per protester to
+avoid the risk of count inflation.
 Note that a participant of a protest can take the role of a protester but also act as witness for other protesters.
 %Seb: the sentence below is not very clear, it should be rephrased to make it clearer
-The participation proof and its proof shares are stored in a set, as there should be only unique proof shares.
+The participation proof and its proof shares are stored in a set, as
+there should only be unique proof shares.
 
 % proof share
 % proof shares
@@ -78,7 +80,7 @@ A subset of the proof shares forms a participation proof for a protester.
 
 % proof
 % proofs
-
+\sonja{what is the subscript i and do we need to have it here?}
 \begin{definition}[Participation proof]%
   \label{DefParticipationProof}\label{DefParticipationProofs}
   A \emph{participation proof} of a protester with pseudonym \(\pid\) who participates in a protest \(\prtst = \{ (\cid, t_i, l_i) \}_i\) is the set
