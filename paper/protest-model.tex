@@ -80,17 +80,20 @@ A subset of the proof shares forms a participation proof for a protester.
 
 % proof
 % proofs
-\sonja{what is the subscript i and do we need to have it here?}
 \begin{definition}[Participation proof]%
   \label{DefParticipationProof}\label{DefParticipationProofs}
-  A \emph{participation proof} of a protester with pseudonym \(\pid\) who participates in a protest \(\prtst = \{ (\cid, t_i, l_i) \}_i\) is the set
+  A \emph{participation proof} of a protester with pseudonym \(\pid\) who 
+  participates in a protest \(\prtst\) with cause identifier \(\cid\) is the 
+  set
   \begin{multline}
     \nonumber
     \prf_{\pid, \prtst} =
     \left\{ \psh = (\cid, t, l, \pid, \wid)\in \pshs \mid
       \exists \sprtst\in \prtst\colon \psh\sqsubseteq \sprtst \right\}
   \end{multline}
-  of all proof shares with the same protester and protest identifiers, witnessing time interval \(t\) and location \(l\) within those of the protest.
+  of all proof shares with the same protester and protest identifiers, time 
+  interval \(t\) and location \(l\) within those of the protest (\ie any 
+  subprotest).
   We denote by \(\prfs\) the set of all proofs.
 \end{definition}
 
