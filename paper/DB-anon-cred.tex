@@ -161,10 +161,11 @@ for this challenge from the prover.
 Guessing \(b\) yields \(1/2\) probability \emph{per round} that the \ac{DBMF} 
 adversary will guess it correctly.
 Since we must execute the protocol \(n\) times, this is reduced to \(2^{-n}\).
-The adversary can also guess the remaining \(|q|-l\) bits, for which the 
-probability of success is \(2^{-(|q|-l)}\) (note that this is independent of 
-the rounds).
-Thus, the success probability of the \ac{DBMF} adversary is \emph{at most} 
+The adversary can also guess the remaining \(|q|-l\) bits, which we will 
+discuss more below.
+Guessing these bits is independent of the rounds and can be estimated to be 
+\(2^{-(|q|-l)}\) (more details below).
+Thus the success probability of the \ac{DBMF} adversary is \emph{at most} 
 \(2^{-n}+2^{-(|q|-l)}\).
 
 The protocol is \ac{DBTF}-resistant, indeed, if the malicious prover gives both 
@@ -178,20 +179,24 @@ The protocol is also secure against distance hijacking due to the fact
 that it is the authentication bitstring that is used during the \ac{DB}
 phase, not the challenge bitstring as in the protocol of Brands-Chaum.
 
-\ac{DBIF} resistance follows from Schnorr.\sonja{Daniel, please
-  complete this sentence:, our changes don't break Schnorr because ...}
-Finally, a malicious verifier who wants to impersonate a prover can guess the 
-remaining \(|q|-l\) bits after the protocol finished to compute the secret of 
-the prover.
-The probability that this succeeds is, as above,
-\(2^{-(|q|-l)}\). While the majority of \ac{DB} schemes are based on
+Finally, it follows from the original Schnorr protocol that this is still 
+\iac{PK} and \ac{ZK}.
+The main concern is whether a malicious verifier can guess the remaining 
+\(|q|-l\) bits after the protocol finished to compute the secret of the prover.
+If we \emph{assume} that the adversary learning \(l > 0\) out of \(n\) bits is 
+equivalent to the adversary learning nothing out of \(n-l\) bits, then the 
+probability that the adversary succeeds is, as above, \(2^{-(|q|-l)}\).
+
+\daniel{Not sure I follow exactly in the following.}
+While the majority of \ac{DB} schemes are based on
 shared secrets and thus assume an honest verifier, this limits the
-inherent advantage of our public-key
-\ac{DB} scheme.  \sonja{verifier impersonating prover: vulnerability
+inherent advantage of our public-key \ac{DB} scheme.
+\sonja{verifier impersonating prover: vulnerability
   we introduce against public-key DB schemes, mitigated by limiting
   size of l (bits of other s). Trade-off: want long l for reducing
   success of guessing correct sequence of challenge bits, want short l
   for reducing success of guessing the other s and finding alpha}
+
 
 \sonja{\subsection{Formal Verification} 
  verification with tamarin: there is no BC Schnorr in Tamarin,  [10]
