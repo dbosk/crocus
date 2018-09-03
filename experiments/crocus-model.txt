@@ -1,0 +1,58 @@
+
+X = g^x
+
+R = g^r
+
+s = r - bx
+
+
+verify
+
+R = g^s * X^b
+
+g^r = g^(r-bx) * (g^x)^b 
+
+
+verify(sign(m,sk),m,pk(sk)) = true
+
+verify(sign(b,r),b,pk(r))  
+
+WE ENCODE WITH  x/X
+WE SIGN WITH r/R
+
+
+1. Prover chose r, compute and send R
+
+2. Verifier chooses two nonces c_0 and c_1 and sends them to Prover
+
+3. Verifier chooses b = 0 or 1, and sends it to Prover
+
+4. Prover receives and then encodes both c_i with x and sign them with r
+
+5. Prover receives b and sends back the corresponding c
+
+6. Verifier verifies the signature and decodes the messsage, checks it's the correct c
+
+
+rule Prover_2:
+    //let fastmsg = xor(commit, challenge) in
+  [ FastMsg(b), ProverStartFastPhase($Prover, r, response(r, ltk, c0), response(r, ltk, c1)), !Ltk($Prover, ~x) ]
+--[ ProverFinish($Prover, b),
+    ProverReply($Prover, b),
+    Action($Prover) ]->
+  [ ProverPreFinal($Prover, r, b),
+    FastMsg( response(r, ~x, b) ), Out( response(r, ~x, b) ) ] 
+
+
+rule Role_index:
+  [ //POINT_IN_SESSION
+  , //MESSAGES (In + Fast)
+  , //KEYS
+  ]
+--[ //RESTRICTIONS
+  , //PROOF_LABELS_AGENT
+  , //PROOF_LABELS_PROTOCOL
+  ]->
+  [ //POINT_IN_SESSION
+  , //MESSAGES (Out + Fast)
+  ]
