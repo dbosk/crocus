@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build-pdf:
+  build:
     docker:
       - image: dbosk/makefiles
     steps:
@@ -10,7 +10,7 @@ jobs:
       - run: LATEXFLAGS="-halt-on-error -use-make" make -C poster all
       - run: LATEXFLAGS="-halt-on-error -use-make" make -C slides all
       - run: git submodule deinit --all
-  test-tamarin:
+  test:
     docker:
       - image: dbosk/tamarin-prover
     steps:
