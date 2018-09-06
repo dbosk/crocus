@@ -1,7 +1,7 @@
 SUBDIR+= 	paper
 SUBDIR+= 	slides
 SUBDIR+= 	poster
-SUBDIR+= 	tamarin
+#SUBDIR+= 	tamarin
 #SUBDIR+= 	performance
 
 INCLUDE_MAKEFILES=makefiles
