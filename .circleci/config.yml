@@ -1,10 +1,20 @@
 version: 2
 jobs:
-  build:
+  build-pdf:
     docker:
       - image: dbosk/makefiles
     steps:
       - checkout
       - run: git submodule update --init
-      - run: LATEXFLAGS="-halt-on-error -use-make" make all
+      - run: LATEXFLAGS="-halt-on-error -use-make" make -C paper all
+      - run: LATEXFLAGS="-halt-on-error -use-make" make -C poster all
+      - run: LATEXFLAGS="-halt-on-error -use-make" make -C slides all
+      - run: git submodule deinit --all
+  test-tamarin:
+    docker:
+      - image: dbosk/tamarin-prover
+    steps:
+      - checkout
+      - run: git submodule update --init
+      - run: make -C tamarin test
       - run: git submodule deinit --all

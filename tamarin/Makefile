@@ -1,8 +1,16 @@
+MODELS?= 		crocus.spthy
+
+TAMARIN= 		tamarin-prover
+TAMARINFLAGS= 	--quit-on-warning
+
+
 .PHONY: all proof
 all: proof
 
-TAMARIN=tamarin-prover
-TAMARINFLAGS=--prove --quit-on-warning
+proof: ${MODELS}
+	${TAMARIN} --prove ${TAMARINFLAGS} $^
 
-proof: crocus.spthy
-	${TAMARIN} ${TAMARINFLAGS} $^
+
+.PHONY: test
+test: ${MODELS}
+	${TAMARIN} --parse-only ${TAMARINFLAGS} $^
