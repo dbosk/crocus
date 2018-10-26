@@ -11,7 +11,7 @@ party = Enum('Verifier', 'Prover')
 PROVER,VERIFIER = party.Prover, party.Verifier
 HOST, PORT = "", 8082
 
-[docs]class SchnorrZK(Protocol):
+class SchnorrZK(Protocol):
     def __init__(self, builtin_cv, common_input=None):
         Protocol.__init__(self, None)        
         verifier_states = { 2:self.verifier_state2, 4:self.verifier_state4, 6:self.verifier_state6 }
@@ -28,7 +28,7 @@ HOST, PORT = "", 8082
         Protocol.setSubclassVars(self, self.group) #, db)
         
     # PROVER states
-[docs]    def prover_state1(self):
+    def prover_state1(self):
         x = self.group.random()
         r, g = self.group.random(), self.group.random(G)
         t = g ** r 
@@ -38,7 +38,7 @@ HOST, PORT = "", 8082
         return {'t':t, 'g':g, 'y':g ** x } # output goes to the next state.
 
      
-[docs]    def prover_state3( self, input): #CHALLENGE phase
+    def prover_state3( self, input): #CHALLENGE phase
         print("state3 => ", input)
         (r, x, c) = Protocol.get(self, ['r', 'x', 'c'])
         s = r + c * x #We want to duplicate that part since we need two different values of s
@@ -46,7 +46,7 @@ HOST, PORT = "", 8082
         return {'s':s}
 
 
-[docs]    def prover_state5( self, input ):
+    def prover_state5( self, input ):
         print("state5 => ", input)
         result = input.split(':')[1]
         if result == 'ACCEPTED': Protocol.setState(self, None)
@@ -55,7 +55,7 @@ HOST, PORT = "", 8082
 
 
     # VERIFIER states
-[docs]    def verifier_state2(self, input):
+    def verifier_state2(self, input):
         #print("state2 received => ", input)
         # compute challenge c and send to prover
         c = self.group.random() #We need to create c1 and c2 and send them to the prover
@@ -65,7 +65,7 @@ HOST, PORT = "", 8082
         return {'c':c}
 
 
-[docs]    def verifier_state4( self, input ):
+    def verifier_state4( self, input ):
         (t,g,y,c,s) = Protocol.get(self, ['t','g','y','c','s'])
         print("state4: s :=", s)
         
@@ -79,7 +79,7 @@ HOST, PORT = "", 8082
         return output
 
     
-[docs]    def verifier_state6(self, input ):
+    def verifier_state6(self, input ):
         print("state6: => ", input)
         Protocol.setState(self, None)
         return None
