@@ -11,7 +11,7 @@ party = Enum('Verifier', 'Prover')
 PROVER,VERIFIER = party.Prover, party.Verifier
 HOST, PORT = "", 8082
 
-class SchnorrZK(Protocol):
+class CROCUS(Protocol):
     def __init__(self, builtin_cv, common_input=None):
         Protocol.__init__(self, None)        
         verifier_states = { 2:self.verifier_state2, 4:self.verifier_state4, 6:self.verifier_state6 }
@@ -66,7 +66,7 @@ class SchnorrZK(Protocol):
         c0 = self.group.random()
         c1 = self.group.random()
 
-        print("state2 generate c0 := {}, c1 := {}" % (c0, c1))
+        print("state2 generate c0 := {}, c1 := {}".format(c0, c1))
         Protocol.store(self, ('c0',c0), ('c1', c1))
         Protocol.setState(self, 4)
         return {'c0':c0, 'c1':c1}
@@ -96,7 +96,7 @@ class SchnorrZK(Protocol):
 
     
 if __name__ == "__main__":
-    sp = SchnorrZK(prime192v1)
+    sp = CROCUS(prime192v1)
 
     if sys.argv[1] == "-v":
         print("Operating as verifier...")

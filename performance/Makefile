@@ -1,6 +1,7 @@
 .PHONY: all
 all: results
 
+
 .PHONY: results results-crocus results-schnorr
 results: results-crocus results-schnorr
 
