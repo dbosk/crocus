@@ -7,11 +7,11 @@ results: results-crocus results-schnorr
 
 results-crocus: charm-crocus.py
 	(echo; date; echo) >> $@
-	python3 charm-crocus.py | tee -a $@
+	(python3 charm-crocus.py -v & sleep 0.1; python3 charm-crocus.py -p) | tee -a $@
 
 results-schnorr: charm-schnorr.py
 	(echo; date; echo) >> $@
-	python3 charm-schnorr.py | tee -a $@
+	(python3 charm-schnorr.py -v & sleep 0.1; python3 charm-schnorr.py -p) | tee -a $@
 
 
 .PHONY: clean
