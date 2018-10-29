@@ -1,0 +1,11 @@
+There is a guide for cryptographers detailing how to create, modify and benchmark a protocol:
+
+=> https://jhuisi.github.io/charm/cryptographers.html
+
+This is the platform install manual:
+
+=> https://jhuisi.github.io/charm/install_source.html
+
+And those are the various toolboxes available to us:
+
+=> https://jhuisi.github.io/charm/toolbox.html
