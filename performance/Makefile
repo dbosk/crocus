@@ -12,3 +12,9 @@ results-crocus: charm-crocus.py
 results-schnorr: charm-schnorr.py
 	(echo; date; echo) >> $@
 	python3 charm-schnorr.py | tee -a $@
+
+
+.PHONY: clean
+clean:
+	git checkout -- results-crocus
+	git checkout -- results-schnorr
