@@ -88,7 +88,10 @@ class SchnorrZK(Protocol):
 if __name__ == "__main__":
     sp = SchnorrZK(prime192v1)
 
-    if sys.argv[1] == "-v":
+    if len(sys.argv) <= 1:
+        print("Usage: %s [-v or -p]" % sys.argv[0])
+        exit(-1)
+    elif sys.argv[1] == "-v":
         print("Operating as verifier...")
         svr = socket(AF_INET, SOCK_STREAM)
         svr.bind((HOST, PORT))
@@ -96,16 +99,12 @@ if __name__ == "__main__":
         svr_sock, addr = svr.accept()
         print("Connected by ", addr)
         _name, _type, _sock = "verifier", VERIFIER, svr_sock
-#       sp.setup( {'name':"verifier", 'type':_type, 'socket':svr_sock} )
     elif sys.argv[1] == "-p":
         print("Operating as prover...")
         clt = socket(AF_INET, SOCK_STREAM)
         clt.connect((HOST, PORT))
         clt.settimeout(15)
         _name, _type, _sock = "prover", PROVER, clt
-    else:
-        print("Usage: %s [-v or -p]" % sys.argv[0])
-        exit(-1)
     sp.setup( {'name':_name, 'type':_type, 'socket':_sock} )
     # run as a thread...
     sp.execute(_type)
