@@ -211,10 +211,10 @@ Both the protester and the witness compute
 Afterwards, they run the following \ac{PPK} with the protester as the prover and the witness as the verifier:
 \begin{multline*}
   \mleftright
-  \PPK\left\{(k, r, r', \cid, r_\cid) : \right. \\
+  \PPK\left\{(k, r, r', \cid, r_{\cid}) : \right. \\
     v^{r'} = v_x v_{xy}^{k_P} v_{xy}^{\prime r} \land \pid = g_T^{1/(k_P+\cid)} 
     \land \\
-    \left. c = g^\cid Z^{r_\cid}
+    \left. c = g^{\cid} Z^{r_{\cid}}
   \right\}.
 \end{multline*}
 in which \(r' = 1/r_2\).
