@@ -21,41 +21,17 @@ However, this \ac{DB} Schnorr protocol was shown to be prone to distance hijacki
 We now propose another way to turn the Schnorr protocol into a
 public-key \ac{DB} protocol which is secure against \ac{DBMF},
 \ac{DBDF}, \ac{DBDH} and \ac{DBTF}.
-The public-key property implies protection against an impersonating
-verifier.
+It is important in our setting that the protocol is a public-key protocol, this 
+property implies protection against an impersonating verifiers.
 
 We present the protocol in \cref{SchnorrFigure}.
-The group with generator \(g\) and order \(q\) are system parameters.
+The (cyclic) group with generator \(g\) and order \(q\) are system parameters.
 The private key \(\alpha\) with public key \(A = g^\alpha\) are generated once 
 by the prover in the setup phase.
 
-During one round, the prover generates a random nonce \(\rho\rgets \ZZ_q\), 
-computes \(R\gets g^\rho\) and sends \(R\) to the verifier.
-The verifier generates two challenges \(c_0\rgets \bin^k, c_1\rgets \bin^k\) 
-and sends them to the prover.
-The prover computes \(s_0\gets \rho - c_0\alpha, s_1\gets \rho - c_1\alpha\).
-This is the main difference to the original Schnorr protocol: the verifier 
-selects two challenges and the prover \emph{computes} two responses --- but 
-still only \emph{one nonce}, \(\rho\).
-(This is also different from Brands-Chaum, where the prover and verifier 
-jointly construct \emph{one} challenge with \emph{one} response.)
-We let \(|q| = \ceil{\log_2 q}\) denote the length of \(q\) in bits.
-The verifier will request all \(|q|\) response-bits from one challenge (say 
-\(s_b, b\in \bin\)) and only \(l > 0\) from the other (\(s_{1-b}\)).
-Finally, the verifier has \(s_b\) and can authenticate the prover by checking 
-if \(R = g^{s_b}A^{c_b}\).
-
-The prover must know the responses for both challenges to successfully pass the 
-\ac{DB} phase.
-The reason for the two challenges but only one random nonce (change from 
-Schnorr) is that knowing the responses to both means learning \(\alpha\) (for
-\ac{DBTF}).
-Bundling the authentication into the distance bounding phase (difference from 
-Brands-Chaum) was done for \ac{DBDH},
-and both adaptations together aim at \ac{DBMF} resistance. %reducing success of MF according to number of repetitions.
-
 \begin{figure*}
   \centering
+  \small
   \begin{tabular}{p{0.8\columnwidth}cp{0.8\columnwidth}}
     \(\DBSprove[g, q, \alpha, A = g^\alpha]\):
     & &
@@ -75,19 +51,20 @@ and both adaptations together aim at \ac{DBMF} resistance. %reducing success of 
     & \(c_0\rgets \bin^k, c_1\rgets \bin^k\)
     \\
 
-    \(s_0\gets \rho - c_0\alpha \pmod q\)
+    \(\forall i\in\bin\colon s_i\gets \rho - c_i\alpha \mod q\)
     &
     & \(b\rgets \bin\)
     \\
 
-    \(s_1\gets \rho - c_1\alpha \pmod q\)
+    \(\forall i\in\bin\colon s_i^{(0)} \rgets \ZZ_q, s_i^{(1)} \gets s_i - 
+      s_i^{(0)} \mod q\)
     &
-    & Prepare \(B\in \bin^{|q|+l}\), with \(|q|\) bits set to \(b\).
+    & Prepare \(B\in \bin^{2|q|+l}\), with \(2|q|\) bits set to \(b\).
     \\
 
     \midrule
-    \multicolumn{3}{c}{\textbf{Distance-bounding}: \(\forall i: 0\leq i < |q| + 
-        l, j\gets 0\)} \\
+    \multicolumn{3}{c}{\textbf{Distance-bounding}: \(\forall i: 0\leq i < 2|q| 
+        + l, j\gets 0\)} \\
 
 %    % null
 %    &
@@ -99,7 +76,7 @@ and both adaptations together aim at \ac{DBMF} resistance. %reducing success of 
     & \(b_i\gets B[i]\)
     \\
 
-    \(r_i\gets s_{b_i}[jb_i + (i-j)(1-b_i)]\)
+    \(r_i\gets (s_{b_i}^{(0)}\concat s_{b_i}^{(1)})[jb_i + (i-j)(1-b_i)]\)
     & \(\ProtoSendRight{r_i}\)
     & Record \(\Delta t_i\)
     \\
@@ -115,8 +92,9 @@ and both adaptations together aim at \ac{DBMF} resistance. %reducing success of 
 
     % null
     &
-    & Construct \(s_b\) as the concatenation of \(r_i\)'s for which \(b_i = 
-      b\).
+    & Construct \(s_b^{(0)}\concat s_b^{(1)}\) as the concatenation of 
+    \(r_i\)'s for which \(b_i = b\).
+    Compute \(s_b\gets s_b^{(0)} + s_b^{(1)}\).
       Accept if \(R = g^{s_b} A^{c_b}\).
     \\
     
@@ -128,74 +106,103 @@ and both adaptations together aim at \ac{DBMF} resistance. %reducing success of 
   \label{SchnorrFigure}
 \end{figure*}
 
+During one round, the prover commits to a random nonce: \ie chooses 
+\(\rho\rgets \ZZ_q\) uniformly randomly, computes \(R\gets g^\rho\) and sends 
+\(R\) to the verifier.
+The verifier generates two challenges \(c_0\rgets \bin^k, c_1\rgets \bin^k\) 
+and sends them to the prover.
+The prover computes \(s_0\gets \rho - c_0\alpha, s_1\gets \rho - c_1\alpha\).
+This is the main difference to the original Schnorr protocol: the verifier 
+selects two challenges and the prover \emph{computes} two responses --- but 
+still only \emph{one nonce}, \(\rho\).
+(This is also different from Brands-Chaum, where the prover and verifier 
+jointly construct \emph{one} challenge with \emph{one} response.)
+
+Now the prover randomly chooses
+\(s_0^{(0)}, s_1^{(0)}\in \ZZ_q\)
+and computes
+\(s_0^{(1)} \gets s_0 - s_0^{(0)}, s_1^{(1)} \gets s_1 - s_1^{(0)}\).
+\Ie \(s_b, b\in\bin\) can be reconstructed from the two shares \(s_b^{(0)}, 
+  s_b^{(1)}\).
+
+We let \(|q| = \ceil{\log_2 q}\) denote the length of \(q\) in bits.
+The verifier will request all \(2|q|\) response-bits from one challenge (say 
+\(s_b^{(0)}\concat s_b^{(1)}, b\in \bin\)) and only \(0 < l\leq |q|\) from the 
+other (\(s_{1-b}^{(0)}\concat s_{1-b}^{(1)}\)).
+Then the verifier can compute \(s_b = s_b^{(0)} + s_b^{(1)}\) and finally 
+authenticate the prover by checking if \(R = g^{s_b}A^{c_b}\).
+
+The prover must know the responses for both challenges to successfully pass the 
+\ac{DB} phase.
+The reason for the two challenges but only one random nonce (change from 
+Schnorr) is that knowing the responses to both means learning \(\alpha\) (for
+\ac{DBTF}).
+Bundling the authentication into the distance bounding phase (difference from 
+Brands-Chaum) was done for \ac{DBDH},
+and both adaptations together aim at \ac{DBMF} resistance. %reducing success of MF according to number of repetitions.
+The reason we use secret sharing and not \(s_b\) directly, is to bound the 
+\(l\) bits the verifier must learn of \(s_{1-b}\):
+Without secret sharing, the verifier learns \(l\) bits of \(s_{1-b}\), but with 
+secret sharing the verifier learns \(l\) bits of \emph{one share} (provided 
+\(l\) is small enough).
+Thus we have information theoretic security although we reveal these \(l\) 
+bits.
+
 \subsection{Security analysis}
 
 The intuition behind the protocol security is as follows.
-To achieve malicious-verifier zero-knowledge, choose \(k\) logarithmically with 
-respect to the security parameter \(\lambda\) and repeat the protocol \(n\) 
-times, such that the knowledge error, \(2^{-kn}\), becomes small enough.
-This is also needed to decrease the success probability of some of adversaries 
-presented below.
+To achieve malicious-verifier zero-knowledge, choose \(k\) logarithmic in the 
+security parameter \(\lambda\) and repeat the protocol \(n\) times, such that 
+the knowledge error, \(2^{-kn}\), becomes small enough.
+Repeating the protocol is also needed to decrease the success probability of 
+some of adversaries presented below.
 
 The \ac{DB} phase protects against distance fraud.
 Once the prover has received \(l+1\) challenges set to \(b\), it knows that the 
 remaining challenges must also be \(b\).
 \Iac{DBDF} prover must thus wait for the challenge bit \(b_i\) before 
-responding with \(r_i\) before at least \(l+1\) challenges.
+responding with \(r_i\) for \(l+1\) challenges.
 Thus, the probability of successfully guessing the order of the challenge bits 
-is \(2^{-(l+1)}\) per round in the worst case or, in total, \(2^{-(l+1)n}\).
+is \(2^{-(l+1)}\) per round or, in total, \(2^{-(l+1)n}\).
 
 The \ac{DB} phase also ensures that \iac{DBMF} adversary will fail the \ac{DB} 
 phase for at least one round.
 The verifier will send \(|q| + l < 2|q|\) challenges.
 By replying, the prover reveals all the bits of either \(s_0\) or \(s_1\), but 
-only \(l\) bits of the other.
+none of the other --- only \(l\leq |q|\) bits of \emph{one of two} information 
+theoretically independent \(|q|\)-bit shares.
 The adversary now has two options.
 First, the adversary can buffer \(l\) bits of both \(s_0, s_1\) by requesting 
 them from the prover.
 However, at this point the adversary must wait for the challenge bit 
 \(b_{l+1}\) from the verifier and then relay that challenge to the prover to 
 receive the correct \(r_i\) --- this relay will be detected.
-The (better) alternative is to guess \(b\) and extract the \(|q|\) correct bits 
-for this challenge from the prover.
+The (better) alternative is to guess \(b\) and extract \(s_b\) for this 
+challenge from the prover.
 Guessing \(b\) yields \(1/2\) probability \emph{per round} that the \ac{DBMF} 
 adversary will guess it correctly.
 Since we must execute the protocol \(n\) times, this is reduced to \(2^{-n}\).
-The adversary can also guess the remaining \(|q|-l\) bits, which we will 
+The adversary can also guess the remaining \(2|q|-l\) bits, which we will 
 discuss more below.
-Guessing these bits is independent of the rounds and can be estimated to be 
-\(2^{-(|q|-l)}\) (more details below).
+The probability of guessing these bits successfully is \(2^{-(2|q|-l)}\).
+However, \(l < |q| \implies 2|q|-l > |q|\) and this might thus be more 
+expensive than guessing \(s_{1-b}\) directly, which is \(2^{-|q|}\).
 Thus the success probability of the \ac{DBMF} adversary is \emph{at most} 
-\(2^{-n}+2^{-(|q|-l)}\).
+\(2^{-n}+2^{-|q|n}\).
 
 The protocol is \ac{DBTF}-resistant, indeed, if the malicious prover gives both 
-responses to the adversary, the adversary can compute his secret key.
-In fact, this property is tied to the knowledge extractor used in the proof of 
-the \ac{ZKPK} property of the Schnorr protocol.
+responses to the accomplice, the accomplice can compute his secret key.
 The probability of success of \ac{DBTF} is thus reduced to guessing \(b\), \ie 
 \(1/2\) per round or, in total, \(2^{-n}\).
 
 The protocol is also secure against distance hijacking due to the fact
-that it is the authentication bitstring that is used during the \ac{DB}
+that it is the authenticating bitstring that is used during the \ac{DB}
 phase, not the challenge bitstring as in the protocol of Brands-Chaum.
 
 Finally, it follows from the original Schnorr protocol that this is still 
 \iac{PK} and \ac{ZK}.
-The main concern is whether a malicious verifier can guess the remaining 
-\(|q|-l\) bits after the protocol finished to compute the secret of the prover.
-If we \emph{assume} that the adversary learning \(l > 0\) out of \(n\) bits is 
-equivalent to the adversary learning nothing out of \(n-l\) bits, then the 
-probability that the adversary succeeds is, as above, \(2^{-(|q|-l)}\).
-
-\daniel{Not sure I follow exactly in the following.}
-While the majority of \ac{DB} schemes are based on
-shared secrets and thus assume an honest verifier, this limits the
-inherent advantage of our public-key \ac{DB} scheme.
-\sonja{verifier impersonating prover: vulnerability
-  we introduce against public-key DB schemes, mitigated by limiting
-  size of l (bits of other s). Trade-off: want long l for reducing
-  success of guessing correct sequence of challenge bits, want short l
-  for reducing success of guessing the other s and finding alpha}
+\daniel{I should prove this for the composed protocol, I should check the 
+  details with Douglas.}
 
 
 \sonja{\subsection{Formal Verification} 
