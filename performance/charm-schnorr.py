@@ -41,7 +41,7 @@ class SchnorrZK(Protocol):
     def prover_state3( self, input): #CHALLENGE phase
         print("state3 => ", input)
         (r, x, c) = Protocol.get(self, ['r', 'x', 'c'])
-        s = r + c * x #We want to duplicate that part since we need two different values of s
+        s = r + c * x
         Protocol.setState(self, 5)
         return {'s':s}
 
@@ -58,7 +58,7 @@ class SchnorrZK(Protocol):
     def verifier_state2(self, input):
         #print("state2 received => ", input)
         # compute challenge c and send to prover
-        c = self.group.random() #We need to create c1 and c2 and send them to the prover
+        c = self.group.random()
         print("state2 generate c :=", c)
         Protocol.store(self, ('c',c))
         Protocol.setState(self, 4)        
