@@ -1,0 +1,351 @@
+theory crocusclean begin
+
+// Function signature and definition of the equational theory E
+
+functions: adec/2, aenc/2, fst/1, pair/2, pk/1, sign/2, snd/1,
+           true/0, verify/3
+equations:
+    adec(aenc(message, secretkey), pk(secretkey)) = message,
+    adec(aenc(x.1, pk(x.2)), x.2) = x.1,
+    fst(<x.1, x.2>) = x.1,
+    snd(<x.1, x.2>) = x.2,
+    verify(sign(x.1, x.2), x.1, pk(x.2)) = true
+
+rule (modulo E) Register_Keypair:
+   [ Fr( ~key ) ]
+  --[ Once( $A ), Prelim( ) ]->
+   [
+   !Pk( $A, pk(~key) ), !Ltk( $A, ~key ), Out( pk(~key) ),
+   !Agent( $A )
+   ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Corrupt_Agent:
+   [ !Ltk( $A, ltk ) ]
+  --[ Corrupt( $A ), Prelim( ) ]->
+   [ Out( ltk ), !CorruptAgent( $A ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Corrupt_Fast:
+   [ !CorruptAgent( $A ), In( msg ) ]
+  --[ CAction( $A ), Action( $A ) ]->
+   [ FastMsg( msg ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Prover_1:
+   [ !Agent( $Prover ), Fr( ~r ) ]
+  --[ ProverStart( $Prover ), Action( $Prover ) ]->
+   [ ProverSess( $Prover, ~r ), Out( pk(~r) ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Verifier_1:
+   [ In( R ), Fr( ~challenge0 ), Fr( ~challenge1 ) ]
+  --[
+  VerifierCommit( ~challenge0, ~challenge1 ),
+  PreFastPhase( <~challenge0, ~challenge1> )
+  ]->
+   [
+   VerifierSess( R, ~challenge0, ~challenge1 ),
+   Out( <~challenge0, ~challenge1> )
+   ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Verifier_2:
+   [ VerifierSess( R, c0, c1 ), Fr( ~b ) ]
+  --[
+  Choose( c0, c1, ~b ), VerifierSelect( ~b ),
+  StartFastPhase( c0, c1 )
+  ]->
+   [ VerifierStartFast( R, c0, c1, ~b ), FastMsg( ~b ), Out( ~b ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Prover_2:
+   [ ProverSess( $Prover, r ), In( <c0, c1> ) ]
+  --[
+  ProverStore( c0, c1 ), ReadyFastPhase( c0, c1 ), Action( $Prover )
+  ]->
+   [ ProverStartFast( $Prover, r, c0, c1 ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Prover_3:
+   [
+   ProverStartFast( $Prover, r, c0, c1 ), FastMsg( b ),
+   !Ltk( $Prover, x )
+   ]
+  --[
+  Choose( c0, c1, b ), ProverReply( $Prover, c0, c1, b ),
+  EndFastPhase( c0, c1, b ), Action( $Prover )
+  ]->
+   [
+   FastMsg( aenc(<b, sign(b, x)>, r) ),
+   Out( aenc(<b, sign(b, x)>, r) )
+   ]
+
+  // loop breaker: [1]
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Verifier_3:
+   [
+   VerifierStartFast( R, c0, c1, b ), FastMsg( response ),
+   !Pk( $Prover, X )
+   ]
+  --[
+  Eq( verify(snd(adec(response, R)), fst(adec(response, R)), X), true
+  ),
+  Eq( fst(adec(response, R)), b ),
+  VerifierComplete( $Prover, R, c0, c1, b )
+  ]->
+   [ ]
+
+  /*
+  rule (modulo AC) Verifier_3:
+     [
+     VerifierStartFast( R, c0, c1, b ), FastMsg( response ),
+     !Pk( $Prover, X )
+     ]
+    --[
+    Eq( z, true ), Eq( z.1, b ),
+    VerifierComplete( $Prover, R, c0, c1, b )
+    ]->
+     [ ]
+    variants (modulo AC)
+    1. R     = R.10
+       X     = X.10
+       response
+             = response.10
+       z     = verify(snd(adec(response.10, R.10)),
+                      fst(adec(response.10, R.10)), X.10)
+       z.1   = fst(adec(response.10, R.10))
+    
+    2. R     = x.10
+       X     = X.12
+       response
+             = aenc(x.11, pk(x.10))
+       z     = verify(snd(x.11), fst(x.11), X.12)
+       z.1   = fst(x.11)
+    
+    3. R     = x.10
+       X     = X.13
+       response
+             = aenc(<x.11, x.12>, pk(x.10))
+       z     = verify(x.12, x.11, X.13)
+       z.1   = x.11
+    
+    4. R     = x.10
+       X     = pk(x.12)
+       response
+             = aenc(<x.11, sign(x.11, x.12)>, pk(x.10))
+       z     = true
+       z.1   = x.11
+    
+    5. R     = pk(x.11)
+       X     = X.12
+       response
+             = aenc(x.10, x.11)
+       z     = verify(snd(x.10), fst(x.10), X.12)
+       z.1   = fst(x.10)
+    
+    6. R     = pk(x.11)
+       X     = X.13
+       response
+             = aenc(<x.10, x.12>, x.11)
+       z     = verify(x.12, x.10, X.13)
+       z.1   = x.10
+    
+    7. R     = pk(x.11)
+       X     = pk(x.12)
+       response
+             = aenc(<x.10, sign(x.10, x.12)>, x.11)
+       z     = true
+       z.1   = x.10
+  */
+
+restriction at_most_once:
+  "∀ A #t1 #t2.
+    ((Once( A ) @ #t1) ∧ (Once( A ) @ #t2)) ⇒ (#t1 = #t2)"
+  // safety formula
+
+restriction equals:
+  "∀ a b #t1. (Eq( a, b ) @ #t1) ⇒ (a = b)"
+  // safety formula
+
+lemma verif1_exists:
+  exists-trace "∃ c0 c1 #t. VerifierCommit( c0, c1 ) @ #t"
+/*
+guarded formula characterizing all satisfying traces:
+"∃ c0 c1 #t. (VerifierCommit( c0, c1 ) @ #t)"
+*/
+simplify
+SOLVED // trace found
+
+lemma prover2_exists:
+  exists-trace
+  "∃ Prover c0 c1 b #t. ProverReply( Prover, c0, c1, b ) @ #t"
+/*
+guarded formula characterizing all satisfying traces:
+"∃ Prover c0 c1 b #t. (ProverReply( Prover, c0, c1, b ) @ #t)"
+*/
+simplify
+solve( ProverStartFast( $Prover, r, c0, c1 ) ▶₀ #t )
+  case Prover_2
+  solve( !Ltk( $Prover, x ) ▶₂ #t )
+    case Register_Keypair
+    solve( FastMsg( b ) ▶₁ #t )
+      case Corrupt_Fast
+      SOLVED // trace found
+    qed
+  qed
+qed
+
+lemma startfast_exists:
+  exists-trace
+  "∃ c0 c1 #t.
+    (StartFastPhase( c0, c1 ) @ #t) ∧ (¬(∃ A #tc. Corrupt( A ) @ #tc))"
+/*
+guarded formula characterizing all satisfying traces:
+"∃ c0 c1 #t.
+  (StartFastPhase( c0, c1 ) @ #t)
+ ∧
+  ∀ A #tc. (Corrupt( A ) @ #tc) ⇒ ⊥"
+*/
+simplify
+solve( VerifierSess( R, c0, c1 ) ▶₀ #t )
+  case Verifier_1
+  SOLVED // trace found
+qed
+
+lemma endfast_exists:
+  exists-trace
+  "∃ c0 c1 b #t.
+    (EndFastPhase( c0, c1, b ) @ #t) ∧
+    (¬(∃ A #tc. Corrupt( A ) @ #tc))"
+/*
+guarded formula characterizing all satisfying traces:
+"∃ c0 c1 b #t.
+  (EndFastPhase( c0, c1, b ) @ #t)
+ ∧
+  ∀ A #tc. (Corrupt( A ) @ #tc) ⇒ ⊥"
+*/
+simplify
+solve( ProverStartFast( $Prover, r, c0, c1 ) ▶₀ #t )
+  case Prover_2
+  solve( !Ltk( $Prover, x ) ▶₂ #t )
+    case Register_Keypair
+    solve( FastMsg( b ) ▶₁ #t )
+      case Prover_3
+      solve( FastMsg( b ) ▶₁ #vr.3 )
+        case Prover_3
+        solve( FastMsg( b ) ▶₁ #vr.7 )
+          case Prover_3
+          solve( FastMsg( b ) ▶₁ #vr.11 )
+            case Verifier_2
+            SOLVED // trace found
+          qed
+        qed
+      qed
+    qed
+  qed
+qed
+
+lemma end_exists:
+  exists-trace
+  "∃ P R c0 c1 b #t.
+    (VerifierComplete( P, R, c0, c1, b ) @ #t) ∧
+    (¬(∃ A #tc. Corrupt( A ) @ #tc))"
+/*
+guarded formula characterizing all satisfying traces:
+"∃ P R c0 c1 b #t.
+  (VerifierComplete( P, R, c0, c1, b ) @ #t)
+ ∧
+  ∀ A #tc. (Corrupt( A ) @ #tc) ⇒ ⊥"
+*/
+simplify
+solve( VerifierStartFast( R, c0, c1, b ) ▶₀ #t )
+  case Verifier_2
+  solve( FastMsg( aenc(<~b, sign(~b, x)>, x.1) ) ▶₁ #t )
+    case Prover_3
+    solve( !Pk( $Prover, pk(~key) ) ▶₂ #t )
+      case Register_Keypair
+      solve( FastMsg( ~b ) ▶₁ #vr.2 )
+        case Verifier_2
+        solve( !KU( pk(~r) ) @ #vk )
+          case Prover_1
+          SOLVED // trace found
+        qed
+      qed
+    qed
+  qed
+qed
+
+lemma dbsec:
+  all-traces
+  "∀ P R c0 c1 b #t.
+    (VerifierComplete( P, R, c0, c1, b ) @ #t) ⇒
+    ((∃ #t1 #t2 #t3.
+       (((((StartFastPhase( c0, c1 ) @ #t1) ∧ (Action( P ) @ #t2)) ∧
+          (EndFastPhase( c0, c1, b ) @ #t3)) ∧
+         (#t1 < #t2)) ∧
+        (#t2 < #t3)) ∧
+       ((#t3 < #t) ∨ (#t3 = #t))) ∨
+     (∃ CAgent #t4 #t5 #t6 #t7.
+       ((((((StartFastPhase( c0, c1 ) @ #t5) ∧
+            (EndFastPhase( c0, c1, b ) @ #t7)) ∧
+           (Corrupt( P ) @ #t4)) ∧
+          (CAction( CAgent ) @ #t6)) ∧
+         (#t5 < #t6)) ∧
+        (#t6 < #t7)) ∧
+       ((#t7 < #t) ∨ (#t7 = #t))))"
+/*
+guarded formula characterizing all counter-examples:
+"∃ P R c0 c1 b #t.
+  (VerifierComplete( P, R, c0, c1, b ) @ #t)
+ ∧
+  (∀ #t1 #t2 #t3.
+    (StartFastPhase( c0, c1 ) @ #t1) ∧
+    (Action( P ) @ #t2) ∧
+    (EndFastPhase( c0, c1, b ) @ #t3)
+   ⇒
+    ((¬(#t1 < #t2)) ∨
+     (¬(#t2 < #t3)) ∨
+     ((¬(#t3 < #t)) ∧ (¬(#t3 = #t))))) ∧
+  (∀ CAgent #t4 #t5 #t6 #t7.
+    (StartFastPhase( c0, c1 ) @ #t5) ∧
+    (EndFastPhase( c0, c1, b ) @ #t7) ∧
+    (Corrupt( P ) @ #t4) ∧
+    (CAction( CAgent ) @ #t6)
+   ⇒
+    ((¬(#t5 < #t6)) ∨
+     (¬(#t6 < #t7)) ∨
+     ((¬(#t7 < #t)) ∧ (¬(#t7 = #t)))))"
+*/
+simplify
+solve( VerifierStartFast( R, c0, c1, b ) ▶₀ #t )
+  case Verifier_2
+  solve( FastMsg( aenc(<~b, sign(~b, x)>, x.1) ) ▶₁ #t )
+    case Prover_3
+    solve( !Pk( $Prover, pk(~key) ) ▶₂ #t )
+      case Register_Keypair
+      solve( FastMsg( ~b ) ▶₁ #vr.2 )
+        case Corrupt_Fast
+        solve( !KU( ~b ) @ #vk.4 )
+          case Verifier_2
+          solve( !KU( pk(~r) ) @ #vk.1 )
+            case Prover_1
+            SOLVED // trace found
+          qed
+        qed
+      qed
+    qed
+  qed
+qed
+
+/* All well-formedness checks were successful. */
+
+end

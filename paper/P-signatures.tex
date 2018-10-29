@@ -1,7 +1,6 @@
 \subsection{Non-interactive anonymous credentials}%
 \label{NIZK-anon-cred}
 
-\NewCryptoScheme{\Psig}{Psig}
 
 \Citet{Psignatures} presents a class of signatures, commitments and 
 non-interactive proof protocols named P-signatures (\Psig), which yields for 
@@ -11,13 +10,11 @@ to obtain a signature on a committed value and two non-interactive proof
 systems, one for proving that a committed value has been signed and the other 
 for proving that a pair of commitments are commitments to the same value.
 
-\NewAlgorithm{\PSetup}{\Psig.\!Setup}
 
 \(params\gets \PSetup[1^\lambda]\): generates the global parameters \(params\), 
 which contains parameters for the underlying algorithms.
 For ease of notation we will omit \(params\) from all functions.
 
-\NewAlgorithm{\PCommit}{\Psig.\!Commit}
 
 \(comm\gets \PCommit[m, open]\): takes a message \(m\) and an opening value 
 \(open\) and returns a commitment.
@@ -31,8 +28,6 @@ algorithm which generates indistinguishable parameters which yields
 information-theoretically hiding commitments.
 \Ie the adversary cannot tell which setup algorithm has been used.
 
-\NewAlgorithm{\PObtainSig}{\Psig.\!ObtainSig}
-\NewAlgorithm{\PIssueSig}{\Psig.\!IssueSig}
 
 \(\sigma\gets \PObtainSig[pk, m, comm, open]\leftrightarrow
   \PIssueSig[sk, comm]\): obtains a signature \(\sigma\) on the message 
@@ -40,14 +35,12 @@ information-theoretically hiding commitments.
 The function \(\PObtainSig\) is run by the user and \(\PIssueSig\) is run by the 
 signature issuer.
 
-\NewAlgorithm{\PProve}{\Psig.\!Prove}
 
 \((comm, \pi, open)\gets \PProve[pk, m, \sigma]\): outputs a commitment 
 \(comm\) on the message \(m\) and can be opened using \(open\).
 \(\pi\) is a proof of knowledge of the signature \(\sigma\) on the message \(m\) 
 made by the owner of \(pk\).
 
-\NewAlgorithm{\PVerifyProof}{\Psig.\!VerifyProof}
 
 \(\bin\ni \PVerifyProof[pk, comm, \pi]\): verifies the proof \(\pi\) that \(m\) 
 has been signed by the owner of \(pk\).
@@ -55,14 +48,12 @@ has been signed by the owner of \(pk\).
 It outputs \(1\) (accept) if \(\pi\) is a proof of knowledge of \(F(m)\) and a 
 signature on \(m\).
 
-\NewAlgorithm{\PEqCommProve}{\Psig.\!EqCommProve}
 
 \(\pi\gets \PEqCommProve[m, open, open']\): outputs a proof \(\pi\) saying that 
 \(comm = \PCommit[m, open]\) is a commitment to the same value as \(comm' = 
   \PCommit[m, open']\).
 This can be used to tie ephemeral commitments to long-term commitments.
 
-\NewAlgorithm{\PVerEqComm}{\Psig.\!VerEqComm}
 
 \(\bin\ni \PVerEqComm[comm, comm', \pi]\): outputs \(1\) (accept) if the proof 
 \(pi\) is a proof saying that \(comm, comm'\) are commitments to the same value.

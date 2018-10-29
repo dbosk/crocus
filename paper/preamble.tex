@@ -16,10 +16,10 @@
 
 \usepackage{csquotes}
 %\usepackage{acronym}
-\usepackage[natbib,style=ieee,maxbibnames=99]{biblatex}
+\usepackage[natbib,style=ieee,maxnames=4,maxbibnames=99]{biblatex}
 \addbibresource{crypto.bib}
 \addbibresource{location.bib}
-\addbibresource{reputation.bib}
+\addbibresource{sybil.bib}
 \addbibresource{auth.bib}
 \addbibresource{voting.bib}
 \addbibresource{protests.bib}
@@ -33,7 +33,6 @@
 \usepackage{tikz}
 \usepackage{tikzscale}
 \usetikzlibrary{arrows.meta}
-\usepackage{tikz-qtree}
 
 %\DeclareDocumentCommand{\keywords}{m}{%
 %  \par
@@ -51,5 +50,75 @@
 \Crefname{requirements@i}{Requirement}{Requirements}
 \Crefname{requirements@ii}{Requirement}{Requirements}
 
+\usepackage{amssymb}
 \usepackage{bibsp}
+\ProvideDocumentCommand{\PRIVO}{}{%
+  CROCUS\xspace%
+}
+\ProvideDocumentCommand{\PPK}{o o}{\ensuremath{%
+    \operatorname{PPK}%
+    \IfValueT{#1}{%
+      \IfValueTF{#2}{%
+        \mleft\{\mleft(#1\mright) : #2\mright\}%
+      }{%
+        \mleft\{#1\mright\}%
+      }%
+    }%
+  }}
+\NewScheme{\DBS}{DBS}
+\NewAlgorithm{\DBSprove}{\DBS.\!Prove}
+\NewAlgorithm{\DBSverify}{\DBS.\!Verify}
+\NewScheme{\AC}{AC}
+\NewAlgorithm{\ACcommit}{\AC.\!Commit}
+\NewAlgorithm{\ACsign}{\AC.\!Sign}
+\NewAlgorithm{\ACblind}{\AC.\!BlindSig}
+\NewAlgorithm{\ACverifySig}{\AC.\!VerifySig}
+\NewAlgorithm{\ACgetSig}{\AC.\!GetSig}
+\NewAlgorithm{\ACissueSig}{\AC.\!IssueSig}
+\NewAlgorithm{\ACproveSig}{\AC.\!ProveSig}
+\NewAlgorithm{\ACprf}{\AC.\!PRF}
+\NewAlgorithm{\ACprovePRF}{\AC.\!ProvePRF}
+\NewAlgorithm{\ACverifyPRF}{\AC.\!VerifyPRF}
+\NewAlgorithm{\Hash}{H}
+\NewAlgorithm{\algA}{A}
+\NewScheme{\PRIVOscheme}{PRIVO}
+\NewAlgorithm{\PRIVOsetup}{Setup}
+\NewVariable{\sk}{sk}
+\NewVariable{\spk}{spk}
+\NewVariable{\ssk}{ssk}
+\NewAlgorithm{\PRIVOreg}{Reg}
+\NewAlgorithm{\PRIVOjoin}{Join}
+\NewVariable{\mfst}{manifesto}
+\NewAlgorithm{\PRIVOparticipate}{Prticip}
+\NewAlgorithm{\PRIVOwitness}{Witness}
+\NewAlgorithm{\PRIVOsubmit}{Submit}
+\NewScheme{\Psig}{Psig}
+\NewAlgorithm{\PSetup}{\Psig.\!Setup}
+\NewAlgorithm{\PCommit}{\Psig.\!Commit}
+\NewAlgorithm{\PObtainSig}{\Psig.\!ObtainSig}
+\NewAlgorithm{\PIssueSig}{\Psig.\!IssueSig}
+\NewAlgorithm{\PProve}{\Psig.\!Prove}
+\NewAlgorithm{\PVerifyProof}{\Psig.\!VerifyProof}
+\NewAlgorithm{\PEqCommProve}{\Psig.\!EqCommProve}
+\NewAlgorithm{\PVerEqComm}{\Psig.\!VerEqComm}
+\NewVariable{\cid}{cid}
+\NewVariable{\prtst}{P}
+\NewVariable{\sprtst}{p}
+\NewVariable{\psh}{s}
+\NewVariable{\pshs}{S}
+\NewVariable{\pid}{pid}
+\NewVariable{\wid}{wid}
+\NewVariable{\prf}{\pi}
+\NewVariable{\prfs}{\Pi}
+\NewScheme{\TS}{TS}
+\NewAlgorithm{\TSget}{\TS.\!Get}
+\NewAlgorithm{\TSstamp}{\TS.\!Stamp}
+\NewAlgorithm{\TSverify}{\TS.\!Verify}
+\NewAlgorithm{\TStime}{\TS.\!Time}
+\NewAlgorithm{\PKprove}{PK.\!Prove}
+\NewAlgorithm{\PKverify}{PK.\!Verify}
+\NewAlgorithm{\SPKprove}{SPK.\!Prove}
+\NewAlgorithm{\SPKverify}{SPK.\!Verify}
+\NewVariable{\CA}{CA}
 
+\input{revision.tex}
