@@ -54,9 +54,8 @@ This can be instantiated using CL-signatures~\cite{CLsignatures}, see
   \small
   \begin{algorithmic}
     \Function{\ACsetup}{}
-    \State $x\rgets \ZZ_q, X\gets g^x$
-    \State $y\rgets \ZZ_q, Y\gets g^y$
-    \State $z\rgets \ZZ_q, Z\gets g^z$
+    \State $x\rgets \ZZ_q, X\gets g^x, y\rgets \ZZ_q, Y\gets g^y, z\rgets 
+    \ZZ_q, Z\gets g^z$
     \State $\sk\gets (x,y,z), \pk\gets (q, G, G_T, g, g_T, e, X, Y, Z)$
     \State \Return $(\sk, \pk)$
     \EndFunction
