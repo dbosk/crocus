@@ -21,7 +21,8 @@ We also note that
 however, the challenge \(c\) must be the same in both sub-protocols.
 
 \begin{figure*}
-  \centering
+  %\centering
+  \small
   \begin{tabular}{lcl}
     \(\PKprove[\{g_i\}_{i=1}^n, q, A, \{\alpha_i\}_{i=1}^n]\):
     &
@@ -44,7 +45,7 @@ however, the challenge \(c\) must be the same in both sub-protocols.
     & \(c\rgets \bin^k\)
     \\
 
-    \(1\leq i\leq n\colon s_i\gets \rho_i - c\alpha_i \mod q\)
+    \(\forall i\colon s_i\gets \rho_i - c\alpha_i \mod q\)
     & \(\ProtoSendRight{\{s_i\}_{i=1}^n}\)
     &
     \\
