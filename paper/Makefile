@@ -21,6 +21,7 @@ SRC+= 	protocol.tex
 SRC+=	analysis-security.tex analysis-performance.tex
 SRC+= 	discussion.tex
 SRC+=	conclusions.tex
+SRC+=	appendix.tex
 
 paper.pdf: ${SRC}
 
