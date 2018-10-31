@@ -204,6 +204,13 @@ Finally, it follows from the original Schnorr protocol that this is still
 \daniel{I should prove this for the composed protocol, I should check the 
   details with Douglas.}
 
+\subsection{Formal Verification}
+
+We wanted to formally verify the protocol security properties. We used the Tamarin prover~\cite{meier2013tamarin}. Tamarin does not include timestamp and location data in its model, but thanks to the work by Mauw \emph{et al.}~\cite{TamarinDB}, we know that all the common properties mentioned in the previous subsection can be equivalently characterized with a causality-based definition relying only on the order of messages.
+
+The whole Tamarin code we wrote is provided in Appendix \ref{apdx:tamarin-spec}. It contains a specification of the distance-bounding protocol described previously, a definition of the soundness and correctness properties that ensure the protocol actually produces the expected result, and a definition of the security properties we want to ensure.
+
+Tamarin auto-prover validated the soundness and correctness properties (in negligible computation time) but does not terminate when trying to prove the security properties, that is to say, no trace violating the security properties is found, but the prover cannot conclusively validate that the properties are true. We are currently investigating with Tamarin interactive mode to hopefully validate the security properties as well.
 
 \sonja{\subsection{Formal Verification} 
  verification with tamarin: there is no BC Schnorr in Tamarin,  [10]
