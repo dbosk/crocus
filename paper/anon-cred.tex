@@ -35,7 +35,7 @@ scheme~\cite{PedersenCommitment}, see \cref{ACcommitAlg}.
   \small
   \begin{algorithmic}
     \Function{\ACcommit}{$x, r$}
-    \State \Return $(g^x h^r, r)$
+    \State \Return $g^x h^r$
     \EndFunction
   \end{algorithmic}
   \caption{\label{ACcommitAlg}%
@@ -60,7 +60,7 @@ This can be instantiated using CL-signatures~\cite{CLsignatures}, see
     \State \Return $(\sk, \pk)$
     \EndFunction
 
-    \Function{\ACsign}{$m, r, \pk, \sk$}
+    \Function{\ACsign}{$\pk, \sk, m, r$}
     \State $a\rgets G, A\gets a^z$
     \State $b\gets a^y, B\gets A^y$
     \State $c\gets a^{x+xym} A^{xyr}$
@@ -76,7 +76,7 @@ This can be instantiated using CL-signatures~\cite{CLsignatures}, see
       \tilde b, \tilde B, \hat c)$
     \EndFunction
 
-    \Function{\ACverifySig}{$m, r, \sigma = (a, A, b, B, c)$}
+    \Function{\ACverifySig}{$\pk, m, r, \sigma = (a, A, b, B, c)$}
     \If{$e(a, Z) \neq e(g, A)$}
     \State \Return $\bot$
     \Comment $A$ malformed
@@ -102,17 +102,11 @@ This can be instantiated using CL-signatures~\cite{CLsignatures}, see
   \centering
   \small
   \begin{tabular}{lcl}
-    \(\ACgetSig[\pk, m]\)
+    \(\ACgetSig[\pk, m, r]\)
     &
     & \(\ACissueSig[\pk, \sk]\)
 
     \\\toprule
-
-    \(r\rgets \ZZ_q\)
-    &
-    &
-
-    \\
 
     \(M\gets \ACcommit[m, r]\)
     & \smash{\(\ProtoSendRight[3em]{M}\)}
@@ -126,13 +120,13 @@ This can be instantiated using CL-signatures~\cite{CLsignatures}, see
 
     % null
     &
-    & \(\alpha\rgets\)
+    & \(\alpha\rgets \ZZ_q\)
     
     \\
     
     % null
     &
-    & \(\ZZ_q, a\gets g^\alpha, A\gets a^z\)
+    & \(a\gets g^\alpha, A\gets a^z\)
 
     \\
 
@@ -150,7 +144,7 @@ This can be instantiated using CL-signatures~\cite{CLsignatures}, see
 
     \\
 
-    \(\ACproveSig[\pk, \sigma, m, r]\)
+    \(\ACproveSig[\pk, m, r, \sigma]\)
     &
     & \(\ACverifySig[\pk, \sk]\)
 
