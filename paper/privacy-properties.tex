@@ -85,19 +85,23 @@ Thus, we cannot provide receipt freeness (see \cref{Conclusion} for further disc
 
 As a consequence, this leaves us with with what would correspond to vote privacy.
 In particular, we need unlinkability between Alice's long-term identity and Alice's participation proof.
-
+Moreover, any temporary identifiers such as pseudonyms may only be
+reused when strictly necessary for the fulfillment of verifiability
+properties listed in \label{verifiability-properties} to prevent
+inference on long-term identities by repeated samples and side information.
 
 We can thus summarize the desired privacy properties as follows:
 \begin{requirements}[P]
 \item\label{ProofUnlink} \emph{Proof Unlinkability (Anonymity)}: every
   participant's real (long-term) 
-  identity (\(P\)) must be unlinkable to their participation proofs $\prf_{\pid, \prtst}$
+  identity (\(P\)) must be unlinkable to their participation proofs \(\prf_{\pid, \prtst}\)
 \item\label{ProtestUnlink} \emph{Protest Unlinkability}: protesters'
-  participation proofs $\prf_{\pid, \prtst}$ must be 
-  unlinkable between protests ($\cid, \cid'$)
+  participation proofs \(\prf_{\pid, \prtst}\) must be 
+  unlinkable between protests (\(\cid, \cid' \))
 \item\label{WitnessUnlink}\emph{Witness Unlinkability}:  witnesses'
-  participation proof shares $\(\psh = (\cid, t, l, \pid, \wid)\)$ must be unlinkable between 
-  protesters. ($\pid, \pid'$)
+  participation proof shares \(\psh = (\cid, t, l, \pid,\wid)\) 
+must be unlinkable between 
+  protesters. (\(\pid, \pid' \))
 \end{requirements}
 
 \sonja{removed for now: As a result of these properties, if there are two protests in parallel (\eg, one against Grace's regime and one in favor) Alice can always argue to be part of the protest in Grace's favor instead of any protest against Grace.
