@@ -89,14 +89,17 @@ In particular, we need unlinkability between Alice's long-term identity and Alic
 
 We can thus summarize the desired privacy properties as follows:
 \begin{requirements}[P]
-\item\label{ProofUnlink} \emph{Proof Unlinkability (Anonymity)}: participants' real (long-term) 
-  identities must be unlinkable to their proofs.
-\item\label{ProtestUnlink} \emph{Protest Unlinkability}: protesters' proofs must be 
-  unlinkable between protests 
-\item\label{WitnessUnlink}\emph{Witness Unlinkability}:  witnesses' proofs must be unlinkable between 
-  protesters.
+\item\label{ProofUnlink} \emph{Proof Unlinkability (Anonymity)}: every
+  participant's real (long-term) 
+  identity (\(P\)) must be unlinkable to their participation proofs $\prf_{\pid, \prtst}$
+\item\label{ProtestUnlink} \emph{Protest Unlinkability}: protesters'
+  participation proofs $\prf_{\pid, \prtst}$ must be 
+  unlinkable between protests ($\cid, \cid'$)
+\item\label{WitnessUnlink}\emph{Witness Unlinkability}:  witnesses'
+  participation proof shares $\(\psh = (\cid, t, l, \pid, \wid)\)$ must be unlinkable between 
+  protesters. ($\pid, \pid'$)
 \end{requirements}
 
-As a result of these properties, if there are two protests in parallel (\eg, one against Grace's regime and one in favor) Alice can always argue to be part of the protest in Grace's favor instead of any protest against Grace.
-This is, in fact, is a slight increase in privacy over ordinary protests.
+\sonja{removed for now: As a result of these properties, if there are two protests in parallel (\eg, one against Grace's regime and one in favor) Alice can always argue to be part of the protest in Grace's favor instead of any protest against Grace.
+This is, in fact, is a slight increase in privacy over ordinary protests.}
 
