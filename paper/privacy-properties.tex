@@ -16,9 +16,13 @@ privacy~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
 Coercion resistance is not possible to achieve for protests.
 For instance, someone could simply physically bring Alice to a protest against 
 her will.
-Receipt freeness, while desirable, is not \emph{always} desirable.
-For instance, the location proof might be useful to prove presence to a third 
-party, \eg for strengthening the authenticity of witness information.
+Receipt freeness, while desirable at first glance, is not desirable
+here as, in contrast to voting, receipt freeness for \emph{how} the
+voter voted (\ie the cause of the protest) implies receipt freeness
+for \emph{that} the voter voted (\ie the protester was there) which
+conflicts with verifiability.  
+%For instance, the location proof might be useful to prove presence to a third 
+%party, \eg for strengthening the authenticity of witness information.
 
 Thus privacy remains.
 For the protester we want unlinkability between a protester's real identity 
@@ -28,14 +32,14 @@ Alice or Bob.
 Furthermore, if Grace has managed to link one proof to Alice's, she should not 
 be able to link another proof (\eg, from a different protest) as a consequence.
 
-For the witness, we want unlinkability between a witness's identity \(W\) and a 
+\sonja{removed for now: For the witness, we want unlinkability between a witness's identity \(W\) and a 
 location \(l\) against an adversary who is not present in the location.
 Due to the limitations of physical space, two individuals present in the same 
 location will inevitably learn of each other's presence.
 Thus we will only try to prevent individuals who are not present to learn of 
-this presence.
+this presence.}
 
-\sonja{new}
+\sonja{start of older thoughts}
 Difference to e-voting:
 physical presence means support for a cause if there is one protest. If there is a counterprotest, physical presence with that group means support for the counterprotest. In our system, it gets more ambiguous as the participants are counted if all of the following is true
 \begin{enumerate*}
@@ -77,7 +81,7 @@ The privacy properties we need in this context are the following:
    identity), there is no link between the protest data on the ledger and the 
    identity of the witness.
 \end{description}
-\sonja{old}
+
 In essence, receipt freeness means that upon completing the protocol, Grace cannot link Alice to Alice's participation proof --- even if she were to compromise Alice's device or Alice accepts to collaborate with Grace.
 As we will see, if Grace gets Alice's device, she can re-do the computations on the same inputs.
 Since, in our case, the algorithms are deterministic and collisions are negligible, she will produce the same output and can thus conclude that Alice is indeed the one she is looking for.
@@ -85,6 +89,7 @@ Thus, we cannot provide receipt freeness (see \cref{Conclusion} for further disc
 
 As a consequence, this leaves us with with what would correspond to vote privacy.
 In particular, we need unlinkability between Alice's long-term identity and Alice's participation proof.
+\sonja{end older thoughts}
 Moreover, any temporary identifiers such as pseudonyms may only be
 reused when strictly necessary for the fulfillment of verifiability
 properties listed in \label{verifiability-properties} to prevent
