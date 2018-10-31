@@ -15,6 +15,9 @@ For instance, someone could simply physically bring Alice to a protest against h
 Receipt freeness is not \emph{always} desirable.
 For instance, the participation proof might be useful to prove presence to a third party, \eg for strengthening the authenticity of witness information.
 %Seb: the above sentence seems to contradict the property of coercion-resistance
+For instance, someone could simply physically bring Alice to a protest against her will.
+Receipt freeness, while appealing at first glance, is not desirable here.
+Indeed in in contrast to voting, receipt freeness for \emph{how} the voter voted (\ie the cause of the protest) implies receipt freeness for \emph{the fact that} the voter voted (\ie the protester was there), thus conflicting with verifiability.  
 
 Thus privacy remains.
 For the protester we want unlinkability between a protester's real identity \(P\) and the cause identifier \(\cid\) against the adversary.
@@ -25,7 +28,6 @@ For the witness, we want unlinkability between a witness's identity \(W\) and a 
 Due to the limitations of physical space, two individuals present in the same location will inevitably learn of each other's presence.
 Thus, we will only try to prevent individuals who are not present on the scene to learn this information.
 
-\sonja{new}
 To contrast the difference between our context and e-voting: physical presence means support for a cause if there is only one protest. 
 In case of a counterprotest, physical presence with that group means support for the counterprotest. 
 In our system, it gets more ambiguous as the participants are counted if all of the following is true
@@ -53,20 +55,20 @@ To summarize, one could participate in a protest and be counted even when physic
 %Seb: below I would use the term unobservability, rather than unlinkability
 %The ultimate privacy requirement is thus stronger here: in contrast to voting, in which it is the content of the vote itself that needs to be unlinkable to the voter, here the fact of having cast a vote at all needs to be unlinkable.
 
-The privacy properties we need in this context are the following:
-\begin{description}
-%Seb: while not use the term anonymity instead of unlinkability?
-\item[Involuntary participant unlinkability:] \daniel{the name has a 
-     double-negative ring to me} unless the participant discloses the receipt 
-   (by revealing her identity), there is no link between the protest data on 
-   the ledger and the identity of the participant.
-%Seb: same comment as above
- \item[Involuntary witness unlinkability:] \daniel{and double-negative here 
-     too of course} unless the witness discloses the receipt (by revealing her 
-   identity), there is no link between the protest data on the ledger and the 
-   identity of the witness.
-\end{description}
-\sonja{old}
+%The privacy properties we need in this context are the following:
+%\begin{description}
+%%Seb: while not use the term anonymity instead of unlinkability?
+%\item[Involuntary participant unlinkability:] \daniel{the name has a 
+%     double-negative ring to me} unless the participant discloses the receipt 
+%   (by revealing her identity), there is no link between the protest data on 
+%   the ledger and the identity of the participant.
+%%Seb: same comment as above
+% \item[Involuntary witness unlinkability:] \daniel{and double-negative here 
+%     too of course} unless the witness discloses the receipt (by revealing her 
+%   identity), there is no link between the protest data on the ledger and the 
+%   identity of the witness.
+%\end{description}
+%\sonja{old}
 In essence, receipt freeness means that upon completing the protocol, Grace cannot link Alice to her participation proof --- even if she were to compromise Alice's device or Alice accepts to collaborate with Grace.
 As we will see, if Grace gets Alice's device, she can re-do the computations on the same inputs.
 Since, in our case, the algorithms are deterministic and collisions are negligible, she will produce the same output and can thus conclude that Alice is indeed the one she is looking for.
@@ -75,15 +77,24 @@ Thus, we cannot provide receipt freeness (see \cref{Conclusion} for further disc
 %Seb: maybe this sentence should be put before the definition of the properties
 As a consequence, this leaves us with with what would correspond to vote privacy.
 In particular, we need unlinkability between Alice's long-term identity and Alice's participation proof.
+%\sonja{removed for now: For the witness, we want unlinkability between a witness's identity \(W\) and a 
+%location \(l\) against an adversary who is not present in the location.
+%Due to the limitations of physical space, two individuals present in the same 
+%location will inevitably learn of each other's presence.
+%Thus we will only try to prevent individuals who are not present to learn of 
+%this presence.}
+Moreover, any temporary identifiers such as pseudonyms may only be reused when strictly necessary for the fulfillment of verifiability properties listed in \label{verifiability-properties} to prevent inference on long-term identities by repeated samples and side information.
 
 We can thus summarize the desired privacy properties as follows:
 \begin{requirements}[P]
-\item\label{ProofUnlink} \emph{Anonymity}: participants' real (long-term) 
-  identities must be unlinkable to their proofs.
-\item\label{ProtestUnlink} \emph{Unlinkability}: protesters' proofs must be 
-  unlinkable between protests and witnesses' proofs must be unlinkable between 
-  protesters.
+\item\label{ProofUnlink} \emph{Proof Unlinkability (Anonymity)}: each
+  participant's real (long-term) identity (\(P\)) must be unlinkable to their participation proofs \(\prf_{\pid, \prtst}\)
+\item\label{ProtestUnlink} \emph{Protest Unlinkability}: protesters' participation proofs \(\prf_{\pid, \prtst}\) must be 
+  unlinkable between protests (\(\cid, \cid' \))
+\item\label{WitnessUnlink}\emph{Witness Unlinkability}:  witnesses' participation proof shares \(\psh = (\cid, t, l, \pid,\wid)\) 
+must be unlinkable between 
+  protesters. (\(\pid, \pid' \))
 \end{requirements}
 
-As a result of these properties, if there are two protests in parallel (\eg, one against Grace's regime and one in favor) Alice can always argue to be part of the protest in Grace's favor instead of any protest against Grace.
-This is, in fact, a slight increase in privacy over ordinary protests.
+%As a result of these properties, if there are two protests in parallel (\eg, one against Grace's regime and one in favor) Alice can always argue to be part of the protest in Grace's favor instead of any protest against Grace.
+%This is, in fact, a slight increase in privacy over ordinary protests.
