@@ -19,8 +19,9 @@ We also have the Venezuelan demonstrations in 2017 in which \blockcquote{2017Ven
 \blockcquote{AlJazeeraOnVenezuela2017}{%
   pro-government workers sang and danced as they staged a rival march to show their support for the president's controversial plan to rewrite the constitution%
 }.
-Generalizing from these examples, the minimal common part is the cause, \label{CauseIsTheCommonDenominator} while the location (or area) considered 
-varies over time.
+Generalizing from these examples, the minimal common part is the 
+cause,\label{CauseIsTheCommonDenominator} while the location (or area) 
+considered varies over time.
 
 For the rest of the paper, we will refer to the organizer as Alice.
 We assume that the objective of Alice is to count everyone who participated at any time and in any of the locations~\cite{2016DemonstrationsInSeoul} %\sonja{commented out for
@@ -36,9 +37,11 @@ More specifically, we will use the following definition.
 % subprotest
 
 \begin{definition}[Subprotest, Protest]\label{DefProtest}
-  A \emph{subprotest} is a tuple \((\cid, t, l)\) in which \(\cid\in \ZZ_{2^\lambda}\) is the identifier of the cause of the protest,
+  A \emph{subprotest} is a tuple \((\cid, t, l)\) in which \(\cid\in 
+    \ZZ_{2^\lambda}\), for some fixed \(\lambda\in \NN\), is the identifier of 
+  the cause of the protest,
   \(t \subseteq \RR\) is a time period and \(l \subseteq \RR^2\) is the location (the topological connectedness is not necessary).
-  A \emph{protest} is a set of subprotests sharing the same \(\cid\).
+  A \emph{protest} is the set of subprotests sharing the same \(\cid\).
 \end{definition}
 
 The protests described in the previous examples can be captured using this definition by decomposing them into subprotests.
