@@ -16,7 +16,13 @@ To realize this, we will now introduce such a protocol in order to enable us to 
 \subsection{Reattempting a distance-bounding Schnorr protocol}%
 \label{DBSchnorr}
 
+<<<<<<< HEAD
 In the original \ac{DB} paper by \citet{DistanceBounding}, one of the distance-bounding protocol is based on the Schnorr identification scheme~\cite{Schnorr}. 
+=======
+In the original \ac{DB} paper by \citet{DistanceBounding}, one of the 
+distance-bounding protocols is based on the Schnorr identification 
+scheme~\cite{Schnorr}.
+>>>>>>> b6ebdd14d719bd033fc426257ba99ca286ffcb57
 However, this \ac{DB} Schnorr protocol was shown to be prone to distance hijacking~\cite{DistanceHijacking, TamarinDB}, in addition to not being secure against terrorist fraud.
 We now propose another way to turn the Schnorr protocol into a
 public-key \ac{DB} protocol which is secure against \ac{DBMF},
@@ -113,8 +119,8 @@ The verifier generates two challenges \(c_0\rgets \bin^k, c_1\rgets \bin^k\)
 and sends them to the prover.
 The prover computes \(s_0\gets \rho - c_0\alpha, s_1\gets \rho - c_1\alpha\).
 This is the main difference to the original Schnorr protocol: the verifier 
-selects two challenges and the prover \emph{computes} two responses --- but 
-still only \emph{one nonce}, \(\rho\).
+selects two challenges and the prover computes two responses --- but still only 
+\emph{one nonce}, \(\rho\).
 (This is also different from Brands-Chaum, where the prover and verifier 
 jointly construct \emph{one} challenge with \emph{one} response.)
 
@@ -122,33 +128,32 @@ Now the prover randomly chooses
 \(s_0^{(0)}, s_1^{(0)}\in \ZZ_q\)
 and computes
 \(s_0^{(1)} \gets s_0 - s_0^{(0)}, s_1^{(1)} \gets s_1 - s_1^{(0)}\).
-\Ie \(s_b, b\in\bin\) can be reconstructed from the two shares \(s_b^{(0)}, 
+\Ie \(s_b\) can be reconstructed by adding the two shares \(s_b^{(0)}, 
   s_b^{(1)}\).
 
 We let \(|q| = \ceil{\log_2 q}\) denote the length of \(q\) in bits.
 The verifier will request all \(2|q|\) response-bits from one challenge (say 
-\(s_b^{(0)}\concat s_b^{(1)}, b\in \bin\)) and only \(0 < l\leq |q|\) from the 
-other (\(s_{1-b}^{(0)}\concat s_{1-b}^{(1)}\)).
+\(s_b^{(0)}\concat s_b^{(1)}\)) and only \(0 < l\leq |q|\) from the other 
+(\(s_{1-b}^{(0)}\concat s_{1-b}^{(1)}\)).
 Then the verifier can compute \(s_b = s_b^{(0)} + s_b^{(1)}\) and finally 
 authenticate the prover by checking if \(R = g^{s_b}A^{c_b}\).
 
+\subsection{Security analysis}
+
 The prover must know the responses for both challenges to successfully pass the 
 \ac{DB} phase.
-The reason for the two challenges but only one random nonce (change from 
-Schnorr) is that knowing the responses to both means learning \(\alpha\) (for
-\ac{DBTF}).
+The reason for the two challenges but only one random nonce is that knowing the 
+responses to both means learning \(\alpha\).
+This allows us to prevent \ac{DBTF}.
 Bundling the authentication into the distance bounding phase (difference from 
-Brands-Chaum) was done for \ac{DBDH},
+Brands-Chaum) prevents \ac{DBDH},
 and both adaptations together aim at \ac{DBMF} resistance. %reducing success of MF according to number of repetitions.
 The reason we use secret sharing and not \(s_b\) directly, is to bound the 
 \(l\) bits the verifier must learn of \(s_{1-b}\):
 Without secret sharing, the verifier learns \(l\) bits of \(s_{1-b}\), but with 
-secret sharing the verifier learns \(l\) bits of \emph{one share} (provided 
-\(l\) is small enough).
-Thus we have information theoretic security although we reveal these \(l\) 
-bits.
-
-\subsection{Security analysis}
+secret sharing the verifier learns \(l\) bits of \emph{one share}.
+Thus we still have information theoretic security for \(s_{1-b}\) although we 
+reveal the \(l\) bits.
 
 The intuition behind the protocol security is as follows.
 To achieve malicious-verifier zero-knowledge, choose \(k\) logarithmic in the 
@@ -172,15 +177,15 @@ By replying, the prover reveals all the bits of either \(s_0\) or \(s_1\), but
 none of the other --- only \(l\leq |q|\) bits of \emph{one of two} information 
 theoretically independent \(|q|\)-bit shares.
 The adversary now has two options.
-First, the adversary can buffer \(l\) bits of both \(s_0, s_1\) by requesting 
-them from the prover.
+First, the adversary can buffer \(l\) bits of both \(s_0^{(0)}\concat 
+  s_0^{(1)}, s_1^{(0)}\concat s_1^{(1)}\) by requesting them from the prover.
 However, at this point the adversary must wait for the challenge bit 
 \(b_{l+1}\) from the verifier and then relay that challenge to the prover to 
 receive the correct \(r_i\) --- this relay will be detected.
-The (better) alternative is to guess \(b\) and extract \(s_b\) for this 
-challenge from the prover.
-Guessing \(b\) yields \(1/2\) probability \emph{per round} that the \ac{DBMF} 
-adversary will guess it correctly.
+The alternative is to guess \(b\) and extract \(s_b\) for this challenge from 
+the prover.
+Guessing \(b\) yields \(1/2\) probability that the \ac{DBMF} adversary will 
+guess it correctly.
 Since we must execute the protocol \(n\) times, this is reduced to \(2^{-n}\).
 The adversary can also guess the remaining \(2|q|-l\) bits, which we will 
 discuss more below.
@@ -208,6 +213,8 @@ Finally, it follows from the original Schnorr protocol that this is still
 
 We wanted to formally verify the protocol security properties. We used the Tamarin prover ~\cite{meier2013tamarin}. Tamarin does not include timestamp and location data in its model, but thanks to the work by Mauw \emph{et al.}~\cite{TamarinDB}, we know that all the common properties mentioned in the previous subsection can be equivalently characterized with a causality-based definition relying only on the order of messages.
 
-The whole Tamarin code we wrote is provided in Appendix \ref{apdx:tamarin-spec}, with a short discussion of the modelization choices we made. It contains a specification of the distance-bounding protocol described previously, a definition of the soundness and correctness properties that ensure the protocol actually produces the expected result, and a definition of the security properties we want to ensure.
+The whole Tamarin code we wrote is provided in \cref{apdx:tamarin-spec}, with a short discussion of the modelization choices we made. It contains a specification of the distance-bounding protocol described previously, a definition of the soundness and correctness properties that ensure the protocol actually produces the expected result, and a definition of the security properties we want to ensure.
 
-The Tamarin auto-prover validated the soundness and correctness properties (in negligible computation time) but does not terminate when trying to prove the security properties, that is to say, no trace violating the security properties is found, but the prover cannot conclusively validate that the properties are true. We are currently investigating with Tamarin interactive mode to hopefully validate the security properties as well.
+Tamarin's auto-prover validated the soundness and correctness properties (in negligible computation time) but does not terminate when trying to prove the security properties, that is to say, no trace violating the security properties is found, but the prover cannot conclusively validate that the properties are true. We are currently investigating with Tamarin interactive mode to hopefully validate the security properties as well.
+
+

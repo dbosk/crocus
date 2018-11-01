@@ -97,7 +97,8 @@ If they agree on the cause, they will use the knowledge of the manifesto to join
 \emph{Joining as a protester: \((\pid, t_s)\gets 
     \PRIVOjoin[_P][\text{manifesto}]\).}
 A protester who wants to join the protest will use the manifesto to compute an identifier for the cause by hashing the manifesto, \(\cid\gets \Hash[\mfst]\).
-Afterwards, this identifier is used to create the protest-specific identifier for the protester, \(\pid\gets \ACprf[_{\sk}][\cid]\) (in 
+Afterwards, this identifier is used to create the protest-specific identifier 
+for the protester, \(\pid\gets \ACprf[_{\sk_P}][\cid]\) (in 
 \cref{fig:ProofFig,fig:ProtocolOverview}).
 More specifically, \(\pid = g_T^{1/(k+\cid)}\) (remember that \(\sk = (\sigma, k, r)\)).
 The protester should also receive a time-correlated random value from the time-stamping service, \(t_s\gets \TSget\).
@@ -113,7 +114,8 @@ The protester should also receive a time-correlated random value from the time-s
     The protester \(P\)'s identifier \(\pid\) is computed using the protester's key \(\sk_P\) and \(\cid\).
     The witness \(W\)'s protester-specific identifier \(\wid\) is computed using the
     witness's key \(\sk_W\) and the protester's \(\pid\).
-    \(t_s, t_s'\) are the last heads of the blockchain seen by the protester and witness, respectively, and \(l\) is an area.
+    \(t_s, t_s'\) are the hashes of the head blocks in the ledger seen by the 
+    protester and witness, respectively, and \(l\) is an area.
     All values are signed by the witness (signature \(\prf_W = \SPK[\sk_W][\wid 
       = \dotsb][\cid, \pid, \wid, t_s, t_s', l]\)) while also proving the 
     correctness of \(\wid\) and knowledge of a signature on \(\sk_W\).
@@ -181,7 +183,8 @@ The protester should also receive a time-correlated random value from the time-s
 
 \emph{Joining as a witness: \(t_s'\gets \PRIVOjoin_W\).}
 The witness should simply get a time-correlated random value from the time-stamping service, \(t_s'\gets \TSget\).
-Note that we do this for redundancy, the newest of \(t_s\) and \(t_s'\) will be set the start of the time interval of creation for the proof share.
+Note that we do this for redundancy, the newest of \(t_s\) and \(t_s'\) will 
+set the start of the time interval of creation for the proof share.
 
 
 \emph{Participation: \(\pi\gets
@@ -208,7 +211,8 @@ Both the protester and the witness compute
   v_{xy} &= e(X, \tilde B) \\
   v_{xy}' &= e(X, \tilde Z_B).
 \end{align*}
-Afterwards, they run the following \ac{PPK} with the protester as the prover and the witness as the verifier:
+Afterwards, they run the following \ac{PPK} with the protester as the prover 
+and the witness as the verifier:
 \begin{multline*}
   \mleftright
   \PPK\left\{(k, r, r') : v^{r'} = v_x v_{xy}^k v_{xy}^{\prime r} \land
@@ -217,17 +221,17 @@ Afterwards, they run the following \ac{PPK} with the protester as the prover and
 in which \(r' = 1/r_2\).
 We can rewrite \(\pid = g_T^{1/(k+\cid)}\) as \(\pid^k = g_T g_T^{-\cid}\).
 Afterwards, the \ac{PK} can be designed as follows.
-(Remember that this \ac{PK} should be run as \iac{PPK} and repeated multiple 
-times to achieve security.)
+(Remember that this \ac{PK} should be run as the \ac{PPK} in 
+\cref{DB-anon-cred} and repeated multiple times to achieve security.)
 The protester chooses \(r_k, r_r, r_{r'}\rgets \ZZ_q\) uniformly at random, 
 sets \(R_1 = v^{r_{r'}} v_{xy}^{r_k} v_{xy}^{\prime r_r}\) and \(R_2 = 
   \pid^{r_k}\) and sends \(R_1, R_2\) to the witness.
 The witness replies with a challenge \(c\).
 Afterwards, the protester computes
 \begin{align*}
-s_k &= -ck + r_k, \\
-s_r &= -cr + r_r, \\
-s_{r'} &= cr' + r_{r'}
+  s_k &= -ck + r_k, \\
+  s_r &= -cr + r_r, \\
+  s_{r'} &= cr' + r_{r'}
 \end{align*}
 and forwards them to the witness.
 The witness checks whether
@@ -237,9 +241,10 @@ The witness checks whether
   \mleft(g_T \pid^{-\cid}\mright)^{-c} R_2 &\overset{\mathclap{?}}{=} 
   \pid^{s_k}.
 \end{align*}
-If the proof succeeds, the witness computes \(\wid\gets \ACprf[_{\sk_W}][\pid] = g_T^{1/(k_W+\pid)}\) (as above).
+If the proof succeeds, the witness computes \(\wid\gets \ACprf[_{\sk_W}][\pid] 
+  = g_T^{1/(k_W+\pid)}\) (as above).
 Following this, the witness returns \((\wid, t_s', l)\) to the protester.
-As a consequence, both the protester and the witness have the tuple \(\pi = 
+As a consequence, both the protester and the witness have the tuple \(\psh = 
   (\cid, \pid, \wid, t_s, t_s', l)\), which forms a proof share for the 
 protester (\cref{fig:ProofFig}).
 
@@ -249,7 +254,8 @@ The participant should as soon as possible commit the proof-share data to the
 time-stamping service and receive the proof of commitment, \(t_e\gets 
   \TSstamp[\Hash[\cid, \pid, \wid, t_s, t_s', l]]\).
 The remaining operations are not time critical.
-The protester computes \iac{NIZK} proof \(\pi_{\pid}\), which shows the correctness of \(\pid\).
+The protester computes \iac{NIZK} proof \(\pi_{\pid}\), which shows the 
+correctness of \(\pid\).
 More specifically,
 \begin{multline*}
   \pi_{\pid}\gets \SPK\left\{ (\sk_P) : \right. \\
@@ -295,13 +301,14 @@ differ in the two cases.
 We will first give the procedure and then how to construct the two different 
 strength functions.
 
-To verify the participation count for a protest \(P = (\cid, t, l)\) (see 
-\cref{DefProtest}), a verifier must download all the proof shares \(\psh_i =   
-  (\cid, \pid_j, \wid_i, t_s^{(i)}, t_s^{\prime (i)}, t_e^{(i)}, t_e^{\prime   
-    (i)}, l_i, \prf_{\pid_j}^{(i)}, \prf_{\wid_i})\) for each protester \(j\) 
-from the blockchain, verify \(\prf_{\pid_j}^{(i)}\), \(\prf_{\wid_i}\) and that 
-the interval \(\interval{\max(t_s^{(i)}, t_s^{\prime (i)})}{\min(t_e^{(i)}, 
-    t_e^{\prime (i)})}\) is a subset of \(t\) and that \(l_i\subseteq  l\).
+To verify the participation count for a subprotest \(\sprtst = (\cid, t, l)\) 
+(see \cref{DefProtest}), a verifier must download all the proof shares \[
+  \psh_i =   (\cid, \pid_j, \wid_i, t_s^{(i)}, t_s^{\prime (i)}, t_e^{(i)}, 
+  t_e^{\prime   (i)}, l_i, \prf_{\pid_j}^{(i)}, \prf_{\wid_i})
+\] for each protester \(j\) from the ledger, verify \(\prf_{\pid_j}^{(i)}\), 
+\(\prf_{\wid_i}\) and that the interval \(\interval{\max(t_s^{(i)}, t_s^{\prime 
+      (i)})}{\min(t_e^{(i)}, t_e^{\prime (i)})}\subseteq t\) and that 
+\(l_i\subseteq  l\).
 Any proof share that does not verify correctly will be discarded.
 At this point, the verifier has constructed the set \(S\) from 
 \cref{DefProofShares} and can thus construct any participation proof 
@@ -310,15 +317,20 @@ Now the verifier can compute the participation count \(|\prfs_P^{\str,
     \theta}|\) as in \cref{DefParticipationCount}.
 
 In the case \emph{without} trusted witnesses, the verifier simply define 
-\(\str[\prf_{\pid_i, P}] = |\prf_{\pid_i, P}|\) and set \(\theta\) to the 
+\(\str[\prf_{\pid_j, P}] = |\prf_{\pid_j, P}|\) and set \(\theta\) to the 
 desired threshold.
 
 In the case \emph{with} trusted witnesses, each trusted witness must inform the 
 verifier of which proof shares that he or she has signed, \eg by giving a list 
-of all such proof shares or digitally sign each proof share.
+of all such proof shares or digitally sign each proof share\footnote{%
+  To achieve witness privacy in this situation, one could employ a group or 
+  ring signature scheme for all trusted witnesses.
+  Then one learns that at least one trusted witness must have been there.
+}.
 Then the verifier can define \[
-  \str[\prf_{\pid_i, P}] = \begin{cases}
-    1 & \text{if \(\prf_{\pid_i, P}\) is such a proof share} \\
+  \str[\prf_{\pid_j, P}] = \begin{cases}
+    1 & \text{if \(\exists \psh_i\in \prf_{\pid_j, P}\) that is such a proof 
+      share} \\
     0 & \text{otherwise}
   \end{cases}
 \] and sets \(\theta = 1\).

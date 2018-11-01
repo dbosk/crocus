@@ -1,14 +1,37 @@
 \section{System and adversary model}%
 \label{system-model}
 
-We will now describe our system and adversary models.
-We first present an abstraction of a protest and how to count the participation 
-(\cref{protest-model}) and the desired verifiabiltiy properties 
-(\cref{verifiability-properties}).
-Next, we present the communication and adversary model (\cref{adversary-model}) 
-together with the desired privacy properties (\cref{privacy-properties}).
+To set the stage, we will now describe our system model including assumptions (\cref{assumptions}) and present an abstraction of a protest and how to
+count the participation (\cref{protest-model}). 
+Afterwards, we formulate the desired verifiability (\cref{verifiability-properties}) and privacy properties
+(\cref{privacy-properties}) as well as the adversary model (\cref{adversary-model}).
+
+\subsection{System model and physical assumptions}
+\label{assumptions}
+
+Throughout this paper, each time we refer to a participant, such as Alice, we actually mean a personal device that can perform cryptographic operations and communicate with other local devices on Alice's behalf. 
+Furthermore, we assume that each participant has a digital certificate signed by the \ac{CA}.
+For instance, we could use the cryptographic keys of any national electronic identity system, identity card or passport.
+This assumption is needed to prevent Sybil attacks~\cite{SybilAttack}, which would have a disastrous effect on the crowd-counting estimation.
+
+In practice, participants witness each other's participation using their smartphones (or similar devices) running the protocol described in \cref{Protocol} and uploading their testimony (\ie, proof shares) to a ledger (such as a blockchain) after the protest. 
+During the protest, the devices might be limited by their batteries in terms of the computations they can perform and only have local connectivity to each other.
+No connection to any global network such as the Internet is necessary at that time.  
+Nonetheless, before and after the protest, we assume that the devices have global connectivity (\ie Internet connections) and are not computationally limited by any battery.
+This assumption is necessary to ensure that the participants will be able to upload their proof shares to the ledger.
+%\sonja{another place to put reasons? Or if here, then for all
+%  assumptions. ``We need global connectivity before to read the head from the blockchain.
+%We need global connectivity after to upload the proof shares to the blockchain.''}
 
 \include*{protest-model}
 \include*{verifiability-properties}
 \include*{privacy-properties}
-\include*{adversary-model}
+\subsection{Adversary model}
+\label{adversary-model}
+
+We consider two types of adversaries: \begin{enumerate*} \item an honest-but-curious adversary
+of up to national scale representing a government that can observe any
+messages sent, and \item a malicious adversary that can control a
+minority of 
+equipment such as participants' or witnesses' smartphones or servers
+used for the ledger such as miners for a blockchain. \end{enumerate*}
