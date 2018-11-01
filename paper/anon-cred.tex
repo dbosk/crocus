@@ -33,8 +33,8 @@ Indeed, we are more concerned with long-term privacy, which means that we are lo
 
 \(\AC\) must also contain a (blindable) signature scheme with the associated 
 protocols enabling one to get a signature on a committed value 
-(\(\ACgetSig\leftrightarrow \ACissueSig\)) and to prove knowledge of a 
-signature on a committed value (\(\ACproveSig\leftrightarrow \ACverifySig\)).
+(\(\Proto{\ACgetSig}{\ACissueSig}\)) and to prove knowledge of a signature on a 
+committed value (\(\Proto{\ACproveSig}{\ACverifySig}\)).
 
 The prover commits to a value \(k\) with commitment \(c\gets \ACcommit[k, o]\) and opening \(o\).
 Afterwards, he uses \(\sigma\gets \Proto{\ACgetSig}{\ACissueSig}\) to obtain a 
@@ -42,14 +42,15 @@ signature \(\sigma = \ACsign[_{sk}][k]\) on the value \(k\), in which \(sk\) is
 the signing key of the signer.
 
 At a later point, the prover wants to prove to a verifier that he knows \(k\) and a signature \(\sigma\) on \(k\) made by the owner of \(pk\) (corresponding to \(sk\)) without revealing \(k\) nor \(\sigma\) (\ie, in a zero-knowledge manner).
-The prover and verifier run the protocol \(\ACproveSig\leftrightarrow \ACverifySig\) to prove the following:
+The prover and verifier run the protocol \(\Proto{\ACproveSig}{\ACverifySig}\) 
+to prove the following:
 \begin{equation*}
   \PK[k][\sigma' = \ACblind[\ACsign[_{sk}][k]]].
 \end{equation*}
 
 
-Finally, we need \iac{PRF}, \(\ACprf\), such that there exists a protocol \(\ACprovePRF\leftrightarrow \ACverifyPRF\) implementing the following 
-\ac{PK}:
+Finally, we need \iac{PRF}, \(\ACprf\), such that there exists a protocol 
+\(\Proto{\ACprovePRF}{\ACverifyPRF}\) implementing the following \ac{PK}:
 \begin{equation*}
   \PK[k][y = \ACprf[_k][x]].
 \end{equation*}
