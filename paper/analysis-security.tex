@@ -1,6 +1,11 @@
 \section{Security and privacy analysis}%
 \label{SecurityAnalysis}
 
+\sonja{including adversary model with different levels here for now as
+  it already contains some security analysis}
+\daniel{moved it to the top}
+\input{adversary-model.tex}
+
 \subsection{Individual and universal verifiability}%
 \label{analysis-individual}%
 \label{analysis-universal}
@@ -133,6 +138,3 @@ The probability of a colliding \(\pid = \ACprf[_\sk][\cid']\) for some \(\cid'
 If this occurs, Grace could link \(\cid\) (and thus the opinions in the manifesto) to Alice.
 
 \sonja{anonymity and cause unlinkability missing}
-\sonja{including adversary model with different levels here for now as
-  it already contains some security analysis}
-\include*{adversary-model}
