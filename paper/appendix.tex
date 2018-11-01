@@ -3,6 +3,24 @@
 \subsection{Specification of the distance-bounding protocol used by \PRIVO in Tamarin}
 \label{apdx:tamarin-spec}
 
+The results provided by Tamarin extends to the protocol being modeled 
+only up to the accuracy of the specification of protocol rules (and equational theory).
+Moreover, Tamarin specifications are not always able to reproduce a protocol precisely.
+Consequently, we provide below the full code of our specification and of the various properties we defined, and briefly explain our choices of modelization.
+
+The key point is that Tamarin only provides symbolic modeling, and as such does not work with actual values. The tool, for instance, has no notion of arithmetic, and the equations used in \cref{SchnorrFigure} cannot be modeled directly. However, in some cases, a user can work around this restriction by providing their own equational theory.
+
+The most significant choices we made include:
+\begin{itemize}
+	\item We represented the responses $s_i$ as the challenges $c_i$ encoded with the nonce $\rho$ and signed with the prover long-term secret key $\alpha$; this is faithful to the actual purpose of those values in the protocol, even though the concrete operations executed do not correspond exactly to an encoding and a signature. Indeed, $s_i$ includes $\alpha$ to authenticate the prover (signing), and $\rho$ to mask the actual value of $\alpha$ (encoding).
+	\item We used the chosen challenge $c_b$ directly instead of the flag $b$ to represent the choice of the verifier between the two challenge values; this is equivalent because Tamarin does not work with actual values so the size of those values does not matter, and this helps us for the next point.
+	\item Conversely to the first point, checking the equality $R = g^{s_b}.A^{c_b}$ is represented as decoding and verifying the signature of the response message $s_b$, which should return $c_b$, and then verifying the trivial equality that $c_b = c_b$, thanks to the previous point.
+	\item We ignored the secret sharing step; it is aimed at not leaking any information about the prover's secret key --not even the first $l$ bits--, which is not a property we are trying to formally prove with Tamarin here.
+	\item We represented the challenge/response as a single-round step; the multi-round process is designed to resist against probabilistic attacks where a dishonest prover simply guess the response values in advance, but this type of attacks isn't covered by Tamarin's model anyway.
+\end{itemize}
+
+Regarding the first point, Tamarin includes a built-in equational theory modeling the exponentiation rules used in Diffie-Hellman. Using that as a basis, it is possible to add a custom theory to represent addition and subtraction, and then use it to more accurately model the construction of the responses $s_i$, but this complexifies the specification a lot and we will not show it here.
+
 \begin{lstlisting}
 
 /* Implementation of the DB protocol */
