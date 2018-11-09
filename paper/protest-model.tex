@@ -38,9 +38,10 @@ More specifically, we will use the following definition.
 
 \begin{definition}[Subprotest, Protest]\label{DefProtest}
   A \emph{subprotest} is a tuple \((\cid, t, l)\) in which \(\cid\in 
-    \ZZ_{2^\lambda}\), for some fixed \(\lambda\in \NN\), is the identifier of 
+    \bin^{\lambda}\), for some fixed \(\lambda\in \NN\), is the identifier of 
   the cause of the protest,
-  \(t \subseteq \RR\) is a time period and \(l \subseteq \RR^2\) is the location (the topological connectedness is not necessary).
+  \(t \subseteq \TT\) is a time period and \(l \subseteq \LL\) is the location 
+  (the topological connectedness is not necessary).
   A \emph{protest} is the set of subprotests sharing the same \(\cid\).
 \end{definition}
 
@@ -73,6 +74,13 @@ The participation proof and its proof shares are stored as a set.
   We define \(\pshs\) as the set of all proof shares.
 \end{definition}
 
+We will use the following notation to filter out a subset of \(\pshs\) with 
+specific \(\cid\)s and \(\pid\)s:
+\begin{multline*}
+  \pshs_{\cid_0, \pid_0} = \\
+  \{(\cid, t, l, \pid, \wid)\in \pshs\mid \cid = \cid_0 \land \pid = \pid_0\}.
+\end{multline*}
+
 A subset of the proof shares forms a participation proof for a protester.
 
 % proof
@@ -82,12 +90,12 @@ A subset of the proof shares forms a participation proof for a protester.
   A \emph{participation proof} of a protester with pseudonym \(\pid\) who 
   participates in a protest \(\prtst\) with cause identifier \(\cid\) is the 
   set
-  \begin{multline}
+  \begin{equation}
     \nonumber
     \prf_{\pid, \prtst} =
-    \left\{ \psh = (\cid, t, l, \pid, \wid)\in \pshs \mid
-      \exists \sprtst\in \prtst\colon \psh\sqsubseteq \sprtst \right\}
-  \end{multline}
+    \left\{ \psh \in \pshs_{\cid, \pid} \mid
+      \exists \sprtst\in \prtst\colon \psh\sqsubseteq \sprtst \right\},
+  \end{equation}
   of all proof shares with the same protester and protest identifiers, time 
   interval \(t\) and location \(l\) within those of the protest (\ie any 
   subprotest).
