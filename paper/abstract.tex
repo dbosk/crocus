@@ -1,10 +1,16 @@
 \begin{abstract}
+  % Douglas: the abstract is too long
 % What's the problem?
-The problem of participation estimation is a fundamental democratic issue in the context of physical protests or demonstrations.  
-There, the number of participants reflects the strength of the support or at least the interest of the society towards the topic of the protest.
+The problem of participation estimation is a fundamental democratic issue in 
+the context of physical protests or demonstrations.  There, the number of 
+participants reflects the strength of the support or at least the interest of 
+the society in the topic of the protest.
 % Why is it a problem?
-Current methods for crowd counting have wide margins for error in addition to being generally quite privacy-invasive.
-Moreover, the organizers of the protest may be tempted to cheat by inflating the number of participants as much as possible whereas it is in the government's interest to do the opposite if the protest is directed against it.                                                                                  
+Current methods for crowd counting have wide margins for error in addition to 
+being privacy-invasive.
+Moreover, the organizers of a protest may be tempted to cheat by inflating the 
+number of participants as much as possible whereas it is in the other parties' 
+interest to do the opposite if the protest is directed against it.                                                                                  
 % What's the approach?
 In this paper, we propose a novel approach to this problem, called \PRIVO, which combines location proofs (using distance-bounding anonymous credentials) with some properties of electronic voting to provide verifiable yet privacy-preserving participation estimation.
 Since parties have incentives to cheat, transparency is a fundamental requirement that we achieve through a decentralized scheme providing both verifiability and privacy.
@@ -13,7 +19,12 @@ In \PRIVO, each participant creates a participation proof with the collaboration
 %Seb: verify in the mention of the blockchain is coherent with the rest of the paper
 A public ledger is then used to commit and timestamp the participation proofs, which essentially consist of location proofs in which a privacy-preserving distance-bounding protocol is used by participants to prove their proximity to witnesses.
 % What's the result?
-Our scheme provides individual verifiability, which means that each participant can verify that their participation has been included in the final count--- to prevent the regime in place from dropping data --- and universal and eligibility verifiability, in the sense that anyone can verify the correctness of the result, to prevent any malicious actor (\eg Sybil attack) from affecting the result. 
+Our scheme provides individual verifiability, which means that each participant 
+can verify that their participation has been included in the final count --- to 
+prevent the regime in place from dropping data --- and universal and 
+eligibility verifiability, in the sense that anyone can verify the correctness 
+of the result, to prevent any malicious actor (\eg Sybil attack) from affecting 
+the result. 
 %Seb: we need to be careful about how we formulate the following sentence
 %Our scheme provides these verifiability properties in a privacy-preserving manner in the sense that it adds no risk to a participant that was not already present when not using our scheme. 
 \end{abstract}
