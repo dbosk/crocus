@@ -19,9 +19,7 @@ We also have the Venezuelan demonstrations in 2017 in which \blockcquote{2017Ven
 \blockcquote{AlJazeeraOnVenezuela2017}{%
   pro-government workers sang and danced as they staged a rival march to show their support for the president's controversial plan to rewrite the constitution%
 }.
-Generalizing from these examples, the minimal common part is the 
-cause,\label{CauseIsTheCommonDenominator} while the location (or area) 
-considered varies over time.
+Generalizing from these examples, the minimal common part is the cause,\label{CauseIsTheCommonDenominator} while the location (or area) considered varies over time.
 
 For the rest of the paper, we will refer to the organizer as Alice.
 We assume that the objective of Alice is to count everyone who participated at any time and in any of the locations~\cite{2016DemonstrationsInSeoul} %\sonja{commented out for
@@ -37,11 +35,7 @@ More specifically, we will use the following definition.
 % subprotest
 
 \begin{definition}[Subprotest, Protest]\label{DefProtest}
-  A \emph{subprotest} is a tuple \((\cid, t, l)\) in which \(\cid\in 
-    \bin^{\lambda}\), for some fixed \(\lambda\in \NN\), is the identifier of 
-  the cause of the protest,
-  \(t \subseteq \TT\) is a time period and \(l \subseteq \LL\) is the location 
-  (the topological connectedness is not necessary).
+  A \emph{subprotest} is a tuple \((\cid, t, l)\) in which \(\cid\in \bin^{\lambda}\), for some fixed \(\lambda\in \NN\), is the identifier of the cause of the protest, \(t \subseteq \TT\) is a time period and \(l \subseteq \LL\) is the location (the topological connectedness is not necessary).
   A \emph{protest} is the set of subprotests sharing the same \(\cid\).
 \end{definition}
 
@@ -74,8 +68,7 @@ The participation proof and its proof shares are stored as a set.
   We define \(\pshs\) as the set of all proof shares.
 \end{definition}
 
-We will use the following notation to filter out a subset of \(\pshs\) with 
-specific \(\cid\)s and \(\pid\)s:
+We will use the following notation to filter out a subset of \(\pshs\) with specific \(\cid\)s and \(\pid\)s:
 \begin{multline*}
   \pshs_{\cid_0, \pid_0} = \\
   \{(\cid, t, l, \pid, \wid)\in \pshs\mid \cid = \cid_0 \land \pid = \pid_0\}.
@@ -87,8 +80,7 @@ A subset of the proof shares forms a participation proof for a protester.
 % proofs
 \begin{definition}[Participation proof]%
   \label{DefParticipationProof}\label{DefParticipationProofs}
-  A \emph{participation proof} of a protester with pseudonym \(\pid\) who 
-  participates in a protest \(\prtst\) with cause identifier \(\cid\) is the 
+  A \emph{participation proof} of a protester with pseudonym \(\pid\) who participates in a protest \(\prtst\) with cause identifier \(\cid\) is the 
   set
   \begin{equation}
     \nonumber
@@ -96,9 +88,7 @@ A subset of the proof shares forms a participation proof for a protester.
     \left\{ \psh \in \pshs_{\cid, \pid} \mid
       \exists \sprtst\in \prtst\colon \psh\sqsubseteq \sprtst \right\},
   \end{equation}
-  of all proof shares with the same protester and protest identifiers, time 
-  interval \(t\) and location \(l\) within those of the protest (\ie any 
-  subprotest).
+  of all proof shares with the same protester and protest identifiers, time interval \(t\) and location \(l\) within those of the protest (\ie any subprotest).
   We denote by \(\prfs\) the set of all proofs.
 \end{definition}
 
