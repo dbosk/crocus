@@ -2,34 +2,66 @@
 \label{analysis-individual}%
 \label{analysis-universal}
 
-\Cref{IndividualVerif} requires that Alice and Bob, as participants, can verify that their participation proofs (\ie proof shares) are indeed included in the count computed.
-All proof shares (\ie \(\cid, \pid, \wid, t_s, t_s', t_e, t_e', l, \pi_\pid, \pi_{\wid}\)) are committed to the blockchain and available from a public and permanent storage (see \cref{fig:ProtocolOverview}).
-Thus, Alice and Bob can simply check that all of their proof shares are indeed there and the security of individual verifiability depends on the properties of the blockchain and storage.
+\Cref{IndividualVerif} requires that Alice and Bob, as participants, can verify 
+that their participation proofs (\ie proof shares) are indeed included in the 
+computed count.
+All proof shares (\ie \(\prf_{\pid, \prtst} = (\cid, \pid, \wid, t_s, t_s', 
+  t_e, t_e', l, \pi_\pid, \pi_{\wid})\)) are committed to the ledger and 
+available from a public and permanent storage (see 
+\cref{fig:ProtocolOverview}).
+Thus, Alice and Bob can simply check that all of their proof shares are indeed 
+there and the security of individual verifiability depends on the properties of 
+the ledger and storage (\(\TS\), \cref{timestamp}).
+(As these are the main properties of distributed ledgers, we do not elaborate 
+further.)
 
-\Cref{UniversalVerif}  includes that anyone can check the result and that all participation proofs counted are legitimate.
+\Cref{UniversalVerif} includes that anyone can check the result and that all 
+participation proofs counted are legitimate.
 As the proof shares are committed and stored publicly, anyone can
 download them, verify eligibility (\ie verify \(\pi_\pid,
 \pi_{\wid}\)) of the proofs and count them.
-As for individual verifiability, the security of universal verifiability is reduced to the properties of the blockchain and storage but also the eligibility verification, which we will discuss next.
+As for individual verifiability, the security of universal verifiability is 
+reduced to the properties of the ledger and storage; but universal 
+verifiability also depends on the eligibility verification, which we will 
+discuss next.
 
 \subsection{Eligibility verifiability}%
 \label{analysis-eligibility}
 
 \Cref{EligibilityVerif} states that anyone must be able to determine the authenticity of the relevant attributes of the data.
-In \PRIVO, we have several attributes that must be verifiable: the time of creation (\ie, temporal eligibility), the physical location of \(\sk_P\) at creation (\ie, spatial eligibility), recognition of two proofs originating from the same person (\ie, one-proof-per-person eligibility) and that the proof is indeed designated for the event (\ie, designated-event eligibility).
+In \PRIVO, we have several attributes that must be verifiable: the time of 
+creation (\ie, temporal eligibility, \cref{TemporallyRelated}), the physical 
+location of \(\sk_P\) at creation (\ie, spatial eligibility, 
+\cref{SpatiallyRelated}), recognition of two proofs originating from the same 
+person (\ie, one-proof-per-person eligibility, \cref{CountOnce}) and that the 
+proof is indeed designated for the event (\ie, designated-event eligibility, 
+\cref{DesignatedEvent}).
 We will now analyze these properties.
 
 \paragraph{Temporal eligibility}%
 \label{analysis-temporal}
 
-\Cref{TemporallyRelated} ensures freshness, as Alice cannot simply resubmit an old proof as a new one.
-In general, freshness requires the prover to respond to an unpredictable challenge.
-The challenge here is to include the hash value at the head of the blockchain at the time of the proof's creation (included as \(t_s\) and \(t_s'\) in the proof share).
-As it is the case in the construction of blockchains, the hash value at the head depends on the previous blocks in the chain.
+\Cref{TemporallyRelated} ensures freshness, as Alice cannot simply resubmit an 
+old proof as a new one or create a proof in advance.
+
+In general, to prevent replays, Alice must respond to an unpredictable 
+challenge.
+The challenge here is the hash value of the head block of the ledger at the 
+time of the proof's creation (\(\TSget\)).
+The response is simply the challenge itself and is included as \(t_s\) and 
+\(t_s'\) in the proof share (see \cref{fig:ProofFig}).
+
+As it is the case in the construction of blockchains, the hash value at the 
+head depends on the previous blocks in the chain.
 Thus, the predictability of \(t_s\) depends on the predictability of the blocks, which depends on the predictability of the transactions and the nonce needed by the miner.
-In turn, the transactions depend on the signatures made by the signing keys corresponding to the used transactions.
+In turn, the transactions depend on the signatures made by the signing keys 
+corresponding to the used transactions --- which depends on uniformly random 
+nonces.
 If these were predictable, the adversary could conduct arbitrary transactions in the blockchain --- which is assumed to be hard by design.
 Thus, Alice can predict \(t_s\) only with negligible probability, as \(t_s\) must have been published on the blockchain before being included in her proof share.
+
+Also, the correctness of the challenge must be verifiable by any verifier 
+(\(\TStime\)).
 
 According to \cref{TemporallyRelated}, we must also prove that a proof share has not been created after a certain time.
 Otherwise, Grace could argue that the proof share was created after the protest, thus defeating the purpose of our protocol.
