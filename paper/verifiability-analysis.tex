@@ -1,11 +1,3 @@
-\section{Security and privacy analysis}%
-\label{SecurityAnalysis}
-
-\sonja{including adversary model with different levels here for now as
-  it already contains some security analysis}
-\daniel{moved it to the top}
-\input{adversary-model.tex}
-
 \subsection{Individual and universal verifiability}%
 \label{analysis-individual}%
 \label{analysis-universal}
@@ -118,23 +110,3 @@ Thus, the verification process differs for the two types of proofs.
 %and thus solve same problem twice (once for \(pid'\) and once for \(\wid'\)).
 %
 
-\subsection{Privacy}
-
-We start with \cref{ProtestUnlink}, that Alice's proofs must be unlinkable across protests but linkable within one protest due to \cref{CountOnce}.
-It follows from the properties of \(\ACprf\) that \(\pid =  \ACprf[_{\sk_P}][\cid]\) and \(\pid' = \ACprf[_{\sk_P}][\cid']\) are unlinkable if \(\cid\neq \cid'\).
-
-Afterwards to get the property \cref{ProofUnlink}.
-Given \(\pid\), Grace cannot distinguish whether \(\pid = \ACprf[_{\sk_A}][\cid]\), \(\pid = \ACprf[_{\sk_A}][\cid']\) or \(\pid = \ACprf[_{\sk_B}][\cid]\) due to the properties of \(\AC\).
-
-However, consider the situation in which the witness works for Grace.
-This witness interacts with Alice directly and might have (physically) identified her.
-The witness also learns Alice's \(\pid\), but not \(\cid\), to compute \(\wid\) and to verify the \ac{PPK}.
-\daniel{This assumes that I will do the changes to hide \(\cid\) from the witness in the \ac{PPK}.}
-Afterwards, Alice publishes \(\pid\) and \(\cid\) together as part of the proof 
-share.
-The probability of a colliding \(\pid = \ACprf[_\sk][\cid']\) for some \(\cid' 
-  \neq \cid\) and \(\sk \neq \sk_P\) is \enquote{small}.
-\daniel{Fix this.}
-If this occurs, Grace could link \(\cid\) (and thus the opinions in the manifesto) to Alice.
-
-\sonja{anonymity and cause unlinkability missing}
