@@ -15,7 +15,7 @@ For instance, someone could simply physically bring Alice to a protest against h
 Receipt freeness, while appealing at first glance, is not desirable in our context, as in contrast to voting, receipt freeness for \emph{how} the voter voted (\ie the cause of the protest) implies receipt freeness for \emph{that} the voter voted (\ie the protester was there), which conflicts with verifiability.
 \daniel{%
   No, that implication is not true, counter example:
-  There is receipt freeness for how a elector voted, but not that they voted.
+  There is receipt freeness for how an elector voted, but not that they voted.
   As Simon pointed out, they tick me off, so it's visible that I've voted.
   But no one will ever know for which party I voted.%
 }
@@ -102,11 +102,16 @@ Furthermore, if Grace has managed to link one proof to Alice due to some auxilia
 % As a consequence, this leaves us with with what would correspond to vote privacy.
 % In particular, we need unlinkability between Alice's long-term identity and Alice's participation proof.
 % \sonja{end older thoughts}
-Finally, any temporary identifiers such as pseudonyms should only be reused when strictly necessary for the fulfillment of verifiability properties listed in \label{verifiability-properties} to prevent inference on long-term identities by repeated samples and side information.
+Finally, any temporary identifiers such as pseudonyms should only be reused 
+when strictly necessary for the fulfillment of verifiability properties listed 
+in \cref{verifiability-properties} to prevent inference on long-term identities 
+by repeated samples and side information.
 
 We can thus summarize the desired privacy properties as follows:
 \begin{requirements}[P]
-\item\label{ProofUnlink} \emph{Proof Unlinkability (Anonymity)}: every participant's real (long-term) identity (\(P\)) must be unlinkable to their participation proofs \(\prf_{\pid, \prtst}\)
+\item\label{ProofUnlink} \emph{Proof Unlinkability (Anonymity)}: every 
+  participant's (protester and witness) real (long-term) identity (\(P\)) must 
+  be unlinkable to their participation proofs \(\prf_{\pid, \prtst}\)
 \item\label{ProtestUnlink} \emph{Protest Unlinkability}: protesters' participation proofs \(\prf_{\pid, \prtst}\) must be unlinkable between protests (\(\cid, \cid' \))
 \item\label{WitnessUnlink}\emph{Witness Unlinkability}:  witnesses' participation proof shares \(\psh = (\cid, t, l, \pid,\wid)\) must be unlinkable between protesters. (\(\pid, \pid' \))
 \end{requirements}
