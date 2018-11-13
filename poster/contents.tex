@@ -7,8 +7,10 @@
   \begin{column}{0.64\linewidth}
     \begin{center}
       \Huge\bfseries
-      Securely and Privately Verifiable Protests
+      From grassroots to CROCUS:\\[-0.25em]
+      privacy-preserving CROwd Counting Using Smartphones
     \end{center}
+    \vspace{0.25em}
     \begin{center}
       \large
       Daniel Bosk <dbosk@kth.se>
@@ -101,8 +103,6 @@
         \item This lower bound is cryptographically verifiable.
         \item Provides privacy based on anonymous credentials and 
           privacy-preserving proximity testing.
-        \item The only added risk (over not using this) is if someone can use 
-          your secret key.
         \item Requires only local connectivity during the protest.
         \item Requires no trust in the source (as in \cref{TrumpInauguration}), 
           only that IDs are issued correctly.
@@ -147,6 +147,11 @@
       \end{itemize}
     \end{purpleblock}
 
+%    \begin{block}{More info}
+%      \centering
+%      \includegraphics[width=0.4\linewidth]{qr.eps}
+%    \end{block}
+
   \end{column}
 
   \hfill
@@ -158,34 +163,32 @@
       \begin{itemize}
         \item The organizer publishes the protest's manifesto.
         \item Each protester reads it, approves it, computes a protest (cause) 
-          identifier (\(cid\)) to designate which protest they participate in.
-        \item Each protester computes a personal identifier (\(pid\)), 
+          identifier (\(\cid\)) to designate which protest they participate in.
+        \item Each protester computes a personal identifier (\(\pid\)), 
           unlinkable between protests,
-        \item Each protester acts as witness (\(wid\), unlinkable between 
-          protesters, \(wsig\)) for other protesters by creating 
-          participation-proof shares.
+        \item Each protester acts as witness (\(\wid\), unlinkable between 
+          protesters) for other protesters by creating participation-proof 
+          shares.
         \item Proof shares vouches for temporal and spatial eligibility.
-        \item A threshold-based number of valid shares is a valid proof.
       \end{itemize}
     \end{blackblock}
 
-    \begin{blackblock}{Our scheme, after the protest (bottom of 
-        \cref{Protocol})}
-      \begin{itemize}
-        \item Proof shares are committed to a blockchain as soon as possible.
-        \item \Ac{NIZK} proofs of correctness of \(PRF\) computations and 
-          validity of keys are submitted whenever convenient.
-        \item Anyone can verify the proofs: eligibility, universal and 
-          individual verifiability.
-        \item Must be done for all shares and their \ac{NIZK} proofs.
-        \item Count all \(pid\)s with valid proofs.
-      \end{itemize}
-    \end{blackblock}
-
-    \begin{block}{More info}
+    \begin{figure}
       \centering
-      \includegraphics[width=0.4\linewidth]{qr.eps}
-    \end{block}
+      \includegraphics[width=\linewidth]{proofshare.tikz}
+      \caption{\label{ProofShare}%
+        Structure of a proof share.
+        The protest (cause) identifier \(\cid\) is the hash value of the manifesto.
+        The protester \(P\)'s identifier \(\pid\) is computed using the 
+        protester's key \(\sk_P\) and \(\cid\).
+        The witness \(W\)'s identifier \(\wid\) is computed using the witness's 
+        key \(\sk_W\) and \(\pid\).
+        \(t_s, t_s'\) are the last heads of the blockchain seen by the 
+        protester and witness, respectively, and \(l\) is an area.
+        All values are signed by the witness while also proving the correctness 
+        of \(\wid\) and knowledge of a signature on \(\sk_W\).
+      }%
+    \end{figure}%
 
     \printbibliography[heading=none]
 
@@ -194,51 +197,73 @@
   \hfill
 
   \begin{column}{0.32\linewidth}
-    \begin{figure}
-      \centering
-      \includegraphics[width=\linewidth]{proofshare.tikz}
-      \caption{%
-        Structure of a proof share.
-        The protester \(P\)'s identifier \(pid\) is computed using the protester's 
-        key \(k_P\).
-        The witness \(W\)'s identifier \(wid\) is computed using the witness's key 
-        \(k_W\).
-        \(t_s\) is a time interval and \(l\) is the coordinates of an area.
-        The protest (cause) identifier \(cid\) is the hash value of the manifesto.
-      }%
-      \label{ProofShare}
-    \end{figure}%
+
+    \begin{blackblock}{Our scheme, after the protest (bottom of 
+        \cref{Protocol})}
+      \begin{itemize}
+        \item Proof shares are committed to a blockchain as soon as possible.
+        \item \Ac{NIZK} proofs of correctness (\(\prf_\pid, \prf_\wid\) in 
+          \cref{Protocol}) of \(\ACprf\) computations and knwoledge of a valid 
+          signature on the key are submitted whenever convenient.
+        \item Anyone can verify the proofs: eligibility, universal and 
+          individual verifiability.
+        \item Must be done for all shares and their \ac{NIZK} proofs.
+        \item Count all \(\pid\)s with valid proofs.
+      \end{itemize}
+    \end{blackblock}
 
     \begin{figure}
       \centering
       \begin{minipage}{\linewidth}
         \begin{align*}
           O\to \text{all}\colon & \text{manifesto} \\
-          P\colon & cid\gets H(\text{manifesto}), \\
-          & pid\gets PRF_{k_P}(cid) \\
-          P\to W\colon & pid \\
-          W\leftrightarrow P\colon & \text{perform distance bounding} \\
-          W\colon & wid\gets PRF_{k_W}(pid), \\
-          & wsig\gets PRF_{k_W}(wid, t_s, l) \\
-          W\to P\colon & (wid, t_s, l, wsig) \\[-1em]
-          && \text{during protest} \\ \midrule && \text{after protest} \\[-1em]
-          W\to S\colon & H(pid, wid, t_s, l, wsig) \\
-          P\to S\colon & H(pid, wid, t_s, l, wsig) \\
-          W\to S\colon & (pid, wid, t_s, l, wsig),\\
-          & NIZK( wid = PRF_{k_W}(pid), \\
-          & wsig = PRF_{k_W}(wid, t_s, l), \\
-          & \exists sign(k_W)) \\
-          P\to S\colon & (pid, wid, t_s, l, wsig),\\
-          & NIZK(pid = PRF_{k_P}(cid), \exists sign(k_P))
+          P\colon & t_s\gets \TSget \\
+          & \cid\gets \Hash[\text{manifesto}], \\
+          & \pid\gets \ACprf[_{\sk_P}][\cid] \\
+          W\colon & t_s'\gets \TSget
+          \\[-1em]
+          \noalign{\hfill Join}
+          \midrule
+          \noalign{\hfill Participation}
+          \\[-3em]
+          P\to W\colon & \pid \\
+          P\leftrightarrow W\colon &
+          \PPK\mleft\{ (\sk_P) : \mright. \\
+          & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
+          & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{\ssk}][\sk_P]] \mright\} 
+          \\
+          W\colon & \wid\gets \ACprf[_{\sk_W}][\pid] \\
+          W\to P\colon & (\wid, t_s', l)
+          \\[-1em]
+          \noalign{\hfill Participation}
+          \midrule
+          \noalign{\hfill Submission}
+          \\[-2em]
+          P\colon & t_e\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]] \\
+          W\colon & t_e'\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]] \\
+          W\to S\colon & (\pid, \wid, t_s, t_s', t_e, l, \pi_{\wid}),\quad 
+          \text{where} \\
+          & \pi_{\wid} = \SPK\mleft\{ (\sk_W) : \mright. \\
+          & \qquad \wid = \ACprf[_{\sk_W}][\pid], \\
+          & \qquad \mleft. \sigma_W' = \ACblind[\ACsign[_{\ssk}][\sk_W]]\mright\} 
+          \\
+          & \qquad\qquad (\pid, \wid, t_s, t_s', l) \\
+          P\to S\colon & (\cid, \pid, \wid, t_s, t_s', t_e, l, \pi_{\pid}),\quad 
+          \text{where}\\
+          & \pi_{\pid} = \SPK\mleft\{ (\sk_P) : \mright. \\
+          & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
+          & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{\ssk}][\sk_P]] \mright\} 
+          \\
+          & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l)
         \end{align*}
       \end{minipage}
-      \caption{%
-        An overview of message exchanges.
+      \caption{\label{Protocol}%
+        An overview of the Join, Participation and Submission phases of \PRIVO.\@
         The organizer \(O\) broadcasts the manifesto.
-        \(P\), \(W\) and their computations are as in \cref{ProofShare}.
-        Finally, both \(P\) and \(W\) submits the proof share to the storage \(S\).
+        The protester \(P\), witness \(W\) and their computations are as in 
+        \cref{ProofShare}.
+        Finally, both \(P\) and \(W\) submits the proof shares to a permanent storage \(S\).
       }%
-      \label{Protocol}
     \end{figure}
 
   \end{column}

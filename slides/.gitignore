@@ -5,7 +5,7 @@ crypto.bib
 ecurrency.bib
 location.bib
 protests.bib
-reputation.bib
+sybil.bib
 slides-short.pdf
 tposet.tikz
 voting.bib
@@ -19,4 +19,8 @@ ProtestVerif-join.png
 ProtestVerif-participating.png
 ProtestVerif-verified.png
 ProtestVerif-verifying.png
+trump.jpg
+map-with-dots.png
 
+preamble.tex
+revision.tex

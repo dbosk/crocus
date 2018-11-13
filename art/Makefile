@@ -5,12 +5,9 @@ PNGfromXCF+= 	ProtestVerif-endprotest.png
 PNGfromXCF+= 	ProtestVerif-verifying.png
 PNGfromXCF+= 	ProtestVerif-verified.png
 
+
 .PHONY: all
 all: ${PNGfromXCF}
-
-%.png: %.xcf
-	xcf2png $< -o $@
-	convert -trim $@ $@
 
 
 .PHONY: clean
@@ -24,3 +21,7 @@ clean:
 .PHONY: distclean
 distclean:
 	true
+
+
+INCLUDE_MAKEFILES=../makefiles
+include ${INCLUDE_MAKEFILES}/doc.mk

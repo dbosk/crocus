@@ -1,250 +1,140 @@
 \section{Security and privacy analysis}%
 \label{SecurityAnalysis}
 
-We will start by giving an overview of the protocol.
-We have a number of participants.
-We have a cothority who provide the storage in a decentralized manner.
-The cothority should consist of independent actors, preferably with conflicting 
-interests so that they will not collude.
-We have Alice the organizer and Bob the participant who are both protesters.
-We have the trustworthy journalist Jane who is present but not participating in 
-the protest.
-The protesters will witness each others participation proofs, \eg Alice will 
-witness Bob's proof and Bob will witness Alice's proof.
-The result of witnessing a proof is a proof share (essentially a witness 
-signature).
-Jane will also participate in witnessing the protesters' proofs.
-The witnessing is done through local interaction.
-As soon as Alice and Bob have departed from the protest they upload their proofs 
-(\ie all proof shares) to the cothority for indefinite storage.
-Since each proof consists of one proof share for each witness, each witness 
-could potentially upload the proof share themselves to the cothority.
-This would have the same effect but with added redundancy, in case Alice or Bob 
-cannot upload them themselves.
+\sonja{including adversary model with different levels here for now as
+  it already contains some security analysis}
+\daniel{moved it to the top}
+\input{adversary-model.tex}
 
-We will now describe the protocol in more details.
-We will describe it in the same order as outlined above:
-starting with the construction of the participation proof (shares) and 
-submitting the proof shares to storage.
-Then we will conclude with how to verify the proofs and produce the 
-participation count.
+\subsection{Individual and universal verifiability}%
+\label{analysis-individual}%
+\label{analysis-universal}
 
-\subsection{Constructing the participation-proof shares}
+\Cref{IndividualVerif} requires that Alice and Bob, as participants, can verify that their participation proofs (\ie proof shares) are indeed included in the count computed.
+All proof shares (\ie \(\cid, \pid, \wid, t_s, t_s', t_e, t_e', l, \pi_\pid, \pi_{\wid}\)) are committed to the blockchain and available from a public and permanent storage (see \cref{fig:ProtocolOverview}).
+Thus, Alice and Bob can simply check that all of their proof shares are indeed there and the security of individual verifiability depends on the properties of the blockchain and storage.
 
-An overview of the final structure of a proof is given in \cref{fig:ProofFig} 
-and an overview of the communication is given in \cref{fig:ProtocolOverview}.
+\Cref{UniversalVerif}  includes that anyone can check the result and that all participation proofs counted are legitimate.
+As the proof shares are committed and stored publicly, anyone can
+download them, verify eligibility (\ie verify \(\pi_\pid,
+\pi_{\wid}\)) of the proofs and count them.
+As for individual verifiability, the security of universal verifiability is reduced to the properties of the blockchain and storage but also the eligibility verification, which we will discuss next.
 
-\subsubsection{Linkability and designated protest}
+\subsection{Eligibility verifiability}%
+\label{analysis-eligibility}
 
-\Cref{CountOnce} is required to prevent Sybil attacks, \ie that one individual 
-can provide two participation proofs and thus be counted twice.
-That situation should be detectable.
-We can do this by ensuring that Alice cannot produce two valid proofs which
-are unlinkable.
-\Cref{DesignatedEvent} is to prevent Alice from reusing the same proof (or proof 
-share) for another event.
-\Eg there might be a counter protest at the same time and place, these would 
-have the same spatial and temporal properties.
-To distinguish them, we also need to prove for which of these events that a 
-proof is designated.
-The idea is to construct a unique identifier for a protest.
+\Cref{EligibilityVerif} states that anyone must be able to determine the authenticity of the relevant attributes of the data.
+In \PRIVO, we have several attributes that must be verifiable: the time of creation (\ie, temporal eligibility), the physical location of \(\sk_P\) at creation (\ie, spatial eligibility), recognition of two proofs originating from the same person (\ie, one-proof-per-person eligibility) and that the proof is indeed designated for the event (\ie, designated-event eligibility).
+We will now analyze these properties.
 
-We will start with the latter.
-The identifier of the protest must be regulated, for the same reasons as for the 
-user identifiers --- otherwise a counter-protest can simply choose the same 
-protest identifier.
-As was pointed out in \cref{CauseIsTheCommonDenominator}, the cause is at the 
-root of what defines a protest.
-The cause can be captured in some sort of \emph{manifesto}, thus, we will use 
-the hash value of the manifesto as identifier of the protest (cause).
-(As shown as manifesto and cause identifier \(cid\) in \cref{fig:ProofFig}.)
+\paragraph{Temporal eligibility}%
+\label{analysis-temporal}
 
-To practically propagate this identifier to the protesters the organizer can 
-have a placard with a large QR code that either contains the entire manifesto or 
-at least links to a website hosting the manifesto.
-The user can scan this QR code with a protesting app which will automatically 
-fetch it, show it to the protester for approval and then compute the identifier 
-\(cid\).
+\Cref{TemporallyRelated} ensures freshness, as Alice cannot simply resubmit an old proof as a new one.
+In general, freshness requires the prover to respond to an unpredictable challenge.
+The challenge here is to include the hash value at the head of the blockchain at the time of the proof's creation (included as \(t_s\) and \(t_s'\) in the proof share).
+As it is the case in the construction of blockchains, the hash value at the head depends on the previous blocks in the chain.
+Thus, the predictability of \(t_s\) depends on the predictability of the blocks, which depends on the predictability of the transactions and the nonce needed by the miner.
+In turn, the transactions depend on the signatures made by the signing keys corresponding to the used transactions.
+If these were predictable, the adversary could conduct arbitrary transactions in the blockchain --- which is assumed to be hard by design.
+Thus, Alice can predict \(t_s\) only with negligible probability, as \(t_s\) must have been published on the blockchain before being included in her proof share.
 
-Next we need to consider the protesters' identifiers to prevent Sybil attacks.
-\Citet{HowToWinTheCloneWars} created an \emph{interactive} credential system 
-which allows anonymous authentication at most \(n\) times\footnote{%
-  Possibly there is another scheme that makes it non-interactive, \eg by 
-  \citet{Psignatures}, see issue \#27.
-}, where \(n = 1\) in our scenario.
-Alice has \iac{PRF} key \(k\) and a blind signature on \(k\) included in her 
-national identity-card (by assumption).
-She will use \(k\) to compute \(pid\gets \ACprf[_k][cid]\), which is her 
-anonymous identity during the protest (shown as \(pid\) in \cref{fig:ProofFig}).
+According to \cref{TemporallyRelated}, we must also prove that a proof share has not been created after a certain time.
+Otherwise, Grace could argue that the proof share was created after the protest, thus defeating the purpose of our protocol.
+The hash values of the proof shares are committed to the blockchain, which means that there is a negligible probability that they were created after that.
+Alice would have to choose a value \(y\) in the domain of the hash function \(\Hash\) and then find a pre-image \(x\) such that \(y = \Hash[x]\) and \(x\) is a valid proof.
+If \(\Hash\) is collision resistant, finding \emph{any} preimage is hard.
 
-\subsubsection{Temporal eligibility, created after start}
+\paragraph{Linkability}%
+\label{analysis-linkability}
 
-Given the properties of the storage (in \cref{StorageProperties}), for 
-\cref{CreatedAfterStart}, each witness must include the hash value of an 
-existing block in the blockchain in each proof share (shown as \(t_s\) in 
-\cref{fig:ProofFig}).
-Then it is clear that the proof must have been created after that block (since 
-predicting such a value is hard).
-This value can either be provided to the witness by the protester or the witness 
-uses the value of the last known block.
+\Cref{CountOnce} is required to prevent Sybil attacks, in the sense
+that Alice cannot provide two (or more) participation proofs for a
+specific protest and thus be counted more than once.
+This possibility is prevented by the use of \(\pid\).
+Indeed to be counted twice, Alice must produce a \(\pid'\neq \pid\).
+Due to the deterministic property of \(\ACprf\), Alice must produce a new key \(\sk_P'\) and make the witness accept in the protocol
+\begin{multline*}
+\PK\mleft\{ (\sk_P') : \pid' = \ACprf[_{\sk_P'}][\cid] \quad \land \mright. \\
+    \sigma_P'' = \mleft. \ACblind[\ACsign[_{\ssk}][\sk_P']] \mright\}
+\end{multline*}
+while she does not know a valid signature on \(\sk_P'\).
+As a consequence, this is reduced to the security of the \(\AC\) scheme and how often Alice can get a valid signature on a secret key from the \ac{CA}.
 
-\subsubsection{Location proofs and spatial eligibility}
+\paragraph{Spatial eligibility}%
+\label{analysis-spatial}
 
-According to \cref{SpatiallyRelated} Alice and Bob must bind their proofs 
-(shares) spatially to the location, which would allow us to verify that they 
-were actually in that location.
-The role of the witnesses, \eg Jane, is to provide this property.
-Jane can do this by using a distance-bounding protocol to ensure that the secret 
-associated with Alice or Bob must be within limited physical distance.
+\Cref{SpatiallyRelated} is achieved by having a witness vouch anonymously that Alice was indeed on the location when the proof share was created.
+To realize this, we have to ensure that Alice cannot forge witness signatures, which is realized by using the same linkability mechanism as above.
+To forge a witness signature, Alice must produce a \(\wid'\) such that
+\begin{multline*}
+  \pi_{\wid'}\gets \SPK\left\{ (\sk_W') : \right. \\
+    \begin{aligned}
+      \wid' &= \ACprf[_{\sk_W'}][\pid] \quad \land \\
+      \sigma_W'' &= \left. \ACblind[\ACsign[_{\ssk}][\sk_W']] \right\}
+    \end{aligned} \\
+      (\pid, \wid', t_s, t_s', l),
+\end{multline*}
+while not knowing a signature on the secret key \(\sk_W'\).
+Thus, she must break the \(\AC\) scheme to succeed or get a valid signature on \(\sk_W'\) from the \ac{CA}.
+The latter could be done if she can find people willing to collude.
+However, due to the assumptions made in \cref{ProtocolVerification}, we either assume that we can trust (dedicated) witnesses or that Alice cannot collude with more than a threshold \(\theta\) of witnesses (of course these two approaches could be combined).
+Note that Alice can produce one witness signature for herself, since she has access to her own \(\sk_P\), but no more.
 
-Alice will send her \(pid\) to Jane to start the witness protocol.
-Then they do the distance bounding \dots
-[See issue \#22 for the discussion.]
-If Jane is convinced that Alice's secret is within the desired proximity, she 
-will compute her witness identifier \(wid\) and witness signature \(wsig\) and 
-send them to Alice.
+\paragraph{Designated protest}%
+\label{analysis-designated}
 
-\subsubsection{Temporal eligibility, created before end}
+\Cref{DesignatedEvent} is to prevent Alice (or someone else) from reusing the same proof (or proof share) for another event.
+This possibility is prevented through the use of \(\cid\) in the proof shares.
+To reuse the proof share for another protest, with a different manifesto, one must find a second preimage \(\mfst'\) such that \(\cid = \Hash[\mfst] = \Hash[\mfst']\).
 
-The proofs (shares) can be submitted to storage in two steps:
-first, committing them to the blockchain; second, to submit all the required 
-data.
-This will allow some time for computing all the required \ac{NIZK} proofs 
-(discussed in the following section).
+There exists another case of collision that we must prevent.
+Consider the situation in which Alice computes \(\pid = \ACprf[_\sk][\cid]\) for some cause identifier \(\cid\) and some witnesses computes \(\wid_1, \dotsc, \wid_n\), with \(\wid_i = \ACprf[_{\sk_i}][\pid]\).
+Now, if Alice constructs a manifesto \(m\) such that \(\Hash[m] = \pid\), then \(\wid_1, \dotsc, \wid_n\) would be valid participant identifiers for the protest with manifesto \(m\).
+This means that we must separate the mechanisms used for participating and witnessing.
+The protocol achieves this by the fact that \[
+  \prf_{\wid} = \SPK[\sk_i][\dotsc][\pid, \wid, t_s, t_s', l]
+\]
+does not include \(\cid\) whereas \[
+  \prf_{\pid} = \SPK[\sk_i][\dotsc][\cid, \pid, \wid, t_s, t_s', l]
+\]
+does.
+Thus, the verification process differs for the two types of proofs.
+(An alternative approach would have been to compute them differently, for instance \(\pid = \AC[PRF]_{\sk}(x) = g_T^{1/(\sk+x)}\) but \(\wid = g_T^{1/(\sk+x+1)}\).)
 
-Given the properties of the storage system in \cref{StorageProperties}, 
-\cref{CreatedBeforeEnd} is straight-forward: once a proof share is created it 
-should be committed to the blockchain as soon as possible.
-Thus we can infer that a proof (or proof share) was created at the latest when 
-it was committed.
+%\paragraph{Forging proof shares}
+%
+%\daniel{This is work-in-progress.}
+%Alice can attempt to forge the full proof directly, \ie
+%\begin{multline*}
+%\pi_{\pid'} = \SPK\mleft\{ (\sk_P') : \mright. \\
+%  \begin{aligned}
+%    \pid' &= \ACprf[_{\sk_P'}][\cid], \\
+%    \sigma_P'' &= \mleft. \ACblind[\ACsign[_{\ssk}][\sk_P']] \mright\}
+%  \end{aligned} \\
+%    (\cid, \pid', \wid', t_s, t_s', l)
+%\end{multline*}
+%and consequently
+%and thus solve same problem twice (once for \(pid'\) and once for \(\wid'\)).
+%
 
-We note that there are at least two entities who know each proof share, the 
-protester and the witness.
-Alice and Bob simply commit their proofs (\ie all proof shares of their 
-proofs) to the blockchain as soon as possible after they have participated in 
-the protest.
-The witnesses do the same, they commit all the proof shares that they helped 
-create.
-(Shown in \cref{fig:ProtocolOverview}.)
+\subsection{Privacy}
 
-\subsection{Verifying the participation count}
+We start with \cref{ProtestUnlink}, that Alice's proofs must be unlinkable across protests but linkable within one protest due to \cref{CountOnce}.
+It follows from the properties of \(\ACprf\) that \(\pid =  \ACprf[_{\sk_P}][\cid]\) and \(\pid' = \ACprf[_{\sk_P}][\cid']\) are unlinkable if \(\cid\neq \cid'\).
 
-There are three parts to verifying the participation count.
-First, we must verify the eligibility of each proof, \ie of all its shares.
-Second, we must count these valid proofs.
-Third, each protester must check that their proof is indeed registered so that 
-it can be counted.
+Afterwards to get the property \cref{ProofUnlink}.
+Given \(\pid\), Grace cannot distinguish whether \(\pid = \ACprf[_{\sk_A}][\cid]\), \(\pid = \ACprf[_{\sk_A}][\cid']\) or \(\pid = \ACprf[_{\sk_B}][\cid]\) due to the properties of \(\AC\).
 
-\subsubsection{Eligibility and universal verifiability}
+However, consider the situation in which the witness works for Grace.
+This witness interacts with Alice directly and might have (physically) identified her.
+The witness also learns Alice's \(\pid\), but not \(\cid\), to compute \(\wid\) and to verify the \ac{PPK}.
+\daniel{This assumes that I will do the changes to hide \(\cid\) from the witness in the \ac{PPK}.}
+Afterwards, Alice publishes \(\pid\) and \(\cid\) together as part of the proof 
+share.
+The probability of a colliding \(\pid = \ACprf[_\sk][\cid']\) for some \(\cid' 
+  \neq \cid\) and \(\sk \neq \sk_P\) is \enquote{small}.
+\daniel{Fix this.}
+If this occurs, Grace could link \(\cid\) (and thus the opinions in the manifesto) to Alice.
 
-Universal verifiability (\cref{UniversalVerif}) means that anyone should be able 
-to count the valid proofs.
-To do this we must be able to verify the eligibility of a proof (\ie of all 
-its shares) and then count it if valid.
-To verify the eligibility of a proof share, we must verify that \(pid\), \(wid\) 
-and \(wsig\) are not just randomly generated numbers but they actually depend on 
-the keys \(k_P\) and \(k_W\) (as illustrated in \cref{fig:ProofFig}).
-We will do this with \ac{NIZK} proofs.
-We note that these proofs are not needed until the verification step after the 
-protest.
-Thus \(pid, wid, wsig\) can be used in the proof shares (and all computations 
-above) whereas their respective \ac{NIZK} proof can be computed and published 
-after the protest.
-
-Alice must provide \iac{NIZK} proof showing that \(pid = \ACprf[_{k_P}][cid]\) 
-and that she knows a signature by the identity authority on \(k_P\).
-\dots
-[Details of how to do this, or maybe that will be in \cref{BuildingBlocks}. See 
-issue \#27 for discussion.]
-
-In the same manner, each witness must also provide \iac{NIZK} proofs for \(wid = 
-  \ACprf[_{k_W}][pid]\) and \(wsig = \ACprf[_{k_W}][wid, t_s, l]\) as well as 
-that the witness knows a signature by the identity authority on \(k_W\).
-With these \ac{NIZK} proofs anyone can verify the validity, \ie the 
-eligibility, of the proof shares and thus also count them.
-
-\subsubsection{Individual verifiability and receipt freeness}
-
-The purpose of individual verifiability (\cref{IndividualVerif}) is to prevent 
-an adversary from dropping participation proofs.
-Thus each protester must verify that their own proof is indeed included.
-This can be accomplished as follows.
-After Alice commited to her proof (share) in the blockchain, she stores the hash 
-of the block.
-At a later time, she can still verify that the block is indeed still there.
-At this point, this hash value is the only thing she must store for individual 
-verifiability.
-
-More specifically, to achieve receipt freeness (\cref{ReceiptFreeness}) Alice 
-must remove her secret \ac{PRF} key, \(k_A\).
-With this key Grace can verify that Alice has submitted a proof by computing 
-\(pid'\gets \ACprf[_{k_A}][cid]\) and compare \(pid = pid'\).
-
-
-\subsection{Old}
-
-We note that Alice and Bob do not trust each other, for all they know one or the 
-other could be an agent of Grace the autocrat.
-\begin{itemize}
-  \item Grace the evil autocrat,
-  \item Mallory the foreign nation state, and finally
-\end{itemize}
-
-
-\subsection{Forging new proofs}
-
-It follows from the digital signatures used that proofs are difficult to forge.
-
-\subsection{Reusing participation proofs}
-
-We consider two ways of reusing participation proofs:
-\begin{enumerate}
-  \item Alice and Bob can reuse old proofs by modifying the identifiers.
-  \item Grace can reuse proofs by creating a manifesto which yields the same 
-    identifier as Alice's protest, then try to create new nodes in the 
-    \ac{tposet} that matches the ones used in the old proofs.
-\end{enumerate}
-We will now estimate the difficulty of both types of attacks.
-
-\subsubsection{Finding second preimages}
-
-Grace (possibly with Mallory's aid) wants to arrange a counter-protest.
-One way to get a higher participation count is to use the same identifier as 
-Alice's protest.
-Since the identifier for the protest is the hash value of the manifest, Grace 
-must find a second preimage for the hash function.
-
-% XXX Rephrase identifier problem as a game
-\begin{proposition}
-  Given \(x\) and \(H(x) = y\), the probability of finding an \(x'\) such that 
-  \(H(x') = y\) is \(\frac{1}{\lambda-1}\).
-\end{proposition}
-
-\begin{question}
-  What if we use a Merkle tree instead of only a hash, will that change the 
-  second preimage property?
-\end{question}
-
-Alice wants to arrange another protest against Grace.
-Her manifesto can remain the same, thus the protest identifier remains the 
-same.
-She wants to reuse some old proofs.
-The head value that are included in the proofs extend them too far back into 
-time.
-The digital signatures prevents her from changing them.
-So an alternative is to create nodes in the \ac{tposet} which has the same 
-hashes.
-
-\subsection{Spoofing locations}
-
-\subsubsection{Trust propagation for witnesses}
-
-\dots
-
-\subsection{Individual verifiability}
-
-Grace and Mallory have an incentive to lower the confidence in the result.
-One way they can do this is to say that the result does not contain all 
-participation proofs.
-Statements such as this should be proved: provide a valid but missing proof.
-
+\sonja{anonymity and cause unlinkability missing}

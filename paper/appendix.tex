@@ -1,0 +1,281 @@
+\appendix
+
+\subsection{Specification of the distance-bounding protocol used by \PRIVO in Tamarin}
+\label{apdx:tamarin-spec}
+
+The results provided by Tamarin extends to the protocol being modeled 
+only up to the accuracy of the specification of protocol rules (and equational theory).
+Moreover, Tamarin specifications are not always able to reproduce a protocol precisely.
+Consequently, we provide below the full code of our specification and of the various properties we defined, and briefly explain our choices of modelization.
+
+The key point is that Tamarin only provides symbolic modeling, and as such does not work with actual values. The tool, for instance, has no notion of arithmetic, and the equations used in \cref{SchnorrFigure} cannot be modeled directly. However, in some cases, a user can work around this restriction by providing their own equational theory.
+
+The most significant choices we made include:
+\begin{itemize}
+	\item We represented the responses $s_i$ as the challenges $c_i$ encoded with the nonce $\rho$ and signed with the prover long-term secret key $\alpha$; this is faithful to the actual purpose of those values in the protocol, even though the concrete operations executed do not correspond exactly to an encoding and a signature. Indeed, $s_i$ includes $\alpha$ to authenticate the prover (signing), and $\rho$ to mask the actual value of $\alpha$ (encoding).
+	\item We used the chosen challenge $c_b$ directly instead of the flag $b$ to represent the choice of the verifier between the two challenge values; this is equivalent because Tamarin does not work with actual values so the size of those values does not matter, and this helps us for the next point.
+	\item Conversely to the first point, checking the equality $R = g^{s_b}.A^{c_b}$ is represented as decoding and verifying the signature of the response message $s_b$, which should return $c_b$, and then verifying the trivial equality that $c_b = c_b$, thanks to the previous point.
+	\item We ignored the secret sharing step; it is aimed at not leaking any information about the prover's secret key --not even the first $l$ bits--, which is not a property we are trying to formally prove with Tamarin here.
+	\item We represented the challenge/response as a single-round step; the multi-round process is designed to resist against probabilistic attacks where a dishonest prover simply guess the response values in advance, but this type of attacks isn't covered by Tamarin's model anyway.
+\end{itemize}
+
+Regarding the first point, Tamarin includes a built-in equational theory modeling the exponentiation rules used in Diffie-Hellman. Using that as a basis, it is possible to add a custom theory to represent addition and subtraction, and then use it to more accurately model the construction of the responses $s_i$, but this complexifies the specification a lot and we will not show it here.
+
+\begin{lstlisting}
+
+/* Implementation of the DB protocol */
+/* Demonstrating the DB-secure property */
+
+theory crocusclean
+
+begin
+
+functions: adec/2, aenc/2, pk/1
+
+equations: adec(aenc(message, secretkey), 
+           pk(secretkey)) = message
+
+builtins: signing
+
+// -------- Tag Initialization --------- //
+
+rule Register_Keypair:
+[ Fr(~key) ]
+--[ Once($A), Prelim()]->
+[ !Pk($A, pk(~key)), !Ltk($A, ~key), 
+  Out( pk(~key) ), !Agent($A)
+  ]
+
+rule Corrupt_Agent:
+[ !Ltk($A, ltk) ]
+--[ Corrupt($A), Prelim() ]->
+[ Out(ltk), !CorruptAgent($A) ]
+
+rule Corrupt_Fast:
+[ !CorruptAgent($A), In(msg) ]
+--[ CAction($A), Action($A) ]->
+[ FastMsg(msg) ]
+
+
+// ------- Protocol Rules ---- //
+
+//1. Prover chose r, compute and send R
+//2. Verifier chooses two nonces c_0 and c_1,
+//   and sends them to Prover
+//3. Verifier chooses b = 0 or 1, 
+//   sends to Prover
+//4. Prover receives + encodes both c_i 
+//   with x and sign them with r
+//5. Prover receives b,
+//   sends back corresponding c
+//6. Verifier verifies the signature 
+//   and decodes the messsage, 
+//   checks it's the correct c
+
+
+// 1. Prover chose r, compute and send R
+
+rule Prover_1:
+[ !Agent($Prover) 
+, Fr(~r)
+]
+--[ ProverStart($Prover)
+, Action($Prover)
+]->
+[ ProverSess($Prover, ~r) 
+, Out( pk(~r) )
+]
+
+
+//2. Verifier chooses two nonces c_0 and c_1 
+//   and sends them to Prover
+
+rule Verifier_1:
+[ In( R ) 
+, Fr(~challenge0) , Fr(~challenge1)
+]
+--[ VerifierCommit( ~challenge0, ~challenge1 ) 
+, PreFastPhase( <~challenge0, ~challenge1> )
+]->
+[ VerifierSess(R, ~challenge0, ~challenge1) 
+, Out( <~challenge0, ~challenge1> )
+]
+
+
+//3. Verifier chooses b = c0 or c1, 
+//   and sends it to Prover
+
+rule Verifier_2:
+[ VerifierSess(R, c0, c1) 
+, Fr(~b) 
+]
+--[ Choose(c0, c1, ~b)
+, VerifierSelect(~b) 
+, StartFastPhase(c0, c1) 
+]->
+[ VerifierStartFast(R, c0, c1, ~b)
+, FastMsg( ~b ), Out( ~b ) 
+]
+
+
+//4. Prover receives and stores both c_i 
+
+rule Prover_2:
+[ ProverSess($Prover, r) 
+, In( <c0, c1> ) 
+]
+--[ ProverStore(c0, c1) 
+, ReadyFastPhase( c0, c1 ) 
+, Action($Prover)
+]->
+[ ProverStartFast( $Prover, r, c0, c1 ) 
+]
+
+
+//5. Prover receives b and sends it back
+//   encoded with x and signed with r
+
+rule Prover_3:
+let response = aenc{b, sign(b,x)}r
+in
+[ ProverStartFast( $Prover, r, c0, c1 ) 
+, FastMsg( b ) 
+, !Ltk( $Prover, x ) 
+]
+--[ Choose(c0,c1,b) 
+, ProverReply($Prover, c0, c1, b)
+, ReplyFastPhase(c0, c1, b)
+, Action($Prover)
+]->
+[ FastMsg( response ), Out( response ) 
+]
+
+//6. Verifier verifies the signature and 
+//   decodes the messsage,
+//   checks it's the correct c
+
+rule Verifier_3:
+let clear_text = adec( response, R )
+authentication = verify( 
+                   snd(clear_text),
+                   fst(clear_text),
+                   X
+                 )
+proof = fst(clear_text)
+in
+[ VerifierStartFast(R, c0, c1, b) 
+, FastMsg( response )
+, !Pk( $Prover, X )
+]
+--[ Eq(authentication, true), Eq(proof, b)
+, VerifierComplete($Prover, R, c0, c1, b) 
+, EndFastPhase(c0,c1,b)  
+]->
+[]
+
+
+// ----- Axioms ------- //
+
+restriction at_most_once:
+"
+All A #t1 #t2. Once(A)@t1 & Once(A)@t2 ==>
+(
+#t1 = #t2
+)
+"
+
+restriction equals:
+"
+All a b #t1. Eq(a,b)@t1 ==>
+(
+a = b
+)
+"
+// ----- Sanity Check Lemmas ----- //
+
+lemma verif1_exists:
+exists-trace
+"
+Ex c0 c1 #t. (
+VerifierCommit( c0, c1 )@t )
+"
+
+lemma prover2_exists:
+exists-trace
+"
+Ex Prover c0 c1 b #t. (
+ProverReply( Prover, c0, c1, b )  @t )
+"
+
+lemma startfast_exists:
+exists-trace
+"
+Ex c0 c1   #t. (
+StartFastPhase(c0, c1)@t
+) &
+not(Ex A #tc. Corrupt(A)@tc)
+"
+
+
+lemma endfast_exists:
+exists-trace
+"
+Ex c0 c1 b  #t. (
+EndFastPhase(c0, c1, b)@t
+) &
+not(Ex A #tc. Corrupt(A)@tc)
+"
+
+lemma end_exists:
+exists-trace
+"
+Ex P R c0 c1 b  #t. (
+VerifierComplete(P, R, c0, c1, b)@t
+) &
+not(Ex A #tc. Corrupt(A)@tc)
+"
+
+
+// ----- Security Lemmas ----- //
+
+lemma dbsec:
+// Whenever the verifier is complete EITHER:
+//  1) There exists t1, t2 and t3 such that
+//          The fast phase was between t1 and t3
+//          and prover did smthg btwn t1 and t3
+//          and verifier completed at/after the
+//          end of the fast phase
+//OR
+//  2) There exist times t5, t6 and t7 such that
+//        The fast phase was between t5 and t7
+//        and the prover P is dishonest
+//        and some dishonest agent did smthg 
+//        during the fast phase
+//        and the verifier completed at/after the
+//        end of the fast phase 
+"
+All P R c0 c1 b  #t. (
+VerifierComplete(P, R, c0, c1, b)@t ) ==>                   
+(                                                         
+Ex #t1 #t2 #t3. StartFastPhase( c0, c1 )@t1 &              
+Action(P)@t2 &                              
+EndFastPhase( c0, c1, b )@t3 &            
+(#t1 < #t2) &                               
+(#t2 < #t3) &                               
+( (#t3 < #t ) | (#t3 = #t) )
+)|
+(              
+Ex CAgent #t4 #t5 #t6 #t7.
+StartFastPhase( c0, c1 )@t5 &    
+EndFastPhase( c0, c1, b )@t7 & 
+Corrupt(P)@t4 &             
+CAction(CAgent)@t6 &             
+(#t5 < #t6)&                     
+(#t6 < #t7)&                     
+( (#t7 < #t) | (#t7 = #t) )      
+) 
+"
+
+end
+\end{lstlisting}
+
