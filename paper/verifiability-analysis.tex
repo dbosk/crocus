@@ -86,7 +86,11 @@ that Alice cannot provide two (or more) participation proofs for a
 specific protest and thus be counted more than once.
 This possibility is prevented by the use of \(\pid\).
 Indeed to be counted twice, Alice must produce a \(\pid'\neq \pid\).
-Due to the deterministic property of \(\ACprf\), Alice must produce a new key \(\sk_P'\) and make the witness accept in the protocol
+Due to the deterministic property of \(\ACprf\), Alice must produce a new key 
+\(\sk_P'\) such that the verifier\footnote{%
+  Here the verifier is either the witness during the distance bounding or the 
+  verifier who tries to verify the count.
+} accepts the proof
 \begin{multline*}
 \PK\mleft\{ (\sk_P') : \pid' = \ACprf[_{\sk_P'}][\cid] \quad \land \mright. \\
     \sigma_P'' = \mleft. \ACblind[\ACsign[_{\ssk}][\sk_P']] \mright\}
