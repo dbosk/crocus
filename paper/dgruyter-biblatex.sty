@@ -423,7 +423,7 @@
 \pagestyle{headings}
 \def\@authorwarning{\@latex@warning@no@line{No \noexpand\author given}}
 \def\publisherlogo#1{\gdef\@publisherlogo{#1}}
-  \gdef\@publisherlogo{dg-degruyter}
+  \gdef\@publisherlogo{sciendo-logo}
 \@ifclassloaded{article}
   {}
   {\def\distributionseries#1{\def\@distributionseries{#1}}
@@ -1311,7 +1311,7 @@
 \fi
 \newbox\dg@wordmark
 \AtBeginDocument{%
-  \sbox\dg@wordmark{\includegraphics[height=2.1mm]{\@publisherlogo}}}
+  \sbox\dg@wordmark{\includegraphics[height=4mm]{\@publisherlogo}}}
 \ifx\dgf@nts\@undefined
   \DeclareRobustCommand*\dg@barone{%
     \expandafter\ifdim\f@size\p@<10\p@\relax
@@ -1578,19 +1578,10 @@
 \edef\sidecaptionsep{\the\columnsep}
 \RequirePackage[figuresright]{rotating}
 \setlength\rotFPtop{0\p@ \@plus 1fil}
-\RequirePackage[hyphens]{url}
-\urlstyle{same}
-\RequirePackage[%
-  breaklinks
-  ,linktocpage
-  \ifx\m@de w ,bookmarks=false\fi,bookmarksnumbered
-  ,pdfborder={0 0 0}\ifx\m@de w,colorlinks\fi
-  \ifx\m@de p, draft\fi]{hyperref}
-\ifHy@draft\AtBeginDocument{\let\hyper@anchorstart\@gobble}\fi%fix hyperref-Bug
 %\RequirePackage[numbers,sort&compress]{natbib}
+%\setlength\bibhang\bibindent
 \RequirePackage[natbib,style=numeric-comp,maxbibnames=99]{biblatex}
 \defbibheading{bibliography}[\refname]{\section*{#1}}
-\setlength\bibhang\bibindent
 \def\bibfont{\sffamily\small\RaggedRight}
 \def\bibnumfmt#1{[#1]\hfill}
 %\@ifundefined{chapter}
@@ -1736,6 +1727,16 @@
     \crop[frame,noinfo]
   \fi
 \fi\fi
+\PassOptionsToPackage{hyphens}{url}
+\RequirePackage{url}
+\urlstyle{same}
+\RequirePackage[%
+  breaklinks
+  ,linktocpage
+  \ifx\m@de w ,bookmarks=false\fi,bookmarksnumbered
+  ,pdfborder={0 0 0}\ifx\m@de w,colorlinks\fi
+  \ifx\m@de p, draft\fi]{hyperref}
+\ifHy@draft\AtBeginDocument{\let\hyper@anchorstart\@gobble}\fi%fix hyperref-Bug
 \let\toclevel@contribution\toclevel@chapter
 \let\toclevel@author\toclevel@chapter
 \ifnum\pdfoutput=\z@
