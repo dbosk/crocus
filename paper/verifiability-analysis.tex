@@ -96,13 +96,17 @@ Due to the deterministic property of \(\ACprf\), Alice must produce a new key
     \sigma_P'' = \mleft. \ACblind[\ACsign[_{\ssk}][\sk_P']] \mright\}
 \end{multline*}
 while she does not know a valid signature on \(\sk_P'\).
-As a consequence, this is reduced to the security of the \(\AC\) scheme and how often Alice can get a valid signature on a secret key from the \ac{CA}.
+As a consequence, this is reduced to the security of the \(\AC\) scheme and how 
+often Alice can get a valid signature on a secret key from the \ac{CA} --- 
+either by requesting a new key, \eg request a new passport or ID-card, or 
+illicitly use someone else's.
 
 \paragraph{Spatial eligibility}%
 \label{analysis-spatial}
 
 \Cref{SpatiallyRelated} is achieved by having a witness vouch anonymously that Alice was indeed on the location when the proof share was created.
-To realize this, we have to ensure that Alice cannot forge witness signatures, which is realized by using the same linkability mechanism as above.
+To realize this, we must ensure that Alice cannot forge witness signatures, 
+which is realized by using the same linkability mechanism as above.
 To forge a witness signature, Alice must produce a \(\wid'\) such that
 \begin{multline*}
   \pi_{\wid'}\gets \SPK\left\{ (\sk_W') : \right. \\
@@ -112,11 +116,17 @@ To forge a witness signature, Alice must produce a \(\wid'\) such that
     \end{aligned} \\
       (\pid, \wid', t_s, t_s', l),
 \end{multline*}
-while not knowing a signature on the secret key \(\sk_W'\).
+is accepted by the verifier while not knowing a signature on the secret key 
+\(\sk_W'\).
 Thus, she must break the \(\AC\) scheme to succeed or get a valid signature on \(\sk_W'\) from the \ac{CA}.
-The latter could be done if she can find people willing to collude.
+As above, the latter could be done if she can find people willing to collude, 
+people unwilling to collude but she can illicitly use their keys anyway or 
+simply request new keys from the \ac{CA}.
+
 However, due to the assumptions made in \cref{ProtocolVerification}, we either assume that we can trust (dedicated) witnesses or that Alice cannot collude with more than a threshold \(\theta\) of witnesses (of course these two approaches could be combined).
-Note that Alice can produce one witness signature for herself, since she has access to her own \(\sk_P\), but no more.
+Note that Alice can produce \emph{one} witness signature for herself, since she 
+has access to her own \(\sk_P\), but no more.
+Thus, \(\theta > 1\) is a requirement in the trust-free case.
 
 \paragraph{Designated protest}%
 \label{analysis-designated}
