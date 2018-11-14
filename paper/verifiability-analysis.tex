@@ -133,7 +133,9 @@ Thus, \(\theta > 1\) is a requirement in the trust-free case.
 
 \Cref{DesignatedEvent} is to prevent Alice (or someone else) from reusing the same proof (or proof share) for another event.
 This possibility is prevented through the use of \(\cid\) in the proof shares.
-To reuse the proof share for another protest, with a different manifesto, one must find a second preimage \(\mfst'\) such that \(\cid = \Hash[\mfst] = \Hash[\mfst']\).
+To reuse the proof share for another protest, with a different manifesto, one 
+must find a second pre-image \(\mfst'\) such that \(\cid = \Hash[\mfst] = 
+  \Hash[\mfst']\).
 
 There exists another case of collision that we must prevent.
 Consider the situation in which Alice computes \(\pid = \ACprf[_\sk][\cid]\) for some cause identifier \(\cid\) and some witnesses computes \(\wid_1, \dotsc, \wid_n\), with \(\wid_i = \ACprf[_{\sk_i}][\pid]\).
@@ -147,7 +149,9 @@ does not include \(\cid\) whereas \[
 \]
 does.
 Thus, the verification process differs for the two types of proofs.
-(An alternative approach would have been to compute them differently, for instance \(\pid = \AC[PRF]_{\sk}(x) = g_T^{1/(\sk+x)}\) but \(\wid = g_T^{1/(\sk+x+1)}\).)
+(An alternative approach would have been to compute them differently, for 
+instance \(\pid = \AC[PRF]_{\sk}(x)\) but \(\wid = \AC*[PRF]_{\sk}(x)\), where 
+\(\AC \neq \AC*\) are separate anonymous-credential systems.)
 
 %\paragraph{Forging proof shares}
 %
