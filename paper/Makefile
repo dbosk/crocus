@@ -1,7 +1,6 @@
 .PHONY: all
 all: paper.pdf
 
-paper.pdf: popets
 paper.pdf: paper.tex
 paper.pdf: preamble.tex preamble-paper.tex
 
