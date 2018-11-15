@@ -16,13 +16,14 @@ SRC+=	privacy-properties.tex
 SRC+=	related-work.tex
 SRC+= 	building-blocks.tex
 SRC+= 	ZKPK.tex
-SRC+= 	distance-bounding.tex anon-cred.tex DB-anon-cred.tex
+SRC+= 	distance-bounding.tex anon-cred.tex
+#SRC+= 	DB-anon-cred.tex
 SRC+= 	location-proofs.tex timestamp.tex
 SRC+= 	protocol.tex
 SRC+=	analysis-security.tex analysis-performance.tex
 SRC+= 	discussion.tex
 SRC+=	conclusions.tex
-SRC+=	appendix.tex
+#SRC+=	tamarin-spec.tex
 
 paper.pdf: ${SRC}
 
