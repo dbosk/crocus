@@ -1,8 +1,8 @@
-\section{\PRIVO:\@ A protocol for crowd counting estimation}%
+\section{\CROCUS:\@ A protocol for crowd counting estimation}%
 \label{Protocol}
 
 
-We now present \PRIVO, a protocol for securely and privately verifying crowd counts.
+We now present \CROCUS, a protocol for securely and privately verifying crowd counts.
 The protocol consists of five phases: setup, join, participation, submission and verification phases.
 The setup is described in \cref{ProtocolSetup}.
 The join, participation and submission phases are detailed in \cref{ProtocolDuring}.
@@ -38,7 +38,7 @@ The setup phase is only run once and is the same as in Anon-Pass~\cite{AnonPass}
 More precisely, we have simply adapted their description to our notation, but otherwise we have the setting as similar as possible.
 
 
-\emph{Setup: \((\spk, \ssk)\gets \PRIVOsetup\).}
+\emph{Setup: \((\spk, \ssk)\gets \CROCUSsetup\).}
 During the setup phase, the \ac{CA} creates all the needed keys.
 First, the \ac{CA} generates a service public-private key-pair \((\spk, \ssk)\) as follows.
 Let \(G = \gen g\) be a group with generator \(g\) and of prime order \(q\).
@@ -51,7 +51,7 @@ The service public key is set to \(\spk = (q, G, G_T, g, X, Y, Z)\) and the serv
 
 
 \emph{Registration: \(\sk\gets 
-    \Proto{\PRIVOreg[_P][\spk]}{\PRIVOreg[_{\CA}][\ssk]}\).}
+    \Proto{\CROCUSreg[_P][\spk]}{\CROCUSreg[_{\CA}][\ssk]}\).}
 During the registration phase, each participant generates a secret key and 
 obtains a signature on it by the \ac{CA} but without revealing it to the 
 \ac{CA}.
@@ -95,7 +95,7 @@ If they agree on the cause, they will use the knowledge of the manifesto to join
 
 
 \emph{Joining as a protester: \((\pid, t_s)\gets 
-    \PRIVOjoin[_P][\text{manifesto}]\).}
+    \CROCUSjoin[_P][\text{manifesto}]\).}
 A protester who wants to join the protest will use the manifesto to compute an identifier for the cause by hashing the manifesto, \(\cid\gets \Hash[\mfst]\).
 Afterwards, this identifier is used to create the protest-specific identifier 
 for the protester, \(\pid\gets \ACprf[_{\sk_P}][\cid]\) (in 
@@ -171,7 +171,7 @@ The protester should also receive a time-correlated random value from the time-s
     \end{align*}
   \end{minipage}
   \caption{%
-    An overview of the Join, Participation and Submission phases of \PRIVO.\@
+    An overview of the Join, Participation and Submission phases of \CROCUS.\@
     The organizer \(O\) broadcasts the manifesto.
     The protester \(P\), witness \(W\) and their computations are as in \cref{fig:ProofFig}.
     Finally, both \(P\) and \(W\) submit the proof shares to a
@@ -181,14 +181,14 @@ The protester should also receive a time-correlated random value from the time-s
   \label{fig:ProtocolOverview}
 \end{figure}
 
-\emph{Joining as a witness: \(t_s'\gets \PRIVOjoin_W\).}
+\emph{Joining as a witness: \(t_s'\gets \CROCUSjoin_W\).}
 The witness should simply get a time-correlated random value from the time-stamping service, \(t_s'\gets \TSget\).
 Note that we do this for redundancy, the newest of \(t_s\) and \(t_s'\) will 
 set the start of the time interval of creation for the proof share.
 
 
 \emph{Participation: \(\pi\gets
-    \Proto{\PRIVOparticipate[\cid, \sk_P]}{\PRIVOwitness[\sk_W, \spk]}\),}
+    \Proto{\CROCUSparticipate[\cid, \sk_P]}{\CROCUSwitness[\sk_W, \spk]}\),}
 In the participation phase, the protester and the witness construct the proof share of the protester (\cref{fig:ProofFig}).
 The protester blinds his signature \(\sigma\) on his secret key by choosing \(r_1, r_2\rgets \ZZ_q^*\) and generates \(
   \tilde\sigma = (\tilde A = A^{r_1},
@@ -249,7 +249,7 @@ As a consequence, both the protester and the witness have the tuple \(\psh =
 protester (\cref{fig:ProofFig}).
 
 
-\emph{Submission: \(\psh_P\gets \PRIVOsubmit[_P][\cid, \pid, \wid, t_s, t_s',  l]\).}
+\emph{Submission: \(\psh_P\gets \CROCUSsubmit[_P][\cid, \pid, \wid, t_s, t_s',  l]\).}
 The participant should as soon as possible commit the proof-share data to the 
 time-stamping service and receive the proof of commitment, \(t_e\gets 
   \TSstamp[\Hash[\cid, \pid, \wid, t_s, t_s', l]]\).
@@ -267,7 +267,7 @@ More specifically,
 \end{multline*}
 Finally, the protester uploads the tuple \[  \psh_P = (\cid, \pid, \wid, t_s, t_s', t_e, l, \pi_{\pid})\] for permanent storage.
 
-\emph{Submission: \(\psh_W\gets \PRIVOsubmit[_W][\cid, \pid, \wid, t_s, t_s', 
+\emph{Submission: \(\psh_W\gets \CROCUSsubmit[_W][\cid, \pid, \wid, t_s, t_s', 
     l]\).}
 The witness should, just as the participant, commit the proof-share data to the 
 time-stamping service, \(t_e'\gets \TSstamp[\Hash[\cid, \pid, \wid, t_s, t_s', 
