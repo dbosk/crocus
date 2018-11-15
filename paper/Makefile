@@ -1,7 +1,6 @@
 .PHONY: all
 all: paper.pdf
 
-paper.pdf: popets
 paper.pdf: paper.tex
 paper.pdf: preamble.tex preamble-paper.tex
 
@@ -16,14 +15,13 @@ SRC+=	privacy-properties.tex
 SRC+=	related-work.tex
 SRC+= 	building-blocks.tex
 SRC+= 	ZKPK.tex
-SRC+= 	distance-bounding.tex anon-cred.tex
-#SRC+= 	DB-anon-cred.tex
+SRC+= 	distance-bounding.tex anon-cred.tex DB-anon-cred.tex
 SRC+= 	location-proofs.tex timestamp.tex
 SRC+= 	protocol.tex
 SRC+=	analysis-security.tex analysis-performance.tex
 SRC+= 	discussion.tex
 SRC+=	conclusions.tex
-#SRC+=	tamarin-spec.tex
+SRC+=	appendix.tex
 
 paper.pdf: ${SRC}
 
