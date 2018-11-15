@@ -24,10 +24,5 @@ There has been less work done in the domain of asymmetric (or public-key) \ac{DB
 Our setting requires a public-key \ac{DB} protocol with a \emph{malicious verifier} who will potentially try to \emph{impersonate the prover}.
 The verifier might also try to track the provers and map their identities to their actions, thus we also require privacy.
 This leads to the requirement of a \ac{DB} \ac{ZKPK}, or simply \ac{PPK}, with resistance to all the frauds mentioned above as well as against a verifier who will attempt to impersonate the prover.
-More specifically, we must combine such \iac{PPK} protocol with anonymous 
-credentials.
-The choice of the anonymous-credential system will affect the properties we 
-require of the \ac{PPK}, in particular, for the suggested instantiation it must 
-be \iac{PPK} for discrete logarithms.
-We do not know of any such protocol, but we have strong reasons to believe that 
-such protocols exists.
+More specifically, we must combine such \iac{DB} with anonymous credentials (which we do in \cref{DB-anon-cred}).
+The choice of the anonymous credential system will affect the properties we require of the \ac{PPK} (\eg that it must be \iac{PK} for discrete logarithms).
