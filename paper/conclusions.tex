@@ -1,11 +1,11 @@
 \section{Conclusion}%
 \label{Conclusion}
 
-In this paper, we have introduced \PRIVO, a privacy-preserving protocol for verifiably counting participants at protests. 
+In this paper, we have introduced \CROCUS, a privacy-preserving protocol for verifiably counting participants at protests. 
 Despite the verification, the privacy of the participants is preserved to the extent possible by their physical presence at the protest. 
 To achieve that, we adapted the Schnorr protocol to develop distance-bounding anonymous credentials. \sonja{Rephrase the following after we have requirements and results:
-Except for receipt freeness, which we cannot guarantee if the adversary gets access to Alice's device and secret PRF key after her participation has been witnessed and before she had a chance to delete it, \PRIVO fulfills all verification and privacy properties we derived from those of electronic voting complemented by the specific constraints on time and location required for protests. }
-With respect to privacy, \PRIVO provides anonymity (of participants)  and unlinkability (between protests) unless the adversary gets access to the private key/ID or has side information (she also needs the private key for proof of the cause (cid) supported by the protester, otherwise she does not learn more than without \PRIVO).
+Except for receipt freeness, which we cannot guarantee if the adversary gets access to Alice's device and secret PRF key after her participation has been witnessed and before she had a chance to delete it, \CROCUS fulfills all verification and privacy properties we derived from those of electronic voting complemented by the specific constraints on time and location required for protests. }
+With respect to privacy, \CROCUS provides anonymity (of participants)  and unlinkability (between protests) unless the adversary gets access to the private key/ID or has side information (she also needs the private key for proof of the cause (cid) supported by the protester, otherwise she does not learn more than without \CROCUS).
 
 Of separate interest, we have also built distance-bounding protocols for authenticating more general attributes than provided by previous \ac{DB} ones.
 All privacy-preserving \ac{DB} protocols have so far focused on identity-based authentication, but not authentication of general attributes, as is the case for anonymous credentials.
@@ -23,8 +23,8 @@ Moreover, if they provided individual verifiability, they would likely violate
 the privacy requirements --- if people must recognize themselves in photos, 
 others can recognize them too.
 Finally, most of the current methods are estimates, with quite some error margins. 
-While \PRIVO is an actual count and not an estimate, its accuracy for the total number of participants hinges on the participants having the necessary equipment (\ie, a smartphone or similar device), some sort of trustworthy credential, and the willingness to run the protocol. 
-Owing to the network effect, until used by most participants, \PRIVO would result in a considerable undercount. 
+While \CROCUS is an actual count and not an estimate, its accuracy for the total number of participants hinges on the participants having the necessary equipment (\ie, a smartphone or similar device), some sort of trustworthy credential, and the willingness to run the protocol. 
+Owing to the network effect, until used by most participants, \CROCUS would result in a considerable undercount. 
 However, it represents a first step toward accurate verifiable yet privacy-preserving crowd counting by showing how it can be done in theory at least and in practice once some assumptions concerning hardware and e-identities become more realistic. 
 While the necessary technologies are not yet available in most authoritarian regimes, some of them are in several democracies. We believe that it is important to implement systems such as ours also there to support the maintenance of democratic processes.
 

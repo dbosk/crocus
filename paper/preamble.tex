@@ -16,7 +16,7 @@
 
 \usepackage{csquotes}
 %\usepackage{acronym}
-\usepackage[natbib,style=numeric-comp,maxbibnames=99]{biblatex}
+\usepackage[natbib,style=ieee,maxnames=4,maxbibnames=99]{biblatex}
 \addbibresource{crypto.bib}
 \addbibresource{location.bib}
 \addbibresource{sybil.bib}
@@ -52,7 +52,7 @@
 
 \usepackage{amssymb}
 \usepackage{bibsp}
-\ProvideDocumentCommand{\PRIVO}{}{%
+\ProvideDocumentCommand{\CROCUS}{}{%
   CROCUS\xspace%
 }
 \ProvideDocumentCommand{\PPK}{o o}{\ensuremath{%
@@ -81,17 +81,17 @@
 \NewAlgorithm{\ACverifyPRF}{\AC.\!VerifyPRF}
 \NewAlgorithm{\Hash}{H}
 \NewAlgorithm{\algA}{A}
-\NewScheme{\PRIVOscheme}{PRIVO}
-\NewAlgorithm{\PRIVOsetup}{Setup}
+\NewScheme{\CROCUSscheme}{CROCUS}
+\NewAlgorithm{\CROCUSsetup}{Setup}
 \NewVariable{\sk}{sk}
 \NewVariable{\spk}{spk}
 \NewVariable{\ssk}{ssk}
-\NewAlgorithm{\PRIVOreg}{Reg}
-\NewAlgorithm{\PRIVOjoin}{Join}
+\NewAlgorithm{\CROCUSreg}{Reg}
+\NewAlgorithm{\CROCUSjoin}{Join}
 \NewVariable{\mfst}{manifesto}
-\NewAlgorithm{\PRIVOparticipate}{Prticip}
-\NewAlgorithm{\PRIVOwitness}{Witness}
-\NewAlgorithm{\PRIVOsubmit}{Submit}
+\NewAlgorithm{\CROCUSparticipate}{Prticip}
+\NewAlgorithm{\CROCUSwitness}{Witness}
+\NewAlgorithm{\CROCUSsubmit}{Submit}
 \NewScheme{\Psig}{Psig}
 \NewAlgorithm{\PSetup}{\Psig.\!Setup}
 \NewAlgorithm{\PCommit}{\Psig.\!Commit}
