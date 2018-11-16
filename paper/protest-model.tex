@@ -106,9 +106,12 @@ We can now define the participation count as follows.
   threshold \(\theta\).
 \end{definition}
 
-The strength function \(\str\) can be used to regulate the trust in the participation count estimated.
-One example would be for \(\str\) to return the number of unique witnesses and thus let \(\theta\) to be the threshold of the number of required witnesses.
+The strength function \(\str\) can be used to regulate the trust in the participation count estimated. In general, \(\str\) can be defined as a weighted sum of the proof shares, $\str = \sum \omega_i.s_i$, with the weights $\omega_i$ being the trust in the witness corresponding to that proof share $s_i$, and the threshold $\theta$ represents the total trust needed to accept a participant as valid.
+One example would be to set all weights to 1 for \(\str\) to return the number of unique witnesses and thus let \(\theta\) to be the threshold of the number of required witnesses.
 Another possibility would be to also have a particular type of witness, called \emph{trusted witness}, participating in the protest. 
 For instance, the role of the trusted witness could be taken by Jane, the independent journalist. 
-In this situation, the strength function could be defined with respect to the number of proof shares issued by trusted witnesses.
-Setting \(\theta = 1\) would require at least one proof share issued by a trusted witness.
+In this situation, the weights would be 1 for trusted witnesses and 0 for any other witness, and
+setting \(\theta = 1\) would require at least one proof share issued by a trusted witness.
+Finally, both approaches can be combined by giving a weight of 1 to all non-trusted witnesses and a weight of $\theta$ to trusted witnesses. This results in a participant being valid if they are witnessed either by $\theta$ non-trusted witness or by one trusted witness.
+
+\simon{check the notation in the weights formula is consistent, check that the description in section V corresponds}
