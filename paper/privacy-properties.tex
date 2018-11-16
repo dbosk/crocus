@@ -20,9 +20,14 @@ protest) implies receipt freeness for \emph{that} the voter voted (\ie the
 protester was there), which conflicts with verifiability.
 
 Thus, in our context the crucial property is therefore privacy.
-More precisely for the protester, we want unlinkability between a protester's real identity \(P\) and the cause identifier \(\cid\) against the adversary.
-Given a participation proof, Grace should not be able to distinguish if it belongs to Alice or Bob.
-Furthermore, if Grace has managed to link one proof to Alice due to some auxiliary knowledge, she should not be able to link it to another proof (\eg, from a different protest).
+More precisely, for the protester we want unlinkability (from the adversary's 
+perspective) between a protester's real identity \(P\) and the cause identifier 
+\(\cid\).
+Phrased differently, given a participation proof, Grace should not be able to 
+distinguish if it belongs to Alice or Bob.
+Furthermore, if Grace has managed to link one proof to Alice due to some 
+auxiliary knowledge, she should not be able to link it to another proof (\eg 
+from a different protest).
 
 %Seb: I have put it in comments to save on space
 %\sonja{removed for now: For the witness, we want unlinkability between a witness's identity \(W\) and a 
@@ -83,9 +88,10 @@ Furthermore, if Grace has managed to link one proof to Alice due to some auxilia
 % As a consequence, this leaves us with with what would correspond to vote privacy.
 % In particular, we need unlinkability between Alice's long-term identity and Alice's participation proof.
 % \sonja{end older thoughts}
-Finally, any temporary identifiers such as pseudonyms should only be reused 
-when strictly necessary for the fulfillment of verifiability properties listed 
-in \cref{verifiability-properties} to prevent inference on long-term identities 
+
+Finally, any temporary identifiers, such as pseudonyms, should only be reused 
+when strictly necessary for the fulfillment of verifiability properties (in 
+\cref{verifiability-properties}) to prevent inference on long-term identities 
 by repeated samples and side information.
 
 We can thus summarize the desired privacy properties as follows:
@@ -96,6 +102,14 @@ We can thus summarize the desired privacy properties as follows:
 \item\label{ProtestUnlink} \emph{Protest Unlinkability}: protesters' participation proofs \(\prf_{\pid, \prtst}\) must be unlinkable between protests (\(\cid, \cid' \))
 \item\label{WitnessUnlink}\emph{Witness Unlinkability}:  witnesses' participation proof shares \(\psh = (\cid, t, l, \pid,\wid)\) must be unlinkable between protesters. (\(\pid, \pid' \))
 \end{requirements}
+
+In light of these definitions, we note that \cref{CountOnce} can be rephrased 
+in terms of pseudonyms as follows:
+\begin{enumerate}
+  \item[V1.3.] \emph{Counted only once}:
+    A protester can create \emph{only one} pseudonym per protest, this 
+    pseudonym is unique except with negligible probability.
+\end{enumerate}
 
 %Seb: ok for me, I have put it in comment
 %\sonja{removed for now: As a result of these properties, if there are two protests in parallel (\eg, one against Grace's regime and one in favor) Alice can always argue to be part of the protest in Grace's favor instead of any protest against Grace.
