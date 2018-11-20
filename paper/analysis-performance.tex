@@ -1,22 +1,37 @@
 \section{Performance and implementation}
 \label{PerformanceAnalysis}
-\sonja{ Include evaluation environment, parameters, results, disclaimer about parts that cannot yet be implemented and evaluated because the hardware doesn't exist yet for DB on phones}
+\sonja{include evaluation environment, parameters, results, disclaimer about parts that cannot yet be implemented and evaluated because the hardware doesn't exist yet for DB on phones}
 
-\subsection{Smartphones, smartcards}
+\subsection{Smartphones and smartcards}
 Performance considerations are crucial during the protests due to the nature of the devices used to run \CROCUS, which are resource-constrained in terms of energy, storage and computational power, and are operating on limited network capacity. 
 Recent technological progress has enabled the deployment of advanced cryptographic primitives on smartcards and smartphones that could be used to implement our solution.
 For instance, benchmarks~\cite{Benchmarking} have shown that Android devices are now fast enough to efficiently implement Privacy Enhancing Technologies (PETs), with a Samsung Galaxy S i9000 being able to execute Idemix in \SI{153}{\milli\second}. 
 However, those benchmarks also demonstrate that smartcards remain slow to process complex protocols such as Idemix or U-Prove (taking between \SI{4}{\second} and \SI{8}{\second} to process them). 
 While the limited processing power of many embarked systems has been a challenge, Idemix has been successfully implemented to prove the possession of credentials on Java Cards by Bichsel and co-authors in 2009~\cite{Bichsel} and the IRMA project, released in 2014, aimed to achieve an implementation ``suitable for real life transactions''~\cite{IRMA} while maintaining security and privacy for its users. 
 
-% \subsection{Distance bounding anonymous credentials}
-% With respect to the distance-bounding protocol we have proposed, the initial prover phase can be split in two parts: (1) the setup phase during which $g$, $q$ and $\alpha$ are generated and $A$ is computed and (2) the online phase during which $\theta$ and $R$ are generated. The first step is only done once and is fairly costly in terms of ressources. 
-% This means that the best strategy is to precompute the corresponding results and to store them on the prover's device. 
-% This method is commonly found in Schnorr variants in order to save time on multiple instances of the protocol [1].
-%Seb: to do add the reference to the following paper at the end of the sentence:
-%[1] Chin, J. J., Tan, S. Y., Heng, S. H., & Phan, R. C. W. (2015). Twin-Schnorr: a security upgrade%for the schnorr identity-based identification scheme. The Scientific World Journal, 2015.Considering the entire setup of our protocol, we perform 7 random number generations (one of them being a single bit), two modular exponentiations ($A$ and $R$), two multiplications and two substractions (when computing $s_0$ and $s_1$). 
-% This can be reduced to 4 random number generations and one exponentiation using precomputation. The Anon-pass article [2] gives us a total time of 43,2 milliseconds of raw protocol operation time in order to create, sign and verify a given message (the registration phase), and then 21,4 mililseconds to login.
-%[2] Lee, M., Dunn, A., Katz, J., Waters, B., & Witchel, E. (2013). Anon-pass: Practical anonymous%subscriptions. IEEE Security & Privacy, (1), 1.
+With respect to its implementation, \CROCUS is actually very similar to Anon-Pass~\cite{AnonPass}, an anonymous subscription system in which a long-term credential can be used to derive a single login for any authentication window (\ie epoch) such that logins are unlinkable across different epochs. 
+In particular, the setup and registration phases are almost identical. 
+The evaluation conducted by the authors was using as server a Dell Optiplex 780s, which has a quad-core 2.66 GHz Intel Core 2 CPU, 8 GB of RAM and uses Ubuntu Linux 12.04 while the client was also simulated on a quad-core 2.66 GHz Intel Core 2 CPU but with only 4 GB of RAM.
+The elliptic pairing group used in Anon-Pass is a Type A symmetric pairing group with a 160-bit group order and 512-bit base field while the ECDSA signature uses a 160-bit key.
+This is typically the type of pairing that could also be used with \CROCUS.
+Not counting the setup that is performed once by the CA, the time reported for the registration on the server (\ie CA) side is 19.8 milliseconds while it is 23.4 milliseconds on the client side.
+With respect to joining and participation phases, with the exception of the distance-bounding they are actually quite similar to the login protocol of Anon-Pass in which the time required to create a message for a protester would be around 13.5 milliseconds while the time needed for the witness would be only 7.9 milliseconds.
+
+%\subsection{Distance-bounding anonymous credentials}
+%The distance-bounding chips\footnote{\url{https://www.3db-access.com}} currently available on the market can already enable proofs of proximity for any range of up to 200 meters.
+%One of the short-term objectives is to be able to integrate them in phones or smartcards in the near-future, and even phones with off-the-shelf hardware running in RFID-emulation mode have shown promising results.
+%For instance in~\cite{DBonSmartphones}, the authors have demonstrated that it is already possible to implement distance-bounding protocols as a standard Android application on existing smartphones. 
+%More precisely, they have proposed three different implementations of the Swiss-Knife protocol using 32 challenge-response rounds ranging from a basic implementation running a the application layer to an advanced one running in RFID-emulation mode. 
+%The results obtained already show that a relay attack can be detected if the adversary introduces a delay of more than 1.5 ms when performing such an attack (most of the existing attacks introduce delays of at least tens of milliseconds).
+%
+%With respect to the distance-bounding protocol we have proposed, the initial prover phase can be split in two parts: (1) the setup phase during which $g$, $q$ and $\alpha$ are generated and $A$ is computed and (2) the online phase during which $\theta$ and $R$ are generated. 
+%The first step is only done once and while being fairly costly in terms of ressources, the corresponding results can be precomputed and store them on the prover's device. 
+%This method is commonly found in Schnorr variants in order to save time on multiple instances of the protocol.
+%%Seb: to do add the reference to the following paper at the end of the sentence:
+%%[1] Chin, J. J., Tan, S. Y., Heng, S. H., & Phan, R. C. W. (2015). Twin-Schnorr: a security upgrade
+%%for the schnorr identity-based identification scheme. The Scientific World Journal, 2015.
+%Considering the entire setup of the DB protocol, it requires in its basic version to generate seven random numbers (one of them being a single bit), and also perform two modular exponentiations ($A$ and $R$), two multiplications and two substractions (when computing $s_0$ and $s_1$). 
+%However, this can be reduced to four random number generations and one exponentiation using precomputation.
 
 %\paragraph{Threshold of witnesses.}
 %Assume that every person has 5000 contacts in their contact book~\cite{DifficultyOfPrivateContactDiscovery}.
@@ -35,19 +50,24 @@ If we use trusted witnesses, each participant only needs to acquire one proof sh
 Thus, there will be 1\,000\,000 proof shares submitted to the blockchain in total.
 If we consider OmniLedger~\cite{OmniLedger}, which can do approximately 1500 transactions per second, it takes at least 11 minutes to process all the proof shares.
 
-If we do not use trusted witnesses, but a threshold \(\theta = 1000\), then it will take at least 7 days before all transactions are committed to the blockchain. While this already takes longer than counting votes in national elections, the threshold is still very low. Assume that every person has 5000 contacts in their contact book~\cite{DifficultyOfPrivateContactDiscovery}.
-If collusion were limited to participants that know each other, it could be reasonable to set the threshold of at least 6000 witnesses. In addition to the ledger computation, we need to consider the creation of the proof shares. \sonja{added the previous sentence to explain why anonpass shows up here. Shouldn't that be in the performance section? }
+If we do not use trusted witnesses, but instead a threshold \(\theta = 1000\), then it will take at least 7 days before all transactions are committed to the blockchain. 
+While this already takes longer than counting votes in national elections, the threshold is still very low. 
+Assume that every person has 5000 contacts in their contact book~\cite{DifficultyOfPrivateContactDiscovery}.
+If collusion were limited to participants that know each other, it could be reasonable to set the threshold of at least 6000 witnesses. 
+In addition to the ledger computation, we need to consider the creation of the proof shares. \sonja{added the previous sentence to explain why anonpass shows up here. Shouldn't that be in the performance section? }
+%Seb: I agree maybe we should move it to the previous subsection
 According to the Anon-Pass performance measures~\cite{AnonPass} each witness signature would require \SI{8}{\milli\second} per core on a quad-core Intel \SI{2.66}{\giga\hertz} Core 2 processors.
 This yields \(
   \SI{8}{\milli\second}\times 6000 = \SI{48000}{\milli\second} = 
   \SI{48}{\second}.
-\) of processing. For large groups organizing online to collectively pretend to participate at a physical protest, the threshold would have to be much higher. Considering that online forums can facilitate mass coordination, the threshold approach seems not only inefficient but also potentially ineffective for verifiability.
+\) of processing. 
+For large groups organizing online to collectively pretend to participate at a physical protest, the threshold would have to be much higher. 
+Considering that online forums can facilitate mass coordination, the threshold approach seems not only inefficient but also potentially ineffective for verifiability.
 
 %\subsection{Blockchain efficiency}
 
 \sonja{removed for now: One problem can arise in the case in which there is no trusted witnesses.
 In this situation, if we set the threshold too high, we need to submit more proof shares than the blockchain can handle within a reasonable time.}
-
 
 %assumptions about smartphones:
 %(This means that we essentially provide a lower bound for the participation 

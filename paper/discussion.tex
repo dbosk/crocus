@@ -1,9 +1,6 @@
 \section{Discussion}%
 \label{Discussion}
 
-
-
-
 \subsection{Assumptions limitation} 
 
 Some of the assumptions that are required for implementing our proposition are not yet realized, such as tying a unique identity to a smartphone or performing distance-bounding protocols on existing smartphones. 
@@ -23,13 +20,15 @@ The speed of adoption will depend on the architecture of these systems.
 For instance, the system used in Sweden, BankID, is implemented in software and can thus be easily upgraded to include the anonymous credentials that \CROCUS need.
 As for coverage of the population: more than \SI{95}{\%} of people in the ages 21--50 uses BankID, it is \SI{88}{\%} for ages 51--60 and \SI{76}{\%} for ages 61--70\footnote{Official statistics, in Swedish:  \url{https://www.bankid.com/assets/bankid/stats/2018/statistik-2018-04.pdf}.}.
 
-Furthermore, recent technological progress has enabled more advanced cryptographic primitives to be used on smartcards and smartphones that could be used to implement our solution.
-For instance, benchmarks~\cite{Benchmarking} have shown that Android devices are now fast enough to efficiently implement Privacy Enhancing Technologies (PETs), with a Samsung Galaxy S i9000 being able to execute Idemix in \SI{153}{\milli\second}. 
-However, those benchmarks also demonstrate that smartcards remain slow to process complex protocols such as Idemix or U-Prove (taking between \SI{4}{\second} and \SI{8}{\second} to process them). %
-While the limited processing power of many embedded systems has been a challenge, Idemix has been successfully implemented to prove the possession of credentials on Java Cards by~\citet{Bichsel} and the IRMA project, released in 2014, aimed to achieve an implementation ``suitable for real life transactions''~\cite{IRMA} while maintaining security and privacy for its users. 
+%Seb: I have commented this part because it is redondant with the performance and evaluation part
+%Furthermore, recent technological progress has enabled more advanced cryptographic primitives to be used on smartcards and smartphones that could be used to implement our solution.
+%For instance, benchmarks~\cite{Benchmarking} have shown that Android devices are now fast enough to efficiently implement Privacy Enhancing Technologies (PETs), with a Samsung Galaxy S i9000 being able to execute Idemix in \SI{153}{\milli\second}. 
+%However, those benchmarks also demonstrate that smartcards remain slow to process complex protocols such as Idemix or U-Prove (taking between \SI{4}{\second} and \SI{8}{\second} to process them). %
+%While the limited processing power of many embedded systems has been a challenge, Idemix has been successfully implemented to prove the possession of credentials on Java Cards by~\citet{Bichsel} and the IRMA project, released in 2014, aimed to achieve an implementation ``suitable for real life transactions''~\cite{IRMA} while maintaining security and privacy for its users. 
 
-In addition, the distance-bounding chips\footnote{\url{https://www.3db-access.com}} currently available on the market can already enable proofs of proximity for any range of up to 200 meters.
-One of the short-term objectives is to be able to integrate them in phones or smartcards in the near-future, and even phones with off-the-shelf hardware running in RFID-emulation mode have shown promising results~\cite{DBonSmartphones}.
+%Seb: I have moved the two following sentences to the performance analysis section
+%In addition, the distance-bounding chips\footnote{\url{https://www.3db-access.com}} currently available on the market can already enable proofs of proximity for any range of up to 200 meters.
+%One of the short-term objectives is to be able to integrate them in phones or smartcards in the near-future, and even phones with off-the-shelf hardware running in RFID-emulation mode have shown promising results~\cite{DBonSmartphones}.
 % Currently, the only problem preventing wide deployment is the lacking hardware 
 % in smartphones.
 % However, due to the rapid development of \enquote{smart} solutions, we believe 
@@ -90,4 +89,29 @@ Unlike Alice, Mallory can create as many keys as she likes, but she cannot creat
 Nonetheless, Mallory could also have simply as her objective to cause a denial-of-service attack on the architecture of \CROCUS.
 
 
+\subsection{Trust assumptions}
 
+The goal of CROCUS is to be able to count people in a crowd in a verifiable way, without leaking information about the individuals in the crowd.
+We believe one of the strongest adversaries in practice, and one of the most dangerous situation, is that of an authoritarian government wanting to learn the identities of protesters,
+so we chose a theoretical model that fits this situation well, but it is interesting to see what are the trust relations which are actually needed in various real world situations.
+
+\paragraph{ID issuer} We assumed a trusted third party issued certified IDs to every participant (protesters and witnesses). This hypothesis is important to avoid Sybil attacks,
+but only the side protesting (not the side being protested against) has an incentive to perform a Sybil attack.
+So in practice, the ID issuer doesn't need to be a trusted 3rd-party, it only needs to not be aligned with the protesters.
+In our authoritarian government scenario for instance, the protesters can use IDs issued by said government.
+On the other hand however, a pro-government protest cannot use the same IDs and offer a good level of trust in the final count, and it would be better suited to use IDs from a different source
+(e.g. a supra-national issuer like the EU).
+
+ \paragraph{Verifier's trust in the count} We proposed a generic way of counting, that relies on two parameters: the strength function and the threshold.
+%We then suggested two possible instantiations: every witness is equal and we use a relatively large threshold, or we only trust a minority of independent witnesses with a threshold of 1.
+An important point here is that these parameters can be chosen by each verifier independently, so each verifier can make choices that satisfy \emph{their} own level of trust, and can each obtain a different final count, and \CROCUS does not output one definitive answer. The trust in a final count depends only on the trust between the verifier and the witnesses.
+
+\simon{maybe delete that second half}
+In practice though, the verifier can be in either of three situations: for the protest, against the protest, or indifferent, which leads to three main categories of choices.
+\begin{itemize}
+	\item A verifier aligned with the protesters has an incentive to trust any witness and use as low a threshold as possible.
+	\item A verifier opposed to the protesters has the opposite incentive to exclude as many witnesses and use as high a threshold as possible.
+	\item An indifferent verifier who only cares about the correctness of the result can trust each witness based on their reputation and should use a threshold that is reasonably reachable in practice but high enough to avoid small-scale collusion.
+\end{itemize}
+
+\paragraph{Protesters and witnesses} Active participants in a protest do not need to trust anything other than that their app is behaving properly and that their smartphone is not compromised. Indeed, \CROCUS has been designed with their privacy and security as a central concern, and being able to use \CROCUS without any additional risk compared to simply come at the protest was one of our main requirement.

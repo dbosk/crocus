@@ -49,9 +49,9 @@ The proof must be associated with the protest (\ie its cause identifier \(cid\))
 
 Our protocol relies on \emph{witnesses} to certify and associate the proof to the location by creating a \emph{proof share}.
 A witness is only allowed to create one proof share per protester to avoid the risk of count inflation.
-Note that a participant of a protest can take the role of a protester but also act as witness for other protesters.
-The participation proof and its proof shares are stored as a set.
-%, as there should only be unique proof shares.
+(Note that a participant of a protest can take the role of a protester but also 
+act as witness for other protesters.)
+All the proof shares together form the participation proof.
 
 % proof share
 % proof shares
@@ -68,13 +68,12 @@ The participation proof and its proof shares are stored as a set.
   We define \(\pshs\) as the set of all proof shares.
 \end{definition}
 
+A subset of the proof shares forms a participation proof for a protester.
 We will use the following notation to filter out a subset of \(\pshs\) with specific \(\cid\)s and \(\pid\)s:
 \begin{multline*}
   \pshs_{\cid_0, \pid_0} = \\
   \{(\cid, t, l, \pid, \wid)\in \pshs\mid \cid = \cid_0 \land \pid = \pid_0\}.
 \end{multline*}
-
-A subset of the proof shares forms a participation proof for a protester.
 
 % proof
 % proofs
@@ -93,7 +92,6 @@ A subset of the proof shares forms a participation proof for a protester.
 \end{definition}
 
 % strength
-\NewFunction{\str}{\varsigma}
 
 We can now define the participation count as follows.
 \begin{definition}[Participation count]%
