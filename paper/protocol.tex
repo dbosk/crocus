@@ -2,11 +2,10 @@
 \label{Protocol}
 
 
-We now present \CROCUS, a protocol for securely and privately verifying crowd counts.
-The protocol consists of five phases: setup, join, participation, submission and verification phases.
-The setup is described in \cref{ProtocolSetup}.
-The join, participation and submission phases are detailed in \cref{ProtocolDuring}.
-Finally, the verification phase is presented in \cref{ProtocolVerification}.
+We now present \CROCUS, a protocol for privately verifyiable crowd counts.
+The protocol consists of five phases: setup (in \cref{ProtocolSetup}),
+join, participation, submission (all in in \cref{ProtocolDuring} ) and
+verification (in \cref{ProtocolVerification}).
 
 Several entities are involved in our protocol.
 First, \iac{CA} is responsible for certifying a one-to-one mapping between a 
@@ -316,9 +315,8 @@ At this point, the verifier has constructed the set \(S\) from
 Now the verifier can compute the participation count \(|\prfs_P^{\str, 
     \theta}|\) as in \cref{DefParticipationCount}.
 
-In the case \emph{without} trusted witnesses, the verifier simply define 
-\(\str[\prf_{\pid_j, P}] = |\prf_{\pid_j, P}|\) and set \(\theta\) to the 
-desired threshold.
+In the case \emph{without} trusted witnesses, all the weights equal to 1 is equivalent to counting the elements in the set, 
+\(\str[\prf_{\pid_j, P}] = |\prf_{\pid_j, P}|\).
 
 In the case \emph{with} trusted witnesses, each trusted witness must inform the 
 verifier of which proof shares that he or she has signed, \eg by giving a list 

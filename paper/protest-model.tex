@@ -49,9 +49,9 @@ The proof must be associated with the protest (\ie its cause identifier \(cid\))
 
 Our protocol relies on \emph{witnesses} to certify and associate the proof to the location by creating a \emph{proof share}.
 A witness is only allowed to create one proof share per protester to avoid the risk of count inflation.
-Note that a participant of a protest can take the role of a protester but also act as witness for other protesters.
-The participation proof and its proof shares are stored as a set.
-%, as there should only be unique proof shares.
+(Note that a participant of a protest can take the role of a protester but also 
+act as witness for other protesters.)
+All the proof shares together form the participation proof.
 
 % proof share
 % proof shares
@@ -68,13 +68,12 @@ The participation proof and its proof shares are stored as a set.
   We define \(\pshs\) as the set of all proof shares.
 \end{definition}
 
+A subset of the proof shares forms a participation proof for a protester.
 We will use the following notation to filter out a subset of \(\pshs\) with specific \(\cid\)s and \(\pid\)s:
 \begin{multline*}
   \pshs_{\cid_0, \pid_0} = \\
   \{(\cid, t, l, \pid, \wid)\in \pshs\mid \cid = \cid_0 \land \pid = \pid_0\}.
 \end{multline*}
-
-A subset of the proof shares forms a participation proof for a protester.
 
 % proof
 % proofs
@@ -93,7 +92,6 @@ A subset of the proof shares forms a participation proof for a protester.
 \end{definition}
 
 % strength
-\NewFunction{\str}{\varsigma}
 
 We can now define the participation count as follows.
 \begin{definition}[Participation count]%
@@ -106,9 +104,21 @@ We can now define the participation count as follows.
   threshold \(\theta\).
 \end{definition}
 
-The strength function \(\str\) can be used to regulate the trust in the participation count estimated.
-One example would be for \(\str\) to return the number of unique witnesses and thus let \(\theta\) to be the threshold of the number of required witnesses.
+The strength function \(\str\) can be used to regulate the trust in the 
+participation count estimated. In general, \(\str\) can be defined as a 
+weighted sum of the proof shares, \(\str = \sum \omega_i s_i\), with the 
+weights \(\omega_i\) being the trust in the witness corresponding to that proof 
+share \(s_i\), and the threshold \(\theta\) represents the total trust needed 
+to accept a participant as valid.
+One example would be to set all weights to 1 for \(\str\) to return the number of unique witnesses and thus let \(\theta\) to be the threshold of the number of required witnesses.
 Another possibility would be to also have a particular type of witness, called \emph{trusted witness}, participating in the protest. 
 For instance, the role of the trusted witness could be taken by Jane, the independent journalist. 
-In this situation, the strength function could be defined with respect to the number of proof shares issued by trusted witnesses.
-Setting \(\theta = 1\) would require at least one proof share issued by a trusted witness.
+In this situation, the weights would be 1 for trusted witnesses and 0 for any other witness, and
+setting \(\theta = 1\) would require at least one proof share issued by a trusted witness.
+Finally, both approaches can be combined by giving a weight of 1 to all 
+non-trusted witnesses and a weight of \(\theta\) to trusted witnesses. This 
+results in a participant being valid if they are witnessed either by \(\theta\) 
+non-trusted witness or by one trusted witness.
+
+\simon{check the notation in the weights formula is consistent, check that the description in section V corresponds}
+\daniel{Fixed formula, math mode; didn't check Section V though.}
