@@ -29,66 +29,6 @@ Furthermore, if Grace has managed to link one proof to Alice due to some
 auxiliary knowledge, she should not be able to link it to another proof (\eg 
 from a different protest).
 
-%Seb: I have put it in comments to save on space
-%\sonja{removed for now: For the witness, we want unlinkability between a witness's identity \(W\) and a 
-%location \(l\) against an adversary who is not present in the location.
-%Due to the limitations of physical space, two individuals present in the same 
-%location will inevitably learn of each other's presence.
-%Thus we will only try to prevent individuals who are not present to learn of 
-%this presence.}
-
-% \sonja{start of older thoughts}
-% Difference to e-voting:
-% physical presence means support for a cause if there is one protest. If there is a counterprotest, physical presence with that group means support for the counterprotest. In our system, it gets more ambiguous as the participants are counted if all of the following is true
-% \begin{enumerate*}
-% \item they participate in the protocol,
-% \item they use the protest identifier (cause) for which the count is done,
-% \item they meet the eligibility criteria, and
-% \item they receive enough proof shares,
-% \item that are uploaded to the ledger.
-% \end{enumerate*}
-% Thus one could participate in a protest and be counted even when physically 
-% present at a counter-protest if the two protests are co-located and the 
-% participant chooses the corresponding cause/identifier of the original protest.
-
-% Given that all conditions for being counted in a protest are met, individual 
-% verifiability implies a receipt \daniel{no, I know my proof is included in 
-%  block 0xdeadbeef in the blockchain, so as long as 0xdeadbeef is there I'm 
-%  sure my block is counted (individual verifiability); but if I give 0xdeadbeef 
-%  to you, you cannot know for sure if 0xdeadbeef says anything or I made it up, 
-%  hence receipt-freeness} because being counted implies support for a cause. 
-% This also means that besides physical force, coercion can happen by forcing the 
-% participate to show a receipt. \daniel{The only receipt we have is the private 
-%  key of the protester, with that key the adversary can compute \(\pid = 
-%    \ACprf[_k][\cid]\) and check that \(\pid\) is indeed in the ledger.}
-% We thus have to decide between individual verifiability and the privacy 
-% properties for e-voting or define privacy properties suitable for the scenario. 
-% The ultimate privacy requirement is thus stronger here: in contrast to voting, 
-% where it is the content of the vote itself that needs to be unlinkable to the 
-% voter, here the fact of having cast a vote at all needs to be unlinkable.
-
-% The privacy properties we need in this context are the following:
-% \begin{description}
-%  \item[Involuntary participant unlinkability:] \daniel{the name has a 
-%      double-negative ring to me} unless the participant discloses the receipt 
-%    (by revealing her identity), there is no link between the protest data on 
-%    the ledger and the identity of the participant.
-
-%  \item[Involuntary witness unlinkability:] \daniel{and double-negative here 
-%      too of course} unless the witness discloses the receipt (by revealing her 
-%    identity), there is no link between the protest data on the ledger and the 
-%    identity of the witness.
-% \end{description}
-
-% In essence, receipt freeness means that upon completing the protocol, Grace cannot link Alice to Alice's participation proof --- even if she were to compromise Alice's device or Alice accepts to collaborate with Grace.
-% As we will see, if Grace gets Alice's device, she can re-do the computations on the same inputs.
-% Since, in our case, the algorithms are deterministic and collisions are negligible, she will produce the same output and can thus conclude that Alice is indeed the one she is looking for.
-% Thus, we cannot provide receipt freeness (see \cref{Conclusion} for further discussions on this issue).
-
-% As a consequence, this leaves us with with what would correspond to vote privacy.
-% In particular, we need unlinkability between Alice's long-term identity and Alice's participation proof.
-% \sonja{end older thoughts}
-
 Finally, any temporary identifiers, such as pseudonyms, should only be reused 
 when strictly necessary for the fulfillment of verifiability properties (in 
 \cref{verifiability-properties}) to prevent inference on long-term identities 
