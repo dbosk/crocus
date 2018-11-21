@@ -66,6 +66,9 @@ protester's identity, we capture this by the following definition.
   However, \(S\) still does not learn \(P\)'s identity.
 \end{definition}
 
+\daniel{The deanonymizing witness captures: a1, a4, a5. (See Simon's notes on 
+  Slack.)}
+
 One reason to not allow \(S\) to learn \(P\)'s identity is that for this communication \(P\) has options, such as Tor~\cite{Tor}, for anonymous communication.
 However, given a strong enough adversary, such anonymous communication might not be possible.
 We capture such a strong adversary in the following definition.
@@ -76,3 +79,5 @@ We capture such a strong adversary in the following definition.
   that now \(S\) also learns \(P\)'s identity from an auxiliary channel.
 \end{definition}
 
+\daniel{The deanonymizing adversary additionally captures: a2, a3 (\ie a1, a2, 
+  a3, a4, a5).}
