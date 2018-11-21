@@ -1,22 +1,39 @@
-\subsection{Privacy adversary}%
-\label{adversary-model-different-levels}
+\subsection{Adversary model}%
+\label{formal-adversary-model}
 
-We provide one system model with two possible adversaries: one who tries to link a protester's real identity (\(P\)) to a protest proof-share (\(\cid\)) and one 
-that aims at linking a protester's or a witness's real identity (\(P\), respectively \(W\)), to a location (\(l\)).
-We also define varying strengths of each adversary.
+We now provide a concretely defined system and adversary model.
+We give three definitions, each defines an adversary with increasingly stronger 
+capabilities (\ie more auxiliary information).
 
-\paragraph{The identity--proof share linking adversary}
-
-There are three players: the protest participant (with identity) \(P\), a witness (with identity) \(W\) and the storage \(S\).
+There are three players: the protest participant (with identity) \(P\), a 
+witness (with identity) \(W\) and the storage \(S\).
 The adversary \(A\) controls \(W\) and \(S\).
+This is illustrated in \cref{fig:base-adversary}.
 
-\begin{definition}[Base identity--proof share adversary]%
-  \label{base-identity-proof-share-adversary}
+\begin{figure}
+  \centering
+  \includegraphics{base-adversary.tikz}
+  \caption{\label{fig:base-adversary}%
+    An overview of the base adversary model.
+    The protester with real identity \(P\) and witness with real identity \(W\) 
+    communicate.
+    They exchange protocol data, \(d_{P,W}(\cid, P)\), and record the time it 
+    happened, \(t_{P,W}\).
+    The protester submits \(f(d_{P,W}(\cid, P))\), for some function \(f\), to 
+    the storage \(S\), who records the time it happened, \(t_{P,S}\).
+    Both the witness \(W\) and storage \(S\) are controlled by the adversary 
+    \(A\).
+  }
+\end{figure}
+
+\begin{definition}[Base adversary]%
+  \label{base-adversary}
   The protester \(P\) and the witness \(W\) communicate.
-  Each learns only the protocol data \(d_{P,W}(\cid, P)\) and when it happened 
-  \(t_{P,W}\)\footnote{%
+  Each learns only the protocol data \(d_{P,W}(\cid, P)\) and when the 
+  communication occurred \(t_{P,W}\)\footnote{%
     Specifically, they do \emph{not} learn the real identities \(P\) and \(W\) 
-    directly, only if those appear in the data \(d_{P,W}(\cid, P)\).
+    directly from the communication medium, only if those appear in the data 
+    \(d_{P,W}(\cid, P)\).
   }.
   The protester \(P\) communicates with \(S\), in which \(S\) only learns 
   \(f(d_{P,W}(\cid, P))\), for some function \(f\), and the time of the 
@@ -25,33 +42,26 @@ The adversary \(A\) controls \(W\) and \(S\).
   do, but can additionally correlate what he learns from \(W\) and \(S\).
 \end{definition}
 
-This definition is illustrated in \cref{fig:identity-proof-share-adversary}.
+The base adversary (\cref{base-adversary}) represents an adversary that has no 
+access to auxiliary information, \eg inferences that can be done from the 
+communication layer, which means that it has only the protocol data at its 
+disposal.
 
-\begin{figure}
-  \centering
-  \includegraphics{base-identity-proof-share-adversary.tikz}
-  \caption{\label{fig:identity-proof-share-adversary}%
-    An overview of the base identity--proof share adversary model.
-    The protester with real identity \(P\) and witness with real identity \(W\) 
-    communicate and each learn only the protocol data, \(d_{P,W}(\cid, P)\), 
-    and the time it happened, \(t_{P,W}\).
-    The protester submits \(f(d_{P,W}(\cid, P))\), for some function \(f\), to 
-    the storage \(S\), who learns only that and the time it happened, 
-    \(t_{P,S}\).
-    Both the witness \(W\) and storage \(S\) are controlled by the adversary 
-    \(A\).
-  }
-\end{figure}
+We find \cref{base-adversary} suitable when the protester and witness both move 
+in a crowd and there is no way for the witness to decide exactly with whom he 
+or she communicates with.
+However, in some situations this might not be the case: \Eg if the crowd is not 
+dense the witness will likely see the face of the protester.
+If the witness is controlled by the adversary, then it is likely that the 
+witness can capture a picture of the face, which can be turned into an identity 
+through face recognition.
+There are various such scenarios leading to the adversary learning the 
+protester's identity, we capture this by the following definition.
 
-We find \cref{base-identity-proof-share-adversary} suitable when the protester and witness both move in a crowd and there is no way for the witness to decide exactly with whom he or she communicates with.
-However, in some situations this might not be the case, \eg the crowd is not dense.
-In these situations the witness will likely see the face of the protester.
-We capture this by the following definition.
-
-\begin{definition}[Stronger identity--proof share adversary]%
-  \label{stronger-identity-proof-share-adversary}
-  The situation is the same as in \cref{base-identity-proof-share-adversary}, but now the 
-  witness \(W\) learns the protester \(P\)'s identity.
+\begin{definition}[Deanonymizing-witness adversary]%
+  \label{deanonymizing-witness-adversary}
+  The situation is the same as in \cref{base-adversary}, but now the witness 
+  \(W\) learns the protester \(P\)'s identity from an auxiliary channel.
   (\(P\) will also learn \(W\)'s identity.)
   However, \(S\) still does not learn \(P\)'s identity.
 \end{definition}
@@ -60,8 +70,9 @@ One reason to not allow \(S\) to learn \(P\)'s identity is that for this communi
 However, given a strong enough adversary, such anonymous communication might not be possible.
 We capture such a strong adversary in the following definition.
 
-\begin{definition}[Strongest identity--proof share adversary]%
-  \label{strongest-identity-proof-share-adversary}
-  Everything is the same as in \cref{stronger-identity-proof-share-adversary}, except that now \(S\) also learns \(P\)'s identity.
+\begin{definition}[Deanonymizing adversary]%
+  \label{deanonymizing-adversary}
+  Everything is the same as in \cref{deanonymizing-witness-adversary}, except 
+  that now \(S\) also learns \(P\)'s identity from an auxiliary channel.
 \end{definition}
 
