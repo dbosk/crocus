@@ -1,63 +1,25 @@
 \subsection{Privacy requirements}%
 \label{privacy-properties}
 
-In addition to the verification requirements, we also need to define the privacy properties.
-In voting protocols, there are mainly three levels of privacy~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
-\begin{description}
-  \item[Vote privacy:] the voting does not reveal any individual vote.
-  \item[Receipt freeness:] the voting system does not provide any data that can be used as a proof of how the voter voted.
-  \item[Coercion resistance:] a voter cannot cooperate with a coercer to prove his vote was cast in any particular way.
-\end{description}
-
-Coercion resistance is not possible to achieve for protests.
-For instance, someone could simply physically bring Alice to a protest against her will.
-%Seb: ok but if Alice can refuse to upload her participation proof then coercion resistance can still be achieved
-Receipt freeness, while appealing at first glance, is not desirable in our context, as in contrast to voting, receipt freeness for \emph{how} the voter voted (\ie the cause of the protest) implies receipt freeness for \emph{that} the voter voted (\ie the protester was there), which conflicts with verifiability.
-\daniel{%
-  No, that implication is not true, counter example:
-  There is receipt freeness for how an elector voted, but not that they voted.
-  As Simon pointed out, they tick me off, so it's visible that I've voted.
-  But no one will ever know for which party I voted.%
-}
-
-\daniel{%
-  This doesn't conflict with verifiability either.
-  I keep track of the ballot box, as long as that and all ballots inside are 
-  treated properly, I know my ballot is safe and counted.%
-}
-
-\daniel{%
-  In our case:
-  I have a key issued on a smartcard and it is tied to my identity.
-  If the hardware corrupts itself after issuing the \ac{NIZK} proof, then there 
-  is no way to check whether I created \(\pid = \ACprf[_k][\cid]\) or \(\pid' = 
-    \ACprf[_k][\cid']\).
-  I could have downloaded both from the ledger.
-  But I know which is mine, I can submit it, and as long as the block where it 
-  was included is intact I know my proof-share is included as well --- even if 
-  I forget what it looked like.%
-}
-
-Thus, in our context the crucial property is therefore privacy.
-More precisely for the protester, we want unlinkability between a protester's real identity \(P\) and the cause identifier \(\cid\) against the adversary.
-Given a participation proof, Grace should not be able to distinguish if it belongs to Alice or Bob.
-Furthermore, if Grace has managed to link one proof to Alice due to some auxiliary knowledge, she should not be able to link it to another proof (\eg, from a different protest).
-
-Finally, any temporary identifiers, such as pseudonyms, should only be reused 
-when strictly necessary for the fulfillment of verifiability properties (in 
-\cref{verifiability-properties}) to prevent inference on long-term identities 
-by repeated samples and side information.
-
+For privacy, any temporary identifiers, such as pseudonyms, should only be 
+reused when strictly necessary (by the principle of data minimization) for the 
+fulfillment of verifiability properties (in \cref{verifiability-properties}) to 
+prevent inference on long-term identities by repeated samples and side 
+information.
 We can thus summarize the desired privacy properties as follows:
 \begin{requirements}[P]
-\item\label{ProofUnlink} \emph{Proof Unlinkability (Anonymity)}: every 
-  participant's (protester and witness) real (long-term) identity (\(P\)) must 
-  be unlinkable to their participation proofs \(\prf_{\pid, \prtst}\)
-\item\label{ProtestUnlink} \emph{Protest Unlinkability}: protesters' participation proofs \(\prf_{\pid, \prtst}\) must be unlinkable between protests (\(\cid, \cid' \))
-\item\label{WitnessUnlink}\emph{Witness Unlinkability}:  witnesses' participation proof shares \(\psh = (\cid, t, l, \pid,\wid)\) must be unlinkable between protesters. (\(\pid, \pid' \))
+\item\label{PseudonymUnlink} \emph{Pseudonym unlinkability}: given a protest 
+  (identifier \cid), protesters Alice and Bob, and a pseudonym \(\pid_b\), the 
+  adversary cannot tell if \(\pid_b = \pid_{\text{Alice}}\) or \(\pid_b = 
+    \pid_{\text{Bob}}\), except with negligible probability.
+\item\label{ProtestUnlink} \emph{Protest unlinkability}: protesters' pseudonyms 
+  (\(\pid_\cid, \pid_{\cid'}\)) must be unlinkable between protests (\(\cid, 
+    \cid'\)) from the adversary's perspective.
+\item\label{WitnessUnlink}\emph{Witness unlinkability}:  witnesses' pseudonyms 
+  (\(\wid_\pid, \wid_{\pid'}\)) must be unlinkable between protesters (\(\pid, 
+    \pid'\)) from the adversary's perspective.
 \end{requirements}
 
-%Seb: ok for me, I have put it in comment
-%\sonja{removed for now: As a result of these properties, if there are two protests in parallel (\eg, one against Grace's regime and one in favor) Alice can always argue to be part of the protest in Grace's favor instead of any protest against Grace.
-%This is, in fact, is a slight increase in privacy over ordinary protests.}
-
+What these properties say is that pseudonyms must look random 
+(\cref{PseudonymUnlink}) and that each pseudonym must be used at most once 
+(\cref{ProtestUnlink,WitnessUnlink}).
