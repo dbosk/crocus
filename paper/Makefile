@@ -32,11 +32,8 @@ paper.pdf: ${SRC}
 FIGS+= 				proofshare.tikz
 proofshare.tikz: 	../fig/proofshare.tikz
 
-FIGS+= 				base-identity-cause-adversary.tikz
-base-identity-cause-adversary.tikz: ../fig/base-identity-cause-adversary.tikz
-
-FIGS+= 				base-identity-location-adversary.tikz
-base-identity-location-adversary.tikz: ../fig/base-identity-location-adversary.tikz
+FIGS+= 				base-identity-proof-share-adversary.tikz
+base-identity-proof-share-adversary.tikz: ../fig/base-identity-proof-share-adversary.tikz
 
 ${FIGS}:
 	${LN} $< $@
