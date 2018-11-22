@@ -7,7 +7,12 @@ capabilities (\ie more auxiliary information).
 
 There are three players: the protest participant (with identity) \(P\), a 
 witness (with identity) \(W\) and the storage \(S\).
-The adversary \(A\) controls \(W\) and \(S\).
+The protester \(P\) and the witness \(W\) communicate some protocol data,
+\(d_{P,W}(\cid, P)\), and records when the communication occurred \(t_{P,W}\).
+The protester \(P\) communicates with \(S\), in which \(S\) only learns some 
+function of the protocol data exchanged with the witness, \(f(d_{P,W}(\cid, 
+  P))\) for some function \(f\), and the time of the communication 
+(\(t_{P,S}\)).
 This is illustrated in \cref{fig:base-adversary}.
 
 \begin{figure}
@@ -22,25 +27,16 @@ This is illustrated in \cref{fig:base-adversary}.
     The protester submits \(f(d_{P,W}(\cid, P))\), for some function \(f\), to 
     the storage \(S\), who records the time it happened, \(t_{P,S}\).
     Both the witness \(W\) and storage \(S\) are controlled by the adversary 
-    \(A\).
+    \(A\) (from \cref{base-adversary}).
   }
 \end{figure}
 
 \begin{adversaries}
 \item\label{base-adversary}
   \emph{Base adversary}:
-  The protester \(P\) and the witness \(W\) communicate.
-  Each learns only the protocol data \(d_{P,W}(\cid, P)\) and when the 
-  communication occurred \(t_{P,W}\)\footnote{%
-    Specifically, they do \emph{not} learn the real identities \(P\) and \(W\) 
-    directly from the communication medium, only if those appear in the data 
-    \(d_{P,W}(\cid, P)\).
-  }.
-  The protester \(P\) communicates with \(S\), in which \(S\) only learns 
-  \(f(d_{P,W}(\cid, P))\), for some function \(f\), and the time of the 
-  communication (\(t_{P,S}\)) but not the real identities.
-  The adversary controls \(W\) and \(S\) and thus learns everything that they 
-  do, but can additionally correlate what he learns from \(W\) and \(S\).
+  The adversary controls \(W\) and \(S\); the adversary thus learns everything 
+  that they do, but can also correlate what he learns from \(W\) and \(S\).
+  \(W\) and \(S\) only learn the protocol data --- no auxiliary data.
 
 \item\label{deanonymizing-witness-adversary}
   \emph{Deanonymizing-witness adversary}:
