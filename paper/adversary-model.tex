@@ -26,8 +26,9 @@ This is illustrated in \cref{fig:base-adversary}.
   }
 \end{figure}
 
-\begin{definition}[Base adversary]%
-  \label{base-adversary}
+\begin{adversaries}
+\item\label{base-adversary}
+  \emph{Base adversary}:
   The protester \(P\) and the witness \(W\) communicate.
   Each learns only the protocol data \(d_{P,W}(\cid, P)\) and when the 
   communication occurred \(t_{P,W}\)\footnote{%
@@ -40,7 +41,7 @@ This is illustrated in \cref{fig:base-adversary}.
   communication (\(t_{P,S}\)) but not the real identities.
   The adversary controls \(W\) and \(S\) and thus learns everything that they 
   do, but can additionally correlate what he learns from \(W\) and \(S\).
-\end{definition}
+\end{adversaries}
 
 The base adversary (\cref{base-adversary}) represents an adversary that has no 
 access to auxiliary information, \eg inferences that can be done from the 
@@ -58,26 +59,25 @@ through face recognition.
 There are various such scenarios leading to the adversary learning the 
 protester's identity, we capture this by the following definition.
 
-\begin{definition}[Deanonymizing-witness adversary]%
-  \label{deanonymizing-witness-adversary}
+\begin{adversaries}
+\item\label{deanonymizing-witness-adversary}
+  \emph{Deanonymizing-witness adversary}:
   The situation is the same as in \cref{base-adversary}, but now the witness 
   \(W\) learns the protester \(P\)'s identity from an auxiliary channel.
   (\(P\) will also learn \(W\)'s identity.)
   However, \(S\) still does not learn \(P\)'s identity.
-\end{definition}
+\end{adversaries}
 
-\daniel{The deanonymizing witness captures: a1, a4, a5. (See Simon's notes on 
-  Slack.)}
-
-One reason to not allow \(S\) to learn \(P\)'s identity is that for this communication \(P\) has options, such as Tor~\cite{Tor}, for anonymous communication.
+One reason to not allow \(S\) to learn \(P\)'s identity is that for this 
+communication \(P\) has options, such as Tor~\cite{Tor}, for anonymous 
+communication.
 However, given a strong enough adversary, such anonymous communication might not be possible.
 We capture such a strong adversary in the following definition.
 
-\begin{definition}[Deanonymizing adversary]%
-  \label{deanonymizing-adversary}
+\begin{adversaries}
+\item\label{deanonymizing-adversary}
+  \emph{Fully deanonymizing adversary}:
   Everything is the same as in \cref{deanonymizing-witness-adversary}, except 
   that now \(S\) also learns \(P\)'s identity from an auxiliary channel.
-\end{definition}
+\end{adversaries}
 
-\daniel{The deanonymizing adversary additionally captures: a2, a3 (\ie a1, a2, 
-  a3, a4, a5).}
