@@ -74,8 +74,9 @@ As to \(S\), \cref{base-adversary} corresponds to an adversary who cannot
 control the channel between \(P\) and \(S\), \eg when \(P\) uses 
 Tor~\cite{Tor}.
 The adversary cannot control \(S\) but can learn what \(S\) learns as soon as 
-\(S\) learns it, \eg when \(S\) is operated outside the adversary's 
-jurisdiction.
+\(S\) learns it; \eg \(S\) is operated outside the adversary's jurisdiction and 
+so the adversary cannot control \(S\), but \(S\) provides public access so the 
+adversary can (possibly constantly) query it.
 
 However, given a strong enough adversary, such anonymous communication might 
 not be possible; \eg if the adversary can do a time-correlation attack.
