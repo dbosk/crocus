@@ -5,8 +5,9 @@ We now provide a concretely defined system and adversary model.
 We give three definitions, each defines an adversary with increasingly stronger 
 capabilities (\ie more auxiliary information).
 
-There are three players: the protest participant (with identity) \(P\), a 
-witness (with identity) \(W\) and the storage \(S\).
+There are three players: the protester (with identity) \(P\), a witness (with 
+identity) \(W\) and the time-stamping storage \(S\) (that will contain the set 
+of all proof shares, \(\pshs\)).
 The protester \(P\) and the witness \(W\) communicate some protocol data,
 \(d_{P,W}(\cid, P)\), and records when the communication occurred \(t_{P,W}\).
 The protester \(P\) communicates with \(S\), in which \(S\) only learns some 
@@ -34,16 +35,17 @@ This is illustrated in \cref{fig:base-adversary}.
 \begin{adversaries}
 \item\label{base-adversary}
   \emph{Base adversary}:
-  The adversary controls \(W\) and \(S\); the adversary thus learns everything 
-  that they do, but can also correlate what he learns from \(W\) and \(S\).
-  \(W\) and \(S\) only learn the protocol data --- no auxiliary data.
+  The adversary maliciously controls \(W\).
+  The adversary honest-but-curiously controls \(S\).
+  The adversary only learns the protocol data --- \ie what is sent over the 
+  channel, no auxiliary data (such as who sent it).
 
 \item\label{deanonymizing-witness-adversary}
   \emph{Deanonymizing-witness adversary}:
   The situation is the same as in \cref{base-adversary}, but now the witness 
   \(W\) learns the protester \(P\)'s identity from an auxiliary channel.
-  (\(P\) will also learn \(W\)'s identity.)
-  However, \(S\) still does not learn \(P\)'s identity.
+  %(\(P\) will also learn \(W\)'s identity.)
+  However, \(S\) still learns only the protocol data, no auxiliary data.
 
 \item\label{deanonymizing-adversary}
   \emph{Fully deanonymizing adversary}:
@@ -68,9 +70,14 @@ There are various such scenarios leading to the adversary learning the
 protester's identity, we capture this as 
 \cref{deanonymizing-witness-adversary}.
 
-One reason to not allow \(S\) to learn \(P\)'s identity is that for this 
-communication \(P\) has options, such as Tor~\cite{Tor}, for anonymous 
-communication.
-However, given a strong enough adversary, such anonymous communication might not be possible.
+As to \(S\), \cref{base-adversary} corresponds to an adversary who cannot 
+control the channel between \(P\) and \(S\), \eg when \(P\) uses 
+Tor~\cite{Tor}.
+The adversary cannot control \(S\) but can learn what \(S\) learns as soon as 
+\(S\) learns it, \eg when \(S\) is operated outside the adversary's 
+jurisdiction.
+
+However, given a strong enough adversary, such anonymous communication might 
+not be possible; \eg if the adversary can do a time-correlation attack.
 We capture such a strong adversary as \cref{deanonymizing-adversary}.
 
