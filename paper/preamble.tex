@@ -52,7 +52,7 @@
 
 \usepackage{amssymb}
 \usepackage{bibsp}
-\ProvideDocumentCommand{\PRIVO}{}{%
+\ProvideDocumentCommand{\CROCUS}{}{%
   CROCUS\xspace%
 }
 \ProvideDocumentCommand{\PPK}{o o}{\ensuremath{%
@@ -101,18 +101,18 @@
 \NewAlgorithm{\DYverifyPRF}{\DY.\!VerifyPRF}
 \NewAlgorithm{\Hash}{H}
 \NewAlgorithm{\algA}{A}
-\NewScheme{\PRIVOscheme}{PRIVO}
-\NewAlgorithm{\PRIVOsetup}{Setup}
+\NewScheme{\CROCUSscheme}{CROCUS}
+\NewAlgorithm{\CROCUSsetup}{Setup}
 \NewVariable{\pk}{pk}
 \NewVariable{\sk}{sk}
 \NewVariable{\spk}{spk}
 \NewVariable{\ssk}{ssk}
-\NewAlgorithm{\PRIVOreg}{Reg}
-\NewAlgorithm{\PRIVOjoin}{Join}
+\NewAlgorithm{\CROCUSreg}{Reg}
+\NewAlgorithm{\CROCUSjoin}{Join}
 \NewVariable{\mfst}{manifesto}
-\NewAlgorithm{\PRIVOparticipate}{Prticip}
-\NewAlgorithm{\PRIVOwitness}{Witness}
-\NewAlgorithm{\PRIVOsubmit}{Submit}
+\NewAlgorithm{\CROCUSparticipate}{Prticip}
+\NewAlgorithm{\CROCUSwitness}{Witness}
+\NewAlgorithm{\CROCUSsubmit}{Submit}
 \NewScheme{\Psig}{Psig}
 \NewAlgorithm{\PSetup}{\Psig.\!Setup}
 \NewAlgorithm{\PCommit}{\Psig.\!Commit}
@@ -123,14 +123,15 @@
 \NewAlgorithm{\PEqCommProve}{\Psig.\!EqCommProve}
 \NewAlgorithm{\PVerEqComm}{\Psig.\!VerEqComm}
 \NewVariable{\cid}{cid}
-\NewVariable{\prtst}{P}
+\NewSet{\prtst}{P}
 \NewVariable{\sprtst}{p}
 \NewVariable{\psh}{s}
-\NewVariable{\pshs}{S}
+\NewSet{\pshs}{S}
 \NewVariable{\pid}{pid}
 \NewVariable{\wid}{wid}
 \NewVariable{\prf}{\pi}
-\NewVariable{\prfs}{\Pi}
+\NewSet*{\prfs}{\Pi}
+\NewFunction{\str}{\varsigma}
 \NewScheme{\TS}{TS}
 \NewAlgorithm{\TSget}{\TS.\!Get}
 \NewAlgorithm{\TSstamp}{\TS.\!Stamp}
@@ -141,6 +142,8 @@
 \NewAlgorithm{\SPKprove}{SPK.\!Prove}
 \NewAlgorithm{\SPKverify}{SPK.\!Verify}
 \NewVariable{\CA}{CA}
+\NewSet{\TT}{T}
+\NewSet{\LL}{L}
 
 \input{revision.tex}
 

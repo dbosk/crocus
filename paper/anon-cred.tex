@@ -11,11 +11,9 @@
 %    (\(\ACprove\))~\cite{CLsignatures}.
 %\end{enumerate*}
 
-
 We need an anonymous credential system, \(\AC\), which provides the following algorithms and properties.
 
-
-\(\AC\) must provide a commitment scheme, \(\ACcommit\), and algorithms such that the prover can convince a verifier that he knows the commitment, which means that:
+\(\AC\) must provide a commitment scheme, \(\ACcommit\), and algorithms such that the prover can convince a verifier that he knows the value inside a commitment, which means that:
 \begin{equation*}
   \PK[k, o][c = \ACcommit[k,o]].
 \end{equation*}
@@ -26,8 +24,7 @@ We need an anonymous credential system, \(\AC\), which provides the following al
 %    \left. c = \ACcommit[k,o]\land c' = \ACcommit[k,o'] \right\}.
 %\end{multline*}
 % XXX Review requirements of AC.commit
-We require the commitment scheme to be \emph{perfectly hiding} and 
-computationally binding, rather than the other way around.
+We require the commitment scheme to be \emph{perfectly hiding} and computationally binding, rather than the other way around.
 Indeed, we are more concerned with long-term privacy, which means that we are looking for information-theoretic security with respect to confidentiality.
 \(\ACcommit\) can be instantiated with the Pedersen commitment 
 scheme~\cite{PedersenCommitment}, see \(\Pcommit\) in \cref{ACcommitAlg}.
@@ -49,8 +46,8 @@ scheme~\cite{PedersenCommitment}, see \(\Pcommit\) in \cref{ACcommitAlg}.
 
 \(\AC\) must also contain a (blindable) signature scheme with the associated 
 protocols enabling one to get a signature on a committed value 
-(\(\ACgetSig\leftrightarrow \ACissueSig\)) and to prove knowledge of a 
-signature on a committed value (\(\ACproveSig\leftrightarrow \ACverifySig\)).
+(\(\Proto{\ACgetSig}{\ACissueSig}\)) and to prove knowledge of a signature on a 
+committed value (\(\Proto{\ACproveSig}{\ACverifySig}\)).
 This can be instantiated using CL-signatures~\cite{CLsignatures}, see 
 \cref{ACsignAlg,CLacAlg}.
 
@@ -205,21 +202,21 @@ This can be instantiated using CL-signatures~\cite{CLsignatures}, see
 
 The prover commits to a value \(k\) with commitment \(c\gets \Pcommit[k, o]\) 
 and opening \(o\).
-Afterwards, he uses \(\sigma\gets \CLgetSig\leftrightarrow \CLissueSig\) to 
-obtain a signature \(\sigma = \CLsign[\pk, \sk, k, r]\) on the value \(k\) and 
-some random value \(r\).
+Afterwards, he uses \(\sigma\gets \Proto{\CLgetSig}{\CLissueSig}\) to obtain a 
+signature \(\sigma = \CLsign[\pk, \sk, k, r]\) on the value \(k\) and some 
+random value \(r\).
 (\(\pk\) and \(\sk\) are the public verification key and the private signing 
 key, respectively.)
 
 At a later point, the prover wants to prove to a verifier that he knows \(k\) and a signature \(\sigma\) on \(k\) made by the owner of \(pk\) (corresponding to \(sk\)) without revealing \(k\) nor \(\sigma\) (\ie, in a zero-knowledge manner).
-The prover and verifier run the protocol \(\CLproveSig\leftrightarrow 
-  \CLverifySig\) to prove the following:
+The prover and verifier run the protocol \(\Proto{\CLproveSig}{\CLverifySig}\) 
+to prove the following:
 \begin{equation*}
   \PK[k, r][\sigma' = \CLblind[\CLsign[\pk, \sk, k, r]]].
 \end{equation*}
 
-Finally, we need \iac{PRF}, \(\DYprf\), for which there exists a protocol 
-\(\CWprovePRF\leftrightarrow \CWverifyPRF\) implementing the following \ac{PK}:
+Finally, we need \iac{PRF}, \(\ACprf\), such that there exists a protocol 
+\(\Proto{\ACprovePRF}{\ACverifyPRF}\) implementing the following \ac{PK}:
 \begin{equation*}
   \PK[k][y = \DYprf[k, x]].
 \end{equation*}
@@ -296,14 +293,8 @@ without revealing \(k\).
   }
 \end{figure}
 
-
 \paragraph*{Possible instantiations}
-The \(\AC\) scheme can be instantiated using the Pedersen commitment~\cite{PedersenCommitment} for \(\ACcommit\),
-CL-signatures~\cite{CLsignatures} (or adapted CL-signatures as in~\cite{AnonPass}) for \(\ACsign, \ACblind, \ACgetSig, \ACissueSig\) and the \ac{VRF} by \citet{DY-VRF} as \(\ACprf\).
-These are used together in Anon-Pass~\cite{AnonPass} and by 
-\textcite{HowToWinTheCloneWars} to form unclonable anonymous credentials for 
-subscriptions.
-We use their mechanisms but change the basis of the authentication window 
-(epoch) from a time interval to a protest (cause).
-However, we will use our \ac{DB} version of the Schnorr protocol 
-(\cref{DBSchnorr}) for the \ac{ZKPK} protocols.
+The \(\AC\) scheme can be instantiated for instance using the Pedersen commitment~\cite{PedersenCommitment} for \(\ACcommit\), CL-signatures~\cite{CLsignatures} (or adapted CL-signatures as in~\cite{AnonPass}) for \(\ACsign, \ACblind, \ACgetSig, \ACissueSig\) and the \ac{VRF} by \citet{DY-VRF} as \(\ACprf\).
+These are used together in Anon-Pass~\cite{AnonPass} and by \textcite{HowToWinTheCloneWars} to form unclonable anonymous credentials for subscriptions.
+We have adapted their mechanisms to change the basis of the authentication window (\ie epoch) from a time interval to a protest (\ie cause).
+However, we will use our \ac{DB} version of the Schnorr protocol (\cref{DBSchnorr}) for the \ac{ZKPK} protocols.

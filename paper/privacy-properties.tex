@@ -1,49 +1,25 @@
 \subsection{Privacy requirements}%
 \label{privacy-properties}
 
-In addition to the verification requirements, we also need to define the 
-privacy properties.
-In voting protocols, there are mainly three levels of 
-privacy~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
-\begin{description}
-  \item[Vote privacy:] the voting does not reveal any individual vote.
-  \item[Receipt freeness:] the voting system does not provide any data that can 
-    be used as a proof of how the voter voted.
-  \item[Coercion resistance:] a voter cannot cooperate with a coercer to prove 
-    the vote was cast in any particular way.
-\end{description}
-
-Coercion resistance is not possible to achieve for protests.
-For instance, someone could simply physically bring Alice to a protest against 
-her will.
-Receipt freeness, while desirable, is not \emph{always} desirable.
-For instance, the location proof might be useful to prove presence to a third 
-party, \eg for strengthening the authenticity of witness information.
-
-Thus privacy remains.
-For the protester we want unlinkability between a protester's real identity 
-\(P\) and the cause identifier \(\cid\) against the adversary.
-Given a participation proof, Grace will not be able to tell if it belongs to 
-Alice or Bob.
-Furthermore, if Grace has managed to link one proof to Alice's, she should not 
-be able to link another proof (\eg, from a different protest) as a consequence.
-
-For the witness, we want unlinkability between a witness's identity \(W\) and a 
-location \(l\) against an adversary who is not present in the location.
-Due to the limitations of physical space, two individuals present in the same 
-location will inevitably learn of each other's presence.
-Thus we will only try to prevent individuals who are not present to learn of 
-this presence.
-
+For privacy, any temporary identifiers, such as pseudonyms, should only be 
+reused when strictly necessary (by the principle of data minimization) for the 
+fulfillment of verifiability properties (in \cref{verifiability-properties}) to 
+prevent inference on long-term identities by repeated samples and side 
+information.
 We can thus summarize the desired privacy properties as follows:
 \begin{requirements}[P]
-\item\label{ProofUnlink} \emph{Anonymity}: participants' real (long-term) 
-  identities must be unlinkable to their proofs.
-\item\label{ProtestUnlink} \emph{Unlinkability}: protesters' proofs must be 
-  unlinkable between protests and witnesses' proofs must be unlinkable between 
-  protesters.
+\item\label{PseudonymUnlink} \emph{Pseudonym unlinkability}: given a protest 
+  (identifier \cid), protesters Alice and Bob, and a pseudonym \(\pid_b\), the 
+  adversary cannot tell if \(\pid_b = \pid_{\text{Alice}}\) or \(\pid_b = 
+    \pid_{\text{Bob}}\), except with negligible probability.
+\item\label{ProtestUnlink} \emph{Protest unlinkability}: protesters' pseudonyms 
+  (\(\pid_\cid, \pid_{\cid'}\)) must be unlinkable between protests (\(\cid, 
+    \cid'\)) from the adversary's perspective.
+\item\label{WitnessUnlink}\emph{Witness unlinkability}:  witnesses' pseudonyms 
+  (\(\wid_\pid, \wid_{\pid'}\)) must be unlinkable between protesters (\(\pid, 
+    \pid'\)) from the adversary's perspective.
 \end{requirements}
 
-As a result of these properties, if there are two protests in parallel (\eg, one against Grace's regime and one in favor) Alice can always argue to be part of the protest in Grace's favor instead of any protest against Grace.
-This is, in fact, is a slight increase in privacy over ordinary protests.
-
+What these properties say is that pseudonyms must look random 
+(\cref{PseudonymUnlink}) and that each pseudonym must be used at most once 
+(\cref{ProtestUnlink,WitnessUnlink}).

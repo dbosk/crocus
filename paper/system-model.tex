@@ -1,14 +1,87 @@
 \section{System and adversary model}%
 \label{system-model}
 
-We will now describe our system and adversary models.
-We first present an abstraction of a protest and how to count the participation 
-(\cref{protest-model}) and the desired verifiabiltiy properties 
-(\cref{verifiability-properties}).
-Next, we present the communication and adversary model (\cref{adversary-model}) 
-together with the desired privacy properties (\cref{privacy-properties}).
+To set the stage, we will now describe our system model including assumptions, a summary of the desired properties for crowd counting and the adversary model.
 
-\include*{protest-model}
-\include*{verifiability-properties}
-\include*{privacy-properties}
-\include*{adversary-model}
+\subsection{System model and physical assumptions}%
+\label{assumptions}
+
+Throughout this paper, each time we refer to a participant, such as Alice, we actually mean a personal device that can perform cryptographic operations and communicate with other local devices on Alice's behalf. 
+Furthermore, we assume that each participant has a digital certificate of her identity signed by a \ac{CA}.
+
+In practice, participants witness each other's participation using their smartphones (or similar devices) running the protocol described in \cref{Protocol} and uploading their testimony (\ie, proof shares) to a ledger (such as a blockchain) after the protest. 
+During the protest, the devices might be limited by their batteries in terms of the computations they can perform and only have local connectivity to each other.
+No connection to any global network such as the Internet is necessary at that time.  
+Nonetheless, before and after the protest, we assume that the devices have global connectivity (\ie Internet connections) and are not computationally limited by any battery.
+This assumption is necessary to ensure that the participants will be able to upload their proof shares to the ledger.
+
+\subsection{Desired properties}%
+\label{desired-properties}
+
+We note that, in general terms, protesting is very similar to petitions, which 
+in turn are similar to voting.
+Indeed, all three situations correspond to situations in which many individuals express their opinion.
+These opinions can be sensitive (\eg be a cause for discrimination or persecution), hence we desire to have similar properties of verification and privacy for verifying a protest as there are for voting.
+
+We draw inspiration from the three traditionally desired properties for verifiability for voting:
+\daniel{Find a new ref for voting verifiability properties, Douglas commented 
+  that the last one is not the origin.}
+\begin{description}
+  \item[Eligibility:] anyone can verify that each cast vote is legitimate.
+  \item[Universal verifiability:] anyone can verify that the result is according to the cast votes.
+    \daniel{Douglas: technically this is Sako-Kilian, non-technically, it's 
+      old.}
+  \item[Individual verifiability:] each voter can verify that his vote is included in the result.
+    \daniel{Douglas: this is much earlier than Sako-Kilian, in essence 
+      Fiat-Shamir (technically). Non-technically, much older.}
+\end{description}
+In our context, votes are translated into \emph{participation proofs}.
+Universal and individual verifiability remain the same, in the sense that anyone can verify the participation count by counting the proofs.
+The eligibility requirement is slightly different as for protests it must 
+include temporal\footnote{%
+  Elections also have some temporal aspects, such that one cannot vote at any 
+  time and a vote in one election should not be reusable in the next election.
+  However, the temporal relation for a protest is not as strictly defined as for 
+  elections as a protest can start at any time and last for an arbitrary period 
+  of time.%
+} and spatial eligibility (\ie each participation proof satisfies some temporal 
+and spatial relation to the protest).
+In essence, the proof must bind the person to the time and location of the protest.
+
+In addition to the verification requirements, we also need to define the 
+privacy properties.
+In voting protocols, there are mainly three levels of privacy~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
+\begin{description}
+  \item[Vote privacy:] the voting does not reveal any individual vote.
+  \item[Receipt freeness:] the voting system does not provide any data that can be used as a proof of how the voter voted.
+  \item[Coercion resistance:] a voter cannot cooperate with a coercer to prove his vote was cast in any particular way.
+\end{description}
+
+Coercion resistance is not possible to achieve for protests.
+For instance, someone could simply physically bring Alice to a protest against her will.
+Receipt freeness, while appealing at first glance, is not desirable (probably 
+not possible) in our context since this will conflict with verifiability: in 
+contrast to voting, receipt freeness for \emph{how} the voter voted (\ie the 
+cause of the protest) implies receipt freeness for \emph{that} the voter voted 
+(\ie the protester was there), which conflicts with verifiability.
+
+Thus, in our context the crucial property is therefore privacy.
+More precisely, for the protester we want unlinkability (from the adversary's 
+perspective) between a protester's real identity \(P\) and the participation 
+proof (and thus also the protest itself).
+Phrased differently, given a participation proof, Grace should not be able to 
+distinguish if it was Alice or Bob who participated.
+Furthermore, if Grace has managed to link one proof to Alice due to some 
+auxiliary knowledge, she should not be able to link it to another proof (\eg 
+from a different protest).
+
+
+\subsection{Adversary model}%
+\label{adversary-model}
+
+We consider two types of adversaries: 
+\begin{enumerate*} 
+\item an \emph{honest-but-curious adversary} of up to national scale representing a government that can observe any
+messages sent on communication links (\ie either during the protest or later during the upload of the participation), and 
+\item a \emph{malicious adversary} that can control a minority of equipments such as participants' or witnesses' smartphones or servers used for the ledger such as miners for a blockchain. 
+\end{enumerate*}
