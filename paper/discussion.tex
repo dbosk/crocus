@@ -1,7 +1,7 @@
 \section{Discussion}%
 \label{Discussion}
 
-\subsection{Assumptions limitation} 
+\emph{Assumptions limitations} 
 
 Some of the assumptions that are required for implementing our proposition are not yet realized, such as tying a unique identity to a smartphone or performing distance-bounding protocols on existing smartphones. 
 In particular, not all (or even many) protesters, especially in countries with oppressive regimes, currently possess smartphones.
@@ -51,42 +51,42 @@ As for coverage of the population: more than \SI{95}{\%} of people in the ages 2
 
 
  
-\subsection{Differences to e-voting}
-\sonja{should we keep this now?}
-In e-voting, receipt freeness means that one cannot prove to a third party how one voted. 
-In the context of protests, receipts for mere participation can imply one's political leanings, as even with a counterprotest at the same location and time, side-channel information can be used to decide which one a person participated in. 
-Individual verifiability and eligibility (especially one proof per person, prevention of Sybil attacks) means that a person can check whether her input was counted, thus sufficing as a receipt in the case of protests.  
-Therefore, \CROCUS achieves privacy but not receipt freeness.
-As a consequence, this means that there is a way for Grace to efficiently verify that Alice has participated if she is able to get a copy of Alice's secret key. 
-The very property that prevents Alice from cheating by creating \(\pid, \pid'\), such that \(\pid \neq \pid'\), is the property that
-allows Grace to verify Alice's proof of participation.  
-Indeed, in this situation Grace can simply re-do the (deterministic) computations on the same inputs (the probability of collisions being negligible).  
-More precisely, if Grace can perform computations using Alice's key, Grace can input the \(\cid\) of interest and see if the resulting \(\pid\) is available on the blockchain.  
-To mitigate this situation, Alice could delete her key, in which case she cannot participate in any future protest.  
+% \subsection{Differences to e-voting}
+% \sonja{should we keep this now?}
+% In e-voting, receipt freeness means that one cannot prove to a third party how one voted. 
+% In the context of protests, receipts for mere participation can imply one's political leanings, as even with a counterprotest at the same location and time, side-channel information can be used to decide which one a person participated in. 
+% Individual verifiability and eligibility (especially one proof per person, prevention of Sybil attacks) means that a person can check whether her input was counted, thus sufficing as a receipt in the case of protests.  
+% Therefore, \CROCUS achieves privacy but not receipt freeness.
+% As a consequence, this means that there is a way for Grace to efficiently verify that Alice has participated if she is able to get a copy of Alice's secret key. 
+% The very property that prevents Alice from cheating by creating \(\pid, \pid'\), such that \(\pid \neq \pid'\), is the property that
+% allows Grace to verify Alice's proof of participation.  
+% Indeed, in this situation Grace can simply re-do the (deterministic) computations on the same inputs (the probability of collisions being negligible).  
+% More precisely, if Grace can perform computations using Alice's key, Grace can input the \(\cid\) of interest and see if the resulting \(\pid\) is available on the blockchain.  
+% To mitigate this situation, Alice could delete her key, in which case she cannot participate in any future protest.  
 
-As implied by the last statement, this leads to a problem of credential renewing.  
-Indeed as with all identity cards, passports \etc, the lifetime of the document is limited and this latter must be renewed at regular intervals.  
-The rate at which Alice is allowed to renew her credentials affects to what extent she can perform Sybil attacks. 
-Another facet concerning receipt freeness is traffic analysis. 
-Indeed, if Grace can monitor all connections within the country, which seems a reasonable assumption, she can monitor Alice when she submits her proof to the blockchain. 
-However, as the miner collects many transactions, Alice should have plausible deniability that she submitted one of the other transactions --- but again not deniability/receipt freeness as Grace can verify if she accesses Alice's device.
+% As implied by the last statement, this leads to a problem of credential renewing.  
+% Indeed as with all identity cards, passports \etc, the lifetime of the document is limited and this latter must be renewed at regular intervals.  
+% The rate at which Alice is allowed to renew her credentials affects to what extent she can perform Sybil attacks. 
+% Another facet concerning receipt freeness is traffic analysis. 
+% Indeed, if Grace can monitor all connections within the country, which seems a reasonable assumption, she can monitor Alice when she submits her proof to the blockchain. 
+% However, as the miner collects many transactions, Alice should have plausible deniability that she submitted one of the other transactions --- but again not deniability/receipt freeness as Grace can verify if she accesses Alice's device.
 
-Counting votes is also more straightforward than counting protest participation. 
-Depending on the value of interest (\eg peak participation, total participation, individual sub-protests or counting participation only once for the cause, etc.), different ways of counting are
-possible and valid. 
-Since anyone can read the data, they can verify the results given the parameters of choice.
+% Counting votes is also more straightforward than counting protest participation. 
+% Depending on the value of interest (\eg peak participation, total participation, individual sub-protests or counting participation only once for the cause, etc.), different ways of counting are
+% possible and valid. 
+% Since anyone can read the data, they can verify the results given the parameters of choice.
 
-\subsection{Other actors}
+% \subsection{Other actors}
 
-Without verifiable binding to a location, even distance-bounding protocols do not prevent collusions such as protesters meeting at a safe location away from the official site. 
-To address that, one can use trusted infrastructure (for an example by media see~\cite{LeMondeProtestingSolution}) or people such as journalists. 
-Given the conflict of interest of potentially state-provided infrastructure for political protests, we opt for the trusted journalist, Jane, who reveals her identity after the protest and thus can be used as a trusted witness. 
-In practice, there can be any number of  Janes and, as with the different ways of counting, there does not need to be an agreement on who is trusted as anyone can set the eligibility criteria for their count.
+% Without verifiable binding to a location, even distance-bounding protocols do not prevent collusions such as protesters meeting at a safe location away from the official site. 
+% To address that, one can use trusted infrastructure (for an example by media see~\cite{LeMondeProtestingSolution}) or people such as journalists. 
+% Given the conflict of interest of potentially state-provided infrastructure for political protests, we opt for the trusted journalist, Jane, who reveals her identity after the protest and thus can be used as a trusted witness. 
+% In practice, there can be any number of  Janes and, as with the different ways of counting, there does not need to be an agreement on who is trusted as anyone can set the eligibility criteria for their count.
 
-Finally, Mallory represents another nation state and has some interest in affecting the stability of Grace's regime, for Mallory's own gain, thus supporting either Grace or Alice as she see fits.  
-Thus, the objective of Mallory will also be to either increase or decrease the count. 
-Unlike Alice, Mallory can create as many keys as she likes, but she cannot create keys valid in another nation state. 
-Nonetheless, Mallory could also have simply as her objective to cause a denial-of-service attack on the architecture of \CROCUS.
+% Finally, Mallory represents another nation state and has some interest in affecting the stability of Grace's regime, for Mallory's own gain, thus supporting either Grace or Alice as she see fits.  
+% Thus, the objective of Mallory will also be to either increase or decrease the count. 
+% Unlike Alice, Mallory can create as many keys as she likes, but she cannot create keys valid in another nation state. 
+% Nonetheless, Mallory could also have simply as her objective to cause a denial-of-service attack on the architecture of \CROCUS.
 
 
 
