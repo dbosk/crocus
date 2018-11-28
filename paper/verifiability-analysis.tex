@@ -45,7 +45,13 @@ location of \(\sk_P\) at creation (\ie, spatial eligibility,
 person (\ie, one-proof-per-person eligibility, \cref{CountOnce}) and that the 
 proof is indeed designated for the event (\ie, designated-event eligibility, 
 \cref{DesignatedEvent}).
-We will now analyze these properties.
+It follows from \cref{analysis-individual} that the adversary cannot drop 
+submitted proof shares and thus cannot decrease the count.
+As indicated in \cref{in-system-adversary,deanonymizing-witness-adversary}, the 
+adversary can submit proof shares as everyone else, so the adversary's only 
+option is to increase the count.
+We will thus let Alice pose as the adversary in this section, as she naturally 
+has an incentive to increase the count.
 
 \paragraph{Temporal eligibility}%
 \label{analysis-temporal}
@@ -55,10 +61,10 @@ old proof as a new one or create a proof in advance.
 
 In general, to prevent replays, Alice must respond to an unpredictable 
 challenge.
-The challenge here is the hash value of the head block of the ledger at the 
-time of the proof's creation (\(\TSget\)).
-The response is simply the challenge itself and is included as \(t_s\) and 
-\(t_s'\) in the proof share (see \cref{fig:ProofFig}).
+The challenge here is \enquote{which is the hash value of the head block of the 
+  ledger at the time of the proof's creation?}.
+The response is simply the hash itself (obtained through \(\TSget\)) and is 
+included as \(t_s\) and \(t_s'\) in the proof share (see \cref{fig:ProofFig}).
 
 As it is the case in the construction of ledgers, the hash value of the head 
 block depends on the previous blocks.
@@ -68,12 +74,13 @@ Assume that Alice can control all transactions going into a block.
 This means that she must find a pre-image of the form of a valid block that is 
 accepted by all nodes in the distributed ledger.
 \Ie it depends on the pre-image resistance of the hash function used.
-Thus, with a collision resistant hash function, Alice can predict \(t_s\) only 
-with negligible probability; and it follows that, with high probability, 
-\(t_s\) was published on the ledger before being included in her proof share.
+Thus, with a collision resistant hash function (\(\Hash\)), Alice can predict 
+\(t_s\) only with negligible probability; and it follows that, with high 
+probability, \(t_s\) was published on the ledger before Alice included it in 
+her proof share.
 
-The correctness of the challenge must be verifiable by any verifier 
-(\(\TStime\)).
+The correctness of the response must be verifiable by any verifier (verifiable 
+through \(\TStime\)).
 This can be done if the ledger is continuously extended at a fixed rate, \eg 
 one new block every 10 minutes, as was the case for Bitcoin.
 
@@ -82,7 +89,7 @@ Otherwise, Grace could argue that the proof share was created after the protest,
 The hash values of the proof shares are committed to the ledger, which means 
 that there is a negligible probability that they were created after that.
 Alice is in the same situation as above:
-she would have to choose a value \(y\) in the domain of the hash function 
+she would have to choose a value \(y\) in the range of the hash function 
 \(\Hash\) and then find a pre-image \(x\) such that \(y = \Hash[x]\) and \(x\) 
 is a valid proof for the desired protest, at the desired time.
 If \(\Hash\) is collision resistant, finding \emph{any} pre-image is hard.
@@ -93,7 +100,7 @@ If \(\Hash\) is collision resistant, finding \emph{any} pre-image is hard.
 \Cref{CountOnce} is required to prevent Sybil attacks, in the sense
 that Alice cannot provide two (or more) participation proofs for a
 specific protest and thus be counted more than once.
-This possibility is prevented by the use of \(\pid\).
+To do this she must create more than one pseudonym, \(\pid\).
 Indeed to be counted twice, Alice must produce a \(\pid'\neq \pid\).
 Due to the deterministic property of \(\ACprf\), Alice must produce a new key 
 \(\sk_P'\) such that the verifier\footnote{%
@@ -114,9 +121,11 @@ illicitly use someone else's.
 \label{analysis-spatial}
 
 \Cref{SpatiallyRelated} is achieved by having a witness vouch anonymously that Alice was indeed on the location when the proof share was created.
-To realize this, we must ensure that Alice cannot forge witness signatures, 
-which is realized by using the same linkability mechanism as above.
-To forge a witness signature, Alice must produce a \(\wid'\) such that
+To realize this, we must ensure that Alice cannot forge witness signatures.
+
+In the trust-free case (see \cref{ProtocolVerification}), this is realized by 
+using the same linkability mechanism as above.
+\Ie to forge a witness signature, Alice must produce a \(\wid'\) such that
 \begin{multline*}
   \pi_{\wid'}\gets \SPK\left\{ (\sk_W') : \right. \\
     \begin{aligned}
@@ -132,10 +141,17 @@ As above, the latter could be done if she can find people willing to collude,
 people unwilling to collude but she can illicitly use their keys anyway or 
 simply request new keys from the \ac{CA}.
 
-However, due to the assumptions made in \cref{ProtocolVerification}, we either assume that we can trust (dedicated) witnesses or that Alice cannot collude with more than a threshold \(\theta\) of witnesses (of course these two approaches could be combined).
-Note that Alice can produce \emph{one} witness signature for herself, since she 
-has access to her own \(\sk_P\), but no more.
-Thus, \(\theta > 1\) is a requirement in the trust-free case.
+We assumed that Alice cannot collude with more than a threshold \(\theta\) of 
+witnesses.
+Thus, setting the threshold of at least \(\theta+1\) will prevent Alice from 
+cheating.
+(Note that Alice can produce \emph{one} witness signature for herself, since 
+she has access to her own \(\sk_P\), but no more.
+Thus, \(\theta > 1\) is a requirement in the trust-free case.)
+
+In the trusted witness case, we assume that we can trust (dedicated) witnesses.
+In this case, Alice must be able to forge statements, \eg digital signatures, 
+from at least one witness that the verifier trusts.
 
 \paragraph{Designated protest}%
 \label{analysis-designated}
@@ -161,20 +177,3 @@ Thus, the verification process differs for the two types of proofs.
 (An alternative approach would have been to compute them differently, for 
 instance \(\pid = \AC[PRF]_{\sk}(x)\) but \(\wid = \AC*[PRF]_{\sk}(x)\), where 
 \(\AC \neq \AC*\) are separate anonymous-credential systems.)
-
-%\paragraph{Forging proof shares}
-%
-%\daniel{This is work-in-progress.}
-%Alice can attempt to forge the full proof directly, \ie
-%\begin{multline*}
-%\pi_{\pid'} = \SPK\mleft\{ (\sk_P') : \mright. \\
-%  \begin{aligned}
-%    \pid' &= \ACprf[_{\sk_P'}][\cid], \\
-%    \sigma_P'' &= \mleft. \ACblind[\ACsign[_{\ssk}][\sk_P']] \mright\}
-%  \end{aligned} \\
-%    (\cid, \pid', \wid', t_s, t_s', l)
-%\end{multline*}
-%and consequently
-%and thus solve same problem twice (once for \(pid'\) and once for \(\wid'\)).
-%
-
