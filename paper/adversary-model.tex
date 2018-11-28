@@ -78,13 +78,16 @@ The adversary cannot control \(S\) but can learn what \(S\) learns as soon as
 so the adversary cannot control \(S\), but since \(S\) provides public access 
 the adversary can (possibly constantly) query it and learn things with little 
 delay.
-However, it might not be realistic to assume that the channel between \(P\) and 
-\(S\) is unobservable for the adversary.
+Note that the adversary is also allowed to submit data to \(S\) for storage, 
+just like everyone else.
+
+\Cref{deanonymizing-storage-adversary} is a stronger adversary who also can 
+observe the channel between \(P\) and \(S\).
 \Eg a national state can potentially monitor the traffic of all \acp{ISP} and 
 thus perform time-correlation attacks on messages on the network and events 
-observed through \(S\).
+observed from \(S\).
 We capture this in \cref{deanonymizing-storage-adversary}, where \(S\) learns 
-the identity of the protester.
+the identity of \(P\).
 
 %However, in some situations this might not be the case: \Eg if the crowd is not 
 %dense the witness will likely see the face of the protester.
