@@ -6,7 +6,7 @@
 that their participation proofs (\ie proof shares) are indeed included in the 
 computed count.
 All proof shares (\ie \(\prf_{\pid, \prtst} = (\cid, \pid, \wid, t_s, t_s', 
-  t_e, t_e', l, \pi_\pid, \pi_{\wid})\)) are committed to the ledger and 
+  t_e, t_e', l, \corr_\pid, \corr_\wid)\)) are committed to the ledger and 
 available from a public and permanent storage (see 
 \cref{fig:ProtocolOverview}).
 Thus, Alice and Bob can simply check that all of their proof shares are indeed 
@@ -18,8 +18,8 @@ further.)
 \Cref{UniversalVerif} includes that anyone can check the result and that all 
 participation proofs counted are legitimate.
 As the proof shares are committed and stored publicly, anyone can
-download them, verify eligibility (\ie verify \(\pi_\pid,
-\pi_{\wid}\)) of the proofs and count them.
+download them, verify eligibility (\ie verify \(\corr_\pid,
+\corr_{\wid}\)) of the proofs and count them.
 As for individual verifiability, the security of universal verifiability is 
 reduced to the properties of the ledger and storage; but universal 
 verifiability also depends on the eligibility verification, which we will 
