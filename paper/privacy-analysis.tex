@@ -3,7 +3,7 @@
 We start with \cref{ProtestUnlink}, that Alice's proofs must be unlinkable across protests but linkable within one protest due to \cref{CountOnce}.
 It follows from the properties of \(\ACprf\) that \(\pid =  \ACprf[_{\sk_P}][\cid]\) and \(\pid' = \ACprf[_{\sk_P}][\cid']\) are unlinkable if \(\cid\neq \cid'\).
 
-Afterwards to get the property \cref{ProofUnlink}.
+Afterwards to get the property \cref{PseudonymUnlink}.
 Given \(\pid\), Grace cannot distinguish whether \(\pid = \ACprf[_{\sk_A}][\cid]\), \(\pid = \ACprf[_{\sk_A}][\cid']\) or \(\pid = \ACprf[_{\sk_B}][\cid]\) due to the properties of \(\AC\).
 
 However, consider the situation in which the witness works for Grace.
