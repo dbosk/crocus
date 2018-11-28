@@ -11,7 +11,7 @@ During the demonstrations against the South Korean president in Seoul in 2016
 \blockcquote{2016DemonstrationsInSeoul}{%
   \textins*{t}he rallies stretch\textins{ed} from midday to late night --- some people stay\textins{ed} for several hours, others just several minutes%
 }.
-These rallies were all in the same location in the capital and repeated every weekend for a few weeks duration.
+These rallies were all in the same location in the capital and repeated every weekend for a few weeks.
 The Women's Marches in 2017~\cite{2017WomensMarchesInUS}, on the other hand, occurred in parallel in many locations.
 We also have the Venezuelan demonstrations in 2017 in which \blockcquote{2017VenezuelaProtestFrequency}{%
   anti-government demonstrators have staged daily protests across Venezuela%
@@ -35,8 +35,8 @@ More specifically, we will use the following definition.
 % subprotest
 
 \begin{definition}[Subprotest, Protest]\label{DefProtest}
-  A \emph{subprotest} is a tuple \((\cid, t, l)\) in which \(\cid\in \bin^{\lambda}\), for some fixed \(\lambda\in \NN\), is the identifier of the cause of the protest, \(t \subseteq \TT\) is a time period and \(l \subseteq \LL\) is the location (the topological connectedness is not necessary).
-  A \emph{protest} is the set of subprotests sharing the same \(\cid\).
+  A \emph{subprotest} \(p = (\cid, t, l)\) is a tuple in which \(\cid\in \bin^{\lambda}\), for some fixed \(\lambda\in \NN\), is the identifier of the cause of the protest, \(t \subseteq \TT\) is a time period and \(l \subseteq \LL\) is the location (the topological connectedness is not necessary).\\
+  A \emph{protest} \(\prtst\) is the set of subprotests sharing the same \(\cid\).
 \end{definition}
 
 The protests described in the previous examples can be captured using this definition by decomposing them into subprotests.
@@ -47,29 +47,30 @@ Similarly for marches, the marching path can be divided into subprotests with lo
 Each participant who wants to be counted must submit a \emph{participation proof}.
 The proof must be associated with the protest (\ie its cause identifier \(cid\)), and its time and location must coincide with one of the subprotests.
 
-Our protocol relies on \emph{witnesses} to certify and associate the proof to the location by creating a \emph{proof share}.
+Our protocol relies on \emph{witnesses} to certify and associate the proof to the time and location by creating a \emph{proof share}.
 A witness is only allowed to create one proof share per protester to avoid the risk of count inflation.
 (Note that a participant of a protest can take the role of a protester but also 
 act as witness for other protesters.)
-All the proof shares together form the participation proof.
+Then, the set of all \emph{eligible} proof shares forms the participation proof of a protester.
 
 % proof share
 % proof shares
 % protester identifier
 % witness identifier
 
-\begin{definition}[Proof share]%
+\begin{definition}[Eligible proof share]%
   \label{DefProofShare}\label{DefProofShares}
   A \emph{proof share} \(\psh = (\cid, t, l, \pid, \wid)\) is a tuple in which: 
   \(\cid, t, l\) are as in \cref{DefProtest};
-  \(\pid\) is a protester's pseudonym for the protest identified by \(\cid\); and \(\wid\) is a witness's pseudonym for a protester with pseudonym \(\pid\).
-  We say that \(\psh\) is part of a subprotest \(\sprtst = (\cid', t', l')\) if and only if \(\cid = \cid', t\subseteq t', l\subseteq l'\) and denote this by 
+  \(\pid\) is a protester's pseudonym for the protest identified by \(\cid\); and \(\wid\) is a witness's pseudonym for a protester with pseudonym \(\pid\).\\
+  Furthermore, we say that \(\psh\) is \emph{eligible} for a subprotest \(\sprtst = (\cid', t', l')\) if and only if \(\cid = \cid', t\subseteq t', l\subseteq l'\) and denote this by 
   \(\psh \sqsubseteq \sprtst\).
-  We define \(\pshs\) as the set of all proof shares.
+  
 \end{definition}
 
-A subset of the proof shares forms a participation proof for a protester.
-We will use the following notation to filter out a subset of \(\pshs\) with specific \(\cid\)s and \(\pid\)s:
+%A subset of the proof shares forms a participation proof for a protester.
+We denote by \(\pshs\) the set of all proof shares,
+and we will use the following notation to filter out a subset of \(\pshs\) with specific \(\cid\)s and \(\pid\)s:
 \begin{multline*}
   \pshs_{\cid_0, \pid_0} = \\
   \{(\cid, t, l, \pid, \wid)\in \pshs\mid \cid = \cid_0 \land \pid = \pid_0\}.
@@ -79,7 +80,7 @@ We will use the following notation to filter out a subset of \(\pshs\) with spec
 % proofs
 \begin{definition}[Participation proof]%
   \label{DefParticipationProof}\label{DefParticipationProofs}
-  A \emph{participation proof} of a protester with pseudonym \(\pid\) who participates in a protest \(\prtst\) with cause identifier \(\cid\) is the 
+  The \emph{participation proof} of a protester with pseudonym \(\pid\) who participates in a protest \(\prtst\) with cause identifier \(\cid\) is the 
   set
   \begin{equation}
     \nonumber
@@ -87,7 +88,7 @@ We will use the following notation to filter out a subset of \(\pshs\) with spec
     \left\{ \psh \in \pshs_{\cid, \pid} \mid
       \exists \sprtst\in \prtst\colon \psh\sqsubseteq \sprtst \right\},
   \end{equation}
-  of all proof shares with the same protester and protest identifiers, time interval \(t\) and location \(l\) within those of the protest (\ie any subprotest).
+  of all proof shares with the same protester and protest identifiers, and eligible for any subprotest $p$ of $\prtst$.
   We denote by \(\prfs\) the set of all proofs.
 \end{definition}
 
@@ -96,21 +97,20 @@ We will use the following notation to filter out a subset of \(\pshs\) with spec
 We can now define the participation count as follows.
 \begin{definition}[Participation count]%
   \label{DefParticipationCount}
-  We define the \emph{participation count} of a protest \(\prtst\) (as in \cref{DefParticipationProof}) as the cardinality 
-  \(|\prfs_{P}^{\str,\theta}|\) of the set of participation proofs \[
-    \prfs_{\prtst}^{\str,\theta} = \left\{ \prf_{i,P} \in \prfs \mid
-      \str(\prf_{i,P})\geq \theta \right\}
-  \] for some strength function \(\str\colon \powerset(\pshs)\to \RR_+\) and a 
-  threshold \(\theta\).
+  We define a \emph{participation count} of a protest \(\prtst\) as the cardinality 
+  \(|\prfs_{\prtst}^{\str,\theta}|\) of the set of \emph{valid} participation proofs respectively to a strength function $\str$ and a threshold $\theta$: \[
+    \prfs_{\prtst}^{\str,\theta} = \left\{ \prf_{i,\prtst} \in \prfs \mid
+      \str(\prf_{i,\prtst})\geq \theta \right\}
+  \] with \(\str\colon \powerset(\pshs)\to \RR_+\) and  \(\theta \in \RR_+\).
 \end{definition}
 
 The strength function \(\str\) can be used to regulate the trust in the 
 participation count estimated. In general, \(\str\) can be defined as a 
 weighted sum of the proof shares, \(\str = \sum \omega_i s_i\), with the 
 weights \(\omega_i\) being the trust in the witness corresponding to that proof 
-share \(s_i\), and the threshold \(\theta\) represents the total trust needed 
+share \(s_i\), and the threshold \(\theta\) representing the total trust needed 
 to accept a participant as valid.
-One example would be to set all weights to 1 for \(\str\) to return the number of unique witnesses and thus let \(\theta\) to be the threshold of the number of required witnesses.
+One example would be to set all weights to 1 for \(\str\) to return the number of unique witnesses and thus let \(\theta\) be the number of required witnesses.
 Another possibility would be to also have a particular type of witness, called \emph{trusted witness}, participating in the protest. 
 For instance, the role of the trusted witness could be taken by Jane, the independent journalist. 
 In this situation, the weights would be 1 for trusted witnesses and 0 for any other witness, and
@@ -120,5 +120,4 @@ non-trusted witnesses and a weight of \(\theta\) to trusted witnesses. This
 results in a participant being valid if they are witnessed either by \(\theta\) 
 non-trusted witness or by one trusted witness.
 
-\simon{check the notation in the weights formula is consistent, check that the description in section V corresponds}
-\daniel{Fixed formula, math mode; didn't check Section V though.}
+\simon{check that the description in section V corresponds}
