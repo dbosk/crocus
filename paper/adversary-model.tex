@@ -81,13 +81,14 @@ delay.
 Note that the adversary is also allowed to submit data to \(S\) for storage, 
 just like everyone else.
 
-\Cref{deanonymizing-storage-adversary} is a stronger adversary who also can 
-observe the channel between \(P\) and \(S\).
+\Cref{deanonymizing-storage-adversary} is a stronger adversary.
+Although the adversary cannot observe the channel between \(P\) and \(S\), the 
+adversary can still learn the identity of \(P\).
 \Eg a national state can potentially monitor the traffic of all \acp{ISP} and 
 thus perform time-correlation attacks on messages on the network and events 
 observed from \(S\).
-We capture this in \cref{deanonymizing-storage-adversary}, where \(S\) learns 
-the identity of \(P\).
+We capture this in \cref{deanonymizing-storage-adversary}, where \(A\) learns 
+the identity of \(P\) in the communication with \(S\).
 
 %However, in some situations this might not be the case: \Eg if the crowd is not 
 %dense the witness will likely see the face of the protester.

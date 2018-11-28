@@ -12,10 +12,19 @@ available from a public and permanent storage (see
 Thus, Alice and Bob can simply check that all of their proof shares are indeed 
 there and the security of individual verifiability depends on the properties of 
 the ledger and storage (\(\TS\), \cref{timestamp}).
-(As these are the main properties of distributed ledgers, we do not elaborate 
-further.)
+For both \cref{in-system-adversary,deanonymizing-storage-adversary} we assumed 
+an honest-but-curious adversary controlling \(\TS\)\footnote{%
+  We note that, in general, distributed (decentralized) ledgers cannot 
+  withstand a malicious \ac{ISP}.
+  Such an adversary can partition the network and provide Alice and Bob with 
+  different views of the ledger, thus breaking individual verifiability.
+  However, this requires that the adversary \emph{can observe} Alice's and 
+  Bob's channels to the ledger --- which is still not true even for 
+  \cref{deanonymizing-storage-adversary}.
+}.
+This means that Alice can check that her proof share is indeed there.
 
-\Cref{UniversalVerif} includes that anyone can check the result and that all 
+\Cref{UniversalVerif} implies that anyone can check the result and that all 
 participation proofs counted are legitimate.
 As the proof shares are committed and stored publicly, anyone can
 download them, verify eligibility (\ie verify \(\pi_\pid,
