@@ -3,24 +3,53 @@
 
 \subsection{Assumptions limitation} 
 
-Some of the assumptions that are required for implementing our proposition are not yet realized, such as tying a unique identity to a smartphone or performing distance-bounding protocols on existing smartphones. 
-In particular, not all (or even many) protesters, especially in countries with oppressive regimes, currently possess smartphones.
-In addition, digital certificates signed by a central authority are not yet widely available and if we rely on government-issued credentials, we cannot prevent the government from performing Sybil attacks --- since it can issue arbitrarily many \emph{valid} credentials. \sonja{moved the following from system model, need to clean up this paragraph} For instance, we could use the cryptographic keys of any national electronic identity system, identity card or passport.
-This assumption is needed to prevent Sybil attacks~\cite{SybilAttack}, which would have a disastrous effect on the crowd-counting estimation\footnote{
-Of course, this has for consequence that the \ac{CA} can perform a Sybil attack on the system.
-Thus, if the \ac{CA} is controlled by the government, no counts in favor of the government can be trusted.
+Some of the assumptions that are required for implementing our proposition are 
+not yet realized, however, we believe that they will soon be realized.
+
+One major issue is that all protesters must have smartphones --- in many 
+countries with oppressive regimes, far from all possess smartphones.
+
+On those smartphones we additionally require digital certificates signed by a 
+central authority.
+This is also not yet widely available.
+However, more and more states (governments) are starting to issue digital 
+certificates in identity cards and many already have crypto-enabled RFID chips 
+in their passports.
+\Eg Estonia, Germany, and Sweden already have the infrastructure and widely 
+deployed electronic identification systems, and the EU already has regulation 
+in place (eIDAS).
+The speed of adoption will depend on the architecture of these systems.
+For instance, the system used in Sweden, BankID, is implemented in software (on 
+smartphones) and can thus be easily upgraded to include the anonymous 
+credentials that \CROCUS needs.
+As for wide deployment: more than \SI{95}{\%} of people in the ages 21--50 uses 
+BankID, \SI{88}{\%} for ages 51--60 and \SI{76}{\%} for ages 
+61--70\footnote{%
+  Official statistics, in Swedish:  
+  \url{https://www.bankid.com/assets/bankid/stats/2018/statistik-2018-04.pdf}.
 }.
 
-In this case, it does not make sense to verify any pro-government protests in which Grace's authoritarian regime wants to demonstrate its wide support~\cite{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
+We need a strong connection between a person and the cryptographic key, so we 
+believe that relying on these government-issued credentials is the most 
+probable solution.
+Unfortunately, if we rely on government-issued credentials, we cannot prevent 
+the government from performing Sybil attacks --- since it can issue arbitrarily 
+many \emph{valid} credentials.
+In this case, it does not make sense to verify any pro-government protests in 
+which Grace's authoritarian regime wants to demonstrate its wide 
+support~\cite{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
+But as long as the protests are not aligned with the interests of the \ac{CA}, 
+the counts can be trusted.
+
 Finally, achieving distance-bounding protocols on smartphones is currently not feasible within a meaningful range of distance needed for our scenario.
 Indeed, existing smartphones lack the required hardware to conduct the distance bounding fast enough.
+However, thefts of luxury cars due to relay attacks have driven the development 
+of hardware for doing distance bounding in car keys.
+We believe that using smartphones for contactless payment and electronic 
+tickets will drive a similar development for this hardware on smartphones.
 
-However, we believe that some of these assumptions might become sufficiently realistic in the near future, due to the smartphone penetration being on the rise and the increased digitalization and government-issued credentials already available in some countries now (\eg Estonia, Germany, and Sweden). 
-The speed of adoption will depend on the architecture of these systems.
-For instance, the system used in Sweden, BankID, is implemented in software and can thus be easily upgraded to include the anonymous credentials that \CROCUS need.
-As for coverage of the population: more than \SI{95}{\%} of people in the ages 21--50 uses BankID, it is \SI{88}{\%} for ages 51--60 and \SI{76}{\%} for ages 61--70\footnote{Official statistics, in Swedish:  \url{https://www.bankid.com/assets/bankid/stats/2018/statistik-2018-04.pdf}.}.
-
-%Seb: I have commented this part because it is redondant with the performance and evaluation part
+%Seb: I have commented this part because it is redondant with the performance 
+%and evaluation part
 %Furthermore, recent technological progress has enabled more advanced cryptographic primitives to be used on smartcards and smartphones that could be used to implement our solution.
 %For instance, benchmarks~\cite{Benchmarking} have shown that Android devices are now fast enough to efficiently implement Privacy Enhancing Technologies (PETs), with a Samsung Galaxy S i9000 being able to execute Idemix in \SI{153}{\milli\second}. 
 %However, those benchmarks also demonstrate that smartcards remain slow to process complex protocols such as Idemix or U-Prove (taking between \SI{4}{\second} and \SI{8}{\second} to process them). %
