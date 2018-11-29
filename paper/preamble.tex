@@ -49,6 +49,10 @@
 \crefname{requirements@ii}{requirement}{requirements}
 \Crefname{requirements@i}{Requirement}{Requirements}
 \Crefname{requirements@ii}{Requirement}{Requirements}
+\crefname{adversaries@i}{adversary}{adversaries}
+\crefname{adversaries@ii}{adversary}{adversaries}
+\Crefname{adversaries@i}{Adversary}{Adversaries}
+\Crefname{adversaries@ii}{Adversary}{Adversaries}
 
 \usepackage{amssymb}
 \usepackage{bibsp}
@@ -108,8 +112,9 @@
 \NewSet{\pshs}{S}
 \NewVariable{\pid}{pid}
 \NewVariable{\wid}{wid}
-\NewVariable{\prf}{\pi}
+\NewVariable*{\prf}{\pi}
 \NewSet*{\prfs}{\Pi}
+\NewVariable*{\corr}{\psi}
 \NewFunction{\str}{\varsigma}
 \NewScheme{\TS}{TS}
 \NewAlgorithm{\TSget}{\TS.\!Get}

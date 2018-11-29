@@ -253,18 +253,21 @@ The participant should as soon as possible commit the proof-share data to the
 time-stamping service and receive the proof of commitment, \(t_e\gets 
   \TSstamp[\Hash[\cid, \pid, \wid, t_s, t_s', l]]\).
 The remaining operations are not time critical.
-The protester computes \iac{NIZK} proof \(\pi_{\pid}\), which shows the 
+
+The protester computes \iac{NIZK} proof \(\corr_{\pid}\), which shows the 
 correctness of \(\pid\).
 More specifically,
 \begin{multline*}
-  \pi_{\pid}\gets \SPK\left\{ (\sk_P) : \right. \\
+  \corr_{\pid}\gets \SPK\left\{ (\sk_P) : \right. \\
     \begin{aligned}
       \pid &= \ACprf[_{\sk_P}][\cid] \quad \land \\
       \sigma_P' &= \left. \ACblind[\ACsign[_{\ssk}][\sk_P]] \right\}
     \end{aligned} \\
       (\cid, \pid, \wid, t_s, t_s', l).
 \end{multline*}
-Finally, the protester uploads the tuple \[  \psh_P = (\cid, \pid, \wid, t_s, t_s', t_e, l, \pi_{\pid})\] for permanent storage.
+Finally, the protester uploads the tuple \[
+  \psh_P = (\cid, \pid, \wid, t_s, t_s', t_e, l, \corr_{\pid})
+\] for permanent storage.
 
 \emph{Submission: \(\psh_W\gets \CROCUSsubmit[_W][\cid, \pid, \wid, t_s, t_s', 
     l]\).}
@@ -274,17 +277,18 @@ time-stamping service, \(t_e'\gets \TSstamp[\Hash[\cid, \pid, \wid, t_s, t_s',
 (This is to make the time interval as early as possible, whoever is the faster 
 will submit it.)
 Then, without any time requirements, the witness computes \iac{NIZK} proof 
-\(\pi_{\wid}\) as follows:
+\(\corr_{\wid}\) as follows:
 \begin{multline*}
-  \pi_{\wid}\gets \SPK\left\{ (\sk_W) : \right. \\
+  \corr_{\wid}\gets \SPK\left\{ (\sk_W) : \right. \\
     \begin{aligned}
       \wid &= \ACprf[_{\sk_W}][\pid] \quad \land \\
       \sigma_W' &= \left. \ACblind[\ACsign[_{\ssk}][\sk_W]] \right\}
     \end{aligned} \\
       (\cid, \pid, \wid, t_s, t_s', l).
 \end{multline*}
-Finally, the witness uploads the tuple \[ \psh_W = (\cid, \pid, \wid, t_s, 
-  t_s', t_e', l, \pi_{\wid}) \] for permanent storage.
+Finally, the witness uploads the tuple \[
+  \psh_W = (\cid, \pid, \wid, t_s, t_s', t_e', l, \corr_{\wid})
+\] for permanent storage.
 
 \subsection{Verifying the participation count}%
 \label{ProtocolVerification}
@@ -303,10 +307,10 @@ strength functions.
 To verify the participation count for a subprotest \(\sprtst = (\cid, t, l)\) 
 (see \cref{DefProtest}), a verifier must download all the proof shares \[
   \psh_i =   (\cid, \pid_j, \wid_i, t_s^{(i)}, t_s^{\prime (i)}, t_e^{(i)}, 
-  t_e^{\prime   (i)}, l_i, \prf_{\pid_j}^{(i)}, \prf_{\wid_i})
-\] for each protester \(j\) from the ledger, verify \(\prf_{\pid_j}^{(i)}\), 
-\(\prf_{\wid_i}\) and that the interval \(\interval{\max(t_s^{(i)}, t_s^{\prime 
-      (i)})}{\min(t_e^{(i)}, t_e^{\prime (i)})}\subseteq t\) and that 
+  t_e^{\prime   (i)}, l_i, \corr_{\pid_j}^{(i)}, \corr_{\wid_i})
+\] for each protester \(j\) from the ledger, verify \(\corr_{\pid_j}^{(i)}\), 
+\(\corr_{\wid_i}\) and that the interval \(\interval{\max(t_s^{(i)}, 
+    t_s^{\prime (i)})}{\min(t_e^{(i)}, t_e^{\prime (i)})}\subseteq t\) and that 
 \(l_i\subseteq  l\).
 Any proof share that does not verify correctly will be discarded.
 At this point, the verifier has constructed the set \(S\) from 
