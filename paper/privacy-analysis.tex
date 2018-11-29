@@ -1,20 +1,60 @@
 \subsection{Privacy}
 
-We start with \cref{ProtestUnlink}, that Alice's proofs must be unlinkable across protests but linkable within one protest due to \cref{CountOnce}.
-It follows from the properties of \(\ACprf\) that \(\pid =  \ACprf[_{\sk_P}][\cid]\) and \(\pid' = \ACprf[_{\sk_P}][\cid']\) are unlinkable if \(\cid\neq \cid'\).
+We start with \cref{PseudonymUnlink}.
+Given \(\pid\), \cref{in-system-adversary} cannot distinguish whether \(\pid = 
+  \ACprf[_{\sk_A}][\cid]\) or \(\pid = \ACprf[_{\sk_B}][\cid]\) due to the 
+properties of \(\AC\) (see~\cite{HowToWinTheCloneWars}).
+This is not necessarily true for \cref{deanonymizing-storage-adversary}:
+if everyone uploads their own proof shares\footnote{%
+  This is probable due to the proof-of-correctness, \(\corr_\pid\), which is 
+  likely computed after the protest has ended.
+}, \cref{deanonymizing-storage-adversary} will link \(P\) and \(\pid\), and 
+consequently \(P\) and \(\cid\).
 
-Afterwards to get the property \cref{ProofUnlink}.
-Given \(\pid\), Grace cannot distinguish whether \(\pid = \ACprf[_{\sk_A}][\cid]\), \(\pid = \ACprf[_{\sk_A}][\cid']\) or \(\pid = \ACprf[_{\sk_B}][\cid]\) due to the properties of \(\AC\).
+\Cref{ProtestUnlink}, Alice's proofs must be unlinkable across protests.
+This also follows from the properties of 
+\(\ACprf\)~\cite{HowToWinTheCloneWars}: \(\pid =  \ACprf[_{\sk}][\cid]\) and 
+\(\pid' = \ACprf[_{\sk}][\cid']\) (where \(\cid \neq \cid'\)) are unlinkable 
+from the perspective of \cref{in-system-adversary}.
+This is not true for \cref{deanonymizing-storage-adversary}: since 
+\cref{deanonymizing-storage-adversary} can link \(\pid, P\) and \(\pid', P\); 
+then \cref{deanonymizing-storage-adversary} can link \(\pid, \pid'\) too, thus 
+violating \cref{ProtestUnlink}.
+In the same way, \cref{deanonymizing-storage-adversary} can violate 
+\cref{WitnessUnlink}.
 
-However, consider the situation in which the witness works for Grace.
-This witness interacts with Alice directly and might have (physically) identified her.
-The witness also learns Alice's \(\pid\), but not \(\cid\), to compute \(\wid\) and to verify the \ac{PPK}.
-\daniel{This assumes that I will do the changes to hide \(\cid\) from the witness in the \ac{PPK}.}
-Afterwards, Alice publishes \(\pid\) and \(\cid\) together as part of the proof 
-share.
-The probability of a colliding \(\pid = \ACprf[_\sk][\cid']\) for some \(\cid' 
-  \neq \cid\) and \(\sk \neq \sk_P\) is \enquote{small}.
-\daniel{Fix this.}
-If this occurs, Grace could link \(\cid\) (and thus the opinions in the manifesto) to Alice.
+However, the statement about \cref{ProtestUnlink,in-system-adversary} is not 
+necessarily true for \cref{WitnessUnlink,in-system-adversary}.
+The proof shares consist of more than only \(\cid, \pid, \wid\); more 
+specifically, each proof share is a tuple \((\cid, \pid, \wid, t_s, t_s', l, 
+  \corr_\pid, \corr_\wid)\).
+Let \(\cid\) be fixed, then \(\pid\) is a unique identifier for \(P\).
 
-\sonja{anonymity and cause unlinkability missing}
+We assume that the location \(l\) is coarse enough so that many non-overlapping 
+\((\pid, \wid)\)-pairs use the same location.
+Thus \(l\) is not unique for any individual (protester or witness).
+This implies some degree of \(k\)-anonymity for the location \(l\).
+
+Since \(\pid\) uniquely identifies \(P\), then if \(t_s^{(\pid)}\) is 
+\enquote{unique enough}\footnote{%
+  This can be verified thanks to \cref{CountOnce}.
+  If there are no tuples \((\pid, t_s)\) and \((\pid, t_s')\) among the proof 
+  shares such that \(\pid \neq \pid'\) but \(t_s = t_s'\), then \(t_s\) also 
+  \emph{likely} uniquely identifies \(P\).
+  \enquote{Likely} depends on the likelihood of there being witnesses who are 
+  not protesters.
+}, every \(\wid\) for which \(t_s' = t_s^{(\pid)}\) is \emph{likely} to be 
+\(P\) acting as a witness.
+This would allow \cref{in-system-adversary} to link \(\wid, \wid'\) for 
+different protesters, thus violating \cref{WitnessUnlink}.
+(The same can be said of \(\pid\) and \cref{ProtestUnlink} if there are 
+multiple protests, \ie \(\cid\)'s, at the same time and location.
+However, we deem this as unlikely.)
+
+Distribution of \(t_s\) depends on the rate of \(\TSget\) and the distribution 
+of when participants run the algorithm the last time.
+For example, if we use a six-hour interval and a rate of one new value per 
+minute, then there are potentially 21600 unique values for \(t_s\).
+However, we can scale this down by a factor \(n\) by requiring \(\TSget\) to 
+use only every \(n\)th block from the underlying ledger.
+Thus it seems reasonable that \(t_s\) will never be \enquote{unique enough}.

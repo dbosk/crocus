@@ -13,7 +13,6 @@ SRC+=	related-work.tex
 SRC+= 	definitions.tex
 SRC+= 	protest-model.tex
 SRC+= 	verifiability-properties.tex
-SRC+= 	adversary-model.tex
 SRC+=	privacy-properties.tex
 SRC+= 	adversary-model.tex 
 SRC+= 	building-blocks.tex
