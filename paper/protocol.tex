@@ -293,16 +293,16 @@ Finally, the witness uploads the tuple \[
 \subsection{Verifying the participation count}%
 \label{ProtocolVerification}
 
-While there are various ways for verifying the participation count, hereafter, 
-we will detail the two suggested just after \cref{DefParticipationCount}.
-In the first approach, we do not trust individual witnesses, rather we \emph{assume} that it is difficult for Alice to find more than \(\theta\) witnesses willing to collude.
-Thus, the strength comes from the number of witnesses and we require at least \(\theta\) witnesses to accept a participation proof as valid.
-In the second approach, we trust specific witnesses, but no others.
-In this case, to accept a participation proof as valid, we require at least one trusted witness, the independent journalist Jane.
-It is the strength function \(\str\) of \cref{DefParticipationCount} that 
-differ in the two cases.
-We will first give the procedure and then how to construct the two different 
-strength functions.
+% While there are various ways for verifying the participation count, hereafter, 
+% we will detail the two suggested just after \cref{DefParticipationCount}.
+% In the first approach, we do not trust individual witnesses, rather we \emph{assume} that it is difficult for Alice to find more than \(\theta\) witnesses willing to collude.
+% Thus, the strength comes from the number of witnesses and we require at least \(\theta\) witnesses to accept a participation proof as valid.
+% In the second approach, we trust specific witnesses, but no others.
+% In this case, to accept a participation proof as valid, we require at least one trusted witness, the independent journalist Jane.
+% It is the strength function \(\str\) of \cref{DefParticipationCount} that 
+% differ in the two cases.
+% We will first give the procedure and then how to construct the two different 
+% strength functions.
 
 To verify the participation count for a subprotest \(\sprtst = (\cid, t, l)\) 
 (see \cref{DefProtest}), a verifier must download all the proof shares \[
@@ -319,20 +319,28 @@ At this point, the verifier has constructed the set \(S\) from
 Now the verifier can compute the participation count \(|\prfs_P^{\str, 
     \theta}|\) as in \cref{DefParticipationCount}.
 
-In the case \emph{without} trusted witnesses, all the weights equal to 1 is equivalent to counting the elements in the set, 
-\(\str[\prf_{\pid_j, P}] = |\prf_{\pid_j, P}|\).
+% In the case \emph{without} trusted witnesses, all the weights equal to 1 is equivalent to counting the elements in the set, 
+% \(\str[\prf_{\pid_j, P}] = |\prf_{\pid_j, P}|\).
 
-In the case \emph{with} trusted witnesses, each trusted witness must inform the 
-verifier of which proof shares that he or she has signed, \eg by giving a list 
-of all such proof shares or digitally sign each proof share\footnote{%
-  To achieve witness privacy in this situation, one could employ a group or 
-  ring signature scheme for all trusted witnesses.
-  Then one learns that at least one trusted witness must have been there.
+In the case of trusted witnesses, each such trusted witness must
+publish or otherwise inform the 
+verifier of which proof shares she has signed, \eg by giving a list 
+of all such proof shares or digitally signing each proof share\footnote{
+ To achieve witness privacy in this situation, one could employ a group or 
+ ring signature scheme for all trusted witnesses.
+ Then one learns that at least one trusted witness must have been there.
 }.
-Then the verifier can define \[
-  \str[\prf_{\pid_j, P}] = \begin{cases}
-    1 & \text{if \(\exists \psh_i\in \prf_{\pid_j, P}\) that is such a proof 
-      share} \\
-    0 & \text{otherwise}
-  \end{cases}
-\] and sets \(\theta = 1\).
+
+Note that anyone who does the counting can choose the eligibility
+criteria (time interval, location, number of regular or trusted
+witnesses, who is considered to be a trusted witness) for their count
+and as long as these are published along with the result, any one can
+verify the correctness under those criteria.
+
+% Then the verifier can define \[
+%   \str[\prf_{\pid_j, P}] = \begin{cases}
+%     1 & \text{if \(\exists \psh_i\in \prf_{\pid_j, P}\) that is such a proof 
+%       share} \\
+%     0 & \text{otherwise}
+%   \end{cases}
+% \] and sets \(\theta = 1\).
