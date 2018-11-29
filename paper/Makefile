@@ -25,7 +25,7 @@ SRC+= 	privacy-analysis.tex
 SRC+= 	analysis-performance.tex
 SRC+= 	discussion.tex
 SRC+=	conclusions.tex
-SRC+=	appendix.tex
+SRC+=	tamarin-spec.tex
 
 paper.pdf: ${SRC}
 
