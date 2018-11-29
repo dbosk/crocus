@@ -40,7 +40,7 @@ More precisely, we have simply adapted their description to our notation, but ot
 \emph{Setup: \((\spk, \ssk)\gets \CROCUSsetup\).}
 During the setup phase, the \ac{CA} creates all the needed keys.
 The \ac{CA} generates a service public-private key-pair \((\spk, \ssk)\gets 
-  \ACsetup\) (see \cref{CLsignAlg}).
+  \ACsetup\) (see \cref{ACsignAlg}).
 
 \emph{Registration: \(\sk\gets 
     \Proto{\CROCUSreg[_P][\spk]}{\CROCUSreg[_{\CA}][\ssk]}\).}
@@ -52,7 +52,7 @@ will issue only one signature per participant but without knowing the
 association between a particular key and the identity of the participant.
 The participant chooses \(k, r\rgets \ZZ_q\) uniformly randomly and runs 
 \(\sigma \gets \Proto{\ACgetSig[\spk, k, r]}{\ACissueSig[\spk, \ssk]}\) (see 
-\cref{CLacSigAlg}).
+\cref{ACacAlg}).
 Upon success, the participant sets \(\sk = (\sigma, k, r)\).
 
 The setup and registration phases can be done once and the keys can be reused 
