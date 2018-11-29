@@ -27,7 +27,7 @@ We need an anonymous credential system, \(\AC\), which provides the following al
 We require the commitment scheme to be \emph{perfectly hiding} and computationally binding, rather than the other way around.
 Indeed, we are more concerned with long-term privacy, which means that we are looking for information-theoretic security with respect to confidentiality.
 \(\ACcommit\) can be instantiated with the Pedersen commitment 
-scheme~\cite{PedersenCommitment}, see \(\Pcommit\) in \cref{ACcommitAlg}.
+scheme~\cite{PedersenCommitment}, see \cref{ACcommitAlg}.
 
 \begin{figure}
   \small
@@ -200,25 +200,25 @@ This can be instantiated using CL-signatures~\cite{CLsignatures}, see
   }
 \end{figure}
 
-The prover commits to a value \(k\) with commitment \(c\gets \Pcommit[k, o]\) 
+The prover commits to a value \(k\) with commitment \(c\gets \ACcommit[k, o]\) 
 and opening \(o\).
-Afterwards, he uses \(\sigma\gets \Proto{\CLgetSig}{\CLissueSig}\) to obtain a 
-signature \(\sigma = \CLsign[\pk, \sk, k, r]\) on the value \(k\) and some 
+Afterwards, he uses \(\sigma\gets \Proto{\ACgetSig}{\ACissueSig}\) to obtain a 
+signature \(\sigma = \ACsign[\pk, \sk, k, r]\) on the value \(k\) and some 
 random value \(r\).
 (\(\pk\) and \(\sk\) are the public verification key and the private signing 
 key, respectively.)
 
 At a later point, the prover wants to prove to a verifier that he knows \(k\) and a signature \(\sigma\) on \(k\) made by the owner of \(pk\) (corresponding to \(sk\)) without revealing \(k\) nor \(\sigma\) (\ie, in a zero-knowledge manner).
-The prover and verifier run the protocol \(\Proto{\CLproveSig}{\CLverifySig}\) 
+The prover and verifier run the protocol \(\Proto{\ACproveSig}{\ACverifySig}\) 
 to prove the following:
 \begin{equation*}
-  \PK[k, r][\sigma' = \CLblind[\CLsign[\pk, \sk, k, r]]].
+  \PK[k, r][\sigma' = \ACblind[\ACsign[\pk, \sk, k, r]]].
 \end{equation*}
 
 Finally, we need \iac{PRF}, \(\ACprf\), such that there exists a protocol 
 \(\Proto{\ACprovePRF}{\ACverifyPRF}\) implementing the following \ac{PK}:
 \begin{equation*}
-  \PK[k][y = \DYprf[k, x]].
+  \PK[k][y = \ACprf[k, x]].
 \end{equation*}
 This means that the prover can convince the verifier that \(y = \ACprf[k, x]\) 
 without revealing \(k\).
