@@ -26,26 +26,277 @@ We need an anonymous credential system, \(\AC\), which provides the following al
 % XXX Review requirements of AC.commit
 We require the commitment scheme to be \emph{perfectly hiding} and computationally binding, rather than the other way around.
 Indeed, we are more concerned with long-term privacy, which means that we are looking for information-theoretic security with respect to confidentiality.
+\(\ACcommit\) can be instantiated with the Pedersen commitment 
+scheme~\cite{PedersenCommitment}, see \cref{ACcommitAlg}.
 
-\(\AC\) must also contain a (blindable) signature scheme with the associated protocols enabling one to get a signature on a committed value (\(\Proto{\ACgetSig}{\ACissueSig}\)) and to prove knowledge of a signature on a committed value (\(\Proto{\ACproveSig}{\ACverifySig}\)).
+\begin{figure}
+  \small
+  \begin{algorithmic}
+    \Function{\Pcommit}{$x, r$}
+    \State \Return $g^x h^r$
+    \EndFunction
+  \end{algorithmic}
+  \caption{\label{ACcommitAlg}%
+    Pedersen's commitment scheme~\cite{PedersenCommitment}.
+    Let \(G = \gen{g} = \gen{h}\) be a group with prime order \(q\) and 
+    generators \(g\) and \(h\).%
+    The \(r\) should be chosen randomly from \(\ZZ_q\).
+  }
+\end{figure}
 
-The prover commits to a value \(k\) with commitment \(c\gets \ACcommit[k, o]\) and opening \(o\).
-Afterwards, he uses \(\sigma\gets \Proto{\ACgetSig}{\ACissueSig}\) to obtain a signature \(\sigma = \ACsign[_{sk}][k]\) on the value \(k\), in which \(sk\) is the signing key of the signer.
+\(\AC\) must also contain a (blindable) signature scheme with the associated 
+protocols enabling one to get a signature on a committed value 
+(\(\Proto{\ACgetSig}{\ACissueSig}\)) and to prove knowledge of a signature on a 
+committed value (\(\Proto{\ACproveSig}{\ACverifySig}\)).
+This can be instantiated using CL-signatures~\cite{CLsignatures}, see 
+\cref{ACsignAlg,ACacAlg}.
+
+\begin{figure}
+  \small
+  \begin{algorithmic}
+    \Function{\CLsetup}{}
+    \State $x\rgets \ZZ_q, X\gets g^x, y\rgets \ZZ_q, Y\gets g^y, z\rgets 
+    \ZZ_q, Z\gets g^z$
+    \State $\sk\gets (x,y,z), \pk\gets (q, G, G_T, g, g_T, e, X, Y, Z)$
+    \State \Return $(\sk, \pk)$
+    \EndFunction
+
+    \Function{\CLsign}{$\pk, \sk, m, r$}
+    \State $a\rgets G, A\gets a^z$
+    \State $b\gets a^y, B\gets A^y$
+    \State $c\gets a^{x+xym} A^{xyr}$
+    \State \Return $\sigma = (a, A, b, B, c)$
+    \EndFunction
+
+    \Function{\CLblind}{$\sigma = (a, A, b, B, c)$}
+    \State $r\rgets \ZZ_q, r'\rgets \ZZ_q$
+    \State $\tilde a\gets a^r, \tilde A\gets A^r,
+      \tilde b\gets b^r, \tilde B\gets B^r,
+      \hat c\gets (c^r)^{r'}$
+    \State \Return $\tilde \sigma = (\tilde a, \tilde A,
+      \tilde b, \tilde B, \hat c)$
+    \EndFunction
+
+    \Function{\CLverifySig}{$\pk, m, r, \sigma = (a, A, b, B, c)$}
+    \If{$e(a, Z) \neq e(g, A)$}
+    \State \Return $\bot$
+    \Comment $A$ malformed
+    \ElsIf{$e(a, Y) \neq e(g, b) \lor e(A, Y) \neq e(g, B)$}
+    \State \Return $\bot$
+    \Comment $b$ or $B$ malformed
+    \ElsIf{$e(X, a)\cdot e(X, b)^m \cdot e(X, B)^r \neq e(g, c)$}
+    \State \Return $\bot$
+    \Comment $c$ malformed
+    \EndIf
+    \State \Return $\top$
+    \EndFunction
+
+  \end{algorithmic}
+  \caption{\label{ACsignAlg}%
+    The CL-signature scheme~\cite{CLsignatures}.
+    Let \(G = \gen{g}, G_T = \gen{g_T}\) be groups of prime order \(q\).
+    Let \(e\colon G\to G_T\) be a bilinear map.
+  }
+\end{figure}
+
+\begin{figure}
+  \centering
+  \small
+  \begin{tabular}{lcl}
+    \(\CLgetSig[\pk, m, r]\)
+    &
+    & \(\CLissueSig[\pk, \sk]\)
+
+    \\\toprule
+
+    \(M\gets \Pcommit[m, r]\)
+    & \smash{\(\ProtoSendRight[3em]{M}\)}
+    &
+
+    \\\\
+
+    \multicolumn{3}{c}{\(\PK[m, r][M = \Pcommit[m, r]]\)}
+
+    \\\\
+
+    % null
+    &
+    & \(\alpha\rgets \ZZ_q\)
+    
+    \\
+    
+    % null
+    &
+    & \(a\gets g^\alpha, A\gets a^z\)
+
+    \\
+
+    % null
+    &
+    & \(b\gets a^y, B\gets A^y\)
+
+    \\
+
+    \(\sigma\gets (a, A, b, B, c)\)
+    & \smash{\(\ProtoSendLeft[3em]{\mathclap{(a, A, b, B, c)}}\)}
+    & \(c\gets a^x M^{\alpha x y}\)
+
+    \\\bottomrule
+
+    \\
+
+    \(\CLproveSig[\pk, m, r, \sigma]\)
+    &
+    & \(\CLverifySig[\pk, \sk]\)
+
+    \\\toprule
+
+    \(\tilde \sigma\gets \CLblind[\sigma]\)
+    & \smash{\(\ProtoSendRight[3em]{\tilde \sigma}\)}
+    & \(e(\tilde a, Z) \stackrel?= e(g, \tilde A)\)
+
+    \\
+
+    % null
+    &
+    & \(e(\tilde a, Y) \stackrel?= e(g,b)\)
+
+    \\
+
+    % null
+    &
+    & \(e(\tilde A, Y) \stackrel?= e(g, \tilde B)\)
+
+    \\
+
+    \(v_x\gets e(X, \tilde a)\)
+    &
+    & \(v_x\gets e(X, \tilde a)\)
+
+    \\
+
+    \(v_{xy}\gets e(X, \tilde b)\)
+    &
+    & \(v_{xy}\gets e(X, \tilde b)\)
+
+    \\
+
+    %\(V_{xy}\gets e(X, \tilde B), v_s\gets e(g, \hat c)\)
+    \(v_s\gets e(g, \hat c)\)
+    &
+    %& \(V_{xy}\gets e(X, \tilde B), v_s\gets e(g, \hat c)\)
+    & \(v_s\gets e(g, \hat c)\)
+
+    \\\\
+
+    \multicolumn{3}{c}{\(\PK[m,r][v_s^r = v_x v_{xy}^m]\)}
+
+    \\\bottomrule
+  \end{tabular}
+  \caption{\label{ACacAlg}%
+    Protocols for CL anonymous credentials~\cite{CLsignatures}.
+    Let \(G = \gen{g}, G_T = \gen{g_T}\) be groups of prime order \(q\).
+    Let \(e\colon G\to G_T\) be a bilinear map.
+  }
+\end{figure}
+
+The prover commits to a value \(k\) with commitment \(c\gets \ACcommit[k, o]\) 
+and opening \(o\).
+Afterwards, he uses \(\sigma\gets \Proto{\ACgetSig}{\ACissueSig}\) to obtain a 
+signature \(\sigma = \ACsign[\pk, \sk, k, r]\) on the value \(k\) and some 
+random value \(r\).
+(\(\pk\) and \(\sk\) are the public verification key and the private signing 
+key, respectively.)
 
 At a later point, the prover wants to prove to a verifier that he knows \(k\) and a signature \(\sigma\) on \(k\) made by the owner of \(pk\) (corresponding to \(sk\)) without revealing \(k\) nor \(\sigma\) (\ie, in a zero-knowledge manner).
-The prover and verifier run the protocol \(\Proto{\ACproveSig}{\ACverifySig}\) to prove the following:
+The prover and verifier run the protocol \(\Proto{\ACproveSig}{\ACverifySig}\) 
+to prove the following:
 \begin{equation*}
-  \PK[k][\sigma' = \ACblind[\ACsign[_{sk}][k]]].
+  \PK[k, r][\sigma' = \ACblind[\ACsign[\pk, \sk, k, r]]].
 \end{equation*}
 
-Finally, we need \iac{PRF}, \(\ACprf\), such that there exists a protocol \(\Proto{\ACprovePRF}{\ACverifyPRF}\) implementing the following \ac{PK}:
+Finally, we need \iac{PRF}, \(\ACprf\), such that there exists a protocol 
+\(\Proto{\ACprovePRF}{\ACverifyPRF}\) implementing the following \ac{PK}:
 \begin{equation*}
-  \PK[k][y = \ACprf[_k][x]].
+  \PK[k][y = \ACprf[k, x]].
 \end{equation*}
-This means that the prover can convince the verifier that \(y = \ACprf[_k][x]\) without revealing \(k\).
+This means that the prover can convince the verifier that \(y = \ACprf[k, x]\) 
+without revealing \(k\).
+This can be instantiated by the \textcite{DY-VRF} \ac{VRF}, see 
+\cref{ACprfAlg}.
 
-\paragraph*{Possible instantiations}
-The \(\AC\) scheme can be instantiated for instance using the Pedersen commitment~\cite{PedersenCommitment} for \(\ACcommit\), CL-signatures~\cite{CLsignatures} (or adapted CL-signatures as in~\cite{AnonPass}) for \(\ACsign, \ACblind, \ACgetSig, \ACissueSig\) and the \ac{VRF} by \citet{DY-VRF} as \(\ACprf\).
-These are used together in Anon-Pass~\cite{AnonPass} and by \textcite{HowToWinTheCloneWars} to form unclonable anonymous credentials for subscriptions.
-We have adapted their mechanisms to change the basis of the authentication window (\ie epoch) from a time interval to a protest (\ie cause).
-However, we will use our \ac{DB} version of the Schnorr protocol (\cref{DBSchnorr}) for the \ac{ZKPK} protocols.
+\begin{figure}
+  \small
+  \begin{minipage}[t]{0.40\linewidth}
+    \begin{algorithmic}
+      \Function{\DYprfSetup}{}
+      \State $\sk\rgets \ZZ_q^*$
+      \State $\pk\gets g^\sk$
+      \State \Return $(\sk, \pk)$
+      \EndFunction
+    \end{algorithmic}
+
+    \begin{algorithmic}
+      \Function{\DYprf}{$\sk, x$}
+      \State \Return $y = g_T^{\frac{1}{\sk+x}}$
+      \EndFunction
+    \end{algorithmic}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.58\linewidth}
+    \begin{algorithmic}
+      \Function{\DYprovePRF}{$\sk, x$}
+      \State \Return $\pi = g^{\frac{1}{\sk+x}}$
+      \EndFunction
+    \end{algorithmic}
+
+    \begin{algorithmic}
+      \Function{\DYverifyPRF}{$\pk, x, y, \pi$}
+      \If{$e(g^x\cdot \pk, \pi) \neq e(g,g)$}
+      \State \Return $\bot$
+      \ElsIf{$y \neq e(g, \pi)$}
+      \State \Return $\bot$
+      \EndIf
+      \State \Return $\top$
+      \EndFunction
+    \end{algorithmic}
+  \end{minipage}
+  \caption{\label{ACprfAlg}%
+    \Acl{VRF}~\cite{DY-VRF}.
+    Let \(G = \gen{g}, G_T = \gen{g_T}\) be groups of prime order \(q\).
+    Let \(e\colon G\to G_T\) be a bilinear map.
+  }
+\end{figure}
+
+\begin{figure}
+  \centering
+  \small
+  \begin{tabular}{lcl}
+    \(\CWprovePRF[k, x]\)
+    &
+    & \(\CWverifyPRF[y]\)
+    \\\toprule
+
+    \(y\gets \DYprf[k, x]\)
+    &
+    &
+
+    \\\\
+
+    \multicolumn{3}{c}{\PK[k][y = \DYprf[k, x]]}
+
+    \\\bottomrule
+  \end{tabular}
+  \caption{\label{ACprfPKalg}%
+    Protocols using \(\DYprf\) with CL anonymous 
+    credentials~\cite{HowToWinTheCloneWars}.
+    Let \(G = \gen{g}, G_T = \gen{g_T}\) be groups of prime order \(q\).
+    Let \(e\colon G\to G_T\) be a bilinear map.
+  }
+\end{figure}
+
+%\paragraph*{Possible instantiations}
+%The \(\AC\) scheme can be instantiated for instance using the Pedersen commitment~\cite{PedersenCommitment} for \(\ACcommit\), CL-signatures~\cite{CLsignatures} (or adapted CL-signatures as in~\cite{AnonPass}) for \(\ACsign, \ACblind, \ACgetSig, \ACissueSig\) and the \ac{VRF} by \citet{DY-VRF} as \(\ACprf\).
+%These are used together in Anon-Pass~\cite{AnonPass} and by \textcite{HowToWinTheCloneWars} to form unclonable anonymous credentials for subscriptions.
+%We have adapted their mechanisms to change the basis of the authentication window (\ie epoch) from a time interval to a protest (\ie cause).
+%However, we will use our \ac{DB} version of the Schnorr protocol (\cref{DBSchnorr}) for the \ac{ZKPK} protocols.
