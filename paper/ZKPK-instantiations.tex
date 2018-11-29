@@ -6,8 +6,9 @@ The generalized form would be \(\PK[\alpha_1, \dotsc, \alpha_n][A =
     \prod_{i=1}^n g_i^{\alpha_i}]\).
 This could equivalently be written as
 \begin{equation*}
-  \PKprove[\{g_i\}_i, q, A, \{\alpha_i\}_i] \leftrightarrow
-  \PKverify[\{g_i\}_i, q, A],
+  \Proto%
+  {\PKprove[\{g_i\}_i, q, A, \{\alpha_i\}_i]}%
+  {\PKverify[\{g_i\}_i, q, A]},
 \end{equation*}
 where \(\PKprove\) is run by the prover and \(\PKverify\) is run by the 
 verifier.
