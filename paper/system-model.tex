@@ -6,14 +6,14 @@ assumptions and a summary of the desired properties for crowd
 counting% and the adversary model
 .
 
-\subsection{Assumptions}%
+\subsection{Model and assumptions}%
 \label{assumptions}
 
 Throughout this paper, each time we refer to a participant, such as Alice, we actually mean a personal device that can perform cryptographic operations and communicate with other local devices on Alice's behalf. 
 Furthermore, we assume that each participant has a digital certificate of her identity signed by a \ac{CA}.
 
 In practice, participants witness each other's participation using their smartphones (or similar devices) running the protocol described in \cref{Protocol} and uploading their testimony (\ie, proof shares) to a ledger (such as a blockchain) after the protest. 
-During the protest, the devices might be limited by their batteries in terms of the computations they can perform and only have local connectivity to each other.
+During the protest, the devices might be limited by their batteries and computations they can perform and only have local connectivity to each other.
 No connection to any global network such as the Internet is necessary at that time.  
 Nonetheless, before and after the protest, we assume that the devices have global connectivity (\ie Internet connections) and are not computationally limited by any battery.
 This assumption is necessary to ensure that the participants will be able to upload their proof shares to the ledger.
@@ -26,7 +26,8 @@ in turn is similar to voting.
 Indeed, all three practices correspond to situations in which many individuals express their opinion, which can be sensitive (\eg be a cause for discrimination or persecution), and thus need to be protected.
 Hence the desire for similar properties of verification and privacy for a protest as for voting.
 
-We draw inspiration from the three traditionally desired properties for verifiability in voting systems:
+We draw inspiration from properties for voting systems as formalized
+in ~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
 \daniel{Find a new ref for voting verifiability properties, Douglas commented 
   that the last one is not the origin.}
 \begin{description}
@@ -41,7 +42,7 @@ We draw inspiration from the three traditionally desired properties for verifiab
 In our context, votes are translated into \emph{participation proofs}.
 Universal and individual verifiability remain the same, in the sense that anyone can verify the participation count by counting the proofs and a participant can verify their proof is included.
 The eligibility requirement is slightly different as for protests it must also
-include temporal%\footnote{%
+include temporal %\footnote{%
 %   Elections also have some temporal aspects, such that one cannot vote at any 
 %   time and a vote in one election should not be reusable in the next election.
 %   However, the temporal relation for a protest is not as strictly defined as for 
@@ -52,9 +53,8 @@ and spatial eligibility (\ie each participation proof satisfies some temporal
 and spatial relation to the protest).
 In essence, the proof must bind the person to the time and location of the protest.
 
-In addition to the verification requirements, we also need to define the 
-privacy properties.
-In voting protocols, there are mainly three levels of privacy~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
+In ~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}, the main three
+privacy properties for voting protocols are given as:
 \begin{description}
   \item[Vote privacy:] the voting does not reveal any individual vote.
   \item[Receipt freeness:] the voting system does not provide any data that can be used as a proof of how the voter voted.
@@ -63,7 +63,7 @@ In voting protocols, there are mainly three levels of privacy~\cite{VerifyingPri
 
 %Coercion resistance is not possible to achieve for protests.
 Coercion resistance in voting typically relies on physical isolation
-(\eg private voting boots), including for digital systems, 
+(\eg private voting booths), including for digital systems, 
 and that is by definition not possible for public events.
 For instance, someone could simply physically bring Alice to a protest against her will.
 As for receipt freeness, while
@@ -71,7 +71,7 @@ desirable \emph{in itself}, it implies a conflict with verifiability in our cont
 %appealing at first glance, is not desirable (probably not possible)
 %in our context since this will conflict with verifiability:
 in contrast to voting, receipt freeness for \emph{how} the voter voted (\ie the 
-cause of the protest) implies receipt freeness for \emph{that} the voter voted 
+cause of the protest) here implies receipt freeness for \emph{that} the voter voted 
 (\ie the protester was there), which would make verifiability impossible.
 
 Therefore in our context, the crucial property is  vote privacy.
