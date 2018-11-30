@@ -9,7 +9,7 @@ This manual method devised in the 1960s relies on aerial pictures of the event.
 The verifier divides the protest venue into regions and then estimates the density of the crowd in the different regions before summing them up to get an estimate of the global count.
 Clearly, this method is prone to errors as it is based on estimates.
 It provides universal verifiability since anyone can redo the counting using the same pictures.
-However, it is difficult to achieve individual verifiability using this method since it is hard to verify that oneself is indeed in any of the photos\footnote{It is of course possible with very detailed photos, but not currently realistic to do with aerial pictures.}.
+However, it is difficult to achieve individual verifiability using this method since it is hard to verify that oneself is indeed in any of the photos. %\footnote{It is of course possible with very detailed photos, but not currently realistic to do with aerial pictures.}.
 We can argue that it also achieves eligibility if all the photos are taken at the same point in time, since then no one can be counted twice.
 Unfortunately, we can only get the peak participation with this method.
 When it comes to spatial and temporal eligibility, we have to rely on pictures (\eg by determining from the pictures themselves when and where they were taken).
@@ -17,8 +17,8 @@ However, this is prone to cheating --- and subject to a variety of manipulation 
 From a privacy perspective, all techniques based on photo or video material are necessarily not privacy-preserving unless the protesters take actions to protect themselves.
 For instance, there is a risk that participants are recognizable from the material if they do not wear masks.
 
-Among more recent methods, there is an application called CrowdSize~\cite{CrowdSize} that can estimate the size of a crowd on a selected area.
-Once the user has specified the zone, he selects one of three pre-set density estimates: light, medium or dense.
+Among more recent methods, there is an application called CrowdSize~\cite{CrowdSize} that can estimate the size of a crowd in a selected area.
+Once the user has specified the zone, they select one of three pre-set density estimates: light, medium or dense.
 This is similar to the method usually used by police (\eg during the protests in Seoul):
 \blockcquote{2016DemonstrationsInSeoul}{%
   \textins*{p}olice presume\textins*{d} that, when sitting, six people would fill a space of 3.3 square meters
@@ -34,13 +34,13 @@ In the work by \cite{NNCrowdCounting}, they actually train and evaluate their al
 Universal verifiability can be provided with this method, since someone can always recount the participants using the recorded video material.
 Some degree of individual verifiability could also be provided,
 if Alice can recognize her own face in the video, but this might still be difficult. 
-Remark also that while automatic face recognition can help verifiability, it has a high impact on privacy.
+While automatic face recognition can help verifiability, it reduces privacy.
 In addition, it is difficult (if not impossible) to avoid counting some people twice, thus we cannot argue for eligibility.
-In theory, this class of methods will provide an upper bound
-%, whereas our method outputs a lower bound
-.
-Furthermore, it is also difficult to capture the entire location on video surveillance, which diminishes the argument for an upper bound in practice.
-The spatial and temporal verifiability properties are reduced to those of the video, which should be similar as in our discussion about the verifiability of photos (\ie, using forensic methods).
+%In theory, this class of methods will provide an upper bound.
+%, whereas our method outputs a lower bound.
+Furthermore, it is also difficult to capture the entire location on video surveillance, %which diminishes the argument for an upper bound in practice.
+ and the spatial and temporal verifiability properties are reduced to those of the video.
+%, which should be similar as in our discussion about the verifiability of photos (\ie, using forensic methods).
 
 Another problem for all the above methods is exemplified by the demonstrations in Seoul:
 \blockcquote{2016DemonstrationsInSeoul}{%
@@ -49,7 +49,7 @@ Another problem for all the above methods is exemplified by the demonstrations i
 In this situation it is very difficult to faithfully capture the situation.
 Indeed, even if the scene is taken from different angles, there is the additional problem of not counting people twice.
 
-During the protests in Seoul~\cite{2016DemonstrationsInSeoul}, one physical analytics company tried to estimate the number of participants using their physical analytics technology.
+During the protests in Seoul~\cite{2016DemonstrationsInSeoul}, one company tried to estimate the number of participants using their physical analytics technology.
 In a nutshell, this technology scans the MAC addresses emitted from the participants' smartphones during Wi-Fi probe requests.
 However, in order to work this method makes many additional assumptions:
 \blockcquote{2016DemonstrationsInSeoul}{%
@@ -71,16 +71,17 @@ This solution does not offer strong verifiability guarantees and thus is complem
 
 In general for all of the above methods, the more a crowd spreads out, the more difficult it is to determine its size.
 In particular, one of the challenges is determining whether people near the event's perimeter are participants or simply bystanders~\cite{HowToEstimateCrowdSize}.
-These methods also have difficulties capturing the actual attendance of an event (\ie, the cumulative participation, not just the count at a snapshot around the peak).
+%These methods also have difficulties capturing the actual attendance of an event (\ie, the cumulative participation, not just the count at a snapshot around the peak).
 
 One of the works most closely related to our goal is \citet{CrowdCount}, which is a web service that lets Alice create an event such that anyone can submit their location to register that they are in Alice's event.
 This method has the benefit of counting everyone who has declared their presence, not just the count at the snapshot of the pictures.
 However, there is no verification as the service must be trusted to behave honestly, and even then, nothing prevents Bob from submitting more than once (violating eligibility).
 Another downside is that the service also requires an Internet connection during the event to register as a participant.
-This makes it prone to some form of denial-of-service attack.
-For instance, if Alice has organized a protest against Grace's regime, Grace can shut down the cellular network or Internet backbone as a mean to censor the protest.
+This makes it vulnerable to a denial-of-service attack, \eg
+%For instance, if Alice has organized a protest against Grace's regime, 
+Grace can shut down the cellular network or Internet backbone as a means to censor the protest.
 
 Another related approach based on devices is UrbanCount~\cite{UrbanCount}, which relies on epidemic spreading of crowd-size estimates by device-to-device communication to count crowds in dense urban environments with high node-mobility and churn.
-However, there is no consideration of a potentially adversarial setting and thus no verifiability or checks on eligibility.  DiVote~\cite{DiVote}, a prior work by the same authors for polling in dense areas, avoids double counting, but again only works with honest participants.
+However, there is no consideration of a potentially adversarial setting and thus no verifiability or checks on eligibility.  DiVote~\cite{DiVote}, a prior work by the same authors for polling in dense areas, avoids double counting, but again only works with honest participants and thus does not suit an adversarial setting.
 
 %\input{location-proofs.tex}
