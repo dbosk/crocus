@@ -1,4 +1,4 @@
-\section{System model and requirements}%
+\section{System model}%
 \label{system-model}
 
 To set the stage, we will now describe our system model including
@@ -6,7 +6,7 @@ assumptions and a summary of the desired properties for crowd
 counting% and the adversary model
 .
 
-\subsection{System model and physical assumptions}%
+\subsection{Assumptions}%
 \label{assumptions}
 
 Throughout this paper, each time we refer to a participant, such as Alice, we actually mean a personal device that can perform cryptographic operations and communicate with other local devices on Alice's behalf. 
@@ -41,13 +41,14 @@ We draw inspiration from the three traditionally desired properties for verifiab
 In our context, votes are translated into \emph{participation proofs}.
 Universal and individual verifiability remain the same, in the sense that anyone can verify the participation count by counting the proofs and a participant can verify their proof is included.
 The eligibility requirement is slightly different as for protests it must also
-include temporal\footnote{%
-  Elections also have some temporal aspects, such that one cannot vote at any 
-  time and a vote in one election should not be reusable in the next election.
-  However, the temporal relation for a protest is not as strictly defined as for 
-  elections as a protest can start at any time and last for an arbitrary period 
-  of time.%
-} and spatial eligibility (\ie each participation proof satisfies some temporal 
+include temporal%\footnote{%
+%   Elections also have some temporal aspects, such that one cannot vote at any 
+%   time and a vote in one election should not be reusable in the next election.
+%   However, the temporal relation for a protest is not as strictly defined as for 
+%   elections as a protest can start at any time and last for an arbitrary period 
+%   of time.%
+% }
+and spatial eligibility (\ie each participation proof satisfies some temporal 
 and spatial relation to the protest).
 In essence, the proof must bind the person to the time and location of the protest.
 

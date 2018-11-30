@@ -1,4 +1,5 @@
-\section{\CROCUS:\@ A protocol for crowd counting estimation}%
+%\section{\CROCUS:\@ A protocol for crowd counting estimation}%
+\section{The \CROCUS Protocol}
 \label{Protocol}
 
 
@@ -63,25 +64,12 @@ of national identity cards, passports or \acp{eID}.
 \subsection{Creation, join and participation in a protest and submission of proofs}%
 \label{ProtocolDuring}
 
-The join, participation and submission phases are illustrated in \cref{fig:ProtocolOverview}.
-The participation proof share that will be constructed in the participation phase is illustrated in \cref{fig:ProofFig}.
-
-\emph{Creation of a protest: the manifesto.}
-The organizer will write a manifesto for the protest, which describes its cause.
-This manifesto could take the form of any intelligible text.
-The organizer will then distribute this manifesto to people through any means he wants (\eg on the Web, on placards, \etc).
-If they agree on the cause, they will use the knowledge of the manifesto to join the protest.
+%The join, participation and submission phases are as follows.
+% illustrated in \cref{fig:ProtocolOverview}.
 
 
-\emph{Joining as a protester: \((\pid, t_s)\gets 
-    \CROCUSjoin[_P][\text{manifesto}]\).}
-A protester who wants to join the protest will use the manifesto to compute an identifier for the cause by hashing the manifesto, \(\cid\gets \Hash[\mfst]\).
-Afterwards, this identifier is used to create the protest-specific identifier 
-for the protester, \(\pid\gets \ACprf[_{\sk_P}][\cid]\) (see 
-\cref{fig:ProofFig,fig:ProtocolOverview} and \cref{ACprfAlg}).
-The protester should also receive a time-correlated random value from the 
-time-stamping service, \(t_s\gets \TSget\).
-
+The participation proof share that will be constructed in the
+participation phase is illustrated in \cref{fig:ProofFig}.
 
 \begin{figure}
   \centering
@@ -103,62 +91,23 @@ time-stamping service, \(t_s\gets \TSget\).
   \label{fig:ProofFig}
 \end{figure}%
 
-\begin{figure}
-  \centering
-  \small
-  \begin{minipage}{\linewidth}
-    \begin{align*}
-      O\to \text{all}\colon & \text{manifesto} \\
-      P\colon & t_s\gets \TSget \\
-        & \cid\gets \Hash[\text{manifesto}], \\
-        & \pid\gets \ACprf[_{\sk_P}][\cid] \\
-      W\colon & t_s'\gets \TSget
-      \\[-1em]
-      \noalign{\hfill Join}
-      \midrule
-      \noalign{\hfill Participation}
-      \\[-3em]
-      P\to W\colon & \pid \\
-      P\leftrightarrow W\colon &
-        \PPK\mleft\{ (\sk_P) : \mright. \\
-        & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
-        & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{\ssk}][\sk_P]] \mright\} 
-        \\
-      W\colon & \wid\gets \ACprf[_{\sk_W}][\pid] \\
-      W\to P\colon & (\wid, t_s', l)
-      \\[-1em]
-      \noalign{\hfill Participation}
-      \midrule
-      \noalign{\hfill Submission}
-      \\[-2em]
-      P\colon & t_e\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]] \\
-      W\colon & t_e'\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]] \\
-      W\to S\colon & (\cid, \pid, \wid, t_s, t_s', t_e, l, \pi_{\wid}),\quad 
-      \text{where} \\
-        & \pi_{\wid} = \SPK\mleft\{ (\sk_W) : \mright. \\
-        & \qquad \wid = \ACprf[_{\sk_W}][\pid], \\
-        & \qquad \mleft. \sigma_W' = \ACblind[\ACsign[_{\ssk}][\sk_W]]\mright\} 
-        \\
-        & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l) \\
-      P\to S\colon & (\cid, \pid, \wid, t_s, t_s', t_e, l, \pi_{\pid}),\quad 
-      \text{where}\\
-        & \pi_{\pid} = \SPK\mleft\{ (\sk_P) : \mright. \\
-        & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
-        & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{\ssk}][\sk_P]] \mright\} 
-        \\
-        & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l)
-    \end{align*}
-  \end{minipage}
-  \caption{%
-    An overview of the Join, Participation and Submission phases of \CROCUS.\@
-    The organizer \(O\) broadcasts the manifesto.
-    The protester \(P\), witness \(W\) and their computations are as in \cref{fig:ProofFig}.
-    Finally, both \(P\) and \(W\) submit the proof shares to a
-    permanent storage \(S\). Note that \pid always refers to the
-    protester whose presence is being witnessed.
-  }%
-  \label{fig:ProtocolOverview}
-\end{figure}
+
+\emph{Creation of a protest: the manifesto.}
+The organizer will write a manifesto for the protest, which describes its cause.
+This manifesto could take the form of any intelligible text.
+The organizer will then distribute this manifesto to people through any means he wants (\eg on the Web, on placards, \etc).
+If they agree on the cause, they will use the knowledge of the manifesto to join the protest.
+
+
+\emph{Joining as a protester: \((\pid, t_s)\gets 
+    \CROCUSjoin[_P][\text{manifesto}]\).}
+A protester who wants to join the protest will use the manifesto to compute an identifier for the cause by hashing the manifesto, \(\cid\gets \Hash[\mfst]\).
+Afterwards, this identifier is used to create the protest-specific identifier 
+for the protester, \(\pid\gets \ACprf[_{\sk_P}][\cid]\) (see 
+\cref{fig:ProofFig,fig:ProtocolOverview} and \cref{ACprfAlg}).
+The protester should also receive a time-correlated random value from the 
+time-stamping service, \(t_s\gets \TSget\).
+
 
 \emph{Joining as a witness: \(t_s'\gets \CROCUSjoin_W\).}
 The witness should simply get a time-correlated random value from the time-stamping service, \(t_s'\gets \TSget\).
@@ -220,6 +169,68 @@ Then, without any time requirements, the witness computes \iac{NIZK} proof
 Finally, the witness uploads the tuple \[
   \psh_W = (\cid, \pid, \wid, t_s, t_s', t_e', l, \corr_{\wid})
 \] for permanent storage.
+
+Here is an overview of the protocol.
+
+
+%\begin{figure}
+% \centering
+  \small
+ % \begin{minipage}{\linewidth}
+    \begin{align*}
+      O\to \text{all}\colon & \text{manifesto} \\
+      P\colon & t_s\gets \TSget \\
+        & \cid\gets \Hash[\text{manifesto}], \\
+        & \pid\gets \ACprf[_{\sk_P}][\cid] \\
+      W\colon & t_s'\gets \TSget
+      \\[-1em]
+      \noalign{\hfill Join}
+      \midrule
+      \noalign{\hfill Participation}
+      \\[-3em]
+      P\to W\colon & \pid \\
+      P\leftrightarrow W\colon &
+        \PPK\mleft\{ (\sk_P) : \mright. \\
+        & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
+        & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{\ssk}][\sk_P]] \mright\} 
+        \\
+      W\colon & \wid\gets \ACprf[_{\sk_W}][\pid] \\
+      W\to P\colon & (\wid, t_s', l)
+      \\[-1em]
+      \noalign{\hfill Participation}
+      \midrule
+      \noalign{\hfill Submission}
+      \\[-2em]
+      P\colon & t_e\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]] \\
+      W\colon & t_e'\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]] \\
+      W\to S\colon & (\cid, \pid, \wid, t_s, t_s', t_e, l, \pi_{\wid}),\quad 
+      \text{where} \\
+        & \pi_{\wid} = \SPK\mleft\{ (\sk_W) : \mright. \\
+        & \qquad \wid = \ACprf[_{\sk_W}][\pid], \\
+        & \qquad \mleft. \sigma_W' = \ACblind[\ACsign[_{\ssk}][\sk_W]]\mright\} 
+        \\
+        & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l) \\
+      P\to S\colon & (\cid, \pid, \wid, t_s, t_s', t_e, l, \pi_{\pid}),\quad 
+      \text{where}\\
+        & \pi_{\pid} = \SPK\mleft\{ (\sk_P) : \mright. \\
+        & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
+        & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{\ssk}][\sk_P]] \mright\} 
+        \\
+        & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l)
+    \end{align*}
+%  \end{minipage}
+%  \caption{%
+%     An overview of the Join, Participation and Submission phases of \CROCUS.\@
+%     The organizer \(O\) broadcasts the manifesto.
+%     The protester \(P\), witness \(W\) and their computations are as in \cref{fig:ProofFig}.
+%     Finally, both \(P\) and \(W\) submit the proof shares to a
+%     permanent storage \(S\). Note that \pid always refers to the
+%     protester whose presence is being witnessed.
+%   }%
+%   \label{fig:ProtocolOverview}
+% \end{figure}
+\normalsize
+
 
 \subsection{Verifying the participation count}%
 \label{ProtocolVerification}
