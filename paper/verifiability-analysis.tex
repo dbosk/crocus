@@ -47,13 +47,13 @@ proof is indeed designated for the event (\ie, designated-event eligibility,
 \cref{DesignatedEvent}).
 It follows from \cref{analysis-individual} that the adversary cannot drop 
 submitted proof shares and thus cannot decrease the count.
-As indicated in \cref{in-system-adversary,deanonymizing-witness-adversary}, the 
+As indicated in \cref{in-system-adversary,deanonymizing-storage-adversary}, the 
 adversary can submit proof shares as everyone else, so the adversary's only 
 option is to increase the count.
 We will thus let Alice pose as the adversary in this section, as she naturally 
 has an incentive to increase the count.
 
-\paragraph{Temporal eligibility}%
+\subsubsection{Temporal eligibility}%
 \label{analysis-temporal}
 
 \Cref{TemporallyRelated} ensures freshness, as Alice cannot simply resubmit an 
@@ -94,7 +94,7 @@ she would have to choose a value \(y\) in the range of the hash function
 is a valid proof for the desired protest, at the desired time.
 If \(\Hash\) is collision resistant, finding \emph{any} pre-image is hard.
 
-\paragraph{Linkability}%
+\subsubsection{Linkability}%
 \label{analysis-linkability}
 
 \Cref{CountOnce} is required to prevent Sybil attacks, in the sense
@@ -117,7 +117,7 @@ often Alice can get a valid signature on a secret key from the \ac{CA} ---
 either by requesting a new key, \eg request a new passport or ID-card, or 
 illicitly use someone else's.
 
-\paragraph{Spatial eligibility}%
+\subsubsection{Spatial eligibility}%
 \label{analysis-spatial}
 
 \Cref{SpatiallyRelated} is achieved by having a witness vouch anonymously that Alice was indeed on the location when the proof share was created.
@@ -153,7 +153,7 @@ In the trusted witness case, we assume that we can trust (dedicated) witnesses.
 In this case, Alice must be able to forge statements, \eg digital signatures, 
 from at least one witness that the verifier trusts.
 
-\paragraph{Designated protest}%
+\subsubsection{Designated protest}%
 \label{analysis-designated}
 
 \Cref{DesignatedEvent} is to prevent Alice (or someone else) from reusing the same proof (or proof share) for another event.

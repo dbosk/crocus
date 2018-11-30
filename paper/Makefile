@@ -17,6 +17,7 @@ SRC+=	privacy-properties.tex
 SRC+= 	adversary-model.tex 
 SRC+= 	building-blocks.tex
 SRC+= 	ZKPK.tex
+#SRC+= 	ZKPK-instantiations.tex
 SRC+= 	distance-bounding.tex anon-cred.tex
 #SRC+= 	DB-anon-cred.tex
 SRC+= 	location-proofs.tex timestamp.tex
@@ -27,6 +28,7 @@ SRC+= 	privacy-analysis.tex
 SRC+= 	analysis-performance.tex
 SRC+= 	discussion.tex
 SRC+=	conclusions.tex
+SRC+= 	anon-cred-figures.tex
 #SRC+=	tamarin-spec.tex
 
 paper.pdf: ${SRC}
