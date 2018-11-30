@@ -42,13 +42,13 @@ This can be instantiated using CL-signatures~\cite{CLsignatures}, see
 
 The prover commits to a value \(k\) with commitment \(c\gets \ACcommit[k, o]\) 
 and opening \(o\).
-Afterwards, he uses \(\sigma\gets \Proto{\ACgetSig}{\ACissueSig}\) to obtain a 
+Afterwards, they use \(\sigma\gets \Proto{\ACgetSig}{\ACissueSig}\) to obtain a 
 signature \(\sigma = \ACsign[\pk, \sk, k, r]\) on the value \(k\) and some 
 random value \(r\).
 (\(\pk\) and \(\sk\) are the public verification key and the private signing 
 key, respectively.)
 
-At a later point, the prover wants to prove to a verifier that he knows \(k\) and a signature \(\sigma\) on \(k\) made by the owner of \(pk\) (corresponding to \(sk\)) without revealing \(k\) nor \(\sigma\) (\ie, in a zero-knowledge manner).
+At a later point, the prover wants to prove to a verifier that they know \(k\) and a signature \(\sigma\) on \(k\) made by the owner of \(pk\) (corresponding to \(sk\)) without revealing \(k\) nor \(\sigma\) (\ie, in a zero-knowledge manner).
 The prover and verifier run the protocol \(\Proto{\ACproveSig}{\ACverifySig}\) 
 to prove the following:
 \begin{equation*}
