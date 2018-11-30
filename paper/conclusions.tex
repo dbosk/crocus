@@ -2,12 +2,25 @@
 \label{Conclusion}
 
 In this paper, we have introduced \CROCUS, a privacy-preserving protocol for verifiably counting participants at protests. 
-Despite the verification, the privacy of the participants is preserved to the extent possible by their physical presence at the protest, with the following caveat. Given the conflict between verifiability and receipt-freeness when counting presence, any digital trace needed for verifiability could conceivably be used to substantiate a claim that was by itself weaker. For instance if there is auxiliary information that points to a person having participated in a protest, for example pictures at the event, with face recognition and subsequent identification, IP address of the person's home router, etc., then any remaining uncertainty from false positives could be reduced by learning from data on the ledger and the person's smartphone. This potential difference can thus be considered the price for verifiability. Against an attacker without such side information, \CROCUS preserves the participants' privacy, expressed in terms of unlinkability to their identity and between events. 
+
+We showed that \CROCUS provides universally verifiable data.
+With \CROCUS, a journalist can easily count the participation, specify how they 
+counted (time, location \etc) along with the result and everyone can 
+independently verify that the result is correct.
+The only results that cannot be trusted are results aligned with the interests 
+of the \ac{CA}.
+
+Despite the verification, the privacy of the participants is preserved to the extent possible by their physical presence at the protest, with the following caveat. Grace, the government in our protest scenario, can coerce Alice in some way to reveal her private key and then use it to verify her participation. However, this requires that Grace already suspects Alice --- Grace cannot check everyone --- and that Alice has not renewed her digital certificate.
+
+
+% Given the conflict between verifiability and receipt-freeness when counting presence, any digital trace needed for verifiability could conceivably be used to substantiate a claim that was by itself weaker. For instance if there is auxiliary information that points to a person having participated in a protest, for example pictures at the event, with face recognition and subsequent identification, IP address of the person's home router, etc., then any remaining uncertainty from false positives could be reduced by learning from data on the ledger and the person's smartphone. This potential difference can thus be considered the price for verifiability. Against an attacker without such side information, \CROCUS preserves the participants' privacy, expressed in terms of unlinkability to their identity and between events. 
+
+
 
 %To achieve that, we adapted the Schnorr protocol to develop distance-bounding anonymous credentials. \sonja{Rephrase the following after we have requirements and results:
 %Except for receipt freeness, which we cannot guarantee if the adversary gets access to Alice's device and secret PRF key after her participation has been witnessed and before she had a chance to delete it, \CROCUS fulfills all verification and privacy properties we derived from those of electronic voting complemented by the specific constraints on time and location required for protests. }
 %With respect to privacy, \CROCUS provides anonymity (of participants)  and unlinkability (between protests) unless the adversary gets access to the private key/ID or has side information (she also needs the private key for proof of the cause (cid) supported by the protester, otherwise she does not learn more than without \CROCUS).
-\sonja{update sec analysis results}
+
 
 %Of separate interest, we have also built distance-bounding protocols for authenticating more general attributes than provided by previous \ac{DB} ones.
 %All privacy-preserving \ac{DB} protocols have so far focused on identity-based authentication, but not authentication of general attributes, as is the case for anonymous credentials.
@@ -26,7 +39,7 @@ Despite the verification, the privacy of the participants is preserved to the ex
 % others can recognize them too.
 % Finally, most of the current methods are estimates, with quite some error margins. 
 While \CROCUS is an actual count and not an estimate, its accuracy for the total number of participants hinges on the participants having the necessary equipment (\ie, a smartphone or similar device), some sort of trustworthy credential, and the willingness to run the protocol. 
-Owing to the network effect, until used by most participants, \CROCUS would result in a considerable undercount. 
+Owing to the flip side of the network effect, until used by most participants, \CROCUS would result in a considerable undercount. 
 However, it represents a first step toward accurate verifiable yet privacy-preserving crowd counting by showing how it can be done in theory at least and in practice once some assumptions concerning hardware and e-identities become more realistic. 
-While the necessary technologies are not yet available in most authoritarian regimes, some of them are in several democracies. We believe that it is important to implement systems such as ours also there to support the maintenance of democratic processes and counter fake news.  
+While the necessary technologies are not yet available in most authoritarian regimes, some of them are in several democracies. We believe that it is important to implement systems such as ours also there to support the maintenance of democratic processes and increase transparency.  
 
