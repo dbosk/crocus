@@ -7,7 +7,10 @@ We now present \CROCUS, a protocol for privately verifiable crowd counts.
 The protocol consists of three phases:
 before the protest, with the setup and registration steps (\cref{ProtocolSetup}),
 during the protest, with the creation, join, participation, and submission steps (\cref{ProtocolDuring})
-and after the protest, with the verification step (in \cref{ProtocolVerification}).
+and after the protest, with the verification step (in
+\cref{ProtocolVerification}). Note that some of the figures with
+protocol minutae from related work are in the
+appendix.
 
 Several entities are involved in our protocol.
 First, a \emph{certificate authority} (\ac{CA}) is responsible for certifying a one-to-one mapping between a 
@@ -24,13 +27,13 @@ A participant can assume three different roles:
 \begin{enumerate}
 \item The \emph{organizer} has written a manifesto for the protest and forwards it to others.
 \item A \emph{protester} is attending the protest and asks witnesses to vouch 
-  for his presence.
+  for their presence.
 \item A \emph{witness} provides proofs to protesters which state that the 
-  protester was indeed participating and such that the proofs are verifiable by 
+  protester was indeed participating, constructed such that the proofs are verifiable by 
   third parties.
 \end{enumerate}
-In general, there is one organizer and every participant can act alternatively 
-as both protester and witness.
+In general, there is one organizer and every participant can act as
+either or both protester and witness.
 
 \subsection{Pre-protest phase}%
 \label{ProtocolSetup}
@@ -71,7 +74,7 @@ of national identity cards, passports or \acp{eID}.
 %The join, participation and submission phases are as follows.
 % illustrated in \cref{fig:ProtocolOverview}.
 
-The participation proof share that will be constructed in the
+The participation proof share constructed in the
 participation phase is illustrated in \cref{fig:ProofFig}.
 
 \begin{figure}
@@ -96,9 +99,10 @@ participation phase is illustrated in \cref{fig:ProofFig}.
 
 
 \emph{Creation of a protest: the manifesto.}
-The organizer will write a manifesto for the protest, which describes its cause.
+The organizer writes a manifesto for the protest, which describes its cause.
 This manifesto could take the form of any intelligible text.
-The organizer will then distribute this manifesto to people through any means he wants (\eg on the Web, on placards, \etc).
+The organizer will then distribute this manifesto to people through
+any suitable means  (\eg on the Web, on placards, \etc).
 If they agree on the cause, they will use the knowledge of the manifesto to join the protest.
 
 
@@ -107,7 +111,7 @@ If they agree on the cause, they will use the knowledge of the manifesto to join
 A protester who wants to join the protest will use the manifesto to compute an identifier for the cause by hashing the manifesto, \(\cid\gets \Hash[\mfst]\).
 Afterwards, this identifier is used to create the protest-specific identifier 
 for the protester, \(\pid\gets \ACprf[_{\sk_P}][\cid]\) (see 
-\cref{fig:ProofFig,fig:ProtocolOverview} and \cref{ACprfAlg}).
+\cref{fig:ProofFig} and \cref{ACprfAlg}).
 The protester should also receive a time-correlated random value from the 
 time-stamping service, \(t_s\gets \TSget\).
 
@@ -120,7 +124,7 @@ set the start of the time interval of creation for the proof share.
 
 \emph{Participation: \(\pi\gets
     \Proto{\CROCUSparticipate[\cid, \sk_P]}{\CROCUSwitness[\sk_W, \spk]}\),}
-In the participation phase (see \cref{fig:ProtocolOverview}), the protester and 
+In the participation phase, the protester and 
 the witness construct the proof share of the protester (\cref{fig:ProofFig}).
 
 The protester sends \(\pid\) to the witness.
