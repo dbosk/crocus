@@ -2,7 +2,7 @@
 \label{StorageProperties}\label{timestamp}\label{ledger}
 
 We need a robust time-stamping service, \(\TS\), which implements the \(\TSget\), \(\TSstamp\) and \(\TStime\) requests such that
-\simon{"request" feels weird to me. Are we sure that's the right word?}
+\simon{\enquote{request} feels weird to me. Are we sure that's the right word?}
 \begin{itemize}
   \item \(\rho \gets \TSget\) yields a value \(\rho\) at time \(t\), \(\rho\) is difficult to guess before time \(t\) and \(\TStime[\rho] = t\);
   \item \(\pi\gets \TSstamp[x]\) yields a value \(\pi\) at time \(t\) such that \(\TSverify[x, \pi]\to \top\) and \(\TStime[\pi] = t\).
