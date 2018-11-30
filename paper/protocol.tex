@@ -131,8 +131,9 @@ In the participation phase, the protester and
 the witness construct the proof share of the protester (\cref{fig:ProofFig}).
 
 The protester sends \(\pid\) to the witness.
-Then they run the protocol \(\Proto{\ACproveSig[\spk, k, r, 
-    \sigma]}{\ACverifySig[\spk, \ssk]}\) (see \cref{ACacAlg}).
+Then they run the protocol \[
+  \Proto{\ACproveSig[\spk, k, r, \sigma]}{\ACverifySig[\spk, \ssk]}
+\] (see \cref{ACacAlg}).
 Note that the \ac{PK} in \cref{ACacAlg} must be run as \iac{PPK}.
 If the protocol succeeds, the witness will compute \(\wid \gets 
   \ACprf[_{\sk_W}][\pid]\) and send \((\wid, t_s', l)\) to the protester.
