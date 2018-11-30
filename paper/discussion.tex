@@ -107,16 +107,21 @@ We need a renewal-rate limit to keep Sybil attacks down.
 
 \daniel{This needs editing, it's out of its old context.}
 
-Another facet concerning receipt freeness is traffic analysis. Indeed, if Grace 
-can monitor all connections within the country, which seems a reasonable 
-assumption, she can monitor Alice when she submits her proof to the blockchain. 
+Another facet concerning receipt freeness is traffic analysis.
+Indeed, if Grace can monitor all connections within the country, which seems a 
+reasonable assumption, she can monitor Alice when she interacts directly with 
+the ledger.
 However, as the miner collects many transactions, Alice should have plausible 
-deniability that she submitted one of the other transactions --- but again not 
-deniability/receipt freeness as Grace can verify if she accesses Alice's 
-device.
+deniability that she submitted one of the other transactions --- \ie this is 
+better captured by \cref{in-system-adversary} than 
+\cref{deanonymizing-storage-adversary}.
+But, again, Alice do not have deniability/receipt freeness as Grace can verify 
+if she accesses Alice's device.
 
-Counting votes is also more straightforward than counting protest participation. 
-Depending on the value of interest (\eg peak participation, total participation, individual sub-protests or counting participation only once for the cause, etc.), different ways of counting are
+Counting votes is also more straightforward than counting protest 
+participation. Depending on the value of interest (\eg peak participation, 
+total participation, individual sub-protests or counting participation only 
+once for the cause, etc.), different ways of counting are
 possible and valid. 
 Since anyone can read the data, they can verify the results given the parameters of choice.
 
