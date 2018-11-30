@@ -9,17 +9,23 @@ before the protest, with the setup and registration steps (\cref{ProtocolSetup})
 during the protest, with the creation, join, participation, and submission steps (\cref{ProtocolDuring})
 and after the protest, with the verification step (in
 \cref{ProtocolVerification}). Note that some of the figures with
-protocol minutae from related work are in~\cref{anon-cred-figures}.
+protocol minutiae from related work are in~\cref{anon-cred-figures}.
 
 Several entities are involved in our protocol.
 First, a \emph{certificate authority} (\ac{CA}) is responsible for certifying a one-to-one mapping between a 
-person's identity and a cryptographic key\footnote{%
-  This can be done by a centralized authority, such as a nation state with, 
-  \eg, passports; or a decentralized authority, as in the case of a a 
-  collective authority~\cite{collective-signing} powered by 
-  proof-of-personhood~\cite{proof-of-personhood}.
-}.
+person's identity and a cryptographic key
+%\footnote{%
+%  This can be done by a centralized authority, such as a nation state with, 
+%  \eg, passports; or a decentralized authority, as in the case of a a 
+%  collective authority~\cite{collective-signing} powered by 
+%  proof-of-personhood~\cite{proof-of-personhood}.
+%}.
+For simplicity, we assume that the \ac{CA} is a trusted third-party, but its role is only important to prevent Sybil attacks, so in practice we only need the \ac{CA} to not be aligned with the protesters. For instance, the role of the \ac{CA} can be assumed by a centralized authority, such as a nation state with, 
+\eg, passports, and that would not impact the trust of a participation count for a protest \emph{against} this state. However, any pro-state demonstration in that context would be subject to Sybils. Another possibility would be to use a decentralized authority, as in the case of a 
+collective authority~\cite{collective-signing} powered by 
+proof-of-personhood~\cite{proof-of-personhood}.
 The \ac{CA} is only involved in the setup phase.
+
 Second, a participant is an individual who wants to participate in a given 
 protest.
 A participant can assume three different roles:
@@ -280,8 +286,8 @@ let \(s_j^{(i)} = (cid_0, pid_j, wid_i, l, t)\), as in \cref{DefProofShare},
 check that \(s_j^{(i)}\) is valid (i.e. happened during and at the location of the protest), as in \cref{DefProofShare}.
 
 Then the set of all valid proof shares for a protester \(j\) constitutes its participation proof \(\pi_{j}\), as in \cref{DefParticipationProof},
-and the verifier thus can derive the set of \((\str,\theta)\)-eligible participation proofs \(\prfs_{\prtst}^{\str,\theta}\) for all protesters for the protest \(\prtst)\), as in \cref{DefParticipationProof}.
-Finally, the  participation count \(|\prfs_{\prtst}^{\str,\theta}|\) is the cardinality of this set by the same \cref{DefParticipationProof}.
+and the verifier thus can derive the set of \((\str,\theta)\)-eligible participation proofs \(\prfs_{\prtst}^{\str,\theta}\) for all protesters for the protest \(\prtst\), as in \cref{DefParticipationCount}.
+Finally, the  participation count \(|\prfs_{\prtst}^{\str,\theta}|\) is the cardinality of this set by the same \cref{DefParticipationCount}.
 
 
 % MOST PROBABLY obsolete below v 
@@ -309,18 +315,18 @@ Finally, the  participation count \(|\prfs_{\prtst}^{\str,\theta}|\) is the card
 
 In the case of trusted witnesses, each such trusted witness must
 publish or otherwise inform the 
-verifier of which proof shares she has signed, \eg by giving a list 
+verifier of which proof shares they have signed, \eg by giving a list 
 of all such proof shares or digitally signing each proof share\footnote{
  To achieve witness privacy in this situation, one could employ a group or 
  ring signature scheme for all trusted witnesses.
  Then one learns that at least one trusted witness must have been there.
 }.
 
-Note that anyone who does the counting can choose the eligibility
+Note that, thanks to the \((\str,\theta)\)-eligibility criterion (\cref{DefParticipationCount}), the method of counting is extremely generic, and each verifier can make an independent choice to regulate their trust in the final result, based on their initial trust in the witnesses. In other words, anyone who does the counting can choose the eligibility
 criteria (time interval, location, number of regular or trusted
-witnesses, who is considered to be a trusted witness) for their count
+witnesses, who is considered to be a trusted witness) for their own count
 and as long as these are published along with the result, anyone can
-verify the correctness under those criteria.
+verify the correctness of the count under those criteria, and potentially question the validity of this choice. Biased or partisan verifiers may be tempted to make extreme choices, but they will have to publish those choices and lose credibility. Reasonable verifiers on the other hand will try to find a good middle-ground that counts all legitimate protesters while being resistant to isolated malicious agents.
 
 % Then the verifier can define \[
 %   \str[\prf_{\pid_j, P}] = \begin{cases}
