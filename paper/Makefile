@@ -1,8 +1,13 @@
 .PHONY: all
 all: paper.pdf
 
-paper.pdf: paper.tex
-paper.pdf: preamble.tex preamble-paper.tex
+TEX_OUTDIR?=ltxobj
+
+paper.pdf: ${TEX_OUTDIR}/main.pdf
+	${LN} $< $@
+
+${TEX_OUTDIR}/main.pdf: main.tex
+${TEX_OUTDIR}/main.pdf: preamble.tex preamble-paper.tex
 
 SRC+=	contents.tex
 SRC+=	abstract.tex
@@ -27,7 +32,7 @@ SRC+= 	discussion.tex
 SRC+=	conclusions.tex
 SRC+=	tamarin-spec.tex
 
-paper.pdf: ${SRC}
+${TEX_OUTDIR}/main.pdf: ${SRC}
 
 FIGS+= 				proofshare.tikz
 proofshare.tikz: 	../fig/proofshare.tikz
@@ -38,7 +43,7 @@ base-adversary.tikz: ../fig/base-adversary.tikz
 ${FIGS}:
 	${LN} $< $@
 
-paper.pdf: ${FIGS}
+${TEX_OUTDIR}/main.pdf: ${FIGS}
 
 
 DEPENDS+=	bibsp.sty
@@ -55,7 +60,7 @@ DEPENDS+= 	osn.bib
 DEPENDS+=	adhocnets.bib
 DEPENDS+= 	references.bib
 
-paper.pdf: ${DEPENDS}
+${TEX_OUTDIR}/main.pdf: ${DEPENDS}
 
 
 
