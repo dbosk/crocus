@@ -66,59 +66,59 @@ tickets will drive a similar development for this hardware on smartphones.
 \include*{MANETs}
 
 
-\subsection{Receipt freeness, Sybil and key renewal}
+% \subsection{Receipt freeness, Sybil and key renewal}
 
-We need a strong connection between a person and the cryptographic key.
-Currently, governments are the ones that have the strongest incentives to solve 
-the problem (\enquote{birth certificates}) to prevent \eg fraud in the 
-well-fare system.
-So we believe that relying on these government-issued credentials is the most 
-probable solution.
-Unfortunately, if we rely on government-issued credentials, we cannot prevent 
-the government from performing Sybil attacks --- since it can issue arbitrarily 
-many \emph{valid} credentials.
-In this case, it does not make sense to verify any pro-government protests in 
-which Grace's authoritarian regime wants to demonstrate its wide 
-support~\cite{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
-But as long as the protests are not aligned with the interests of the \ac{CA}, 
-the counts can be trusted.
+% We need a strong connection between a person and the cryptographic key.
+% Currently, governments are the ones that have the strongest incentives to solve 
+% the problem (\enquote{birth certificates}) to prevent \eg fraud in the 
+% well-fare system.
+% So we believe that relying on these government-issued credentials is the most 
+% probable solution.
+% Unfortunately, if we rely on government-issued credentials, we cannot prevent 
+% the government from performing Sybil attacks --- since it can issue arbitrarily 
+% many \emph{valid} credentials.
+% In this case, it does not make sense to verify any pro-government protests in 
+% which Grace's authoritarian regime wants to demonstrate its wide 
+% support~\cite{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
+% But as long as the protests are not aligned with the interests of the \ac{CA}, 
+% the counts can be trusted.
 
-We pointed out already in \cref{desired-properties} that receipt freeness 
-conflicts with verifiability.
-Indeed, receipt freeness for \emph{participation} implies that one can 
-participate twice.
-This is different from voting where the organizers note participation to 
-prevent voting twice, but provides receipt freeness for the actual ballot.
-In the case of \CROCUS, Grace can verify Alice's participation if she gets 
-access to Alice's key; then she can recompute \(\pid\) to verify Alice's 
-participation.
+% We pointed out already in \cref{desired-properties} that receipt freeness 
+% conflicts with verifiability.
+% Indeed, receipt freeness for \emph{participation} implies that one can 
+% participate twice.
+% This is different from voting where the organizers note participation to 
+% prevent voting twice, but provides receipt freeness for the actual ballot.
+% In the case of \CROCUS, Grace can verify Alice's participation if she gets 
+% access to Alice's key; then she can recompute \(\pid\) to verify Alice's 
+% participation.
 
-Alice could try to destroy the receipt, \ie that she destroys her private key.
-This means that she cannot participate in any protest (and be counted).
-This brings up the concern of key renewal: each time Alice renews her digital 
-certificate, she can participate with a new \(\pid\).
-For physical identity cards this is probably not a problem, as there is a 
-manufacturing process of a few days.
-For purely electronic \enquote{identity cards}, such as BandID mentioned above, 
-they can be renewed with almost no rate-limitation.
-We need a renewal-rate limit to keep Sybil attacks down.
+% Alice could try to destroy the receipt, \ie that she destroys her private key.
+% This means that she cannot participate in any protest (and be counted).
+% This brings up the concern of key renewal: each time Alice renews her digital 
+% certificate, she can participate with a new \(\pid\).
+% For physical identity cards this is probably not a problem, as there is a 
+% manufacturing process of a few days.
+% For purely electronic \enquote{identity cards}, such as BandID mentioned above, 
+% they can be renewed with almost no rate-limitation.
+% We need a renewal-rate limit to keep Sybil attacks down.
 
-\subsection{The adversaries}
+% \subsection{The adversaries}
 
-\daniel{This needs editing, it's out of its old context.}
+% \daniel{This needs editing, it's out of its old context.}
 
-Another facet concerning receipt freeness is traffic analysis. Indeed, if Grace 
-can monitor all connections within the country, which seems a reasonable 
-assumption, she can monitor Alice when she submits her proof to the blockchain. 
-However, as the miner collects many transactions, Alice should have plausible 
-deniability that she submitted one of the other transactions --- but again not 
-deniability/receipt freeness as Grace can verify if she accesses Alice's 
-device.
+% Another facet concerning receipt freeness is traffic analysis. Indeed, if Grace 
+% can monitor all connections within the country, which seems a reasonable 
+% assumption, she can monitor Alice when she submits her proof to the blockchain. 
+% However, as the miner collects many transactions, Alice should have plausible 
+% deniability that she submitted one of the other transactions --- but again not 
+% deniability/receipt freeness as Grace can verify if she accesses Alice's 
+% device.
 
-Counting votes is also more straightforward than counting protest participation. 
-Depending on the value of interest (\eg peak participation, total participation, individual sub-protests or counting participation only once for the cause, etc.), different ways of counting are
-possible and valid. 
-Since anyone can read the data, they can verify the results given the parameters of choice.
+% Counting votes is also more straightforward than counting protest participation. 
+% Depending on the value of interest (\eg peak participation, total participation, individual sub-protests or counting participation only once for the cause, etc.), different ways of counting are
+% possible and valid. 
+% Since anyone can read the data, they can verify the results given the parameters of choice.
 
 %\subsection{Other actors}
 %
