@@ -1,7 +1,7 @@
 \subsection{Distance-bounding protocols}%
 \label{distance-bounding}
 
-
+We give some general background on distance-bounding protocols and location proofs in~\cref{db-and-lp} and focus here on the specifics for our use case.
 Our setting requires a public-key \ac{DB} protocol with a \emph{malicious verifier} who will potentially try to \emph{impersonate the prover}.
 The verifier might also try to track the provers and map their identities to their actions, thus we also require privacy.
 This leads to the requirement of a \ac{DB} \ac{ZKPK}, or simply \ac{PPK}, with resistance to all the frauds mentioned above as well as against a verifier who will attempt to impersonate the prover.
