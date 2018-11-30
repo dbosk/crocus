@@ -103,12 +103,16 @@ The organizer writes a manifesto for the protest, which describes its cause.
 This manifesto could take the form of any intelligible text.
 The organizer will then distribute this manifesto to people through
 any suitable means  (\eg on the Web, on placards, \etc).
-If they agree on the cause, they will use the knowledge of the manifesto to join the protest.
+If they agree with the cause, they will use the knowledge of the
+manifesto to join the protest. 
 
 
 \emph{Joining as a protester: \((\pid, t_s)\gets 
     \CROCUSjoin[_P][\text{manifesto}]\).}
-A protester who wants to join the protest will use the manifesto to compute an identifier for the cause by hashing the manifesto, \(\cid\gets \Hash[\mfst]\).
+A protester who wants to join the protest will use the manifesto to
+compute an identifier for the cause by hashing the manifesto,
+\(\cid\gets \Hash[\mfst]\) (and comparing the result to that received
+from the organizer, we omit this in the protocol for readibility).
 Afterwards, this identifier is used to create the protest-specific identifier 
 for the protester, \(\pid\gets \ACprf[_{\sk_P}][\cid]\) (see 
 \cref{fig:ProofFig} and \cref{ACprfAlg}).
@@ -316,7 +320,7 @@ of all such proof shares or digitally signing each proof share\footnote{
 Note that anyone who does the counting can choose the eligibility
 criteria (time interval, location, number of regular or trusted
 witnesses, who is considered to be a trusted witness) for their count
-and as long as these are published along with the result, any one can
+and as long as these are published along with the result, anyone can
 verify the correctness under those criteria.
 
 % Then the verifier can define \[

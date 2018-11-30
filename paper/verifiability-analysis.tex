@@ -1,38 +1,3 @@
-\subsection{Individual and universal verifiability}%
-\label{analysis-individual}%
-\label{analysis-universal}
-
-\Cref{IndividualVerif} requires that Alice and Bob, as participants, can verify 
-that their participation proofs (\ie proof shares) are indeed included in the 
-computed count.
-All proof shares (\ie \(\prf_{\pid, \prtst} = (\cid, \pid, \wid, t_s, t_s', 
-  t_e, t_e', l, \corr_\pid, \corr_\wid)\)) are committed to the ledger and 
-available from a public and permanent storage (see 
-\cref{fig:ProtocolOverview}).
-Thus, Alice and Bob can simply check that all of their proof shares are indeed 
-there and the security of individual verifiability depends on the properties of 
-the ledger and storage (\(\TS\), \cref{timestamp}).
-For both \cref{in-system-adversary,deanonymizing-storage-adversary} we assumed 
-an honest-but-curious adversary controlling \(\TS\)\footnote{%
-  We note that, in general, distributed (decentralized) ledgers cannot 
-  withstand a malicious \ac{ISP}.
-  Such an adversary can partition the network and provide Alice and Bob with 
-  different views of the ledger, thus breaking individual verifiability.
-  However, this requires that the adversary \emph{can observe} Alice's and 
-  Bob's channels to the ledger --- which is still not true even for 
-  \cref{deanonymizing-storage-adversary}.
-}.
-This means that Alice can check that her proof share is indeed there.
-
-\Cref{UniversalVerif} implies that anyone can check the result and that all 
-participation proofs counted are legitimate.
-As the proof shares are committed and stored publicly, anyone can
-download them, verify eligibility (\ie verify \(\corr_\pid,
-\corr_{\wid}\)) of the proofs and count them.
-As for individual verifiability, the security of universal verifiability is 
-reduced to the properties of the ledger and storage; but universal 
-verifiability also depends on the eligibility verification, which we will 
-discuss next.
 
 \subsection{Eligibility verifiability}%
 \label{analysis-eligibility}
@@ -45,13 +10,13 @@ location of \(\sk_P\) at creation (\ie, spatial eligibility,
 person (\ie, one-proof-per-person eligibility, \cref{CountOnce}) and that the 
 proof is indeed designated for the event (\ie, designated-event eligibility, 
 \cref{DesignatedEvent}).
-It follows from \cref{analysis-individual} that the adversary cannot drop 
+As we will show, it follows from \cref{analysis-individual} that the adversary cannot drop 
 submitted proof shares and thus cannot decrease the count.
 As indicated in \cref{in-system-adversary,deanonymizing-storage-adversary}, the 
 adversary can submit proof shares as everyone else, so the adversary's only 
 option is to increase the count.
 We will thus let Alice pose as the adversary in this section, as she naturally 
-has an incentive to increase the count.
+has an incentive to increase the count, as the organizer and participant.
 
 \subsubsection{Temporal eligibility}%
 \label{analysis-temporal}
@@ -120,7 +85,7 @@ illicitly use someone else's.
 \subsubsection{Spatial eligibility}%
 \label{analysis-spatial}
 
-\Cref{SpatiallyRelated} is achieved by having a witness vouch anonymously that Alice was indeed on the location when the proof share was created.
+\Cref{SpatiallyRelated} is achieved by having a witness vouch anonymously that Alice was indeed at the location when the proof share was created.
 To realize this, we must ensure that Alice cannot forge witness signatures.
 
 In the trust-free case (see \cref{ProtocolVerification}), this is realized by 
@@ -138,19 +103,22 @@ is accepted by the verifier while not knowing a signature on the secret key
 \(\sk_W'\).
 Thus, she must break the \(\AC\) scheme to succeed or get a valid signature on \(\sk_W'\) from the \ac{CA}.
 As above, the latter could be done if she can find people willing to collude, 
-people unwilling to collude but she can illicitly use their keys anyway or 
+or whose keys she illicitly can use anyway, or 
 simply request new keys from the \ac{CA}.
 
-We assumed that Alice cannot collude with more than a threshold \(\theta\) of 
-witnesses.
-Thus, setting the threshold of at least \(\theta+1\) will prevent Alice from 
-cheating.
-(Note that Alice can produce \emph{one} witness signature for herself, since 
-she has access to her own \(\sk_P\), but no more.
-Thus, \(\theta > 1\) is a requirement in the trust-free case.)
+% We assumed that Alice cannot collude with more than a threshold \(\theta\) of 
+% witnesses.
+% Thus, setting the threshold of at least \(\theta+1\) will prevent Alice from 
+% cheating.
+% (Note that Alice can produce \emph{one} witness signature for herself, since 
+% she has access to her own \(\sk_P\), but no more.
+% Thus, \(\theta > 1\) is a requirement in the trust-free case.)
 
-In the trusted witness case, we assume that we can trust (dedicated) witnesses.
-In this case, Alice must be able to forge statements, \eg digital signatures, 
+The strength function from ~\cref{DefParticipationCount} ensures that
+Alice either has to collude with \(\theta - 1\) witnesses (she can
+produce \emph{one} witness signature for herself, since she has access
+to her own \(\sk_P\), but no more) or, in the trusted witness case,
+that Alice must be able to forge statements, \eg digital signatures,
 from at least one witness that the verifier trusts.
 
 \subsubsection{Designated protest}%
@@ -177,3 +145,37 @@ Thus, the verification process differs for the two types of proofs.
 (An alternative approach would have been to compute them differently, for 
 instance \(\pid = \AC[PRF]_{\sk}(x)\) but \(\wid = \AC*[PRF]_{\sk}(x)\), where 
 \(\AC \neq \AC*\) are separate anonymous-credential systems.)
+
+\subsection{Individual and universal verifiability}%
+\label{analysis-individual}%
+\label{analysis-universal}
+
+\Cref{IndividualVerif} requires that Alice and Bob, as participants, can verify 
+that their participation proofs (\ie proof shares) are indeed included in the 
+computed count.
+All proof shares (\ie \(\prf_{\pid, \prtst} = (\cid, \pid, \wid, t_s, t_s', 
+  t_e, t_e', l, \corr_\pid, \corr_\wid)\)) are committed to the ledger and 
+available from a public and permanent storage.
+Thus, Alice and Bob can simply check that all of their proof shares are indeed 
+there and the security of individual verifiability depends on the properties of 
+the ledger and storage (\(\TS\), \cref{timestamp}).
+For both \cref{in-system-adversary,deanonymizing-storage-adversary} we assumed 
+an honest-but-curious adversary controlling \(\TS\)\footnote{%
+  We note that, in general, distributed (decentralized) ledgers cannot 
+  withstand a malicious \ac{ISP}.
+  Such an adversary can partition the network and provide Alice and Bob with 
+  different views of the ledger, thus breaking individual verifiability.
+  However, this requires that the adversary \emph{can observe} Alice's and 
+  Bob's channels to the ledger --- which is still not true even for 
+  \cref{deanonymizing-storage-adversary}.
+}.
+This means that Alice can check that her proof share is indeed there.
+
+\Cref{UniversalVerif} implies that anyone can check the result and that all 
+participation proofs counted are legitimate.
+As the proof shares are committed and stored publicly, anyone can
+download them, verify eligibility (\ie verify \(\corr_\pid,
+\corr_{\wid}\)) of the proofs and count them.
+As for individual verifiability, the security of universal verifiability is 
+reduced to the properties of the ledger and storage; but universal 
+verifiability also depends on the eligibility verification.
