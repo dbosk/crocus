@@ -105,25 +105,26 @@ We need a renewal-rate limit to keep Sybil attacks down.
 
 \subsection{The adversaries}
 
-\daniel{This needs editing, it's out of its old context.}
-
-Another facet concerning receipt freeness is traffic analysis.
-Indeed, if Grace can monitor all connections within the country, which seems a 
-reasonable assumption, she can monitor Alice when she interacts directly with 
-the ledger.
-However, as the miner collects many transactions, Alice should have plausible 
-deniability that she submitted one of the other transactions --- \ie this is 
-better captured by \cref{in-system-adversary} than 
+\CROCUS is secure against \cref{in-system-adversary} but not 
 \cref{deanonymizing-storage-adversary}.
-But, again, Alice do not have deniability/receipt freeness as Grace can verify 
-if she accesses Alice's device.
-
-Counting votes is also more straightforward than counting protest 
-participation. Depending on the value of interest (\eg peak participation, 
-total participation, individual sub-protests or counting participation only 
-once for the cause, etc.), different ways of counting are
-possible and valid. 
-Since anyone can read the data, they can verify the results given the parameters of choice.
+\Cref{deanonymizing-storage-adversary} is a rather strong adversary.
+\Eg, Grace can achieve \cref{deanonymizing-storage-adversary} if Alice connects 
+directly to the ledger.
+However, if Alice uses something like Tor, even if Grace can do a 
+time-correlation attack (which is reasonable), nodes in \(S\) bundles many 
+transactions and, thus, Alice should have plausible deniability for her 
+submission.
+So even this strong adversary is better captured by \cref{in-system-adversary} 
+than \cref{deanonymizing-storage-adversary}.
+In essence, Grace can achieve \cref{deanonymizing-storage-adversary} through a 
+time-correlation attack proportionally to how many nodes\footnote{%
+  She does not need to control much CPU power, just network addresses, so that 
+  Alice highly likely connect to her nodes.
+} in the ledger network she controls.
+However, Alice can still choose nodes based on \eg AS numbers, to choose nodes 
+that are less likely controlled by Grace.
+In that sense, we believe that \cref{in-system-adversary} is the more realistic 
+adversary for now.
 
 \subsection{Other actors}
 
