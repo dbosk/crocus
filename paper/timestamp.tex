@@ -2,6 +2,7 @@
 \label{StorageProperties}\label{timestamp}\label{ledger}
 
 We need a robust time-stamping service, \(\TS\), which implements the \(\TSget\), \(\TSstamp\) and \(\TStime\) requests such that
+\simon{"request" feels weird to me. Are we sure that's the right word?}
 \begin{itemize}
   \item \(\rho \gets \TSget\) yields a value \(\rho\) at time \(t\), \(\rho\) is difficult to guess before time \(t\) and \(\TStime[\rho] = t\);
   \item \(\pi\gets \TSstamp[x]\) yields a value \(\pi\) at time \(t\) such that \(\TSverify[x, \pi]\to \top\) and \(\TStime[\pi] = t\).
@@ -12,7 +13,7 @@ After time \(t_0\), a user requests \(\rho_{t_0}\gets \TSget\).
 Before time \(t_1\), a user submits \(h\gets \Hash[m, \rho_{t_0}]\) to the time-stamping service to get \(\pi_{t_1}\gets \TSstamp[h]\).
 
 The tuple \((\rho_{t_0}, m, \pi_{t_1})\) can be used to prove that \(m\) was created within the time interval \(\interval{t_0}{t_1}\).
-The verifier computes \(h'\gets \Hash[m, \rho_{t_0}]\) and checks whether \(\TSverify[h', \pi_{t_1}] = \top\) and \(\TStime[\rho_{t_0}] = t_0\land 
+The verifier computes \(h'\gets \Hash[m, \rho_{t_0}]\) and checks whether \(\TSverify[h', \pi_{t_1}] = \top \land \TStime[\rho_{t_0}] = t_0\land 
   \TStime[\pi_{t_1}] = t_1\).
 
 \(\TS\) can be instantiated by an open-membership distributed ledger (\eg a blockchain) such as Bitcoin~\cite{Bitcoin}, secured via Proof-of-Work consensus, or OmniLedger~\cite{OmniLedger}, secured via Byzantine consensus.

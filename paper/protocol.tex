@@ -2,13 +2,14 @@
 \label{Protocol}
 
 
-We now present \CROCUS, a protocol for privately verifyiable crowd counts.
-The protocol consists of five phases: setup (in \cref{ProtocolSetup}),
-join, participation, submission (all in in \cref{ProtocolDuring} ) and
-verification (in \cref{ProtocolVerification}).
+We now present \CROCUS, a protocol for privately verifiable crowd counts.
+The protocol consists of three phases:
+before the protest, with the setup and registration steps (\cref{ProtocolSetup}),
+during the protest, with the creation, join, participation, and submission steps (\cref{ProtocolDuring})
+and after the protest, with the verification step (in \cref{ProtocolVerification}).
 
 Several entities are involved in our protocol.
-First, \iac{CA} is responsible for certifying a one-to-one mapping between a 
+First, a \emph{certificate authority} (\ac{CA}) is responsible for certifying a one-to-one mapping between a 
 person's identity and a cryptographic key\footnote{%
   This can be done by a centralized authority, such as a nation state with, 
   \eg, passports; or a decentralized authority, as in the case of a a 
@@ -20,7 +21,7 @@ Second, a participant is an individual who wants to participate in a given
 protest.
 A participant can assume three different roles:
 \begin{enumerate}
-\item The \emph{organizer} has written a manifesto for the protest and forward it to others.
+\item The \emph{organizer} has written a manifesto for the protest and forwards it to others.
 \item A \emph{protester} is attending the protest and asks witnesses to vouch 
   for his presence.
 \item A \emph{witness} provides proofs to protesters which state that the 
@@ -30,15 +31,15 @@ A participant can assume three different roles:
 In general, there is one organizer and every participant can act alternatively 
 as both protester and witness.
 
-\subsection{Setup phase}%
+\subsection{Pre-protest phase}%
 \label{ProtocolSetup}
 
-The setup phase is only run once and is the same as in Anon-Pass~\cite{AnonPass}.
-More precisely, we have simply adapted their description to our notation, but otherwise we have the setting as similar as possible.
+The setup step is only run once and is the same as in Anon-Pass~\cite{AnonPass}.
+More precisely, we have simply adapted their description to our notation, but otherwise kept the setting as similar as possible.
 
 
 \emph{Setup: \((\spk, \ssk)\gets \CROCUSsetup\).}
-During the setup phase, the \ac{CA} creates all the needed keys.
+During the setup step, the \ac{CA} creates all the needed keys.
 First, the \ac{CA} generates a service public-private key-pair \((\spk, \ssk)\) as follows.
 Let \(G = \gen g\) be a group with generator \(g\) and of prime order \(q\).
 Let \(G_T\) be a group such that there is a bilinear pairing \(e\colon G\times G\to G_T\)\footnote{%
@@ -51,7 +52,7 @@ The service public key is set to \(\spk = (q, G, G_T, g, X, Y, Z)\) and the serv
 
 \emph{Registration: \(\sk\gets 
     \Proto{\CROCUSreg[_P][\spk]}{\CROCUSreg[_{\CA}][\ssk]}\).}
-During the registration phase, each participant generates a secret key and 
+During the registration step, each participant generates a secret key and 
 obtains a signature on it by the \ac{CA} but without revealing it to the 
 \ac{CA}.
 At the end, each participant will have a signed secret key while the \ac{CA} 
@@ -75,16 +76,16 @@ The participant then verifies that the following equations hold:
 \end{align*}
 Upon success, the participant sets \(\sk = (\sigma, k, r)\).
 
-The setup and registration phases can be done once and the keys can be reused 
+The setup and registration steps can be done once and the keys can be reused 
 for an arbitrary number of protests.
-Thus, the registration phase could be easily integrated as part of the issuance 
+Thus, the registration step could be easily integrated as part of the issuance 
 of national identity cards, passports or \acp{eID}.
 
-\subsection{Creation, join and participation in a protest and submission of proofs}%
+\subsection{Protest phase}%
 \label{ProtocolDuring}
 
-The join, participation and submission phases are illustrated in \cref{fig:ProtocolOverview}.
-The participation proof share that will be constructed in the participation phase is illustrated in \cref{fig:ProofFig}.
+The join, participation and submission steps are illustrated in \cref{fig:ProtocolOverview}.
+The participation proof share that will be constructed in the participation step is illustrated in \cref{fig:ProofFig}.
 
 \emph{Creation of a protest: the manifesto.}
 The organizer will write a manifesto for the protest, which describes its cause.
@@ -174,7 +175,7 @@ The protester should also receive a time-correlated random value from the time-s
     The organizer \(O\) broadcasts the manifesto.
     The protester \(P\), witness \(W\) and their computations are as in \cref{fig:ProofFig}.
     Finally, both \(P\) and \(W\) submit the proof shares to a
-    permanent storage \(S\). Note that \pid always refers to the
+    permanent storage \(S\). Note that \pid{} always refers to the
     protester whose presence is being witnessed.
   }%
   \label{fig:ProtocolOverview}
@@ -249,7 +250,7 @@ protester (\cref{fig:ProofFig}).
 
 
 \emph{Submission: \(\psh_P\gets \CROCUSsubmit[_P][\cid, \pid, \wid, t_s, t_s',  l]\).}
-The participant should as soon as possible commit the proof-share data to the 
+The protester should as soon as possible commit the proof-share data to the 
 time-stamping service and receive the proof of commitment, \(t_e\gets 
   \TSstamp[\Hash[\cid, \pid, \wid, t_s, t_s', l]]\).
 The remaining operations are not time critical.
@@ -271,7 +272,7 @@ Finally, the protester uploads the tuple \[
 
 \emph{Submission: \(\psh_W\gets \CROCUSsubmit[_W][\cid, \pid, \wid, t_s, t_s', 
     l]\).}
-The witness should, just as the participant, commit the proof-share data to the 
+The witness should, just as the protester, commit the proof-share data to the 
 time-stamping service, \(t_e'\gets \TSstamp[\Hash[\cid, \pid, \wid, t_s, t_s', 
   l]]\).
 (This is to make the time interval as early as possible, whoever is the faster 
@@ -290,7 +291,7 @@ Finally, the witness uploads the tuple \[
   \psh_W = (\cid, \pid, \wid, t_s, t_s', t_e', l, \corr_{\wid})
 \] for permanent storage.
 
-\subsection{Verifying the participation count}%
+\subsection{Post-protest phase}%
 \label{ProtocolVerification}
 
 % While there are various ways for verifying the participation count, hereafter, 
@@ -304,7 +305,7 @@ Finally, the witness uploads the tuple \[
 % We will first give the procedure and then how to construct the two different 
 % strength functions.
 
-To verify the participation count for a subprotest \(\sprtst = (\cid, t, l)\) 
+To verify the participation count for a protest \(\prtst\)  with identifier $\cid$
 (see \cref{DefProtest}), a verifier must download all the proof shares \[
   \psh_i =   (\cid, \pid_j, \wid_i, t_s^{(i)}, t_s^{\prime (i)}, t_e^{(i)}, 
   t_e^{\prime   (i)}, l_i, \corr_{\pid_j}^{(i)}, \corr_{\wid_i})
