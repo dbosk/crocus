@@ -250,20 +250,52 @@ Here is an overview of the protocol.
 % We will first give the procedure and then how to construct the two different 
 % strength functions.
 
-To verify the participation count for a protest \(\prtst\)  with identifier $\cid$
-(see \cref{DefProtest}), a verifier must download all the proof shares \[
-  \psh_i =   (\cid, \pid_j, \wid_i, t_s^{(i)}, t_s^{\prime (i)}, t_e^{(i)}, 
-  t_e^{\prime   (i)}, l_i, \corr_{\pid_j}^{(i)}, \corr_{\wid_i})
-\] for each protester \(j\) from the ledger, verify \(\corr_{\pid_j}^{(i)}\), 
-\(\corr_{\wid_i}\) and that the interval \(\interval{\max(t_s^{(i)}, 
-    t_s^{\prime (i)})}{\min(t_e^{(i)}, t_e^{\prime (i)})}\subseteq t\) and that 
-\(l_i\subseteq  l\).
-Any proof share that does not verify correctly will be discarded.
-At this point, the verifier has constructed the set \(S\) from 
-\cref{DefProofShares} and can thus construct any participation proof 
-\(\prf_{\pid_j, P}\) as in \cref{DefParticipationProof}.
-Now the verifier can compute the participation count \(|\prfs_P^{\str, 
-    \theta}|\) as in \cref{DefParticipationCount}.
+
+To verify the participation count for a protest \(\prtst\) with identifier \(cid_0\),
+a verifier must download from the storage system S the set \(S_{\prtst}\) of all \(s_P\) and \(s_W\) tuples containing \(cid_0\).
+Then from \(S_{\prtst}\), a verifier can build, in succession,
+(a) the valid proof shares \(s_j^{(i)}\) for all matching pairs \((s_P,s_W)\) corresponding to a witness  \(i\) and a protester \(j\),
+(b) the participation proof \(\prf_{j}\) for each protester \(j\),
+(c) the set \(\prfs_{\prtst}^{\str,\theta}\) of eligible participation proofs for all protesters in \(P\),
+ and finally the participation count, cardinality of the previous set.
+
+
+More precisely, given: \\
+\(S_{\prtst} = \{ (cid, pid, wid, l, t_s, t_s', t_c, \corr) \in \pshs \mid \cid = \cid_0 \} \) \\
+and a matching pair \((s_P, s_W) \in {S_{\prtst}}^2\) for a witness \(i\) and a protester \(j\)
+with \(s_P = (cid_0, pid_j, wid_i, l, t_s, t_s', t_c, \psi_i)\)
+and  \(s_W = (cid_0, pid_j, wid_i, l, t_s, t_s', t_c', \psi_j)\),
+%, with matching values for \(cid_0, pid_j, wid_i, l, t_s, t_s'\),
+the verifier can build a valid proof share \(s_j^{(i)}\) certified by  \(i\) for \(j\) as follow:
+verify \(\psi_i\) and \(\psi_j\),
+let \(t = [max(t_s, t_s'), min(t_c, t_c')]\),
+let \(s_j^{(i)} = (cid_0, pid_j, wid_i, l, t)\), as in \cref{DefProofShare},
+check that \(s_j^{(i)}\) is valid (i.e. happened during and at the location of the protest), as in \cref{DefProofShare}.
+
+Then the set of all valid proof shares for a protester \(j\) constitutes its participation proof \(\pi_{j}\), as in \cref{DefParticipationProof},
+and the verifier thus can derive the set of \((\str,\theta)\)-eligible participation proofs \(\prfs_{\prtst}^{\str,\theta}\) for all protesters for the protest \(\prtst)\), as in \cref{DefParticipationProof}.
+Finally, the  participation count \(|\prfs_{\prtst}^{\str,\theta}|\) is the cardinality of this set by the same \cref{DefParticipationProof}.
+
+
+% MOST PROBABLY obsolete below v 
+
+%To verify the participation count for a protest \(\prtst\)  with identifier $\cid$
+%(see \cref{DefProtest}), a verifier must download all the proof shares \[
+%  \psh_i =   (\cid, \pid_j, \wid_i, t_s^{(i)}, t_s^{\prime (i)}, t_e^{(i)}, 
+%  t_e^{\prime   (i)}, l_i, \corr_{\pid_j}^{(i)}, \corr_{\wid_i})
+%\] for each protester \(j\) from the ledger, verify \(\corr_{\pid_j}^{(i)}\), 
+%\(\corr_{\wid_i}\) and that the interval \(\interval{\max(t_s^{(i)}, 
+%    t_s^{\prime (i)})}{\min(t_e^{(i)}, t_e^{\prime (i)})}\subseteq t\) and that 
+%\(l_i\subseteq  l\).
+%Any proof share that does not verify correctly will be discarded.
+%At this point, the verifier has constructed the set \(S\) from 
+%\cref{DefProofShares} and can thus construct any participation proof 
+%\(\prf_{\pid_j, P}\) as in \cref{DefParticipationProof}.
+%Now the verifier can compute the participation count \(|\prfs_P^{\str, 
+%    \theta}|\) as in \cref{DefParticipationCount}.
+
+
+%__________________________
 
 % In the case \emph{without} trusted witnesses, all the weights equal to 1 is equivalent to counting the elements in the set, 
 % \(\str[\prf_{\pid_j, P}] = |\prf_{\pid_j, P}|\).
