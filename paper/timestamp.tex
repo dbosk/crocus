@@ -13,12 +13,13 @@ After time \(t_0\), a user requests \(\rho_{t_0}\gets \TSget\).
 Before time \(t_1\), a user submits \(h\gets \Hash[m, \rho_{t_0}]\) to the time-stamping service to get \(\pi_{t_1}\gets \TSstamp[h]\).
 
 The tuple \((\rho_{t_0}, m, \pi_{t_1})\) can be used to prove that \(m\) was created within the time interval \(\interval{t_0}{t_1}\).
-The verifier computes \(h'\gets \Hash[m, \rho_{t_0}]\) and checks whether \(\TSverify[h', \pi_{t_1}] = \top \land \TStime[\rho_{t_0}] = t_0\land 
-  \TStime[\pi_{t_1}] = t_1\).
+The verifier computes \(h'\gets \Hash[m, \rho_{t_0}]\) and checks whether \(\TSverify[h', \pi_{t_1}] = \top \land \TStime[\rho_{t_0}] > t_0\land 
+  \TStime[\pi_{t_1}] < t_1\).
 
 \(\TS\) can be instantiated by an open-membership distributed ledger (\eg a blockchain) such as Bitcoin~\cite{Bitcoin}, secured via Proof-of-Work consensus, or OmniLedger~\cite{OmniLedger}, secured via Byzantine consensus.
 If a blockchain is used for \(\TS\), the \(\TSstamp[x]\) request includes \(x\) in the blockchain and returns the identifier of the block into which \(x\) was included.
 The \(\TSget\) request returns the hash of the most recent block of the chain (\ie the head).
+\footnote{In situations where forks are common, it is relatively easy to adapt this process to look at a few blocks before the head and avoid the issue of the stamp becoming invalid later.}
 The returned hash is difficult to predict since it depends on the content of the block, populated by other users and by the creator of the block with additional randomness (\eg nonces and secrets).
 
 Regarding consensus resilience, it is advisable to use a blockchain with a high number of participants even if it means sharing the blockchain with other services.
@@ -29,6 +30,6 @@ In both cases, assuming a majority of honest members in the population, the more
 We require a few additional properties from \(\TS\) that are already provided by blockchains.
 First, \(\TS\) must be continuously extended, such as in Bitcoin in which blocks are created every 10 minutes on average.
 Second, \(\TS\) must provide \emph{immutability} and availability to any data committed through \(\TSstamp\) to ensure verifiability of the data by anyone at any time.
-Once the data from a user is committed, the user can choose to only store some confirmation value instead of the data itself.
-In the case of a blockchain, it would be sufficient for a user to only store both the hash of the block containing her participation proof and the hash of the proof. 
+Note that thanks to \(\TS\) immutability, once a user has committed their data, that user only need to store some confirmation value instead of the data itself.
+For instance, in the case of a blockchain, it would be sufficient for a user to only store both the hash of the block containing their participation proof and the hash of the proof. 
 
