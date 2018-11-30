@@ -29,18 +29,6 @@ BankID, \SI{88}{\%} for ages 51--60 and \SI{76}{\%} for ages
   \url{https://www.bankid.com/assets/bankid/stats/2018/statistik-2018-04.pdf}.
 }.
 
-We need a strong connection between a person and the cryptographic key, so we 
-believe that relying on these government-issued credentials is the most 
-probable solution.
-Unfortunately, if we rely on government-issued credentials, we cannot prevent 
-the government from performing Sybil attacks --- since it can issue arbitrarily 
-many \emph{valid} credentials.
-In this case, it does not make sense to verify any pro-government protests in 
-which Grace's authoritarian regime wants to demonstrate its wide 
-support~\cite{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
-But as long as the protests are not aligned with the interests of the \ac{CA}, 
-the counts can be trusted.
-
 We also need to run distance-bounding protocols on smartphones.
 Achieving distance-bounding protocols on smartphones is currently not feasible 
 within a meaningful range of distance needed for our scenario.
@@ -77,12 +65,23 @@ tickets will drive a similar development for this hardware on smartphones.
 \include*{MANETs}
 
 
-%\subsection{Implementation on smartphones or smart-cards}
 
-
-
- 
 \subsection{Receipt freeness, Sybil and key renewal}
+
+We need a strong connection between a person and the cryptographic key.
+Currently, governments are the ones that have the strongest incentives to solve 
+the problem (\enquote{birth certificates}) to prevent \eg fraud in the 
+well-fare system.
+So we believe that relying on these government-issued credentials is the most 
+probable solution.
+Unfortunately, if we rely on government-issued credentials, we cannot prevent 
+the government from performing Sybil attacks --- since it can issue arbitrarily 
+many \emph{valid} credentials.
+In this case, it does not make sense to verify any pro-government protests in 
+which Grace's authoritarian regime wants to demonstrate its wide 
+support~\cite{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
+But as long as the protests are not aligned with the interests of the \ac{CA}, 
+the counts can be trusted.
 
 We pointed out already in \cref{desired-properties} that receipt freeness 
 conflicts with verifiability.
@@ -104,7 +103,9 @@ For purely electronic \enquote{identity cards}, such as BandID mentioned above,
 they can be renewed with almost no rate-limitation.
 We need a renewal-rate limit to keep Sybil attacks down.
 
-\subsection{The security}
+\subsection{The adversaries}
+
+\daniel{This needs editing, it's out of its old context.}
 
 Another facet concerning receipt freeness is traffic analysis. Indeed, if Grace 
 can monitor all connections within the country, which seems a reasonable 
