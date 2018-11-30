@@ -35,26 +35,5 @@ We assume that the location \(l\) is coarse enough so that many non-overlapping
 Thus \(l\) is not unique for any individual (protester or witness).
 This implies some degree of \(k\)-anonymity for the location \(l\).
 
-Since \(\pid\) uniquely identifies \(P\), then if \(t_s^{(\pid)}\) is 
-\enquote{unique enough}\footnote{%
-  This can be verified thanks to \cref{CountOnce}.
-  If there are no tuples \((\pid, t_s)\) and \((\pid, t_s')\) among the proof 
-  shares such that \(\pid \neq \pid'\) but \(t_s = t_s'\), then \(t_s\) also 
-  \emph{likely} uniquely identifies \(P\).
-  \enquote{Likely} depends on the likelihood of there being witnesses who are 
-  not protesters.
-}, every \(\wid\) for which \(t_s' = t_s^{(\pid)}\) is \emph{likely} to be 
-\(P\) acting as a witness.
-This would allow \cref{in-system-adversary} to link \(\wid, \wid'\) for 
-different protesters, thus violating \cref{WitnessUnlink}.
-(The same can be said of \(\pid\) and \cref{ProtestUnlink} if there are 
-multiple protests, \ie \(\cid\)'s, at the same time and location.
-However, we deem this as unlikely.)
-
-Distribution of \(t_s\) depends on the rate of \(\TSget\) and the distribution 
-of when participants run the algorithm the last time.
-For example, if we use a six-hour interval and a rate of one new value per 
-minute, then there are potentially 21600 unique values for \(t_s\).
-However, we can scale this down by a factor \(n\) by requiring \(\TSget\) to 
-use only every \(n\)th block from the underlying ledger.
-Thus it seems reasonable that \(t_s\) will never be \enquote{unique enough}.
+Likewise, thanks to the constraints in the time-stamp granularity,
+\(t\) is not unique.
