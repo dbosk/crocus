@@ -25,9 +25,17 @@ Definitions not entirely formal: working on it.
 Single participant gathering proof shares for friends: The distance bounding prevents this being done by relaying messages. The terrorist-fraud assumption from distance bounding also prevents giving the private key (or phone containing it) to someone: the private keys are part of the long-term ID credential, if this ID can be used for other things, as pointed out by Reviewer 1, then you will not allow just anyone to use it.
 
 
-Reviewer 3)
+Reviewer 3
 
-1) Yes, following the standard assumption in distance bounding to prevent terrorist fraud (which is distance-bounding terminology for this particular case).  We will look into the possibilities of functional encryption, that might actually violate the terrorist-fraud assumption.
+1) Yes, following the standard assumption in distance bounding to prevent 
+terrorist fraud (which is distance-bounding terminology for this particular 
+case).
+
+Functional encryption will not work against an honest verifier in the general 
+case. We are working on a distance bounding protocol (it requires a separate 
+paper) and in that scheme the private key can be computed by joining two 
+different outputs from the functional encryption of the private key. Hence it's 
+reduced to the terrorist-fraud case again.
 
 2) This extreme case where no type of wireless communication works, not even the short range needed here, is possible but not heard of. Perhaps NFC could help.
 
