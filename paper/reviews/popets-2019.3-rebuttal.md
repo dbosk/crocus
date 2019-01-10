@@ -20,7 +20,7 @@ b) Yes, but the paper also notes that those are detectable and should be ignored
 
 Reviewer 2
 
-Definitions not entirely formal: working on it.
+Definitions not entirely formal: if there are specific parts that should be more formalized, we'll be happy to work on that.
 
 Single participant gathering proof shares for friends: The distance bounding prevents this being done by relaying messages. The terrorist-fraud assumption from distance bounding also prevents giving the private key (or phone containing it) to someone: the private keys are part of the long-term ID credential, if this ID can be used for other things, as pointed out by Reviewer 1, then you will not allow just anyone to use it.
 
@@ -41,5 +41,9 @@ reduced to the terrorist-fraud case again.
 
 3) No principled way given online mobs, but different counts are possible and as long as the parameters are published, the counts can be verified. Requests for sizeable collusion are made in public, which risk being found by the verifier --- thus invalidating the count in the eyes of the verifier.
 
-4) 5G is built for scale but currently not for the D2D scenario; again, NFC is 
-an option.
+4) 5G is built for scale but currently not for the D2D scenario
+without provider; again, NFC is an option. For overall performance, we
+could evaluate AnonPass on phones, example distance-bounding
+computation, collect density and scalability from the literature
+(protests and wireless), and measure NFC delays, if you deem it
+useful.
