@@ -1,4 +1,4 @@
-Reviewer 1
+# Reviewer 1
 
 1) a) Due to the use of anonymous credentials, the central authority cannot 
 tell participants from non-participants without extreme measures equivalent to 
@@ -37,7 +37,8 @@ to be counted. We _do_ use trusted witnesses for counting.
 
 7) Strength: yes.
 
-Reviewer 2
+
+# Reviewer 2
 
 If there are specific parts that should be more formalized, we will be happy to 
 do this in the revised version of the paper. 
@@ -49,7 +50,8 @@ someone. This is realistic in scenario in which the private keys are part of
 the long-term ID credential. In particular as pointed out by reviewer 1 if this 
 ID can be used for other things, you will not allow just anyone to use it.
 
-Reviewer 3
+
+# Reviewer 3
 
 1) Yes, it follows the standard assumption in distance-bounding to prevent 
 terrorist fraud (which is distance-bounding terminology for this particular 
