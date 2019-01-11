@@ -16,8 +16,8 @@ apply standard source criticism. (c.f., detecting bias in scientific research).
 
 2) Petitions have been viable for a long time but people still arrange protests 
 anyway, in part because going physically to a protest in a sense shows much 
-more involvment. Our scheme allows for both anonymous verifiable petitions (not 
-considering location) and protests (time and location matter).
+more involvement. Our scheme allows for both anonymous verifiable petitions 
+(not considering location) and protests (time and location matter).
 
 3-4) We acknowledge that the design of the architecture is complex but we need 
 all parts to reach the desired security and privacy properties. To improve the 
