@@ -1,8 +1,7 @@
 .PHONY: all
 all: paper.pdf
 
-paper.pdf: popets
-paper.pdf: paper.tex
+paper.pdf: paper.tex usenix2019_v3.sty
 paper.pdf: preamble.tex preamble-paper.tex
 
 SRC+=	contents.tex
