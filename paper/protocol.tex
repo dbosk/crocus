@@ -5,32 +5,42 @@
 
 We now present \CROCUS, a protocol for privately verifiable crowd counts.
 The protocol consists of three phases:
-before the protest, with the setup and registration steps (\cref{ProtocolSetup}),
-during the protest, with the creation, join, participation, and submission steps (\cref{ProtocolDuring})
-and after the protest, with the verification step (in \cref{ProtocolVerification}).
+before the protest, with the setup and registration steps (\cref{ProtocolSetup});
+during the protest, with the creation, join, participation, and submission 
+steps (\cref{ProtocolDuring});
+and after the protest, with the verification step (in
+\cref{ProtocolVerification}). 
+%Note that some of the figures with
+%protocol minutiae from related work are in~\cref{anon-cred-figures}.
 
 Several entities are involved in our protocol.
 First, a \emph{certificate authority} (\ac{CA}) is responsible for certifying a one-to-one mapping between a 
-person's identity and a cryptographic key\footnote{%
-  This can be done by a centralized authority, such as a nation state with, 
-  \eg, passports; or a decentralized authority, as in the case of a a 
-  collective authority~\cite{collective-signing} powered by 
-  proof-of-personhood~\cite{proof-of-personhood}.
-}.
+person's identity and a cryptographic key
+%\footnote{%
+%  This can be done by a centralized authority, such as a nation state with, 
+%  \eg, passports; or a decentralized authority, as in the case of a a 
+%  collective authority~\cite{collective-signing} powered by 
+%  proof-of-personhood~\cite{proof-of-personhood}.
+%}.
+For simplicity, we assume that the \ac{CA} is a trusted third-party, but its role is only important to prevent Sybil attacks, so in practice we only need the \ac{CA} to not be aligned with the protesters. For instance, the role of the \ac{CA} can be assumed by a centralized authority, such as a nation state with, 
+\eg, passports, and that would not impact the trust of a participation count for a protest \emph{against} this state. However, any pro-state demonstration in that context would be subject to Sybils. Another possibility would be to use a decentralized authority, as in the case of a 
+collective authority~\cite{collective-signing} powered by 
+proof-of-personhood~\cite{proof-of-personhood}.
 The \ac{CA} is only involved in the setup phase.
+
 Second, a participant is an individual who wants to participate in a given 
 protest.
 A participant can assume three different roles:
 \begin{enumerate}
 \item The \emph{organizer} has written a manifesto for the protest and forwards it to others.
 \item A \emph{protester} is attending the protest and asks witnesses to vouch 
-  for his presence.
+  for their presence.
 \item A \emph{witness} provides proofs to protesters which state that the 
-  protester was indeed participating and such that the proofs are verifiable by 
+  protester was indeed participating, constructed such that the proofs are verifiable by 
   third parties.
 \end{enumerate}
-In general, there is one organizer and every participant can act alternatively 
-as both protester and witness.
+In general, there is one organizer and every participant can act as
+either or both protester and witness.
 
 \subsection{Pre-protest phase}%
 \label{ProtocolSetup}
@@ -40,8 +50,6 @@ More precisely, we have simply adapted their description to our notation, but ot
 
 
 \emph{Setup: \((\spk, \ssk)\gets \CROCUSsetup\).}
-
-
 During the setup phase, the \ac{CA} creates all the needed keys.
 The \ac{CA} generates a service public-private key-pair \((\spk, \ssk)\gets 
   \ACsetup\) (see \cref{ACsignAlg}).
@@ -71,7 +79,7 @@ of national identity cards, passports or \acp{eID}.
 %The join, participation and submission phases are as follows.
 % illustrated in \cref{fig:ProtocolOverview}.
 
-The participation proof share that will be constructed in the
+The participation proof share constructed in the
 participation phase is illustrated in \cref{fig:ProofFig}.
 
 \begin{figure}
@@ -96,18 +104,23 @@ participation phase is illustrated in \cref{fig:ProofFig}.
 
 
 \emph{Creation of a protest: the manifesto.}
-The organizer will write a manifesto for the protest, which describes its cause.
+The organizer writes a manifesto for the protest, which describes its cause.
 This manifesto could take the form of any intelligible text.
-The organizer will then distribute this manifesto to people through any means he wants (\eg on the Web, on placards, \etc).
-If they agree on the cause, they will use the knowledge of the manifesto to join the protest.
+The organizer will then distribute this manifesto to people through
+any suitable means  (\eg on the Web, on placards, \etc).
+If they agree with the cause, they will use the knowledge of the
+manifesto to join the protest. 
 
 
 \emph{Joining as a protester: \((\pid, t_s)\gets 
     \CROCUSjoin[_P][\text{manifesto}]\).}
-A protester who wants to join the protest will use the manifesto to compute an identifier for the cause by hashing the manifesto, \(\cid\gets \Hash[\mfst]\).
+A protester who wants to join the protest will use the manifesto to
+compute an identifier for the cause by hashing the manifesto,
+\(\cid\gets \Hash[\mfst]\) (and comparing the result to that received
+from the organizer, we omit this in the protocol for readibility).
 Afterwards, this identifier is used to create the protest-specific identifier 
 for the protester, \(\pid\gets \ACprf[_{\sk_P}][\cid]\) (see 
-\cref{fig:ProofFig,fig:ProtocolOverview} and \cref{ACprfAlg}).
+\cref{fig:ProofFig} and \cref{ACprfAlg}).
 The protester should also receive a time-correlated random value from the 
 time-stamping service, \(t_s\gets \TSget\).
 
@@ -120,12 +133,13 @@ set the start of the time interval of creation for the proof share.
 
 \emph{Participation: \(\pi\gets
     \Proto{\CROCUSparticipate[\cid, \sk_P]}{\CROCUSwitness[\sk_W, \spk]}\),}
-In the participation phase (see \cref{fig:ProtocolOverview}), the protester and 
+In the participation phase, the protester and 
 the witness construct the proof share of the protester (\cref{fig:ProofFig}).
 
 The protester sends \(\pid\) to the witness.
-Then they run the protocol \(\Proto{\ACproveSig[\spk, k, r, 
-    \sigma]}{\ACverifySig[\spk, \ssk]}\) (see \cref{ACacAlg}).
+Then they run the protocol \[
+  \Proto{\ACproveSig[\spk, k, r, \sigma]}{\ACverifySig[\spk, \ssk]}
+\] (see \cref{ACacAlg}).
 Note that the \ac{PK} in \cref{ACacAlg} must be run as \iac{PPK}.
 If the protocol succeeds, the witness will compute \(\wid \gets 
   \ACprf[_{\sk_W}][\pid]\) and send \((\wid, t_s', l)\) to the protester.
@@ -273,8 +287,8 @@ let \(s_j^{(i)} = (cid_0, pid_j, wid_i, l, t)\), as in \cref{DefProofShare},
 check that \(s_j^{(i)}\) is valid (i.e. happened during and at the location of the protest), as in \cref{DefProofShare}.
 
 Then the set of all valid proof shares for a protester \(j\) constitutes its participation proof \(\pi_{j}\), as in \cref{DefParticipationProof},
-and the verifier thus can derive the set of \((\str,\theta)\)-eligible participation proofs \(\prfs_{\prtst}^{\str,\theta}\) for all protesters for the protest \(\prtst)\), as in \cref{DefParticipationProof}.
-Finally, the  participation count \(|\prfs_{\prtst}^{\str,\theta}|\) is the cardinality of this set by the same \cref{DefParticipationProof}.
+and the verifier thus can derive the set of \((\str,\theta)\)-eligible participation proofs \(\prfs_{\prtst}^{\str,\theta}\) for all protesters for the protest \(\prtst\), as in \cref{DefParticipationCount}.
+Finally, the  participation count \(|\prfs_{\prtst}^{\str,\theta}|\) is the cardinality of this set by the same \cref{DefParticipationCount}.
 
 
 % MOST PROBABLY obsolete below v 
@@ -302,18 +316,18 @@ Finally, the  participation count \(|\prfs_{\prtst}^{\str,\theta}|\) is the card
 
 In the case of trusted witnesses, each such trusted witness must
 publish or otherwise inform the 
-verifier of which proof shares she has signed, \eg by giving a list 
+verifier of which proof shares they have signed, \eg by giving a list 
 of all such proof shares or digitally signing each proof share\footnote{
  To achieve witness privacy in this situation, one could employ a group or 
  ring signature scheme for all trusted witnesses.
  Then one learns that at least one trusted witness must have been there.
 }.
 
-Note that anyone who does the counting can choose the eligibility
+Note that, thanks to the \((\str,\theta)\)-eligibility criterion (\cref{DefParticipationCount}), the method of counting is extremely generic, and each verifier can make an independent choice to regulate their trust in the final result, based on their initial trust in the witnesses. In other words, anyone who does the counting can choose the eligibility
 criteria (time interval, location, number of regular or trusted
-witnesses, who is considered to be a trusted witness) for their count
-and as long as these are published along with the result, any one can
-verify the correctness under those criteria.
+witnesses, who is considered to be a trusted witness) for their own count
+and as long as these are published along with the result, anyone can
+verify the correctness of the count under those criteria, and potentially question the validity of this choice. Biased or partisan verifiers may be tempted to make extreme choices, but they will have to publish those choices and lose credibility. Reasonable verifiers on the other hand will try to find a good middle-ground that counts all legitimate protesters while being resistant to isolated malicious agents.
 
 % Then the verifier can define \[
 %   \str[\prf_{\pid_j, P}] = \begin{cases}

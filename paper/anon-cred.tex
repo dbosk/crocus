@@ -1,5 +1,5 @@
 \subsection{Anonymous credentials}%
-\label{ZK-anon-cred}
+\label{ZK-anon-cred}\label{anon-cred}
 
 %For an anonymous credential system (\(\ACscheme\)), it is sufficient to have a 
 %commitment scheme (\(\ACcommit\)), a signature scheme and (efficient) protocols 
@@ -12,6 +12,8 @@
 %\end{enumerate*}
 
 We need an anonymous credential system, \(\AC\), which provides the following algorithms and properties.
+Here we give a high-level overview of the required properties and notation and 
+refer the reader to figures in \cref{anon-cred-figures} for example algorithms.
 
 \(\AC\) must provide a commitment scheme, \(\ACcommit\), and algorithms such that the prover can convince a verifier that he knows the value inside a commitment, which means that:
 \begin{equation*}
@@ -42,13 +44,13 @@ This can be instantiated using CL-signatures~\cite{CLsignatures}, see
 
 The prover commits to a value \(k\) with commitment \(c\gets \ACcommit[k, o]\) 
 and opening \(o\).
-Afterwards, he uses \(\sigma\gets \Proto{\ACgetSig}{\ACissueSig}\) to obtain a 
+Afterwards, they use \(\sigma\gets \Proto{\ACgetSig}{\ACissueSig}\) to obtain a 
 signature \(\sigma = \ACsign[\pk, \sk, k, r]\) on the value \(k\) and some 
 random value \(r\).
 (\(\pk\) and \(\sk\) are the public verification key and the private signing 
 key, respectively.)
 
-At a later point, the prover wants to prove to a verifier that he knows \(k\) and a signature \(\sigma\) on \(k\) made by the owner of \(pk\) (corresponding to \(sk\)) without revealing \(k\) nor \(\sigma\) (\ie, in a zero-knowledge manner).
+At a later point, the prover wants to prove to a verifier that they know \(k\) and a signature \(\sigma\) on \(k\) made by the owner of \(pk\) (corresponding to \(sk\)) without revealing \(k\) nor \(\sigma\) (\ie, in a zero-knowledge manner).
 The prover and verifier run the protocol \(\Proto{\ACproveSig}{\ACverifySig}\) 
 to prove the following:
 \begin{equation*}

@@ -2,10 +2,11 @@
 \label{StorageProperties}\label{timestamp}\label{ledger}
 
 We need a robust time-stamping service, \(\TS\), which implements the \(\TSget\), \(\TSstamp\) and \(\TStime\) requests such that
-\simon{"request" feels weird to me. Are we sure that's the right word?}
+\simon{\enquote{request} feels weird to me. Are we sure that's the right word?}
 \begin{itemize}
   \item \(\rho \gets \TSget\) yields a value \(\rho\) at time \(t\), \(\rho\) is difficult to guess before time \(t\) and \(\TStime[\rho] = t\);
   \item \(\pi\gets \TSstamp[x]\) yields a value \(\pi\) at time \(t\) such that \(\TSverify[x, \pi]\to \top\) and \(\TStime[\pi] = t\).
+\item the time stamp is chosen at a low enough rate to not be unique, \eg by using only every \(n\)th block from the underlying ledger.
 \end{itemize}
 
 With these building blocks, we can ensure that a message \(m\) is created within the time interval \(\interval{t_0}{t_1}\).
@@ -19,14 +20,19 @@ The verifier computes \(h'\gets \Hash[m, \rho_{t_0}]\) and checks whether
 
 \(\TS\) can be instantiated by an open-membership distributed ledger (\eg a blockchain) such as Bitcoin~\cite{Bitcoin}, secured via Proof-of-Work consensus, or OmniLedger~\cite{OmniLedger}, secured via Byzantine consensus.
 If a blockchain is used for \(\TS\), the \(\TSstamp[x]\) request includes \(x\) in the blockchain and returns the identifier of the block into which \(x\) was included.
-The \(\TSget\) request returns the hash of the most recent block of the chain (\ie the head).
+The \(\TSget\) request returns the hash of the most recent block of the chain 
+(\ie the head).%
 \footnote{In situations where forks are common, it is relatively easy to adapt this process to look at a few blocks before the head and avoid the issue of the stamp becoming invalid later.}
 The returned hash is difficult to predict since it depends on the content of the block, populated by other users and by the creator of the block with additional randomness (\eg nonces and secrets).
 
-Regarding consensus resilience, it is advisable to use a blockchain with a high number of participants even if it means sharing the blockchain with other services.
+Regarding consensus resilience, it is advisable to use a blockchain with a high 
+number of participants and preferably sharing the blockchain with other 
+services.
 The resilience of the Byzantine consensus relies on honest participants outnumbering malicious participants.
 A similar reasoning can be made with Proof-of-Work consensus in which the computing power of the honest participants must be greater than the one of malicious participants.
 In both cases, assuming a majority of honest members in the population, the more participants the merrier.
+We want to share the blockchain with other services due to privacy (and 
+anti-censorship) reasons, analogous to the idea of \enquote{domain fronting}.
 
 We require a few additional properties from \(\TS\) that are already provided by blockchains.
 First, \(\TS\) must be continuously extended, such as in Bitcoin in which blocks are created every 10 minutes on average.
@@ -34,3 +40,26 @@ Second, \(\TS\) must provide \emph{immutability} and availability to any data co
 Note that thanks to \(\TS\) immutability, once a user has committed their data, that user only need to store some confirmation value instead of the data itself.
 For instance, in the case of a blockchain, it would be sufficient for a user to only store both the hash of the block containing their participation proof and the hash of the proof. 
 
+% Since \(\pid\) uniquely identifies \(P\), then if \(t_s^{(\pid)}\) is 
+% \enquote{unique enough}\footnote{%
+%   This can be verified thanks to \cref{CountOnce}.
+%   If there are no tuples \((\pid, t_s)\) and \((\pid, t_s')\) among the proof 
+%   shares such that \(\pid \neq \pid'\) but \(t_s = t_s'\), then \(t_s\) also 
+%   \emph{likely} uniquely identifies \(P\).
+%   \enquote{Likely} depends on the likelihood of there being witnesses who are 
+%   not protesters.
+% }, every \(\wid\) for which \(t_s' = t_s^{(\pid)}\) is \emph{likely} to be 
+% \(P\) acting as a witness.
+% This would allow \cref{in-system-adversary} to link \(\wid, \wid'\) for 
+% different protesters, thus violating \cref{WitnessUnlink}.
+% (The same can be said of \(\pid\) and \cref{ProtestUnlink} if there are 
+% multiple protests, \ie \(\cid\)'s, at the same time and location.
+% However, we deem this as unlikely.)
+
+% Distribution of \(t_s\) depends on the rate of \(\TSget\) and the distribution 
+% of when participants run the algorithm the last time.
+% For example, if we use a six-hour interval and a rate of one new value per 
+% minute, then there are potentially 21600 unique values for \(t_s\).
+% However, we can scale this down by a factor \(n\) by requiring \(\TSget\) to 
+% use only every \(n\)th block from the underlying ledger.
+% Thus it seems reasonable that \(t_s\) will never be \enquote{unique enough}.
