@@ -5,10 +5,10 @@ we got a reject and resubmit decision for our paper on crowd counting using smar
 In case you would like to consider more details, we provide some concrete responses below.
 
 Best regards,
-Sonja
+Sonja, Daniel
 
 
-# Reflections on the reviews
+# Reflections on the final reviews
 
 We have received enough constructive suggestions to be able to continue to 
 improve the paper. However, we would like to point out some problems with 
@@ -60,12 +60,15 @@ As we pointed out, this is similar to detecting bias in science. If the
 authors personally benefit from the results, then they are incentivized 
 to bias them. The verifiability properties of our scheme serve the same 
 purpose as the methodology section of a scientific paper: anyone is able 
-to repeat, reproduce and verify the results. It is detectable who the CA 
-is for all these people and if that CA has incentives to perform a Sybil 
-attack, then the results simply cannot be trusted.
+to repeat, reproduce and verify the results --- even if they are in 
+distant lands. It is detectable who the CA is for all these people and 
+if that CA has incentives to perform a Sybil attack, then the results 
+  simply cannot be trusted.
 
-As long as the identity system used has these problems, these are the 
-limits we face.
+The problem lies with the identity system: as long as the identity 
+system used has these problems, these are the limits we face in our 
+scheme too. If the identity system is not subject to these problems, 
+then neither is our scheme.
 
 > RevA: In the related works section it is said that other systems do not
 > work since there is no way to prevent over voting, yet given a government
@@ -109,11 +112,11 @@ circumstances.
 Lastly, and perhaps most importantly: DB protects against exactly this. For 
 the government to succeed they would need to do the computations within 
 a certain distance of the (trusted) witness --- a distance determined by 
-the witness themself. Obviously they succeed if they also control the 
-trusted witness. But the reason the witness is trusted is that they are 
-likely not controlled by the government. And there can be several 
-trusted witnesses in parallel --- with different interests to prevent a 
-bias situation.
+the witness themself. Obviously the government succeeds if they also 
+control the trusted witness. But the reason the witness is trusted is 
+that they are likely not controlled by the government. And there can be 
+several trusted witnesses in parallel --- with different interests to 
+prevent a bias situation.
 
 However, in the end, the one who controls the identity system controls 
 Sybil. And, unless we get representatives from several nations present 
@@ -143,8 +146,6 @@ encryption. In that sense, functional encryption is part of the model. Our rebut
 
 Date: Fri, 1 Feb 2019 16:42:56 -0500
 From: pets19-chairs@petsymposium.org
-To: Daniel Bosk <dbosk@kth.se>
-CC: PoPETs Chairs <pets19-chairs@petsymposium.org>
 Subject: [PoPETs 2019.3B] Notification Paper #55 "From grassroots to
 	CROCUSes:..."
 
