@@ -1,11 +1,11 @@
 Dear editors,
 
-we got a reject and resubmit decision for our paper on crowd counting using smartphones and we have a concern about resubmission. While most of the reviewers’ statements are factually correct, we feel that the stated main reasons for the decision are so categorical that they would make it near impossible for our paper to overcome given the same reviewers. Furthermore, if applied broadly, they would potentially impede publication of any research paper that makes assumptions about logically centralized identity providers (proven to be needed to prevent Sybil attacks) or other such trusted third parties because they might actually not be trustworthy. Research papers commonly make some assumptions to limit the scope and explore what-if scenarios, it is unusual to put such a strong emphasis on any one assumption and an all-powerful adversary and not see merit in contributions for less extreme cases. We would like to know whether you as editors agree with the stance of the reviewers as we understand it. If so, resubmission or even a later new submission of that paper would seem a futile endeavor.
+we got a Reject & Resubmit decision for our paper on crowd counting using smartphones and we have a concern about resubmission. While most of the reviewers’ statements are factually correct, we feel that the stated main reasons for the decision are so categorical that they would be near impossible for our paper to overcome given the same reviewers. Furthermore, if applied broadly, they would potentially impede publication of any research paper that makes assumptions about logically centralized identity providers (proven to be needed to prevent Sybil attacks) or other such trusted third parties because they might actually not be trustworthy. Research papers commonly make some assumptions to limit the scope and explore what-if scenarios, it is unusual to put such a strong emphasis on any one assumption and an all-powerful adversary and not see merit in contributions for less extreme cases. We would like to know whether you as editors agree with the stance of the reviewers as we understand it. If so, resubmission or even a later new submission of that paper would seem a futile endeavor.
 
 In case you would like to consider more details, we provide some concrete responses below.
 
 Best regards,
-Sonja, Daniel
+Sonja, Daniel, Simo
 
 
 # Reflections on the final reviews
