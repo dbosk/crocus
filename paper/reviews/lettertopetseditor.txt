@@ -5,7 +5,7 @@ we got a Reject & Resubmit decision for our paper on crowd counting using smartp
 In case you would like to consider more details, we provide some concrete responses below.
 
 Best regards,
-Sonja, Daniel, Simo
+Sonja, Daniel, Simon
 
 
 # Reflections on the final reviews
@@ -53,7 +53,7 @@ Despite potentially better audit possibilities, elections are imperfect and so a
 
 Due to the flaws inherited in currently deployed identity systems, we 
 pointed out in which cases they can be used and in which they cannot: 
-when there is in the interest of the identity authority to perform a 
+when there is an interest for the identity authority to perform a 
 Sybil attack, the results cannot be trusted.
 
 As we pointed out, this is similar to detecting bias in science. If the 
@@ -63,7 +63,7 @@ purpose as the methodology section of a scientific paper: anyone is able
 to repeat, reproduce and verify the results --- even if they are in 
 distant lands. It is detectable who the CA is for all these people and 
 if that CA has incentives to perform a Sybil attack, then the results 
-  simply cannot be trusted.
+simply cannot be trusted.
 
 The problem lies with the identity system: as long as the identity 
 system used has these problems, these are the limits we face in our 
