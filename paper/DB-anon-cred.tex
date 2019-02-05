@@ -18,10 +18,10 @@ We present the protocol in \cref{SchnorrFigure}.
 The (cyclic) group with generator \(g\) and order \(q\) are system parameters.
 The private key \(\alpha\) with public key \(A = g^\alpha\) are generated once by the prover in the setup phase.
 
-\begin{sidewaysfigure}
+\begin{figure*}
   \centering
   \small
-  \begin{tabular}{p{0.40\textwidth}cp{0.40\textwidth}}
+  \begin{tabular}{p{0.8\columnwidth}cp{0.8\columnwidth}}
     \(\DBSprove[g, q, \alpha, A = g^\alpha]\):
     & &
     \(\DBSverify[g, q, A]\):
@@ -91,7 +91,7 @@ The private key \(\alpha\) with public key \(A = g^\alpha\) are generated once b
     The protocol should be repeated in full to achieve the desired knowledge and distance-bounding errors.
   }%
   \label{SchnorrFigure}
-\end{sidewaysfigure}
+\end{figure*}
 
 During one round, the prover commits to a random nonce: more precisely he chooses \(\rho\rgets \ZZ_q\) uniformly at random, computes \(R\gets g^\rho\) and sends \(R\) to the verifier.
 The verifier generates two challenges \(c_0\rgets \bin^k, c_1\rgets \bin^k\) and sends them to the prover.
