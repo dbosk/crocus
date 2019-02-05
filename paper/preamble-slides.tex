@@ -12,6 +12,14 @@
     \end{enumerate}
   \end{block}
 }
+\DeclareDocumentEnvironment{adversaries}{o}{%
+  \begin{block}{Adversaries}
+    \IfValueTF{#1}{\begin{enumerate}[{#1}1]}{\begin{enumerate}}
+}{%
+    \end{enumerate}
+  \end{block}
+}
+
 
 \ProvideDocumentEnvironment{lightblock}{mm}{%
   \setbeamercolor{block body}{bg=#1!10,fg=black}

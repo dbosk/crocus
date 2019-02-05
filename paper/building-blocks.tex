@@ -1,15 +1,11 @@
 \section{Building blocks}%
-\label{Primitives}\label{BuildingBlocks}
+\label{Primitives}\label{building-blocks}
 
-In this section, we will briefly review the primitives forming the building blocks of \PRIVO.
+In this section, we will briefly review the primitives forming the building blocks of \CROCUS.
 
 \subsection{Collision-resistant hash functions}
 
-\NewAlgorithm{\Hash}{H}
-\NewAlgorithm{\algA}{A}
-
-One primitive that we need is a collision-resistant hash function \Hash.
-
+One primitive we need is a collision-resistant hash function \Hash.
 %\begin{definition}[Collision resistance]
 %  Let \(\lambda\) denote the security parameter.
 %  We say that a hash function, \(\Hash\), is collision resistant if for any \ac{PPT} algorithm \(\algA\) we have that
@@ -19,16 +15,14 @@ One primitive that we need is a collision-resistant hash function \Hash.
 %      \Hash[x_1] = \Hash[x_2] \land x_1\neq x_2 \right] < \negl[\lambda].
 %  \end{multline*}
 %\end{definition}
-
 \(\Hash\) can be instantiated for instance for any algorithm from the SHA-2 or SHA-3 families.
 
 \input{ZKPK.tex}
+\input{ZKPK-instantiations.tex}
 
 \input{anon-cred.tex}
 
-\input{DistanceBounding.tex}
+\input{distance-bounding.tex}
 
-\input{DB-anon-cred.tex}
-
-\input{TimeStamp.tex}
+\input{timestamp.tex}
 

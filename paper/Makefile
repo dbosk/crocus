@@ -7,22 +7,33 @@ paper.pdf: preamble.tex preamble-paper.tex
 SRC+=	contents.tex
 SRC+=	abstract.tex
 SRC+=	intro.tex
-SRC+=	SystemModel.tex
-SRC+=	properties.tex
-SRC+=	RelatedWork.tex
-SRC+= 	BuildingBlocks.tex
-SRC+= 	ZKPK.tex
-SRC+= 	DistanceBounding.tex anon-cred.tex DB-anon-cred.tex
-SRC+= 	LocationProofs.tex TimeStamp.tex
+SRC+=	system-model.tex
+SRC+=	related-work.tex
+SRC+= 	definitions.tex
+SRC+= 	protest-model.tex
+SRC+= 	verifiability-properties.tex
+SRC+=	privacy-properties.tex
+SRC+= 	adversary-model.tex 
+SRC+= 	building-blocks.tex
+SRC+= 	ZKPK.tex ZKPK-instantiations.tex
+SRC+= 	distance-bounding.tex anon-cred.tex DB-anon-cred.tex
+SRC+= 	location-proofs.tex timestamp.tex
 SRC+= 	protocol.tex
-SRC+=	analysis-security.tex analysis-performance.tex
+SRC+=	security-analysis.tex
+SRC+= 	verifiability-analysis.tex
+SRC+= 	privacy-analysis.tex
+SRC+= 	analysis-performance.tex
 SRC+= 	discussion.tex
 SRC+=	conclusions.tex
+SRC+=	tamarin-spec.tex
 
 paper.pdf: ${SRC}
 
 FIGS+= 				proofshare.tikz
 proofshare.tikz: 	../fig/proofshare.tikz
+
+FIGS+= 				base-adversary.tikz
+base-adversary.tikz: ../fig/base-adversary.tikz
 
 ${FIGS}:
 	${LN} $< $@
@@ -33,7 +44,7 @@ paper.pdf: ${FIGS}
 DEPENDS+=	bibsp.sty
 DEPENDS+=	crypto.bib
 DEPENDS+=	location.bib
-DEPENDS+=	reputation.bib
+DEPENDS+=	sybil.bib
 DEPENDS+=	auth.bib
 DEPENDS+=	voting.bib
 DEPENDS+=	protests.bib
@@ -51,12 +62,12 @@ paper.pdf: ${DEPENDS}
 .PHONY: clean
 clean:
 	${RM} paper.pdf
+	${RM} ${FIGS}
 	${MAKE} -C ../fig clean
 
 .PHONY: distclean
 distclean:
 	${MAKE} -C ../fig distclean
-	${RM} ${FIGS}
 
 
 .PHONY: wc todo

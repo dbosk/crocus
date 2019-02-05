@@ -1,3 +1,5 @@
+base-adversary.tikz
+
 Jacobs-method.jpg
 anon.bib
 auth.bib
@@ -8,7 +10,7 @@ location.bib
 paper.pdf
 proofshare.tikz
 protests.bib
-reputation.bib
+sybil.bib
 tposet.tikz
 voting.bib
 bibsp.sty

@@ -11,15 +11,15 @@
 \usepackage{interval}
 
 \usepackage{algorithm}
-\usepackage{algpseudocode}
-%\usepackage[noend]{algpseudocode}
+%\usepackage{algpseudocode}
+\usepackage[noend]{algpseudocode}
 
 \usepackage{csquotes}
 %\usepackage{acronym}
-\usepackage[natbib,style=ieee,maxbibnames=99]{biblatex}
+\usepackage[natbib,style=ieee,maxnames=4,maxbibnames=99]{biblatex}
 \addbibresource{crypto.bib}
 \addbibresource{location.bib}
-\addbibresource{reputation.bib}
+\addbibresource{sybil.bib}
 \addbibresource{auth.bib}
 \addbibresource{voting.bib}
 \addbibresource{protests.bib}
@@ -49,8 +49,107 @@
 \crefname{requirements@ii}{requirement}{requirements}
 \Crefname{requirements@i}{Requirement}{Requirements}
 \Crefname{requirements@ii}{Requirement}{Requirements}
+\crefname{adversaries@i}{adversary}{adversaries}
+\crefname{adversaries@ii}{adversary}{adversaries}
+\Crefname{adversaries@i}{Adversary}{Adversaries}
+\Crefname{adversaries@ii}{Adversary}{Adversaries}
 
 \usepackage{amssymb}
 \usepackage{bibsp}
+\ProvideDocumentCommand{\CROCUS}{}{%
+  CROCUS\xspace%
+}
+\ProvideDocumentCommand{\PPK}{o o}{\ensuremath{%
+    \operatorname{PPK}%
+    \IfValueT{#1}{%
+      \IfValueTF{#2}{%
+        \mleft\{\mleft(#1\mright) : #2\mright\}%
+      }{%
+        \mleft\{#1\mright\}%
+      }%
+    }%
+  }}
+\NewScheme{\DBS}{DBS}
+\NewAlgorithm{\DBSprove}{\DBS.\!Prove}
+\NewAlgorithm{\DBSverify}{\DBS.\!Verify}
+\NewScheme{\AC}{AC}
+\NewAlgorithm{\ACsetup}{\AC.\!Setup}
+\NewScheme{\Pedersen}{P}
+\NewAlgorithm{\Pcommit}{\Pedersen.\!Commit}
+\NewAlgorithm{\ACcommit}{\AC.\!Commit}
+\NewScheme{\CL}{CL}
+\NewAlgorithm{\CLsetup}{\CL.\!Setup}
+\NewAlgorithm{\ACsign}{\AC.\!Sign}
+\NewAlgorithm{\CLsign}{\CL.\!Sign}
+\NewAlgorithm{\ACblind}{\AC.\!BlindSig}
+\NewAlgorithm{\CLblind}{\CL.\!BlindSig}
+\NewAlgorithm{\ACverifySig}{\AC.\!VerifySig}
+\NewAlgorithm{\CLverifySig}{\CL.\!VerifySig}
+\NewAlgorithm{\ACgetSig}{\AC.\!GetSig}
+\NewAlgorithm{\CLgetSig}{\CL.\!GetSig}
+\NewAlgorithm{\ACissueSig}{\AC.\!IssueSig}
+\NewAlgorithm{\CLissueSig}{\CL.\!IssueSig}
+\NewAlgorithm{\ACproveSig}{\AC.\!ProveSig}
+\NewAlgorithm{\CLproveSig}{\CL.\!ProveSig}
+\NewAlgorithm{\DY}{DY}
+\NewAlgorithm{\ACprf}{\AC.\!PRF}
+\NewAlgorithm{\DYprf}{\DY.\!PRF}
+\NewAlgorithm{\ACprfSetup}{\AC.\!SetupPRF}
+\NewAlgorithm{\DYprfSetup}{\DY.\!SetupPRF}
+\NewScheme{\CW}{CHKL}
+\NewAlgorithm{\ACprovePRF}{\AC.\!ProvePRF}
+\NewAlgorithm{\CWprovePRF}{\CW.\!ProvePRF}
+\NewAlgorithm{\DYprovePRF}{\DY.\!ProvePRF}
+\NewAlgorithm{\ACverifyPRF}{\AC.\!VerifyPRF}
+\NewAlgorithm{\CWverifyPRF}{\CW.\!VerifyPRF}
+\NewAlgorithm{\DYverifyPRF}{\DY.\!VerifyPRF}
+\NewAlgorithm{\Hash}{H}
+\NewAlgorithm{\algA}{A}
+\NewScheme{\CROCUSscheme}{CROCUS}
+\NewAlgorithm{\CROCUSsetup}{Setup}
+\NewVariable{\pk}{pk}
+\NewVariable{\sk}{sk}
+\NewVariable{\spk}{spk}
+\NewVariable{\ssk}{ssk}
+\NewAlgorithm{\CROCUSreg}{Reg}
+\NewAlgorithm{\CROCUSjoin}{Join}
+\NewVariable{\mfst}{manifesto}
+\NewAlgorithm{\CROCUSparticipate}{Prticip}
+\NewAlgorithm{\CROCUSwitness}{Witness}
+\NewAlgorithm{\CROCUSsubmit}{Submit}
+\NewScheme{\Psig}{Psig}
+\NewAlgorithm{\PSetup}{\Psig.\!Setup}
+\NewAlgorithm{\PCommit}{\Psig.\!Commit}
+\NewAlgorithm{\PObtainSig}{\Psig.\!ObtainSig}
+\NewAlgorithm{\PIssueSig}{\Psig.\!IssueSig}
+\NewAlgorithm{\PProve}{\Psig.\!Prove}
+\NewAlgorithm{\PVerifyProof}{\Psig.\!VerifyProof}
+\NewAlgorithm{\PEqCommProve}{\Psig.\!EqCommProve}
+\NewAlgorithm{\PVerEqComm}{\Psig.\!VerEqComm}
+\NewVariable{\cid}{cid}
+\NewSet{\prtst}{P}
+\NewVariable{\sprtst}{p}
+\NewVariable{\psh}{s}
+\NewSet{\pshs}{S}
+\NewVariable{\pid}{pid}
+\NewVariable{\wid}{wid}
+\NewVariable*{\prf}{\pi}
+\NewSet*{\prfs}{\Pi}
+\NewVariable*{\corr}{\psi}
+\NewFunction{\str}{\varsigma}
+\NewScheme{\TS}{TS}
+\NewAlgorithm{\TSget}{\TS.\!Get}
+\NewAlgorithm{\TSstamp}{\TS.\!Stamp}
+\NewAlgorithm{\TSverify}{\TS.\!Verify}
+\NewAlgorithm{\TStime}{\TS.\!Time}
+\NewAlgorithm{\PKprove}{PK.\!Prove}
+\NewAlgorithm{\PKverify}{PK.\!Verify}
+\NewAlgorithm{\SPKprove}{SPK.\!Prove}
+\NewAlgorithm{\SPKverify}{SPK.\!Verify}
+\NewVariable{\CA}{CA}
+\NewSet{\TT}{T}
+\NewSet{\LL}{L}
 
 \input{revision.tex}
+
+\usepackage{listings}

@@ -1,0 +1,251 @@
+/* Implementation of the brands-chaum distance bounding protocol with fiat-shamir identification */
+/* Demonstrating the DB-secure property */
+
+theory crocusclean
+
+begin
+
+
+
+builtins: signing, diffie-hellman //, asymmetric-encryption
+
+// -------------------- Tag Initialization -------------------- //
+
+/* rule Generate_DH_key_pair:
+  [ Fr(~x) ] 
+  --> 
+  [ !Pk($A,'g'^~x)
+  , Out('g'^~x)
+  , !Ltk($A,~x)
+  ]
+*/
+
+rule Register_Keypair:
+  [ Fr(~key) ]
+--[ Once($A), Prelim()]->
+  [ !Pk($A, pk(~key)), !Ltk($A, ~key), Out( pk(~key) ), !Agent($A) ]
+
+
+rule Corrupt_Agent:
+  [ !Ltk($A, ltk) ]
+--[ Corrupt($A), Prelim() ]->
+  [ Out(ltk), !CorruptAgent($A) ]
+
+rule Corrupt_Fast:
+  [ !CorruptAgent($A), In(msg) ]
+--[ CAction($A), Action($A) ]->
+  [ FastMsg(msg) ]
+
+// -------------------- Protocol Rules -------------------- //
+
+// 1. Prover chose r, compute and send R
+//2. Verifier chooses two nonces c_0 and c_1 and sends them to Prover
+//3. Verifier chooses b = 0 or 1, and sends it to Prover
+//4. Prover receives and then encodes both c_i with x and sign them with r
+//5. Prover receives b and sends back the corresponding c
+//6. Verifier verifies the signature and decodes the messsage, checks it's the correct c
+
+
+// 1. Prover chose r, compute and send R
+
+rule Prover_1:
+  [ !Agent($Prover) //POINT_IN_SESSION
+  , Fr(~r) //KEYS
+  ]
+--[ ProverStart($Prover) //PROOF_LABELS_AGENT
+  , Action($Prover)
+  ]->
+  [ ProverSess($Prover, ~r) //POINT_IN_SESSION
+  , Out( pk(~r) ) //MESSAGES (Out + Fast)
+  ]
+
+
+//2. Verifier chooses two nonces c_0 and c_1 and sends them to Prover
+
+rule Verifier_1:
+  [ In( R ) //MESSAGES (In + Fast)
+  , Fr(~challenge0) , Fr(~challenge1)//KEYS
+  ]
+--[ VerifierCommit( ~challenge0, ~challenge1 ) //PROOF_LABELS_AGENT
+  , PreFastPhase( <~challenge0, ~challenge1> )//PROOF_LABELS_PROTOCOL
+  ]->
+  [ VerifierSess(R, ~challenge0, ~challenge1) //POINT_IN_SESSION
+  , Out( <~challenge0, ~challenge1> ) //MESSAGES (Out + Fast)
+  ]
+
+
+//3. Verifier chooses b = c0 or c1, and sends it to Prover
+
+rule Verifier_2:
+  [ VerifierSess(R, c0, c1) //POINT_IN_SESSION
+  , Fr(~b) //KEYS
+  ]
+--[ Choose(c0, c1, ~b) //RESTRICTIONS
+  , VerifierSelect(~b) //PROOF_LABELS_AGENT
+  , StartFastPhase(c0, c1) //PROOF_LABELS_PROTOCOL
+  ]->
+  [ VerifierStartFast(R, c0, c1, ~b) //POINT_IN_SESSION
+  , FastMsg( ~b ), Out( ~b ) //MESSAGES (Out + Fast)
+  ]
+
+
+//4. Prover receives and stores both c_i 
+
+rule Prover_2:
+  [ ProverSess($Prover, r) //POINT_IN_SESSION
+  , In( <c0, c1> ) //MESSAGES (In + Fast)
+  ]
+--[ ProverStore(c0, c1) //PROOF_LABELS_AGENT
+  , ReadyFastPhase( c0, c1 ) //PROOF_LABELS_PROTOCOL
+  , Action($Prover)
+  ]->
+  [ ProverStartFast( $Prover, r, c0, c1 ) //POINT_IN_SESSION
+  ]
+
+
+//5. Prover receives b and sends it back encoded with x and signed with r
+
+rule Prover_3:
+  let response = aenc{b, sign(b,x)}r
+  in
+  [ ProverStartFast( $Prover, r, c0, c1 ) //POINT_IN_SESSION
+  , FastMsg( b ) //MESSAGES (In + Fast)
+  , !Ltk( $Prover, x ) //KEYS
+  ]
+--[ Choose(c0,c1,b) //RESTRICTIONS
+  , ProverReply($Prover, c0, c1, b) //PROOF_LABELS_AGENT
+  , ReplyFastPhase(c0, c1, b)//PROOF_LABELS_PROTOCOL
+  , Action($Prover)
+  ]->
+  [ FastMsg( response ), Out( response ) //MESSAGES (Out + Fast)
+  ]
+
+//6. Verifier verifies the signature and decodes the messsage, checks it's the correct c
+
+rule Verifier_3:
+  let clear_text = adec( response, R )
+      authentication = verify( snd(clear_text), fst(clear_text), X)
+      proof = fst(clear_text)
+  in
+  [ VerifierStartFast(R, c0, c1, b) //POINT_IN_SESSION
+  , FastMsg( response )//MESSAGES (In + Fast)
+  , !Pk( $Prover, X ) //KEYS
+  ]
+--[ Eq(authentication, true), Eq(proof, b) //RESTRICTIONS
+  , VerifierComplete($Prover, R, c0, c1, b) //PROOF_LABELS_AGENT
+  , EndFastPhase(c0, c1, b)//PROOF_LABELS_PROTOCOL  
+  ]->
+  []
+
+
+
+
+
+
+// ------------------- Axioms -------------------------- //
+
+//restriction choose_one:
+//  "All x y z #i. Choose(x, y, z) @i ==> z = x | z = y"
+
+
+restriction at_most_once:
+    "
+    All A #t1 #t2. Once(A)@t1 & Once(A)@t2 ==>
+        (
+        #t1 = #t2
+        )
+    "
+
+
+//restriction prelims_first:
+//    "
+//    All A #t1 #t2. Prelim()@t1 & Action(A)@t2 ==>
+//    (
+//        t1 < t2
+//    )
+//
+//    "    
+    
+restriction equals:
+    "
+    All a b #t1. Eq(a,b)@t1 ==>
+    (
+        a = b
+    )
+    "
+// -------------------- Sanity Check Lemmas -------------------- //
+
+lemma verif1_exists:
+    exists-trace
+  "
+    Ex c0 c1 #t. (
+        VerifierCommit( c0, c1 )@t )
+  "
+
+lemma prover2_exists:
+    exists-trace
+  "
+    Ex Prover c0 c1 b #t. (
+        ProverReply( Prover, c0, c1, b )  @t )
+
+  "
+
+lemma startfast_exists:
+  exists-trace
+  "
+    Ex c0 c1   #t. (
+      StartFastPhase(c0, c1)@t
+    ) &
+    not(Ex A #tc. Corrupt(A)@tc)
+  "
+
+
+lemma endfast_exists:
+  exists-trace
+  "
+    Ex c0 c1 b  #t. (
+      EndFastPhase(c0, c1, b)@t
+    ) &
+    not(Ex A #tc. Corrupt(A)@tc)
+  "
+
+lemma end_exists:
+  exists-trace
+  "
+    Ex P R c0 c1 b  #t. (
+      VerifierComplete(P, R, c0, c1, b)@t
+    ) &
+    not(Ex A #tc. Corrupt(A)@tc)
+  "
+
+
+// -------------------- Security Lemmas -------------------- //
+
+
+lemma dbsec:
+  "
+  All P R c0 c1 b  #t. (
+    VerifierComplete(P, R, c0, c1, b)@t ) ==>                   // Whenever the verifier is complete EITHER:
+    //(
+    //  Ex #t0. Corrupt(V)@t0                                      //   (verifier can't be corrupted in this protocol)
+    //)|  
+    (                                                         
+      Ex #t1 #t2 #t3. StartFastPhase( c0, c1 )@t1 &              //  2) There exists t1, t2 and t3 such that
+                  Action(P)@t2 &                              //          The fast phase was between t1 and t3
+                  EndFastPhase( c0, c1, b )@t3 &            //          and the prover did something between those two times
+                  (#t1 < #t2) &                               //          and the verifier completed at or after the
+                  (#t2 < #t3) &                               //          end of the fast phase OR
+                  ( (#t3 < #t ) | (#t3 = #t) )
+    )|
+    (              
+      Ex CAgent #t4 #t5 #t6 #t7. StartFastPhase( c0, c1 )@t5 &    //  3) There exist times t5, t6 and t7 such that
+                             EndFastPhase( c0, c1, b )@t7 & //        The fast phase was between t5 and t7
+                             Corrupt(P)@t4 &             //        and the prover P is dishonest
+                             CAction(CAgent)@t6 &             //        and some dishonest agent did something during
+                             (#t5 < #t6)&                     //        the fast phase
+                             (#t6 < #t7)&                     //        and the verifier completed at or after the
+                             ( (#t7 < #t) | (#t7 = #t) )      //        end of the fast phase 
+    ) 
+  "
+
+end
