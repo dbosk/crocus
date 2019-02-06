@@ -1,133 +1,100 @@
-\subsection{System, communication and adversary model}%
-\label{adversary-model}
+\subsection{Adversary model}%
+\label{formal-adversary-model}
 
-We provide one system model with two possible adversaries: one who tries to 
-link a protester's real identity (\(P\)) to a protest cause (\(\cid\)) and one 
-which tries to link a protester's or a witness's real identity (\(P\) 
-respectively \(W\)) to a location (\(l\)).
-We also define varying strengths of each adversary.
+We now provide a concretely defined system and adversary model.
+We give three definitions, each defines an adversary with increasingly stronger 
+capabilities (\ie more auxiliary information).
 
-\paragraph{The identity--cause linking adversary}
-
-There are three players: the protest participant (with identity) \(P\), a 
-witness (with identity) \(W\) and the storage \(S\).
-The adversary \(A\) controls \(W\) and \(S\).
-
-\begin{definition}[Base identity--cause adversary]%
-  \label{base-identity-cause-adversary}
-  The protester \(P\) and the witness \(W\) communicate.
-  Each learn only the protocol data \(d_{P,W}(\cid, P)\) and when it happened 
-  \(t_{P,W}\)\footnote{%
-    Specifically, they do \emph{not} learn the real identities \(P\) and \(W\) 
-    directly, only if those appear in the data \(d_{P,W}(\cid, P)\).
-  }.
-  The protester \(P\) communicates with \(S\), where \(S\) only learns 
-  \(f(d_{P,W}(\cid, P))\), for some function \(f\), and the time of the 
-  communication (\(t_{P,S}\)) but not the real identities.
-  The adversary controls \(W\) and \(S\) and thus learns everything that they 
-  do, but can additionally correlate what he learns from \(W\) and \(S\).
-\end{definition}
-
-This definition is illustrated in \cref{fig:identity-cause-adversary}.
+There are three players: the protester (with identity) \(P\), a witness (with 
+identity) \(W\) and the time-stamping storage \(S\) (that will contain the set 
+of all proof shares, \(\pshs\)).
+The protester \(P\) and the witness \(W\) communicate some protocol data,
+\(d_{P,W}(\cid, P)\), and records when the communication occurred \(t_{P,W}\).
+The protester \(P\) communicates with \(S\), in which \(S\) only learns some 
+function of the protocol data exchanged with the witness, \(f(d_{P,W}(\cid, 
+  P))\) for some function \(f\), and the time of the communication 
+(\(t_{P,S}\)).
+This is illustrated in \cref{fig:base-adversary}.
 
 \begin{figure}
   \centering
-  \includegraphics{base-identity-cause-adversary.tikz}
-  \caption{\label{fig:identity-cause-adversary}%
-    An overview of the base identity--cause adversary model.
+  \includegraphics{base-adversary.tikz}
+  \caption{\label{fig:base-adversary}%
+    An overview of the base adversary model.
     The protester with real identity \(P\) and witness with real identity \(W\) 
-    communicate and each learn only the protocol data, \(d_{P,W}(\cid, P)\), 
-    and the time it happened, \(t_{P,W}\).
+    communicate.
+    They exchange protocol data, \(d_{P,W}(\cid, P)\), and record the time it 
+    happened, \(t_{P,W}\).
     The protester submits \(f(d_{P,W}(\cid, P))\), for some function \(f\), to 
-    the storage \(S\), who learns only that and the time it happened, 
-    \(t_{P,S}\).
+    the storage \(S\), who records the time it happened, \(t_{P,S}\).
     Both the witness \(W\) and storage \(S\) are controlled by the adversary 
-    \(A\).
+    \(A\) (from \cref{in-system-adversary}).
   }
 \end{figure}
 
-We find \cref{base-identity-cause-adversary} suitable when the protester and 
-witness both move in a crowd and there is no way for the witness to decide 
-exactly with whom he or she communicates with.
-However, in some situations this might not be the case, \eg the crowd is not 
-dense.
-In these situations the witness will likely see the face of the protester.
-We capture this by the following definition.
-
-\begin{definition}[Stonger identity--cause adversary]%
-  \label{stronger-identity-cause-adversary}
-  The situation is the same as in \cref{base-identity-cause-adversary}, but now the 
-  witness \(W\) learns the protester \(P\)'s identity.
-  (\(P\) will also learn \(W\)'s identity.)
-  However, \(S\) still does not learn \(P\)'s identity.
-\end{definition}
-
-One reason to not allow \(S\) to learn \(P\)'s identity is that for this 
-communication \(P\) has options, such as \ac{Tor}, for anonymous communication.
-However, given a strong enough adversary, such anonymous communication might 
-not be possible.
-We capture such a strong adversary in the following definition.
-
-\begin{definition}[Strongest identity--cause adversary]%
-  \label{strongest-identity-cause-adversary}
-  Everything is the same as in \cref{stronger-identity-cause-adversary}, except 
-  that now \(S\) also learns \(P\)'s identity.
-\end{definition}
-
-\paragraph{The identity--location adversary}
-
-The players are still the same, but now the adversary controls other players: 
-in particular, the adversary controls only the storage \(S\).
-
-\begin{definition}[Base identity--location adversary]%
-  \label{base-identity-location-adversary}
-  The adversary controls \(S\).
-  The witness \(W\) and the protester \(P\) communicate.
-  They learn some protocol data \(d_{P,W}(P, W, l)\) and the time it took 
-  place, \(t_{P,W}\).
-  \begin{description}
-    \item[The witness case:]
-      The witness later communicates with \(S\), where \(S\) only learns 
-      \(f(d_{P,W}(P, W, l))\), for some function \(f\), and the time it 
-      happened, \(t_{W,S}\).
-      The adversary wins if he can link \(W\) and \(l\).
-    \item[The protester case:]
-      The protester later communicates with \(S\), where \(S\) only learns 
-      \(g(d_{P,W}(P, W, l))\), for some function \(g\), and the time it 
-      happened, \(t_{P,S}\).
-      The adversary wins if he can link \(P\) and \(l\).
-  \end{description}
-\end{definition}
-
-\Cref{fig:identity-location-adversary} illustrates the roles and relations.
-
-\begin{figure}
-  \centering
-  \includegraphics{base-identity-location-adversary.tikz}
-  \caption{\label{fig:identity-location-adversary}%
-    An overview of the base identity--location adversary model.
-    The protester with real identity \(P\) and witness with real identity \(W\) 
-    communicate and each learn only the protocol data, \(d_{P,W}(P, W, l)\), 
-    and the time it happened, \(t_{P,W}\).
-    The witness submits \(f(d_{P,W}(P, W, l))\), for some function \(f\), and 
-    the protester submits \(g(d_{P,W}(P, W, l))\), for some function \(g\), to 
-    the storage \(S\), who learns only that and the time it happened, 
-    \(t_{W,S}\) respectively \(t_{P,S}\).
-    Only the storage \(S\) is controlled by the adversary \(A\).
+\begin{adversaries}
+\item\label{in-system-adversary}
+  \emph{In-system adversary}:
+  The adversary maliciously controls \(W\).
+  The adversary honest-but-curiously controls \(S\).
+  The adversary only learns the protocol data --- \ie what is sent over the 
+  channel, no auxiliary data\footnote{%
+    By auxiliary data we mean any data outside of the protocol.
+    \Eg meta-data such as who is on the other side of the channel.
   }
-\end{figure}
 
-The base rationale is the same as for \cref{base-identity-cause-adversary}, the 
-witness \(W\) can submit to \(S\) over an anonymous channel, such as \ac{Tor}.
-Anyone who is in the same location will learn that \(W\) was present, we want 
-to prevent anyone \emph{not present} to learn that \(W\) was there --- hence we 
-do not consider the protester as part of the adversary, only \(S\).
-Analogous to the identity--cause adversary, we conclude with the strongest 
-identity--location adversary.
+\item\label{deanonymizing-storage-adversary}
+  \emph{National eavesdropping adversary}:
+  The situation is the same as in \cref{in-system-adversary}, but now the storage 
+  \(S\) learns the protester \(P\)'s identity from an auxiliary channel.
+  However, \(W\) still learns only the protocol data, no auxiliary data.
 
-\begin{definition}[Strongest identity--location adversary]%
-  \label{strongest-identity-location-adversary}
-  Things are the same as in \cref{base-identity-location-adversary}, except 
-  that \(S\) learns the witness' and protester's identities \(W\) and \(P\), in 
-  the respective cases.
-\end{definition}
+%\item\label{deanonymizing-witness-adversary}
+%  \emph{Deanonymizing-witness adversary}:
+%  Everything is the same as in \cref{deanonymizing-witness-adversary}, except 
+%  that now \(W\) also learns \(P\)'s identity from an auxiliary channel.
+\end{adversaries}
+
+The in-system adversary (\cref{in-system-adversary}) represents an adversary 
+that has no access to data from outside the system, \eg inferences that can be 
+done from the communication layer (\eg IP-addresses mapped to physical 
+identities), which means that it has only the protocol data at its disposal.
+
+We find \cref{in-system-adversary} suitable when the protester and witness both 
+move in a crowd and there is no way for the witness to decide exactly with whom 
+he or she communicates with.
+(The protesters could also simply wear masks.)
+We consider this a fair model for our purposes: if the adversary can 
+deanonymize the protesters \emph{at the physical location} and thus arrest 
+them, the adversary can do that independently of whether the protesters use our 
+protocol or not --- thus our protocol cannot make things worse in such a 
+situation.
+
+As to \(S\), \cref{in-system-adversary} corresponds to an adversary who cannot 
+even observe the channel between \(P\) and \(S\), \eg when \(P\) uses tools 
+such as Tor~\cite{Tor}.
+The adversary cannot control \(S\) but can learn what \(S\) learns as soon as 
+\(S\) learns it; \eg \(S\) is operated outside the adversary's jurisdiction and 
+so the adversary cannot control \(S\), but since \(S\) provides public access 
+the adversary can (possibly constantly) query it and learn things with little 
+delay.
+Note that the adversary is also allowed to submit data to \(S\) for storage, 
+just like everyone else.
+
+\Cref{deanonymizing-storage-adversary} is a stronger adversary.
+Although the adversary cannot observe the channel between \(P\) and \(S\), the 
+adversary can still learn the identity of \(P\).
+\Eg a national state can potentially monitor the traffic of all \acp{ISP} and 
+thus perform time-correlation attacks on messages on the network and events 
+observed from \(S\).
+We capture this in \cref{deanonymizing-storage-adversary}, where \(A\) learns 
+the identity of \(P\) in the communication with \(S\).
+
+%However, in some situations this might not be the case: \Eg if the crowd is not 
+%dense the witness will likely see the face of the protester.
+%If the witness is controlled by the adversary, then it is likely that the 
+%witness can capture a picture of the face, which can be turned into an identity 
+%through face recognition.
+%There are various such scenarios leading to the adversary learning the 
+%protester's identity, we capture this as 
+%\cref{deanonymizing-witness-adversary}.

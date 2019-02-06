@@ -1,11 +1,13 @@
-%@sbuc: Can you write a few words about MANETs (file MANETs.tex)?
-%More specifically, why we can assume there is a way for the
-%protesters to communicate locally at the protest without relying on the
-%Internet. Also mention potential privacy problems at this layer, e.g.\
-%MAC-address tracking etc. which is outside of our protocol (this should
-%cover part of issue #58).
-
-Since the cellular network could be shut down to keep protesters from accessing the Internet, making phone calls or texting, we require a different means of communications between protesters. 
-This could be accomplished by Bluetooth or WiFi communications, as demonstrated by Briar~\cite{Briar} and FireChat~\cite{FireChat}, two examples of applications for communication during protests via wireless mesh networking. The crowd-counting scenario likely has higher requirements on capacity and withstanding interference as the participants continuously run the protocol for witnessing each others presence; messages are presumably less frequent. 5G is intended to cope with billions of devices (IoT), and thus could help cope with the device density in crowds.
+We also need the participants to communicate during the protest.
+Since the cellular network could be shut down to keep protesters from accessing 
+the Internet, making phone calls or texting, we require a different means of 
+communications between protesters. This could be accomplished by Bluetooth or 
+WiFi communications, as demonstrated by Briar~\cite{Briar} and 
+FireChat~\cite{FireChat}, two examples of applications for communication during 
+protests via wireless mesh networking. The crowd-counting scenario likely has 
+higher requirements on capacity and withstanding interference as the 
+participants continuously run the protocol for witnessing each others presence; 
+messages are presumably less frequent. 5G is intended to cope with billions of 
+devices (IoT), and thus could help cope with the device density in crowds.
 An alternative, although originally designed to work within 5G cellular networks, is device-to-device communication (D2D)~\cite{D2D}. 
 Specifically, the out-of-band and autonomous version D2D fits our scenario thanks to using unlicensed spectrum and working without cellular coverage. 

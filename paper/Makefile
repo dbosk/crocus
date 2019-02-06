@@ -8,30 +8,32 @@ SRC+=	contents.tex
 SRC+=	abstract.tex
 SRC+=	intro.tex
 SRC+=	system-model.tex
+SRC+=	related-work.tex
+SRC+= 	definitions.tex
 SRC+= 	protest-model.tex
 SRC+= 	verifiability-properties.tex
-SRC+= 	adversary-model.tex
 SRC+=	privacy-properties.tex
-SRC+=	related-work.tex
+SRC+= 	adversary-model.tex 
 SRC+= 	building-blocks.tex
-SRC+= 	ZKPK.tex
+SRC+= 	ZKPK.tex ZKPK-instantiations.tex
 SRC+= 	distance-bounding.tex anon-cred.tex DB-anon-cred.tex
 SRC+= 	location-proofs.tex timestamp.tex
 SRC+= 	protocol.tex
-SRC+=	analysis-security.tex analysis-performance.tex
+SRC+=	security-analysis.tex
+SRC+= 	verifiability-analysis.tex
+SRC+= 	privacy-analysis.tex
+SRC+= 	analysis-performance.tex
 SRC+= 	discussion.tex
 SRC+=	conclusions.tex
+SRC+=	tamarin-spec.tex
 
 paper.pdf: ${SRC}
 
 FIGS+= 				proofshare.tikz
 proofshare.tikz: 	../fig/proofshare.tikz
 
-FIGS+= 				base-identity-cause-adversary.tikz
-base-identity-cause-adversary.tikz: ../fig/base-identity-cause-adversary.tikz
-
-FIGS+= 				base-identity-location-adversary.tikz
-base-identity-location-adversary.tikz: ../fig/base-identity-location-adversary.tikz
+FIGS+= 				base-adversary.tikz
+base-adversary.tikz: ../fig/base-adversary.tikz
 
 ${FIGS}:
 	${LN} $< $@

@@ -1,0 +1,179 @@
+\subsection{Individual and universal verifiability}%
+\label{analysis-individual}%
+\label{analysis-universal}
+
+\Cref{IndividualVerif} requires that Alice and Bob, as participants, can verify 
+that their participation proofs (\ie proof shares) are indeed included in the 
+computed count.
+All proof shares (\ie \(\prf_{\pid, \prtst} = (\cid, \pid, \wid, t_s, t_s', 
+  t_e, t_e', l, \corr_\pid, \corr_\wid)\)) are committed to the ledger and 
+available from a public and permanent storage (see 
+\cref{fig:ProtocolOverview}).
+Thus, Alice and Bob can simply check that all of their proof shares are indeed 
+there and the security of individual verifiability depends on the properties of 
+the ledger and storage (\(\TS\), \cref{timestamp}).
+For both \cref{in-system-adversary,deanonymizing-storage-adversary} we assumed 
+an honest-but-curious adversary controlling \(\TS\)\footnote{%
+  We note that, in general, distributed (decentralized) ledgers cannot 
+  withstand a malicious \ac{ISP}.
+  Such an adversary can partition the network and provide Alice and Bob with 
+  different views of the ledger, thus breaking individual verifiability.
+  However, this requires that the adversary \emph{can observe} Alice's and 
+  Bob's channels to the ledger --- which is still not true even for 
+  \cref{deanonymizing-storage-adversary}.
+}.
+This means that Alice can check that her proof share is indeed there.
+
+\Cref{UniversalVerif} implies that anyone can check the result and that all 
+participation proofs counted are legitimate.
+As the proof shares are committed and stored publicly, anyone can
+download them, verify eligibility (\ie verify \(\corr_\pid,
+\corr_{\wid}\)) of the proofs and count them.
+As for individual verifiability, the security of universal verifiability is 
+reduced to the properties of the ledger and storage; but universal 
+verifiability also depends on the eligibility verification, which we will 
+discuss next.
+
+\subsection{Eligibility verifiability}%
+\label{analysis-eligibility}
+
+\Cref{EligibilityVerif} states that anyone must be able to determine the authenticity of the relevant attributes of the data.
+In \CROCUS, we have several attributes that must be verifiable: the time of 
+creation (\ie, temporal eligibility, \cref{TemporallyRelated}), the physical 
+location of \(\sk_P\) at creation (\ie, spatial eligibility, 
+\cref{SpatiallyRelated}), recognition of two proofs originating from the same 
+person (\ie, one-proof-per-person eligibility, \cref{CountOnce}) and that the 
+proof is indeed designated for the event (\ie, designated-event eligibility, 
+\cref{DesignatedEvent}).
+It follows from \cref{analysis-individual} that the adversary cannot drop 
+submitted proof shares and thus cannot decrease the count.
+As indicated in \cref{in-system-adversary,deanonymizing-storage-adversary}, the 
+adversary can submit proof shares as everyone else, so the adversary's only 
+option is to increase the count.
+We will thus let Alice pose as the adversary in this section, as she naturally 
+has an incentive to increase the count.
+
+\paragraph{Temporal eligibility}%
+\label{analysis-temporal}
+
+\Cref{TemporallyRelated} ensures freshness, as Alice cannot simply resubmit an 
+old proof as a new one or create a proof in advance.
+
+In general, to prevent replays, Alice must respond to an unpredictable 
+challenge.
+The challenge here is \enquote{which is the hash value of the head block of the 
+  ledger at the time of the proof's creation?}.
+The response is simply the hash itself (obtained through \(\TSget\)) and is 
+included as \(t_s\) and \(t_s'\) in the proof share (see \cref{fig:ProofFig}).
+
+As it is the case in the construction of ledgers, the hash value of the head 
+block depends on the previous blocks.
+Thus, the predictability of \(t_s\) depends on the predictability of the 
+blocks, which depends on the predictability of the transactions.
+Assume that Alice can control all transactions going into a block.
+This means that she must find a pre-image of the form of a valid block that is 
+accepted by all nodes in the distributed ledger.
+\Ie it depends on the pre-image resistance of the hash function used.
+Thus, with a collision resistant hash function (\(\Hash\)), Alice can predict 
+\(t_s\) only with negligible probability; and it follows that, with high 
+probability, \(t_s\) was published on the ledger before Alice included it in 
+her proof share.
+
+The correctness of the response must be verifiable by any verifier (verifiable 
+through \(\TStime\)).
+This can be done if the ledger is continuously extended at a fixed rate, \eg 
+one new block every 10 minutes, as was the case for Bitcoin.
+
+According to \cref{TemporallyRelated}, we must also prove that a proof share has not been created after a certain time.
+Otherwise, Grace could argue that the proof share was created after the protest, thus defeating the purpose of our protocol.
+The hash values of the proof shares are committed to the ledger, which means 
+that there is a negligible probability that they were created after that.
+Alice is in the same situation as above:
+she would have to choose a value \(y\) in the range of the hash function 
+\(\Hash\) and then find a pre-image \(x\) such that \(y = \Hash[x]\) and \(x\) 
+is a valid proof for the desired protest, at the desired time.
+If \(\Hash\) is collision resistant, finding \emph{any} pre-image is hard.
+
+\paragraph{Linkability}%
+\label{analysis-linkability}
+
+\Cref{CountOnce} is required to prevent Sybil attacks, in the sense
+that Alice cannot provide two (or more) participation proofs for a
+specific protest and thus be counted more than once.
+To do this she must create more than one pseudonym, \(\pid\).
+Indeed to be counted twice, Alice must produce a \(\pid'\neq \pid\).
+Due to the deterministic property of \(\ACprf\), Alice must produce a new key 
+\(\sk_P'\) such that the verifier\footnote{%
+  Here the verifier is either the witness during the distance bounding or the 
+  verifier who tries to verify the count.
+} accepts the proof
+\begin{multline*}
+\PK\mleft\{ (\sk_P') : \pid' = \ACprf[_{\sk_P'}][\cid] \quad \land \mright. \\
+    \sigma_P'' = \mleft. \ACblind[\ACsign[_{\ssk}][\sk_P']] \mright\}
+\end{multline*}
+while she does not know a valid signature on \(\sk_P'\).
+As a consequence, this is reduced to the security of the \(\AC\) scheme and how 
+often Alice can get a valid signature on a secret key from the \ac{CA} --- 
+either by requesting a new key, \eg request a new passport or ID-card, or 
+illicitly use someone else's.
+
+\paragraph{Spatial eligibility}%
+\label{analysis-spatial}
+
+\Cref{SpatiallyRelated} is achieved by having a witness vouch anonymously that Alice was indeed on the location when the proof share was created.
+To realize this, we must ensure that Alice cannot forge witness signatures.
+
+In the trust-free case (see \cref{ProtocolVerification}), this is realized by 
+using the same linkability mechanism as above.
+\Ie to forge a witness signature, Alice must produce a \(\wid'\) such that
+\begin{multline*}
+  \pi_{\wid'}\gets \SPK\left\{ (\sk_W') : \right. \\
+    \begin{aligned}
+      \wid' &= \ACprf[_{\sk_W'}][\pid] \quad \land \\
+      \sigma_W'' &= \left. \ACblind[\ACsign[_{\ssk}][\sk_W']] \right\}
+    \end{aligned} \\
+      (\pid, \wid', t_s, t_s', l),
+\end{multline*}
+is accepted by the verifier while not knowing a signature on the secret key 
+\(\sk_W'\).
+Thus, she must break the \(\AC\) scheme to succeed or get a valid signature on \(\sk_W'\) from the \ac{CA}.
+As above, the latter could be done if she can find people willing to collude, 
+people unwilling to collude but she can illicitly use their keys anyway or 
+simply request new keys from the \ac{CA}.
+
+We assumed that Alice cannot collude with more than a threshold \(\theta\) of 
+witnesses.
+Thus, setting the threshold of at least \(\theta+1\) will prevent Alice from 
+cheating.
+(Note that Alice can produce \emph{one} witness signature for herself, since 
+she has access to her own \(\sk_P\), but no more.
+Thus, \(\theta > 1\) is a requirement in the trust-free case.)
+
+In the trusted witness case, we assume that we can trust (dedicated) witnesses.
+In this case, Alice must be able to forge statements, \eg digital signatures, 
+from at least one witness that the verifier trusts.
+
+\paragraph{Designated protest}%
+\label{analysis-designated}
+
+\Cref{DesignatedEvent} is to prevent Alice (or someone else) from reusing the same proof (or proof share) for another event.
+This possibility is prevented through the use of \(\cid\) in the proof shares.
+To reuse the proof share for another protest, with a different manifesto, one 
+must find a second pre-image \(\mfst'\) such that \(\cid = \Hash[\mfst] = 
+  \Hash[\mfst']\).
+
+There exists another case of collision that we must prevent.
+Consider the situation in which Alice computes \(\pid = \ACprf[_\sk][\cid]\) for some cause identifier \(\cid\) and some witnesses computes \(\wid_1, \dotsc, \wid_n\), with \(\wid_i = \ACprf[_{\sk_i}][\pid]\).
+Now, if Alice constructs a manifesto \(m\) such that \(\Hash[m] = \pid\), then \(\wid_1, \dotsc, \wid_n\) would be valid participant identifiers for the protest with manifesto \(m\).
+This means that we must separate the mechanisms used for participating and witnessing.
+The protocol achieves this by the fact that \[
+  \prf_{\wid} = \SPK[\sk_i][\dotsc][\pid, \wid, t_s, t_s', l]
+\]
+does not include \(\cid\) whereas \[
+  \prf_{\pid} = \SPK[\sk_i][\dotsc][\cid, \pid, \wid, t_s, t_s', l]
+\]
+does.
+Thus, the verification process differs for the two types of proofs.
+(An alternative approach would have been to compute them differently, for 
+instance \(\pid = \AC[PRF]_{\sk}(x)\) but \(\wid = \AC*[PRF]_{\sk}(x)\), where 
+\(\AC \neq \AC*\) are separate anonymous-credential systems.)

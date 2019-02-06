@@ -5,12 +5,9 @@ theory crocusclean
 
 begin
 
-functions: adec/2, aenc/2, pk/1
-
-equations: adec(aenc(message, secretkey), pk(secretkey)) = message
 
 
-builtins: signing //, asymmetric-encryption, diffie-hellman
+builtins: signing, diffie-hellman //, asymmetric-encryption
 
 // -------------------- Tag Initialization -------------------- //
 
@@ -117,7 +114,7 @@ rule Prover_3:
   ]
 --[ Choose(c0,c1,b) //RESTRICTIONS
   , ProverReply($Prover, c0, c1, b) //PROOF_LABELS_AGENT
-  , EndFastPhase(c0, c1, b)//PROOF_LABELS_PROTOCOL
+  , ReplyFastPhase(c0, c1, b)//PROOF_LABELS_PROTOCOL
   , Action($Prover)
   ]->
   [ FastMsg( response ), Out( response ) //MESSAGES (Out + Fast)
@@ -136,6 +133,7 @@ rule Verifier_3:
   ]
 --[ Eq(authentication, true), Eq(proof, b) //RESTRICTIONS
   , VerifierComplete($Prover, R, c0, c1, b) //PROOF_LABELS_AGENT
+  , EndFastPhase(c0, c1, b)//PROOF_LABELS_PROTOCOL  
   ]->
   []
 
