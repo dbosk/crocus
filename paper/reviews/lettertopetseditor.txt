@@ -84,22 +84,6 @@ then neither is our scheme.
 
 They would also have to adapt some parts of our scheme for that to work. 
 
-> RevA: A benefit of the proposed solution seemed that one could have their
-> vote count and yet also not expose themselves by overt behaviour around a
-> protest location. Today someone who happened to be detained for being in
-> the protest area could say they were merely innocent bystanders. However,
-> in the proposed scheme the protester-catcher can interact using the witness
-> protocol with these covert protesters (perhaps in a sparse area, e.g. going
-> to the bathroom or stopping to talk to someone during the march) that is
-> now providing proof that they were not only present but also for the cause.
-
-Yes, this is captured by the adversary models. The situation you 
-describe gives side-information to the witness.
-
-But the scenario requires rather strong isolation or very accurate 
-triangulation of the signals. However, nothing prevents the protester 
-from stopping the protocol during these points of isolation.
-
 > RevA: DB does not address the issue raised by the reality of mobile phone
 > farms for hire (and the ability of the centralised authority to issue
 > credentials falsely) where all the witnesses, and provers could be in a
