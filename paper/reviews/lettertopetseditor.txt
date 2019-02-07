@@ -38,6 +38,11 @@ the final comments.
 > might cause it a conflict of interest, and 4) to which access can not be
 > blocked, or monitored for later crack-down, by the government.
 
+It's fine if it's monitored and cracked-down by the government, the 
+credentials are issued blindly anyway [see the CL04 paper]. But 
+otherwise, yes, that's correct. And the same applies to voting, but we 
+still do voting and publish papers on e-voting.
+
 A lot of focus is on flaws in the identity system which is not 
 a contribution of the paper. We merely point out that any such identity 
 system must be logically centralized (Douceur, 2002: The Sybil 
@@ -45,7 +50,7 @@ Attack). We point to the national ID systems as they are currently the
 only deployed systems that fulfil the criteria and because some of them 
 can be easily modified (software modifications) to support our scheme.
 
-In our case, any identity system would work, as we point out.
+In our case, *any* identity system would work, as we point out.
 However, as Douceur states, they must be logically centralized. Even 
 physically decentralized attempts, such as proof-of-personhood, are logically 
 centralized (and this particular approach would require everyone in a
@@ -92,12 +97,14 @@ to bias them. The verifiability properties of our scheme serve the same
 purpose as the methodology section of a scientific paper: anyone is able 
 to repeat, reproduce and verify the results, even if they are in 
 distant lands. It is detectable who the CA is for all these people and 
-if that CA has incentives to perform a Sybil attack, then the results 
-simply cannot be trusted.
+if that CA has incentives to perform a Sybil attack, then the results
+simply cannot be trusted. Just as it's most suitably scientists who 
+verify the papers, it's likely journalists who verify the counts --- but 
+in both cases, anyone can do it!
 
-The problem lies with the identity system: as long as the identity 
-system used has these problems, these are the limits we face in our 
-scheme too. If the identity system is not subject to these problems, 
+But this problem lies entirely with the identity system: as long as the 
+identity system used has these problems, these are the limits we face in 
+our scheme too. If the identity system is not subject to these problems, 
 then neither is our scheme.
 
 > RevA: In the related works section it is said that other systems do not
@@ -105,19 +112,7 @@ then neither is our scheme.
 > ID that prevents over-voting would make those systems also workable. See
 > comments for 5) below for the location and time mattering distinction.
 
-Yes, that would alleviate some of their problems. However, they still 
-lack verifiability, as we point out in the paper.
-
-> RevA: A benefit of the proposed solution seemed that one could have their
-> vote count and yet also not expose themselves by overt behaviour around a
-> protest location. Today someone who happened to be detained for being in
-> the protest area could say they were merely innocent bystanders. However,
-> in the proposed scheme the protester-catcher can interact using the witness
-> protocol with these covert protesters (perhaps in a sparse area, e.g. going
-> to the bathroom or stopping to talk to someone during the march) that is
-> now providing proof that they were not only present but also for the cause.
-
-Yes, the purpose of the stronger adversary model is to point that out.
+They would also have to adapt some parts of our scheme for that to work. 
 
 > RevA: DB does not address the issue raised by the reality of mobile phone
 > farms for hire (and the ability of the centralised authority to issue
