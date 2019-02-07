@@ -1,8 +1,25 @@
 Dear editors,
 
-we got a Reject & Resubmit decision for our paper on crowd counting using smartphones and we have a concern about resubmission. While most of the reviewers’ statements are factually correct, we feel that the stated main reasons for the decision are so categorical that they would be near impossible for our paper to overcome given the same reviewers. Furthermore, if applied broadly, they would potentially impede publication of any research paper that makes assumptions about logically centralized identity providers (proven to be needed to prevent Sybil attacks) or other such trusted third parties because they might actually not be trustworthy. Research papers commonly make some assumptions to limit the scope and explore what-if scenarios, it is unusual to put such a strong emphasis on any one assumption and an all-powerful adversary and not see merit in contributions for less extreme cases. We would like to know whether you as editors agree with the stance of the reviewers as we understand it. If so, resubmission or even a later new submission of that paper would seem a futile endeavor.
+we got a Reject & Resubmit decision for our paper on crowd counting
+using smartphones and we have a concern about resubmission. While most
+of the reviewers’ statements are factually correct, we feel that the
+stated main reasons for the decision are so categorical that they
+would be near impossible for our paper to overcome given the same
+reviewers. Furthermore, if applied broadly, they would potentially
+impede publication of any research paper that makes assumptions about
+logically centralized identity providers (proven to be needed to
+prevent Sybil attacks) or other such trusted third parties because
+they might actually not be trustworthy. Research papers commonly make
+some assumptions to limit the scope and explore what-if scenarios, it
+is unusual to put such a strong emphasis on any one assumption and an
+all-powerful adversary and not see merit in contributions for less
+extreme cases. We would like to know whether you as editors agree with
+the stance of the reviewers as we understand it. If so, resubmission
+or even a later new submission of that paper would seem a futile
+endeavor.
 
-In case you would like to consider more details, we provide some concrete responses below.
+In case you would like to consider more details, we provide some
+concrete responses below.
 
 Best regards,
 Sonja, Daniel, Simon
@@ -26,21 +43,26 @@ credentials are issued blindly anyway [see the CL04 paper]. But
 otherwise, yes, that's correct. And the same applies to voting, but we 
 still do voting and publish papers on e-voting.
 
-A lot of focus is on flaws in the identity system --- which is not 
+A lot of focus is on flaws in the identity system which is not 
 a contribution of the paper. We merely point out that any such identity 
 system must be logically centralized (Douceur, 2002: The Sybil 
 Attack). We point to the national ID systems as they are currently the 
 only deployed systems that fulfil the criteria and because some of them 
 can be easily modified (software modifications) to support our scheme.
 
-In our case, *any* identity system would work --- as we point out.
+In our case, *any* identity system would work, as we point out.
 However, as Douceur states, they must be logically centralized. Even 
 physically decentralized attempts, such as proof-of-personhood, are logically 
-centralized (and this particular approach would require everyone in a nation to be at the same place at the same time for any guarantees).
+centralized (and this particular approach would require everyone in a
+nation to be at the same place at the same time for any
+guarantees). Other decentralized approaches (self-sovereign
+identities/sovrin or several entities doing multi-party computation)
+need to start with some input and keep each party from issuing
+spurious ones. 
 
 The Sybil attacks possible against our system is inherent from the 
 identity system: for instance, both e-voting and normal paper-based 
-voting are subject to similar Sybil attacks by the government --- since 
+voting are subject to similar Sybil attacks by the government since 
 they rely on the same identity system as we suggest as an example for practical 
 deployment at the moment. Even though voting has more established processes, some trust is needed. 
 
@@ -54,7 +76,15 @@ deployment at the moment. Even though voting has more established processes, som
 > counts even if they go against our very beliefs (e.g. as for detecting bias
 > in science).
 
-Despite potentially better audit possibilities, elections are imperfect and so are pro-government protests. Nevertheless, this has not been seen as a valid reason to not have elections or protests anymore at all. Also, if one does not trust the government with identity provision, it stands to reason that one would not trust them to count correctly either. People certainly are skeptical about massive pro-government protests in countries such as North Korea, not only for counting wrong but also because they can coerce people to physically attend a protest.
+Despite potentially better audit possibilities, elections are
+imperfect and so are pro-government protests. Nevertheless, this has
+not been seen as a valid reason to not have elections or protests
+anymore at all. Also, if one does not trust the government with
+identity provision, it stands to reason that one would not trust them
+to count correctly either. People certainly are skeptical about
+massive pro-government protests in countries such as North Korea, not
+only for counting wrong but also because they can coerce people to
+physically attend a protest and thus be counted "correctly".
 
 Due to the flaws inherited in currently deployed identity systems, we 
 pointed out in which cases they can be used and in which they cannot: 
@@ -65,7 +95,7 @@ As we pointed out, this is similar to detecting bias in science. If the
 authors personally benefit from the results, then they are incentivized 
 to bias them. The verifiability properties of our scheme serve the same 
 purpose as the methodology section of a scientific paper: anyone is able 
-to repeat, reproduce and verify the results --- even if they are in 
+to repeat, reproduce and verify the results, even if they are in 
 distant lands. It is detectable who the CA is for all these people and 
 if that CA has incentives to perform a Sybil attack, then the results
 simply cannot be trusted. Just as it's most suitably scientists who 
@@ -94,7 +124,7 @@ They would also have to adapt some parts of our scheme for that to work.
 > how does that scale with the size of the protest?
 
 If the identity authority performs a Sybil attack, they 
-do not need a mobile phone farm --- they can perform computations 
+do not need a mobile phone farm; they can perform computations 
 anywhere on any computation system they like. (Again, as pointed out, 
 nothing can prevent this type of Sybil attack and (electronic) voting 
 suffers from essentially the same problem.)
@@ -132,7 +162,22 @@ properties) which is a proof-of-knowledge for discrete logarithms.
 
 Any DB protocol that is provably secure against terrorist fraud, is 
 provably secure against anything along the lines of functional 
-encryption. In that sense, functional encryption is part of the model. Our rebuttal response regarding functional encryption does not seem to have been taken into consideration, at least not in the reviews, we have of course no insight into any discussions.  
+encryption. In that sense, functional encryption is part of the
+model. Our rebuttal response regarding functional encryption does not
+seem to have been taken into consideration, at least not in the
+reviews, we have of course no insight into any discussions.
+
+>Furthermore, the reviewers felt that the paper should assume a more hostile
+>environment since the attacker could be a government entity. In particular,
+>the authors should protect against adversary model A2 and avoid
+>vulnerabilities even when a large portion of the witnesses is malicious.
+
+A2 is essentially a global passive adversary, that is an unusually strong
+requirement to have to be able to resist for any research paper that
+includes Internet communication.
+
+The trusted witness model is intended exactly for the scenario of
+large portions of witnesses being malicious. 
 
 
 
