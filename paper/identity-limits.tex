@@ -137,19 +137,24 @@ In Sweden, there are several entities that are authorized to issue identity
 cards; \eg the Swedish Tax Agency, the Swedish Police, the banks.
 Thus, technically, to detect a Sybil attack by them, \ie fake identities, one 
 must check the ID against the population registry.
-
 With anonymous credentials, this becomes a problem.
-If two entities issues identity credentials to Alice, there is no problem: if 
-she uses the first to authenticate to Bob, and later comes back and uses the 
-second, Bob will that she is Alice both times.
-With anonymous credentials that prevent multiple use, this is no longer the 
-case.
+
+If two entities issue (non-anonymous) identity credentials to Alice, there is 
+no problem: if she uses the first to authenticate to Bob, and later comes back 
+and uses the second, Bob will know that she is Alice both times.
+In both cases, if Bob doubts the credentials, he can follow the audit trail.
+With anonymous credentials that prevent multiple use, however, this is no 
+longer the case.
 Thus issuers of such credentials must synchronize, so that if one has issued 
 such credentials to Alice, the others must not issue another.
 
-One problem here is that there can be no audit trail.
-Thus the issuers have the possibility of performing Sybil attacks.
-
+This problem is amplified by the fact that there can be no audit trail from the 
+authentication, due to the anonymity.
+Thus, individual issuers have the possibility to perform Sybil attacks.
+However, this problem can be solved.
+Since all individual issuers of credentials must synchronize to not issue more 
+than one anonymous credential to Alice, they might just as well act together 
+(\ac{MPC}) in the issuing process --- thus introducing dual control.
 
 \subsection{Proofs-of-personhood}
 
@@ -174,91 +179,23 @@ Getting everyone to be at some fixed locations at the same time is even
 difficult to achieve during Election Day, it must usually be spread across the 
 time of the whole day.
 This would solve the problems of the issuance of anonymous credentials 
-mentioned above, if it only scaled.
+mentioned above (it provides the same properties as \ac{MPC} did above), if it 
+only scaled.
 
 
 \subsection{Detecting bias}
 
-%> RevA: How is a non-protester, either a voter who intends to figure out
-%> their position or a concerned someone in a distant land), who is watching
-%> the news supposed to tell which of the pro-government or anti-government
-%> protester-counts to believe. Are we to assume that obviously any
-%> pro-government activity is absolutely suspicious and all anti activity is
-%> legitimate? The solution should make it impossible to nay-say the true
-%> counts even if they go against our very beliefs (e.g. as for detecting bias
-%> in science).
+If we do not have \iac{MPC} base solution as suggested above, we can still 
+reduce the problem.
+When a verifier verifies an anonymous authentication, it is clear who the 
+\ac{CA} (\ie the issuer) is.
+In this case the verifier can analyze whether the issuer has any incentives for 
+a Sybil attack.
 
-Despite potentially better audit possibilities, elections are imperfect and so are pro-government protests. Nevertheless, this has not been seen as a valid reason to not have elections or protests anymore at all. Also, if one does not trust the government with identity provision, it stands to reason that one would not trust them to count correctly either. People certainly are skeptical about massive pro-government protests in countries such as North Korea, not only for counting wrong but also because they can coerce people to physically attend a protest.
-
-Due to the flaws inherited in currently deployed identity systems, we 
-pointed out in which cases they can be used and in which they cannot: 
-when there is an interest for the identity authority to perform a 
-Sybil attack, the results cannot be trusted.
-
-As we pointed out, this is similar to detecting bias in science. If the 
-authors personally benefit from the results, then they are incentivized 
-to bias them. The verifiability properties of our scheme serve the same 
-purpose as the methodology section of a scientific paper: anyone is able 
-to repeat, reproduce and verify the results --- even if they are in 
-distant lands. It is detectable who the CA is for all these people and 
-if that CA has incentives to perform a Sybil attack, then the results 
-simply cannot be trusted.
-
-The problem lies with the identity system: as long as the identity 
-system used has these problems, these are the limits we face in our 
-scheme too. If the identity system is not subject to these problems, 
-then neither is our scheme.
-
-
-\subsection{The need for distance bounding}
-
-> RevA: DB does not address the issue raised by the reality of mobile phone
-> farms for hire (and the ability of the centralised authority to issue
-> credentials falsely) where all the witnesses, and provers could be in a
-> room far away from the protests since the location is never actually
-> figured out (since location can be faked anyway). How big a protest does
-> one need such that the threshold would be beyond the ability of a
-> government to afford enough fake mobile phones? As for the trusted witness,
-> how does that scale with the size of the protest?
-
-If the identity authority performs a Sybil attack, they 
-do not need a mobile phone farm --- they can perform computations 
-anywhere on any computation system they like. (Again, as pointed out, 
-nothing can prevent this type of Sybil attack and (electronic) voting 
-suffers from essentially the same problem.)
-
-We point out that against this strong adversary, the 
-trusted-witness approach is the only approach that will work. We provide 
-the threshold approach as an alternative that might work in some 
-circumstances.
-
-Lastly, and perhaps most importantly: DB protects against exactly this. For 
-the government to succeed they would need to do the computations within 
-a certain distance of the (trusted) witness --- a distance determined by 
-the witness themself. Obviously the government succeeds if they also 
-control the trusted witness. But the reason the witness is trusted is 
-that they are likely not controlled by the government. And there can be 
-several trusted witnesses in parallel --- with different interests to 
-prevent a bias situation.
-
-However, in the end, the one who controls the identity system controls 
-Sybil. And, unless we get representatives from several nations present 
-to sign birth certificates at hospitals, we will probably be stuck in 
-this situation. 
-
-From the Meta-Review:
- 
-> The main concerns were about the deployment scenario which relies on a
-> central entity, the complexity of the protocol, and the use of
-> yet-to-be-designed primitives like distance bounding protocols while
-> leaving existing primitives like functional encryption out of the model.
-
-Distance-bounding protocols were introduced by Chaum in 1993. They are 
-very much existing. What is not existing (i.e. not formally proved 
-correct yet) is a distance-bounding protocol (with all the desired DB 
-properties) which is a proof-of-knowledge for discrete logarithms.
-
-Any DB protocol that is provably secure against terrorist fraud, is 
-provably secure against anything along the lines of functional 
-encryption. In that sense, functional encryption is part of the model. Our rebuttal response regarding functional encryption does not seem to have been taken into consideration, at least not in the reviews, we have of course no insight into any discussions.  
+This is similar to detecting bias in science.
+If the authors personally benefit from the results, then they are incentivized 
+to bias them.
+The verifiability properties of our scheme serve the same purpose as the 
+methodology section of a scientific paper: anyone is able to repeat, reproduce 
+and verify the results --- even if they are in distant lands.
 
