@@ -1,0 +1,201 @@
+\section{Limits of current identity systems}
+
+\Textcite{SybilAttack} points out that any identity system must be logically 
+centralized to prevent Sybil attacks.
+It follows that any system where users themselves can create identities cannot 
+provide strong guarantees against Sybil attacks.
+
+The most widely deployed identity system is that of nation states: in essence, 
+an identity is created at birth in the form of the equivalent of a birth 
+certificate\footnote{%
+  Many countries issue birth certificates, but there are other, equivalent, 
+  ways.
+  \Eg Sweden does not issue birth certificates, it simply creates and entry in 
+  the population registry.
+} This birth certificate later serves as the root for many authentication 
+mechanisms, \eg national identity cards and passports.
+
+Some more \enquote{decentralized}\footnote{%
+  Provably, it must be logically centralized anyway.
+} methods have been suggested, \eg 
+proof-of-personhood~\cite{proof-of-personhood}.
+In this particular approach, people gather in a room, \emph{everyone ensures} 
+that no one can enter or leave during the process.
+Then \emph{everyone ensures} that everyone gets exactly one identity.
+
+We will now discuss the limits and possibilities of these approaches.
+
+\subsection{The \enquote{birth-certificate} system}
+
+This system is logically centralized, it is controlled (enforced) by the 
+government.
+However, it is usually distributed among a country's hospitals.
+It usually works without any problems: citizens --- who have an incentive to 
+create more identities, \eg to accumulate various benefits --- cannot create 
+new identities without babies.
+Someone who has a baby does not want to give that identity to someone else, 
+because then their baby will not have one --- usually the biological mechanisms 
+that ensures the well-being of our offspring prevents any abuse on this side 
+too.
+But obviously there exists a possibility to create birth certificates without 
+newborn babies, it is just that those who can either do not have any incentive 
+to do so or there are other mechanisms, \eg separation of duties and 
+accountability.
+
+There is one particular situation where the incentive arises:
+to influence democratic processes\footnote{%
+  There are a few more, less relevant, \eg to have multiple identities for 
+  foreign operatives, as seen on film.
+  But those are not significant to our discussion.
+}.
+If the government can create identities and control them, they can use them to 
+vote for themselves in upcoming elections.
+In a well-designed system, however, this should be prevented.
+This varies from country to country (\ie system to system).
+
+\subsubsection{The case of Sweden}
+
+An identity is created when an entry is made in the population registry.
+Each entry in the registry has a unique identification number.
+The electoral roll is created from the population 
+registry~\cite{Valmyndigheten-ElectoralRoll}.
+
+For a person to cause an entry into the population registry, they have two 
+options:
+they are in the population registry and give birth to a child, or
+they were born abroad and apply to immigrate to Sweden.
+
+In the case of a birth\footnote{%
+  Technically, this is the procedure if the child is born abroad.
+  If the child is born in Sweden, the hospital will report all these things 
+  directly to the population registry without issuing any papers to the 
+  parents.
+} they need:
+\begin{itemize}
+  \item passports, to prove the identities of the parents;
+  \item a birth certificate where the names of the parents are present;
+  \item a pregnancy certificate, to prove who birthed the child;
+  \item a certificate of who the father is~\cite{Skatteverket-RegisterBirth}.
+\end{itemize}
+So the security is reduced to the forgeability of these items.
+
+Obviously the one who creates entries in the population registry can do that 
+even without such documents, so there must be some separation of duty, 
+accountability or transparency to prevent the agency from performing a Sybil 
+attack.
+In the case of Sweden, the population registry is public.
+This means that in addition to any audit trail in place at the agency, we have 
+these properties:
+\begin{itemize}
+  \item The data must fulfil basic integrity: a person must have parents, who 
+    in turn must have parents, \etc.
+  \item Anyone can detect extraordinary additions, \eg exceptionally many 
+    births, additions of family trees, \etc.
+    Individual women and men would also notice if extra children were added to 
+    them.
+  \item Addition of persons of foreign heritage must have corresponding 
+    documentation (audit trail) at the Migration Board.
+\end{itemize}
+A foreign citizen can prove their identity to the Migration Board in the 
+following ways:
+\begin{itemize}
+  \item showing a national passport in the original or
+  \item showing an identity document in the original or
+  \item a close relative attesting to the 
+    identity~\cite{Migrationsverket-ProvenIdentity}.
+\end{itemize}
+Thus the security is reduced to subverting one of these methods.
+
+\subsubsection{The case of France}
+
+The French electoral roll is populated by citizens registering at the town 
+hall.
+They must then be able to authenticate their identity using an identity 
+credential.
+
+Whenever a child is born, the hospital reports this to the local town hall.
+They register the birth and issues a birth certificate.
+While they do not actively maintain the current whereabouts of individuals and 
+do not give each an identity number, their identity consists of the tuple of 
+name, date and place of birth.
+Thus an identity can be verified by asking the specified town hall to verify 
+the birth in their records.
+
+This makes the audit trail more complex.
+It is also difficult to detect modifications to these records, since they are 
+not public.
+
+\subsubsection{Perfectly decentralized and private birth-certificates approach}
+
+There are no audit records, the one who can create authentic birth certificates 
+can perform Sybil \dots
+
+
+\subsection{Issued credentials}
+
+In Sweden, there are several entities that are authorized to issue identity 
+cards; \eg the Swedish Tax Agency, the Swedish Police, the banks.
+Thus, technically, to detect a Sybil attack by them, \ie fake identities, one 
+must check the ID against the population registry.
+With anonymous credentials, this becomes a problem.
+
+If two entities issue (non-anonymous) identity credentials to Alice, there is 
+no problem: if she uses the first to authenticate to Bob, and later comes back 
+and uses the second, Bob will know that she is Alice both times.
+In both cases, if Bob doubts the credentials, he can follow the audit trail.
+With anonymous credentials that prevent multiple use, however, this is no 
+longer the case.
+Thus issuers of such credentials must synchronize, so that if one has issued 
+such credentials to Alice, the others must not issue another.
+
+This problem is amplified by the fact that there can be no audit trail from the 
+authentication, due to the anonymity.
+Thus, individual issuers have the possibility to perform Sybil attacks.
+However, this problem can be solved.
+Since all individual issuers of credentials must synchronize to not issue more 
+than one anonymous credential to Alice, they might just as well act together 
+(\ac{MPC}) in the issuing process --- thus introducing dual control.
+
+\subsection{Proofs-of-personhood}
+
+Even physically decentralized attempts, such as 
+proof-of-personhood~\cite{proof-of-personhood}, are logically centralized.
+For a nation-wide proof-of-personhood, everyone in the nation must be at the 
+same place at the same time.
+This is obviously not possible and to make it feasible we must split across 
+multiple locations\footnote{%
+  We cannot split across time.
+  The base assumption is that we do not have any means of authenticating 
+  people, thus we must rely on the physical impossibility of being in two 
+  places at the same time.
+  Obviously it is not impossible to be in the same place at two times.
+} and rely on trust: if Alice is in one location, she must trust that at least 
+one in every other location is also honest.
+
+The issue with this system is scalability.
+Every time that \emph{anyone} needs a new credential, we must involve 
+\emph{everyone}.
+Getting everyone to be at some fixed locations at the same time is even 
+difficult to achieve during Election Day, it must usually be spread across the 
+time of the whole day.
+This would solve the problems of the issuance of anonymous credentials 
+mentioned above (it provides the same properties as \ac{MPC} did above), if it 
+only scaled.
+
+
+\subsection{Detecting bias}
+
+If we do not have \iac{MPC} base solution as suggested above, we can still 
+reduce the problem.
+When a verifier verifies an anonymous authentication, it is clear who the 
+\ac{CA} (\ie the issuer) is.
+In this case the verifier can analyze whether the issuer has any incentives for 
+a Sybil attack.
+
+This is similar to detecting bias in science.
+If the authors personally benefit from the results, then they are incentivized 
+to bias them.
+The verifiability properties of our scheme serve the same purpose as the 
+methodology section of a scientific paper: anyone is able to repeat, reproduce 
+and verify the results --- even if they are in distant lands.
+
