@@ -183,19 +183,16 @@ mentioned above (it provides the same properties as \ac{MPC} did above), if it
 only scaled.
 
 
-\subsection{Detecting bias}
+\section{Conclusions}
 
-If we do not have \iac{MPC} base solution as suggested above, we can still 
-reduce the problem.
-When a verifier verifies an anonymous authentication, it is clear who the 
-\ac{CA} (\ie the issuer) is.
-In this case the verifier can analyze whether the issuer has any incentives for 
-a Sybil attack.
-
-This is similar to detecting bias in science.
-If the authors personally benefit from the results, then they are incentivized 
-to bias them.
-The verifiability properties of our scheme serve the same purpose as the 
-methodology section of a scientific paper: anyone is able to repeat, reproduce 
-and verify the results --- even if they are in distant lands.
-
+While the decentralized properties of proofs-of-personhood are appealing, it is 
+hard to achieve such a scheme.
+The goal is to have one identity (pseudonym) per physical person.
+This goal is joint with the \enquote{birth-certificate system} which actually 
+achieves the goal quite nicely in practice.
+However, since the birth-certificate system relies on audit trails to function, 
+it cannot deal with issuing anonymous credentials.
+Thus the ideas from proof-of-personhood, where everyone must act jointly, can 
+solve this problem.
+To issue anonymous credentials that certify one physical person behind a 
+pseudonym, all issuers must act jointly, \eg through \ac{MPC}.
