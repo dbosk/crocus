@@ -38,9 +38,9 @@ the final comments.
 > might cause it a conflict of interest, and 4) to which access can not be
 > blocked, or monitored for later crack-down, by the government.
 
-It's fine if it's monitored and cracked-down by the government, the 
+It is fine if it is monitored and cracked-down by the government, the 
 credentials are issued blindly anyway [see the CL04 paper]. But 
-otherwise, yes, that's correct. And the same applies to voting, but we 
+otherwise, yes, that is correct. And the same applies to voting, but we 
 still do voting and publish papers on e-voting.
 
 A lot of focus is on flaws in the identity system which is not 
@@ -50,7 +50,7 @@ Attack). We point to the national ID systems as they are currently the
 only deployed systems that fulfil the criteria and because some of them 
 can be easily modified (software modifications) to support our scheme.
 
-In our case, *any* identity system would work, as we point out.
+In our case, any identity system would work, as we point out.
 However, as Douceur states, they must be logically centralized. Even 
 physically decentralized attempts, such as proof-of-personhood, are logically 
 centralized (and this particular approach would require everyone in a
@@ -60,11 +60,12 @@ identities/sovrin or several entities doing multi-party computation)
 need to start with some input and keep each party from issuing
 spurious ones. 
 
-The Sybil attacks possible against our system is inherent from the 
-identity system: for instance, both e-voting and normal paper-based 
-voting are subject to similar Sybil attacks by the government since 
-they rely on the same identity system as we suggest as an example for practical 
-deployment at the moment. Even though voting has more established processes, some trust is needed. 
+The Sybil attacks possible against our system is inherent from the
+identity system: for instance, both e-voting and normal paper-based
+voting are subject to similar Sybil attacks by the government since
+they rely on the same identity system as we suggest as an example for
+practical deployment at the moment. Even though voting has more
+established processes, some trust is needed.
 
 
 > RevA: How is a non-protester, either a voter who intends to figure out
@@ -98,9 +99,9 @@ purpose as the methodology section of a scientific paper: anyone is able
 to repeat, reproduce and verify the results, even if they are in 
 distant lands. It is detectable who the CA is for all these people and 
 if that CA has incentives to perform a Sybil attack, then the results
-simply cannot be trusted. Just as it's most suitably scientists who 
-verify the papers, it's likely journalists who verify the counts --- but 
-in both cases, anyone can do it!
+simply cannot be trusted. Just as it is most suitably scientists who 
+verify the papers, it is likely journalists who verify the counts; but 
+in both cases, anyone can do it.
 
 But this problem lies entirely with the identity system: as long as the 
 identity system used has these problems, these are the limits we face in 
@@ -136,11 +137,11 @@ circumstances.
 
 Lastly, and perhaps most importantly: DB protects against exactly this. For 
 the government to succeed they would need to do the computations within 
-a certain distance of the (trusted) witness --- a distance determined by 
+a certain distance of the (trusted) witness, a distance determined by 
 the witness themself. Obviously the government succeeds if they also 
 control the trusted witness. But the reason the witness is trusted is 
 that they are likely not controlled by the government. And there can be 
-several trusted witnesses in parallel --- with different interests to 
+several trusted witnesses in parallel, with different interests to 
 prevent a bias situation.
 
 However, in the end, the one who controls the identity system controls 
