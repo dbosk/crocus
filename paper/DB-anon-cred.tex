@@ -163,7 +163,10 @@ Finally, it follows from the original Schnorr protocol that this is still \iac{P
 We wanted to formally verify the protocol security properties. To realize this, 
 we used the Tamarin prover~\cite{meier2013tamarin}. Tamarin does not include 
 originally the possibility to reason on time and space in its model.
-However, thanks to a recent work by Mauw and co-authors~\cite{TamarinDB}, all the common properties mentioned in the previous subsection can be equivalently characterized with a causality-based definition relying only on the order of messages.
+However, thanks to a recent work by \textcite{TamarinDB}, all the common 
+properties mentioned in the previous subsection can be equivalently 
+characterized with a causality-based definition relying only on the order of 
+messages.
 
 The whole Tamarin code we wrote is provided in \cref{apdx:tamarin-spec}, with a short discussion of the modeling choices that we have made. 
 It contains a specification of the distance-bounding protocol described previously, a definition of the soundness and correctness properties that ensure the protocol actually produces the expected result, and a definition of the security properties we want to ensure.
