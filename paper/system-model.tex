@@ -6,8 +6,16 @@ To set the stage, we will now describe our system model including assumptions, a
 \subsection{System model and physical assumptions}%
 \label{assumptions}
 
-Throughout this paper, each time we refer to a participant, such as Alice, we actually mean a personal device that can perform cryptographic operations and communicate with other local devices on Alice's behalf. 
-Furthermore, we assume that each participant has a digital certificate of her identity signed by a \ac{CA}.
+Throughout this paper, each time we refer to a participant, such as Alice, we 
+actually mean a personal device that can perform cryptographic operations and 
+communicate with other local devices on Alice's behalf.
+Furthermore, we assume that each participant has a digital certificate of her 
+identity signed by \iac{CA}\footnote{%
+  The \ac{CA} must be \emph{logically centralized} to prevent Sybil 
+  attacks~\cite{SybilAttack}.
+  See \cref{identity-limits} for a discussion on existing identity systems and 
+  their limits.
+}.
 
 In practice, participants witness each other's participation using their smartphones (or similar devices) running the protocol described in \cref{Protocol} and uploading their testimony (\ie, proof shares) to a ledger (such as a blockchain) after the protest. 
 During the protest, the devices might be limited by their batteries in terms of the computations they can perform and only have local connectivity to each other.
