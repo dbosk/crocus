@@ -44,7 +44,7 @@ This is illustrated in \cref{fig:base-adversary}.
   }
 
 \item\label{deanonymizing-storage-adversary}
-  \emph{National eavesdropping adversary}:
+  \emph{Global, passive adversary}:
   The situation is the same as in \cref{in-system-adversary}, but now the storage 
   \(S\) learns the protester \(P\)'s identity from an auxiliary channel.
   However, \(W\) still learns only the protocol data, no auxiliary data.
@@ -70,23 +70,25 @@ them, the adversary can do that independently of whether the protesters use our
 protocol or not --- thus our protocol cannot make things worse in such a 
 situation.
 
-As to \(S\), \cref{in-system-adversary} corresponds to an adversary who cannot 
-even observe the channel between \(P\) and \(S\), \eg when \(P\) uses tools 
-such as Tor~\cite{Tor}.
-The adversary cannot control \(S\) but can learn what \(S\) learns as soon as 
-\(S\) learns it; \eg \(S\) is operated outside the adversary's jurisdiction and 
-so the adversary cannot control \(S\), but since \(S\) provides public access 
-the adversary can (possibly constantly) query it and learn things with little 
-delay.
+As to \(S\), \cref{in-system-adversary} is equivalent to the adversarial 
+storage \(S\) receiving only perfectly anonymous connections.
+Another way to see it is that the adversary cannot control \(S\) but can learn 
+what \(S\) learns as soon as \(S\) learns it; \eg \(S\) is operated outside the 
+adversary's jurisdiction and so the adversary cannot control \(S\), but since 
+\(S\) provides public access the adversary can (possibly constantly) query it 
+and learn things with little delay.
+Posed like this, the adversary cannot observe the channel between \(P\) and 
+\(S\), \eg when \(P\) uses tools such as Tor~\cite{Tor}.
 Note that the adversary is also allowed to submit data to \(S\) for storage, 
 just like everyone else.
 
-\Cref{deanonymizing-storage-adversary} is a stronger adversary.
-Although the adversary cannot observe the channel between \(P\) and \(S\), the 
-adversary can still learn the identity of \(P\).
-\Eg a national state can potentially monitor the traffic of all \acp{ISP} and 
-thus perform time-correlation attacks on messages on the network and events 
-observed from \(S\).
+\Cref{deanonymizing-storage-adversary} is a much stronger adversary.
+Even if the adversary cannot observe the channel between \(P\) and \(S\) (as is 
+the case with Tor), the adversary can still learn the identity of \(P\) through 
+\eg time-correlation attacks (as is the case with Tor).
+A nation state can potentially monitor the traffic of all \acp{ISP} and thus 
+perform time-correlation attacks on messages on the network and events observed 
+from \(S\).
 We capture this in \cref{deanonymizing-storage-adversary}, where \(A\) learns 
 the identity of \(P\) in the communication with \(S\).
 
