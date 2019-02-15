@@ -9,8 +9,16 @@ counting% and the adversary model
 \subsection{Model and assumptions}%
 \label{assumptions}
 
-Throughout this paper, each time we refer to a participant, such as Alice, we actually mean a personal device that can perform cryptographic operations and communicate with other local devices on Alice's behalf. 
-Furthermore, we assume that each participant has a digital certificate of her identity signed by a \ac{CA}.
+Throughout this paper, each time we refer to a participant, such as Alice, we 
+actually mean a personal device that can perform cryptographic operations and 
+communicate with other local devices on Alice's behalf.
+Furthermore, we assume that each participant has a digital certificate of her 
+identity signed by \iac{CA}\footnote{%
+  The \ac{CA} must be \emph{logically centralized} to prevent Sybil 
+  attacks~\cite{SybilAttack}.
+  See \cref{identity-limits} for a discussion on existing identity systems and 
+  their limits.
+}.
 
 In practice, participants witness each other's participation using their smartphones (or similar devices) running the protocol described in \cref{Protocol} and uploading their testimony (\ie, proof shares) to a ledger (such as a blockchain) after the protest. 
 During the protest, the devices might be limited by their batteries and computations they can perform and only have local connectivity to each other.
@@ -21,10 +29,15 @@ This assumption is necessary to ensure that the participants will be able to upl
 \subsection{Desired properties}%
 \label{desired-properties}
 
-We note that, in general terms, protesting is very similar to signing petitions, which 
-in turn is similar to voting.
-Indeed, all three practices correspond to situations in which many individuals express their opinion, which can be sensitive (\eg be a cause for discrimination or persecution), and thus need to be protected.
-Hence the desire for similar properties of verification and privacy for a protest as for voting.
+We note that, in general terms, protests are petitions with a given time and 
+location.
+Protests, petitions and elections share that in all three many individuals 
+express their opinion.
+These opinions can be sensitive (\eg be a cause for discrimination or 
+persecution).
+For that reason we have strong requirements for verification and privacy for 
+elections, it follows that we should have similar properties for protests
+and petitions.
 
 We draw inspiration from properties for voting systems as formalized
 in ~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
@@ -52,6 +65,7 @@ include temporal %\footnote{%
 and spatial eligibility (\ie each participation proof satisfies some temporal 
 and spatial relation to the protest).
 In essence, the proof must bind the person to the time and location of the protest.
+(This is the difference to a petition.)
 
 In ~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}, the main three
 privacy properties for voting protocols are given as:

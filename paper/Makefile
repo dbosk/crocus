@@ -30,6 +30,7 @@ SRC+= 	discussion.tex
 SRC+=	conclusions.tex
 SRC+= 	anon-cred-figures.tex
 #SRC+=	tamarin-spec.tex
+SRC+= 	identity-limits.tex
 
 paper.pdf: ${SRC}
 
@@ -58,6 +59,7 @@ DEPENDS+=	ecurrency.bib
 DEPENDS+= 	osn.bib
 DEPENDS+=	adhocnets.bib
 DEPENDS+= 	references.bib
+DEPENDS+= 	identity.bib
 
 paper.pdf: ${DEPENDS}
 

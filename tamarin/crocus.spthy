@@ -1,7 +1,6 @@
-/* Implementation of the brands-chaum distance bounding protocol with fiat-shamir identification */
-/* Demonstrating the DB-secure property */
+/* Main working version */
 
-theory crocusclean
+theory crocusmain
 
 begin
 
@@ -41,7 +40,7 @@ rule Corrupt_Fast:
 
 // -------------------- Protocol Rules -------------------- //
 
-// 1. Prover chose r, compute and send R
+// 1. Prover chose r, compute and send REndFast
 //2. Verifier chooses two nonces c_0 and c_1 and sends them to Prover
 //3. Verifier chooses b = 0 or 1, and sends it to Prover
 //4. Prover receives and then encodes both c_i with x and sign them with r
@@ -78,24 +77,37 @@ rule Verifier_1:
 
 
 //3. Verifier chooses b = c0 or c1, and sends it to Prover
+//   We simulate this choice by using a duplicate rule
 
-rule Verifier_2:
+rule Verifier_20:
   [ VerifierSess(R, c0, c1) //POINT_IN_SESSION
-  , Fr(~b) //KEYS
   ]
---[ Choose(c0, c1, ~b) //RESTRICTIONS
-  , VerifierSelect(~b) //PROOF_LABELS_AGENT
+--[ VerifierSelect(c0) //PROOF_LABELS_AGENT
   , StartFastPhase(c0, c1) //PROOF_LABELS_PROTOCOL
   ]->
-  [ VerifierStartFast(R, c0, c1, ~b) //POINT_IN_SESSION
-  , FastMsg( ~b ), Out( ~b ) //MESSAGES (Out + Fast)
+  [ VerifierStartFast(R, c0, c1, c0) //POINT_IN_SESSION
+  , FastMsg( c0 ), Out( c0 ) //MESSAGES (Out + Fast)
   ]
+
+rule Verifier_21:
+  [ VerifierSess(R, c0, c1) //POINT_IN_SESSION
+  ]
+--[ VerifierSelect(c1) //PROOF_LABELS_AGENT
+  , StartFastPhase(c0, c1) //PROOF_LABELS_PROTOCOL
+  ]->
+  [ VerifierStartFast(R, c0, c1, c1) //POINT_IN_SESSION
+  , FastMsg( c1 ), Out( c1 ) //MESSAGES (Out + Fast)
+  ]
+
+
+
 
 
 //4. Prover receives and stores both c_i 
 
 rule Prover_2:
-  [ ProverSess($Prover, r) //POINT_IN_SESSION
+  [ VerifierStartFast(publicKey, c0, c1, b)
+  , ProverSess($Prover, r) //POINT_IN_SESSION
   , In( <c0, c1> ) //MESSAGES (In + Fast)
   ]
 --[ ProverStore(c0, c1) //PROOF_LABELS_AGENT
@@ -115,8 +127,7 @@ rule Prover_3:
   , FastMsg( b ) //MESSAGES (In + Fast)
   , !Ltk( $Prover, x ) //KEYS
   ]
---[ Choose(c0,c1,b) //RESTRICTIONS
-  , ProverReply($Prover, c0, c1, b) //PROOF_LABELS_AGENT
+--[ ProverReply($Prover, c0, c1, b) //PROOF_LABELS_AGENT
   , ReplyFastPhase(c0, c1, b)//PROOF_LABELS_PROTOCOL
   , Action($Prover)
   ]->
@@ -148,7 +159,7 @@ rule Verifier_3:
 // ------------------- Axioms -------------------------- //
 
 //restriction choose_one:
-//  "All x y z #i. Choose(x, y, z) @i ==> z = x | z = y"
+//  "All x y z #i. Choose(x, y, z) @i ==> (z = x &  not (z = y) ) | (z = y &  not (z = x) )"
 
 
 restriction at_most_once:
@@ -240,6 +251,37 @@ lemma dbsec:
                   (#t2 < #t3) &                               //          end of the fast phase OR
                   ( (#t3 < #t ) | (#t3 = #t) )
     )|
+    (              
+      Ex CAgent #t4 #t5 #t6 #t7. StartFastPhase( c0, c1 )@t5 &    //  3) There exist times t5, t6 and t7 such that
+                             EndFastPhase( c0, c1, b )@t7 & //        The fast phase was between t5 and t7
+                             Corrupt(P)@t4 &             //        and the prover P is dishonest
+                             CAction(CAgent)@t6 &             //        and some dishonest agent did something during
+                             (#t5 < #t6)&                     //        the fast phase
+                             (#t6 < #t7)&                     //        and the verifier completed at or after the
+                             ( (#t7 < #t) | (#t7 = #t) )      //        end of the fast phase 
+    ) 
+  "
+
+
+lemma dbsecA:
+  "
+  All P R c0 c1 b  #t. (
+    VerifierComplete(P, R, c0, c1, b)@t ) ==>                   // Whenever the verifier is complete EITHER:
+   (                                                         
+      Ex #t1 #t2 #t3. StartFastPhase( c0, c1 )@t1 &              //  2) There exists t1, t2 and t3 such that
+                  Action(P)@t2 &                              //          The fast phase was between t1 and t3
+                  EndFastPhase( c0, c1, b )@t3 &            //          and the prover did something between those two times
+                  (#t1 < #t2) &                               //          and the verifier completed at or after the
+                  (#t2 < #t3) &                               //          end of the fast phase OR
+                  ( (#t3 < #t ) | (#t3 = #t) )
+    )
+  "
+
+
+lemma dbsecB:
+  "
+  All P R c0 c1 b  #t. (
+    VerifierComplete(P, R, c0, c1, b)@t ) ==>                   // Whenever the verifier is complete EITHER:
     (              
       Ex CAgent #t4 #t5 #t6 #t7. StartFastPhase( c0, c1 )@t5 &    //  3) There exist times t5, t6 and t7 such that
                              EndFastPhase( c0, c1, b )@t7 & //        The fast phase was between t5 and t7

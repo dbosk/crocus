@@ -66,60 +66,72 @@ tickets will drive a similar development for this hardware on smartphones.
 \include*{MANETs}
 
 
-% \subsection{Receipt freeness, Sybil and key renewal}
-
-% We need a strong connection between a person and the cryptographic key.
-% Currently, governments are the ones that have the strongest incentives to solve 
-% the problem (\enquote{birth certificates}) to prevent \eg fraud in the 
-% well-fare system.
-% So we believe that relying on these government-issued credentials is the most 
-% probable solution.
-% Unfortunately, if we rely on government-issued credentials, we cannot prevent 
-% the government from performing Sybil attacks --- since it can issue arbitrarily 
-% many \emph{valid} credentials.
-% In this case, it does not make sense to verify any pro-government protests in 
-% which Grace's authoritarian regime wants to demonstrate its wide 
-% support~\cite{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
-% But as long as the protests are not aligned with the interests of the \ac{CA}, 
-% the counts can be trusted.
-
-% We pointed out already in \cref{desired-properties} that receipt freeness 
-% conflicts with verifiability.
-% Indeed, receipt freeness for \emph{participation} implies that one can 
-% participate twice.
-% This is different from voting where the organizers note participation to 
-% prevent voting twice, but provides receipt freeness for the actual ballot.
-% In the case of \CROCUS, Grace can verify Alice's participation if she gets 
-% access to Alice's key; then she can recompute \(\pid\) to verify Alice's 
-% participation.
-
-% Alice could try to destroy the receipt, \ie that she destroys her private key.
-% This means that she cannot participate in any protest (and be counted).
-% This brings up the concern of key renewal: each time Alice renews her digital 
-% certificate, she can participate with a new \(\pid\).
-% For physical identity cards this is probably not a problem, as there is a 
-% manufacturing process of a few days.
-% For purely electronic \enquote{identity cards}, such as BandID mentioned above, 
-% they can be renewed with almost no rate-limitation.
-% We need a renewal-rate limit to keep Sybil attacks down.
-
-% \subsection{The adversaries}
-
-% \daniel{This needs editing, it's out of its old context.}
-
-% Another facet concerning receipt freeness is traffic analysis. Indeed, if Grace 
-% can monitor all connections within the country, which seems a reasonable 
-% assumption, she can monitor Alice when she submits her proof to the blockchain. 
-% However, as the miner collects many transactions, Alice should have plausible 
-% deniability that she submitted one of the other transactions --- but again not 
-% deniability/receipt freeness as Grace can verify if she accesses Alice's 
-% device.
-
-% Counting votes is also more straightforward than counting protest participation. 
-% Depending on the value of interest (\eg peak participation, total participation, individual sub-protests or counting participation only once for the cause, etc.), different ways of counting are
-% possible and valid. 
-% Since anyone can read the data, they can verify the results given the parameters of choice.
-
+%\subsection{Receipt freeness, Sybil and key renewal}
+%
+%We need a strong connection between a person and the cryptographic key.
+%Currently, governments are the ones that have the strongest incentives to solve 
+%the problem (\enquote{birth certificates}) to prevent \eg fraud in the 
+%well-fare system.
+%So we believe that relying on these government-issued credentials is the most 
+%probable solution.
+%Unfortunately, if we rely on government-issued credentials, we cannot prevent 
+%the government from performing Sybil attacks --- since it can issue arbitrarily 
+%many \emph{valid} credentials.
+%In this case, it does not make sense to verify any pro-government protests in 
+%which Grace's authoritarian regime wants to demonstrate its wide 
+%support~\cite{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
+%But as long as the protests are not aligned with the interests of the \ac{CA}, 
+%the counts can be trusted.
+%
+%We pointed out already in \cref{desired-properties} that receipt freeness 
+%conflicts with verifiability.
+%Indeed, receipt freeness for \emph{participation} implies that one can 
+%participate twice.
+%This is different from voting where the organizers note participation to 
+%prevent voting twice, but provides receipt freeness for the actual ballot.
+%In the case of \CROCUS, Grace can verify Alice's participation if she gets 
+%access to Alice's key; then she can recompute \(\pid\) to verify Alice's 
+%participation.
+%
+%Alice could try to destroy the receipt, \ie that she destroys her private key.
+%This means that she cannot participate in any protest (and be counted).
+%This brings up the concern of key renewal: each time Alice renews her digital 
+%certificate, she can participate with a new \(\pid\).
+%For physical identity cards this is probably not a problem, as there is a 
+%manufacturing process of a few days.
+%For purely electronic \enquote{identity cards}, such as BandID mentioned above, 
+%they can be renewed with almost no rate-limitation.
+%We need a renewal-rate limit to keep Sybil attacks down.
+%
+%\subsection{The adversaries}
+%
+%\CROCUS is secure against \cref{in-system-adversary} but not strictly 
+%\cref{deanonymizing-storage-adversary}.
+%\Cref{deanonymizing-storage-adversary} is a rather strong adversary,  against 
+%which tools like Tor~\cite{Tor} cannot provide anonymity.
+%However, depending on implementation, \cref{deanonymizing-storage} can be very 
+%hard to achieve.
+%
+%Say that Alice uses something like Tor, even if Grace can do a time-correlation 
+%attack (which is reasonable), nodes in \(S\) bundle many transactions and, 
+%thus, Alice should have plausible deniability for her submission.
+%This is why it is important to implement this scheme on a general purpose 
+%ledger which is also used for other transactions and, most importantly, is very 
+%active.
+%In essence, Grace can achieve \cref{deanonymizing-storage-adversary} through a 
+%time-correlation attack proportionally to how many nodes\footnote{%
+%  She just needs to control network addresses, so that Alice highly likely 
+%  connect to her nodes.
+%} in the ledger network she controls.
+%The difficulty of this is reduced to the security of routing protocols, 
+%\ac{MITM} attacks on \ac{P2P} networks \etc.
+%
+%So even a nation-state adversary like this is probably better captured by 
+%\cref{in-system-adversary}, rather than \cref{deanonymizing-storage-adversary}.
+%In that sense, we believe that \cref{in-system-adversary} is the more realistic 
+%adversary for now and that our protocol is secure in practice.
+%
+%
 %\subsection{Other actors}
 %
 %Without verifiable binding to a location, even distance-bounding protocols do not prevent collusions such as protesters meeting at a safe location away from the official site. 
@@ -133,3 +145,29 @@ tickets will drive a similar development for this hardware on smartphones.
 %Nonetheless, Mallory could also have simply as her objective to cause a denial-of-service attack on the architecture of \CROCUS.
 %
 
+\subsection{Trust assumptions}
+
+The goal of CROCUS is to be able to count people in a crowd in a verifiable way, without leaking information about the individuals in the crowd.
+We believe one of the strongest adversaries in practice, and one of the most dangerous situation, is that of an authoritarian government wanting to learn the identities of protesters,
+so we chose a theoretical model that fits this situation well, but it is interesting to see what are the trust relations which are actually needed in various real world situations.
+
+\paragraph{ID issuer} We assumed a trusted third party issued certified IDs to every participant (protesters and witnesses). This hypothesis is important to avoid Sybil attacks,
+but only the side protesting (not the side being protested against) has an incentive to perform a Sybil attack.
+So in practice, the ID issuer doesn't need to be a trusted 3rd-party, it only needs to not be aligned with the protesters.
+In our authoritarian government scenario for instance, the protesters can use IDs issued by said government.
+On the other hand however, a pro-government protest cannot use the same IDs and offer a good level of trust in the final count, and it would be better suited to use IDs from a different source
+(\eg a supra-national issuer like the EU).
+
+ \paragraph{Verifier's trust in the count} We proposed a generic way of counting, that relies on two parameters: the strength function and the threshold.
+%We then suggested two possible instantiations: every witness is equal and we use a relatively large threshold, or we only trust a minority of independent witnesses with a threshold of 1.
+An important point here is that these parameters can be chosen by each verifier independently, so each verifier can make choices that satisfy \emph{their} own level of trust, and can each obtain a different final count, and \CROCUS does not output one definitive answer. The trust in a final count depends only on the trust between the verifier and the witnesses.
+
+\simon{maybe delete that second half}
+In practice though, the verifier can be in either of three situations: for the protest, against the protest, or indifferent, which leads to three main categories of choices.
+\begin{itemize}
+	\item A verifier aligned with the protesters has an incentive to trust any witness and use as low a threshold as possible.
+	\item A verifier opposed to the protesters has the opposite incentive to exclude as many witnesses and use as high a threshold as possible.
+	\item An indifferent verifier who only cares about the correctness of the result can trust each witness based on their reputation and should use a threshold that is reasonably reachable in practice but high enough to avoid small-scale collusion.
+\end{itemize}
+
+\paragraph{Protesters and witnesses} Active participants in a protest do not need to trust anything other than that their app is behaving properly and that their smartphone is not compromised. Indeed, \CROCUS has been designed with their privacy and security as a central concern, and being able to use \CROCUS without any additional risk compared to simply come at the protest was one of our main requirement.

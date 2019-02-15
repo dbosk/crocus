@@ -1,0 +1,491 @@
+Dear editors,
+
+we got a Reject & Resubmit decision for our paper on crowd counting
+using smartphones and we have a concern about resubmission. While most
+of the reviewers’ statements are factually correct, we feel that the
+stated main reasons for the decision are so categorical that they
+would be near impossible for our paper to overcome given the same
+reviewers. Furthermore, if applied broadly, they would potentially
+impede publication of any research paper that makes assumptions about
+logically centralized identity providers (proven to be needed to
+prevent Sybil attacks) or other such trusted third parties because
+they might actually not be trustworthy. Research papers commonly make
+some assumptions to limit the scope and explore what-if scenarios, it
+is unusual to put such a strong emphasis on any one assumption and an
+all-powerful adversary and not see merit in contributions for less
+extreme cases. We would like to know whether you as editors agree with
+the stance of the reviewers as we understand it. If so, resubmission
+or even a later new submission of that paper would seem a futile
+endeavor.
+
+In case you would like to consider more details, we provide some
+concrete responses below.
+
+Best regards,
+Sonja, Daniel, Simon
+
+
+# Reflections on the final reviews
+
+We have received enough constructive suggestions to be able to continue to 
+improve the paper. However, we would like to point out some problems with 
+the final comments.
+
+> RevA: This centralised entity can still sybil the system, as stated in the
+> paper so the design depends on there being an entity who 1) is beyond the
+> coercion of any government, 2) disinterested in the results of any and all
+> protests, 3) will never itself be the subject of the protest since that
+> might cause it a conflict of interest, and 4) to which access can not be
+> blocked, or monitored for later crack-down, by the government.
+
+It is fine if it is monitored and cracked-down by the government, the 
+credentials are issued blindly anyway [see the CL04 paper]. But 
+otherwise, yes, that is correct. And the same applies to voting, but we 
+still do voting and publish papers on e-voting.
+
+A lot of focus is on flaws in the identity system which is not 
+a contribution of the paper. We merely point out that any such identity 
+system must be logically centralized (Douceur, 2002: The Sybil 
+Attack). We point to the national ID systems as they are currently the 
+only deployed systems that fulfil the criteria and because some of them 
+can be easily modified (software modifications) to support our scheme.
+
+In our case, any identity system would work, as we point out.
+However, as Douceur states, they must be logically centralized. Even 
+physically decentralized attempts, such as proof-of-personhood, are logically 
+centralized (and this particular approach would require everyone in a
+nation to be at the same place at the same time for any
+guarantees). Other decentralized approaches (self-sovereign
+identities/sovrin or several entities doing multi-party computation)
+need to start with some input and keep each party from issuing
+spurious ones. 
+
+The Sybil attacks possible against our system is inherent from the
+identity system: for instance, both e-voting and normal paper-based
+voting are subject to similar Sybil attacks by the government since
+they rely on the same identity system as we suggest as an example for
+practical deployment at the moment. Even though voting has more
+established processes, some trust is needed.
+
+
+> RevA: How is a non-protester, either a voter who intends to figure out
+> their position or a concerned someone in a distant land), who is watching
+> the news supposed to tell which of the pro-government or anti-government
+> protester-counts to believe. Are we to assume that obviously any
+> pro-government activity is absolutely suspicious and all anti activity is
+> legitimate? The solution should make it impossible to nay-say the true
+> counts even if they go against our very beliefs (e.g. as for detecting bias
+> in science).
+
+Despite potentially better audit possibilities, elections are
+imperfect and so are pro-government protests. Nevertheless, this has
+not been seen as a valid reason to not have elections or protests
+anymore at all. Also, if one does not trust the government with
+identity provision, it stands to reason that one would not trust them
+to count correctly either. People certainly are skeptical about
+massive pro-government protests in countries such as North Korea, not
+only for counting wrong but also because they can coerce people to
+physically attend a protest and thus be counted "correctly".
+
+Due to the flaws inherited in currently deployed identity systems, we 
+pointed out in which cases they can be used and in which they cannot: 
+when there is an interest for the identity authority to perform a 
+Sybil attack, the results cannot be trusted.
+
+As we pointed out, this is similar to detecting bias in science. If the 
+authors personally benefit from the results, then they are incentivized 
+to bias them. The verifiability properties of our scheme serve the same 
+purpose as the methodology section of a scientific paper: anyone is able 
+to repeat, reproduce and verify the results, even if they are in 
+distant lands. It is detectable who the CA is for all these people and 
+if that CA has incentives to perform a Sybil attack, then the results
+simply cannot be trusted. Just as it is most suitably scientists who 
+verify the papers, it is likely journalists who verify the counts; but 
+in both cases, anyone can do it.
+
+But this problem lies entirely with the identity system: as long as the 
+identity system used has these problems, these are the limits we face in 
+our scheme too. If the identity system is not subject to these problems, 
+then neither is our scheme.
+
+> RevA: In the related works section it is said that other systems do not
+> work since there is no way to prevent over voting, yet given a government
+> ID that prevents over-voting would make those systems also workable. See
+> comments for 5) below for the location and time mattering distinction.
+
+They would also have to adapt some parts of our scheme for that to work. 
+
+> RevA: DB does not address the issue raised by the reality of mobile phone
+> farms for hire (and the ability of the centralised authority to issue
+> credentials falsely) where all the witnesses, and provers could be in a
+> room far away from the protests since the location is never actually
+> figured out (since location can be faked anyway). How big a protest does
+> one need such that the threshold would be beyond the ability of a
+> government to afford enough fake mobile phones? As for the trusted witness,
+> how does that scale with the size of the protest?
+
+If the identity authority performs a Sybil attack, they 
+do not need a mobile phone farm; they can perform computations 
+anywhere on any computation system they like. (Again, as pointed out, 
+nothing can prevent this type of Sybil attack and (electronic) voting 
+suffers from essentially the same problem.)
+
+We point out that against this strong adversary, the 
+trusted-witness approach is the only approach that will work. We provide 
+the threshold approach as an alternative that might work in some 
+circumstances.
+
+Lastly, and perhaps most importantly: DB protects against exactly this. For 
+the government to succeed they would need to do the computations within 
+a certain distance of the (trusted) witness, a distance determined by 
+the witness themself. Obviously the government succeeds if they also 
+control the trusted witness. But the reason the witness is trusted is 
+that they are likely not controlled by the government. And there can be 
+several trusted witnesses in parallel, with different interests to 
+prevent a bias situation.
+
+However, in the end, the one who controls the identity system controls 
+Sybil. And, unless we get representatives from several nations present 
+to sign birth certificates at hospitals, we will probably be stuck in 
+this situation. 
+
+From the Meta-Review:
+ 
+> The main concerns were about the deployment scenario which relies on a
+> central entity, the complexity of the protocol, and the use of
+> yet-to-be-designed primitives like distance bounding protocols while
+> leaving existing primitives like functional encryption out of the model.
+
+Distance-bounding protocols were introduced by Chaum in 1993. They are 
+very much existing. What is not existing (i.e. not formally proved 
+correct yet) is a distance-bounding protocol (with all the desired DB 
+properties) which is a proof-of-knowledge for discrete logarithms.
+
+Any DB protocol that is provably secure against terrorist fraud, is 
+provably secure against anything along the lines of functional 
+encryption. In that sense, functional encryption is part of the
+model. Our rebuttal response regarding functional encryption does not
+seem to have been taken into consideration, at least not in the
+reviews, we have of course no insight into any discussions.
+
+>Furthermore, the reviewers felt that the paper should assume a more hostile
+>environment since the attacker could be a government entity. In particular,
+>the authors should protect against adversary model A2 and avoid
+>vulnerabilities even when a large portion of the witnesses is malicious.
+
+A2 is essentially a global passive adversary, that is an unusually strong
+requirement to have to be able to resist for any research paper that
+includes Internet communication.
+
+The trusted witness model is intended exactly for the scenario of
+large portions of witnesses being malicious. 
+
+
+
+
+----- Forwarded message from pets19-chairs@petsymposium.org -----
+
+Date: Fri, 1 Feb 2019 16:42:56 -0500
+From: pets19-chairs@petsymposium.org
+Subject: [PoPETs 2019.3B] Notification Paper #55 "From grassroots to
+	CROCUSes:..."
+
+Dear author,
+
+We regret to inform you that your submission to this issue of PoPETs has
+not been accepted for publication. The decision of the reviewers was
+‘Reject and Resubmit’ (see https://petsymposium.org/reviews.php#decisions).
+You are thus encouraged to address the concerns raised in the reviews and
+invited to resubmit the paper. Note, however, that ‘Reject and Resubmit’
+typically signifies a substantial amount of necessary revisions, so we
+strongly recommend that you take your time to implement the changes even if
+that delays submission more than one issue.
+
+The rationale behind the decision and the aspects to be improved are
+summarized in a meta-review at the bottom of one of the reviews (note that
+a handful of papers do not yet have meta-reviews, they will soon be
+accessible through the submission server). A resubmission of this paper to
+PoPETs must be accompanied by a “summary of changes” document describing
+how you have addressed all reviewers’ concerns, and any other revisions you
+may have made. We will try to assign the revised paper to the same
+reviewers, but cannot guarantee this. However, the new set of reviewers
+will still take into account how the previous reviewers’ concerns have been
+addressed.
+
+Use this link below to sign in to the submissions site:
+https://submit.petsymposium.org/2019.3B/?email=dbosk%40kth.se&password=yypraj6itoiowroi
+Paper site:  https://submit.petsymposium.org/2019.3B/paper.php/55
+
+Just for your information, for this issue, we received 80 submissions, of
+which 12 were resubmissions with Major Revision (MR) and 7 were
+resubmissions of Rejected and Resubmitted (RR) papers. The breakdown of
+decisions is:
+5 submission (of which 3 MR and 1 RR) has received ‘Accept’
+17 submissions (of which 9 MR) have received ‘Shepherd’
+9 submissions have received ‘Major Revision’ (of which 1 RR)
+24 submissions have received ‘Reject and Resubmit’ (of which 1 RR)
+8 submissions have received ‘Reject’ (of which 4 RR)
+8 submissions were withdrawn before or during the process
+9 submissions were desk rejected for being out of scope (each out of scope
+decision was judged by two PC members and the Chairs)
+
+Feel free to contact us if you have further questions about the process.
+
+Sincerely,
+The PETS Program Co-Chairs
+Kostas Chatzikokolakis and Carmela Troncoso
+
+
+===========================================================================
+PoPETs 2019.3B Review #55A
+Updated 12 Jan 2019 8:37:53am EST
+---------------------------------------------------------------------------
+Paper #55: From grassroots to CROCUSes: privacy-preserving CROwd Counting
+Using Smartphones
+---------------------------------------------------------------------------
+
+Overall merit: 1. Reject
+Reviewer expertise: 2. Some familiarity
+Reviewer confidence: 2. Medium
+Relevance to PETS: 3. Directly related to PETs (scope is
+not an issue)
+
+===== Paper summary =====
+
+This paper proposes a crowd counting (specifically in sensitive settings
+like politically motivated protests) scheme utilising smartphones, unique
+ids, and a distance bounding protocol that is meant to be secure against
+sybil attacks, count manipulation, and verifiable by the general public and
+the participants.
+
+===== Comments for author =====
+
+While the paper looks at an interesting and relevant topic:
+privacy-preserving crowd counting, I am not sold on the scheme that is
+presented.
+
+The main concerns are:
+1) The dependence on unique IDs issued by some government body or, more
+generically, some central authority that can prevent sybil-type attacks.
+Basically, the system can not protect against that central authority
+influencing participation for reasons like a) chilling speech since the
+national ID in many places is linked to many things necessary for quality
+of life like credit, housing, banking, and it being linked to protest may
+well cause harm for the participant and b) the national issuer can just
+create sybil identities for itself and create counter manifestos and show
+larger support for their own selves (which is noted in the paper as well).
+2) Let's say the sybil resistance above was not already problematic, then
+can't people then sign a petition using their unique ID to have their vote
+count for that manifesto online (where they would have to find out about
+the manifesto in the first place anyway to find out its CID). Why is this
+not viable?
+3) The overly-complex design that assumes as-yet-to-be designed distance
+bounding protocols, combined with anonymous credentials, and distributed
+ledgers and yet 
+4) Can not defend against an adversary (A2) that the authors themselves
+present. Indeed, to me it seems that A1 and A2 are arbitrary distinctions
+and to be actually addressing the problem of protesting against powerful
+entities (like the government who issues IDs and is the CA, and that can
+watch you and make examples of people using the crowd counting protocol to
+chill future participation) is the one that has to be addressed. 
+
+In the current presentation of the scheme I am not sure that it actually
+provides the stated properties or achieves its goals.
+
+Some other thoughts about this crowd attestation idea. What stops a protest
+organiser from hiring a smart-phone farm to "participate" in the protest?
+The scheme doesn't have any way to know where the phones are, and even if
+it did use location information, the phones can just lie about their
+locations, and attest each other and then their participation counts.
+
+What role is the trusted person supposed to play? Trusted by whom? The
+organiser, the protest target, or the general public who is wondering which
+side to support? Also, this person can only be witness to a very small
+fraction of the protesters present, and we already know that you will not
+be using them to estimate the size of the crowd. So what do they bring?
+
+Also, what is the strength parameter supposed to help with? Is it to ensure
+that there are sufficiently many witnesses for each participant to ensure
+they were really there?
+
+===== Response to authors’ rebuttal =====
+
+1) a) Due to  unlinkability properties (anonymous credentials and
+pseudonyms), the central authority cannot tell participants from
+non-participants without extreme measures equivalent to arresting people at
+the protest. Arguably, the chilling effects with this system are no more
+than that of "standard" protests. We give the national ID as an example,
+but any logically centralized entity would work.
+
+RevA: This centralised entity can still sybil the system, as stated in the
+paper so the design depends on there being an entity who 1) is beyond the
+coercion of any government, 2) disinterested in the results of any and all
+protests, 3) will never itself be the subject of the protest since that
+might cause it a conflict of interest, and 4) to which access can not be
+blocked, or monitored for later crack-down, by the government.
+
+b) Yes, but the paper also notes that those are detectable and should be
+ignored due to their obvious bias (e.g. as for detecting bias in science).
+
+RevA: How is a non-protester, either a voter who intends to figure out
+their position or a concerned someone in a distant land), who is watching
+the news supposed to tell which of the pro-government or anti-government
+protester-counts to believe. Are we to assume that obviously any
+pro-government activity is absolutely suspicious and all anti activity is
+legitimate? The solution should make it impossible to nay-say the true
+counts even if they go against our very beliefs (e.g. as for detecting bias
+in science).
+
+2) Petitions have been viable for a long time but people still arrange
+protests anyway.
+Our scheme allows for both anonymous verifiable petitions (skip
+location) and protests (time and location matter).
+
+RevA: In the related works section it is said that other systems do not
+work since there is no way to prevent over voting, yet given a government
+ID that prevents over-voting would make those systems also workable. See
+comments for 5) below for the location and time mattering distinction.
+
+3-4) We acknowledge that the design of the architecture is complex but we
+need all parts to reach the desired properties. Governments can already now
+make examples of people; Crocus cannot make physical protests safer, we
+only want to not make it worse.
+
+RevA: A benefit of the proposed solution seemed that one could have their
+vote count and yet also not expose themselves by overt behaviour around a
+protest location. Today someone who happened to be detained for being in
+the protest area could say they were merely innocent bystanders. However,
+in the proposed scheme the protester-catcher can interact using the witness
+protocol with these covert protesters (perhaps in a sparse area, e.g. going
+to the bathroom or stopping to talk to someone during the march) that is
+now providing proof that they were not only present but also for the cause.
+
+5) This is the main reason for distance-bounding as it allows the witness
+to verify that it is within a given distance from the prover.
+Why a verifier accepts this claim is up to the trust assumptions for which
+we provide two cases, trusted witness and threshold.
+
+RevA: DB does not address the issue raised by the reality of mobile phone
+farms for hire (and the ability of the centralised authority to issue
+credentials falsely) where all the witnesses, and provers could be in a
+room far away from the protests since the location is never actually
+figured out (since location can be faked anyway). How big a protest does
+one need such that the threshold would be beyond the ability of a
+government to afford enough fake mobile phones? As for the trusted witness,
+how does that scale with the size of the protest?
+
+===========================================================================
+PoPETs 2019.3B Review #55B
+---------------------------------------------------------------------------
+Paper #55: From grassroots to CROCUSes: privacy-preserving CROwd Counting
+Using Smartphones
+---------------------------------------------------------------------------
+
+Overall merit: 2. Reject and Resubmit
+Reviewer expertise: 3. Knowledgeable
+Reviewer confidence: 2. Medium
+Relevance to PETS: 3. Directly related to PETs (scope is
+not an issue)
+
+===== Paper summary =====
+
+This paper looks at the problem of estimating the size of crowds at public
+events like protests and marches.  The goal is to provide a way of
+measuring the size of a crowd that is robust against adversarial behavior
+trying to raise or lower the estimate, that protects privacy of the event
+participants, and that produces results that are publicly verifiable.
+
+The authors define an event as a group of people at a particular set of
+locations at particular times for a particular goal.  The authors first
+define the problem, then They provide a protocol which combines anonymous
+credentials (to prevent doublecounting parcipants), and a distributed
+ledger (for timestamping).  Their approach to ensuring that all
+participants are at the location is to have other witnesses at the location
+vouch for them.
+
+===== Comments for author =====
+
+The problem is definitely in scope and I thought the authors did a good job
+of presenting and defining it (although the definitions are not entirely
+formal).  The use of credentials and ledgers is straightforward, but
+required some thinking through.  The one aspect that I was not convinced by
+was the location proofs  - in the setting without trusted witnesses or some
+kind of hardware solution, what prevents a group of non participants from
+all vouching for one another being at the event?  Even in the setting with
+trusted witnesses, what would prevent a single participant from gathering
+participation proof shares for a bunch of his friends?
+
+===========================================================================
+PoPETs 2019.3B Review #55C
+Updated 30 Jan 2019 10:00:15am EST
+---------------------------------------------------------------------------
+Paper #55: From grassroots to CROCUSes: privacy-preserving CROwd Counting
+Using Smartphones
+---------------------------------------------------------------------------
+
+Overall merit: 3. Major Revisions needed
+Reviewer expertise: 2. Some familiarity
+Reviewer confidence: 2. Medium
+Relevance to PETS: 3. Directly related to PETs (scope is
+not an issue)
+
+===== Paper summary =====
+
+The paper presents a protocol for counting protestors in rallies.
+The authors' protocol provides privacy guarantees such as unlinking
+protestors in multiple rallies, allows a protestor to check that they were
+indeed counted, and allows to avoid counting errors that persist in
+techniques that are based on image analysis.
+
+===== Comments for author =====
+
+I appreciate the principled way the authors take towards their goal of
+counting participants in protests. They provide an interesting approach to
+solve a timely problem.
+
+I would have liked to see a clear discussion of the limitations of this
+approach. For example, I think that the paper assumes that a protestor
+wouldn't reveal their private key to the organizer so that even if they
+support the cause they will have to be physically present in the rally to
+be counted. However, using functional encryption, for example, protestors
+can allow the organizers to run the protocol with the witnesses on their
+behalf. And, on the other hand, wouldn't a nation state be able to disturb
+communication between the protestors and the witnesses?
+
+Assuming no trusted witness, is there a principled way to determine the
+threshold for the number of witnesses?
+
+
+In contrast to existing techniques, this approach involves an interactive
+protocol between protestors and witnesses. This change in approach makes a
+practical evaluation very important.
+The performance section relies on pieces of individually evaluated
+primitives that were presented in other works. While the current discussion
+does give a sense for the performance one would expect, it would be far
+more convincing that this approach is feasible if the authors would take a
+step further and implement the key modules in their protocol. (for example,
+would even local communication with tens of thausands of condensed cell
+phones be feasible?)
+
+===== Meta-Review =====
+
+The reviewers liked the problem this paper aims to solve, and all felt it
+was relevant to PETS. However, the reviewers were not convinced that the
+paper's solution was practical and technically sound, which led to a reject
+and resubmit decision.
+
+The main concerns were about the deployment scenario which relies on a
+central entity, the complexity of the protocol, and the use of
+yet-to-be-designed primitives like distance bounding protocols while
+leaving existing primitives like functional encryption out of the model.
+Furthermore, the reviewers felt that the paper should assume a more hostile
+environment since the attacker could be a government entity. In particular,
+the authors should protect against adversary model A2 and avoid
+vulnerabilities even when a large portion of the witnesses is malicious.
+
+We hope that these comments will help the authors improve the paper towards
+future acceptance.
+
+
+
+----- End forwarded message -----

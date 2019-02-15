@@ -4,35 +4,30 @@
 
 
 We now present \CROCUS, a protocol for privately verifiable crowd counts.
-The protocol consists of three phases:
-before the protest, with the setup and registration steps (\cref{ProtocolSetup});
-during the protest, with the creation, join, participation, and submission 
-steps (\cref{ProtocolDuring});
-and after the protest, with the verification step (in
-\cref{ProtocolVerification}). 
-%Note that some of the figures with
-%protocol minutiae from related work are in~\cref{anon-cred-figures}.
+The protocol consists of five phases: setup (in \cref{ProtocolSetup}),
+join, participation, submission (all in in \cref{ProtocolDuring}) and
+verification (in \cref{ProtocolVerification}).
 
 Several entities are involved in our protocol.
-First, a \emph{certificate authority} (\ac{CA}) is responsible for certifying a one-to-one mapping between a 
-person's identity and a cryptographic key
-%\footnote{%
-%  This can be done by a centralized authority, such as a nation state with, 
-%  \eg, passports; or a decentralized authority, as in the case of a a 
-%  collective authority~\cite{collective-signing} powered by 
-%  proof-of-personhood~\cite{proof-of-personhood}.
-%}.
-For simplicity, we assume that the \ac{CA} is a trusted third-party, but its role is only important to prevent Sybil attacks, so in practice we only need the \ac{CA} to not be aligned with the protesters. For instance, the role of the \ac{CA} can be assumed by a centralized authority, such as a nation state with, 
-\eg, passports, and that would not impact the trust of a participation count for a protest \emph{against} this state. However, any pro-state demonstration in that context would be subject to Sybils. Another possibility would be to use a decentralized authority, as in the case of a 
-collective authority~\cite{collective-signing} powered by 
-proof-of-personhood~\cite{proof-of-personhood}.
+First, \iac{CA} is responsible for certifying a one-to-one mapping between a 
+person's identity and a cryptographic key\footnote{%
+  This can be done by any \emph{logically} centralized 
+  authority~\cite{SybilAttack}.
+  Although a decentralized authority, as in the case of a collective 
+  authority~\cite{collective-signing} powered by 
+  proof-of-personhood~\cite{proof-of-personhood}, would be desirable, we think 
+  that this has scalability issues.
+  See the detailed discussion in \cref{identity-limits}.
+  We will also return to this topic in \cref{Discussion}.
+}.
 The \ac{CA} is only involved in the setup phase.
 
 Second, a participant is an individual who wants to participate in a given 
 protest.
 A participant can assume three different roles:
 \begin{enumerate}
-\item The \emph{organizer} has written a manifesto for the protest and forwards it to others.
+\item The \emph{organizer} has written a manifesto for the protest and 
+  disseminated it to others.
 \item A \emph{protester} is attending the protest and asks witnesses to vouch 
   for their presence.
 \item A \emph{witness} provides proofs to protesters which state that the 
@@ -56,9 +51,9 @@ The \ac{CA} generates a service public-private key-pair \((\spk, \ssk)\gets
 
 \emph{Registration: \(\sk\gets 
     \Proto{\CROCUSreg[_P][\spk]}{\CROCUSreg[_{\CA}][\ssk]}\).}
-During the registration step, each participant generates a secret key and 
-obtains a signature on it by the \ac{CA} but without revealing it to the 
-\ac{CA}.
+During the registration phase, each participant generates a secret key~\((k, 
+  r)\) and obtains a signature on it by the \ac{CA} \emph{but without revealing 
+  it} to the \ac{CA}.
 At the end, each participant will have a signed secret key while the \ac{CA} 
 will issue only one signature per participant but without knowing the 
 association between a particular key and the identity of the participant.
@@ -69,8 +64,6 @@ Upon success, the participant sets \(\sk = (\sigma, k, r)\).
 
 The setup and registration steps can be done once and the keys can be reused 
 for an arbitrary number of protests.
-Thus, the registration step could be easily integrated as part of the issuance 
-of national identity cards, passports or \acp{eID}.
 
 \subsection{Protest phase}%
 \label{ProtocolDuring}

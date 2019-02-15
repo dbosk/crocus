@@ -1,13 +1,45 @@
 \subsection{Distance-bounding protocols}%
 \label{distance-bounding}
 
-We give some general background on distance-bounding protocols and location proofs in~\cref{db-and-lp} and focus here on the specifics for our use case.
+\Ac{DB} protocols were first suggested by \citet{DistanceBounding} to prevent relay attacks in contactless communications in which the adversary forwards a communication between a prover and a possibly far-away verifier to authenticate. 
+These attacks cannot be prevented by cryptographic means as they are independent of the semantics of the messages exchanged.
+As a consequence, mechanisms ensuring the physical proximity between a verifier and a prover should be used instead.
+\Ac{DB} protocols precisely enable the verifier to estimate an upper bound on his distance to the prover by measuring the time-of-flight of short challenge-response messages (or rounds) exchanged during time-critical phases. 
+Time critical phases are complemented by slow phases during which the time is not taking into account. 
+At the end of a \Ac{DB} protocol, the verifier should be able to determine if the prover is legitimate \emph{and} in his vicinity.
+In this sense, \Ac{DB} protocols combine the classical properties of authentication protocols with the possibility of verifying the physical proximity.
+
+There are four adversaries for \ac{DB} protocols established in the literature, 
+each of which tries to commit a type of fraud.
+These can be summarized as follows:
+\begin{itemize}
+  \item \Acf{DBDF}: a legitimate but malicious prover wants to fool the verifier on the distance between them.
+  \item \Acf{DBMF}: the adversary illegitimately authenticates using a, 
+    possibly honest, prover who is far away from the verifier.
+    (Also known as relaying attack or man-in-the-middle attack.)
+  \item \Acf{DBTF}: a legitimate, but malicious, prover helps an accomplice, 
+    who is close to the verifier, to authenticate.
+    \Ac{DBTF} resistance is a very strong property; it implies that if the 
+    accomplice succeeds (with non-negligible probability) he will learn the 
+    prover's secret key\footnote{%
+      This means that even things like functional encryption will not help.
+    }.
+  \item \Acf{DBDH}: similar to \ac{DBDF}, the malicious prover is far away but 
+    uses an unsuspecting honest prover close to the verifier to pass as being 
+    close.
+    (This is different from \ac{DBMF} in that the honest prover actually tries 
+    to authenticate to the verifier, but the malicious prover hijacks the 
+    channel at some point(s) during the protocol.)
+\end{itemize}
+There are two lines of attempts at formalizing the above properties: one by \citet{DB-BMV} and another by \citet{DB-DFKO}.
+
+The majority of the existing \ac{DB} protocols are symmetric and thus require an honest verifier.
+Indeed, in this context it does not make sense to protect against the verifier as he can easily impersonate the prover as he has a knowledge of his secret key.
+There has been less work done in the domain of asymmetric (or public-key) \ac{DB} protocols.
 Our setting requires a public-key \ac{DB} protocol with a \emph{malicious verifier} who will potentially try to \emph{impersonate the prover}.
-The verifier might also try to track the provers and map their identities to their actions, thus we also require privacy.
-This leads to the requirement of a \ac{DB} \ac{ZKPK}, or simply \ac{PPK}, with resistance to all the frauds mentioned above as well as against a verifier who will attempt to impersonate the prover.
-More specifically, we must combine such \iac{PPK} protocol with anonymous 
-credentials.
-The choice of the anonymous-credential system affects the properties we 
-require of the \ac{PPK}, in particular, for the suggested instantiation it must 
-be \iac{PPK} for discrete logarithms.
+The verifier might also try to track the provers and map their identities to 
+their actions, thus we also require strong privacy.
+In fact, as the construction in \cref{CROCUS} shows, we require \iac{DB} 
+\ac{ZKPK}, or simply \ac{PPK}, for discrete logarithms.
 For this paper, we assume the existence of such a protocol. Candidates for such a protocol include modifications of ~\cite{ProProx} or \cite{PROPS} to work for discrete logarithm and to provide general attribute-based anonymous credentials (not restricted to identity-based ones), respectively.
+

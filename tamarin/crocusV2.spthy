@@ -1,7 +1,8 @@
-/* Implementation of the brands-chaum distance bounding protocol with fiat-shamir identification */
-/* Demonstrating the DB-secure property */
+/* Version using the Diffie-Hellman built-in primitives 
+   instead of the encryption/signing primitives
+	STILL HEAVY WIP, NOT WORKING */
 
-theory crocusclean
+theory crocuswithDH
 
 begin
 
@@ -11,20 +12,20 @@ builtins: signing, diffie-hellman //, asymmetric-encryption
 
 // -------------------- Tag Initialization -------------------- //
 
-/* rule Generate_DH_key_pair:
+rule Generate_DH_key_pair:
   [ Fr(~x) ] 
   --> 
   [ !Pk($A,'g'^~x)
   , Out('g'^~x)
   , !Ltk($A,~x)
   ]
-*/
 
+/*
 rule Register_Keypair:
   [ Fr(~key) ]
 --[ Once($A), Prelim()]->
   [ !Pk($A, pk(~key)), !Ltk($A, ~key), Out( pk(~key) ), !Agent($A) ]
-
+*/
 
 rule Corrupt_Agent:
   [ !Ltk($A, ltk) ]
@@ -56,7 +57,7 @@ rule Prover_1:
   , Action($Prover)
   ]->
   [ ProverSess($Prover, ~r) //POINT_IN_SESSION
-  , Out( pk(~r) ) //MESSAGES (Out + Fast)
+  , Out( 'g'^(~r) ) //MESSAGES (Out + Fast)
   ]
 
 
@@ -89,17 +90,21 @@ rule Verifier_2:
   ]
 
 
-//4. Prover receives and stores both c_i 
+//4. Prover receives both c_i 
+//   and compute r - c_i*x
 
 rule Prover_2:
+  let s0 = r - c0*x
+      s1 = r - c1*x
+  in
   [ ProverSess($Prover, r) //POINT_IN_SESSION
   , In( <c0, c1> ) //MESSAGES (In + Fast)
   ]
 --[ ProverStore(c0, c1) //PROOF_LABELS_AGENT
-  , ReadyFastPhase( c0, c1 ) //PROOF_LABELS_PROTOCOL
+  , ReadyFastPhase( s0, s1 ) //PROOF_LABELS_PROTOCOL
   , Action($Prover)
   ]->
-  [ ProverStartFast( $Prover, r, c0, c1 ) //POINT_IN_SESSION
+  [ ProverStartFast( $Prover, r, s0, s1 ) //POINT_IN_SESSION
   ]
 
 
@@ -119,6 +124,15 @@ rule Prover_3:
   ]->
   [ FastMsg( response ), Out( response ) //MESSAGES (Out + Fast)
   ]
+
+rule Prover_3_0:
+  let response = 
+  [ ProverStartFast( $Prover, r, s0, s1 ) //POINT_IN_SESSION
+  , FastMsg( b )
+  , 
+
+
+rule Prover_3_1:
 
 //6. Verifier verifies the signature and decodes the messsage, checks it's the correct c
 
