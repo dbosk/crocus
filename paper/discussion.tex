@@ -105,26 +105,32 @@ We need a renewal-rate limit to keep Sybil attacks down.
 
 \subsection{The adversaries}
 
-\CROCUS is secure against \cref{in-system-adversary} but not 
+\CROCUS is secure against \cref{in-system-adversary} but not strictly 
 \cref{deanonymizing-storage-adversary}.
-\Cref{deanonymizing-storage-adversary} is a rather strong adversary.
-\Eg, Grace can achieve \cref{deanonymizing-storage-adversary} if Alice connects 
-directly to the ledger.
-However, if Alice uses something like Tor, even if Grace can do a 
-time-correlation attack (which is reasonable), nodes in \(S\) bundles many 
-transactions and, thus, Alice should have plausible deniability for her 
-submission.
-So even this strong adversary is better captured by \cref{in-system-adversary} 
-than \cref{deanonymizing-storage-adversary}.
+\Cref{deanonymizing-storage-adversary} is a rather strong adversary,  against 
+which tools like Tor~\cite{Tor} cannot provide anonymity.
+However, depending on implementation, \cref{deanonymizing-storage} can be very 
+hard to achieve.
+
+Say that Alice uses something like Tor, even if Grace can do a time-correlation 
+attack (which is reasonable), nodes in \(S\) bundle many transactions and, 
+thus, Alice should have plausible deniability for her submission.
+This is why it is important to implement this scheme on a general purpose 
+ledger which is also used for other transactions and, most importantly, is very 
+active.
 In essence, Grace can achieve \cref{deanonymizing-storage-adversary} through a 
 time-correlation attack proportionally to how many nodes\footnote{%
-  She does not need to control much CPU power, just network addresses, so that 
-  Alice highly likely connect to her nodes.
+  She just needs to control network addresses, so that Alice highly likely 
+  connect to her nodes.
 } in the ledger network she controls.
-However, Alice can still choose nodes based on \eg AS numbers, to choose nodes 
-that are less likely controlled by Grace.
+The difficulty of this is reduced to the security of routing protocols, 
+\ac{MITM} attacks on \ac{P2P} networks \etc.
+
+So even a nation-state adversary like this is probably better captured by 
+\cref{in-system-adversary}, rather than \cref{deanonymizing-storage-adversary}.
 In that sense, we believe that \cref{in-system-adversary} is the more realistic 
-adversary for now.
+adversary for now and that our protocol is secure in practice.
+
 
 \subsection{Other actors}
 
