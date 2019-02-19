@@ -12,12 +12,18 @@ counting% and the adversary model
 Throughout this paper, each time we refer to a participant, such as Alice, we 
 actually mean a personal device that can perform cryptographic operations and 
 communicate with other local devices on Alice's behalf.
-Furthermore, we assume that each participant has a digital certificate of her 
-identity signed by \iac{CA}\footnote{%
-  The \ac{CA} must be \emph{logically centralized} to prevent Sybil 
-  attacks~\cite{SybilAttack}.
+Furthermore, we assume that each participant has a digital certificate signed 
+by \iac{CA}\footnote{%
+  We note that any system that prevents Sybil attacks~\cite{SybilAttack} will 
+  do.
+  The \ac{CA} can be centralized or decentralized, but as 
+  \textcite{SybilAttack} points out, the \ac{CA} must be \emph{logically 
+    centralized} to prevent Sybil attacks.
   See \cref{identity-limits} for a discussion on existing identity systems and 
   their limits.
+} that ensures a one-to-one mapping between an identity and a cryptographic 
+key\footnote{%
+  For every identity there exists at most one valid digital certificate.
 }.
 
 In practice, participants witness each other's participation using their smartphones (or similar devices) running the protocol described in \cref{Protocol} and uploading their testimony (\ie, proof shares) to a ledger (such as a blockchain) after the protest. 
