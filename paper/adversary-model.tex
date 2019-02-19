@@ -20,15 +20,16 @@ This is illustrated in \cref{fig:base-adversary}.
   \centering
   \includegraphics{base-adversary.tikz}
   \caption{\label{fig:base-adversary}%
-    An overview of the in-system adversary model.
-    The protester with real identity \(P\) and witness with real identity \(W\) 
-    communicate.
-    They exchange protocol data as a function \(d\) of the protest and protester, \(d_{P,W}(\cid, P)\), and record the time it 
-    happened, \(t_{P,W}\).
+    An overview of the adversary model.
+    The protester (with real identity) \(P\) and witness (with real identity) 
+    \(W\) communicate.
+    They exchange protocol data as a function~\(d\) of the protest and 
+    protester, \(d_{P,W}(\cid, P)\), and record the time it happened, 
+    \(t_{P,W}\).
     The protester submits \(f(d_{P,W}(\cid, P))\), for some function \(f\), to 
     the storage \(S\), who records the time that happened, \(t_{P,S}\).
-    Both the witness \(W\) and the storage \(S\) are controlled by the adversary 
-    \(A\) (from \cref{in-system-adversary}).
+    Both the witness \(W\) and the storage \(S\) are controlled by the 
+    adversary.
   }
 \end{figure}
 
