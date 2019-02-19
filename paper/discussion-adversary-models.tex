@@ -1,0 +1,162 @@
+\section{Reflections on possible adversary models}%
+\label{reflections-adversary-model}
+
+% We now provide a concretely defined system and adversary model.
+% We give three definitions, each defining an adversary with increasingly stronger 
+% capabilities (\ie more auxiliary information).
+
+There are three players: the protester (with identity) \(P\), a witness (with 
+identity) \(W\) and the time-stamping storage \(S\) (that will contain the set 
+of all proof shares, \(\pshs\)).
+The protester \(P\) and the witness \(W\) communicate some protocol data,
+\(d_{P,W}(\cid, P)\), and records when the communication occurred \(t_{P,W}\).
+The protester \(P\) communicates with \(S\), in which \(S\) only learns some 
+function of the protocol data exchanged with the witness, \(f(d_{P,W}(\cid, 
+  P))\) for some function \(f\), and the time of the communication 
+(\(t_{P,S}\)).
+This is illustrated in \cref{fig:base-adversary}.
+
+\begin{figure}
+  \centering
+  \includegraphics{base-adversary.tikz}
+  \caption{\label{fig:base-adversary}%
+    An overview of the in-system adversary model.
+    The protester with real identity \(P\) and witness with real identity \(W\) 
+    communicate.
+    They exchange protocol data as a function \(d\) of the protest and protester, \(d_{P,W}(\cid, P)\), and record the time it 
+    happened, \(t_{P,W}\).
+    The protester submits \(f(d_{P,W}(\cid, P))\), for some function \(f\), to 
+    the storage \(S\), who records the time that happened, \(t_{P,S}\).
+    Both the witness \(W\) and the storage \(S\) are controlled by the adversary 
+    \(A\) (from \cref{in-system-adversary}).
+  }
+\end{figure}
+
+\begin{adversaries}
+\item\label{in-system-adversary}
+  \emph{In-system adversary}:
+  The adversary maliciously controls \(W\).
+  The adversary honest-but-curiously controls \(S\).
+  The adversary only learns the protocol data --- \ie what is sent over the 
+  channel, no auxiliary data\footnote{%
+    By auxiliary data we mean any data outside of the protocol, \ie
+    meta-data such as who is on the other side of the channel obtained
+    as side information, \eg by face recognition or inference from address
+    to identiy.
+  }
+
+\item\label{deanonymizing-witness-adversary}
+  \emph{Deanonymizing-witness adversary}:
+  Everything is the same as in \cref{in-system-adversary}, except that now 
+  \(W\) learns \(P\)'s identity from an auxiliary channel.
+  However, \(S\) still learns only the protocol data, no auxiliary data.
+
+\item\label{deanonymizing-storage-adversary}
+  \emph{Deanonymizing-storage adversary}:
+  The situation is the same as in \cref{in-system-adversary}, but now the storage 
+  \(S\) learns the protester \(P\)'s identity from an auxiliary channel.
+  However, \(W\) still learns only the protocol data, no auxiliary data.
+
+\item\label{deanonymizing-adversary}:
+  \emph{Deanonymizing adversary}:
+  Everything is the same as in \cref{in-system-model}, except that now both 
+  \(W\) and \(S\) learns \(P\)'s identity from an auxiliary channel.
+\end{adversaries}
+
+The in-system adversary (\cref{in-system-adversary}) represents an adversary 
+that has no access to data from outside the system, \eg inferences that can be 
+done from the communication layer (\eg IP-addresses mapped to physical 
+identities or face recognition), which means that it has only the protocol data 
+at its disposal.
+
+We find \cref{in-system-adversary} suitable when the protester and witness both 
+move in a crowd and there is no way for the witness to decide exactly with whom 
+he or she communicates with.
+(The protesters could also simply wear masks.)
+We consider this a fair model for our purposes: if the adversary can 
+deanonymize the protesters \emph{at the physical location} and thus arrest 
+them, the adversary can do that independently of whether the protesters use our 
+protocol or not --- thus our protocol cannot make things worse in such a 
+situation.
+
+However, in some situations this might not be the case: \Eg if the crowd is not 
+dense the witness will likely see the face of the protester.
+If the witness is controlled by the adversary, then it is likely that the 
+witness can capture a picture of the face, which can be turned into an identity 
+through face recognition.
+There are various such scenarios leading to the adversary learning the 
+protester's identity, we capture this as 
+\cref{deanonymizing-witness-adversary}.
+
+As to \(S\), \cref{in-system-adversary} is equivalent to the adversarial 
+storage \(S\) receiving only perfectly anonymous connections.
+Another way to see it is that the adversary cannot control \(S\) but can learn 
+what \(S\) learns as soon as \(S\) learns it; \eg \(S\) is operated outside the 
+adversary's jurisdiction and so the adversary cannot control \(S\), but since 
+\(S\) provides public access the adversary can (possibly constantly) query it 
+and learn things with little delay.
+Posed like this, the adversary cannot observe the channel between \(P\) and 
+\(S\), \eg when \(P\) uses tools such as Tor~\cite{Tor}.
+Note that the adversary is also allowed to submit data to \(S\) for storage, 
+just like everyone else.
+
+\Cref{deanonymizing-storage-adversary} is a much stronger adversary, 
+essentially a global, passive adversary.
+Even if the adversary cannot observe the channel between \(P\) and \(S\) (as is 
+the case with Tor), the adversary can still learn the identity of \(P\) through 
+\eg time-correlation attacks (as is the case with Tor).
+A nation state can potentially monitor the traffic of all \acp{ISP} and thus 
+perform time-correlation attacks on messages on the network and events observed 
+from \(S\).
+We capture this in \cref{deanonymizing-storage-adversary}, where \(A\) learns 
+the identity of \(P\) in the communication with \(S\).
+
+The strongest adversary, \cref{deanonymizing-adversary}, is a combination of 
+\cref{deanonymizing-storage-adversary,deanonymizing-wit-adversary}.
+
+\subsection{Security analysis}
+
+We are secure against \cref{in-system-adversary}.
+
+\Cref{deanonymizing-witness-adversary} can link a protester's identity to the 
+\(\cid\).
+Specifically, the protester proves very strongly that it knows a secret key 
+which is used to compute a \(\pid\) based on \(\cid\).
+
+However, we can prevent this attack by hiding the \(\cid\) and blinding the 
+\(\pid\) in the \ac{PPK} run with the witness.
+We must blind the \(\pid\), otherwise the adversary learns the identity~\(P\) 
+corresponding to \(\pid\) from \(W\) and later what \(\cid\) corresponds to 
+\(\pid\) from \(S\) --- thus linking \(\cid\) to \(P\).
+Hiding \(\cid\) implies that there must be more than one possible \(\cid\), \ie 
+that there are both a protest and a counter-protest at the same location.
+
+Hiding the \(\cid\) would also solve the potential problem of biased 
+witnessing, \ie that witnesses refuse to act as witnesses for certain 
+\(\cid\)'s.
+
+\Cref{deanonymizing-storage-adversary} can link \(\cid\) to \(P\).
+Since \(S\) learns the identity \(P\) from the auxiliary channel and learns 
+\(\cid\) from the submitted data.
+Note that this step cannot use the hiding and blinding above, since that would 
+not be verifiable for any third party.
+
+However, we can prevent this attack by submitting proofs in bulk.
+If protesters exchange proofs with each other, then they can submit each 
+others' proofs --- but this only works if each protester submits proofs for 
+more than one \(\cid\)!
+This also means that the \ac{NIZK} proofs must be computed during the protest, 
+to be exchanged, and not after the protest.
+
+\Cref{deanonymizing-adversary} can always link \(\cid\) to \(P\).
+The hiding-and-blinding that protects against \(W\) is not compatible with the 
+exchange of unblinded proofs that protects against \(S\).
+
+\subsection{Discussion}
+
+The likelihood of there being both a protest and a counter protest is small, it 
+is simply not practiced like that today.
+Even if that would be the practice, consider the scenario where skinheads try 
+to blend into another crowd.
+Thus hiding the \(\cid\) would give minor protection in practice.
+

@@ -102,9 +102,34 @@ tickets will drive a similar development for this hardware on smartphones.
 %For purely electronic \enquote{identity cards}, such as BandID mentioned above, 
 %they can be renewed with almost no rate-limitation.
 %We need a renewal-rate limit to keep Sybil attacks down.
-%
-%\subsection{The adversaries}
-%
+
+\subsection{The adversaries}
+
+We find that our adversary model is suitable when the protester~\(P\) and 
+witness~\(W\) both move in a crowd and there is no way for the witness to 
+decide exactly with whom he or she communicates with.
+(The protesters could also simply wear masks.)
+We consider this a fair model for our purposes: if the adversary can 
+deanonymize the protesters \emph{at the physical location} and thus arrest 
+them, the adversary can do that independently of whether the protesters use our 
+protocol or not --- thus our protocol cannot make things worse in such a 
+situation.
+
+As to the storage~\(S\), this is equivalent to the adversarial storage \(S\) 
+receiving only perfectly anonymous connections.
+Another way to see it is that the adversary cannot control \(S\) but can learn 
+what \(S\) learns as soon as \(S\) learns it.
+We consider this a fair assumption since \(S\) is a distributed ledger operated 
+(in part) outside the adversary's jurisdiction and so the adversary cannot 
+control \(S\), but since \(S\) provides public access the adversary can 
+(possibly constantly) query it and learn things with little delay.
+Posed like this, the adversary cannot observe the channel between \(P\) and 
+\(S\), \eg when \(P\) uses tools such as Tor~\cite{Tor}.
+In addition to this, \(S\) also accepts transactions from other users, users 
+that the adversary cannot track.
+Under these circumstances, any correlation attacks will be very difficult to 
+perform.
+
 %\CROCUS is secure against \cref{in-system-adversary} but not strictly 
 %\cref{deanonymizing-storage-adversary}.
 %\Cref{deanonymizing-storage-adversary} is a rather strong adversary,  against 
