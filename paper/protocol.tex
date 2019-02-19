@@ -10,14 +10,10 @@ verification (in \cref{ProtocolVerification}).
 Several entities are involved in our protocol.
 First, \iac{CA} is responsible for certifying a one-to-one mapping between a 
 person's identity and a cryptographic key\footnote{%
-  This can be done by any \emph{logically} centralized 
-  authority~\cite{SybilAttack}.
-  Although a decentralized authority, as in the case of a collective 
-  authority~\cite{collective-signing} powered by 
-  proof-of-personhood~\cite{proof-of-personhood}, would be desirable, we think 
-  that this has scalability issues.
-  See the detailed discussion in \cref{identity-limits}.
-  We will also return to this topic in \cref{Discussion}.
+  This can be implemented using any \ac{CA} that prevents Sybil 
+  attacks~\cite{SybilAttack} and ensures a one-to-one mapping between a person 
+  and a cryptographic key.
+  \Ie for each identity it issues one-and-only-one cryptographic key.
 }.
 The \ac{CA} is only involved in the setup phase.
 Second, a participant is an individual who wants to participate in a given 
