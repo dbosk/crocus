@@ -1,4 +1,4 @@
-\documentclass[USenglish]{article}
+\documentclass[USenglish,sigconf,review,anonymous,natbib=false]{acmart}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,tabularx}
@@ -7,29 +7,43 @@
 \input{preamble-paper.tex}
 
 \begin{document}
-%\author*[1]{Daniel Bosk}
-%\affil[1]{%
-%  KTH Royal Institute of Technology, E-mail: dbosk@kth.se
-%}
-%Seb: I have add Simon in the list of authors, even if of course we are anonymous for now
-%\author[2]{Simon Bouget}
-%\affil[2]{%
-%  KTH Royal Institute of Technology, E-mail: bouget@kth.se
-%}
-%\author[3]{Sonja Buchegger}
-%\affil[2]{%
-%  KTH Royal Institute of Technology, E-mail: buc@kth.se
-%}
-%\author[4]{S\'ebastien Gambs}
-%\affil[3]{%
-%  Universit\'e du Quebec \`a Montr\'eal, E-mail: sebastien.gambs@uqam.ca
-%}
-%\author[5]{Henri Pineau}
-%\affil[4]{%
-%  Universit\'e du Quebec \`a Montr\'eal, E-mail: henrilouis.pineau@gmail.com
-%}
+\acmConference[CCS]%
+  {ACM Conference on Computer and Communications Security}%
+  {November 11--15, 2019}%
+  {London, UK}
 
-\title{%
+\author{Daniel Bosk}
+\orcid{0000-0003-3865-212X}
+\affiliation{%
+  \institution{KTH Royal Institute of Technology}
+}
+\email{dbosk@kth.se}
+
+\author{Simon Bouget}
+\affiliation{%
+  \institution{KTH Royal Institute of Technology}
+}
+\email{bouget@kth.se}
+
+\author{Sonja Buchegger}
+\affiliation{%
+  \institution{KTH Royal Institute of Technology}
+}
+\email{buc@kth.se}
+
+\author{S\'ebastien Gambs}
+\affiliation{%
+  \institution{Universit\'e du Quebec \`a Montr\'eal}
+}
+\email{sebastien.gambs@uqam.ca}
+
+\author{Henri Pineau}
+\affiliation{%
+  \institution{Universit\'e du Quebec \`a Montr\'eal}
+}
+\email{henrilouis.pineau@gmail.com}
+
+\title[From grassroots to CROCUSes]{%
   %Seb: why put CROCUSes in the plural?
   From grassroots to CROCUSes: privacy-preserving CROwd Counting Using 
   Smartphones 
@@ -41,5 +55,6 @@
 %  }
 }
 
+\include*{abstract}
 \input{contents.tex}
 \end{document}
