@@ -210,15 +210,15 @@ Here is an overview of the protocol.
       \\[-2em]
       P\colon & t_e\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]] \\
       W\colon & t_e'\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]] \\
-      W\to S\colon & (\cid, \pid, \wid, t_s, t_s', t_e, l, \pi_{\wid}),\quad 
-      \text{where} \\
+      W\colon & \TSstore[(\cid, \pid, \wid, t_s, t_s', t_e, l, 
+      \pi_{\wid})],\quad \text{where} \\
         & \pi_{\wid} = \SPK\mleft\{ (\sk_W) : \mright. \\
         & \qquad \wid = \ACprf[_{\sk_W}][\pid], \\
         & \qquad \mleft. \sigma_W' = \ACblind[\ACsign[_{\ssk}][\sk_W]]\mright\} 
         \\
         & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l) \\
-      P\to S\colon & (\cid, \pid, \wid, t_s, t_s', t_e, l, \pi_{\pid}),\quad 
-      \text{where}\\
+      P\colon & \TSstore[(\cid, \pid, \wid, t_s, t_s', t_e, l, 
+      \pi_{\pid})],\quad \text{where}\\
         & \pi_{\pid} = \SPK\mleft\{ (\sk_P) : \mright. \\
         & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
         & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{\ssk}][\sk_P]] \mright\} 
@@ -254,28 +254,44 @@ Here is an overview of the protocol.
 % strength functions.
 
 
-To verify the participation count for a protest \(\prtst\) with identifier \(cid_0\),
-a verifier must download from the storage system S the set \(S_{\prtst}\) of all \(s_P\) and \(s_W\) tuples containing \(cid_0\).
-Then from \(S_{\prtst}\), a verifier can build, in succession,
-(a) the valid proof shares \(s_j^{(i)}\) for all matching pairs \((s_P,s_W)\) corresponding to a witness  \(i\) and a protester \(j\),
-(b) the participation proof \(\prf_{j}\) for each protester \(j\),
-(c) the set \(\prfs_{\prtst}^{\str,\theta}\) of eligible participation proofs for all protesters in \(P\),
- and finally the participation count, cardinality of the previous set.
+To verify the participation count for a protest \(\prtst\) with identifier 
+\(\cid_0\), a verifier must download from the storage system \(\TS\) the set 
+\(\pshs_{\cid_0}\) of all \(s_P\) and \(s_W\) tuples containing \(\cid_0\).
+Then from \(\pshs_{\cid_0}\), a verifier can build, in succession,
+\begin{enumerate*}
+\item the valid proof shares \(s_j^{(i)}\) for all matching pairs \((s_P, 
+    s_W)\) corresponding to a witness \(i\) and a protester \(j\),
+\item the participation proof \(\prf_{j}\) for each protester \(j\),
+\item the set \(\prfs_{\prtst}^{\str,\theta}\) of eligible participation proofs 
+  for all protesters in \(\prtst\), and finally,
+\item the participation count, \ie the cardinality of 
+  \(\prfs_\prtst^{\str,\theta}\).
+\end{enumerate*}
 
-
-More precisely, given: \\
-\(S_{\prtst} = \{ (cid, pid, wid, l, t_s, t_s', t_c, \corr) \in \pshs \mid \cid = \cid_0 \} \) \\
-and a matching pair \((s_P, s_W) \in {S_{\prtst}}^2\) for a witness \(i\) and a protester \(j\)
-with \(s_P = (cid_0, pid_j, wid_i, l, t_s, t_s', t_c, \psi_i)\)
-and  \(s_W = (cid_0, pid_j, wid_i, l, t_s, t_s', t_c', \psi_j)\),
+More precisely, given \[
+  \pshs_{\cid_0} = \{ (\cid, \pid, \wid, l, t_s, t_s', t_c, \corr) \in \pshs 
+  \mid \cid = \cid_0 \}
+\] and a matching pair \((s_P, s_W) \in {\pshs_{\cid_0}}^2\) for a witness 
+\(i\) and a protester \(j\) with
+\begin{align*}
+  s_P &= (\cid_0, \pid_j, \wid_i, l, t_s, t_s', t_c, \corr_i) &\text{and} \\
+  s_W &= (\cid_0, \pid_j, \wid_i, l, t_s, t_s', t_c', \corr_j),
+\end{align*}
 %, with matching values for \(cid_0, pid_j, wid_i, l, t_s, t_s'\),
-the verifier can build a valid proof share \(s_j^{(i)}\) certified by  \(i\) for \(j\) as follow:
-verify \(\psi_i\) and \(\psi_j\),
-let \(t = [max(t_s, t_s'), min(t_c, t_c')]\),
-let \(s_j^{(i)} = (cid_0, pid_j, wid_i, l, t)\), as in \cref{DefProofShare},
-check that \(s_j^{(i)}\) is valid (i.e. happened during and at the location of the protest), as in \cref{DefProofShare}.
+the verifier can build a valid proof share \(s_j^{(i)}\) certified by \(i\) for 
+\(j\) as follows:
+verify \(\corr_i\) and \(\corr_j\),
+let
+\begin{align*}
+  t &= \interval{\max(t_s, t_s')}{\min(t_c, t_c')} &\text{and} \\
+  s_j^{(i)} &= (\cid_0, \pid_j, \wid_i, l, t),
+\end{align*}
+as in \cref{DefProofShare},
+check that \(s_j^{(i)}\) is valid (\ie happened during and at the location of 
+the protest), as in \cref{DefProofShare}.
 
-Then the set of all valid proof shares for a protester \(j\) constitutes its participation proof \(\pi_{j}\), as in \cref{DefParticipationProof},
+Then the set of all valid proof shares for a protester \(j\) constitutes its 
+participation proof \(\prf_{j}\), as in \cref{DefParticipationProof},
 and the verifier thus can derive the set of \((\str,\theta)\)-eligible participation proofs \(\prfs_{\prtst}^{\str,\theta}\) for all protesters for the protest \(\prtst\), as in \cref{DefParticipationCount}.
 Finally, the  participation count \(|\prfs_{\prtst}^{\str,\theta}|\) is the cardinality of this set by the same \cref{DefParticipationCount}.
 
