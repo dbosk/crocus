@@ -1,5 +1,5 @@
 %\section{\CROCUS:\@ A protocol for crowd counting estimation}%
-\section{The \CROCUS Protocol}
+\section{The \CROCUS Protocol}%
 \label{Protocol}
 
 
@@ -321,11 +321,11 @@ Finally, the  participation count \(|\prfs_{\prtst}^{\str,\theta}|\) is the card
 
 In the case of trusted witnesses, each such trusted witness must
 publish or otherwise inform the 
-verifier of which proof shares they have signed, \eg by giving a list 
-of all such proof shares or digitally signing each proof share\footnote{
- To achieve witness privacy in this situation, one could employ a group or 
- ring signature scheme for all trusted witnesses.
- Then one learns that at least one trusted witness must have been there.
+verifier of which proof shares they have signed, \eg by giving a list of all 
+such proof shares or digitally signing each proof share\footnote{%
+  To achieve witness privacy in this situation, one could employ a group or 
+  ring signature scheme for all trusted witnesses.
+  Then one learns that at least one trusted witness must have been there.
 }.
 
 Note that, thanks to the \((\str,\theta)\)-eligibility criterion (\cref{DefParticipationCount}), the method of counting is extremely generic, and each verifier can make an independent choice to regulate their trust in the final result, based on their initial trust in the witnesses. In other words, anyone who does the counting can choose the eligibility
