@@ -79,9 +79,9 @@ Due to the deterministic property of \(\ACprf\), Alice must produce a new key
 \end{multline*}
 while she does not know a valid signature on \(\sk_P'\).
 As a consequence, this is reduced to the security of the \(\AC\) scheme and how 
-often Alice can get a valid signature on a secret key from the \ac{CA} --- 
-either by requesting a new key, \eg request a new passport or ID-card, or 
-illicitly use someone else's.
+often Alice can get a valid signature on a secret key from the \ac{CA} --- by 
+assumption the \ac{CA} will issue only one signature for such a key, but she 
+can try to illicitly use someone else's key.
 
 \subsubsection{Spatial eligibility}%
 \label{analysis-spatial}
