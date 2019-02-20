@@ -134,18 +134,13 @@ must find a second pre-image \(\mfst'\) such that \(\cid = \Hash[\mfst] =
 There exists another case of collision that we must prevent.
 Consider the situation in which Alice computes \(\pid = \ACprf[_\sk][\cid]\) for some cause identifier \(\cid\) and some witnesses computes \(\wid_1, \dotsc, \wid_n\), with \(\wid_i = \ACprf[_{\sk_i}][\pid]\).
 Now, if Alice constructs a manifesto \(m\) such that \(\Hash[m] = \pid\), then \(\wid_1, \dotsc, \wid_n\) would be valid participant identifiers for the protest with manifesto \(m\).
-This means that we must separate the mechanisms used for participating and witnessing.
-The protocol achieves this by the fact that \[
-  \prf_{\wid} = \SPK[\sk_i][\dotsc][\pid, \wid, t_s, t_s', l]
-\]
-does not include \(\cid\) whereas \[
-  \prf_{\pid} = \SPK[\sk_i][\dotsc][\cid, \pid, \wid, t_s, t_s', l]
-\]
-does.
+The protocol prevents such use by the fact that \(\pid\) and \(\wid\) are in 
+fixed positions in both \[
+  \prf_{\wid} = \SPK[\sk_i][\dotsc][\cid, \pid, \wid, t_s, t_s', l]
+\] and \[
+  \prf_{\pid} = \SPK[\sk_i][\dotsc][\cid, \pid, \wid, t_s, t_s', l],
+\] and the two proofs can thus not be confused.
 Thus, the verification process differs for the two types of proofs.
-(An alternative approach would have been to compute them differently, for 
-instance \(\pid = \AC[PRF]_{\sk}(x)\) but \(\wid = \AC*[PRF]_{\sk}(x)\), where 
-\(\AC \neq \AC*\) are separate anonymous-credential systems.)
 
 \subsection{Individual and universal verifiability}%
 \label{analysis-individual}%
