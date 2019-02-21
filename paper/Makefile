@@ -1,9 +1,12 @@
 .PHONY: all
 all: paper.pdf
 
-paper.pdf: popets
-paper.pdf: paper.tex
-paper.pdf: preamble.tex preamble-paper.tex
+paper.pdf: main.pdf
+	${LN} $< $@
+
+main.pdf: popets
+main.pdf: main.tex
+main.pdf: preamble.tex preamble-paper.tex
 
 SRC+=	contents.tex
 SRC+=	abstract.tex
@@ -32,7 +35,7 @@ SRC+= 	anon-cred-figures.tex
 #SRC+=	tamarin-spec.tex
 SRC+= 	identity-limits.tex
 
-paper.pdf: ${SRC}
+main.pdf: ${SRC}
 
 FIGS+= 				proofshare.tikz
 proofshare.tikz: 	../fig/proofshare.tikz
@@ -43,7 +46,7 @@ base-adversary.tikz: ../fig/base-adversary.tikz
 ${FIGS}:
 	${LN} $< $@
 
-paper.pdf: ${FIGS}
+main.pdf: ${FIGS}
 
 
 DEPENDS+=	bibsp.sty
@@ -61,13 +64,13 @@ DEPENDS+=	adhocnets.bib
 DEPENDS+= 	references.bib
 DEPENDS+= 	identity.bib
 
-paper.pdf: ${DEPENDS}
+main.pdf: ${DEPENDS}
 
 
 
 .PHONY: clean
 clean:
-	${RM} paper.pdf
+	${RM} paper.pdf main.pdf
 	${RM} ${FIGS}
 	${MAKE} -C ../fig clean
 
