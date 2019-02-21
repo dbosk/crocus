@@ -3,26 +3,34 @@
 \label{Protocol}
 
 
-We now present \CROCUS, a protocol for privately verifiable crowd counts.
-The protocol consists of five phases: setup (in \cref{ProtocolSetup}),
-join, participation, submission (all in in \cref{ProtocolDuring}) and
-verification (in \cref{ProtocolVerification}).
+We now present \CROCUS, a protocol for privately verifiable crowd
+counts. A prerequisite for using \CROCUS is a one-to-one mapping of a person's
+sybil-proof identity and a cryptographic key, in other words an uncloneable
+subscription to one's identity\footnote{%
+  Given any \ac{CA} that prevents Sybil 
+  attacks~\cite{SybilAttack}, systems such as \cite{clonewars} could
+  be used to make sure that for each identity one-and-only-one
+  cryptographic key is issued. 
+}. Since we assume these properties, we
+present only the result of the process of getting anonymous
+credentials from a \ac{CA}, in \cref{ProtocolSetup}.
 
-Several entities are involved in our protocol.
-First, \iac{CA} is responsible for certifying a one-to-one mapping between a 
-person's identity and a cryptographic key\footnote{%
-  This can be implemented using any \ac{CA} that prevents Sybil 
-  attacks~\cite{SybilAttack} and ensures a one-to-one mapping between a person 
-  and a cryptographic key.
-  \Ie for each identity it issues one-and-only-one cryptographic key.
-}.
-The \ac{CA} is only involved in the setup phase.
+The core of the \CROCUS protocol consists of generating participation
+proofs (joining a protest, participating in witnessing, submitting
+evidence, all in \cref{ProtocolDuring}) with an overview in \cref{fig:ProtocolOverview}, and then counting and
+verification of that count (in \cref{ProtocolVerification}). 
 
-Second, a participant is an individual who wants to participate in a given 
+% The protocol consists of five phases: setup (in \cref{ProtocolSetup}),
+% join, participation, submission (all in in \cref{ProtocolDuring}) and
+% verification (in \cref{ProtocolVerification}).
+
+The entities involved in our protocol are participants and (count) verifiers.
+
+A participant is an individual who wants to participate in a given 
 protest.
 A participant can assume three different roles:
 \begin{enumerate}
-\item The \emph{organizer} has written a manifesto for the protest and 
+\item The \emph{organizer} has written a manifesto (at minimum a name) for the protest and 
   disseminated it to others.
 \item A \emph{protester} is attending the protest and asks witnesses to vouch 
   for their presence.
@@ -33,11 +41,26 @@ A participant can assume three different roles:
 In general, there is one organizer and every participant can act as
 either or both protester and witness.
 
-\subsection{Pre-protest phase}%
+After the protest, anyone can count the number of participants (of the protest and the
+protocol) and verify anyone else's count given the relevant meta data
+(which protest, location, time, and witness parameters used in the
+count). We refer to anyone counting or verifying a count as the
+verifier. 
+
+\subsection{Prerequisite: anonymous credentials}%
 \label{ProtocolSetup}
 
-The setup step is only run once and is the same as in Anon-Pass~\cite{AnonPass}.
-More precisely, we have simply adapted their description to our notation, but otherwise kept the setting as similar as possible.
+Before Alice can have her participation in any event counted by
+\CROCUS, she needs to get an anonymous credential and corresponding
+keys. This only needs to be repeated when the credential expires or is
+lost, in analogy to a passport in terms of expected intervals. The
+keys can be reused for an arbitrary number of protests or, given
+careful choices in the PRF used for deriving identifiers, other
+services that work with anonymous credentials. 
+
+We use the setup and registration phases of Anon-Pass~\cite{AnonPass} for
+getting anonymous credentials, adapting only the notation to fit ours. 
+%More precisely, we have simply adapted their description to our notation, but otherwise kept the setting as similar as possible.
 
 
 \emph{Setup: \((\spk, \ssk)\gets \CROCUSsetup\).}
@@ -58,10 +81,9 @@ The participant chooses \(k, r\rgets \ZZ_q\) uniformly randomly and runs
 \cref{ACacAlg}).
 Upon success, the participant sets \(\sk = (\sigma, k, r)\).
 
-The setup and registration steps can be done once and the keys can be reused 
-for an arbitrary number of protests.
 
-\subsection{Protest phase}%
+
+\subsection{Participation}%
 \label{ProtocolDuring}
 
 
@@ -177,13 +199,10 @@ Finally, the witness uploads the tuple \[
 \] for permanent storage.
 
 
-Here is an overview of the protocol.
-
-
-%\begin{figure}
-% \centering
-  \small
- % \begin{minipage}{\linewidth}
+\begin{figure}
+ \centering
+ % \small
+  \begin{minipage}{\linewidth}
     \begin{align*}
       O\to \text{all}\colon & \text{manifesto} \\
       P\colon & t_s\gets \TSget \\
@@ -225,21 +244,21 @@ Here is an overview of the protocol.
         \\
         & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l)
     \end{align*}
-%  \end{minipage}
-%  \caption{%
-%     An overview of the Join, Participation and Submission phases of \CROCUS.\@
-%     The organizer \(O\) broadcasts the manifesto.
-%     The protester \(P\), witness \(W\) and their computations are as in \cref{fig:ProofFig}.
-%     Finally, both \(P\) and \(W\) submit the proof shares to a
-%     permanent storage \(S\). Note that \pid always refers to the
-%     protester whose presence is being witnessed.
-%   }%
-%   \label{fig:ProtocolOverview}
-% \end{figure}
-\normalsize
+  \end{minipage}
+  \caption{%
+    An overview of \CROCUS participation.\@
+    The organizer \(O\) broadcasts the manifesto.
+    The protester \(P\), witness \(W\) and their computations are as in \cref{fig:ProofFig}.
+    Finally, both \(P\) and \(W\) submit the proof shares to a
+    permanent storage \(S\). Note that \pid  always refers to the
+    protester whose presence is being witnessed.
+  }%
+  \label{fig:ProtocolOverview}
+\end{figure}
+%\normalsize
 
 
-\subsection{Post-protest phase}%
+\subsection{Count and Verification}%
 \label{ProtocolVerification}
 
 % While there are various ways for verifying the participation count, hereafter, 
@@ -254,7 +273,7 @@ Here is an overview of the protocol.
 % strength functions.
 
 
-To verify the participation count for a protest \(\prtst\) with identifier 
+To count or verify the participation count for a protest \(\prtst\) with identifier 
 \(\cid_0\), a verifier must download from the storage system \(\TS\) the set 
 \(\pshs_{\cid_0}\) of all \(s_P\) and \(s_W\) tuples containing \(\cid_0\).
 Then from \(\pshs_{\cid_0}\), a verifier can build, in succession,
@@ -320,15 +339,18 @@ Finally, the  participation count \(|\prfs_{\prtst}^{\str,\theta}|\) is the card
 % \(\str[\prf_{\pid_j, P}] = |\prf_{\pid_j, P}|\).
 
 In the case of trusted witnesses, each such trusted witness must
-publish or otherwise inform the 
-verifier of which proof shares they have signed, \eg by giving a list of all 
-such proof shares or digitally signing each proof share\footnote{%
-  To achieve witness privacy in this situation, one could employ a group or 
-  ring signature scheme for all trusted witnesses.
-  Then one learns that at least one trusted witness must have been there.
-}.
+publish or otherwise inform the verifier of which proof shares they
+have signed, \eg by giving a list of all such proof shares or
+digitally signing each proof share\footnote{%
+  To achieve witness privacy in this situation, one could employ a
+  group or ring signature scheme for a set of trusted witnesses, \eg
+  members of an independent journalist association.  Then one learns
+  that at least one member of this set of trusted witnesses must have
+  been there.  }.
 
-Note that, thanks to the \((\str,\theta)\)-eligibility criterion (\cref{DefParticipationCount}), the method of counting is extremely generic, and each verifier can make an independent choice to regulate their trust in the final result, based on their initial trust in the witnesses. In other words, anyone who does the counting can choose the eligibility
+Note that, thanks to the \((\str,\theta)\)-eligibility criterion
+(\cref{DefParticipationCount}), the method of counting is extremely
+generic, and each (counting) verifier can make an independent choice to regulate their trust in the final result, based on their initial trust in the witnesses. In other words, anyone who does the counting can choose the eligibility
 criteria (time interval, location, number of regular or trusted
 witnesses, who is considered to be a trusted witness) for their own count
 and as long as these are published along with the result, anyone can
