@@ -5,12 +5,15 @@
 
 We now present \CROCUS, a protocol for privately verifiable crowd
 counts. A prerequisite for using \CROCUS is a one-to-one mapping of a person's
-sybil-proof identity and a cryptographic key, in other words an uncloneable
-subscription to one's identity\footnote{%
+sybil-proof identity and a cryptographic key, more specifically, an anonymous 
+identity credential that provides unlinkability between contexts but 
+linkability for reuse within the same context\footnote{%
   Given any \ac{CA} that prevents Sybil 
-  attacks~\cite{SybilAttack}, systems such as \cite{clonewars} could
+  attacks~\cite{SybilAttack}, systems such as~\cite{clonewars} could
   be used to make sure that for each identity one-and-only-one
-  cryptographic key is issued. 
+  cryptographic key is issued.
+  In terms of~\cite{clonewars}, this can be seen as an unclonable subscription 
+  to one's identity.
 }. Since we assume these properties, we
 present only the result of the process of getting anonymous
 credentials from a \ac{CA}, in \cref{ProtocolSetup}.
