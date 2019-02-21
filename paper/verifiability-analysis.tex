@@ -10,13 +10,14 @@ location of \(\sk_P\) at creation (\ie, spatial eligibility,
 person (\ie, one-proof-per-person eligibility, \cref{CountOnce}) and that the 
 proof is indeed designated for the event (\ie, designated-event eligibility, 
 \cref{DesignatedEvent}).
-As we will show, it follows from \cref{analysis-individual} that the adversary cannot drop 
-submitted proof shares and thus cannot decrease the count.
-As indicated in \cref{in-system-adversary,deanonymizing-storage-adversary}, the 
+
+As we will show, it follows from \cref{analysis-individual} that the adversary 
+cannot drop submitted proof shares and thus cannot decrease the count.
+As indicated in the adversary model (\cref{formal-adversary-model}), the 
 adversary can submit proof shares as everyone else, so the adversary's only 
 option is to increase the count.
 We will thus let Alice pose as the adversary in this section, as she naturally 
-has an incentive to increase the count, as the organizer and participant.
+has an incentive to increase the count, as the organizer and a participant.
 
 \subsubsection{Temporal eligibility}%
 \label{analysis-temporal}
@@ -78,9 +79,9 @@ Due to the deterministic property of \(\ACprf\), Alice must produce a new key
 \end{multline*}
 while she does not know a valid signature on \(\sk_P'\).
 As a consequence, this is reduced to the security of the \(\AC\) scheme and how 
-often Alice can get a valid signature on a secret key from the \ac{CA} --- 
-either by requesting a new key, \eg request a new passport or ID-card, or 
-illicitly use someone else's.
+often Alice can get a valid signature on a secret key from the \ac{CA} --- by 
+assumption the \ac{CA} will issue only one signature for such a key, but she 
+can try to illicitly use someone else's key.
 
 \subsubsection{Spatial eligibility}%
 \label{analysis-spatial}
@@ -114,14 +115,14 @@ simply request new keys from the \ac{CA}.
 % she has access to her own \(\sk_P\), but no more.
 % Thus, \(\theta > 1\) is a requirement in the trust-free case.)
 
-The strength function from ~\cref{DefParticipationCount} ensures that
+The strength function from \cref{DefParticipationCount} ensures that
 Alice either has to collude with \(\theta - 1\) witnesses (she can
 produce \emph{one} witness signature for herself, since she has access
 to her own \(\sk_P\), but no more) or, in the trusted witness case,
 that Alice must be able to forge statements, \eg digital signatures,
 from at least one witness that the verifier trusts.
 
-\subsubsection{Designated protest}%
+\subsubsection{Designated use}%
 \label{analysis-designated}
 
 \Cref{DesignatedEvent} is to prevent Alice (or someone else) from reusing the same proof (or proof share) for another event.
@@ -133,18 +134,13 @@ must find a second pre-image \(\mfst'\) such that \(\cid = \Hash[\mfst] =
 There exists another case of collision that we must prevent.
 Consider the situation in which Alice computes \(\pid = \ACprf[_\sk][\cid]\) for some cause identifier \(\cid\) and some witnesses computes \(\wid_1, \dotsc, \wid_n\), with \(\wid_i = \ACprf[_{\sk_i}][\pid]\).
 Now, if Alice constructs a manifesto \(m\) such that \(\Hash[m] = \pid\), then \(\wid_1, \dotsc, \wid_n\) would be valid participant identifiers for the protest with manifesto \(m\).
-This means that we must separate the mechanisms used for participating and witnessing.
-The protocol achieves this by the fact that \[
-  \prf_{\wid} = \SPK[\sk_i][\dotsc][\pid, \wid, t_s, t_s', l]
-\]
-does not include \(\cid\) whereas \[
-  \prf_{\pid} = \SPK[\sk_i][\dotsc][\cid, \pid, \wid, t_s, t_s', l]
-\]
-does.
+The protocol prevents such use by the fact that \(\pid\) and \(\wid\) are in 
+fixed positions in both \[
+  \prf_{\wid} = \SPK[\sk_i][\dotsc][\cid, \pid, \wid, t_s, t_s', l]
+\] and \[
+  \prf_{\pid} = \SPK[\sk_i][\dotsc][\cid, \pid, \wid, t_s, t_s', l],
+\] and the two proofs can thus not be confused.
 Thus, the verification process differs for the two types of proofs.
-(An alternative approach would have been to compute them differently, for 
-instance \(\pid = \AC[PRF]_{\sk}(x)\) but \(\wid = \AC*[PRF]_{\sk}(x)\), where 
-\(\AC \neq \AC*\) are separate anonymous-credential systems.)
 
 \subsection{Individual and universal verifiability}%
 \label{analysis-individual}%
@@ -159,15 +155,14 @@ available from a public and permanent storage.
 Thus, Alice and Bob can simply check that all of their proof shares are indeed 
 there and the security of individual verifiability depends on the properties of 
 the ledger and storage (\(\TS\), \cref{timestamp}).
-For both \cref{in-system-adversary,deanonymizing-storage-adversary} we assumed 
-an honest-but-curious adversary controlling \(\TS\)\footnote{%
+
+We assumed an honest-but-curious adversary controlling \(\TS\)\footnote{%
   We note that, in general, distributed (decentralized) ledgers cannot 
   withstand a malicious \ac{ISP}.
   Such an adversary can partition the network and provide Alice and Bob with 
   different views of the ledger, thus breaking individual verifiability.
   However, this requires that the adversary \emph{can observe} Alice's and 
-  Bob's channels to the ledger --- which is still not true even for 
-  \cref{deanonymizing-storage-adversary}.
+  Bob's channels to the ledger.
 }.
 This means that Alice can check that her proof share is indeed there.
 

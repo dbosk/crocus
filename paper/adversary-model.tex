@@ -6,99 +6,46 @@
 % capabilities (\ie more auxiliary information).
 
 There are three players: the protester (with identity) \(P\), a witness (with 
-identity) \(W\) and the time-stamping storage \(S\) (that will contain the set 
-of all proof shares, \(\pshs\)).
+identity) \(W\) and the time-stamping storage \(\TS\) (that will contain the 
+set of all proof shares, \(\pshs\)).
 The protester \(P\) and the witness \(W\) communicate some protocol data,
 \(d_{P,W}(\cid, P)\), and records when the communication occurred \(t_{P,W}\).
-The protester \(P\) communicates with \(S\), in which \(S\) only learns some 
-function of the protocol data exchanged with the witness, \(f(d_{P,W}(\cid, 
-  P))\) for some function \(f\), and the time of the communication 
-(\(t_{P,S}\)).
+The protester \(P\) communicates with \(\TS\), in which \(\TS\) only learns 
+some function of the protocol data exchanged with the witness, 
+\(f(d_{P,W}(\cid, P))\) for some function \(f\), and the time of the 
+communication (\(t_{P,\TS}\)).
 This is illustrated in \cref{fig:base-adversary}.
 
 \begin{figure}
   \centering
   \includegraphics{base-adversary.tikz}
   \caption{\label{fig:base-adversary}%
-    An overview of the in-system adversary model.
-    The protester with real identity \(P\) and witness with real identity \(W\) 
-    communicate.
-    They exchange protocol data as a function \(d\) of the protest and protester, \(d_{P,W}(\cid, P)\), and record the time it 
-    happened, \(t_{P,W}\).
+    An overview of the adversary model.
+    The protester (with real identity) \(P\) and witness (with real identity) 
+    \(W\) communicate.
+    They exchange protocol data as a function~\(d\) of the protest and 
+    protester, \(d_{P,W}(\cid, P)\), and record the time it happened, 
+    \(t_{P,W}\).
     The protester submits \(f(d_{P,W}(\cid, P))\), for some function \(f\), to 
-    the storage \(S\), who records the time that happened, \(t_{P,S}\).
-    Both the witness \(W\) and the storage \(S\) are controlled by the adversary 
-    \(A\) (from \cref{in-system-adversary}).
+    the storage \(\TS\), who records the time that happened, \(t_{P,\TS}\).
+    Both the witness \(W\) and the storage \(\TS\) are controlled by the 
+    adversary.
   }
 \end{figure}
 
-\begin{adversaries}
-\item\label{in-system-adversary}
-  \emph{In-system adversary}:
-  The adversary maliciously controls \(W\).
-  The adversary honest-but-curiously controls \(S\).
-  The adversary only learns the protocol data --- \ie what is sent over the 
-  channel, no auxiliary data\footnote{%
-    By auxiliary data we mean any data outside of the protocol, \ie
-    meta-data such as who is on the other side of the channel obtained
-    as side information, \eg by face recognition or inference from address
-    to identiy.
-  }
+The adversary maliciously controls \(W\).
+The adversary honest-but-curiously controls \(\TS\), but can submit to \(\TS\) 
+as everyone else.
+The adversary only learns the protocol data --- \ie what is sent over the 
+channel, no auxiliary data\footnote{%
+  By auxiliary data we mean any data outside of the protocol, \ie
+  meta-data such as who is on the other side of the channel obtained
+  as side information, \eg by face recognition or inference from address
+  to identity.
+}
 
-\item\label{deanonymizing-storage-adversary}
-  \emph{Global, passive adversary}:
-  The situation is the same as in \cref{in-system-adversary}, but now the storage 
-  \(S\) learns the protester \(P\)'s identity from an auxiliary channel.
-  However, \(W\) still learns only the protocol data, no auxiliary data.
+This adversary has no access to data from outside the system, \eg inferences 
+that can be made from the communication layer (\eg IP-addresses mapped to 
+physical identities or face recognition from the protest), which means that it 
+has only the protocol data at its disposal.
 
-%\item\label{deanonymizing-witness-adversary}
-%  \emph{Deanonymizing-witness adversary}:
-%  Everything is the same as in \cref{deanonymizing-witness-adversary}, except 
-%  that now \(W\) also learns \(P\)'s identity from an auxiliary channel.
-\end{adversaries}
-
-The in-system adversary (\cref{in-system-adversary}) represents an adversary 
-that has no access to data from outside the system, \eg inferences that can be 
-done from the communication layer (\eg IP-addresses mapped to physical 
-identities), which means that it has only the protocol data at its disposal.
-
-We find \cref{in-system-adversary} suitable when the protester and witness both 
-move in a crowd and there is no way for the witness to decide exactly with whom 
-he or she communicates with.
-(The protesters could also simply wear masks.)
-We consider this a fair model for our purposes: if the adversary can 
-deanonymize the protesters \emph{at the physical location} and thus arrest 
-them, the adversary can do that independently of whether the protesters use our 
-protocol or not --- thus our protocol cannot make things worse in such a 
-situation.
-
-As to \(S\), \cref{in-system-adversary} is equivalent to the adversarial 
-storage \(S\) receiving only perfectly anonymous connections.
-Another way to see it is that the adversary cannot control \(S\) but can learn 
-what \(S\) learns as soon as \(S\) learns it; \eg \(S\) is operated outside the 
-adversary's jurisdiction and so the adversary cannot control \(S\), but since 
-\(S\) provides public access the adversary can (possibly constantly) query it 
-and learn things with little delay.
-Posed like this, the adversary cannot observe the channel between \(P\) and 
-\(S\), \eg when \(P\) uses tools such as Tor~\cite{Tor}.
-Note that the adversary is also allowed to submit data to \(S\) for storage, 
-just like everyone else.
-
-\Cref{deanonymizing-storage-adversary} is a much stronger adversary.
-Even if the adversary cannot observe the channel between \(P\) and \(S\) (as is 
-the case with Tor), the adversary can still learn the identity of \(P\) through 
-\eg time-correlation attacks (as is the case with Tor).
-A nation state can potentially monitor the traffic of all \acp{ISP} and thus 
-perform time-correlation attacks on messages on the network and events observed 
-from \(S\).
-We capture this in \cref{deanonymizing-storage-adversary}, where \(A\) learns 
-the identity of \(P\) in the communication with \(S\).
-
-%However, in some situations this might not be the case: \Eg if the crowd is not 
-%dense the witness will likely see the face of the protester.
-%If the witness is controlled by the adversary, then it is likely that the 
-%witness can capture a picture of the face, which can be turned into an identity 
-%through face recognition.
-%There are various such scenarios leading to the adversary learning the 
-%protester's identity, we capture this as 
-%\cref{deanonymizing-witness-adversary}.
