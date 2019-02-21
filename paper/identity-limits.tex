@@ -12,7 +12,7 @@ certificate\footnote{%
   Many countries issue birth certificates, but there are other, equivalent, 
   ways.
   \Eg Sweden does not issue birth certificates, it simply creates and entry in 
-  the population registry.
+  the population register.
 } This birth certificate later serves as the root for many authentication 
 mechanisms, \eg national identity cards and passports.
 Although this seems centralized at first glance, as we will see below, it is 
@@ -58,21 +58,21 @@ This is best illustrated with a case study.
 
 \subsubsection{The case of Sweden}
 
-An identity is created when an entry is made in the population registry.
-Each entry in the registry has a unique identification number.
-The population registry serves various purposes, one, arguably among the most 
+An identity is created when an entry is made in the population register.
+Each entry in the register has a unique identification number.
+The population register serves various purposes, one, arguably among the most 
 important, is the generation of the electoral 
 roll~\cite{Valmyndigheten-ElectoralRoll}.
 
-For a person to cause an entry into the population registry, they have two 
+For a person to cause an entry into the population register, they have two 
 options:
-they are in the population registry and give birth to a child, or
+they are in the population register and give birth to a child, or
 they were born abroad and apply to immigrate to Sweden.
 
 In the case of a birth\footnote{%
   Technically, this is the procedure if the child is born abroad.
   If the child is born in Sweden, the hospital will report all these things 
-  directly to the population registry without issuing any papers to the 
+  directly to the population register without issuing any papers to the 
   parents.
 } they need:
 \begin{itemize}
@@ -83,10 +83,10 @@ In the case of a birth\footnote{%
 \end{itemize}
 So the security is reduced to the forgeability of these items.
 
-Obviously the one who creates entries in the population registry can do that 
+Obviously the one who creates entries in the population register can do that 
 even without such documents, so there must be some separation of duty, audit 
 trail or transparency to prevent the agency from performing a Sybil attack.
-In the case of Sweden, the population registry is public.
+In the case of Sweden, the population register is public.
 This means that in addition to any audit trail in place at the agency, we have 
 these properties:
 \begin{itemize}
@@ -142,7 +142,7 @@ In Sweden, the identity credential system is federated.
 There are several entities that are authorized to issue identity cards; \eg the 
 Swedish Tax Agency, the Swedish Police, the banks.
 Thus, technically, to detect a Sybil attack by them, \ie fake identities, one 
-must check the ID against the population registry and follow the audit trail.
+must check the ID against the population register and follow the audit trail.
 With anonymous credentials, this becomes a problem.
 
 At some point, Alice must get her first ID card.
