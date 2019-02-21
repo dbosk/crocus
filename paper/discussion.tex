@@ -45,44 +45,6 @@ tickets will drive a similar development for this hardware on smartphones.
 \input{MANETs.tex}
 
 
-
-%\subsection{Receipt freeness, Sybil and key renewal}
-%
-%We need a strong connection between a person and the cryptographic key.
-%Currently, governments are the ones that have the strongest incentives to solve 
-%the problem (\enquote{birth certificates}) to prevent \eg fraud in the 
-%well-fare system.
-%So we believe that relying on these government-issued credentials is the most 
-%probable solution.
-%Unfortunately, if we rely on government-issued credentials, we cannot prevent 
-%the government from performing Sybil attacks --- since it can issue arbitrarily 
-%many \emph{valid} credentials.
-%In this case, it does not make sense to verify any pro-government protests in 
-%which Grace's authoritarian regime wants to demonstrate its wide 
-%support~\cite{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
-%But as long as the protests are not aligned with the interests of the \ac{CA}, 
-%the counts can be trusted.
-%
-%We pointed out already in \cref{desired-properties} that receipt freeness 
-%conflicts with verifiability.
-%Indeed, receipt freeness for \emph{participation} implies that one can 
-%participate twice.
-%This is different from voting where the organizers note participation to 
-%prevent voting twice, but provides receipt freeness for the actual ballot.
-%In the case of \CROCUS, Grace can verify Alice's participation if she gets 
-%access to Alice's key; then she can recompute \(\pid\) to verify Alice's 
-%participation.
-%
-%Alice could try to destroy the receipt, \ie that she destroys her private key.
-%This means that she cannot participate in any protest (and be counted).
-%This brings up the concern of key renewal: each time Alice renews her digital 
-%certificate, she can participate with a new \(\pid\).
-%For physical identity cards this is probably not a problem, as there is a 
-%manufacturing process of a few days.
-%For purely electronic \enquote{identity cards}, such as BandID mentioned above, 
-%they can be renewed with almost no rate-limitation.
-%We need a renewal-rate limit to keep Sybil attacks down.
-
 \subsection{The adversaries}
 
 Our adversary model considers only protocol data, no auxiliary data.
@@ -116,6 +78,34 @@ adversary can take photos of the event and try to capture as many faces as
 possible.
 This is already possible today and, thus, not a weakness introduced by our 
 scheme.
+
+
+\subsection{Receipt freeness, Sybil and issuing keys}
+
+We need an anonymous identity credential that provides unlinkability between 
+contexts but linkability for reuse within the same context.
+The linkability within contexts interferes with receipt freeness: an adversary 
+can reuse the credential within the same context, then the linkability property 
+will provide a verification mechanism.
+Conversely, if we provide receipt freeness, then the absence of linkability 
+will allow Sybil attacks.
+This is different from voting where the organizers note participation to 
+prevent voting twice, but provides receipt freeness for the actual ballot.
+In our case, participation and the ballot are the same.
+
+Each issued anonymous identity credential is essentially a pseudonym.
+This means that if a person is issued two credentials, she has two pseudonyms 
+and could participate twice everywhere without detection.
+This means that federated identity-management is not suitable to handle 
+anonymous identity credentials.
+Indeed, it works for non-anonymous identities: one agency may issue passports 
+and another one driver licenses.
+But if one issues an anonymous identity credential to Alice, the other must 
+not.
+However, this is easily solved by collective signing~\cite{collective-signing}, 
+which likely is not far away with the current pace for adopting public ledgers.
+We see this as a likely extension to EU's eIDAS regulation.
+
 
 %\subsection{Other actors}
 %
