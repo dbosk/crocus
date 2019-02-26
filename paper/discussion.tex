@@ -47,7 +47,11 @@ tickets will drive a similar development for this hardware on smartphones.
 
 \subsection{The adversaries}
 
-Our adversary model considers only protocol data, no auxiliary data.
+There are two aspects on the adversary that we will emphasize: the strength of 
+the privacy adversary and the verifiers' ability to detect 
+cheating.
+
+Our (privacy) adversary model considers only protocol data, no auxiliary data.
 And against this adversary our scheme is secure.
 The question is how this adversary model maps to real adversaries.
 
@@ -79,6 +83,21 @@ possible.
 This is already possible today and, thus, not a weakness introduced by our 
 scheme.
 
+As to the verifier, we have shown that the security is reduced to the 
+witnesses.
+In the case of trusted witnesses, it simply reduces to the trust.
+But it is not as clear for non-trusted witnesses.
+At the core, it is up to the verifier to decide the (trust) criteria and level 
+of confidence.
+However, we point out that for some threshold~\(\theta\), Alice must reach out 
+publicly to achieve enough colluders.
+And in that case, the verifier can also detect it.
+On the other hand, we have results like 
+\blockcquote{FourDegreesOfSeparation}{four degrees of separation}, which 
+suggests that even if Alice shares only within her social network, the verifier 
+might not be that far.
+But how to find a good value for \(\theta\) will require its own investigation 
+and is outside the scope of this paper.
 
 \subsection{Receipt freeness, Sybil and issuing keys}
 
