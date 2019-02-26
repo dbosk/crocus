@@ -95,6 +95,43 @@ could use: \eg, the adversary can take photos of the event and try to
 capture as many faces as possible.  This is already possible today and
 thus not a weakness introduced by our scheme.
 
+Besides these privacy concerns, there are also verifiability
+concerns. There, we have shown that the security is reduced to the
+witnesses. In the case of the canonical \CROCUS with trusted
+witnesses, as in any trusted third party, it simply reduces to their
+trustworthiness.
+
+We outlined a variant of counting and verifying for \CROCUS that uses
+a threshold~\(\theta\) of untrusted witnesses and, trivially, resists
+a collusion of malicious witnesses smaller than~\(\theta\).  While
+using this approach is technically possible, we do not know whether it
+is of practical use. We have not found a principled way of determining
+a secure value for~\(\theta\), yet neither can we at this point
+conclude that there is no such way. Informally, a higher~\(\theta\)
+increases the probability of a collusion that is large enough to break
+verifiability being detected and made known to the verifier. 
+
+Overall, while \CROCUS provides the mechanism for a privacy-preserving
+and verifiable way of counting crowds, any verifier still needs to
+consider their own trust, analogous to detecting bias in
+science. There, if a paper espousing, say, the efficacy of X, comes
+from research sponsored by the company that manufactures X, it might
+be biased. Likewise, if a count of a pro-government protest is
+published by that government, one needs to consider where identities
+were issued and which witnesses were considered trusted. In contrast
+to a layperson interpreting science, however, the results can easily
+be reproduced by the verifier: knowing which set of witnesses (and
+other criteria such as location and time) the counter used for the
+count, the count can be verified (by a re-count).  Whether the result
+can be trusted then depends on whether the verifier also trusts this
+set of witnesses. Given that all proof shares are on the ledger,
+however, a verifier can come up with their own criteria and make a
+count themselves. This count then, given that they publish what
+criteria they used, can in turn be verified by anyone else.
+
+
+
+
 
 % \subsection{Sybil and issuing keys}
 
