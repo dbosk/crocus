@@ -5,3 +5,11 @@ improved adversary model and security analysis
 improved discussion of limitations
 improved performance/communications discussion
 clarified distance-bounding assumption
+
+did not do (give reasons)
+
+solve identity problem
+resist A2 (global passive adversary)
+include functional encryption instead of (?) distance bounding
+
+
