@@ -5,7 +5,7 @@
 
 We now present \CROCUS, a protocol for privately verifiable crowd
 counts. A prerequisite for using \CROCUS is a one-to-one mapping of a person's
-sybil-proof identity and a cryptographic key
+sybil-proof identity and a cryptographic key%
 %, more specifically, an anonymous 
 %identity credential that provides unlinkability between contexts but 
 %linkability for reuse within the same context
@@ -161,8 +161,8 @@ The protester sends \(\pid\) to the witness.
 Then they run the protocol \[
   \Proto{\ACproveSig[\spk, k, r, \sigma]}{\ACverifySig[\spk, \ssk]}
 \] (see \cref{ACacAlg}).
-Note that the proof of knowledge (\ac{PK}) in \cref{ACacAlg} must be
-run as a proof of proximity (\iac{PPK}), which we do by distance bounding.
+Note that the \acf{PK} in \cref{ACacAlg} must be
+run as a \iacf{PPK}, which we do by distance bounding.
 If the protocol succeeds, the witness will compute \(\wid \gets 
   \ACprf[_{\sk_W}][\pid]\) and send \((\wid, t_s', l)\) to the protester.
 
