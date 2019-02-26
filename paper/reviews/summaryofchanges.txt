@@ -1,0 +1,7 @@
+clarified and elaborated on identity assumptions
+simplified protocol presentation
+considered functional encryption
+improved adversary model and security analysis
+improved discussion of limitations
+improved performance/communications discussion
+clarified distance-bounding assumption
