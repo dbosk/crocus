@@ -5,22 +5,27 @@
 
 We now present \CROCUS, a protocol for privately verifiable crowd
 counts. A prerequisite for using \CROCUS is a one-to-one mapping of a person's
-sybil-proof identity and a cryptographic key, more specifically, an anonymous 
-identity credential that provides unlinkability between contexts but 
-linkability for reuse within the same context\footnote{%
-  Given any \ac{CA} that prevents Sybil 
-  attacks~\cite{SybilAttack}, systems such as~\cite{clonewars} could
-  be used to make sure that for each identity one-and-only-one
-  cryptographic key is issued.
-  In terms of~\cite{clonewars}, this can be seen as an unclonable subscription 
-  to one's identity.
-}. Since we assume these properties, we
+sybil-proof identity and a cryptographic key
+%, more specifically, an anonymous 
+%identity credential that provides unlinkability between contexts but 
+%linkability for reuse within the same context
+%\sonja{this is actually achieved by our use of prfs for pid and wid,
+%not inherent in the credential}
+% \footnote{%
+%   Given any \ac{CA} that prevents Sybil 
+%   attacks~\cite{SybilAttack}, systems such as~\cite{clonewars} could
+%   be used to make sure that for each identity one-and-only-one
+%   cryptographic key is issued.
+%   In terms of~\cite{clonewars}, this can be seen as an unclonable subscription 
+%   to one's identity.
+% }
+. Since we assume these properties, we
 present only the result of the process of getting anonymous
 credentials from a \ac{CA}, in \cref{ProtocolSetup}.
 
 The core of the \CROCUS protocol consists of generating participation
 proofs (joining a protest, participating in witnessing, submitting
-evidence, all in \cref{ProtocolDuring}) with an overview in \cref{fig:ProtocolOverview}, and then counting and
+proof shares to a ledger, all in \cref{ProtocolDuring}) with an overview in \cref{fig:ProtocolOverview}, and then counting and
 verification of that count (in \cref{ProtocolVerification}). 
 
 % The protocol consists of five phases: setup (in \cref{ProtocolSetup}),
@@ -48,7 +53,7 @@ After the protest, anyone can count the number of participants (of the protest a
 protocol) and verify anyone else's count given the relevant meta data
 (which protest, location, time, and witness parameters used in the
 count). We refer to anyone counting or verifying a count as the
-verifier. 
+verifier; the process is the same. 
 
 \subsection{Prerequisite: anonymous credentials}%
 \label{ProtocolSetup}
@@ -92,9 +97,11 @@ Upon success, the participant sets \(\sk = (\sigma, k, r)\).
 
 %The join, participation and submission phases are as follows.
 % illustrated in \cref{fig:ProtocolOverview}.
-
-The participation proof share constructed in the
-participation phase is illustrated in \cref{fig:ProofFig}.
+The goal of \CROCUS is to generate and collect privacy-preserving
+participation proofs that can be counted and verified. These proofs
+consist of proof shares that are constructed as depicted in
+\cref{fig:ProofFig}. The protocol phases are given in
+\cref{fig:ProtocolOverview} and described below.
 
 \begin{figure}
   \centering
@@ -154,15 +161,18 @@ The protester sends \(\pid\) to the witness.
 Then they run the protocol \[
   \Proto{\ACproveSig[\spk, k, r, \sigma]}{\ACverifySig[\spk, \ssk]}
 \] (see \cref{ACacAlg}).
-Note that the \ac{PK} in \cref{ACacAlg} must be run as \iac{PPK}.
+Note that the proof of knowledge (\ac{PK}) in \cref{ACacAlg} must be
+run as a proof of proximity (\iac{PPK}), which we do by distance bounding.
 If the protocol succeeds, the witness will compute \(\wid \gets 
   \ACprf[_{\sk_W}][\pid]\) and send \((\wid, t_s', l)\) to the protester.
 
 
 \emph{Submission: \(\psh_P\gets \CROCUSsubmit[_P][\cid, \pid, \wid, t_s, t_s',  l]\).}
-The protester should as soon as possible commit the proof-share data to the 
-time-stamping service and receive the proof of commitment, \(t_e\gets 
-  \TSstamp[\Hash[\cid, \pid, \wid, t_s, t_s', l]]\).
+The protester commits the proof-share data to the 
+time-stamping service and receives the proof of commitment, \(t_e\gets 
+  \TSstamp[\Hash[\cid, \pid, \wid, t_s, t_s', l]]\). The sooner this
+  is done, the higher the precision for the time-dependent eligibility criterion
+  will be for later counting. 
 The remaining operations are not time critical.
 
 The protester computes \iac{NIZK} proof \(\corr_{\pid}\), which shows the 
@@ -183,10 +193,10 @@ Finally, the protester uploads the tuple \[
 \emph{Submission: \(\psh_W\gets \CROCUSsubmit[_W][\cid, \pid, \wid, t_s, t_s', 
     l]\).}
 The witness should, just as the protester, commit the proof-share data to the 
-time-stamping service, \(t_e'\gets \TSstamp[\Hash[\cid, \pid, \wid, t_s, t_s', 
+time-stamping service (\ie the ledger), \(t_e'\gets \TSstamp[\Hash[\cid, \pid, \wid, t_s, t_s', 
   l]]\).
-(This is to make the time interval as early as possible, whoever is the faster 
-will submit it.)
+%(This is to make the time interval as early as possible, whoever is the faster 
+%will submit it.) \sonja{but both do}
 Then, without any time requirements, the witness computes \iac{NIZK} proof 
 \(\corr_{\wid}\) as follows:
 \begin{multline*}
@@ -199,7 +209,7 @@ Then, without any time requirements, the witness computes \iac{NIZK} proof
 \end{multline*}
 Finally, the witness uploads the tuple \[
   \psh_W = (\cid, \pid, \wid, t_s, t_s', t_e', l, \corr_{\wid})
-\] for permanent storage.
+\] for permanent storage on the ledger.
 
 
 \begin{figure}
@@ -253,7 +263,7 @@ Finally, the witness uploads the tuple \[
     The organizer \(O\) broadcasts the manifesto.
     The protester \(P\), witness \(W\) and their computations are as in \cref{fig:ProofFig}.
     Finally, both \(P\) and \(W\) submit the proof shares to a
-    permanent storage \(S\). Note that \pid  always refers to the
+   public ledger for permanent storage \(S\). Note that \pid  always refers to the
     protester whose presence is being witnessed.
   }%
   \label{fig:ProtocolOverview}
