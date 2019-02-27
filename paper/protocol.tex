@@ -2,25 +2,6 @@
 \section{The \CROCUS Protocol}%
 \label{Protocol}
 
-\begin{figure}
-  \centering
-  \small
-  \includegraphics{proofshare.tikz}
-  \caption{%
-    Structure of a proof share.
-    The protest (cause) identifier \(\cid\) is the hash value of the manifesto.
-    The protester \(P\)'s identifier \(\pid\) is computed using the protester's key \(\sk_P\) and \(\cid\).
-    The witness \(W\)'s protester-specific identifier \(\wid\) is computed using the
-    witness's key \(\sk_W\) and the protester's \(\pid\).
-    \(t_s, t_s'\) are the hashes of the head blocks in the ledger seen by the 
-    protester and witness, respectively, and \(l\) is an area.
-    All values are signed by the witness (signature \(\prf_W = \SPK[\sk_W][\wid 
-      = \dotsb][\cid, \pid, \wid, t_s, t_s', l]\)) while also proving the 
-    correctness of \(\wid\) and knowledge of a signature on \(\sk_W\).
-    The protester constructs \(\prf_P\) analogously.
-  }%
-  \label{fig:ProofFig}
-\end{figure}%
 
 We now present \CROCUS, a protocol for privately verifiable crowd
 counts. A prerequisite for using \CROCUS is a one-to-one mapping of a person's
@@ -44,7 +25,7 @@ credentials from a \ac{CA}, in \cref{ProtocolSetup}.
 
 The core of the \CROCUS protocol consists of generating participation
 proofs (joining a protest, participating in witnessing, submitting
-proof shares to a ledger, all in \cref{ProtocolDuring}), and then counting and
+proof shares to a ledger, all in \cref{ProtocolDuring}) with an overview in \cref{fig:ProtocolOverview}, and then counting and
 verification of that count (in \cref{ProtocolVerification}). 
 
 % The protocol consists of five phases: setup (in \cref{ProtocolSetup}),
@@ -113,12 +94,35 @@ Upon success, the participant sets \(\sk = (\sigma, k, r)\).
 \subsection{Participation}%
 \label{ProtocolDuring}
 
+
 %The join, participation and submission phases are as follows.
 % illustrated in \cref{fig:ProtocolOverview}.
 The goal of \CROCUS is to generate and collect privacy-preserving
 participation proofs that can be counted and verified. These proofs
 consist of proof shares that are constructed as depicted in
-\cref{fig:ProofFig}. 
+\cref{fig:ProofFig}. The protocol phases are given in
+\cref{fig:ProtocolOverview} and described below.
+
+\begin{figure}
+  \centering
+  \small
+  \includegraphics{proofshare.tikz}
+  \caption{%
+    Structure of a proof share.
+    The protest (cause) identifier \(\cid\) is the hash value of the manifesto.
+    The protester \(P\)'s identifier \(\pid\) is computed using the protester's key \(\sk_P\) and \(\cid\).
+    The witness \(W\)'s protester-specific identifier \(\wid\) is computed using the
+    witness's key \(\sk_W\) and the protester's \(\pid\).
+    \(t_s, t_s'\) are the hashes of the head blocks in the ledger seen by the 
+    protester and witness, respectively, and \(l\) is an area.
+    All values are signed by the witness (signature \(\prf_W = \SPK[\sk_W][\wid 
+      = \dotsb][\cid, \pid, \wid, t_s, t_s', l]\)) while also proving the 
+    correctness of \(\wid\) and knowledge of a signature on \(\sk_W\).
+    The protester constructs \(\prf_P\) analogously.
+  }%
+  \label{fig:ProofFig}
+\end{figure}%
+
 
 \emph{Creation of a protest: the manifesto.}
 The organizer writes a manifesto for the protest, which describes its cause.
@@ -208,72 +212,10 @@ Finally, the witness uploads the tuple \[
 \] for permanent storage on the ledger.
 
 
-% \begin{figure}
-%  \centering
-%  % \small
-%   \begin{minipage}{\linewidth}
-%     \begin{align*}
-%       O\to \text{all}\colon & \text{manifesto} \\
-%       P\colon & t_s\gets \TSget \\
-%         & \cid\gets \Hash[\text{manifesto}], \\
-%         & \pid\gets \ACprf[_{\sk_P}][\cid] \\
-%       W\colon & t_s'\gets \TSget
-%       \\[-1em]
-%       \noalign{\hfill Join}
-%       \midrule
-%       \noalign{\hfill Participation}
-%       \\[-3em]
-%       P\to W\colon & \pid \\
-%       P\leftrightarrow W\colon &
-%         \PPK\mleft\{ (\sk_P) : \mright. \\
-%         & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
-%         & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{\ssk}][\sk_P]] \mright\} 
-%         \\
-%       W\colon & \wid\gets \ACprf[_{\sk_W}][\pid] \\
-%       W\to P\colon & (\wid, t_s', l)
-%       \\[-1em]
-%       \noalign{\hfill Participation}
-%       \midrule
-%       \noalign{\hfill Submission}
-%       \\[-2em]
-%       P\colon & t_e\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]] \\
-%       W\colon & t_e'\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]] \\
-%       W\colon & \TSstore[(\cid, \pid, \wid, t_s, t_s', t_e, l, 
-%       \pi_{\wid})],\quad \text{where} \\
-%         & \pi_{\wid} = \SPK\mleft\{ (\sk_W) : \mright. \\
-%         & \qquad \wid = \ACprf[_{\sk_W}][\pid], \\
-%         & \qquad \mleft. \sigma_W' = \ACblind[\ACsign[_{\ssk}][\sk_W]]\mright\} 
-%         \\
-%         & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l) \\
-%       P\colon & \TSstore[(\cid, \pid, \wid, t_s, t_s', t_e, l, 
-%       \pi_{\pid})],\quad \text{where}\\
-%         & \pi_{\pid} = \SPK\mleft\{ (\sk_P) : \mright. \\
-%         & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
-%         & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{\ssk}][\sk_P]] \mright\} 
-%         \\
-%         & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l)
-%     \end{align*}
-%   \end{minipage}
-%   \caption{%
-%     An overview of \CROCUS participation.\@
-%     The organizer \(O\) broadcasts the manifesto.
-%     The protester \(P\), witness \(W\) and their computations are as in \cref{fig:ProofFig}.
-%     Finally, both \(P\) and \(W\) submit the proof shares to a
-%    public ledger for permanent storage \(S\). Note that \pid  always refers to the
-%     protester whose presence is being witnessed.
-%   }%
-%   \label{fig:ProtocolOverview}
-% \end{figure}
-% %\normalsize
-
-We now give an overview of \CROCUS participation.\@
-    The organizer \(O\) broadcasts the manifesto.
-    The protester \(P\), witness \(W\) and their computations are as in \cref{fig:ProofFig}.
-    Finally, both \(P\) and \(W\) submit the proof shares to a
-   public ledger for permanent storage \(S\). Note that \pid  always refers to the
-    protester whose presence is being witnessed. More formally:
-
+\begin{figure}
+ \centering
  % \small
+  \begin{minipage}{\linewidth}
     \begin{align*}
       O\to \text{all}\colon & \text{manifesto} \\
       P\colon & t_s\gets \TSget \\
@@ -315,7 +257,18 @@ We now give an overview of \CROCUS participation.\@
         \\
         & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l)
     \end{align*}
- %\normalsize
+  \end{minipage}
+  \caption{%
+    An overview of \CROCUS participation.\@
+    The organizer \(O\) broadcasts the manifesto.
+    The protester \(P\), witness \(W\) and their computations are as in \cref{fig:ProofFig}.
+    Finally, both \(P\) and \(W\) submit the proof shares to a
+   public ledger for permanent storage \(S\). Note that \pid  always refers to the
+    protester whose presence is being witnessed.
+  }%
+  \label{fig:ProtocolOverview}
+\end{figure}
+%\normalsize
 
 
 \subsection{Count and Verification}%
