@@ -212,10 +212,10 @@ Finally, the witness uploads the tuple \[
 \] for permanent storage on the ledger.
 
 
-\begin{figure}
- \centering
- % \small
-  \begin{minipage}{\linewidth}
+\begin{figure*}
+  \centering
+  \small
+  \begin{subfigure}{\columnwidth}
     \begin{align*}
       O\to \text{all}\colon & \text{manifesto} \\
       P\colon & t_s\gets \TSget \\
@@ -235,11 +235,12 @@ Finally, the witness uploads the tuple \[
         \\
       W\colon & \wid\gets \ACprf[_{\sk_W}][\pid] \\
       W\to P\colon & (\wid, t_s', l)
-      \\[-1em]
-      \noalign{\hfill Participation}
-      \midrule
-      \noalign{\hfill Submission}
-      \\[-2em]
+    \end{align*}
+    \caption{Join and participation.}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{\columnwidth}
+    \begin{align*}
       P\colon & t_e\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]] \\
       W\colon & t_e'\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]] \\
       W\colon & \TSstore[(\cid, \pid, \wid, t_s, t_s', t_e, l, 
@@ -257,7 +258,8 @@ Finally, the witness uploads the tuple \[
         \\
         & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l)
     \end{align*}
-  \end{minipage}
+    \caption{Submission.}
+  \end{subfigure}
   \caption{%
     An overview of \CROCUS participation.\@
     The organizer \(O\) broadcasts the manifesto.
@@ -267,7 +269,7 @@ Finally, the witness uploads the tuple \[
     protester whose presence is being witnessed.
   }%
   \label{fig:ProtocolOverview}
-\end{figure}
+\end{figure*}
 %\normalsize
 
 
