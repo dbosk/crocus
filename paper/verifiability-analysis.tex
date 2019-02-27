@@ -51,7 +51,7 @@ probability.
 \subsubsection{Linkability}%
 \label{analysis-linkability}
 
-\Cref{CountOnce} prevents Sybil attacks, in the sense
+\Cref{CountOnce} aims to prevent Sybil attacks, in the sense
 that Alice cannot provide two (or more) participation proofs for a
 specific protest and thus be counted more than once.
 To do this she must create more than one pseudonym, \(\pid\).
@@ -109,7 +109,8 @@ In all of these cases, it is up to the verifier to perform a risk analysis.
 \subsubsection{Designated use}%
 \label{analysis-designated}
 
-\Cref{DesignatedEvent} is to prevent Alice (or someone else) from reusing the same proof (or proof share) for another event.
+\Cref{DesignatedEvent} aims to prevent Alice (or someone else) from reusing the 
+same proof (or proof share) for another event.
 This possibility is prevented through the use of \(\cid\) in the proof shares.
 To reuse the proof share for another protest, with a different manifesto, one 
 must find a second pre-image \(\mfst'\) such that \(\cid = \Hash[\mfst] = 
