@@ -2,7 +2,7 @@
 \label{StorageProperties}\label{timestamp}\label{ledger}
 
 We need a robust time-stamping and storage service (\ie a ledger), \(\TS\), 
-which implements the following oracles:
+which implements the following:
 \begin{itemize}
   \item \(\rho \gets \TSget\) yields a value \(\rho\) at time \(t\) such that 
     \(\rho\) is difficult to guess before time \(t\) and \(\TStime[\rho] = t\);
@@ -50,7 +50,7 @@ anti-censorship) reasons (analogous to the idea of \enquote{domain fronting}).
 
 We require a few additional properties from \(\TS\) that are already provided 
 by ledgers.
-First, \(\TS\) must be continuously extended, such as in Bitcoin in which 
+First, \(\TS\) must be continuously extended, such as in the Bitcoin blockchain in which 
 blocks are created every 10 minutes on average (this is so that \(\TStime\) can 
 map values from \(\TSget\) to real time).
 Second, \(\TS\) must provide \emph{immutability} and availability to any data 

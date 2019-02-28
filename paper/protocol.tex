@@ -33,17 +33,13 @@ verification of that count (in \cref{ProtocolVerification}).
 % verification (in \cref{ProtocolVerification}).
 
 The entities involved in our protocol are participants and (count) verifiers.
-
-A participant is an individual who wants to participate in a given 
-protest.
 A participant can assume three different roles:
 \begin{enumerate}
-\item The \emph{organizer} has written a manifesto (at minimum a name) for the protest and 
+\item The \emph{organizer} has written a manifesto for the protest and 
   disseminated it to others.
 \item A \emph{protester} is attending the protest and asks witnesses to vouch 
   for their presence.
-\item A \emph{witness} provides proofs to protesters which state that the 
-  protester was indeed participating, constructed such that the proofs are verifiable by 
+\item A \emph{witness} provides proofs to protesters which state that they indeed participated, constructed such that the proofs are verifiable by 
   third parties.
 \end{enumerate}
 In general, there is one organizer and every participant can act as
@@ -80,7 +76,7 @@ The \ac{CA} generates a service public-private key-pair \((\spk, \ssk)\gets
     \Proto{\CROCUSreg[_P][\spk]}{\CROCUSreg[_{\CA}][\ssk]}\).}
 During the registration phase, each participant generates a secret key~\((k, 
   r)\) and obtains a signature on it by the \ac{CA} \emph{but without revealing 
-  it} to the \ac{CA}.
+  it} to the \ac{CA} (or to any part thereof in a multi-party scenario).
 At the end, each participant will have a signed secret key while the \ac{CA} 
 will issue only one signature per participant but without knowing the 
 association between a particular key and the identity of the participant.
@@ -126,8 +122,9 @@ consist of proof shares that are constructed as depicted in
 
 \emph{Creation of a protest: the manifesto.}
 The organizer writes a manifesto for the protest, which describes its cause.
-This manifesto could take the form of any intelligible text.
-The organizer will then distribute this manifesto to people through
+This manifesto could take the form of any intelligible text, in
+practice at minimum a name.
+The organizer then distributes this manifesto to people through
 any suitable means  (\eg on the Web, on placards, \etc).
 If they agree with the cause, they will use the knowledge of the
 manifesto to join the protest. 
@@ -135,7 +132,7 @@ manifesto to join the protest.
 
 \emph{Joining as a protester: \((\pid, t_s)\gets 
     \CROCUSjoin[_P][\text{manifesto}]\).}
-A protester who wants to join the protest will use the manifesto to
+A protester who wants to join the protest uses the manifesto to
 compute an identifier for the cause by hashing the manifesto,
 \(\cid\gets \Hash[\mfst]\) (and comparing the result to that received
 from the organizer, we omit this in the protocol for readibility).
@@ -144,12 +141,12 @@ for the protester, \(\pid\gets \ACprf[_{\sk_P}][\cid]\)%
 % (see \cref{fig:ProofFig} and \cref{ACprfAlg} in the appendix for details of 
 %the algorithms)%
 .
-The protester should also fetch a time-correlated random value, \(\t_s\), from 
+The protester also fetches a time-correlated random value, \(t_s\), from 
 \(\TS\), \(t_s\gets \TSget\).
 
 
 \emph{Joining as a witness: \(t_s'\gets \CROCUSjoin_W\).}
-The witness should simply get a time-correlated random value from the time-stamping service, \(t_s'\gets \TSget\).
+The witness simply gets a time-correlated random value from the time-stamping service, \(t_s'\gets \TSget\).
 Note that we do this for redundancy, the newest of \(t_s\) and \(t_s'\) will 
 set the start of the time interval of creation for the proof share.
 
@@ -194,8 +191,8 @@ Finally, the protester uploads the tuple \[
 
 \emph{Submission: \(\psh_W\gets \CROCUSsubmit[_W][\cid, \pid, \wid, t_s, t_s', 
     l]\).}
-The witness should, just as the protester, commit the proof-share data to the 
-ledger, \(t_e'\gets \TSstamp[\Hash[\cid, \pid, \wid, t_s, t_s', l]]\).
+The witness, like the protester, commits the proof-share data to the 
+ledger, \(t_e\gets \TSsubmit[\Hash[\cid, \pid, \wid, t_s, t_s', l]]\).
 %(This is to make the time interval as early as possible, whoever is the faster 
 %will submit it.) \sonja{but both do}
 Then, without any time requirements, the witness computes \iac{NIZK} proof 
@@ -242,16 +239,16 @@ Finally, the witness uploads the tuple \[
   \hfill
   \begin{subfigure}{\columnwidth}
     \begin{align*}
-      P\colon & t_e\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]] \\
-      W\colon & t_e'\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]] \\
-      W\colon & \TSstore[(\cid, \pid, \wid, t_s, t_s', t_e, l, 
+      P\colon & t_e\gets \TSsubmit[\Hash[\pid, \wid, t_s, t_s', l]] \\
+      W\colon & t_e'\gets \TSsubmit[\Hash[\pid, \wid, t_s, t_s', l]] \\
+      W\colon & \TSsubmit[(\cid, \pid, \wid, t_s, t_s', t_e, l, 
       \pi_{\wid})],\quad \text{where} \\
         & \pi_{\wid} = \SPK\mleft\{ (\sk_W) : \mright. \\
         & \qquad \wid = \ACprf[_{\sk_W}][\pid], \\
         & \qquad \mleft. \sigma_W' = \ACblind[\ACsign[_{\ssk}][\sk_W]]\mright\} 
         \\
         & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l) \\
-      P\colon & \TSstore[(\cid, \pid, \wid, t_s, t_s', t_e, l, 
+      P\colon & \TSsubmit[(\cid, \pid, \wid, t_s, t_s', t_e, l, 
       \pi_{\pid})],\quad \text{where}\\
         & \pi_{\pid} = \SPK\mleft\{ (\sk_P) : \mright. \\
         & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
@@ -328,7 +325,7 @@ the protest), as in \cref{DefProofShare}.
 Then the set of all valid proof shares for a protester \(j\) constitutes its 
 participation proof \(\prf_{j}\), as in \cref{DefParticipationProof},
 and the verifier thus can derive the set of \((\str,\theta)\)-eligible participation proofs \(\prfs_{\prtst}^{\str,\theta}\) for all protesters for the protest \(\prtst\), as in \cref{DefParticipationCount}.
-Finally, the  participation count \(|\prfs_{\prtst}^{\str,\theta}|\) is the cardinality of this set by the same \cref{DefParticipationCount}.
+Finally, the  participation count \(|\prfs_{\prtst}^{\str,\theta}|\) is the cardinality of this set by  \cref{DefParticipationCount}.
 
 
 % MOST PROBABLY obsolete below v 
@@ -359,9 +356,9 @@ publish or otherwise inform the verifier of which proof shares they
 have signed, \eg by giving a list of all such proof shares or
 digitally signing each proof share\footnote{%
   To achieve witness privacy in this situation, one could employ a
-  group or ring signature scheme for a set of trusted witnesses, \eg
+  group or ring signature scheme for a set of potentially trusted witnesses, \eg
   members of an independent journalist association.  Then one learns
-  that at least one member of this set of trusted witnesses must have
+  that at least one member of this set must have
   been there.
 }.
 

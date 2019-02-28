@@ -18,14 +18,12 @@ The argument is the same for \cref{WitnessUnlink}.
 
 However, there are more data than \(\pid, \wid\) used in the protocol.
 The protocol uses \(\cid, \pid, \wid, t_s, t_s', l, \corr_\pid, \corr_\wid\).
-We assume that the \(\cid\) will be used by many individuals, as it is the 
-cause identifier.
-And thus it cannot be used to uniquely identity any individual.
-
-We assume that the location \(l\) is coarse enough so that many non-overlapping 
+The cause identifier \(\cid\) will be used for all proof shares
+pertaining to the same protest and thus it cannot be used to uniquely
+identify any individual. The location \(l\) is coarse enough so that many non-overlapping 
 \((\pid, \wid)\)-pairs use the same location.
 After all, it is the location of the protest, not the location within the 
-protest that is interesting.
+protest that matters.
 Thus \(l\) is not uniquely identifying any individual protester or witness.
 Likewise, thanks to the constraints in the time-stamp granularity 
 (\cref{timestamp}), \(t\) is not uniquely identifying either.
