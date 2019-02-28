@@ -12,25 +12,30 @@ counting% and the adversary model
 Throughout this paper, each time we refer to a participant, such as Alice, we 
 actually mean a personal device that can perform cryptographic operations and 
 communicate with other local devices on Alice's behalf.
-Furthermore, we assume that each participant has a digital certificate signed 
+Furthermore, we assume that each participant has a digital identity certificate signed 
 by \iac{CA}\footnote{%
   We note that any system that prevents Sybil attacks~\cite{SybilAttack} will 
   do.
   The \ac{CA} can be centralized or decentralized, but as 
   \textcite{SybilAttack} points out, the \ac{CA} must be \emph{logically 
     centralized} to prevent Sybil attacks.
-  See \cref{identity-limits} for a discussion on existing identity systems and 
-  their limits.
-} that ensures a one-to-one mapping between an identity and a cryptographic 
+ } that ensures a one-to-one mapping between an identity and a cryptographic 
 key\footnote{%
-  For every identity there exists at most one valid digital certificate.
+  For every physical person there exists at most one valid digital certificate.
 }.
 
-In practice, participants witness each other's participation using their smartphones (or similar devices) running the protocol described in \cref{Protocol} and uploading their testimony (\ie, proof shares) to a ledger (such as a blockchain) after the protest. 
-During the protest, the devices might be limited by their batteries and computations they can perform and only have local connectivity to each other.
-No connection to any global network such as the Internet is necessary at that time.  
-Nonetheless, before and after the protest, we assume that the devices have global connectivity (\ie Internet connections) and are not computationally limited by any battery.
-This assumption is necessary to ensure that the participants will be able to upload their proof shares to the ledger.
+In practice, participants witness each other's participation using
+their smartphones (or similar devices) running the protocol described
+in \cref{Protocol} and uploading their testimony (\ie, proof shares)
+to a ledger (such as a blockchain) after the protest.  During the
+protest, the devices might be limited by their batteries and
+computations they can perform and only have local connectivity to each
+other.  No connection to any global network such as the Internet is
+necessary at that time.  Nonetheless, before and after the protest, we
+assume that the devices have global connectivity (\ie Internet
+connections) and are not computationally limited by any battery, for
+the participants to be able to upload their proof shares to the
+ledger.
 
 \subsection{Desired properties}%
 \label{desired-properties}
@@ -54,7 +59,7 @@ in ~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
   \item[Universal verifiability:] anyone can verify that the result is according to the cast votes.
     \daniel{Douglas: technically this is Sako-Kilian, non-technically, it's 
       old.}
-  \item[Individual verifiability:] each voter can verify that his vote is included in the result.
+  \item[Individual verifiability:] each voter can verify that their vote is included in the result.
     \daniel{Douglas: this is much earlier than Sako-Kilian, in essence 
       Fiat-Shamir (technically). Non-technically, much older.}
 \end{description}
@@ -78,7 +83,7 @@ privacy properties for voting protocols are given as:
 \begin{description}
   \item[Vote privacy:] the voting does not reveal any individual vote.
   \item[Receipt freeness:] the voting system does not provide any data that can be used as a proof of how the voter voted.
-  \item[Coercion resistance:] a voter cannot cooperate with a coercer to prove his vote was cast in any particular way.
+  \item[Coercion resistance:] a voter cannot cooperate with a coercer to prove their vote was cast in any particular way.
 \end{description}
 
 %Coercion resistance is not possible to achieve for protests.

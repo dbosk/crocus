@@ -39,16 +39,16 @@ the case with \(\TStime\).
 
 According to \cref{TemporallyRelated}, we must also prove that a proof share has not been created after a certain time.
 Otherwise, Grace could argue that the proof share was created after the protest, thus defeating the purpose of our protocol.
-The hash values of the proof shares are committed to the ledger (\(\TSstamp\)), 
-which means that there is a negligible probability that they were created after 
-that:
+The hash values of the proof shares are committed to the ledger 
+(\(\TSsubmit\)), which means that there is a negligible probability that they 
+were created after that:
 Alice would have to choose a value \(y\) in the range of the hash function 
 \(\Hash\) and then find a pre-image \(x\) such that \(y = \Hash[x]\) and \(x\) 
 is a valid proof for the desired protest, at the desired time.
 If \(\Hash\) is collision resistant, she will succeed with negligible 
 probability.
 
-\subsubsection{Linkability}%
+\subsubsection{Counted only once}%
 \label{analysis-linkability}
 
 \Cref{CountOnce} aims to prevent Sybil attacks, in the sense
@@ -97,15 +97,17 @@ colluder.
 communication to witnesses.
 \ac{DBDH} is not really useful to Alice in this situation.)
  
-Forging a witness's signature on a proof is equivalent to breaking linkability 
+Forging a witness's signature on a proof is equivalent to breaking the 
+counted-only-once property 
 above (\cref{analysis-linkability}).
 As above, this is reduced to the security of the \(\AC\) scheme.
 
 Finally, Alice can corrupt witnesses.
 In the case of trusted witnesses, Alice's chance of corrupting witnesses is 
 reduced to the trustworthiness of the witnesses chosen by the verifier.
-In the \(\theta\)-threshold case, with unknown witnesses, (by assumption) Alice 
-succeeds only if she can corrupt at least \(\theta\) witnesses.
+In the \(\theta\)-threshold case, with unknown witnesses, 
+%(by assumption) 
+Alice succeeds only if she can corrupt at least \(\theta\) witnesses.
 
 We note that the strength function from \cref{DefParticipationCount} allows the 
 verifier to take different approaches, each of which must be individually 
@@ -137,15 +139,15 @@ Thus, the verification process differs for the two types of proofs.
 \label{analysis-individual}%
 \label{analysis-universal}
 
-\Cref{IndividualVerif} requires that Alice and Bob, as participants, can verify 
+\Cref{IndividualVerif} means that Alice and Bob, as participants, can verify 
 that their participation proofs (\ie proof shares) are indeed included in the 
 computed count.
 All proof shares (\ie \(\prf_{\pid, \prtst} = (\cid, \pid, \wid, t_s, t_s', 
-  t_e, t_e', l, \corr_\pid, \corr_\wid)\)) are committed to the ledger and 
-available from a public and permanent storage.
+  t_e, t_e', l, \corr_\pid, \corr_\wid)\)) are committed to the ledger~\(\TS\) 
+and available from a public and permanent storage.
 Thus, Alice and Bob can simply check that all of their proof shares are indeed 
 there and the security of individual verifiability depends on the properties of 
-the ledger and storage (\(\TS\), \cref{timestamp}).
+the ledger (\cf \cref{timestamp}).
 
 We assumed an honest-but-curious adversary controlling \(\TS\)\footnote{%
   We note that, in general, distributed (decentralized) ledgers cannot 
@@ -162,7 +164,7 @@ participation proofs counted are legitimate.
 As the proof shares are committed and stored publicly, anyone can
 download them, verify eligibility (\ie verify \(\corr_\pid,
 \corr_{\wid}\)) of the proofs and count them.
-As for individual verifiability, the security of universal verifiability is 
+Like for individual verifiability, the security of universal verifiability is 
 reduced to the properties of the ledger; but universal verifiability also 
 depends on the eligibility verification (each proof must be verified as 
 eligible to count).
