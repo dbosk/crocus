@@ -1,12 +1,7 @@
 \subsection{Privacy requirements}%
 \label{privacy-properties}
 
-For privacy, any temporary identifiers, such as pseudonyms, should only be 
-reused when strictly necessary (by the principle of data minimization) for the 
-fulfillment of verifiability properties (in \cref{verifiability-properties}) to 
-prevent inference on long-term identities by repeated samples and side 
-information.
-We can thus summarize the desired privacy properties as follows:
+
 \begin{requirements}[P]
 \item\label{PseudonymUnlink} \emph{Pseudonym unlinkability}: given a protest 
   (identifier \cid), protesters Alice and Bob, and a pseudonym \(\pid_b\), the 
@@ -21,5 +16,6 @@ We can thus summarize the desired privacy properties as follows:
 \end{requirements}
 
 What these properties say is that pseudonyms must look random 
-(\cref{PseudonymUnlink}) and that each pseudonym must be used as little as possible to still ensure the verifiability properties defined in the previous subsection
+(\cref{PseudonymUnlink}) and that each psdeudonym must not be reused
+more than strictly necessary for the verifiability properties 
 (\cref{ProtestUnlink,WitnessUnlink}).
