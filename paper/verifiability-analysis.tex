@@ -16,8 +16,9 @@ cannot drop submitted proof shares and thus cannot decrease the count.
 As indicated in the adversary model (\cref{formal-adversary-model}), the 
 adversary can submit proof shares as everyone else, so the adversary's only 
 option is to increase the count.
-We will thus let Alice pose as the adversary in this section, as she naturally 
-has an incentive to increase the count, as the organizer and a participant.
+We will thus let Alice pose as the adversary (malicious protester) in this 
+section, as she naturally has an incentive to increase the count, as the 
+organizer and a participant.
 
 \subsubsection{Temporal eligibility}%
 \label{analysis-temporal}
@@ -50,7 +51,7 @@ probability.
 \subsubsection{Linkability}%
 \label{analysis-linkability}
 
-\Cref{CountOnce} prevents Sybil attacks, in the sense
+\Cref{CountOnce} aims to prevent Sybil attacks, in the sense
 that Alice cannot provide two (or more) participation proofs for a
 specific protest and thus be counted more than once.
 To do this she must create more than one pseudonym, \(\pid\).
@@ -75,8 +76,8 @@ key, so Alice cannot ask for a second one.
 \Cref{SpatiallyRelated} is achieved by having a witness vouch that Alice was 
 indeed at the location when the proof share was created.
 In essence, the witness performs distance bounding to ensure Alice is close to 
-them, this is then propagated to the verifier through the signature and trust 
-in the witness's honesty.
+them, this is then propagated to the verifier through the signature and founded 
+on trust (remember that the witness is trusted by the verifier).
 Alice has three options:
 \begin{enumerate*}
 \item\label{spatial-DF} relay her communication with an honest witness through 
@@ -86,17 +87,18 @@ Alice has three options:
   the location.
 \end{enumerate*}
 
-Relaying the communication is \iac{DBDF} attack against the \ac{DB} protocol.
-We assumed \ac{DBDF} resistance for the \ac{DB} protocol, so Alice cannot 
-succeed with more than negligible probability.
+Relaying the communication is an attack against the \ac{DB} protocol.
+We assumed \iac{DB} protocol with \ac{DBTF} resistance (the most relevant 
+property for this situation), so Alice cannot succeed with more than negligible 
+probability.
  
 Forging a witness's signature on a proof is equivalent to breaking linkability 
 above (\cref{analysis-linkability}).
 As above, this is reduced to the security of the \(\AC\) scheme.
 
-Finally, in the case of trusted witnesses, Alice's chance of corrupting 
-witnesses is reduced to the trustworthiness of the witnesses chosen by the 
-verifier.
+Finally, Alice can corrupt witnesses.
+In the case of trusted witnesses, Alice's chance of corrupting witnesses is 
+reduced to the trustworthiness of the witnesses chosen by the verifier.
 In the \(\theta\)-threshold case, with unknown witnesses, (by assumption) Alice 
 succeeds only if she can corrupt at least \(\theta\) witnesses.
 
@@ -108,7 +110,8 @@ In all of these cases, it is up to the verifier to perform a risk analysis.
 \subsubsection{Designated use}%
 \label{analysis-designated}
 
-\Cref{DesignatedEvent} is to prevent Alice (or someone else) from reusing the same proof (or proof share) for another event.
+\Cref{DesignatedEvent} aims to prevent Alice (or someone else) from reusing the 
+same proof (or proof share) for another event.
 This possibility is prevented through the use of \(\cid\) in the proof shares.
 To reuse the proof share for another protest, with a different manifesto, one 
 must find a second pre-image \(\mfst'\) such that \(\cid = \Hash[\mfst] = 
@@ -155,5 +158,6 @@ As the proof shares are committed and stored publicly, anyone can
 download them, verify eligibility (\ie verify \(\corr_\pid,
 \corr_{\wid}\)) of the proofs and count them.
 As for individual verifiability, the security of universal verifiability is 
-reduced to the properties of the ledger and storage; but universal 
-verifiability also depends on the eligibility verification.
+reduced to the properties of the ledger; but universal verifiability also 
+depends on the eligibility verification (each proof must be verified as 
+eligible to count).
