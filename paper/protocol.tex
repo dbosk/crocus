@@ -140,10 +140,12 @@ compute an identifier for the cause by hashing the manifesto,
 \(\cid\gets \Hash[\mfst]\) (and comparing the result to that received
 from the organizer, we omit this in the protocol for readibility).
 Afterwards, this identifier is used to create the protest-specific identifier 
-for the protester, \(\pid\gets \ACprf[_{\sk_P}][\cid]\) (see 
-\cref{fig:ProofFig} and \cref{ACprfAlg}).
-The protester should also receive a time-correlated random value from the 
-time-stamping service, \(t_s\gets \TSget\).
+for the protester, \(\pid\gets \ACprf[_{\sk_P}][\cid]\)%
+% (see \cref{fig:ProofFig} and \cref{ACprfAlg} in the appendix for details of 
+%the algorithms)%
+.
+The protester should also fetch a time-correlated random value, \(\t_s\), from 
+\(\TS\), \(t_s\gets \TSget\).
 
 
 \emph{Joining as a witness: \(t_s'\gets \CROCUSjoin_W\).}
@@ -157,10 +159,10 @@ set the start of the time interval of creation for the proof share.
 In the participation phase, the protester and 
 the witness construct the proof share of the protester (\cref{fig:ProofFig}).
 
-The protester sends \(\pid\) to the witness.
+The protester sends \(\pid\) and \(t_s\) to the witness.
 Then they run the protocol \[
   \Proto{\ACproveSig[\spk, k, r, \sigma]}{\ACverifySig[\spk, \ssk]}
-\] (see \cref{ACacAlg}).
+\] (see \cref{ACacAlg}), \(k\) and \(r\) are part of \(\sk_P\).
 Note that the \acf{PK} in \cref{ACacAlg} must be
 run as a \iacf{PPK}, which we do by distance bounding.
 If the protocol succeeds, the witness will compute \(\wid \gets 
@@ -168,11 +170,11 @@ If the protocol succeeds, the witness will compute \(\wid \gets
 
 
 \emph{Submission: \(\psh_P\gets \CROCUSsubmit[_P][\cid, \pid, \wid, t_s, t_s',  l]\).}
-The protester commits the proof-share data to the 
-time-stamping service and receives the proof of commitment, \(t_e\gets 
-  \TSstamp[\Hash[\cid, \pid, \wid, t_s, t_s', l]]\). The sooner this
-  is done, the higher the precision for the time-dependent eligibility criterion
-  will be for later counting. 
+The protester commits the proof-share data to the ledger~\(L\) and receives the 
+proof of commitment, \(t_e\gets \TSsubmit[\Hash[\cid, \pid, \wid, t_s, t_s', 
+  l]]\).
+The sooner this is done, the higher the precision for the time-dependent 
+eligibility criterion will be for later counting.
 The remaining operations are not time critical.
 
 The protester computes \iac{NIZK} proof \(\corr_{\pid}\), which shows the 
@@ -188,13 +190,12 @@ More specifically,
 \end{multline*}
 Finally, the protester uploads the tuple \[
   \psh_P = (\cid, \pid, \wid, t_s, t_s', t_e, l, \corr_{\pid})
-\] for permanent storage.
+\] for permanent storage, \(\TSsubmit[\psh_P]\).
 
 \emph{Submission: \(\psh_W\gets \CROCUSsubmit[_W][\cid, \pid, \wid, t_s, t_s', 
     l]\).}
 The witness should, just as the protester, commit the proof-share data to the 
-time-stamping service (\ie the ledger), \(t_e'\gets \TSstamp[\Hash[\cid, \pid, \wid, t_s, t_s', 
-  l]]\).
+ledger, \(t_e'\gets \TSstamp[\Hash[\cid, \pid, \wid, t_s, t_s', l]]\).
 %(This is to make the time interval as early as possible, whoever is the faster 
 %will submit it.) \sonja{but both do}
 Then, without any time requirements, the witness computes \iac{NIZK} proof 
@@ -209,7 +210,7 @@ Then, without any time requirements, the witness computes \iac{NIZK} proof
 \end{multline*}
 Finally, the witness uploads the tuple \[
   \psh_W = (\cid, \pid, \wid, t_s, t_s', t_e', l, \corr_{\wid})
-\] for permanent storage on the ledger.
+\] for permanent storage on the ledger, \(\TSsubmit[\psh_W]\).
 
 
 \begin{figure*}
@@ -288,9 +289,9 @@ Finally, the witness uploads the tuple \[
 % strength functions.
 
 
-To count or verify the participation count for a protest \(\prtst\) with identifier 
-\(\cid_0\), a verifier must download from the storage system \(\TS\) the set 
-\(\pshs_{\cid_0}\) of all \(s_P\) and \(s_W\) tuples containing \(\cid_0\).
+To count or verify the participation count for a protest \(\prtst\) with 
+identifier \(\cid_0\), a verifier must download the set \(\pshs_{\cid_0}\) of 
+all \(s_P\) and \(s_W\) tuples containing \(\cid_0\) from the ledger~\(\TS\).
 Then from \(\pshs_{\cid_0}\), a verifier can build, in succession,
 \begin{enumerate*}
 \item the valid proof shares \(s_j^{(i)}\) for all matching pairs \((s_P, 
@@ -361,7 +362,8 @@ digitally signing each proof share\footnote{%
   group or ring signature scheme for a set of trusted witnesses, \eg
   members of an independent journalist association.  Then one learns
   that at least one member of this set of trusted witnesses must have
-  been there.  }.
+  been there.
+}.
 
 Note that, thanks to the \((\str,\theta)\)-eligibility criterion
 (\cref{DefParticipationCount}), the method of counting is extremely
