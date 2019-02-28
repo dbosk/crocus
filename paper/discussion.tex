@@ -35,15 +35,15 @@ when it comes to elections.  In functioning voting systems, there is
 no more than one ballot (token) per physical person and the ballot is
 not linked to the vote. Audits and other processes help ensure that
 there are no ballots for non existing persons (Sybil-proof identities)
-or extra ballots for voters. Similarly, here, we need a 1) mapping
+or extra ballots for voters. Similarly, here, we need 1) a mapping
 between an identity and a physical person (in the form of an anonymous
 identity credential, functioning as a pseudonym for privacy
 properties) and 2) only one such credential per identity (token of
-personhood instead of token of being a voter in a particular
+physical personhood instead of token of being a voter in a particular
 election). With the same caveat as for identities for voting for 1),
 mechanisms such as collective signing~\cite{collective-signing} could
 ensure 2). Again, this is not yet realized, but with the current pace
-for adopting public ledgers and efforts for cross-national identity
+of adopting public ledgers and efforts for cross-national identity
 credentials such as the EU's eIDAS, the prerequisites exist. Moreover,
 the code of practice for European
 statistics\footnote{\url{http://ec.europa.eu/eurostat/web/quality/european-statistics-code-of-practice}}
@@ -85,7 +85,7 @@ Like other schemes involving Internet communication, we do not
 consider a global passive adversary.  Such an adversary could use side
 information to do \eg time-correlation attacks against people that
 submit transactions concerning a particular \(\cid\) over Tor,
-identify them, and link them to the \(\cid\) . On a more realistic
+identify them, and link them to the \(\cid\). On a more realistic
 scale, a national passive adversary can control all the nation's
 \acp{ISP} but would not be able to observe all Tor exit nodes or
 otherwise observe all input to the ledger needed to perform such
@@ -102,9 +102,9 @@ thus not a weakness introduced by our scheme.
 
 Besides these privacy concerns, there are also verifiability
 concerns. There, we have shown that the security is reduced to the
-witnesses. In the case of the canonical \CROCUS with trusted
-witnesses, as in any trusted third party, it simply reduces to their
-trustworthiness.
+witnesses. In the case of using trusted witnesses --- which we
+consider the canonical \CROCUS --- it simply reduces to their
+trustworthiness, like in any system with trusted third parties.
 
 We outlined a variant of counting and verifying for \CROCUS that uses
 a threshold~\(\theta\) of untrusted witnesses and, trivially, resists
