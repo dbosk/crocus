@@ -144,7 +144,7 @@ for the protester, \(\pid\gets \ACprf[_{\sk_P}][\cid]\)%
 % (see \cref{fig:ProofFig} and \cref{ACprfAlg} in the appendix for details of 
 %the algorithms)%
 .
-The protester should also fetch a time-correlated random value, \(\t_s\), from 
+The protester should also fetch a time-correlated random value, \(t_s\), from 
 \(\TS\), \(t_s\gets \TSget\).
 
 
@@ -195,7 +195,7 @@ Finally, the protester uploads the tuple \[
 \emph{Submission: \(\psh_W\gets \CROCUSsubmit[_W][\cid, \pid, \wid, t_s, t_s', 
     l]\).}
 The witness should, just as the protester, commit the proof-share data to the 
-ledger, \(t_e'\gets \TSstamp[\Hash[\cid, \pid, \wid, t_s, t_s', l]]\).
+ledger, \(t_e\gets \TSsubmit[\Hash[\cid, \pid, \wid, t_s, t_s', l]]\).
 %(This is to make the time interval as early as possible, whoever is the faster 
 %will submit it.) \sonja{but both do}
 Then, without any time requirements, the witness computes \iac{NIZK} proof 
@@ -242,16 +242,16 @@ Finally, the witness uploads the tuple \[
   \hfill
   \begin{subfigure}{\columnwidth}
     \begin{align*}
-      P\colon & t_e\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]] \\
-      W\colon & t_e'\gets \TSstamp[\Hash[\pid, \wid, t_s, t_s', l]] \\
-      W\colon & \TSstore[(\cid, \pid, \wid, t_s, t_s', t_e, l, 
+      P\colon & t_e\gets \TSsubmit[\Hash[\pid, \wid, t_s, t_s', l]] \\
+      W\colon & t_e'\gets \TSsubmit[\Hash[\pid, \wid, t_s, t_s', l]] \\
+      W\colon & \TSsubmit[(\cid, \pid, \wid, t_s, t_s', t_e, l, 
       \pi_{\wid})],\quad \text{where} \\
         & \pi_{\wid} = \SPK\mleft\{ (\sk_W) : \mright. \\
         & \qquad \wid = \ACprf[_{\sk_W}][\pid], \\
         & \qquad \mleft. \sigma_W' = \ACblind[\ACsign[_{\ssk}][\sk_W]]\mright\} 
         \\
         & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l) \\
-      P\colon & \TSstore[(\cid, \pid, \wid, t_s, t_s', t_e, l, 
+      P\colon & \TSsubmit[(\cid, \pid, \wid, t_s, t_s', t_e, l, 
       \pi_{\pid})],\quad \text{where}\\
         & \pi_{\pid} = \SPK\mleft\{ (\sk_P) : \mright. \\
         & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
