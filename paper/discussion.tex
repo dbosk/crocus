@@ -1,8 +1,9 @@
 \section{Discussion: limitations of assumptions}%
 \label{Discussion}
 
-%\subsection{Assumptions limitations} 
-\subsection{Equipment}
+%\subsection{Assumptions limitations}
+%\subsection{Equipment}
+\subsection{Implementability}
 
 Some of the assumptions that are required for implementing our proposition are 
 not yet realized, however, we believe that they soon will be.
@@ -35,14 +36,20 @@ when it comes to elections.  In functioning voting systems, there is
 no more than one ballot (token) per physical person and the ballot is
 not linked to the vote. Audits and other processes help ensure that
 there are no ballots for non existing persons (Sybil-proof identities)
-or extra ballots for voters. Similarly, here, we need 1) a mapping
-between an identity and a physical person (in the form of an anonymous
-identity credential, functioning as a pseudonym for privacy
-properties) and 2) only one such credential per identity (token of
-physical personhood instead of token of being a voter in a particular
-election). With the same caveat as for identities for voting for 1),
-mechanisms such as collective signing~\cite{collective-signing} could
-ensure 2). Again, this is not yet realized, but with the current pace
+or extra ballots for voters. Similarly, here, we need
+\begin{enumerate*}
+\item\label{discussion-credential-map} a mapping between an identity and a 
+  physical person (in the form of an anonymous identity credential, functioning 
+  as a pseudonym for privacy
+properties) and
+\item\label{discussion-one-credential} only one such credential per identity 
+  (token of physical personhood instead of token of being a voter in a 
+  particular election).
+\end{enumerate*}
+With the same caveat as for identities for voting 
+for~\ref{discussion-credential-map}, mechanisms such as collective 
+signing~\cite{collective-signing} could ensure~\ref{discussion-one-credential}.
+Again, this is not yet realized, but with the current pace
 of adopting public ledgers and efforts for cross-national identity
 credentials such as the EU's eIDAS, the prerequisites exist. Moreover,
 the code of practice for European
@@ -60,6 +67,15 @@ relay attacks have driven the development of hardware for doing
 distance bounding in car keys.  We believe that using smartphones for
 contactless payment and electronic tickets will drive a similar
 development for this hardware on smartphones.
+
+Thus, at the moment, we can implement our scheme for petitions.
+The lack of distance-bounding hardware makes it impossible to verify location, 
+but the required anonymous credentials can be issued as part of a dedicated 
+service.
+With electronic IDs (eIDAS), the service can ensure that each identity gets 
+exactly one anonymous credential.
+The downside of such issuance is that results cannot be summed across different 
+petition services.
 
 
 \subsection{Communications}
