@@ -65,14 +65,13 @@ distance bounding in car keys.  We believe that using smartphones for
 contactless payment and electronic tickets will drive a similar
 development for this hardware on smartphones.
 
-Thus, at the moment, we can implement our scheme for petitions.
-The lack of distance-bounding hardware makes it impossible to verify location, 
-but the required anonymous credentials can be issued as part of a dedicated 
-service.
-With electronic IDs (eIDAS), the service can ensure that each identity gets 
-exactly one anonymous credential.
-The downside of such issuance is that results cannot be summed across different 
-petition services.
+If we remove the distance-bounding component, we can, given some
+caveats on trust and setup, use \CROCUS for online petitions: a
+trusted consortium could set up a petition site, ensure that only one
+credential is issued per identity (given sybil-proof identities,
+again, building on something like eIDAS), use \CROCUS without
+witnesses and location and still benefit from the privacy and
+verifiability properties from its pseudonyms and ledger setup.
 
 
 \subsection{Communications}
