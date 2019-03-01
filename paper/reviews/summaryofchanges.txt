@@ -1,109 +1,70 @@
-# Summary of Changes
+Summary of Changes
 
-[Include a paragraph or two summarising the main changes you have made 
-in the revision and how they address the main concerns raised by the 
-reviewers.]
+>===== Meta-Review =====
 
-[Respond point by point to the issues mentioned in the meta-review. Be 
-clear and explicit in explaining what concern(s) the reviewer(s) raised 
-in the meta-review, and how you have addressed them. Also, please point 
-to the section(s) of the paper where the changes can be found.]
+>The reviewers liked the problem this paper aims to solve, and all felt it
+>was relevant to PETS. However, the reviewers were not convinced that the
+>paper's solution was practical and technically sound, which led to a reject
+>and resubmit decision.
 
-The main concerns of the meta review were about:
+>The main concerns were about the deployment scenario which relies on a
+>central entity,
 
-> - the deployment scenario which relies on a central entity,
+We clarified and elaborated on identity assumptions throughout the
+paper, in the introduction, system model, security analysis, and
+discussion. While we provide some suggestions on how the identity
+provision could be done in a suitable way, the details are out of
+scope and we point to voting as a comparable area that advances
+despite imperfect realizations of identity assumptions.
 
-We have clarified and elaborated on the identity assumptions. The 
-deployment scenario doesn't rely on a central entity, it's a *logically* 
-centralized entity --- just like a distributed ledger (we can even quote 
-Schneier on that).
 
-With the current state of things, we see the shortest path to deployment 
-through reliance on existing electronic IDs (e.g. eIDAS infrastructure 
-in the EU). These ensure Sybil-proof identities, both from the 
-individual's and the government's perspective. Depending on country, 
-there are strong audit trails for adding new identities, which would 
-prevent the government from performing a Sybil attack. We rely on this 
-system for other democratic processes, such as voting, so it should be 
-sufficient for our purposes too.
+>the complexity of the protocol,
+We simplified protocol and services presentations in protocol
 
-But, as we point out, if someone would come up with a perfectly 
-decentralized, Sybil-proof system for identities, it can be plugged into 
-our protocol without any problem.
 
-> - the complexity of the protocol, and
+>and the use of yet-to-be-designed primitives like distance bounding
+>protocols
 
-We've tried to simplify the presentation. The basic idea of the protocol 
-is actually quite simple: everyone has a key k, to sign up for a 
-petition cid they compute a pseudonym pid for that particular pedition, 
-such that pid = PRF[k, cid]. Then they submit a non-interactive 
-zero-knowledge (NIZK) proof that pid is indeed of the correct form (and 
-not just any random value).
+Distance-bounding protocols exist, some even very close to what we need: we
+only need one with particular properties due to our choice of anonymous
+credentials. We mentioned two possible avenues of adapting existing DB
+protocols to our needs. We have been working on one of them with
+promising results (but not yet fully conclusive verification and have
+thus not published or included it here). 
 
-Some complexity is added when we want to extend this idea to protests, 
-because then we need to tie the time and location into that NIZK proof. 
-The only known method for Alice to prove that she has been in a 
-particular location is to have a trusted-third party vouch for her (i.e. 
-a location proof by, what we call, a witness). How is a witness supposed 
-to tell the difference between Alice standing in front of them or Bob 
-standing in front of them relaying stuff from Alice? This is the problem 
-solved by distance bounding. Now Alice must prove the correctness of pid 
-and that she (her key k) is close to the witness.
+> while leaving existing primitives like functional encryption out of
+>  the model.
+We have now included a more complete  description of distance-bounding protocols in the Building Blocks section, explicitly addressing functional encryption and how it does
+not help the adversary given terrorist-fraud resistant distance bounding.
 
-> - the use of yet-to-be-designed primitives like distance bounding 
->   protocols while leaving existing primitives like functional 
->   encryption out of the model.
+>Furthermore, the reviewers felt that the paper should assume a more hostile
+> environment since the attacker could be a government entity.
+We have edited our adversary model, clarified the government problem,
+improved our security analysis, and added to the discussion.
 
-There is no existing DB protocol that can do the proof-of-knowledge that 
-we need. However, we believe that such a protocol can be constructed and 
-we're currently working on that.
+>In particular, the authors should protect against adversary model A2
+> and avoid
+We only have one attacker now for clarity. A2 was a global passive
+adversary. We do not agree that protecting against a global passive
+adversary is a pre-requisite for publishing a paper that contains any
+kind of Internet communications. We changed the adversary model,
+security analysis, and discussion accordingly.
 
-As to the functional encryption: we have now included a more complete 
-description of distance-bounding protocols in the Building Blocks 
-section, this should hopefully make it clear that functional encryption 
-is in fact considered. Terrorist-fraud resistance implies that there is 
-no computation that Alice can do to help Bob fool a witness into 
-believing Alice is close when she's not --- effectively her only option 
-is to give her private key to Bob.
+>vulnerabilities even when a large portion of the witnesses is
+ malicious.
 
-> - that the paper should assume a more hostile environment since the 
->   attacker could be a government entity. In particular, the authors 
->   should protect against adversary model A2 and avoid vulnerabilities 
->   even when a large portion of the witnesses is malicious.
+We improved the adversary model, security analysis, and discussion to
+that end. 
 
-We have now clarified the adversary. In particular we removed A2 as that 
-adversary seemed to cause more confusion that it did help. A2 was 
-essentially an abstraction of a global passive adversary.
+>We hope that these comments will help the authors improve the paper towards
+>future acceptance.
+We thank the reviewers for the constructive comments that helped us
+see where we needed to improve the paper. While we disagree with what
+we perceived as quite categorical requirements (the one regarding identity
+provision potentially boiling down to saying one cannot assume a trusted third
+party for something because it could turn out to be not trustworthy
+and one about global adversary resistance), we have made substantial
+changes to the paper throughout based on the reviewers' feedback.
 
-We have emphasized why we think that (then) A1 is sufficient: we assume 
-that people can use Tor etc. for anonymous submission etc.
-
-improved adversary model and security analysis
-
-[Mention whether/how you have addressed the other issues raised in the 
-individual reviews (not included in the meta-review.)
-If there are points in the reviews you disagree with, and have thus not 
-addressed, make sure you make a convincing case providing your reasons.]
-
-improved discussion of limitations
-improved performance/communications discussion
-
-did not do (give reasons)
-
-solve identity problem
-resist A2 (global passive adversary)
-include functional encryption instead of (?) distance bounding
-
-[Provide info on other changes you might have made to the paper (not 
-necessarily raised in the reviews).
-Refrain from listing very minor changes (e.g., typos), it’s assumed that 
-you have corrected them.]
-
-[You are advised to put some effort in drafting a summary that makes it 
-easy for reviewers to understand how the new version compares to the old 
-one, and how you have addressed their comments and improved the paper. 
-Expect reviewers to read your summary of changes before they read the 
-new version of the paper, so you should see it as an opportunity to 
-present the improvements you’ve made during the revision of the paper.]
 
 
