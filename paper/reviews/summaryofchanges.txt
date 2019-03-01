@@ -1,5 +1,8 @@
 Summary of Changes
 
+link to previous version:
+https://submit.petsymposium.org/2019.3B/paper.php/55
+
 >===== Meta-Review =====
 
 >The reviewers liked the problem this paper aims to solve, and all felt it
@@ -19,7 +22,7 @@ despite imperfect realizations of identity assumptions.
 
 
 >the complexity of the protocol,
-We simplified protocol and services presentations in protocol
+We simplified protocol and services presentations in the protocol section.
 
 
 >and the use of yet-to-be-designed primitives like distance bounding
