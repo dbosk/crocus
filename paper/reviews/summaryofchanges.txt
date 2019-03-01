@@ -1,4 +1,4 @@
-Summary of Changes
+# Summary of Changes
 
 >===== Meta-Review =====
 
@@ -34,30 +34,34 @@ thus not published or included it here).
 
 > while leaving existing primitives like functional encryption out of
 >  the model.
+
 We have now included a more complete  description of distance-bounding protocols in the Building Blocks section, explicitly addressing functional encryption and how it does
 not help the adversary given terrorist-fraud resistant distance bounding.
 
 >Furthermore, the reviewers felt that the paper should assume a more hostile
 > environment since the attacker could be a government entity.
+
 We have edited our adversary model, clarified the government problem,
 improved our security analysis, and added to the discussion.
 
 >In particular, the authors should protect against adversary model A2
 > and avoid
+
 We only have one attacker now for clarity. A2 was a global passive
 adversary. We do not agree that protecting against a global passive
 adversary is a pre-requisite for publishing a paper that contains any
 kind of Internet communications. We changed the adversary model,
 security analysis, and discussion accordingly.
 
->vulnerabilities even when a large portion of the witnesses is
- malicious.
+>vulnerabilities even when a large portion of the witnesses is 
+malicious.
 
 We improved the adversary model, security analysis, and discussion to
 that end. 
 
 >We hope that these comments will help the authors improve the paper towards
 >future acceptance.
+
 We thank the reviewers for the constructive comments that helped us
 see where we needed to improve the paper. While we disagree with what
 we perceived as quite categorical requirements (the one regarding identity
@@ -65,6 +69,5 @@ provision potentially boiling down to saying one cannot assume a trusted third
 party for something because it could turn out to be not trustworthy
 and one about global adversary resistance), we have made substantial
 changes to the paper throughout based on the reviewers' feedback.
-
 
 
