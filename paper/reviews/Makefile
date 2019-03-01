@@ -3,6 +3,9 @@ all: popets-changes.pdf
 
 popets-changes.pdf: popets-changes.tex ../main.pdf
 
+popets-changes.tex: summaryofchanges.txt preamble.tex
+	pandoc -H preamble.tex -s summaryofchanges.txt -o $@
+
 ../main.pdf:
 	${MAKE} -C $(dir $@) $(notdir $@)
 
