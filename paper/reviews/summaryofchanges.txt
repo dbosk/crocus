@@ -22,6 +22,7 @@ despite imperfect realizations of identity assumptions.
 
 
 >the complexity of the protocol,
+
 We simplified protocol and services presentations in the protocol section.
 
 
