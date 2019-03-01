@@ -35,7 +35,9 @@ thus not published or included it here).
 > while leaving existing primitives like functional encryption out of
 >  the model.
 
-We have now included a more complete  description of distance-bounding protocols in the Building Blocks section, explicitly addressing functional encryption and how it does
+We have now included a more complete  description of distance-bounding 
+protocols in the Building Blocks section (\cref{building-blocks}), 
+explicitly addressing functional encryption and how it does
 not help the adversary given terrorist-fraud resistant distance bounding.
 
 >Furthermore, the reviewers felt that the paper should assume a more hostile
