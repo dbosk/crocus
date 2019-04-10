@@ -18,6 +18,7 @@ SRC+= 	protest-model.tex
 SRC+= 	verifiability-properties.tex
 SRC+=	privacy-properties.tex
 SRC+= 	adversary-model.tex 
+SRC+= 	formalization.tex
 SRC+= 	building-blocks.tex
 SRC+= 	ZKPK.tex
 #SRC+= 	ZKPK-instantiations.tex
