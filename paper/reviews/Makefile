@@ -10,6 +10,16 @@ popets-changes.tex: summaryofchanges.txt preamble.tex
 	${MAKE} -C $(dir $@) $(notdir $@)
 
 
+.PHONY: clean
+clean:
+	${RM} popets-changes.pdf popets-changes.tex
+	${MAKE} -C .. clean
+
+.PHONY: distclean
+distclean:
+	${MAKE} -C .. distclean
+
+
 .PHONY: wc
 wc: popets-2019.3-rebuttal.md
 
