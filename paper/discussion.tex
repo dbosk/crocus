@@ -1,167 +1,200 @@
-\section{Discussion}%
+\section{Discussion: limitations of assumptions}%
 \label{Discussion}
 
-\subsection{Assumptions limitation} 
+%\subsection{Assumptions limitations}
+%\subsection{Equipment}
+\subsection{Implementability}
 
 Some of the assumptions that are required for implementing our proposition are 
-not yet realized, however, we believe that they will soon be realized.
+not yet realized, however, we believe that they soon will be.
 
 One major issue is that all protesters must have smartphones --- in many 
-countries with oppressive regimes, far from all possess smartphones.
+countries with oppressive regimes, far from all possess smartphones
+currently, though the rate is on the rise.
 
-On those smartphones we additionally require digital certificates signed by a 
-central authority.
-This is also not yet widely available.
-However, more and more states (governments) are starting to issue digital 
-certificates in identity cards and many already have crypto-enabled RFID chips 
-in their passports.
-\Eg Estonia, Germany, and Sweden already have the infrastructure and widely 
-deployed electronic identification systems, and the EU already has regulation 
-in place (eIDAS).
-The speed of adoption will depend on the architecture of these systems.
-For instance, the system used in Sweden, BankID, is implemented in software (on 
-smartphones) and can thus be easily upgraded to include the anonymous 
-credentials that \CROCUS needs.
-As for wide deployment: more than \SI{95}{\%} of people in the ages 21--50 uses 
-BankID, \SI{88}{\%} for ages 51--60 and \SI{76}{\%} for ages 
-61--70\footnote{%
-  Official statistics, in Swedish:  
-  \url{https://www.bankid.com/assets/bankid/stats/2018/statistik-2018-04.pdf}.
-}.
+On those smartphones we additionally require an identity credential
+signed by some \ac{CA}.  This is also not yet widely available.
+However, more and more nation states are starting to issue digital
+certificates in identity cards and many already have crypto-enabled
+RFID chips in their passports.  \Eg Estonia, Germany, and Sweden
+already have the infrastructure and widely deployed electronic
+identity systems, and the EU already has regulation in place (eIDAS).
+%The speed of adoption will depend on the architecture of these systems.
+%For instance, the system used in Sweden (BankID) is implemented in software 
+%(most use it on smartphones) and can thus easily be upgraded to include the 
+%anonymous credentials that \CROCUS needs. \sonja{this means one can
+%have more than one more easily as well}
+In Sweden, more than \SI{95}{\%} of people in the ages 21--50 use BankID, 
+\SI{88}{\%} for ages 51--60 and \SI{76}{\%} for ages 
+61--70~\cite{BankID-stats}.
+
+National identities, however, are problematic when there is an
+incentive for the government to create more identities, for example
+when it comes to elections.  In functioning voting systems, there is
+no more than one ballot (token) per physical person and the ballot is
+not linked to the vote. Audits and other processes help ensure that
+there are no ballots for non existing persons (Sybil-proof identities)
+or extra ballots for voters. Similarly, here, we need
+\begin{enumerate*}
+\item\label{discussion-credential-map} a mapping between an identity and a 
+  physical person (in the form of an anonymous identity credential, functioning 
+  as a pseudonym for privacy
+properties) and
+\item\label{discussion-one-credential} only one such credential per identity 
+  (token of physical personhood instead of token of being a voter in a 
+  particular election).
+\end{enumerate*}
+With the same caveat as for identities for voting 
+for~\ref{discussion-credential-map}, mechanisms such as collective 
+signing~\cite{collective-signing} could ensure~\ref{discussion-one-credential}.
+Again, this is not yet realized, but with the current pace
+of adopting public ledgers and efforts for cross-national identity
+credentials such as the EU's eIDAS, the prerequisites exist. Moreover,
+the code of practice for European statistics~\cite{EuroStat} includes 
+principles such as coordination and cooperation as well as
+impartiality and objectivity and is an example of both efforts toward
+and motivation for cross-national improvements of statistics.
+
 
 We also need to run distance-bounding protocols on smartphones.
-Achieving distance-bounding protocols on smartphones is currently not feasible 
-within a meaningful range of distance needed for our scenario.
-Indeed, existing smartphones lack the required hardware to conduct the distance bounding fast enough.
-However, thefts of luxury cars due to relay attacks have driven the development 
-of hardware for doing distance bounding in car keys.
-We believe that using smartphones for contactless payment and electronic 
-tickets will drive a similar development for this hardware on smartphones.
+Achieving this is currently not feasible within a meaningful range as
+existing smartphones lack the required hardware to conduct the
+distance bounding fast enough.  However, thefts of luxury cars due to
+relay attacks have driven the development of hardware for doing
+distance bounding in car keys.  We believe that using smartphones for
+contactless payment and electronic tickets will drive a similar
+development for this hardware on smartphones.
 
-%Seb: I have commented this part because it is redondant with the performance 
-%and evaluation part
-%Furthermore, recent technological progress has enabled more advanced cryptographic primitives to be used on smartcards and smartphones that could be used to implement our solution.
-%For instance, benchmarks~\cite{Benchmarking} have shown that Android devices are now fast enough to efficiently implement Privacy Enhancing Technologies (PETs), with a Samsung Galaxy S i9000 being able to execute Idemix in \SI{153}{\milli\second}. 
-%However, those benchmarks also demonstrate that smartcards remain slow to process complex protocols such as Idemix or U-Prove (taking between \SI{4}{\second} and \SI{8}{\second} to process them). %
-%While the limited processing power of many embedded systems has been a challenge, Idemix has been successfully implemented to prove the possession of credentials on Java Cards by~\citet{Bichsel} and the IRMA project, released in 2014, aimed to achieve an implementation ``suitable for real life transactions''~\cite{IRMA} while maintaining security and privacy for its users. 
-
-%Seb: I have moved the two following sentences to the performance analysis section
-%In addition, the distance-bounding chips\footnote{\url{https://www.3db-access.com}} currently available on the market can already enable proofs of proximity for any range of up to 200 meters.
-%One of the short-term objectives is to be able to integrate them in phones or smartcards in the near-future, and even phones with off-the-shelf hardware running in RFID-emulation mode have shown promising results~\cite{DBonSmartphones}.
-% Currently, the only problem preventing wide deployment is the lacking hardware 
-% in smartphones.
-% However, due to the rapid development of \enquote{smart} solutions, we believe 
-% this is only a matter of time.
-% \Eg mobile payments and public transport tickets that can be used over \ac{NFC} 
-% will eventually require \iac{DB} chip.
-% Without \ac{DB} for these applications, the user must manually confirm on the 
-% screen to prevent attacks.
-% We believe that the drive for increased usability will replace this type of 
-% confirmation by distance bounding.
-
-% The deployment of the needed credentials should not be a problem either.
-% There are already countries where national \ac{eID} systems are widely deployed.
-
-\include*{MANETs}
+If we remove the distance-bounding component, we can, given some
+caveats on trust and setup, use \CROCUS for online petitions: a
+trusted consortium could set up a petition site, ensure that only one
+credential is issued per identity (given sybil-proof identities,
+again, building on something like eIDAS), use \CROCUS without
+witnesses and location and still benefit from the privacy and
+verifiability properties from its pseudonyms and ledger setup.
 
 
+\subsection{Communications}
 
-\subsection{Receipt freeness, Sybil and key renewal}
-
-We need a strong connection between a person and the cryptographic key.
-Currently, governments are the ones that have the strongest incentives to solve 
-the problem (\enquote{birth certificates}) to prevent \eg fraud in the 
-well-fare system.
-So we believe that relying on these government-issued credentials is the most 
-probable solution.
-Unfortunately, if we rely on government-issued credentials, we cannot prevent 
-the government from performing Sybil attacks --- since it can issue arbitrarily 
-many \emph{valid} credentials.
-In this case, it does not make sense to verify any pro-government protests in 
-which Grace's authoritarian regime wants to demonstrate its wide 
-support~\cite{AlJazeeraOnVenezuela2017,VenezuelanStateWorkersCalledToParticipate}.
-But as long as the protests are not aligned with the interests of the \ac{CA}, 
-the counts can be trusted.
-
-We pointed out already in \cref{desired-properties} that receipt freeness 
-conflicts with verifiability.
-Indeed, receipt freeness for \emph{participation} implies that one can 
-participate twice.
-This is different from voting where the organizers note participation to 
-prevent voting twice, but provides receipt freeness for the actual ballot.
-In the case of \CROCUS, Grace can verify Alice's participation if she gets 
-access to Alice's key; then she can recompute \(\pid\) to verify Alice's 
-participation.
-
-Alice could try to destroy the receipt, \ie that she destroys her private key.
-This means that she cannot participate in any protest (and be counted).
-This brings up the concern of key renewal: each time Alice renews her digital 
-certificate, she can participate with a new \(\pid\).
-For physical identity cards this is probably not a problem, as there is a 
-manufacturing process of a few days.
-For purely electronic \enquote{identity cards}, such as BandID mentioned above, 
-they can be renewed with almost no rate-limitation.
-We need a renewal-rate limit to keep Sybil attacks down.
-
-\subsection{The adversaries}
-
-\CROCUS is secure against \cref{in-system-adversary} but not 
-\cref{deanonymizing-storage-adversary}.
-\Cref{deanonymizing-storage-adversary} is a rather strong adversary.
-\Eg, Grace can achieve \cref{deanonymizing-storage-adversary} if Alice connects 
-directly to the ledger.
-However, if Alice uses something like Tor, even if Grace can do a 
-time-correlation attack (which is reasonable), nodes in \(S\) bundles many 
-transactions and, thus, Alice should have plausible deniability for her 
-submission.
-So even this strong adversary is better captured by \cref{in-system-adversary} 
-than \cref{deanonymizing-storage-adversary}.
-In essence, Grace can achieve \cref{deanonymizing-storage-adversary} through a 
-time-correlation attack proportionally to how many nodes\footnote{%
-  She does not need to control much CPU power, just network addresses, so that 
-  Alice highly likely connect to her nodes.
-} in the ledger network she controls.
-However, Alice can still choose nodes based on \eg AS numbers, to choose nodes 
-that are less likely controlled by Grace.
-In that sense, we believe that \cref{in-system-adversary} is the more realistic 
-adversary for now.
-
-\subsection{Other actors}
-
-Without verifiable binding to a location, even distance-bounding protocols do not prevent collusions such as protesters meeting at a safe location away from the official site. 
-To address that, one can use trusted infrastructure (for an example by media see~\cite{LeMondeProtestingSolution}) or people such as journalists. 
-Given the conflict of interest of potentially state-provided infrastructure for political protests, we opt for the trusted journalist, Jane, who reveals her identity after the protest and thus can be used as a trusted witness. 
-In practice, there can be any number of  Janes and, as with the different ways of counting, there does not need to be an agreement on who is trusted as anyone can set the eligibility criteria for their count.
-
-Finally, Mallory represents another nation state and has some interest in affecting the stability of Grace's regime, for Mallory's own gain, thus supporting either Grace or Alice as she see fits.  
-Thus, the objective of Mallory will also be to either increase or decrease the count. 
-Unlike Alice, Mallory can create as many keys as she likes, but she cannot create keys valid in another nation state. 
-Nonetheless, Mallory could also have simply as her objective to cause a denial-of-service attack on the architecture of \CROCUS.
+\input{MANETs.tex}
 
 
-\subsection{Trust assumptions}
+\subsection{Adversaries}
 
-The goal of CROCUS is to be able to count people in a crowd in a verifiable way, without leaking information about the individuals in the crowd.
-We believe one of the strongest adversaries in practice, and one of the most dangerous situation, is that of an authoritarian government wanting to learn the identities of protesters,
-so we chose a theoretical model that fits this situation well, but it is interesting to see what are the trust relations which are actually needed in various real world situations.
+Our adversary model considers only protocol data, no auxiliary data.
+Against this adversary our scheme is secure.
+The question is how this adversary model maps to real adversaries.
 
-\paragraph{ID issuer} We assumed a trusted third party issued certified IDs to every participant (protesters and witnesses). This hypothesis is important to avoid Sybil attacks,
-but only the side protesting (not the side being protested against) has an incentive to perform a Sybil attack.
-So in practice, the ID issuer doesn't need to be a trusted 3rd-party, it only needs to not be aligned with the protesters.
-In our authoritarian government scenario for instance, the protesters can use IDs issued by said government.
-On the other hand however, a pro-government protest cannot use the same IDs and offer a good level of trust in the final count, and it would be better suited to use IDs from a different source
-(\eg a supra-national issuer like the EU).
+In any real implementation there are potential side-channels.  \Eg in
+the communication layer: IP-addresses translate into identities,
+devices' MAC-addresses can be used as persistent identifiers.  We do
+not consider these aspects as there are entire fields dedicated to
+some of them, we simply assume the tools developed in those fields
+(\eg Tor~\cite{Tor} and randomized MAC-addresses) to prevent these
+problems will be used.
 
- \paragraph{Verifier's trust in the count} We proposed a generic way of counting, that relies on two parameters: the strength function and the threshold.
-%We then suggested two possible instantiations: every witness is equal and we use a relatively large threshold, or we only trust a minority of independent witnesses with a threshold of 1.
-An important point here is that these parameters can be chosen by each verifier independently, so each verifier can make choices that satisfy \emph{their} own level of trust, and can each obtain a different final count, and \CROCUS does not output one definitive answer. The trust in a final count depends only on the trust between the verifier and the witnesses.
+Like other schemes involving Internet communication, we do not
+consider a global passive adversary.  Such an adversary could use side
+information to do \eg time-correlation attacks against people that
+submit transactions concerning a particular \(\cid\) over Tor,
+identify them, and link them to the \(\cid\). On a more realistic
+scale, a national passive adversary can control all the nation's
+\acp{ISP} but would not be able to observe all Tor exit nodes or
+otherwise observe all input to the ledger needed to perform such
+correlation attacks.
 
-\simon{maybe delete that second half}
-In practice though, the verifier can be in either of three situations: for the protest, against the protest, or indifferent, which leads to three main categories of choices.
-\begin{itemize}
-	\item A verifier aligned with the protesters has an incentive to trust any witness and use as low a threshold as possible.
-	\item A verifier opposed to the protesters has the opposite incentive to exclude as many witnesses and use as high a threshold as possible.
-	\item An indifferent verifier who only cares about the correctness of the result can trust each witness based on their reputation and should use a threshold that is reasonably reachable in practice but high enough to avoid small-scale collusion.
-\end{itemize}
+During a protest there are also other information channels available
+to the adversary.  \Eg, one could argue that the adversary might be
+able to map a face to a \(\pid\) by means of signal triangulation
+during the protocol run, and then map the face to an identity through
+face recognition. However, there are far easier tactics the adversary
+could use: \eg, the adversary can take photos of the event and try to
+capture as many faces as possible.  This is already possible today and
+thus not a weakness introduced by our scheme.
 
-\paragraph{Protesters and witnesses} Active participants in a protest do not need to trust anything other than that their app is behaving properly and that their smartphone is not compromised. Indeed, \CROCUS has been designed with their privacy and security as a central concern, and being able to use \CROCUS without any additional risk compared to simply come at the protest was one of our main requirement.
+Besides these privacy concerns, there are also verifiability
+concerns. There, we have shown that the security is reduced to the
+witnesses. In the case of using trusted witnesses --- which we
+consider the canonical \CROCUS --- it simply reduces to their
+trustworthiness, like in any system with trusted third parties.
+
+We outlined a variant of counting and verifying for \CROCUS that uses
+a threshold~\(\theta\) of untrusted witnesses and, trivially, resists
+a collusion of malicious witnesses smaller than \(\theta\).  While
+using this approach is technically possible, we do not know whether it
+is of practical use. We have not found a principled way of determining
+a secure value for \(\theta\), yet neither can we at this point
+conclude that there is no such way. Informally, a higher \(\theta\)
+increases the probability of a collusion that is large enough to break
+verifiability being detected and made known to the verifier. 
+
+Overall, while \CROCUS provides the mechanism for a privacy-preserving
+and verifiable way of counting crowds, any verifier still needs to
+consider their own trust, analogous to detecting bias in
+science. There, if a paper espousing, say, the efficacy of X, comes
+from research sponsored by the company that manufactures X, it might
+be biased. Likewise, if a count of a pro-government protest is
+published by that government, one needs to consider where identities
+were issued and which witnesses were considered trusted. In contrast
+to a layperson interpreting science, however, the results can easily
+be reproduced by the verifier: knowing which set of witnesses (and
+other criteria such as location and time) the counter used for the
+count, the count can be verified (by a re-count).  Whether the result
+can be trusted then depends on whether the verifier also trusts this
+set of witnesses. Given that all proof shares are on the ledger,
+however, a verifier can come up with their own criteria and make a
+count themselves. This count then, given that they publish what
+criteria they used, can in turn be verified by anyone else.
+
+
+
+
+
+% \subsection{Sybil and issuing keys}
+
+% We need an identity management system that provides unlinkability between 
+% contexts (\eg protests) but linkability for reuse within the same
+% context (\eg participation proof shares for counting). 
+
+
+
+
+%\subsection{Other actors}
+%
+%Without verifiable binding to a location, even distance-bounding protocols do not prevent collusions such as protesters meeting at a safe location away from the official site. 
+%To address that, one can use trusted infrastructure (for an example by media see~\cite{LeMondeProtestingSolution}) or people such as journalists. 
+%Given the conflict of interest of potentially state-provided infrastructure for political protests, we opt for the trusted journalist, Jane, who reveals her identity after the protest and thus can be used as a trusted witness. 
+%In practice, there can be any number of  Janes and, as with the different ways of counting, there does not need to be an agreement on who is trusted as anyone can set the eligibility criteria for their count.
+%
+%Finally, Mallory represents another nation state and has some interest in affecting the stability of Grace's regime, for Mallory's own gain, thus supporting either Grace or Alice as she see fits.  
+%Thus, the objective of Mallory will also be to either increase or decrease the count. 
+%Unlike Alice, Mallory can create as many keys as she likes, but she cannot create keys valid in another nation state. 
+%Nonetheless, Mallory could also have simply as her objective to cause a denial-of-service attack on the architecture of \CROCUS.
+%
+
+%\subsection{Trust assumptions}
+%
+%The goal of CROCUS is to be able to count people in a crowd in a verifiable way, without leaking information about the individuals in the crowd.
+%We believe one of the strongest adversaries in practice, and one of the most dangerous situation, is that of an authoritarian government wanting to learn the identities of protesters,
+%so we chose a theoretical model that fits this situation well, but it is interesting to see what are the trust relations which are actually needed in various real world situations.
+%
+%\paragraph{ID issuer} We assumed a trusted third party issued certified IDs to every participant (protesters and witnesses). This hypothesis is important to avoid Sybil attacks,
+%but only the side protesting (not the side being protested against) has an incentive to perform a Sybil attack.
+%So in practice, the ID issuer doesn't need to be a trusted 3rd-party, it only needs to not be aligned with the protesters.
+%In our authoritarian government scenario for instance, the protesters can use IDs issued by said government.
+%On the other hand however, a pro-government protest cannot use the same IDs and offer a good level of trust in the final count, and it would be better suited to use IDs from a different source
+%(\eg a supra-national issuer like the EU).
+%
+% \paragraph{Verifier's trust in the count} We proposed a generic way of counting, that relies on two parameters: the strength function and the threshold.
+%%We then suggested two possible instantiations: every witness is equal and we use a relatively large threshold, or we only trust a minority of independent witnesses with a threshold of 1.
+%An important point here is that these parameters can be chosen by each verifier independently, so each verifier can make choices that satisfy \emph{their} own level of trust, and can each obtain a different final count, and \CROCUS does not output one definitive answer. The trust in a final count depends only on the trust between the verifier and the witnesses.
+%
+%\simon{maybe delete that second half}
+%In practice though, the verifier can be in either of three situations: for the protest, against the protest, or indifferent, which leads to three main categories of choices.
+%\begin{itemize}
+%	\item A verifier aligned with the protesters has an incentive to trust any witness and use as low a threshold as possible.
+%	\item A verifier opposed to the protesters has the opposite incentive to exclude as many witnesses and use as high a threshold as possible.
+%	\item An indifferent verifier who only cares about the correctness of the result can trust each witness based on their reputation and should use a threshold that is reasonably reachable in practice but high enough to avoid small-scale collusion.
+%\end{itemize}
+%
+%\paragraph{Protesters and witnesses} Active participants in a protest do not need to trust anything other than that their app is behaving properly and that their smartphone is not compromised. Indeed, \CROCUS has been designed with their privacy and security as a central concern, and being able to use \CROCUS without any additional risk compared to simply come at the protest was one of our main requirement.

@@ -1,8 +1,12 @@
 .PHONY: all
 all: paper.pdf
 
-paper.pdf: paper.tex
-paper.pdf: preamble.tex preamble-paper.tex
+paper.pdf: main.pdf
+	${LN} $< $@
+
+main.pdf: popets
+main.pdf: main.tex
+main.pdf: preamble.tex preamble-paper.tex
 
 SRC+=	contents.tex
 SRC+=	abstract.tex
@@ -15,8 +19,10 @@ SRC+= 	verifiability-properties.tex
 SRC+=	privacy-properties.tex
 SRC+= 	adversary-model.tex 
 SRC+= 	building-blocks.tex
-SRC+= 	ZKPK.tex ZKPK-instantiations.tex
-SRC+= 	distance-bounding.tex anon-cred.tex DB-anon-cred.tex
+SRC+= 	ZKPK.tex
+#SRC+= 	ZKPK-instantiations.tex
+SRC+= 	distance-bounding.tex anon-cred.tex
+#SRC+= 	DB-anon-cred.tex
 SRC+= 	location-proofs.tex timestamp.tex
 SRC+= 	protocol.tex
 SRC+=	security-analysis.tex
@@ -25,10 +31,11 @@ SRC+= 	privacy-analysis.tex
 SRC+= 	analysis-performance.tex
 SRC+= 	discussion.tex
 SRC+=	conclusions.tex
-SRC+=	tamarin-spec.tex
+SRC+= 	anon-cred-figures.tex
+#SRC+=	tamarin-spec.tex
 SRC+= 	identity-limits.tex
 
-paper.pdf: ${SRC}
+main.pdf: ${SRC}
 
 FIGS+= 				proofshare.tikz
 proofshare.tikz: 	../fig/proofshare.tikz
@@ -39,7 +46,7 @@ base-adversary.tikz: ../fig/base-adversary.tikz
 ${FIGS}:
 	${LN} $< $@
 
-paper.pdf: ${FIGS}
+main.pdf: ${FIGS}
 
 
 DEPENDS+=	bibsp.sty
@@ -57,13 +64,13 @@ DEPENDS+=	adhocnets.bib
 DEPENDS+= 	references.bib
 DEPENDS+= 	identity.bib
 
-paper.pdf: ${DEPENDS}
+main.pdf: ${DEPENDS}
 
 
 
 .PHONY: clean
 clean:
-	${RM} paper.pdf
+	${RM} paper.pdf main.pdf
 	${RM} ${FIGS}
 	${MAKE} -C ../fig clean
 

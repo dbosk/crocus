@@ -1,0 +1,77 @@
+# Summary of Changes
+
+link to previous version:
+https://submit.petsymposium.org/2019.3B/paper.php/55
+
+>===== Meta-Review =====
+
+>The reviewers liked the problem this paper aims to solve, and all felt it
+>was relevant to PETS. However, the reviewers were not convinced that the
+>paper's solution was practical and technically sound, which led to a reject
+>and resubmit decision.
+
+>The main concerns were about the deployment scenario which relies on a
+>central entity,
+
+We clarified and elaborated on identity assumptions throughout the
+paper, in the introduction, system model, security analysis, and
+discussion. While we provide some suggestions on how the identity
+provision could be done in a suitable way, the details are out of
+scope and we point to voting as a comparable area that advances
+despite imperfect realizations of identity assumptions.
+
+
+>the complexity of the protocol,
+
+We simplified protocol and services presentations in the protocol section.
+
+
+>and the use of yet-to-be-designed primitives like distance bounding
+>protocols
+
+Distance-bounding protocols exist, some even very close to what we need: we
+only need one with particular properties due to our choice of anonymous
+credentials. We mentioned two possible avenues of adapting existing DB
+protocols to our needs. We have been working on one of them with
+promising results (but not yet fully conclusive verification and have
+thus not published or included it here). 
+
+> while leaving existing primitives like functional encryption out of
+>  the model.
+
+We have now included a more complete  description of distance-bounding protocols in the Building Blocks section, explicitly addressing functional encryption and how it does
+not help the adversary given terrorist-fraud resistant distance bounding.
+
+>Furthermore, the reviewers felt that the paper should assume a more hostile
+> environment since the attacker could be a government entity.
+
+We have edited our adversary model, clarified the government problem,
+improved our security analysis, and added to the discussion.
+
+>In particular, the authors should protect against adversary model A2
+> and avoid
+
+We only have one attacker now for clarity. A2 was a global passive
+adversary. We do not agree that protecting against a global passive
+adversary is a pre-requisite for publishing a paper that contains any
+kind of Internet communications. We changed the adversary model,
+security analysis, and discussion accordingly.
+
+>vulnerabilities even when a large portion of the witnesses is 
+malicious.
+
+We improved the adversary model, security analysis, and discussion to
+that end. 
+
+>We hope that these comments will help the authors improve the paper towards
+>future acceptance.
+
+We thank the reviewers for the constructive comments that helped us
+see where we needed to improve the paper. While we disagree with what
+we perceived as quite categorical requirements (the one regarding identity
+provision potentially boiling down to saying one cannot assume a trusted third
+party for something because it could turn out to be not trustworthy
+and one about global adversary resistance), we have made substantial
+changes to the paper throughout based on the reviewers' feedback.
+
+

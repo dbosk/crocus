@@ -6,19 +6,19 @@
   ]
   \node[adv] (W) {$W$};
   \node[player] (P) [below of=W] {$P$};
-  \node[adv] (S) [right of=W] {$S$};
-  \node[adv] (A) [above of=S] {$A$};
+  \node[adv] (L) [right of=W] {$\TS$};
+  \node[adv] (A) [above of=L] {$A$};
 
   \path
-  (W) edge [color=red] node {} (S)
+  (W) edge [color=red] node {} (L)
   (P) edge [bend right] node {} (W)
   (W) edge [bend right,color=red] node [left] {\color{black}$d_{P,W}(\cid, P), 
   t_{P,W}$} (P)
-  (P) edge node [anchor=north west] {$f(d_{P,W}(\cid, P)), t_{P,S}$} (S) ;
+  (P) edge node [anchor=north west] {$f(d_{P,W}(\cid, P)), t_{P,\TS}$} (L) ;
 
   \path
   (W) edge [color=red] node {} (A)
   (A) edge [bend right,color=red] node {} (W)
-  (S) edge [bend right,color=red] node {} (A)
-  (A) edge [color=red] node {} (S) ;
+  (L) edge [bend right,color=red] node {} (A)
+  (A) edge [color=red] node {} (L) ;
 \end{tikzpicture}

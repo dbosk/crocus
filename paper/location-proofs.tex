@@ -1,12 +1,44 @@
-\subsection{Location proofs}
+\section{Distance bounding and location proofs}
+\label{db-and-lp}
+Some \acp{LBS} only grant access to resources to users located at a particular 
+location, thus raising the issue of verifying the position claimed by a 
+particular user.
+In most of the existing schemes, the location of a user (device) is determined 
+by the device itself (\eg through GPS) and forwarded to the \ac{LBS} provider.
+One of the main drawbacks of this approach is that a user can cheat by having 
+her device transmit a false location.
+Therefore, it is possible for a user to be inappropriately granted access to a 
+particular resource while being thousands of kilometers away.
 
-Some location-based services only grant access to resources to users located at a particular location, thus raising the issue of verifying the position claimed by a particular user. 
-In most of the existing schemes, the location of a user/device is determined by the device itself (\eg through GPS) and forwarded to the location-based service provider. 
-One of the main drawbacks of this approach is that a user can cheat by having her device transmit a false location. 
-Therefore, it is possible for a user to be inappropriately granted access to a particular resource while being thousands of kilometers away.
+One possible way to counter this threat is by having the requesting device 
+formally prove that it really is at the claimed location, which gives rise to 
+the concept of \acp{LP}.
+In a nutshell, \iac{LP} is a digital certificate attesting that someone was at 
+a particular location at a specific moment in time.
+\Iac{LPS} is an architecture by which users can obtain \acp{LP} from 
+neighboring witnesses (\eg trusted access points or other users) that can later 
+be shown to verifiers who can check the validity of a particular 
+proof~\cite{luo2010veriplace,zhu2011applaus}.
+Most of the existing approaches to \acp{LP} require the prover and the 
+witnesses to disclose their identities, thus raising many privacy issues such 
+as the possibility of tracing the movements of users of the \ac{LPS}.
+However, some \acp{LPS}, such as PROPS~\cite{PROPS}, exist that provide strong 
+privacy guarantees along with the possibility of verifying the claim of the 
+location.
 
-One possible way to counter this threat is by having the requesting device formally prove that it really is at the claimed location, which gives rise to the concept of \emph{location proof}. 
-In a nutshell, a location proof is a digital certificate attesting that someone was at a particular location at a specific moment in time. 
-A location proof system is an architecture by which users can obtain location proofs from neighboring witnesses (\eg trusted access points or other users) that can later be shown to verifiers who can check the validity of a particular proof \cite{luo2010veriplace, zhu2011applaus}.
-Most of the existing approaches to location proofs require the prover and the witnesses to disclose their identities, thus raising many privacy issues such as the possibility of tracing the movements of users of the location proof architecture.
-However, some location proofs systems, such as PROPS~\cite{PROPS}, exist that provide strong privacy guarantees along with the possibility of verifying the claim of the location. \CROCUS shares some similarities with PROPS, although their objective is quite different as it aims at verifying a global property of the population (\ie crowd estimation) in contrast to checking the location claim made by a user, which is an individual property. \sonja{any more differences to ours, relevance of this one?} \sonja{add something on platin.io, details unknown but roughly relying on witnesses and graph theory (unique big cluster, assumption of honest majority)}
+\CROCUS shares some similarities with PROPS, although their objective is quite 
+different as it aims at verifying a global property of the population (\ie 
+crowd estimation) in contrast to checking the location claim made by a user, 
+which is an individual property.
+
+Another difference is that \CROCUS operates in a more adverse environment.
+\CROCUS must provide \emph{universal verifiability}, this means that all proofs 
+must be available to and verifiable by anyone.
+One problem here is that we have multiple verifiers who might not trust the 
+same witnesses.
+The incentives to cheat are also bigger and consequently the thresholds for 
+collusion are much higher.
+
+\sonja{add something on platin.io, details unknown but roughly relying on 
+  witnesses and graph theory (unique big cluster, assumption of honest 
+  majority)}

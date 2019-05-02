@@ -4,65 +4,67 @@
 %\emph{Context.} 
 
 While our proposal is meant for crowd counting in general and to be applicable to any kind of event, we represent an event with a political protest against an oppressive regime throughout the paper. We choose this instantiation of an event because it is the most challenging in terms of requirements for privacy and verifiability (transparency).
-Consider the following scenario.
-Alice is an activist that organizes a protest in some location(s) against the current government, represented by Grace.
-On the one hand, Alice wants to estimate the number of participants to prove a certain support for her cause.
-On the other hand, Grace is an autocratic regime leader who opposes Alice's cause.
-Bob, Carol and many others participate in the protest for Alice's cause against Grace.
-However, they might only be willing to do so in a manner that does not leave any digital traces because of the fear of retribution against them from Grace's regime. 
-To realize this objective, a reliable yet privacy-preserving crowd-counting mechanism is needed, which to the best of our knowledge is a problem that has not yet been entirely solved as of today.
 
-Historically, there are many examples of protests in which the count estimated by police and that of the organizers differ significantly, sometimes in the order of hundreds of thousands.
+Historically, there are many examples of protests in which the count estimated by police and that of the organizers differ significantly, sometimes by hundreds of thousands.
 Even without foul play, the difference is quite natural as both parties have different objectives and metrics.
 More precisely, the organizers want to count everyone who participated while the police want to estimate the count at the peak of participation, due to crowd control~\cite{2016DemonstrationsInSeoul}.
 Among the numerous recent examples in which it is difficult to establish the actual number of participants, there are the demonstrations against the president in South Korea~\cite{2016DemonstrationsInSeoul}, Trump's inauguration~\cite{HowWillWeKnowTrumpInauguralCrowdSize}, the 2017 Women's March in the US~\cite{2017WomensMarchesInUS}, the demonstrations against the change of constitution in Venezuela~\cite{AlJazeeraOnVenezuela2017} or for the independence of Catalonia~\cite{CataloniaDemonstrations}.
 
-Existing methods for crowd-counting vary significantly in terms of approaches (we will review them in detail in \cref{related-work}).
-However, most of them lack precision (\ie they have large error margins) and 
-they can only give an estimate for a particular snapshot in time (\eg at the 
-peak of the event). In particular, the existing methods cannot reliably 
-estimate the cumulative participation count --- at least not without counting 
-some persons multiple times --- which in turn increases the error of the 
-estimation.
-In addition, they lack verifiability in the sense that one has to trust the third party responsible for implementing the counting method. 
+Consider the following scenario.
+Alice is an activist that organizes a protest in some location(s) against the current government, represented by Grace.
+Alice wants to estimate the number of participants to prove a certain support for her cause against Grace in a way that is both demonstrably accurate and does not increase the participants' risk of retribution against them from Grace's regime. 
+To realize this objective, a reliable yet privacy-preserving crowd-counting mechanism is needed, which to the best of our knowledge is a problem that has not yet been entirely solved.
 
-Finally, one important observation about crowd-counting that has not been adequately addressed in the design of current crowd-counting solutions is that it actually is an adversarial setting. 
-Indeed, going back to our example, Alice the activist has an incentive to increase the tallied number of participants, whereas Grace (and possibly other entities) have an incentive to decrease it.
-In this case, we are left with two options: either we trust Alice or Grace (or another third party) or we have to be able to verify their claims ourselves.
+
+
+Existing methods for crowd-counting vary significantly in terms of approaches.% (we will review them in detail in \cref{related-work}).
+Most of them, however, lack precision (\ie they have large error margins) and can only give an estimate for a particular snapshot in time, not the cumulative participation count --- at least not without counting some persons multiple times.  In addition, they lack verifiability in the sense that one has to trust the third party responsible for implementing the counting method.
+
+Finally, one important observation about crowd-counting that has not been adequately addressed in the design of current crowd-counting solutions is that it actually is an adversarial setting. Alice the activist has an incentive to increase the tallied number of participants, whereas Grace (and possibly other entities) has an incentive to decrease it.
+%In this case, we are left with two options: either we trust Alice or Grace (or another third party) or we have to be able to verify their claims ourselves.
 In this paper, our main objective is to provide a scheme preventing both Alice 
-and Grace from cheating by providing verifiable claims.
-To solve this issue, we need a verifiable participation count that can resist Sybil attacks while still preserving the participants' privacy to the extent possible given their physical presence at the protest. 
-More precisely, our solution will not be able to magically prevent an observer (physically present or looking at photos or videos) from recognizing a particular individual at a protest. 
-Nonetheless, we have to ensure that none of the digital traces generated by a participant due to our scheme can be associated with their identity. % and that any witnessing is also unlinkable.
+and Grace from cheating by providing verifiable participation counts that can resist Sybil attacks while still preserving the participants' privacy to the extent possible given their physical presence at the protest. While one cannot
+prevent an observer (physically present or looking at photos or videos) from recognizing a particular individual at a protest, we do not want the digital traces of our protocol to increase any risk for the participants.
+
+%we have to ensure that none of the digital traces generated by a participant due to our scheme can be associated with their identity. % and that any witnessing is also unlinkable.
 %\seb{in the sentence above I am not sure that the word unlinkable will be 
 %  necessary clear}
 
-\paragraph*{Contributions}
+%\paragraph*{Contributions}
 
-In this paper, our first main contribution is to propose \CROCUS, a privacy-preserving scheme providing a way to securely estimate crowd count in protests.
+%Our first contribution is \CROCUS, a privacy-preserving scheme that provides a 
+%way to securely estimate crowd counts in protests\footnote{%
+%  If location is ignored, it can be reduced to privacy-preserving yet 
+%  verifiable petitions.
+%}.
+%
+%Our second contribution is an adaptation of the Schnorr protocol~\cite{Schnorr} for \ac{DB}, but which is different from that of \textcite{DistanceBounding}.
+%Our adaptation fulfills all the requirements for modern \ac{DB} protocols, 
+%including \ac{DBDH} (which was an attack against the original protocol of 
+%Brands and Chaum) and \ac{DBTF}.
+%More importantly, it is public-key, handles malicious impersonating verifiers.
+%Since it is based on the Schnorr protocol, it provides a distance-bounded 
+%\ac{PK} for discrete logarithms.
+%That allows us to replace the plain Schnorr protocol in \acp{ZKPK} with our 
+%distance-bounding version and thus make general privacy-preserving, 
+%attribute-based credential systems distance bounding.
 
-Our second contribution is an adaptation of the Schnorr protocol~\cite{Schnorr} for \ac{DB}, but which is different from that of \textcite{DistanceBounding}.
-Our adaptation fulfills all the requirements for modern \ac{DB} protocols, including \ac{DBDH} (which was an attack against the original protocol of Brands and Chaum).
-More importantly, it is public-key, handles malicious impersonating verifiers, fulfills \ac{DBTF} and other types of resistance (see \cref{distance-bounding}), and provides a \ac{PK} for discrete logarithms.
-The latter allows us to replace the use of the plain Schnorr protocol in the \ac{ZKPK} used in anonymous credentials,
-%\seb{once again I think it is too strong to say that are the first to provide distance-bounding anonymous credentials as a a distance-bounding anonymous protocol can already be considered an anonymous credential in the sense that it allows to authenticate anonymously in addition of providing proximity testing
-%and thus we are, to the best of our knowledge, the first to provide \ac{DB} anonymous credentials.}
-%\sonja{Daniel, can you contrast that with the other DB AC approaches, what are they not general enough for, or what can we do they can't?}
-and thus we are, to the best of our knowledge, the first to provide \emph{general} (\ie attribute-based, not only identity-based) \ac{DB} anonymous credentials.
-
-\paragraph*{Outline}
+% The paper is organized as follows.
+% First, we describe our system model and summarize the desired properties for crowd counting (\cref{system-model}). Next, we discuss related work in terms of these properties, first the crowd counting methods that are classically used and then work on location proof systems that inspired \CROCUS (\cref{related-work}). 
+% We then formalize the notion of protest and the desired verifiability and privacy properties (\cref{definitions}), and we give the relevant background on the building blocks of our solution (\cref{building-blocks}). 
 
 The paper is organized as follows.
-First, in \cref{system-model}, we describe our system model and summarize the desired properties for crowd counting. Next, in \cref{related-work}, we discuss related work in terms of these properties, first the crowd counting methods that are classically used and then work on location proof systems that inspired \CROCUS. 
-We then formalize the notion of protest and the desired verifiability and privacy properties, and in \cref{building-blocks}, we give the relevant background on the building blocks of our solution. 
-Afterwards, in \cref{DB-anon-cred}, we present a new \ac{DB} version of the Schnorr protocol, different from that originally proposed by \textcite{DistanceBounding}.
-We provide a proof of its security (\ie the fact that it achieved all desired \ac{DB} properties) 
-\daniel{Check that this is true before publication.} 
-and formally verify it using Tamarin~\cite{TamarinDB}.
-\seb{we need to be careful about the above sentence}
-%This version of the Schnorr protocol can then be used to do general \ac{DB} anonymous credentials.
-Then in \cref{Protocol}, we present \CROCUS, a privacy-preserving crowd 
-counting estimation protocol constructed from these building blocks, before 
-analyzing its security and privacy (\cref{SecurityAnalysis}).
-Finally, we discuss our assumptions and results \cref{Discussion} and give our conclusions in \cref{Conclusion}.
-%\sonja{add (sub) sections for performance and verification}
+In \Cref{system-model}, we describe our system model and summarize the desired 
+properties for crowd counting, followed by a discussion of related work in \cref{related-work}. In \Cref{definitions}, we formalize the notion of protest and the desired verifiability and privacy properties, and in \cref{building-blocks}, we give 
+the relevant background on the building blocks of our solution.
+%
+%\Cref{DB-anon-cred}, we present a new \ac{DB} version of the Schnorr protocol, 
+%different from that originally proposed by \textcite{DistanceBounding}.
+%We provide a proof of its security and formally verify it using 
+%Tamarin~\cite{TamarinDB}.
+%
+We present \CROCUS, a privacy-preserving crowd counting 
+%estimation 
+protocol in in \Cref{Protocol}, analyze its security in \cref{SecurityAnalysis}, and estimate its performance in \cref{PerformanceAnalysis}.
+Finally, we discuss limitations and assumptions in \cref{Discussion} and give 
+our conclusions in \cref{Conclusion}.
