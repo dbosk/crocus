@@ -13,10 +13,20 @@
 \textbf{Problem:}
 Crowd counts vary according to who is doing the counting and what
 methods and criteria they use. Current methods have wide margins for
-error, are difficult to verify, and can be privacy-invasive. We
+error, are difficult to verify, and can be
+privacy-invasive. Historically, there are many examples of events such
+as protests in which the count estimated by police and that of the
+organizers differ significantly, sometimes by hundreds of
+thousands. Even without foul play, the difference is quite natural as
+both parties have different objectives and metrics. More precisely,
+the organizers want to count everyone who participated while the
+police want to estimate the count at the peak of participation, due to
+crowd control. We
 recognize the potential adversarial setting for crowd counts and thus
 aim for both transparency (in the form of verifiability) and
-privacy. Different counts: Any solution 
+privacy. Since the crowd count could be done at political protests,
+any solution needs to not endanger participants more than what they
+already face by their physical presence.
 
 \textbf{Approach:}
  In this paper we propose CROCUS, a decentralized system based on
@@ -50,17 +60,22 @@ their own criteria and count accordingly.
 \textbf{Preliminary results:} We find that, with some
  assumptions about the availability of future technology such as
  distance-bounding chips on smartphones, CROCUS can provide the
- desired properties at acceptable performance.
+ desired properties at acceptable performance, except against a truly
+ global passive adversary.
 
 \textbf{Relation to theme:} This work is concerned with both security
 and privacy: accountability and verifiability (individual, universal, eligibility) and
 privacy (unlinkability to individual, unlinkability between events,
-unlinkability between witnessing instances). 
+unlinkability between witnessing instances). The building blocks are
+anonymous credentials, distance bounding, blockchain (or other public ledger)
 
 
-\textbf{Why it could spark discussions:}
-practical/ideological problems: sybil-proof identities needed for anonymous
-credentials
+\textbf{Why it could spark discussions:} There are some practical
+problems that might also be ideological problems: to ensure
+verifiability (specifically, eligibitlity of counting only once, in
+analogy to votes or double spending in e-currencies) despite
+unlinkability/privacy properties, we need sybil-proof identities for
+anonymous credentials.
 
 \textbf{Information about the presenters:} Daniel Bosk is a PhD
 student and Sonja Buchegger a Computer Science professor, both at the
