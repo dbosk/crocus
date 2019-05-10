@@ -1,0 +1,52 @@
+\documentclass{article}
+
+\usepackage[hyphens]{url}
+\usepackage[hidelinks]{hyperref}
+
+\input{preamble.tex}
+
+\usepackage[noamsthm,notheorems]{beamerarticle}
+\setjobnamebeamerversion{slides}
+
+\declaretheorem[numbered=unless unique,style=theorem]{theorem}
+\declaretheorem[numbered=unless unique,style=definition]{definition}
+\declaretheorem[numbered=unless unique,style=definition]{assumption}
+\declaretheorem[numbered=unless unique,style=definition]{protocol}
+\declaretheorem[numbered=unless unique,style=example]{example}
+%\declaretheorem[style=definition,numbered=unless unique,
+%  name=Example,refname={example,examples}]{example}
+\declaretheorem[numbered=unless unique,style=remark]{remark}
+\declaretheorem[numbered=unless unique,style=remark]{idea}
+\declaretheorem[numbered=unless unique,style=exercise]{exercise}
+\declaretheorem[numbered=unless unique,style=exercise]{question}
+\declaretheorem[numbered=unless unique,style=solution]{solution}
+
+\begin{document}
+\title{%
+  Something
+}
+\author{Daniel Bosk and Sonja Buchegger\\
+KTH Royal Institute of Technology}
+\institute{%
+  KTH EECS
+}
+
+\mode<article>{\maketitle}
+\mode<presentation>{%
+  \begin{frame}
+    \maketitle
+  \end{frame}
+}
+
+\mode*
+
+
+\mode<all>{\input{abstract.tex}}
+
+
+%%% REFERENCES %%%
+
+\begin{frame}[allowframebreaks]
+  \printbibliography
+\end{frame}
+\end{document}
