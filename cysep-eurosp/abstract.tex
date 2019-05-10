@@ -34,28 +34,35 @@ physically present persons (such as protest participants) and create proof
 shares. This is done using smartphones with (assumed)
 distance-bounding chips, without Internet connection but using any
 available local communications. Before and after the event (protest), participants (and
-witnesses), interact with a public blockchain (which does require
+witnesses), interact with a public ledger such as a blockchain (which does require
 Internet access, and anonymization by e.g. Tor). Before the event to get
 a timestamp and after the event to upload proof shares, again with a
 time stamp. The proof shares form verifiable yet privacy-preserving
-participation proofs according to counting criteria. These criteria
-(time interval, location range, number or kind (e.g., anyone, trusted
+participation proofs according to counting eligibility criteria. These criteria, including
+time interval, location range, number or kind (e.g., anyone, trusted
 journalists) of unique proof shares
-needed for a proof)
+needed for a proof, enable verification by recount. Counting is done
+by downloading the proof shares from the ledger, checking the validity
+and eligibility, and summing up. Any published counts need to also
+publish the criteria used to be verified, but anyone could decide on
+their own criteria and count accordingly. 
 
 \textbf{Preliminary results:} We find that, with some
  assumptions about the availability of future technology such as
  distance-bounding chips on smartphones, CROCUS can provide the
  desired properties at acceptable performance.
 
-\textbf{Relation to theme:} both security and privacy: verifiability
+\textbf{Relation to theme:} This work is concerned with both security
+and privacy: accountability and verifiability (individual, universal, eligibility) and
+privacy (unlinkability to individual, unlinkability between events,
+unlinkability between witnessing instances). 
 
 
 \textbf{Why it could spark discussions:}
-practical problems: sybil-proof identities needed for anonymous
+practical/ideological problems: sybil-proof identities needed for anonymous
 credentials
 
 \textbf{Information about the presenters:} Daniel Bosk is a PhD
 student and Sonja Buchegger a Computer Science professor, both at the
 division of Theoretical Computer Science at KTH Royal Institute of
-Technology. 
+Technology, working on privacy-enhancing technologies.
