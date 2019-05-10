@@ -29,22 +29,23 @@ any solution needs to not endanger participants more than what they
 already face by their physical presence.
 
 \textbf{Approach:}
- In this paper we propose CROCUS, a decentralized system based on
- smartphones that combines anonymous credentials, witnesses of
- proximity, and storage of participation proofs on a public ledger
- (e.g., blockchain) to achieve properties similar to those needed for
- electronic voting, where, put simply, it is important to count
- everyone, but only once, not leak private information, and be able to
- prove that the count was done correctly. 
+In this paper we propose CROCUS, a decentralized system based on
+smartphones that combines anonymous credentials, witnesses of
+proximity, and storage of participation proofs on a public ledger
+(e.g., blockchain).
+CROCUS achieves properties similar to those needed for
+electronic voting, where, put simply, it is important to count
+everyone, but only once, not leak private information, and be able to
+prove that the count was done correctly. 
 
 
 \textbf{More detailed approach:} 
 By running a distance bounding scheme with anonymous credentials,
-physically present persons (such as protest participants) and create proof
+physically present persons (such as protest participants) create proof
 shares. This is done using smartphones with (assumed)
 distance-bounding chips, without Internet connection but using any
 available local communications. Before and after the event (protest), participants (and
-witnesses), interact with a public ledger such as a blockchain (which does require
+witnesses) interact with a public ledger such as a blockchain (which does require
 Internet access, and anonymization by e.g. Tor). Before the event to get
 a timestamp and after the event to upload proof shares, again with a
 time stamp. The proof shares form verifiable yet privacy-preserving
@@ -58,10 +59,10 @@ publish the criteria used to be verified, but anyone could decide on
 their own criteria and count accordingly. 
 
 \textbf{Preliminary results:} We find that, with some
- assumptions about the availability of future technology such as
- distance-bounding chips on smartphones, CROCUS can provide the
- desired properties at acceptable performance, except against a truly
- global passive adversary.
+assumptions about the availability of future technology such as
+distance-bounding chips on smartphones, CROCUS can provide the
+desired properties at acceptable performance, except against a truly
+global passive adversary.
 
 \textbf{Relation to theme:} This work is concerned with both security
 and privacy: accountability and verifiability (individual, universal, eligibility) and
