@@ -35,7 +35,12 @@ More specifically, we will use the following definition.
 % subprotest
 
 \begin{definition}[Subprotest, Protest]\label{DefProtest}
-  A \emph{subprotest} \(p = (\cid, t, l)\) is a tuple in which \(\cid\in \bin^{\lambda}\), for some fixed \(\lambda\in \NN\), is the identifier of the cause of the protest, \(t \subseteq \TT\) is a time period and \(l \subseteq \LL\) is the location (the topological connectedness is not necessary).\\
+  A \emph{subprotest} \(p = (\cid, t, l)\) is a tuple in which \(\cid\in 
+    \bin^{\lambda}\), for some fixed \(\lambda\in \NN\), is the identifier of 
+  the cause of the protest, \(t \subseteq \TT\) is a time period and \(l 
+    \subseteq \LL\) is the location (topological connectedness is not 
+  necessary).
+
   A \emph{protest} \(\prtst\) is the set of subprotests sharing the same \(\cid\).
 \end{definition}
 
@@ -62,7 +67,9 @@ Then, the set of all \emph{valid} proof shares forms the participation proof of 
   \label{DefProofShare}\label{DefProofShares}
   A \emph{proof share} \(\psh = (\cid, t, l, \pid, \wid)\) is a tuple in which: 
   \(\cid, t, l\) are as in \cref{DefProtest};
-  \(\pid\) is a protester's pseudonym for the protest identified by \(\cid\); and \(\wid\) is a witness's pseudonym for a protester with pseudonym \(\pid\).\\
+  \(\pid\) is a protester's pseudonym for the protest identified by \(\cid\);
+  \(\wid\) is a witness's pseudonym for a protester with pseudonym \(\pid\).
+
   Furthermore, we say that \(\psh\) is \emph{valid} for a subprotest \(\sprtst = (\cid', t', l')\) if and only if \(\cid = \cid', t\subseteq t', l\subseteq l'\) and denote this by 
   \(\psh \sqsubseteq \sprtst\).
   
@@ -72,8 +79,8 @@ Then, the set of all \emph{valid} proof shares forms the participation proof of 
 We denote by \(\pshs\) the set of all proof shares,
 and we will use the following notation to filter out a subset of \(\pshs\) with specific \(\cid\)s and \(\pid\)s:
 \begin{multline*}
-  \pshs_{\cid_0, \pid_0} = \\
-  \{(\cid, t, l, \pid, \wid)\in \pshs\mid \cid = \cid_0 \land \pid = \pid_0\}.
+  \pshs_{\cid_0, \pid_0} = \{(\cid, t, l, \pid, \wid)\in \pshs\mid \cid = 
+  \cid_0 \land \pid = \pid_0\}.
 \end{multline*}
 
 % proof

@@ -1,71 +1,31 @@
-\documentclass[USenglish,oneside,twocolumn]{article}
+\documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[big]{dgruyter-biblatex}
-\cclogo{\includegraphics{by-nc-nd.pdf}}
-\usepackage{amsmath,tabularx}
+\usepackage{authblk}
 
 \input{preamble.tex}
 \input{preamble-paper.tex}
 
-%Seb: to do, anonymize the names of the authors for the submission
 \begin{document}
-%\author*[1]{Daniel Bosk}
-%\affil[1]{%
-%  KTH Royal Institute of Technology, E-mail: dbosk@kth.se
-%}
-%Seb: I have add Simon in the list of authors, even if of course we are anonymous for now
-%\author[2]{Simon Bouget}
-%\affil[2]{%
-%  KTH Royal Institute of Technology, E-mail: bouget@kth.se
-%}
-%\author[3]{Sonja Buchegger}
-%\affil[2]{%
-%  KTH Royal Institute of Technology, E-mail: buc@kth.se
-%}
-%\author[4]{S\'ebastien Gambs}
-%\affil[3]{%
-%  Universit\'e du Quebec \`a Montr\'eal, E-mail: sebastien.gambs@uqam.ca
-%}
-%\author[5]{Henri Pineau}
-%\affil[4]{%
-%  Universit\'e du Quebec \`a Montr\'eal, E-mail: henrilouis.pineau@gmail.com
-%}
-
 \title{%
-  %Seb: why put CROCUSes in the plural?
-  CROCUS: CROwd Counting Using 
-  Smartphones 
+  CROCUS: CROwd Counting Using Smartphones 
   %and Distance-Bounding Anonymous Credentials
-  %Seb: I like the title but I propose to keep it short and not mentioning anonymous credentials
 %  \thanks{%
 %    An initial discussion of this work appeared in 
 %    \citetitle{FutureProtests}~\cite{FutureProtests}.
 %  }
 }
-\runningtitle{CROCUSes: CROwd Counting Using 
-  Smartphones 
+
+\author[1]{Daniel Bosk}
+\author[1]{Simon Bouget}
+\author[1]{Sonja Buchegger}
+\affil[1]{%
+  KTH Royal Institute of Technology, \texttt{\{dbosk,bouget,buc\}@kth.se}
 }
-
-%\subtitle{...}
-
-\include*{abstract}
-
-%\classification[PACS]{}
-%\communicated{...}
-%\dedication{...}
-
-\journalname{Proceedings on Privacy Enhancing Technologies}
-% \DOI{Editor to enter DOI}
-% \startpage{1}
-% \received{..}
-% \revised{..}
-% \accepted{..}
-
-% \journalyear{..}
-% \journalvolume{..}
-% \journalissue{..}
-
+\author[2]{S\'ebastien Gambs}
+\affil[2]{%
+  Universit\'e du Quebec \`a Montr\'eal, \texttt{sebastien.gambs@uqam.ca}
+}
 
 \input{contents.tex}
 \end{document}
