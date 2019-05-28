@@ -17,7 +17,7 @@ impersonating verifier.
 
 We also deviate from the normal technique of one-bit challenges and responses 
 otherwise used in \ac{DB} protocols.
-\Textcite{UWBwithPulseReordering} proposed a secure encoding for the physical 
+\Textcite{UWBPR} proposed a secure encoding for the physical 
 layer which removes the requirement of only using single-bit challenges and 
 responses for distance bounding.
 However, their protocol only works for relay attacks and cannot handle distance 
@@ -39,46 +39,61 @@ security against malicious provers.
 \subsection{Reattempting a distance-bounding Schnorr protocol}%
 \label{DBSchnorr}
 
+Thanks to \textcite{UWBPR} we can keep the Schnorr protocol 
+almost as is, relays (\ac{DBMF}, \ac{DBDH}) are dealt with on the physical 
+layer.
+The only concern, for now, is \acl{DBTF}.
+(We deal with \acl{DBDF} later.)
+
 We present the protocol in \cref{SchnorrFigure}.
 The (cyclic) group with generator \(g\) and order \(q\) are system parameters.
 The private key \(\alpha\) with public key \(A = g^\alpha\) are generated once by the prover in the setup phase.
+Let \(\UWBPR\) be the protocol of \textcite{UWBPR}.
+Further, let
+\(\UWBPRsend[_k][m]\) denote sending a message~\(m\) with the shared key~\(k\),
+\(m'\gets \UWBPRrecv_k\) denote receiving a message~\(m'\) with shared 
+key~\(k\) and finally
+\(\Delta t\gets \UWBPRtime\) denote the time between sending and receiving.
 
 \begin{figure*}
   \centering
   \small
   \setlength{\ProtoArrowLength}{0.07\linewidth}
   \begin{tabular}{p{0.40\linewidth}cp{0.40\linewidth}}
-    \(\DBSprove[g, q, \alpha, A = g^\alpha]\):
+    \(\DBSprove[k, g, q, \alpha, A = g^\alpha]\):
     & &
-    \(\DBSverify[g, q, A]\):
+    \(\DBSverify[k, g, q, A]\):
     \\
     \midrule
 
     \multicolumn{3}{c}{\textbf{Setup}} \\
+
+    Load \(k\) into \(\UWBPR\)
+    &
+    & Load \(k\) into \(\UWBPR\)
+    \\
 
     \(\rho\rgets \ZZ_q, R\gets g^{\rho}\)
     & \(\ProtoSendRight{R}\)
     &
     \\
 
-    % null
+    \(s_0\gets \rho - c_0\alpha \pmod q\)
     & \(\ProtoSendLeft{c_0, c_1}\)
     & \(c_0\rgets \bin^k, c_1\rgets \bin^k\)
     \\
 
-    \(s_0\gets \rho - c_0\alpha \pmod q\)
-    &
-    & \(b\rgets \bin\)
-    \\
-
     \(s_1\gets \rho - c_1\alpha \pmod q\)
     &
-    & Prepare \(B\in \bin^{|q|+l}\), with \(|q|\) bits set to \(b\).
+    &
     \\
 
     \midrule
-    \multicolumn{3}{c}{\textbf{Distance-bounding}: \(\forall i: 0\leq i < |q| + 
-        l, j\gets 0\)} \\
+    \multicolumn{3}{c}{\textbf{Distance-bounding}} \\
+
+    \text{Ready}
+    & \ProtoSendRight{\text{Ready}}
+    & \\
 
 %    % null
 %    &
@@ -86,18 +101,13 @@ The private key \(\alpha\) with public key \(A = g^\alpha\) are generated once b
 %    \\
 
     % null
-    & \(\ProtoSendLeft{b_i}\)
-    & \(b_i\gets B[i]\)
+    & \(\ProtoSendLeft{b}\)
+    & \(b\rgets \bin\)
     \\
 
-    \(r_i\gets s_{b_i}[jb_i + (i-j)(1-b_i)]\)
-    & \(\ProtoSendRight{r_i}\)
-    & Record \(\Delta t_i\)
-    \\
-
-    \(j \gets j + b_i\)
-    &
-    &
+    Fetch \(s_b\)
+    & \(\ProtoSendRight{s_b}\)
+    & Record \(\Delta t\)
     \\
 
     \midrule
@@ -106,20 +116,23 @@ The private key \(\alpha\) with public key \(A = g^\alpha\) are generated once b
 
     % null
     &
-    & Construct \(s_b\) as the concatenation of \(r_i\)'s for which \(b_i = 
-      b\).
-      Accept if \(R = g^{s_b} A^{c_b}\).
+    & Accept if \(R = g^{s_b} A^{c_b}\).
     \\
     
   \end{tabular}
   \caption{%
-    One-round protocol instance of the \(\DBSprove\leftrightarrow \DBSverify\) \ac{DB} Schnorr protocol for \(\PK[\alpha][A = g^\alpha]\).
-    The protocol should be repeated in full to achieve the desired knowledge and distance-bounding errors.
+    One-round protocol instance of the \(\DBSprove\leftrightarrow \DBSverify\) 
+    protocol instantiating \(\PK[\alpha][A = g^\alpha]\).
+    Each transmission (arrow in the diagram) uses \(\UWBPR\).
+    The protocol should be repeated in full to achieve the desired soundness 
+    and distance-bounding errors.
   }%
   \label{SchnorrFigure}
 \end{figure*}
 
-During one round, the prover commits to a random nonce: more precisely he chooses \(\rho\rgets \ZZ_q\) uniformly at random, computes \(R\gets g^\rho\) and sends \(R\) to the verifier.
+During one round, in the setup phase, the prover commits to a random nonce: 
+more precisely he chooses \(\rho\rgets \ZZ_q\) uniformly at random, computes 
+\(R\gets g^\rho\) and sends \(R\) to the verifier.
 The verifier generates two challenges \(c_0\rgets \bin^k, c_1\rgets \bin^k\) and sends them to the prover.
 The prover computes \(s_0\gets \rho - c_0\alpha, s_1\gets \rho - c_1\alpha\).
 This step is the main difference to the original Schnorr protocol: the verifier selects two challenges and the prover computes two responses --- but still only \emph{one nonce}, \(\rho\).
@@ -127,11 +140,12 @@ This is also different from the original Brands-Chaum protocol, in which the
 prover and verifier jointly construct \emph{one} challenge with \emph{one} 
 response.
 
-We let \(|q| = \ceil{\log_2 q}\) denote the length of \(q\) in bits.
-The verifier will request all \(|q|\) response-bits from one challenge (say 
-\(s_b\)) and only \(0 < l\leq |q|\) from the other (\(s_{1-b}\)).
-Then the verifier can authenticate the prover by checking if \(R = 
-  g^{s_b}A^{c_b}\).
+In the \ac{DB} phase, the prover notifies the verifier that he has computed 
+\(s_0, s_1\).
+The verifier chooses one bit, \(b\), uniformly randomly and sends it as a 
+challenge to the prover and starts measuring the time of flight.
+The prover replies with \(s_b\).
+The verifier stops the measurement and verifies that \(R = g^{s_b}A^{c_b}\).
 
 \subsection{Security analysis}
 
