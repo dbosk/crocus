@@ -1,18 +1,43 @@
-\section{Distance-bounding anonymous credentials}%
+\section{Distance-bounding \ac*{ZKPK} for discrete logarithms}%
 \label{DB-anon-cred}
 
-One protocol exists in the literature that provides \acp{PPK} with most of the desired properties described previously, ProProx~\cite{ProProx}\footnote{Note that~\cite{ProProx} uses the abbreviation PoPoK, we prefer \acs{PPK} for shorter notation.}.
-ProProx is secure against a malicious verifier, but it provides \iac{PPK} protocol for quadratic residues (\ie protocols of the form \(\PPK[\alpha][a = 
-  \alpha^2]\)), while in our context, we need \iac{PPK} protocol for discrete logarithms (\ie \(\PPK[\alpha][a = g^\alpha]\)) due to our choice of anonymous credentials whose desirable properties we list in \cref{ZK-anon-cred}.%, which in turn is due to their \ac{PRF} for deriving identifiers from a long-term ID with unlinkability to the original ID but with proof of validity of this derivation. 
-To realize this, we will now introduce such a protocol to enable us to have \ac{DB} anonymous credentials.
+We will now introduce \iac{DB} protocol which is a \ac{ZKPK} for discrete 
+logarithms.
+Our protocol is an adaptation of the Schnorr identification 
+scheme~\cite{Schnorr}, albeit different from that of 
+\textcite{DistanceBounding} in the original \ac{DB} paper.
+(That protocol was shown to be prone to distance 
+hijacking~\cite{DistanceHijacking,TamarinDB} and was not secure against 
+terrorist fraud.)
+We propose another way to turn the Schnorr protocol into a public-key \ac{DB} 
+protocol which is \iac{ZKPK} that is secure against \ac{DBMF}, \ac{DBDF}, 
+\ac{DBDH} and \ac{DBTF}.
+This yields strong privacy properties and protection against a malicious, 
+impersonating verifier.
+
+We also deviate from the normal technique of one-bit challenges and responses 
+otherwise used in \ac{DB} protocols.
+\Textcite{UWBwithPulseReordering} proposed a secure encoding for the physical 
+layer which removes the requirement of only using single-bit challenges and 
+responses for distance bounding.
+However, their protocol only works for relay attacks and cannot handle distance 
+fraud.
+This is due to a requirement of the protocol that the prover and verifier must 
+share a secret, and thus must be mutually trusted.
+
+We will first present our version of the \ac{DB} Schnorr protocol for the 
+mutual-trust case, where the prover and verifier have a pre-shared secret.
+Then we will adapt it by introducing \iac{AKE}.
+The authentication in this \ac{AKE} will leverage that our protocol is \iac{DB} 
+\ac{ZKPK} for discrete logarithms.
+If the \ac{AKE} is based on discrete logarithms we can prove the distance bound 
+while we authenticate the key.
+This allows us to embed this protocol into tamper resistant hardware to provide 
+security against malicious provers.
+
 
 \subsection{Reattempting a distance-bounding Schnorr protocol}%
 \label{DBSchnorr}
-
-In the original \ac{DB} paper by \citet{DistanceBounding}, one of the distance-bounding protocols is based on the Schnorr identification scheme~\cite{Schnorr}.
-However, this \ac{DB} Schnorr protocol was shown to be prone to distance hijacking~\cite{DistanceHijacking, TamarinDB}, in addition to not being secure against terrorist fraud.
-We now propose another way to turn the Schnorr protocol into a public-key \ac{DB} protocol that is secure against \ac{DBMF}, \ac{DBDF}, \ac{DBDH} and \ac{DBTF}.
-It is important in our setting that the protocol is a public-key protocol, both to reach strong privacy properties and also because this property implies protection against an impersonating verifier.
 
 We present the protocol in \cref{SchnorrFigure}.
 The (cyclic) group with generator \(g\) and order \(q\) are system parameters.
