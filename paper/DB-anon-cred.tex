@@ -60,17 +60,17 @@ key~\(k\) and finally
   \small
   \setlength{\ProtoArrowLength}{0.07\linewidth}
   \begin{tabular}{p{0.40\linewidth}cp{0.40\linewidth}}
-    \(\DBSprove[k, g, q, \alpha, A = g^\alpha]\):
+    \(\DBSprove[\sk, g, q, \alpha, A = g^\alpha]\):
     & &
-    \(\DBSverify[k, g, q, A]\):
+    \(\DBSverify[\sk, g, q, A]\):
     \\
     \midrule
 
     \multicolumn{3}{c}{\textbf{Setup}} \\
 
-    Load \(k\) into \(\UWBPR\)
+    Load \(\sk\) into \(\UWBPR\)
     &
-    & Load \(k\) into \(\UWBPR\)
+    & Load \(\sk\) into \(\UWBPR\)
     \\
 
     \(\rho\rgets \ZZ_q, R\gets g^{\rho}\)
