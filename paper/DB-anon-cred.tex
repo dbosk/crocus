@@ -53,7 +53,8 @@ Further, let
 \(\UWBPRsend[_k][m]\) denote sending a message~\(m\) with the shared key~\(k\),
 \(m'\gets \UWBPRrecv_k\) denote receiving a message~\(m'\) with shared 
 key~\(k\) and finally
-\(\Delta t\gets \UWBPRtime\) denote the time between sending and receiving.
+\(\Delta t\gets \UWBPRtime\) denote the time between the last \(\UWBPRsend\) 
+and \(\UWBPRrecv\) operations.
 
 \begin{figure*}
   \centering
@@ -147,71 +148,76 @@ challenge to the prover and starts measuring the time of flight.
 The prover replies with \(s_b\).
 The verifier stops the measurement and verifies that \(R = g^{s_b}A^{c_b}\).
 
+This protocol must be repeated \(n\) times.
+
 \subsection{Security analysis}
 
 The prover must know the responses for both challenges to successfully pass the \ac{DB} phase.
-The reason for the two challenges but only one random nonce is that knowing the responses to both means learning \(\alpha\).
-This allows us to prevent \ac{DBTF}.
-Bundling the authentication into the distance-bounding phase (difference from Brands-Chaum) prevents \ac{DBDH}, and both adaptations together aim at \ac{DBMF} resistance. %reducing success of MF according to number of repetitions.
-The reason we use secret sharing and not \(s_b\) directly, is to bound the \(l\) bits the verifier must learn of \(s_{1-b}\).
-Without secret sharing, the verifier learns \(l\) bits of \(s_{1-b}\), but with secret sharing the verifier learns \(l\) bits of \emph{one share}.
-Thus, we still have information theoretic security for \(s_{1-b}\) although we reveal the \(l\) bits.
+The reason for having two challenges but only one random nonce is that knowing 
+the responses to both means learning \(\alpha\).
+This gives us the incentives that prevent \ac{DBTF}.
+Bundling the authentication into the distance-bounding phase (difference from 
+Brands-Chaum) prevents \ac{DBDH}, and both adaptations together aim at 
+\ac{DBMF} resistance.
+We do not consider \ac{DBDF} here; since the prover knows the key~\(\sk\), she 
+can do \iac{DBEDLC} attack to reduce the distance.
+(We will solve this problem in the next section.)
 
 The intuition behind the protocol security is as follows.
-To achieve malicious-verifier zero-knowledge, choose \(k\) logarithmic in the security parameter \(\lambda\) and repeat the protocol \(n\) times, such that 
-the knowledge error, \(2^{-kn}\), becomes small enough.
-Repeating the protocol is also needed to decrease the success probability of some of adversaries presented below.
+To achieve malicious-verifier zero-knowledge, choose \(k\) logarithmic in the 
+security parameter \(\lambda\) and repeat the protocol \(n\) times, such that 
+the soundness error, \(2^{-kn}\), becomes small enough.
+(Repeating the protocol is also needed to decrease the success probability of 
+some of adversaries presented below.)
+
+The \(\UWBPR\) prevents \iac{DBMF} adversary from performing a 
+distance-reduction through \iac{DBEDLC} attack.
+Thus, any relaying will be detected.
+The adversary could guess the challenge bit \(b\), request \(s_b\) from the 
+prover and guess \(s_{1-b}\).
+The success probability of this is \(\frac{1}{2} + \frac{1}{q}\) per round, 
+thus \((\frac{q + 2}{2q})^n\) in total.
+
+The protocol is also secure against distance hijacking due to the fact that the 
+authenticating bitstring is used during the \ac{DB} phase, not the challenge 
+bitstring, as is the case for the original protocol of Brands-Chaum.
+Thus the probability of success is equivalent of a collision for the responses 
+for the chosen challenge --- in each round.
+
+Finally, it follows from the original Schnorr protocol that this is still 
+\ac{ZK} and \iac{PK} with soundness error \(2^{-kn}\).
+\daniel{I should prove this for the composed protocol, I should check the details with Douglas.}
+
+\subsection{Achieving \acl{DBDF} and \acl{DBTF} resistance}
+
+\Acl{DB} protocols requires hardware implementations.
+We will use a trusted hardware implementation to overcome the limitation of 
+\textcite{UWBPR}, \ie that the prover and verifier be mutually trusted.
+This will also require \iac{PKI} to overcome the shared-key requirement and for 
+a verifier to be able verify the hardware of a prover.
 
 The \ac{DB} phase protects against distance fraud.
 Once the prover has received \(l+1\) challenges set to \(b\), it knows that the remaining challenges must also be \(b\).
 \Iac{DBDF} prover must thus wait for the challenge bit \(b_i\) before responding with \(r_i\) for \(l+1\) challenges.
 Thus, the probability of successfully guessing the order of the challenge bits is \(2^{-(l+1)}\) per round or, in total, \(2^{-(l+1)n}\).
 
-The \ac{DB} phase also ensures that \iac{DBMF} adversary will fail the \ac{DB} phase for at least one round.
-The verifier will send \(|q| + l < 2|q|\) challenges.
-By replying, the prover reveals \(|q|+l\) bits distributed over \(s_0, 
-  s_1\).
-\emph{We assume} that learning \(\ceil{(|q|+l)/2}\) bits of \(s_0\) and 
-\(\floor{(|q|+l)/2}\) bits of \(s_1\) yields no advantage for the adversary.
-Now, the adversary has two options.
-First, the adversary can buffer \(l\) bits of both \(s_0^{(0)}\concat s_0^{(1)}, s_1^{(0)}\concat s_1^{(1)}\) by requesting them from the prover.
-However, at this point the adversary must wait for the challenge bit \(b_{l+1}\) from the verifier and then relay that challenge to the prover to receive the correct \(r_i\) --- this relay will be detected.
-The alternative is to guess \(b\) and extract \(s_b\) for this challenge from the prover.
-Guessing \(b\) yields \(1/2\) probability that the \ac{DBMF} adversary will guess it correctly.
-Since we must execute the protocol \(n\) times, the probability to pass all these rounds is reduced to \(2^{-n}\).
-If the adversary requests \(s_b\) in full, the adversary can also guess the 
-remaining \(|q|-l\) bits of \(s_{1-b}\).
-Based on our assumption above, the probability of guessing these bits 
-successfully is \(2^{-(|q|-l)}\).
-Thus the success probability of the \ac{DBMF} adversary is \emph{at most} 
-\(2^{-n}+2^{-(|q|-l)n}\).
-
-The protocol is \ac{DBTF}-resistant. 
-Indeed, if the malicious prover gives both responses to the accomplice, the accomplice can compute his secret key.
+The protocol is \ac{DBTF}-resistant.
+Indeed, if the malicious prover gives both responses to the accomplice, the 
+accomplice can compute his secret key.
 The probability of success of \ac{DBTF} is thus reduced to guessing \(b\), \ie \(1/2\) per round or, in total, \(2^{-n}\).
-
-The protocol is also secure against distance hijacking due to the fact that the authenticated bitstring is used during the \ac{DB} phase, not the challenge bitstring as it is the case for the original protocol of Brands-Chaum.
-Thus the probability of success is equivalent of a collision for the responses 
-for the chosen challenge --- in each round.
-
-Finally, it follows from the original Schnorr protocol that this is still \iac{PK} and \ac{ZK}.
-\daniel{I should prove this for the composed protocol, I should check the details with Douglas.}
 
 \subsection{Formal Verification}
 
-We wanted to formally verify the protocol security properties. To realize this, 
-we used the Tamarin prover~\cite{meier2013tamarin}. Tamarin does not include 
-originally the possibility to reason on time and space in its model.
-However, thanks to a recent work by \textcite{TamarinDB}, all the common 
-properties mentioned in the previous subsection can be equivalently 
-characterized with a causality-based definition relying only on the order of 
-messages.
-
-The whole Tamarin code we wrote is provided in \cref{apdx:tamarin-spec}, with a short discussion of the modeling choices that we have made. 
-It contains a specification of the distance-bounding protocol described previously, a definition of the soundness and correctness properties that ensure the protocol actually produces the expected result, and a definition of the security properties we want to ensure.
-
-Tamarin's auto-prover validated the soundness and correctness properties (in negligible computation time) but does not terminate when trying to prove the security properties.
-This means that no trace violating the security properties is found, but the prover cannot conclusively validate that the desired properties are true. 
-We are currently investigating the Tamarin interactive mode to validate as well the security properties.
+We formally verified these properties with Tamarin~\cite{meier2013tamarin}.
+Thanks to recent work by \textcite{TamarinDB}, all the common properties for 
+\ac{DB} protocols (except \ac{DBTF}) can be characterized with a 
+causality-based definition relying only on the order of messages.
+The whole Tamarin specification for our protocol is provided in 
+\cref{apdx:tamarin-spec}, with a short discussion of the modeling choices that 
+we have made.
+It contains a specification of the distance-bounding protocol described 
+previously, a definition of the soundness and correctness properties that 
+ensure the protocol actually produces the expected result, and a definition of 
+the security properties we want to ensure.
 
 
