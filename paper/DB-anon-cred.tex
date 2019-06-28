@@ -183,22 +183,23 @@ The intuition behind the protocol security is as follows.
 The prover must know the responses for all challenges to successfully pass the 
 \ac{DB} phase.
 The reason for having several challenges but only one random nonce is that 
-knowing at least two responses means learning \(\alpha\).
+knowing at least two responses means learning the secret~\(\alpha\).
 This gives us the incentives that prevent \ac{DBTF}.
 Bundling the authentication into the distance-bounding phase (difference from 
 Brands-Chaum) prevents \ac{DBDH}.
 We do not consider \ac{DBDF} here; since the prover knows the key~\(\sk\), she 
 can do \iac{DBEDLC} attack to reduce the distance.
 (We will solve this problem in the next section.)
-However, the properties of \(\UWBPR\) ensures \ac{DBMF} resistance.
+However, the properties of \(\UWBPR\) and the unpredictability of the 
+challenges ensures \ac{DBMF} resistance.
 
 The \(\UWBPR\) prevents \iac{DBMF} adversary from performing a 
-distance-reduction through \iac{DBEDLC} attack.
+distance-reduction through \iac{DBEDLC} attack~\cite{UWBPR}.
 Thus, any relaying will be detected.
-The adversary could guess the challenge bit \(b\), request \(s_b\) from the 
-prover and guess \(s_{1-b}\).
-The success probability of this is \(\frac{1}{2} + \frac{1}{q}\) per round, 
-thus \((\frac{q + 2}{2q})^n\) in total.
+The adversary could guess the challenge chosen, \(i\), request \(s_i\) from the 
+prover and guess \(s_j\) for \(i\neq j\).
+The success probability of this is \(\frac{1}{k} + \frac{k}{q}\) per round, 
+thus \((\frac{q + k}{kq})^n\) in total.
 
 The protocol is also secure against distance hijacking due to the fact that the 
 authenticating bit string is used during the \ac{DB} phase, not the challenge 
@@ -210,30 +211,48 @@ for the chosen challenge --- in each round.
 and that of the honest prover.
 \dots
 
-Finally, it follows from the original Schnorr protocol that this is still 
-\ac{ZK} and \iac{PK} with soundness error \(2^{-kn}\).
-To achieve malicious-verifier zero-knowledge, choose \(k\) logarithmic in the 
-security parameter \(\lambda\) and repeat the protocol \(n\) times.
+\NewAlgorithm{\adv}{A}
 
-\daniel{I should prove this for the composed protocol, I should check the details with Douglas.}
+\begin{proof}[\acs*{DBTF} resistance]
+  Assume that there is an algorithm~\(\adv\) that can authenticate without the 
+  provers help with non-negligible advantage~\(\epsilon\), \ie the success 
+  probability is \(\frac{1}{2}+\epsilon\).
+  There is chance that \(\adv\) predicts the challenge is \(\frac{1}{2}\).
+  Thus, there is some case for which \(\adv\) knows both responses.
+  In that case \(\adv\) can simply compute the secret and impersonate with 
+  probability \(1\) forever.
+\end{proof}
 
-\subsection{Achieving \acl{DBDF} and \acl{DBTF} resistance}
-
-\Acl{DB} protocols requires hardware implementations.
-We will use a trusted hardware implementation to overcome the limitation of 
-\textcite{UWBPR}, \ie that the prover and verifier be mutually trusted.
-This will also require \iac{PKI} to overcome the shared-key requirement and for 
-a verifier to be able verify the hardware of a prover.
-
-The \ac{DB} phase protects against distance fraud.
-Once the prover has received \(l+1\) challenges set to \(b\), it knows that the remaining challenges must also be \(b\).
-\Iac{DBDF} prover must thus wait for the challenge bit \(b_i\) before responding with \(r_i\) for \(l+1\) challenges.
-Thus, the probability of successfully guessing the order of the challenge bits is \(2^{-(l+1)}\) per round or, in total, \(2^{-(l+1)n}\).
+\begin{proof}[\acs*{DBDH} resistance]
+  The adversary must find a collision of challenges for the honest provers 
+  challenges, so that the verifying equation holds at the end.
+\end{proof}
 
 The protocol is \ac{DBTF}-resistant.
 Indeed, if the malicious prover gives both responses to the accomplice, the 
 accomplice can compute his secret key.
 The probability of success of \ac{DBTF} is thus reduced to guessing \(b\), \ie \(1/2\) per round or, in total, \(2^{-n}\).
+
+\subsection{Achieving \acl{DBDF} resistance}
+
+\Acl{DB} protocols requires hardware implementations.
+We will use a trusted hardware implementation to overcome the limitation of 
+\textcite{UWBPR}, \ie that the prover and verifier be mutually trusted.
+We will need \iac{PKI} for the verifier to verify the trusted hardware.
+We will leverage this \ac{PKI} to overcome the shared-key requirement.
+With \iac{PKI} based on discrete logarithms we will be able to perform \iac{DB} 
+\ac{ZKPK} which simultaneously proves
+\begin{enumerate*}
+\item that the protocol is run by trusted hardware,
+\item that that trusted hardware is within proximity,
+\item that some \ac{ZKPK} statement holds, and
+\item that that knowledge is within proximity.
+\end{enumerate*}
+
+The \ac{DB} phase protects against distance fraud.
+Once the prover has received \(l+1\) challenges set to \(b\), it knows that the remaining challenges must also be \(b\).
+\Iac{DBDF} prover must thus wait for the challenge bit \(b_i\) before responding with \(r_i\) for \(l+1\) challenges.
+Thus, the probability of successfully guessing the order of the challenge bits is \(2^{-(l+1)}\) per round or, in total, \(2^{-(l+1)n}\).
 
 \subsection{Formal Verification}
 
@@ -248,5 +267,4 @@ It contains a specification of the distance-bounding protocol described
 previously, a definition of the soundness and correctness properties that 
 ensure the protocol actually produces the expected result, and a definition of 
 the security properties we want to ensure.
-
 
