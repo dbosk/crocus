@@ -32,12 +32,18 @@ These can be summarized as follows:
     channel at some point(s) during the protocol.)
 \end{itemize}
 There are two lines of attempts at formalizing the above properties: one by \citet{DB-BMV} and another by \citet{DB-DFKO}.
+We will use the framework of \citeauthor{DB-DFKO} with extensions by 
+\textcite{FormalTerroristFraud} and \textcite{TREAD} (definitions in 
+\cref{DB-definitions}).
 
 The majority of the existing \ac{DB} protocols are symmetric and thus require an honest verifier.
-Indeed, in this context it does not make sense to protect against the verifier as he can easily impersonate the prover as he has a knowledge of his secret key.
+In this context it does not make sense to protect against the verifier as he 
+can easily impersonate the prover as he has a knowledge of his secret key.
 There has been less work done in the domain of asymmetric (or public-key) \ac{DB} protocols.
-Our setting requires a public-key \ac{DB} protocol with a \emph{malicious verifier} who will potentially try to \emph{impersonate the prover}.
-The verifier might also try to track the provers and map their identities to 
-their actions, thus we also require strong privacy.
-In fact, as the construction in \cref{Protocol} shows, we require \iac{DB} 
-\ac{ZKPK}, or simply \ac{PPK}, for discrete logarithms.
+We will work in the latter setting; with a \emph{malicious verifier} who will 
+potentially try to \emph{impersonate the prover} after successful verification.
+
+\subsection{\Acl*{DB} security definitions}%
+\label{DB-definitions}
+
+\dots
