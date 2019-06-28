@@ -241,11 +241,11 @@ We will use a trusted hardware implementation to overcome the limitation of
 We will need \iac{PKI} for the verifier to verify the trusted hardware.
 We will leverage this \ac{PKI} to overcome the shared-key requirement.
 With \iac{PKI} based on discrete logarithms we will be able to perform \iac{DB} 
-\ac{ZKPK} which simultaneously proves
+\ac{ZKPK} which \emph{simultaneously} proves
 \begin{enumerate*}
 \item that the protocol is run by trusted hardware,
 \item that that trusted hardware is within proximity,
-\item that some \ac{ZKPK} statement holds, and
+\item that some \ac{ZKPK} statement about some discrete logarithms holds, and
 \item that that knowledge is within proximity.
 \end{enumerate*}
 
