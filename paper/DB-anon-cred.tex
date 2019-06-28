@@ -79,12 +79,17 @@ and \(\UWBPRrecv\) operations.
     &
     \\
 
-    \(s_0\gets \rho - c_0\alpha \pmod q\)
-    & \(\ProtoSendLeft{c_0, c_1}\)
-    & \(c_0\rgets \bin^k, c_1\rgets \bin^k\)
+    \(s_1\gets \rho - c_1\alpha \pmod q\)
+    & \(\ProtoSendLeft{c_1, \dotsc, c_k}\)
+    & \(c_1\rgets \bin^k, \dotsc, c_k\rgets \bin^k\)
     \\
 
-    \(s_1\gets \rho - c_1\alpha \pmod q\)
+    \vdots
+    &
+    &
+    \\[-1em]
+
+    \(s_k\gets \rho - c_k\alpha \pmod q\)
     &
     &
     \\
@@ -102,13 +107,13 @@ and \(\UWBPRrecv\) operations.
 %    \\
 
     % null
-    & \(\ProtoSendLeft{b}\)
-    & \(b\rgets \bin\)
+    & \(\ProtoSendLeft{i}\)
+    & \(i\rgets \{1, \dotsc, k\}\), start clock
     \\
 
-    Fetch \(s_b\)
-    & \(\ProtoSendRight{s_b}\)
-    & Record \(\Delta t\)
+    Fetch \(s_i\)
+    & \(\ProtoSendRight{s_i}\)
+    & Stop clock, record \(\Delta t\)
     \\
 
     \midrule
@@ -117,7 +122,7 @@ and \(\UWBPRrecv\) operations.
 
     % null
     &
-    & Accept if \(R = g^{s_b} A^{c_b}\).
+    & Accept if \(R = g^{s_i} A^{c_i}\) and \(\Delta t < t_{\max}\).
     \\
     
   \end{tabular}
@@ -125,8 +130,8 @@ and \(\UWBPRrecv\) operations.
     One-round protocol instance of the \(\DBSprove\leftrightarrow \DBSverify\) 
     protocol instantiating \(\PK[\alpha][A = g^\alpha]\).
     Each transmission (arrow in the diagram) uses \(\UWBPR\).
-    The protocol should be repeated in full to achieve the desired soundness 
-    and distance-bounding errors.
+    The protocol should be repeated \(n\) times to achieve the desired 
+    soundness and distance-bounding errors.
   }%
   \label{SchnorrFigure}
 \end{figure*}
@@ -134,41 +139,43 @@ and \(\UWBPRrecv\) operations.
 During one round, in the setup phase, the prover commits to a random nonce: 
 more precisely he chooses \(\rho\rgets \ZZ_q\) uniformly at random, computes 
 \(R\gets g^\rho\) and sends \(R\) to the verifier.
-The verifier generates two challenges \(c_0\rgets \bin^k, c_1\rgets \bin^k\) and sends them to the prover.
-The prover computes \(s_0\gets \rho - c_0\alpha, s_1\gets \rho - c_1\alpha\).
-This step is the main difference to the original Schnorr protocol: the verifier selects two challenges and the prover computes two responses --- but still only \emph{one nonce}, \(\rho\).
+The verifier generates \(k\) challenges \(c_1\rgets \bin^k, \dotsc, c_k\rgets 
+  \bin^k\) (bit strings of length \(k\)) and sends them to the prover.
+The prover computes one response per challenge, \(s_1\gets \rho - c_1\alpha, 
+  \dotsc, s_k\gets \rho - c_k\alpha\).
+This step is the main difference to the original Schnorr protocol: the verifier 
+selects several challenges and the prover computes several responses --- but 
+still only use \emph{one nonce}, \(\rho\).
+This is needed for \ac{DBTF} resistance.
 This is also different from the original Brands-Chaum protocol, in which the 
 prover and verifier jointly construct \emph{one} challenge with \emph{one} 
 response.
 
 In the \ac{DB} phase, the prover notifies the verifier that he has computed 
-\(s_0, s_1\).
-The verifier chooses one bit, \(b\), uniformly randomly and sends it as a 
-challenge to the prover and starts measuring the time of flight.
-The prover replies with \(s_b\).
-The verifier stops the measurement and verifies that \(R = g^{s_b}A^{c_b}\).
+\(s_1, \dotsc, s_k\).
+The verifier chooses one of the challenges, \(i\), uniformly randomly and sends 
+it as a challenge to the prover and starts measuring the time of flight.
+The prover replies with \(s_i\).
+The verifier stops the measurement and verifies that \(R = g^{s_i}A^{c_i}\) and 
+that the time of flight was within \(t_{\max}\) (determined from the allowed 
+  distance).
 
 This protocol must be repeated \(n\) times.
 
 \subsection{Security analysis}
 
-The prover must know the responses for both challenges to successfully pass the \ac{DB} phase.
-The reason for having two challenges but only one random nonce is that knowing 
-the responses to both means learning \(\alpha\).
+The intuition behind the protocol security is as follows.
+The prover must know the responses for all challenges to successfully pass the 
+\ac{DB} phase.
+The reason for having several challenges but only one random nonce is that 
+knowing at least two responses means learning \(\alpha\).
 This gives us the incentives that prevent \ac{DBTF}.
 Bundling the authentication into the distance-bounding phase (difference from 
-Brands-Chaum) prevents \ac{DBDH}, and both adaptations together aim at 
-\ac{DBMF} resistance.
+Brands-Chaum) prevents \ac{DBDH}.
 We do not consider \ac{DBDF} here; since the prover knows the key~\(\sk\), she 
 can do \iac{DBEDLC} attack to reduce the distance.
 (We will solve this problem in the next section.)
-
-The intuition behind the protocol security is as follows.
-To achieve malicious-verifier zero-knowledge, choose \(k\) logarithmic in the 
-security parameter \(\lambda\) and repeat the protocol \(n\) times, such that 
-the soundness error, \(2^{-kn}\), becomes small enough.
-(Repeating the protocol is also needed to decrease the success probability of 
-some of adversaries presented below.)
+However, the properties of \(\UWBPR\) ensures \ac{DBMF} resistance.
 
 The \(\UWBPR\) prevents \iac{DBMF} adversary from performing a 
 distance-reduction through \iac{DBEDLC} attack.
@@ -179,13 +186,20 @@ The success probability of this is \(\frac{1}{2} + \frac{1}{q}\) per round,
 thus \((\frac{q + 2}{2q})^n\) in total.
 
 The protocol is also secure against distance hijacking due to the fact that the 
-authenticating bitstring is used during the \ac{DB} phase, not the challenge 
-bitstring, as is the case for the original protocol of Brands-Chaum.
+authenticating bit string is used during the \ac{DB} phase, not the challenge 
+bit string, as is the case for the original protocol of Brands-Chaum.
 Thus the probability of success is equivalent of a collision for the responses 
 for the chosen challenge --- in each round.
 
+\Ac{DBDH} requires that the adversary finds a collision between his response 
+and that of the honest prover.
+\dots
+
 Finally, it follows from the original Schnorr protocol that this is still 
 \ac{ZK} and \iac{PK} with soundness error \(2^{-kn}\).
+To achieve malicious-verifier zero-knowledge, choose \(k\) logarithmic in the 
+security parameter \(\lambda\) and repeat the protocol \(n\) times.
+
 \daniel{I should prove this for the composed protocol, I should check the details with Douglas.}
 
 \subsection{Achieving \acl{DBDF} and \acl{DBTF} resistance}
