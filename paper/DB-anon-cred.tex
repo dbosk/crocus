@@ -162,7 +162,22 @@ that the time of flight was within \(t_{\max}\) (determined from the allowed
 
 This protocol must be repeated \(n\) times.
 
-\subsection{Security analysis}
+\subsection{\Acl*{ZK} and \acl*{PK}}
+
+The main difference between this protocol and the Schnorr protocol is that we 
+have the prover compute responses for \(k\) different challenges, \(c_1, 
+  \dotsc, c_k\).
+However, in the authentication step, the verifier chooses only one of those 
+challenges.
+From the simulator's (and extractor's) perspective, there is no difference 
+whether the verifier first chooses \(k\) and then chooses one of those \(k\) 
+challenges, or if the verfifier chooses the one challenge directly;
+the distribution is the same, \(\frac{k}{n}\times \frac{1}{k} = \frac{1}{n}\).
+Therefore the standard proof for Schnorr as a malicious-verifier \ac{ZKPK} 
+protocol with soundness error \(2^{-kn}\) still 
+holds~\cite[\eg][]{OnSigmaProtocols}.
+
+\subsection{\acs*{DBMF}, \acs*{DBDH} and \acs*{DBTF} resistance}
 
 The intuition behind the protocol security is as follows.
 The prover must know the responses for all challenges to successfully pass the 
