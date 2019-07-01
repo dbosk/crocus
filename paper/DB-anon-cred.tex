@@ -185,13 +185,14 @@ The prover must know the responses for all challenges to successfully pass the
 The reason for having several challenges but only one random nonce is that 
 knowing at least two responses means learning the secret~\(\alpha\).
 This gives us the incentives that prevent \ac{DBTF}.
+(We also need it for \ac{DBMF}.)
 Bundling the authentication into the distance-bounding phase (difference from 
 Brands-Chaum) prevents \ac{DBDH}.
 We do not consider \ac{DBDF} here; since the prover knows the key~\(\sk\), she 
 can do \iac{DBEDLC} attack to reduce the distance.
-(We will solve this problem in the next section.)
+(We will solve this problem further down.)
 However, the properties of \(\UWBPR\) and the unpredictability of the 
-challenges ensures \ac{DBMF} resistance.
+challenges ensures \ac{DBMF} resistance (since then the prover is honest).
 
 The \(\UWBPR\) prevents \iac{DBMF} adversary from performing a 
 distance-reduction through \iac{DBEDLC} attack~\cite{UWBPR}.
