@@ -86,7 +86,8 @@ adversary is out of range.
 The following definition captures a pure relay and a verifier is assumed to 
 detect such a relay.
 
-\begin{definition}[Tainted session, \acs*{DBMF}~\cite{DB-DFKO}]
+\begin{definition}[Tainted session, \acs*{DBMF}~\cite{DB-DFKO}]%
+  \label{TaintedMF}
   A time-critical round
   \(\Xscript{\sid}{k, k+1} = (m_k, \dotsc, m_{k+1})\)
   of an adversary--verifier session~\(\sid\), where \(m_k\) is sent by the 
@@ -102,7 +103,8 @@ detect such a relay.
 
 We will now define what is means for a protocol to be \ac{DBMF} resistant.
 
-\begin{definition}[\acs*{DBMF} resistance~\cite{TREAD}]
+\begin{definition}[\acs*{DBMF} resistance~\cite{TREAD}]%
+  \label{MFresistance}
   For \iac{DB} authentication scheme \(\DB\), a \((t, \qobs, \qp, \qv)\)-MF 
   adversary \(\adv\) \emph{wins} against \(\DB\) if the verifier accepts 
   \(\adv\) in in one of the \(\qv\) adversary--verifier sessions \(\sid\), 
@@ -123,7 +125,7 @@ prover cooperates with the adversary to make the verifier accept.
   \Ie that the number of messages in \(\sid\) is not required to be the same 
   and in the same order as in \(\sid'\).}
 
-\begin{definition}[Tainted session, \acs*{DBTF}]
+\begin{definition}[Tainted session, \acs*{DBTF}]\label{TaintedTF}
   A time-critical round
   \(\Xscript{\sid}{k, k+1} = (m_k, m_{k+1})\)
   of an adversary--verifier session~\(\sid\), where \(m_k\) is sent by the 
@@ -136,17 +138,20 @@ prover cooperates with the adversary to make the verifier accept.
   \end{align*}
 \end{definition}
 
-\begin{definition}[strSimTF resistance~\cite{FormalTerroristFraud}]
+\begin{definition}[strSimTF resistance~\cite{FormalTerroristFraud}]%
+  \label{TFresistance}
   \dots
 \end{definition}
 
 \paragraph*{\Acl*{DBDH}}
 
-\begin{definition}[Tainted session, \acs*{DBDH}~\cite{TREAD}]
+\begin{definition}[Tainted session, \acs*{DBDH}~\cite{TREAD}]%
+  \label{TaintedDH}
   \dots
 \end{definition}
 
-\begin{definition}[\acs*{DBDH} resistance~\cite{TREAD}]
+\begin{definition}[\acs*{DBDH} resistance~\cite{TREAD}]%
+  \label{DHresistance}
   \dots
 \end{definition}
 
