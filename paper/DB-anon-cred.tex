@@ -37,7 +37,7 @@ security against malicious provers.
 
 
 \subsection{Reattempting a distance-bounding Schnorr protocol}%
-\label{DBSchnorr}
+\label{DB-Schnorr}
 
 Thanks to \textcite{UWBPR} we can keep the Schnorr protocol 
 almost as is, relays (\ac{DBMF}, \ac{DBDH}) are dealt with on the physical 
@@ -171,11 +171,14 @@ However, in the authentication step, the verifier chooses only one of those
 challenges.
 From the simulator's (and extractor's) perspective, there is no difference 
 whether the verifier first chooses \(k\) and then chooses one of those \(k\) 
-challenges, or if the verfifier chooses the one challenge directly;
+challenges, or if the verifier chooses the one challenge directly;
 the distribution is the same, \(\frac{k}{n}\times \frac{1}{k} = \frac{1}{n}\).
 Therefore the standard proof for Schnorr as a malicious-verifier \ac{ZKPK} 
 protocol with soundness error \(2^{-kn}\) still 
 holds~\cite[\eg][]{OnSigmaProtocols}.
+(We note that \(k\), which is also the length of the challenge bit string, must 
+be logarithmic in the security parameter, \(\lambda\), for a malicious 
+verifier.)
 
 \subsection{\acs*{DBMF}, \acs*{DBDH} and \acs*{DBTF} resistance}
 
@@ -200,7 +203,8 @@ Thus, any relaying will be detected, \ie this justifies \cref{TaintedMF}.
 
 \begin{theorem}[\acs*{DBMF} resistance]
   Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-MF adversary, then 
-  \(\Adv_{\DBS}^{\text{MF}}(\adv)\) is negligible.
+  \(\Adv_{\DBS}^{\text{MF}}(\adv) = (q+k)^n (kq)^{-n}\), where \(k, q\) are as 
+  in \cref{DB-Schnorr}.
 \end{theorem}
 
 \begin{proof}
