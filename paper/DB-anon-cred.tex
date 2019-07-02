@@ -196,11 +196,32 @@ challenges ensures \ac{DBMF} resistance (since then the prover is honest).
 
 The \(\UWBPR\) prevents \iac{DBMF} adversary from performing a 
 distance-reduction through \iac{DBEDLC} attack~\cite{UWBPR}.
-Thus, any relaying will be detected, \ie this validates \cref{TaintedMF}.
-The adversary could guess the challenge chosen, \(i\), request \(s_i\) from the 
-prover and guess \(s_j\) for \(i\neq j\).
-The success probability of this is \(\frac{1}{k} + \frac{k}{q}\) per round, 
-thus \((\frac{q + k}{kq})^n\) in total.
+Thus, any relaying will be detected, \ie this justifies \cref{TaintedMF}.
+
+\begin{theorem}[\acs*{DBMF} resistance]
+  Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-MF adversary, then 
+  \(\Adv_{\DBS}^{\text{MF}}(\adv)\) is negligible.
+\end{theorem}
+
+\begin{proof}
+  The adversary has two options:
+  \begin{enumerate*}
+  \item guess which challenge the verifier will use and request the correct 
+    response from the prover, this yields a success with probability 
+    \(\frac{1}{k}\);
+  \item guess the response, this yields success with probability 
+    \(\frac{1}{q}\).
+  \end{enumerate*}
+  The total success probability is \(\frac{1}{k} + \frac{1}{q}\) per round, 
+  thus \((q + k)^n (kq)^{-n}\) in total.
+  We have that \(k \in \log(\lambda)\), \(q \in \poly[\lambda]\) and it follows 
+  that the success probability is negligible,
+  \[
+    \left( \frac{\log(\lambda) + 
+        \poly[\lambda]}{\log(\lambda)\poly[\lambda]}\right)^n \approx
+    \frac{1}{\log(\lambda)^n} < \frac{1}{\poly[\lambda]}
+  \] for \(n > 2\).
+\end{proof}
 
 The protocol is also secure against distance hijacking due to the fact that the 
 authenticating bit string is used during the \ac{DB} phase, not the challenge 
@@ -211,8 +232,6 @@ for the chosen challenge --- in each round.
 \Ac{DBDH} requires that the adversary finds a collision between his response 
 and that of the honest prover.
 \dots
-
-\NewAlgorithm{\adv}{A}
 
 \begin{proof}[\acs*{DBTF} resistance]
   Assume that there is an algorithm~\(\adv\) that can authenticate without the 
