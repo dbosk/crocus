@@ -47,3 +47,107 @@ There are two lines of attempts at formalizing the above properties: one by
 We will use the framework of \citeauthor{DB-DFKO} with extensions by 
 \textcite{FormalTerroristFraud} and \textcite{TREAD} (definitions in 
 \cref{DB-definitions}).
+
+As summarized in by \textcite{TREAD}, there are three types of sessions for an 
+adversary:
+\begin{description}
+  \item[Prover--verifier] The adversary observes an honest execution.
+  \item[Prover--adversary] The adversary runs the protocol as a verifier with 
+    an honest prover.
+  \item[Adversary--verifier] The adversary runs the protocol as a, potentially 
+    malicious, prover with an honest verifier.
+\end{description}
+Each session is associated with a unique identifier \(\sid\).
+Each adversary is defined in terms of
+computational resources, time~\(t\);
+number of prover--verifier sessions observed, \(\qobs\);
+number of prover--adversary sessions initiated, \(\qp\), and
+number of adversary--verifier sessions initiated, \(\qv\).
+
+The DFKO framework~\cite{DB-DFKO} uses an abstract clock~\(\marker\colon \NN\to 
+  \NN\) which is strictly increasing and orders the adversary's actions.
+We let
+\(\Xscript{\sid}{i, \dotsc, j}\)
+denote the sequence of messages
+\((m_i, \dotsc, m_j)\)
+exchanged during the session \(\sid\).
+
+A session consists of three phases: a setup phase, a time-critical phase and a 
+verification phase.
+Both setup and verification can be run slowly, but the time-critical phase must 
+be run as fast as possible.
+
+\paragraph*{\Acl*{DBMF}}
+
+We will now define the conditions for \ac{DBMF} and \ac{DBMF} resistance.
+A tainted session is a session in which the adversary lost because the verifier 
+detected the attempt at cheating, \eg the timing is too long because the 
+adversary is out of range.
+The following definition captures a pure relay and a verifier is assumed to 
+detect such a relay.
+
+\begin{definition}[Tainted session, \acs*{DBMF}~\cite{DB-DFKO}]
+  A time-critical round
+  \(\Xscript{\sid}{k, k+1} = (m_k, \dotsc, m_{k+1})\)
+  of an adversary--verifier session~\(\sid\), where \(m_k\) is sent by the 
+  verifier, is \emph{tainted} by the round
+  \(\Xscript{\sid'}{k', k'+1} = (m_{k'}, m_{k'+1})\)
+  of a prover--adversary session~\(\sid'\) if
+  \begin{align*}
+    (m_k, m_{k+1}) &= (m_{k'}, m_{k'+1}) \\
+    \marker[\sid, k] &< \marker[\sid', k'] \\
+    \marker[\sid, k+1] &> \marker[\sid', k'+1].
+  \end{align*}
+\end{definition}
+
+We will now define what is means for a protocol to be \ac{DBMF} resistant.
+
+\begin{definition}[\acs*{DBMF} resistance~\cite{TREAD}]
+  For \iac{DB} authentication scheme \(\DB\), a \((t, \qobs, \qp, \qv)\)-MF 
+  adversary \(\adv\) \emph{wins} against \(\DB\) if the verifier accepts 
+  \(\adv\) in in one of the \(\qv\) adversary--verifier sessions \(\sid\), 
+  which does not have any critical phase tainted by a prover--adversary session 
+  \(\sid'\).
+  The protocol \(\DB\) is \Ac{DBMF} resistant if the probability 
+  \(\Adv_{\DB}^{\text{MF}}(\adv)\) that \(\adv\) wins the game is negligible in 
+  the security parameter.
+\end{definition}
+
+\paragraph*{\Acl*{DBTF}}
+
+\Acl{DBTF} is similar to \ac{DBMF}, the difference is that during \ac{DBTF} the 
+prover cooperates with the adversary to make the verifier accept.
+
+\daniel{This definition differs slightly from that of 
+  \textcite{FormalTerroristFraud}: we use \(m_{k'}\) instead of \(m_k'\).
+  \Ie that the number of messages in \(\sid\) is not required to be the same 
+  and in the same order as in \(\sid'\).}
+
+\begin{definition}[Tainted session, \acs*{DBTF}]
+  A time-critical round
+  \(\Xscript{\sid}{k, k+1} = (m_k, m_{k+1})\)
+  of an adversary--verifier session~\(\sid\), where \(m_k\) is sent by the 
+  verifier, is \emph{tainted} by the round
+  \(\Xscript{\sid'}{k', k'+1} = (m_{k'}, m_{k'+1})\)
+  of a prover--adversary session~\(\sid'\) if
+  \begin{align*}
+    \marker[\sid, k] &< \marker[\sid', k'] \\
+    \marker[\sid, k'+1] &> \marker[\sid', k'+1].
+  \end{align*}
+\end{definition}
+
+\begin{definition}[strSimTF resistance~\cite{FormalTerroristFraud}]
+  \dots
+\end{definition}
+
+\paragraph*{\Acl*{DBDH}}
+
+\begin{definition}[Tainted session, \acs*{DBDH}~\cite{TREAD}]
+  \dots
+\end{definition}
+
+\begin{definition}[\acs*{DBDH} resistance~\cite{TREAD}]
+  \dots
+\end{definition}
+
+These definitions for \ac{DBDH} also captures \ac{DBDF} attacks~\cite{TREAD}.

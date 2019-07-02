@@ -154,6 +154,17 @@
 \NewVariable{\CA}{CA}
 \NewSet{\TT}{T}
 \NewSet{\LL}{L}
+\NewVariable{\sid}{sid}
+\NewVariable{\qobs}{q_{\text{obs}}}
+\NewVariable{\qp}{q_{\text{p}}}
+\NewVariable{\qv}{q_{\text{v}}}
+\NewAlgorithm{\marker}{marker}
+\DeclareDocumentCommand{\Xscript}{mm}{\ensuremath{%
+    \Pi_{#1}\left[#2\right]%
+  }}
+\NewScheme{\DB}{DB}
+\NewAlgorithm{\adv}[\mathcal]{A}
+\NewAlgorithm{\Adv}[\mathbf]{Adv}
 
 \DeclareAcronym{MITM}{%
   short = {MITM},
