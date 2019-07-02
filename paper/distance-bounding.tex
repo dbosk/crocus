@@ -31,10 +31,6 @@ These can be summarized as follows:
     to authenticate to the verifier, but the malicious prover hijacks the 
     channel at some point(s) during the protocol.)
 \end{itemize}
-There are two lines of attempts at formalizing the above properties: one by \citet{DB-BMV} and another by \citet{DB-DFKO}.
-We will use the framework of \citeauthor{DB-DFKO} with extensions by 
-\textcite{FormalTerroristFraud} and \textcite{TREAD} (definitions in 
-\cref{DB-definitions}).
 
 The majority of the existing \ac{DB} protocols are symmetric and thus require an honest verifier.
 In this context it does not make sense to protect against the verifier as he 
@@ -46,4 +42,8 @@ potentially try to \emph{impersonate the prover} after successful verification.
 \subsection{\Acl*{DB} security definitions}%
 \label{DB-definitions}
 
-\dots
+There are two lines of attempts at formalizing the above properties: one by 
+\citet{DB-BMV} and another by \citet{DB-DFKO}.
+We will use the framework of \citeauthor{DB-DFKO} with extensions by 
+\textcite{FormalTerroristFraud} and \textcite{TREAD} (definitions in 
+\cref{DB-definitions}).

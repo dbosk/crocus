@@ -234,7 +234,7 @@ Indeed, if the malicious prover gives both responses to the accomplice, the
 accomplice can compute his secret key.
 The probability of success of \ac{DBTF} is thus reduced to guessing \(b\), \ie \(1/2\) per round or, in total, \(2^{-n}\).
 
-\subsection{Achieving \acl{DBDF} resistance}
+\subsection{Achieving \acs*{DBDF} resistance}
 
 \Acl{DB} protocols requires hardware implementations.
 We will use a trusted hardware implementation to overcome the limitation of 
@@ -255,7 +255,7 @@ Once the prover has received \(l+1\) challenges set to \(b\), it knows that the 
 \Iac{DBDF} prover must thus wait for the challenge bit \(b_i\) before responding with \(r_i\) for \(l+1\) challenges.
 Thus, the probability of successfully guessing the order of the challenge bits is \(2^{-(l+1)}\) per round or, in total, \(2^{-(l+1)n}\).
 
-\subsection{Formal Verification}
+\subsection{Formal verification}
 
 We formally verified these properties with Tamarin~\cite{meier2013tamarin}.
 Thanks to recent work by \textcite{TamarinDB}, all the common properties for 
