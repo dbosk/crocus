@@ -237,6 +237,11 @@ for the chosen challenge --- in each round.
 and that of the honest prover.
 \dots
 
+\begin{proof}[\acs*{DBDH} resistance]
+  The adversary must find a collision of challenges for the honest provers 
+  challenges, so that the verifying equation holds at the end.
+\end{proof}
+
 \begin{proof}[\acs*{DBTF} resistance]
   Assume that there is an algorithm~\(\adv\) that can authenticate without the 
   provers help with non-negligible advantage~\(\epsilon\), \ie the success 
@@ -245,11 +250,6 @@ and that of the honest prover.
   Thus, there is some case for which \(\adv\) knows both responses.
   In that case \(\adv\) can simply compute the secret and impersonate with 
   probability \(1\) forever.
-\end{proof}
-
-\begin{proof}[\acs*{DBDH} resistance]
-  The adversary must find a collision of challenges for the honest provers 
-  challenges, so that the verifying equation holds at the end.
 \end{proof}
 
 The protocol is \ac{DBTF}-resistant.
