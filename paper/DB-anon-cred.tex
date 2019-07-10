@@ -231,16 +231,32 @@ Thus, any relaying will be detected, \ie this justifies \cref{TaintedMF}.
 The protocol is also secure against distance hijacking due to the fact that the 
 authenticating bit string is used during the \ac{DB} phase, not the challenge 
 bit string, as is the case for the original protocol of Brands-Chaum.
-Thus the probability of success is equivalent of a collision for the responses 
-for the chosen challenge --- in each round.
-
 \Ac{DBDH} requires that the adversary finds a collision between his response 
 and that of the honest prover.
-\dots
+Thus the probability of success is equivalent to a collision for the responses 
+for the chosen challenge --- in each round.
 
-\begin{proof}[\acs*{DBDH} resistance]
-  The adversary must find a collision of challenges for the honest provers 
+\begin{theorem}[\acs*{DBDH} resistance]
+  Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-DH adversary, then 
+  \(\Adv_{DBS}^{\text{DH}}(\adv) = X\).
+\end{theorem}
+
+\begin{proof}
+  The adversary must find a collision of challenges for the honest prover's 
   challenges, so that the verifying equation holds at the end.
+  Let \(R, c_1, \dotsc, c_k\) be the transcript of the setup between the honest 
+  verifier and the adversary.
+  Let \(R', c_1', \dotsc, c_k'\) be the transcript of the setup between the 
+  honest verifier and honest prover.
+  The verifier will accept if \(R = g^{s_i'} A^{c_i}\), where \(s_i' = \rho' - 
+    c_i'\alpha'\) is the response by the honest prover computed for his 
+  session, \ie \(\rho = \rho' - c_i'\alpha' + c_i\alpha\).
+  Since the verifier and prover are honest, \(\rho', c_i'\), \(\alpha'\) and 
+  \(c_i\) are chosen uniformly randomly.
+  \(\alpha\) is also chosen uniformly randomly and is fixed.
+
+  \daniel{\Ac{DH} is kind of adaptive and concurrent \ac{ZKPK}, I must read up 
+    on that (there is a paper by Bellare).}
 \end{proof}
 
 \begin{proof}[\acs*{DBTF} resistance]
