@@ -1,5 +1,6 @@
 /* Main working version */
-
+// REPLY SHOULD BE BOTH THE CHALLENGE AND THE MEMORIZED VALUE, AND THEY SHOULD BOTH BE THE SAME
+//USE A NONCE in the actual challenge
 theory crocusmain
 
 begin
@@ -80,23 +81,27 @@ rule Verifier_1:
 //   We simulate this choice by using a duplicate rule
 
 rule Verifier_20:
-  [ VerifierSess(R, c0, c1) //POINT_IN_SESSION
+  [ Fr(~b_nonce)
+  , VerifierSess(R, c0, c1) //POINT_IN_SESSION
   ]
 --[ VerifierSelect(c0) //PROOF_LABELS_AGENT
   , StartFastPhase(c0, c1) //PROOF_LABELS_PROTOCOL
   ]->
-  [ VerifierStartFast(R, c0, c1, c0) //POINT_IN_SESSION
-  , FastMsg( c0 ), Out( c0 ) //MESSAGES (Out + Fast)
+  [ VerifierStartFast(R, c0, c1, c0,~b_nonce) //POINT_IN_SESSION
+  , VerifierReadyFlag(R, c0, c1, c0) //POINT_IN_SESSION
+  , FastMsg( <c0, ~b_nonce> ), Out( <c0, ~b_nonce> ) //MESSAGES (Out + Fast)
   ]
 
 rule Verifier_21:
-  [ VerifierSess(R, c0, c1) //POINT_IN_SESSION
+  [ Fr(~b_nonce)
+  , VerifierSess(R, c0, c1) //POINT_IN_SESSION
   ]
 --[ VerifierSelect(c1) //PROOF_LABELS_AGENT
   , StartFastPhase(c0, c1) //PROOF_LABELS_PROTOCOL
   ]->
-  [ VerifierStartFast(R, c0, c1, c1) //POINT_IN_SESSION
-  , FastMsg( c1 ), Out( c1 ) //MESSAGES (Out + Fast)
+  [ VerifierStartFast(R, c0, c1, c1,~b_nonce) //POINT_IN_SESSION
+  , VerifierReadyFlag(R, c0, c1, c1) //POINT_IN_SESSION
+  , FastMsg( <c1, ~b_nonce> ), Out( <c1, ~b_nonce> ) //MESSAGES (Out + Fast)
   ]
 
 
@@ -106,7 +111,7 @@ rule Verifier_21:
 //4. Prover receives and stores both c_i 
 
 rule Prover_2:
-  [ VerifierStartFast(publicKey, c0, c1, b)
+  [ VerifierReadyFlag(publicKey, c0, c1, b)
   , ProverSess($Prover, r) //POINT_IN_SESSION
   , In( <c0, c1> ) //MESSAGES (In + Fast)
   ]
@@ -121,15 +126,16 @@ rule Prover_2:
 //5. Prover receives b and sends it back encoded with x and signed with r
 
 rule Prover_3:
-  let response = aenc{b, sign(b,x)}r
+  let response = <aenc{b, sign(b,x)}r,b_nonce>
   in
   [ ProverStartFast( $Prover, r, c0, c1 ) //POINT_IN_SESSION
-  , FastMsg( b ) //MESSAGES (In + Fast)
+  , FastMsg( <b, b_nonce> ) //MESSAGES (In + Fast)  // TODO: add In(b) ??
   , !Ltk( $Prover, x ) //KEYS
   ]
 --[ ProverReply($Prover, c0, c1, b) //PROOF_LABELS_AGENT
   , ReplyFastPhase(c0, c1, b)//PROOF_LABELS_PROTOCOL
   , Action($Prover)
+  , ProperChallenge(c0,c1,b)
   ]->
   [ FastMsg( response ), Out( response ) //MESSAGES (Out + Fast)
   ]
@@ -137,15 +143,15 @@ rule Prover_3:
 //6. Verifier verifies the signature and decodes the messsage, checks it's the correct c
 
 rule Verifier_3:
-  let clear_text = adec( response, R )
+  let clear_text = adec( fst(response), R )
       authentication = verify( snd(clear_text), fst(clear_text), X)
       proof = fst(clear_text)
   in
-  [ VerifierStartFast(R, c0, c1, b) //POINT_IN_SESSION
+  [ VerifierStartFast(R, c0, c1, b, b_nonce) //POINT_IN_SESSION
   , FastMsg( response )//MESSAGES (In + Fast)
   , !Pk( $Prover, X ) //KEYS
   ]
---[ Eq(authentication, true), Eq(proof, b) //RESTRICTIONS
+--[ Eq(authentication, true), Eq(proof, b), Eq(snd(response),b_nonce) //RESTRICTIONS
   , VerifierComplete($Prover, R, c0, c1, b) //PROOF_LABELS_AGENT
   , EndFastPhase(c0,c1,b)  // PROOF_LABELS_PROTOCOL
   ]->
@@ -170,6 +176,21 @@ restriction at_most_once:
         )
     "
 
+restriction proper_challenge:
+    "
+    All c0 c1 b #t. ProperChallenge(c0,c1,b)@t ==>
+        (
+        b = c0
+        |
+        b = c1
+       )
+    "
+
+
+//restriction proper_challenge:
+//    "
+//    All c0 c1 b #t. ProperChallenge(c0,c1,b)@t ==> b = c0
+//    "
 
 //restriction prelims_first:
 //    "
@@ -262,35 +283,5 @@ lemma dbsec:
     ) 
   "
 
-
-lemma dbsecA:
-  "
-  All P R c0 c1 b  #t. (
-    VerifierComplete(P, R, c0, c1, b)@t ) ==>                   // Whenever the verifier is complete EITHER:
-   (                                                         
-      Ex #t1 #t2 #t3. StartFastPhase( c0, c1 )@t1 &              //  2) There exists t1, t2 and t3 such that
-                  Action(P)@t2 &                              //          The fast phase was between t1 and t3
-                  EndFastPhase( c0, c1, b )@t3 &            //          and the prover did something between those two times
-                  (#t1 < #t2) &                               //          and the verifier completed at or after the
-                  (#t2 < #t3) &                               //          end of the fast phase OR
-                  ( (#t3 < #t ) | (#t3 = #t) )
-    )
-  "
-
-
-lemma dbsecB:
-  "
-  All P R c0 c1 b  #t. (
-    VerifierComplete(P, R, c0, c1, b)@t ) ==>                   // Whenever the verifier is complete EITHER:
-    (              
-      Ex CAgent #t4 #t5 #t6 #t7. StartFastPhase( c0, c1 )@t5 &    //  3) There exist times t5, t6 and t7 such that
-                             EndFastPhase( c0, c1, b )@t7 & //        The fast phase was between t5 and t7
-                             Corrupt(P)@t4 &             //        and the prover P is dishonest
-                             CAction(CAgent)@t6 &             //        and some dishonest agent did something during
-                             (#t5 < #t6)&                     //        the fast phase
-                             (#t6 < #t7)&                     //        and the verifier completed at or after the
-                             ( (#t7 < #t) | (#t7 = #t) )      //        end of the fast phase 
-    ) 
-  "
 
 end
