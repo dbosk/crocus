@@ -17,7 +17,7 @@ To realize this objective, a reliable yet privacy-preserving crowd-counting mech
 
 
 
-Existing methods for crowd-counting vary significantly in terms of approaches.% (we will review them in detail in \cref{related-work}).
+Existing methods for crowd-counting vary significantly in terms of approaches.% (we will review them in detail in \cref{current-crowd-counting}).
 Most of them, however, lack precision (\ie they have large error margins) and can only give an estimate for a particular snapshot in time, not the cumulative participation count --- at least not without counting some persons multiple times.  In addition, they lack verifiability in the sense that one has to trust the third party responsible for implementing the counting method.
 
 Finally, one important observation about crowd-counting that has not been adequately addressed in the design of current crowd-counting solutions is that it actually is an adversarial setting. Alice the activist has an incentive to increase the tallied number of participants, whereas Grace (and possibly other entities) has an incentive to decrease it.
@@ -50,13 +50,16 @@ prevent an observer (physically present or looking at photos or videos) from rec
 %attribute-based credential systems distance bounding.
 
 % The paper is organized as follows.
-% First, we describe our system model and summarize the desired properties for crowd counting (\cref{system-model}). Next, we discuss related work in terms of these properties, first the crowd counting methods that are classically used and then work on location proof systems that inspired \CROCUS (\cref{related-work}). 
+% First, we describe our system model and summarize the desired properties for crowd counting (\cref{system-model}). Next, we discuss related work in terms of these properties, first the crowd counting methods that are classically used and then work on location proof systems that inspired \CROCUS (\cref{current-crowd-counting}). 
 % We then formalize the notion of protest and the desired verifiability and privacy properties (\cref{definitions}), and we give the relevant background on the building blocks of our solution (\cref{building-blocks}). 
 
 The paper is organized as follows.
 In \Cref{system-model}, we describe our system model and summarize the desired 
-properties for crowd counting, followed by a discussion of related work in \cref{related-work}. In \Cref{definitions}, we formalize the notion of protest and the desired verifiability and privacy properties, and in \cref{building-blocks}, we give 
-the relevant background on the building blocks of our solution.
+properties for crowd counting, followed by a discussion of current 
+crowd-counting methods in \cref{current-crowd-counting}. In \Cref{definitions}, 
+we formalize the notion of protest and the desired verifiability and privacy 
+properties, and in \cref{building-blocks}, we give the relevant background on 
+the building blocks of our solution.
 %
 %\Cref{DB-anon-cred}, we present a new \ac{DB} version of the Schnorr protocol, 
 %different from that originally proposed by \textcite{DistanceBounding}.
@@ -66,5 +69,6 @@ the relevant background on the building blocks of our solution.
 We present \CROCUS, a privacy-preserving crowd counting 
 %estimation 
 protocol in in \Cref{Protocol}, analyze its security in \cref{SecurityAnalysis}, and estimate its performance in \cref{PerformanceAnalysis}.
+We compare it to related work in \cref{related-work}.
 Finally, we discuss limitations and assumptions in \cref{Discussion} and give 
 our conclusions in \cref{Conclusion}.
