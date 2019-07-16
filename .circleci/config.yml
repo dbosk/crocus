@@ -9,7 +9,7 @@ jobs:
       - run: LATEXFLAGS="-halt-on-error -use-make" make -C paper all
       - run: LATEXFLAGS="-halt-on-error -use-make" make -C poster all
       - run: LATEXFLAGS="-halt-on-error -use-make" make -C slides all
-      - run: git submodule deinit --all
+      - run: git submodule deinit -f --all
   test:
     docker:
       - image: dbosk/tamarin-prover
@@ -17,7 +17,7 @@ jobs:
       - checkout
       - run: git submodule update --init
       - run: make -C tamarin test
-      - run: git submodule deinit --all
+      - run: git submodule deinit -f --all
 
 workflows:
   version: 2
