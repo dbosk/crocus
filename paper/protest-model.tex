@@ -113,6 +113,10 @@ We can now define the participation count as follows.
 
 The strength function \(\str\) can be used to regulate the trust in the 
 estimated participation count.
+\daniel{%
+  The strength function can take the size of the time interval into account 
+  too, smaller time intervals around the event yields stronger proofs.
+}
 In general, \(\str\) can be defined as a weighted sum of the proof shares, 
 \(\str = \sum \omega_i s_i\), with the weights \(\omega_i\) being the trust in 
 the witness corresponding to the proof share \(s_i\), and the threshold 

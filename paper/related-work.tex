@@ -7,17 +7,6 @@ Sybil-free pseudonym systems.
 \paragraph*{Location-proof systems}%
 \label{db-and-lp}
 
-Some \acp{LBS} only grant access to resources to users located at a particular 
-location, thus raising the issue of verifying the position claimed by a 
-particular user.
-In most of the existing schemes, the location of a user (device) is determined 
-by the device itself (\eg through GPS) and forwarded to the \ac{LBS} provider.
-One of the main drawbacks of this approach is that a user can cheat by having 
-her device transmit a false location.
-
-One possible way to counter this threat is to request the device to prove that 
-it really is at the claimed location, which gives rise to the concept of 
-\acp{LP}.
 In a nutshell, \iac{LP} is a digital certificate attesting that someone was at 
 a particular location at a specific moment in time.
 \Iac{LPS} is an architecture by which users can obtain \acp{LP} from 
@@ -37,11 +26,12 @@ can thus not provide any guarantees using the decentralized, untrusted
 witnesses that PROPS can.
 The incentives to cheat are also bigger and consequently the thresholds for 
 collusion are much higher.
-(The same can be said in comparison to Platin.io\footnote{%
+CROCUS must also tie the cause to the location proof, to designate the proof to 
+the protest in which the protester participated.
+
+The same can be said in comparison to Platin.io\footnote{%
   URL: \url{https://platin.io}.
-}.)
-CROCUS must also tie the cause to the location proof, to designate the proof 
-to the protest in which the protester participated.
+}.
 
 \paragraph*{Sybil-free pseudonym systems}
 
