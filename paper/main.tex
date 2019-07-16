@@ -1,13 +1,49 @@
-\documentclass{article}
+\documentclass[USenglish,sigconf,review,anonymous,natbib=false]{acmart}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{authblk}
+\usepackage{amsmath,tabularx}
 
 \input{preamble.tex}
 \input{preamble-paper.tex}
 
 \begin{document}
-\title{%
+\acmConference[CCS]%
+  {ACM Conference on Computer and Communications Security}%
+  {November 11--15, 2019}%
+  {London, UK}
+
+\author{Daniel Bosk}
+\orcid{0000-0003-3865-212X}
+\affiliation{%
+  \institution{KTH Royal Institute of Technology}
+}
+\email{dbosk@kth.se}
+
+\author{Simon Bouget}
+\affiliation{%
+  \institution{KTH Royal Institute of Technology}
+}
+\email{bouget@kth.se}
+
+\author{Sonja Buchegger}
+\affiliation{%
+  \institution{KTH Royal Institute of Technology}
+}
+\email{buc@kth.se}
+
+\author{S\'ebastien Gambs}
+\affiliation{%
+  \institution{Universit\'e du Quebec \`a Montr\'eal}
+}
+\email{sebastien.gambs@uqam.ca}
+
+\author{Henri Pineau}
+\affiliation{%
+  \institution{Universit\'e du Quebec \`a Montr\'eal}
+}
+\email{henrilouis.pineau@gmail.com}
+
+\title[From grassroots to CROCUSes]{%
   CROCUS: CROwd Counting Using Smartphones 
   %and Distance-Bounding Anonymous Credentials
 %  \thanks{%
@@ -16,16 +52,6 @@
 %  }
 }
 
-\author[1]{Daniel Bosk}
-\author[1]{Simon Bouget}
-\author[1]{Sonja Buchegger}
-\affil[1]{%
-  KTH Royal Institute of Technology, \texttt{\{dbosk,bouget,buc\}@kth.se}
-}
-\author[2]{S\'ebastien Gambs}
-\affil[2]{%
-  Universit\'e du Quebec \`a Montr\'eal, \texttt{sebastien.gambs@uqam.ca}
-}
-
+\include*{abstract}
 \input{contents.tex}
 \end{document}
