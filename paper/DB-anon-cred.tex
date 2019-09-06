@@ -5,10 +5,16 @@ We will now introduce \iac{DB} protocol which is a \ac{ZKPK} for discrete
 logarithms.
 Our protocol is an adaptation of the Schnorr identification 
 scheme~\cite{Schnorr}, albeit different from that of 
-\textcite{DistanceBounding} in the original \ac{DB} paper.
-(That protocol was shown to be prone to distance 
-hijacking~\cite{DistanceHijacking,TamarinDB} and was not secure against 
-terrorist fraud.)
+\textcite{DistanceBounding} in the original \ac{DB} paper\footnote{%
+  The \citeauthor{DistanceBounding} protocol was shown to be prone to distance 
+  hijacking~\cite{DistanceHijacking,TamarinDB} and was not secure against 
+  terrorist fraud.
+} and that of \textcite{Bussard-Bagga}\footnote{%
+  The \citeauthor{Bussard-Bagga} protocol was also shown to be 
+  vulnerable~\cite{Bussard-Bagga-attack}.
+  Although this time, the protocol could not protect against \ac{DBTF} and 
+  \ac{DBDF} as it claimed.
+}.
 We propose another way to turn the Schnorr protocol into a public-key \ac{DB} 
 protocol which is \iac{ZKPK} that is secure against \ac{DBMF}, \ac{DBDF}, 
 \ac{DBDH} and \ac{DBTF}.

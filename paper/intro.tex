@@ -1,18 +1,19 @@
 \section{Introduction}%
 \label{Introduction}
 
-%\emph{Context.} 
-
-
 \paragraph*{Contributions}
 
-
-
-Our main contribution is an adaptation of the Schnorr protocol~\cite{Schnorr} for \ac{DB}, but which is different from that of \textcite{DistanceBounding}.
+Our main contribution is an adaptation of the Schnorr protocol~\cite{Schnorr} 
+for \ac{DB}, but which is different from that of \textcite{DistanceBounding} or 
+\textcite{Bussard-Bagga} (DBPK-Log).
 Our adaptation fulfills all the requirements for modern \ac{DB} protocols, 
 including \ac{DBDH} (which was an attack against the original protocol of 
 Brands and Chaum) and \ac{DBTF}.
-More importantly, it is public-key, handles malicious impersonating verifiers.
+More importantly, it is public-key\footnote{%
+  The majority of published works are in the shared-key setting.
+  However, both the protocol by \textcite{DistanceBounding} and that of 
+  \textcite{Bussard-Bagga} are public key.
+}, handles malicious impersonating verifiers.
 Since it is based on the Schnorr protocol, it provides a distance-bounded 
 \ac{PK} for discrete logarithms.
 That allows us to replace the plain Schnorr protocol in \acp{ZKPK} with our 
