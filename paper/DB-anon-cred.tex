@@ -237,8 +237,7 @@ for the chosen challenge --- in each round.
 
 \begin{theorem}[\acs*{DBDH} resistance]
   Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-DH adversary, then 
-  \(\Adv_{DBS}^{\text{DH}}(\adv) = X\).
-  % XXX compute DH resistance probability
+  \(\Adv_{DBS}^{\text{DH}}(\adv) = \frac{1}{q}\).
 \end{theorem}
 
 \begin{proof}
@@ -259,9 +258,12 @@ for the chosen challenge --- in each round.
       \alpha'}\).
   Both \(\rho\) and \(\alpha\) are unknown to the adversary and the adversary 
   cannot choose \(c_i\).
-  The adversary needs \(\rho' - \rho = c_i \alpha' - c_i' \alpha\).
-  We thus have that \[\Adv_{\DBS}^{\text{DH}}(\adv) = \Prob{\rho' - c_i \alpha' 
-      = \rho - c_i' \alpha} = X,\]
+  The adversary needs \(\rho' = \rho - c_i' \alpha + c_i \alpha'\).
+  Let \(\rho'\) and \(c_i'\) be fixed (say 0), then we have that \(\alpha' = 
+    \rho c_i^{-1}\).
+  We thus have that
+  \(\Adv_{\DBS}^{\text{DH}}(\adv) = \Prob{\rho' - c_i \alpha' = \rho - c_i' 
+      \alpha} = \frac{1}{q}\),
   which concludes the proof.
 \end{proof}
 
