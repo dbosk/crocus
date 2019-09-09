@@ -238,21 +238,31 @@ for the chosen challenge --- in each round.
 \begin{theorem}[\acs*{DBDH} resistance]
   Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-DH adversary, then 
   \(\Adv_{DBS}^{\text{DH}}(\adv) = X\).
+  % XXX compute DH resistance probability
 \end{theorem}
 
 \begin{proof}
-  The adversary must find a collision of challenges for the honest prover's 
-  challenges, so that the verifying equation holds at the end.
-  Let \(R, c_1, \dotsc, c_k\) be the transcript of the setup between the honest 
-  verifier and the adversary.
-  Let \(R', c_1', \dotsc, c_k'\) be the transcript of the setup between the 
-  honest verifier and honest prover.
-  The verifier will accept if \(R = g^{s_i'} A^{c_i}\), where \(s_i' = \rho' - 
-    c_i'\alpha'\) is the response by the honest prover computed for his 
-  session, \ie \(\rho = \rho' - c_i'\alpha' + c_i\alpha\).
-  Since the verifier and prover are honest, \(\rho', c_i'\), \(\alpha'\) and 
-  \(c_i\) are chosen uniformly randomly.
-  \(\alpha\) is also chosen uniformly randomly and is fixed.
+  The honest prover will choose \(\rho\) such that \(R = g^\rho\).
+  The adversary can send his own \(R' = g^{\rho'}\) to the verifier, or let 
+  \(R' = R\) to not interfere.
+
+  The verifier will choose \(c_1, \dotsc, c_k\).
+  The adversary can send his own \(c_1', \dotsc, c_k'\) to the prover, or let 
+  \(c_1' = c_1, \dotsc, c_k' = c_k\) to not interfere.
+
+  The verifier will send its challenge \(i\), the prover will reply with \(s_i 
+    = \rho - c_i' \alpha\).
+  The verifier will check that \(R' = g^{s_i} A^{c_i}\).
+
+  This yields that \(R' = g^{\rho'}\) should equal \(g^{s_i} A'^{c_i} = g^{\rho 
+      - c_i' \alpha} (g^{\alpha'})^{c_i} = g^{\rho - c_i' \alpha + c_i 
+      \alpha'}\).
+  Both \(\rho\) and \(\alpha\) are unknown to the adversary and the adversary 
+  cannot choose \(c_i\).
+  The adversary needs \(\rho' - \rho = c_i \alpha' - c_i' \alpha\).
+  We thus have that \[\Adv_{\DBS}^{\text{DH}}(\adv) = \Prob{\rho' - c_i \alpha' 
+      = \rho - c_i' \alpha} = X,\]
+  which concludes the proof.
 \end{proof}
 
 The last property is \ac{DBTF}.
