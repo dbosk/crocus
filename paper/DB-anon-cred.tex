@@ -217,7 +217,7 @@ Thus, any relaying will be detected, \ie this justifies \cref{TaintedMF}.
   The adversary has two options:
   \begin{enumerate*}
   \item guess which challenge the verifier will use and request the correct 
-    response from the prover, this yields a success with probability 
+    response from the prover, this yields success with probability 
     \(\frac{1}{k}\);
   \item guess the response, this yields success with probability 
     \(\frac{1}{q}\).
@@ -268,21 +268,26 @@ for the chosen challenge --- in each round.
 \end{proof}
 
 The last property is \ac{DBTF}.
-
-\begin{proof}[\acs*{DBTF} resistance]
-  Assume that there is an algorithm~\(\adv\) that can authenticate without the 
-  provers help with non-negligible advantage~\(\epsilon\), \ie the success 
-  probability is \(\frac{1}{2}+\epsilon\).
-  There is chance that \(\adv\) predicts the challenge is \(\frac{1}{2}\).
-  Thus, there is some case for which \(\adv\) knows both responses.
-  In that case \(\adv\) can simply compute the secret and impersonate with 
-  probability \(1\) forever.
-\end{proof}
-
-The protocol is \ac{DBTF}-resistant.
+The protocol is \ac{DBTF} resistant.
 Indeed, if the malicious prover gives both responses to the accomplice, the 
 accomplice can compute his secret key.
-The probability of success of \ac{DBTF} is thus reduced to guessing \(b\), \ie \(1/2\) per round or, in total, \(2^{-n}\).
+And any help will increase the probability of success of future attempts.
+
+\begin{theorem}[\acs*{DBTF} resistance]
+  \dots
+\end{theorem}
+
+\begin{proof}
+  Assume that there is an algorithm~\(\adv\) that can authenticate without the 
+  provers help with non-negligible advantage~\(\epsilon < \frac{1}{2}\), \ie 
+  the success probability is \(\frac{1}{2}+\epsilon\).
+  The probability that \(\adv\) predicts the challenge is \(\frac{1}{2}\).
+  Since \(\epsilon\) is non-negligible, there is some case for which \(\adv\) 
+  knows both responses.
+  In that case \(\adv\) can simply compute the secret and impersonate with 
+  probability \(1\) forever, which contradicts our assumption about 
+  \(\epsilon\).
+\end{proof}
 
 \subsection{Achieving \acs*{DBDF} resistance}
 
