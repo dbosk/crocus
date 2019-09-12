@@ -86,8 +86,8 @@ and \(\UWBPRrecv\) operations.
     \\
 
     \(s_1\gets \rho - c_1\alpha \pmod q\)
-    & \(\ProtoSendLeft{c_1, \dotsc, c_k}\)
-    & \(c_1\rgets \bin^k, \dotsc, c_k\rgets \bin^k\)
+    & \(\ProtoSendLeft{c_1, \dotsc, c_m}\)
+    & \(c_1\rgets \bin^l, \dotsc, c_m\rgets \bin^l\)
     \\
 
     \vdots
@@ -95,7 +95,7 @@ and \(\UWBPRrecv\) operations.
     &
     \\[-1em]
 
-    \(s_k\gets \rho - c_k\alpha \pmod q\)
+    \(s_m\gets \rho - c_m\alpha \pmod q\)
     &
     &
     \\
@@ -114,7 +114,7 @@ and \(\UWBPRrecv\) operations.
 
     % null
     & \(\ProtoSendLeft{i}\)
-    & \(i\rgets \{1, \dotsc, k\}\), start clock
+    & \(i\rgets \{1, \dotsc, m\}\), start clock
     \\
 
     Fetch \(s_i\)
@@ -145,10 +145,10 @@ and \(\UWBPRrecv\) operations.
 During one round, in the setup phase, the prover commits to a random nonce: 
 more precisely he chooses \(\rho\rgets \ZZ_q\) uniformly at random, computes 
 \(R\gets g^\rho\) and sends \(R\) to the verifier.
-The verifier generates \(k\) challenges \(c_1\rgets \bin^k, \dotsc, c_k\rgets 
-  \bin^k\) (bit strings of length \(k\)) and sends them to the prover.
+The verifier generates \(m\) challenges \(c_1\rgets \bin^l, \dotsc, c_m\rgets 
+  \bin^l\) (bit strings of length \(l\)) and sends them to the prover.
 The prover computes one response per challenge, \(s_1\gets \rho - c_1\alpha, 
-  \dotsc, s_k\gets \rho - c_k\alpha\).
+  \dotsc, s_m\gets \rho - c_m\alpha\).
 This step is the main difference to the original Schnorr protocol: the verifier 
 selects several challenges and the prover computes several responses --- but 
 still only use \emph{one nonce}, \(\rho\).
@@ -158,7 +158,7 @@ prover and verifier jointly construct \emph{one} challenge with \emph{one}
 response.
 
 In the \ac{DB} phase, the prover notifies the verifier that he has computed 
-\(s_1, \dotsc, s_k\).
+\(s_1, \dotsc, s_m\).
 The verifier chooses one of the challenges, \(i\), uniformly randomly and sends 
 it as a challenge to the prover and starts measuring the time of flight.
 The prover replies with \(s_i\).
@@ -171,18 +171,18 @@ This protocol must be repeated \(n\) times.
 \subsection{\Acl*{ZK} and \acl*{PK}}
 
 The main difference between this protocol and the Schnorr protocol is that we 
-have the prover compute responses for \(k\) different challenges, \(c_1, 
-  \dotsc, c_k\).
+have the prover compute responses for \(m\) different challenges, \(c_1, 
+  \dotsc, c_m\).
 However, in the authentication step, the verifier chooses only one of those 
 challenges.
 From the simulator's (and extractor's) perspective, there is no difference 
-whether the verifier first chooses \(k\) and then chooses one of those \(k\) 
+whether the verifier first chooses \(m\) and then chooses one of those \(m\) 
 challenges, or if the verifier chooses the one challenge directly;
-the distribution is the same, \(\frac{k}{n}\times \frac{1}{k} = \frac{1}{n}\).
+the distribution is the same, \(\frac{m}{n}\times \frac{1}{m} = \frac{1}{n}\).
 Therefore the standard proof for Schnorr as a malicious-verifier \ac{ZKPK} 
-protocol with soundness error \(2^{-kn}\) still 
+protocol with soundness error \(2^{-l n}\) still 
 holds~\cite[\eg][]{OnSigmaProtocols}.
-(We note that \(k\), which is also the length of the challenge bit string, must 
+(We note that \(l\), which is also the length of the challenge bit string, must 
 be logarithmic in the security parameter, \(\lambda\), for a malicious 
 verifier.)
 
@@ -211,8 +211,8 @@ Thus, any relaying will be detected, \ie this justifies \cref{TaintedMF}.
   above.}
 \begin{theorem}[\acs*{DBMF} resistance]
   Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-MF adversary, then 
-  \(\Adv_{\DBS}^{\text{MF}}(\adv) = \left(\frac{1}{k}+\frac{1}{q}\right)^n\), 
-  where \(k, q\) are as in \cref{DB-Schnorr}.
+  \(\Adv_{\DBS}^{\text{MF}}(\adv) = \left(\frac{1}{m}+\frac{1}{q}\right)^n\), 
+  where \(m, q\) are as in \cref{DB-Schnorr}.
 \end{theorem}
 
 \begin{proof}
@@ -220,12 +220,12 @@ Thus, any relaying will be detected, \ie this justifies \cref{TaintedMF}.
   \begin{enumerate*}
   \item guess which challenge the verifier will use and request the correct 
     response from the prover, this yields success with probability 
-    \(\frac{1}{k}\);
+    \(\frac{1}{m}\);
   \item guess the response, this yields success with probability 
     \(\frac{1}{q}\).
   \end{enumerate*}
-  The total success probability is \(\frac{1}{k} + \frac{1}{q}\) per round, 
-  thus \(\left(\frac{1}{k}+\frac{1}{q}\right)^n\) in total per protocol 
+  The total success probability is \(\frac{1}{m} + \frac{1}{q}\) per round, 
+  thus \(\left(\frac{1}{m}+\frac{1}{q}\right)^n\) in total per protocol 
   session.
 \end{proof}
 
@@ -241,7 +241,7 @@ for the chosen challenge --- in each round.
   above.}
 \begin{theorem}[\acs*{DBDH} resistance]
   Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-DH adversary, then 
-  \(\Adv_{DBS}^{\text{DH}}(\adv) = \negl\).
+  \(\Adv_{DBS}^{\text{DH}}(\adv) = \frac{1}{q^n}\).
 \end{theorem}
 
 \begin{proof}
@@ -459,12 +459,12 @@ The verifier decides which of the \(m\) challenges to use, \(i\rgets \{1,
 The prover instantly replies with the pre-computed \(s_i, \hat s_i\).
 Note that \(s_i, \hat s_i\) must be sent as a concatenation in \emph{one} 
 \(\UWBPR\) reply.
-The verifier stops the clock and records the round-trip time~\(\delta t\).
+The verifier stops the clock and records the round-trip time~\(\Delta t\).
 
 \paragraph*{Verification}
 
 The verifier checks if \(R = \hat A^{c_i} g^{s_i} \hat g^{\hat s_i}\) and that 
-the round-trip time \(\delta t < t_{\max}\) does not exceed the 
+the round-trip time \(\Delta t < t_{\max}\) does not exceed the 
 limit~\(t_{\max}\).
 
 
