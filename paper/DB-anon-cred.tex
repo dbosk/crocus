@@ -413,6 +413,10 @@ secure hardware implementation.
     One-round protocol instance of the \(\DBSHW\) protocol instantiating 
     \(\PK[\alpha][A = g^\alpha]\).
     Each transmission (arrow in the diagram) uses \(\UWBPR\).
+    The protocol actually proves \(\PK[\alpha, \sk_P][\hat A = g^\alpha 
+      \hat g^{\sk_P}]\).
+    This is for the device to prove knowledge of the key~\(\sk_P\) to prevent 
+    \ac{DBTF}.
     The protocol should be repeated \(n\) times to achieve the desired 
     soundness and distance-bounding errors.
   }%
@@ -475,6 +479,19 @@ resistance against a malicious prover.
 The trusted hardware uses the authenticated key agreement to establish the 
 shared secret \(k\), thus a verifier prevents a malicious prover from learning 
 \(k\) --- the main limit of~\cite{UWBPR}.
+
+The hardware device (\DBSHW) could commit \ac{DBTF}\footnote{%
+  Arguably, this should not be an issue since the device is trusted.
+  However, we include this construction because it is a neat way to provide 
+  \ac{DBTF} resistance for this part of the protocol as well.
+  To not have this feature, one simply adds the authenticated key exchange step 
+  to \cref{SchnorrFigure}.
+} by giving the key~\(k\) to a malicious prover --- this would allow that 
+prover to authenticate once.
+To prevent this possibility we include a proof of knowledge of the device's 
+private key~\(\sk_P\), \ie that \(\pk_P = \hat g^{\sk_P}\).
+This way, an accomplice can only pass if he is given both \(k\) and \(\sk_P\).
+
 
 \subsection{Formal verification}
 
