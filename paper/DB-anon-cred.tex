@@ -289,7 +289,7 @@ And any help will increase the probability of success of future attempts.
   \(\epsilon\).
 \end{proof}
 
-\subsection{Achieving \acs*{DBDF} resistance}
+\subsection{\Iacs*{DBDF} resistant protocol}
 
 \Acl{DB} protocols requires hardware implementations.
 We will use a trusted hardware implementation to overcome the limitation of 
@@ -305,10 +305,171 @@ With \iac{PKI} based on discrete logarithms we will be able to perform \iac{DB}
 \item that that knowledge is within proximity.
 \end{enumerate*}
 
-The \ac{DB} phase protects against distance fraud.
-Once the prover has received \(l+1\) challenges set to \(b\), it knows that the remaining challenges must also be \(b\).
-\Iac{DBDF} prover must thus wait for the challenge bit \(b_i\) before responding with \(r_i\) for \(l+1\) challenges.
-Thus, the probability of successfully guessing the order of the challenge bits is \(2^{-(l+1)}\) per round or, in total, \(2^{-(l+1)n}\).
+We will now introduce an extended protocol, \(\DBSHW\), which represents the 
+secure hardware implementation.
+\Cref{DBSHW-overview} presents an overview.
+
+\begin{figure*}
+  \centering
+  \small
+  \setlength{\ProtoArrowLength}{0.07\linewidth}
+  \begin{tabular}{p{0.40\linewidth}cp{0.40\linewidth}}
+    \(\HWprove[g, q, \alpha]\):
+    & &
+    \(\HWverify[g, q, A]\):
+    \\
+    \midrule
+
+    Static \(\sk_P, \cert_P\colon \pk_P = \hat g^{\sk_P}\)
+    &
+    & \(\sk_V, \pk_V = \hat g^{\sk_V}\)\\
+
+    \midrule
+    \multicolumn{3}{c}{\textbf{Pre-setup, authenticated key agreement}} \\
+
+    \(\cert_P\)
+    & \(\ProtoSendRight{\cert_P}\)
+    & \(k \gets \pk_P^{\sk_V}\)
+    \\
+
+    \(k \gets \pk_V^{\sk_P}\)
+    & \(\ProtoSendLeft{\pk_V}\)
+    & \(\pk_V\)
+    \\
+
+
+    \midrule
+    \multicolumn{3}{c}{\textbf{Setup}} \\
+
+    Load \(k\) into \(\UWBPR\)
+    &
+    & Load \(k\) into \(\UWBPR\)
+    \\
+
+    \(\rho, \hat\rho \rgets \ZZ_q, R\gets g^{\rho} g^{\hat\rho}\)
+    & \(\ProtoSendRight{R}\)
+    & \(\hat A\gets A \pk_P\)
+    \\
+
+    \(s_1\gets \rho - c_1\alpha \pmod q\)
+    & \(\ProtoSendLeft{c_1, \dotsc, c_k}\)
+    & \(c_1\rgets \bin^l, \dotsc, c_m\rgets \bin^l\)
+    \\
+
+    \(\hat s_1\gets \hat\rho - c_1\sk_P \pmod q\)
+    &
+    &
+    \\
+
+    \vdots
+    &
+    &
+    \\[-1em]
+
+    \(s_m\gets \rho - c_m\alpha \pmod q\)
+    &
+    &
+    \\
+
+    \(\hat s_m\gets \hat\rho - c_m\sk_P \pmod q\)
+    &
+    &
+    \\
+
+    \midrule
+    \multicolumn{3}{c}{\textbf{Distance-bounding}} \\
+
+    \text{Ready}
+    & \ProtoSendRight{\text{Ready}}
+    & \\
+
+    % null
+    & \(\ProtoSendLeft{i}\)
+    & \(i\rgets \{1, \dotsc, m\}\), start clock
+    \\
+
+    Fetch \(s_i, \hat s_i\)
+    & \(\ProtoSendRight{s_i, \hat s_i}\)
+    & Stop clock, record \(\Delta t\)
+    \\
+
+    \midrule
+    \multicolumn{3}{c}{\textbf{Verification}}
+    \\
+
+    % null
+    &
+    & Accept if \(R =  \hat A^{c_i} g^{s_i} \hat g^{\hat s_i}\) and \(\Delta t 
+      < t_{\max}\).
+    \\
+    
+  \end{tabular}
+  \caption{%
+    One-round protocol instance of the \(\DBSHW\) protocol instantiating 
+    \(\PK[\alpha][A = g^\alpha]\).
+    Each transmission (arrow in the diagram) uses \(\UWBPR\).
+    The protocol should be repeated \(n\) times to achieve the desired 
+    soundness and distance-bounding errors.
+  }%
+  \label{DBSHW-overview}
+\end{figure*}
+
+The \(\DBSHW\) secure hardware device must contain a (static) private 
+key~\(\sk_P\) (for the prover, \(\sk_V\) for the verifier) with a digital 
+certificate~\(\cert_P\) (and \(\cert_V\)) for the public key~\(\pk_P\) (and 
+\(\pk_V\)).
+
+\paragraph*{Pre-setup}
+
+The pre-setup phase consists of an authenticated key agreement.
+We use the static \ac{DHKE} to simplify the explanation, any authenticated key 
+agreement protocol based on discrete logarithms can be used.
+The prover and verifier exchange certificates, \(\cert_P\) and \(\cert_V\), and 
+compute the agreed key~\(k = \pk_V^{\sk_P} = \pk_P^{\sk_V}\).
+If the prover's certificate is invalid, the protocol aborts.
+
+\paragraph*{Setup}
+
+The setup phase is similar to \(\DBS\) (\cref{SchnorrFigure}).
+\(\DBS\) performs \(\PK[\alpha][A = g^\alpha]\) whereas \(\DBSHW\) must perform 
+\(\PK[\alpha, \sk_P][\hat A = g^\alpha \hat g^{\sk_P}]\).
+\daniel{Or is it better to do \(\PK[\alpha, \sk_P][A = g^\alpha \land \hat A = 
+    \hat g^{\sk_P}]\)?}
+They use the agreed upon key~\(k\) as the key for \(\UWBPR\).
+
+The prover chooses \(\rho, \hat\rho\rgets \ZZ_q\) and computes \(R\gets g^\rho 
+  \hat g^{\hat\rho}\).
+The verifier computes \(\hat A\gets A \pk_P\), where \(A\) is the value for 
+which the prover must prove knowledge of the discrete logarithm.
+
+The verifier chooses \(m\) challenges of length \(l\), \(c_1\rgets \bin^l, 
+  \dotsc, c_m\gets \bin^l\), and sends these to the prover.
+The prover computes responses~\(s_i\gets \rho - c_i\alpha\) and \(\hat s\gets 
+  \hat\rho - c_i\sk_P\) for \(i\in \{1, \dotsc, m\}\).
+
+\paragraph*{Distance bounding}
+
+The verifier decides which of the \(m\) challenges to use, \(i\rgets \{1, 
+  \dotsc, m\}\), sends its decision~\(i\) to the prover and starts its clock.
+The prover instantly replies with the pre-computed \(s_i, \hat s_i\).
+Note that \(s_i, \hat s_i\) must be sent as a concatenation in \emph{one} 
+\(\UWBPR\) reply.
+The verifier stops the clock and records the round-trip time~\(\delta t\).
+
+\paragraph*{Verification}
+
+The verifier checks if \(R = \hat A^{c_i} g^{s_i} \hat g^{\hat s_i}\) and that 
+the round-trip time \(\delta t < t_{\max}\) does not exceed the 
+limit~\(t_{\max}\).
+
+
+\subsection{\acs*{DBDF} resistance}
+
+This protocol uses the \ac{DBMF} resistance of \(\DBS\) to ensure \ac{DBDF} 
+resistance against a malicious prover.
+The trusted hardware uses the authenticated key agreement to establish the 
+shared secret \(k\), thus a verifier prevents a malicious prover from learning 
+\(k\) --- the main limit of~\cite{UWBPR}.
 
 \subsection{Formal verification}
 
