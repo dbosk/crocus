@@ -351,9 +351,9 @@ secure hardware implementation.
     & Load \(k\) into \(\UWBPR\)
     \\
 
-    \(\rho, \hat\rho \rgets \ZZ_q, R\gets g^{\rho} g^{\hat\rho}\)
-    & \(\ProtoSendRight{R}\)
-    & \(\hat A\gets A \pk_P\)
+    \(\rho, \hat\rho \rgets \ZZ_q, R\gets g^{\rho}, \hat R\gets g^{\hat\rho}\)
+    & \(\ProtoSendRight{R, \hat R}\)
+    & \(\hat A\gets \pk_P\)
     \\
 
     \(s_1\gets \rho - c_1\alpha \pmod q\)
@@ -404,8 +404,8 @@ secure hardware implementation.
 
     % null
     &
-    & Accept if \(R =  \hat A^{c_i} g^{s_i} \hat g^{\hat s_i}\) and \(\Delta t 
-      < t_{\max}\).
+    & Accept if \(R = A^{c_i} g^{s_i}\), \(\hat R =  \hat A^{c_i} \hat g^{\hat 
+        s_i}\) and \(\Delta t < t_{\max}\).
     \\
     
   \end{tabular}
@@ -413,8 +413,8 @@ secure hardware implementation.
     One-round protocol instance of the \(\DBSHW\) protocol instantiating 
     \(\PK[\alpha][A = g^\alpha]\).
     Each transmission (arrow in the diagram) uses \(\UWBPR\).
-    The protocol actually proves \(\PK[\alpha, \sk_P][\hat A = g^\alpha 
-      \hat g^{\sk_P}]\).
+    The protocol actually proves \(\PK[\alpha, \sk_P][A = g^\alpha \land
+      \hat A = \hat g^{\sk_P}]\).
     This is for the device to prove knowledge of the key~\(\sk_P\) to prevent 
     \ac{DBTF}.
     The protocol should be repeated \(n\) times to achieve the desired 
@@ -441,15 +441,12 @@ If the prover's certificate is invalid, the protocol aborts.
 
 The setup phase is similar to \(\DBS\) (\cref{SchnorrFigure}).
 \(\DBS\) performs \(\PK[\alpha][A = g^\alpha]\) whereas \(\DBSHW\) must perform 
-\(\PK[\alpha, \sk_P][\hat A = g^\alpha \hat g^{\sk_P}]\).
-\daniel{Or is it better to do \(\PK[\alpha, \sk_P][A = g^\alpha \land \hat A = 
-    \hat g^{\sk_P}]\)?}
+\(\PK[\alpha, \sk_P][\hat A = g^\alpha \land \hat g^{\sk_P}]\).
 They use the agreed upon key~\(k\) as the key for \(\UWBPR\).
 
-The prover chooses \(\rho, \hat\rho\rgets \ZZ_q\) and computes \(R\gets g^\rho 
-  \hat g^{\hat\rho}\).
-The verifier computes \(\hat A\gets A \pk_P\), where \(A\) is the value for 
-which the prover must prove knowledge of the discrete logarithm.
+The prover chooses \(\rho, \hat\rho\rgets \ZZ_q\) and computes \(R\gets 
+  g^\rho\) and \(\hat R\gets \hat g^{\hat\rho}\).
+The verifier computes \(\hat A\gets \pk_P\).
 
 The verifier chooses \(m\) challenges of length \(l\), \(c_1\rgets \bin^l, 
   \dotsc, c_m\gets \bin^l\), and sends these to the prover.
@@ -467,9 +464,9 @@ The verifier stops the clock and records the round-trip time~\(\Delta t\).
 
 \paragraph*{Verification}
 
-The verifier checks if \(R = \hat A^{c_i} g^{s_i} \hat g^{\hat s_i}\) and that 
-the round-trip time \(\Delta t < t_{\max}\) does not exceed the 
-limit~\(t_{\max}\).
+The verifier checks if \(R = \hat A^{c_i} g^{s_i}\) and that \(\hat R =
+  \hat g^{\hat s_i}\) and that the round-trip time \(\Delta t < t_{\max}\) does 
+not exceed the limit~\(t_{\max}\).
 
 
 \subsection{\acs*{DBDF} resistance}
