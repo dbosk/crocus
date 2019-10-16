@@ -120,27 +120,35 @@ We will now define what it means for a protocol to be \ac{DBMF} resistant.
 \Acl{DBTF} is similar to \ac{DBMF}, the difference is that during \ac{DBTF} the 
 prover cooperates with the adversary to make the verifier accept.
 
-\daniel{The following definition differs slightly from that of 
-  \textcite{FormalTerroristFraud}: we use \(m_{k'}\) instead of \(m_k'\).
-  \Ie that the number of messages in \(\sid\) is not required to be the same 
-  and in the same order as in \(\sid'\).}
-
-\begin{definition}[Tainted session, \acs*{DBTF}]\label{TaintedTF}
+\begin{definition}[Tainted session, \acs*{DBTF} 
+  (strSimTF)~\cite{FormalTerroristFraud}]\label{TaintedTF}
   A time-critical round
-  \(\Xscript{\sid}{k, k+1} = (m_k, m_{k+1})\)
-  of an adversary--verifier session~\(\sid\), where \(m_k\) is sent by the 
-  verifier, is \emph{tainted} by the round
-  \(\Xscript{\sid'}{k', k'+1} = (m_{k'}, m_{k'+1})\)
+  \[\Xscript{\sid}{k, \dotsc, k+2l-1} = (m_k, \dotsc, m_{k+2l-1}),\] for 
+  \(l\geq 1\), of an adversary--verifier session~\(\sid\), where \(m_k\) is 
+  sent by the verifier, is \emph{tainted} by the round
+  \[\Xscript{\sid'}{k, \dotsc, k+2l-1} = (m'_{k}, m'_{k+2l-1})\]
   of a prover--adversary session~\(\sid'\) if
   \begin{align*}
-    \marker[\sid, k] &< \marker[\sid', k'] \\
-    \marker[\sid, k'+1] &> \marker[\sid', k'+1].
+    \marker[\sid, k+2i] &< \marker[\sid', k+2i] \\
+    \marker[\sid, k+2i+1] &> \marker[\sid', k+2i+1].
   \end{align*}
 \end{definition}
 
-\begin{definition}[strSimTF resistance~\cite{FormalTerroristFraud}]%
+Then we have the following definition of security.
+
+\begin{definition}[SimTF security~\cite{DB-DFKO}]%
   \label{TFresistance}
-  \dots
+  Let \(\DB\) be an authentication scheme for parameters \((t_{\max}, T_{\max}, 
+    E_{\max}, N_c)\).
+  Let \(\adv\) be a \((t, \qv, q_{\F})\)-SimTF adversary, \(\S\) an algorithm 
+  with runtime \(t_{\S}\) and \(\F\) an algorithm with runtime \(t_{\F}\).
+  Let \[
+    \Adv_{\DB}^{\text{TF}}(\adv, \S, \F) = p_{\adv} - p_{\S},
+  \] where \(p_{\adv}\) is the probability that the verifier~\(v\) accepts in 
+  one of the \(\qv\) adversary--verifier sessions~\(\sid\) such that at 
+  \(T_{\max}\) time-critical phases of \(\sid\) are tainted and \(p_{\S}\) is 
+  the probability that, given the state of \(\adv\), \(\S\) authenticates to 
+  the verifier~\(v\) in one of \(\qv\) subsequent executions.
 \end{definition}
 
 \paragraph*{\Acl*{DBDH} and \acl*{DBDF}}

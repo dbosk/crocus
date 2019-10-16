@@ -160,15 +160,19 @@
 \NewSet{\LL}{L}
 \NewVariable{\sid}{sid}
 \NewVariable{\qobs}{q_{\text{obs}}}
-\NewVariable{\qp}{q_{\text{p}}}
-\NewVariable{\qv}{q_{\text{v}}}
+\NewVariable{\qp}{q_{\text{P}}}
+\NewVariable{\qv}{q_{\text{V}}}
 \NewAlgorithm{\marker}{marker}
 \DeclareDocumentCommand{\Xscript}{mm}{\ensuremath{%
     \Pi_{#1}\left[#2\right]%
   }}
 \NewScheme{\DB}{DB}
 \NewAlgorithm{\adv}[\mathcal]{A}
+\let\ParagraphSign\S
+\let\S\undefined
+\NewAlgorithm{\S}[\mathcal]{S}
 \NewAlgorithm{\Adv}[\mathbf]{Adv}
+\NewAlgorithm{\F}[\mathcal]{F}
 
 \DeclareAcronym{MITM}{%
   short = {MITM},
