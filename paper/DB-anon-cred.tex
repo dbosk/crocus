@@ -279,19 +279,31 @@ And any help will increase the probability of success of future attempts.
 
 \daniel{Still intuition, we need the formal definition of security above.}
 \begin{theorem}[\acs*{DBTF} resistance]
-  \dots
+  Let \(\adv\) be a \((t, \qv)\)-strSimTF adversary (aided by the prover), 
+  \(\S\) an algorithm with runtime \(t_{\S}\).
+  If the verifier's challenges are uniformly drawn, then 
+  \(\Adv_{\DB}^{\text{TF}} = p_{\adv} - p_{\S}\) is negligible.
 \end{theorem}
 
 \begin{proof}
-  Assume that there is an algorithm~\(\adv\) that can authenticate without the 
-  provers help with non-negligible advantage~\(\epsilon < \frac{1}{2}\), \ie 
-  the success probability is \(\frac{1}{2}+\epsilon\).
-  The probability that \(\adv\) predicts the challenge is \(\frac{1}{2}\).
-  Since \(\epsilon\) is non-negligible, there is some case for which \(\adv\) 
-  knows both responses.
-  In that case \(\adv\) can simply compute the secret and impersonate with 
-  probability \(1\) forever, which contradicts our assumption about 
-  \(\epsilon\).
+  Assume that the adversary~\(\adv\) can authenticate with the prover's help 
+  with non-negligible probability~\(\epsilon\) better than guessing, \ie a 
+  success probability of \(\frac{1}{m^n}+\epsilon\).
+  Say that \(\adv\) has successfully authenticated with the prover's help and 
+  \(\S\) is given \(\adv\)'s state.
+
+  Now \(\S\) will use \(\adv\) in a simulation.
+  Since the challenge is chosen uniformly randomly by the verifier, \(\S\) will 
+  choose another challenge uniformly randomly.
+  Since \(\adv\) cannot perform a relay to the prover and each challenge is 
+  independent (uniformly random), the help provided by the prover must be 
+  independent of the chosen challenge.
+  Thus \(\S\) will provide the same help as before.
+
+  When \(S\) has the second response it can compute the secret of the prover 
+  and thus authenticate to the verifier with probability \(p_{\S} = 1\) in any 
+  successive session.
+  The same is true for \(\adv\) and thus \(p_{\adv} = p_{\S}\).
 \end{proof}
 
 \subsection{\Iacs*{DBDF} resistant protocol}
