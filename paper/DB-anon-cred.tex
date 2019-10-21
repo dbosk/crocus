@@ -277,7 +277,7 @@ Indeed, if the malicious prover gives both responses to the accomplice, the
 accomplice can compute his secret key.
 And any help will increase the probability of success of future attempts.
 
-\daniel{Still intuition, we need the formal definition of security above.}
+\daniel{Work in progress!}
 \begin{theorem}[\acs*{DBTF} resistance]
   Let \(\adv\) be a \((t, \qv)\)-strSimTF adversary (aided by the prover), 
   \(\S\) an algorithm with runtime \(t_{\S}\).
@@ -293,16 +293,18 @@ And any help will increase the probability of success of future attempts.
   \(\S\) is given \(\adv\)'s state.
 
   Now \(\S\) will use \(\adv\) in a simulation.
+  \(\S\) will rewind \(\adv\) to just before \(\adv\) received the challenge.
   Since the challenge is chosen uniformly randomly by the verifier, \(\S\) will 
-  choose another challenge uniformly randomly.
+  choose another challenge different from before.
   Since \(\adv\) cannot perform a relay to the prover and each challenge is 
   independent (uniformly random), the help provided by the prover must be 
   independent of the chosen challenge.
-  Thus \(\S\) will provide the same help as before.
 
-  When \(S\) has the second response it can compute the secret of the prover 
-  and thus authenticate to the verifier with probability \(p_{\S} = 1\) in any 
-  successive session.
+  Now \(\adv\) will provide a correct response with \(\frac{1}{m^n}+\epsilon\) 
+  probability.
+  When \(S\) has the correct response it can compute the secret of the prover 
+  using the two known correct responses and thus authenticate to the verifier 
+  with probability \(p_{\S} = 1\) in any successive session.
   The same is true for \(\adv\) and thus \(p_{\adv} = p_{\S}\).
 \end{proof}
 
