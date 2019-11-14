@@ -1,8 +1,27 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[british]{babel}
+\usepackage{noweb}
+\usepackage{bibsp}
+\usepackage{pythontex}
+
+\title{%
+  Solution distribution for system of equations of prime modulus~\(q\) with 
+  \(l\) free variables%
+}
+\author{Daniel Bosk}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+@
 \paragraph{Idea}
 
 The idea is to test a number of equation systems.
 We'll generate the prime modulus~\(q\) and the values \(\rho, \alpha\in 
-\mathbf{Z}_q\).
+\ZZ_q\).
 (Each is \(m\) bits long.)
 We'll compute \(s = \rho - c\alpha\) and \(s' = \rho - c'\alpha\).
 We'll assume for simplicity that \(c = 1, c' = 0\).
@@ -95,6 +114,8 @@ def mask(n, m):
   return (1<<n)-1<<m
 @
 
+\paragraph{Analyse solution distribution}
+
 To analyse the solutions, we simply print the solutions and the number of times 
 they occur.
 <<analyse solutions>>=
@@ -105,3 +126,5 @@ while solutions:
   print(f"{solutions[0]}: {solutions.count(solutions[0])}")
   solutions = list(filter(lambda x: x != solutions[0], solutions))
 @
+
+\end{document}
