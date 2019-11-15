@@ -182,23 +182,20 @@ and \(b_{j_1}, \dotsc, b_{j_l}\in \bin\) are the bit values.
 
 \begin{lemma}
   Assume the special case given above.
-  If \(l \leq \frac{m+\frac{1}{n}-1}{2}\), then the equation system is 
-  underdetermined and we cannot solve for \(\alpha\).
+  If \(l < m+\frac{1}{n}-1\), then the equation system is underdetermined and 
+  we cannot solve for \(\alpha\).
 \end{lemma}
 \begin{proof}
-  The equation system above yields \(l+1\) equations and \(m-l+1\) unknowns.
+  The equation system above yields \(l+1\) equations and \(m+1\) variables.
   If we repeat the protocol \(n\) times, we get \(n\) such sessions.
-  This yields an equation system of \(n(l+1)\) equations and \(n(m-1)+1\) 
-  unknowns (the unknown \(\alpha\) is not repeated).
-  If \(n(l+1) < n(m-l)+1\), this system is underdetermined and cannot be 
-  solved.
+  This yields an equation system of \(n(l+1)\) equations and \(nm+1\) variables 
+  (\(\alpha\) is not repeated).
+  If \(n(l+1) < nm+1\), this system is underdetermined and cannot be solved.
   After some rewriting we find that
   \begin{align*}
-    n(l+1) &< n(m-l)+1 \\
-    n(2l+1) &< nm+1 \\
-    2l+1 &< m + \frac{1}{n} \\
-    2l &< m + \frac{1}{n} -1 \\
-    l &< \frac{m + \frac{1}{n} -1}{2}.
+    n(l+1) &< nm+1 \\
+    l+1 &< m + \frac{1}{n} \\
+    l &< m + \frac{1}{n} -1.
   \end{align*}
   Which concludes the proof.
 \end{proof}
