@@ -170,11 +170,11 @@ bits of \(s_i'\).
 This special case yields the linear equation system
 \begin{align*}
   s_i &= r_i + \alpha
-  = s_i'[m-1] 2^{m-1} + \dotsb + s_i'[1] 2^1 + s_i'[0] 2^0 + \alpha \\
-  s_i'[j_1] &= b_{j_1} \\
-  s_i'[j_2] &= b_{j_2} \\
-  \vdots \\
-  s_i'[j_l] &= b_{j_l},
+  = s_i'[m-1] 2^{m-1} + \dotsb + s_i'[1] 2^1 + s_i'[0] 2^0 + \alpha &\pmod q\\
+  s_i'[j_1] &= b_{j_1} &\pmod 2\\
+  s_i'[j_2] &= b_{j_2} &\pmod 2\\
+            &\vdots \\
+  s_i'[j_l] &= b_{j_l}, &\pmod 2
 \end{align*}
 where \(s_i'[j]\) denotes the \(j\)th bit of \(s_i'\), and \(j_1, \dotsc, 
 j_l\in \{0, \dotsc, m-1\}\) are indices for the bits chosen by the adversary 
@@ -203,30 +203,31 @@ and \(b_{j_1}, \dotsc, b_{j_l}\in \bin\) are the bit values.
 The number of possible solutions is vital for us, since that is an estimate of 
 how difficult it is for the adversary to guess \(\alpha\).
 
-\begin{lemma}\label{l-bit-advantage}
+\begin{lemma}\label{simple-l-bit-advantage}
   Assume the special case above.
   There are \(m-l\) free variables, each taking a value from \(\bin\).
-  This yields \(2^{m-l}\) possible solutions for each session.
+  This yields \(2^{m-l}-1\) unique solutions for each session.
 \end{lemma}
 \begin{proof}
   The result directly follows from the fact that there are \(m-l\) free 
   variables.
   Each free variable can only take two possible values (0 or 1), consequently 
-  there are \(2^{m-l}\) possible combinations.
+  there are \(2^{m-l}-1\) unique solutions.
 \end{proof}
 
-\paragraph*{The general \(l\)-bit problem}
+\paragraph*{Arbitrarily chosen \(c\neq c'\)}
 
-For any choice of \(c\) and \(c'\), we have
+For any choice of \(c\) and \(c'\) such that \(c\neq c'\), we have
 \begin{align}
   \label{eqn:general-c}
-  s_i &= r_i + c\alpha \\
+  s_i &= r_i + c\alpha &\pmod q\\
   \label{eqn:general-cprime}
-  s_i' &= r_i + c'\alpha.
+  s_i' &= r_i + c'\alpha. &\pmod q
 \end{align}
 We can transform this system of equations into our special case above by 
 Gaussian elimination: add \cref{eqn:general-c} multiplied by \(\frac{c'}{c}\) 
 to \cref{eqn:general-cprime}.
+The multiplicative inverse \(\frac{1}{c}\) exists since \(q\) is prime.
 This proves the following lemma.
 
 \begin{lemma}
@@ -234,28 +235,29 @@ This proves the following lemma.
   0\).
 \end{lemma}
 
-This means that \cref{l-bit-advantage} is also true for the general case.
+This means that \cref{simple-l-bit-advantage} is also true for the general case.
 
-\paragraph*{The most general \(l\)-bit problem}
+\paragraph*{The general \(l\)-bit problem}
 
 We run the protocol \(n\) times and let the adversary learn \(m+l\) bits of the 
 result~\(s_i, s_i'\).
 This yields the following equation system:
 \begin{align*}
-  s_0[0]2^0 + \dotsb + s_0[m-1]2^{m-1} &= r_0 + c\alpha \\
-  s_0'[0]2^0 + \dotsb + s_0'[m-1]2^{m-1} &= r_0 + c'\alpha \\
+  s_0[0]2^0 + \dotsb + s_0[m-1]2^{m-1} &= r_0 + c\alpha &\pmod q\\
+  s_0'[0]2^0 + \dotsb + s_0'[m-1]2^{m-1} &= r_0 + c'\alpha &\pmod q\\
   \vdots \\
-  s_{n-1}[0]2^0 + \dotsb + s_{n-1}[m-1]2^{m-1} &= r_{n-1} + c\alpha \\
-  s_{n-1}'[0]2^0 + \dotsb + s_{n-1}'[m-1]2^{m-1} &= r_{n-1} + c'\alpha,
+  s_{n-1}[0]2^0 + \dotsb + s_{n-1}[m-1]2^{m-1} &= r_{n-1} + c\alpha &\pmod q\\
+  s_{n-1}'[0]2^0 + \dotsb + s_{n-1}'[m-1]2^{m-1} &= r_{n-1} + c'\alpha, &\pmod 
+  q
 \end{align*}
 where \(m+l\) of \(s_i[j]\)'s and \(s_i'[j']\)'s for each \(i\) are known by 
 the adversary.
 
-\begin{theorem}
+\begin{lemma}\label{l-bit-advantage}
   If \[l < m-1+\frac{1}{n}-\frac{f(\lambda)}{n},\] then there are at least 
-  \(2^{f(\lambda)}\) possible solutions, for some function~\(f\) of the 
+  \(2^{f(\lambda)}-1\) unique solutions, for some function~\(f\) of the 
   security parameter~\(\lambda\).
-\end{theorem}
+\end{lemma}
 \begin{proof}
   Consider one instance of the protocol:
   \begin{align*}
@@ -265,7 +267,7 @@ the adversary.
   This yields \(2m+2\) variables with two equations, thus \(2m\) free variables.
   Let the adversary learn \(m+l\) of the bits, \ie left-hand side \(s_i[j]\)'s or 
   \(s_i'[j']\)'s.
-  This leaves \(2m-(m+l) = m-l\) free variables and \(2^{m-l}\) possible 
+  This leaves \(2m-(m+l) = m-l\) free variables and \(2^{m-l}-1\) possible 
   solutions.
 
   Repeat this \(n\) times.
@@ -273,8 +275,9 @@ the adversary.
   2mn - n +1 = n(2m-1)+1\) free variables.
   Let the adversary learn \(m+l\) bits in each round, thus \(n(m+l)\) in total.
   This yields \(n(2m-1)+1 -n(m+l) = 2nm-n+1-nm-nl = nm-n+1-nl = n(m-1-l)+1\) 
-  free variables and \(2^{n(m-1-l)+1}\) possible solutions.
-  Consequently, if we want \(f(\lambda)\) possible solutions, we have that
+  free variables and \(2^{n(m-1-l)+1}-1\) unique solutions.
+  Consequently, if we want at least \(2^{f(\lambda)}-1\) unique solutions, we 
+  have that
   \begin{equation*}
     nm-n-nl+1 > f(\lambda) \iff m-1+\frac{1}{n}-\frac{f(\lambda)}{n} > l.
   \end{equation*}
