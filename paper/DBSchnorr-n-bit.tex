@@ -239,6 +239,51 @@ This proves the following lemma.
 
 This means that \cref{l-bit-advantage} is also true for the general case.
 
+\paragraph*{The most general \(l\)-bit problem}
+
+We run the protocol \(n\) times and let the adversary learn \(m+l\) bits of the 
+result~\(s_i, s_i'\).
+This yields the following equation system:
+\begin{align*}
+  s_0[0]2^0 + \dotsb + s_0[m-1]2^{m-1} &= r_0 + c\alpha \\
+  s_0'[0]2^0 + \dotsb + s_0'[m-1]2^{m-1} &= r_0 + c'\alpha \\
+  \vdots \\
+  s_{n-1}[0]2^0 + \dotsb + s_{n-1}[m-1]2^{m-1} &= r_{n-1} + c\alpha \\
+  s_{n-1}'[0]2^0 + \dotsb + s_{n-1}'[m-1]2^{m-1} &= r_{n-1} + c'\alpha,
+\end{align*}
+where \(m+l\) of \(s_i[j]\)'s and \(s_i'[j']\)'s for each \(i\) are known by 
+the adversary.
+
+\begin{theorem}
+  If \[l < m-1+\frac{1}{n}-\frac{f(\lambda)}{n},\] then there are at least 
+  \(2^{f(\lambda)}\) possible solutions, for some function~\(f\) of the 
+  security parameter~\(\lambda\).
+\end{theorem}
+\begin{proof}
+  Consider one instance of the protocol:
+  \begin{align*}
+    s_i[0]2^0 + \dotsb + s_i[m-1]2^{m-1} &= r_i + c\alpha \\
+    s_i'[0]2^0 + \dotsb + s_i'[m-1]2^{m-1} &= r_i + c'\alpha.
+  \end{align*}
+  This yields \(2m+2\) variables with two equations, thus \(2m\) free variables.
+  Let the adversary learn \(m+l\) of the bits, \ie left-hand side \(s_i[j]\)'s or 
+  \(s_i'[j']\)'s.
+  This leaves \(2m-(m+l) = m-l\) free variables and \(2^{m-l}\) possible 
+  solutions.
+
+  Repeat this \(n\) times.
+  This yields \(n(2m+1)+1\) variables and \(2n\) equations, thus \(2nm+n+1-2n = 
+  2mn - n +1 = n(2m-1)+1\) free variables.
+  Let the adversary learn \(m+l\) bits in each round, thus \(n(m+l)\) in total.
+  This yields \(n(2m-1)+1 -n(m+l) = 2nm-n+1-nm-nl = nm-n+1-nl = n(m-1-l)+1\) 
+  free variables and \(2^{n(m-1-l)+1}\) possible solutions.
+  Consequently, if we want \(f(\lambda)\) possible solutions, we have that
+  \begin{equation*}
+    nm-n-nl+1 > f(\lambda) \iff m-1+\frac{1}{n}-\frac{f(\lambda)}{n} > l.
+  \end{equation*}
+  Which concludes the proof.
+\end{proof}
+
 \subsection{Formal Verification}
 
 We wanted to formally verify the protocol security properties. To realize this, 
