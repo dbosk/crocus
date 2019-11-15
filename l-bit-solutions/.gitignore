@@ -2,3 +2,6 @@ ltxobj/
 l-bit.pdf
 l-bit.py
 __pycache__/
+bibsp.sty
+l-bit.tex
+latexmkrc
