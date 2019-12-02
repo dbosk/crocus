@@ -237,7 +237,7 @@ This proves the following lemma.
 
 This means that \cref{simple-l-bit-advantage} is also true for the general case.
 
-\paragraph*{The general \(l\)-bit problem}
+\paragraph*{The unconditional \(l\)-bit problem}
 
 We run the protocol \(n\) times and let the adversary learn \(m+l\) bits of the 
 result~\(s_i, s_i'\).
@@ -282,6 +282,51 @@ the adversary.
     nm-n-nl+1 > f(\lambda) \iff m-1+\frac{1}{n}-\frac{f(\lambda)}{n} > l.
   \end{equation*}
   Which concludes the proof.
+\end{proof}
+
+\paragraph*{The \(l\)-bit problem with commitments}
+
+The adversary has a commitment to the randomness~\(r_i\) in the form of \(R_i = 
+g^{r_i}\) and a commitment to \(\alpha\) in the form of \(A = g^\alpha\).
+This means that
+\begin{align*}
+  R = A^{-c'} g^{s'} &= A^{-c'} g^{s'[0] 2^0 + \dotsb + s'[m-1] 2^{m-1}} \\
+                     &= A^{-c'} g^{s'[0] 2^0} \dotsb g^{s'[m-1] 2^{m-1}} \\
+                     &= A^{-c'} g^{s'_{\text{known}}} g^{s'_{\text{unknown}}}.
+\end{align*}
+We will now show that finding \(s'_\text{unknown}\) is as hard as finding 
+discrete logarithms.
+
+\begin{definition}[\Acl*{DLP}]
+  Let \(g\) be a generator for a group of prime order~\(q\).
+  Given \(g, q, A = g^\alpha\), compute \(\alpha\).
+\end{definition}
+
+\begin{definition}[DB-Schnorr Problem]%
+  \label{DBSchnorr-problem}
+  Let \(g\) be a generator for a group of prime order~\(q\).
+  Give \(g, q, R = g^\rho A = g^\alpha\) to the adversary.
+  Let the adversary choose \(c\) and additionally give him \(\hat s\) such that 
+  \(\hat s\) are the \(l\) \emph{least significant} bits of \(s = \rho + 
+  c\alpha \pmod q\).
+  The adversary wins if he returns \(\hat s'\) such that \(\hat s + \hat s' = s 
+  \pmod q\).
+\end{definition}
+
+\begin{lemma}
+  Given an algorithm~\(\algA_{\DBS}\) that solves the DB-Schnorr Problem 
+  (\cref{DBSchnorr-problem}) with probability \(\epsilon\), we can construct an 
+  algorithm \(\algA_{\text{DL}}\) that solves the \ac{DLP} with probability 
+  \((1-\frac{1}{2^{X}}) \epsilon\).
+\end{lemma}
+
+\begin{proof}
+  We will now construct the algorithm \(\algA_{\text{DL}}\) given the algorithm 
+  \(\algA_{\DBS}\).
+  Given \(g, q, A_{\text{DL}}\):
+%  Let \(\rho\rgets \ZZ_q\), \(c\gets \algA_{\DBS}(R, A_{\DBS})\), where \(R = 
+%  g^\rho\) and \(A_{\DBS} = g^\alpha\).
+  Choose \(s\rgets \ZZ_q\) and let \(\rho\gets s - c\alpha\)
 \end{proof}
 
 \subsection{Formal Verification}
