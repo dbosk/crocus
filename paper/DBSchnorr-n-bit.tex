@@ -317,16 +317,34 @@ discrete logarithms.
   Given an algorithm~\(\algA_{\DBS}\) that solves the DB-Schnorr Problem 
   (\cref{DBSchnorr-problem}) with probability \(\epsilon\), we can construct an 
   algorithm \(\algA_{\text{DL}}\) that solves the \ac{DLP} with probability 
-  \((1-\frac{1}{2^{X}}) \epsilon\).
+  \(\epsilon 2^{-l-k}\).
 \end{lemma}
 
 \begin{proof}
   We will now construct the algorithm \(\algA_{\text{DL}}\) given the algorithm 
-  \(\algA_{\DBS}\).
-  Given \(g, q, A_{\text{DL}}\):
-%  Let \(\rho\rgets \ZZ_q\), \(c\gets \algA_{\DBS}(R, A_{\DBS})\), where \(R = 
-%  g^\rho\) and \(A_{\DBS} = g^\alpha\).
-  Choose \(s\rgets \ZZ_q\) and let \(\rho\gets s - c\alpha\)
+  \(\algA_{\DBS}\) and the \ac{DLP} challenge \(g, q, A_{\text{DL}}\).
+  Assume that \(\algA_{\DBS}\) succeeds with probability \(\epsilon\).
+
+  We proceed as follows.
+  Guess \(c\rgets \ZZ_k\), choose \(\hat s\rgets \ZZ_{2^l}\).
+  Let \(\hat R\gets \hat A_{\DBS}^c A_{\text{DL}} g^{\hat s}\) and give
+  \(\hat R\) to \(\algA_{\DBS}\).
+  If \(c'\gets \algA_{\DBS}(g, q, A_{\DBS}, \hat R)\) returns \(c'\neq c\), 
+  abort.
+  The probability of success is \(2^{-k}\).
+  Otherwise, give \(\hat s\) to \(\algA_{\DBS}\).
+  Now, by construction, we have that \(
+    \hat R = A_{\DBS}^c g^{\hat s} A_{\text{DL}}.
+  \)
+
+  If \(A_{\text{DL}} = g^{\alpha_{\text{DL}}}\) is chosen such that 
+  \(\alpha_{\text{DL}}\) has the \(l\) least significant bits set to zero, then 
+  will have \(
+    \alpha_{\text{DL}}\gets \algA_{\DBS}(g, q, A_{\DBS}, \hat R, \hat s)
+  \) with probability \(\epsilon\).
+  Thus, the total probability of success is \(
+    \epsilon 2^{-l} 2^{-k} = \epsilon 2^{-l-k}.
+  \)
 \end{proof}
 
 \subsection{Formal Verification}
