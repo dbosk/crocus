@@ -327,7 +327,7 @@ discrete logarithms.
 
   We proceed as follows.
   Guess \(c\rgets \ZZ_k\), choose \(\hat s\rgets \ZZ_{2^l}\).
-  Let \(\hat R\gets \hat A_{\DBS}^c A_{\text{DL}} g^{\hat s}\) and give
+  Let \(\hat R\gets A_{\DBS}^c A_{\text{DL}} g^{\hat s}\) and give
   \(\hat R\) to \(\algA_{\DBS}\).
   If \(c'\gets \algA_{\DBS}(g, q, A_{\DBS}, \hat R)\) returns \(c'\neq c\), 
   abort.
@@ -338,8 +338,8 @@ discrete logarithms.
   \)
 
   If \(A_{\text{DL}} = g^{\alpha_{\text{DL}}}\) is chosen such that 
-  \(\alpha_{\text{DL}}\) has the \(l\) least significant bits set to zero, then 
-  will have \(
+  \(\alpha_{\text{DL}}\) has the \(l\) least significant bits set to zero 
+  (probability \(2^{-l}\)), then will have \(
     \alpha_{\text{DL}}\gets \algA_{\DBS}(g, q, A_{\DBS}, \hat R, \hat s)
   \) with probability \(\epsilon\).
   Thus, the total probability of success is \(
