@@ -1,0 +1,130 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[british]{babel}
+\usepackage{noweb}
+\usepackage{bibsp}
+\usepackage{pythontex}
+
+\title{%
+  Solution distribution for system of equations of prime modulus~\(q\) with 
+  \(l\) free variables%
+}
+\author{Daniel Bosk}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+@
+\paragraph{Idea}
+
+The idea is to test a number of equation systems.
+We'll generate the prime modulus~\(q\) and the values \(\rho, \alpha\in 
+\ZZ_q\).
+(Each is \(m\) bits long.)
+We'll compute \(s = \rho - c\alpha\) and \(s' = \rho - c'\alpha\).
+We'll assume for simplicity that \(c = 1, c' = 0\).
+
+We'll start with the following structure.
+<<l-bit.py>>=
+#!/usr/bin/env python3
+<<imports>>
+<<functions>>
+
+<<generate q, rho, alpha>>
+<<enumerate solutions>>
+@
+
+\paragraph{Generating \(q, \rho, \alpha\)}
+
+We'll start by generating the numbers.
+We'll use the [[secrets]] library for randomness and [[sympy]] for primality 
+testing of \(q\).
+<<imports>>=
+import secrets
+from sympy.ntheory.primetest import mr
+@
+
+We generate \(q\) and test it for primality using the Miller-Rabin test.
+We'll use the bases \(2, \dots, 37\), that will be fine as long as \(q < 
+2^{64}\).
+<<generate q, rho, alpha>>=
+q = secrets.randbelow(2**20)
+while not mr(q, [2,3,5,7,11,13,17,19,23,29,31,37]):
+  q = secrets.randbelow(2**20)
+print(f"q = {q}")
+@ The numbers~\(\rho, \alpha\) can be generated similarly, but we don't need 
+them to be primes.
+<<generate q, rho, alpha>>=
+rho = secrets.randbelow(q)
+print(f"rho = {rho}")
+alpha = secrets.randbelow(q)
+print(f"alpha = {alpha}")
+@
+
+\paragraph{Enumerate solutions}
+
+We want to enumerate all the possible solutions the adversary has when he must 
+guess the last \(m-l\) bits.
+We will simplify this, by simply hide the last \(l\) bits of both \(s, s'\).
+We will iterate over values of \(l\).
+<<enumerate solutions>>=
+s0 = rho % q
+print(f"s0 = {bin(s0)}")
+s1 = (rho + alpha) % q
+print(f"s1 = {bin(s1)}")
+m = q.bit_length()
+print(f"m = {m}")
+for l in range(1, 5):
+  print(f"l = {l}")
+  solutions = find_solutions(s0, s1, q, l)
+  <<analyse solutions>>
+@
+
+To find the solutions, we filter out the first \(m-l\) bits, the known bits.
+Then we must iterate through all possible combinations of the unknown bits.
+<<functions>>=
+def find_solutions(s0, s1, q, l):
+  m = q.bit_length()
+  solutions = []
+  <<iterate over the unknown bits>>
+  return solutions
+@
+
+Then we'll iterate through the remaining bits and solve for those values.
+<<iterate over the unknown bits>>=
+s0_known = s0 & mask(m-l, l)
+for i in range(1<<l):
+  print(f"s0 = {bin(s0_known)}")
+  s1_known = s1 & mask(m-l, l)
+  for j in range(1<<l):
+    print(f"s1 = {bin(s1_known)}")
+    solutions.append(solve(s0_known, s1_known, q))
+    s1_known += 1
+  s0_known += 1
+@ [[solve]] simply computes the solution based on the predetermined form of the 
+equations.
+<<functions>>=
+def solve(s0, s1, q):
+  return (s1 - s0) % q
+@ [[mask]] returns a mask of size [[n]] shifted [[m]] steps.
+<<functions>>=
+def mask(n, m):
+  return (1<<n)-1<<m
+@
+
+\paragraph{Analyse solution distribution}
+
+To analyse the solutions, we simply print the solutions and the number of times 
+they occur.
+<<analyse solutions>>=
+solutions.sort()
+print(f"#solutions: {len(solutions)}")
+print(f"#uniq solutions: {len(set(solutions))}")
+while solutions:
+  print(f"{solutions[0]}: {solutions.count(solutions[0])}")
+  solutions = list(filter(lambda x: x != solutions[0], solutions))
+@
+
+\end{document}
