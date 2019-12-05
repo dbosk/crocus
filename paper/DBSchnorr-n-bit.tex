@@ -47,7 +47,8 @@ The private key \(\alpha\) with public key \(A = g^\alpha\) are generated once b
 
     \(s_1\gets \rho - c_1\alpha \pmod q\)
     &
-    & Prepare \(B\in \bin^{|q|+l}\), with \(|q|\) bits set to \(b\).
+    & Prepare \(B\in \bin^{|q|+l}\), with \(|q|\) bits set to \(b\) and the 
+    remaining \(l\) bits to \(1-b\).
     \\
 
     \midrule
@@ -88,7 +89,8 @@ The private key \(\alpha\) with public key \(A = g^\alpha\) are generated once b
   \end{tabular}
   \caption{%
     One-round protocol instance of the \(\DBSprove\leftrightarrow \DBSverify\) \ac{DB} Schnorr protocol for \(\PK[\alpha][A = g^\alpha]\).
-    The protocol should be repeated in full to achieve the desired knowledge and distance-bounding errors.
+    The protocol should be repeated in full to achieve the desired soundness 
+    and distance-bounding errors.
   }%
   \label{SchnorrFigure}
 \end{figure*}
