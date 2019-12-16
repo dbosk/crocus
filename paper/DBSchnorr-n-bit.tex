@@ -319,7 +319,7 @@ discrete logarithms.
   Given an algorithm~\(\algA_{\DBS}\) that solves the DB-Schnorr Problem 
   (\cref{DBSchnorr-problem}) with probability \(\epsilon\), we can construct an 
   algorithm \(\algA_{\text{DL}}\) that solves the \ac{DLP} with probability 
-  \(\epsilon 2^{-l-k}\).
+  \(\epsilon 2^{-(l+k)}\).
 \end{lemma}
 
 \begin{proof}
@@ -345,9 +345,12 @@ discrete logarithms.
     \alpha_{\text{DL}}\gets \algA_{\DBS}(g, q, A_{\DBS}, \hat R, \hat s)
   \) with probability \(\epsilon\).
   Thus, the total probability of success is \(
-    \epsilon 2^{-l} 2^{-k} = \epsilon 2^{-l-k}.
+    \epsilon 2^{-l} 2^{-k} = \epsilon 2^{-(l+k)}.
   \)
 \end{proof}
+
+As mentioned above, both \(l\) and \(k\) are logarithmic in the security 
+parameter.
 
 \subsection{Formal Verification}
 
