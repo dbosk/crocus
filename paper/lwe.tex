@@ -1,0 +1,29 @@
+\mode*
+
+\section{The \acl*{LWE} problem}
+
+The l-bit problem is related to the \ac{LWE} problem.
+In the \ac{LWE} problem we have a secret vector \(\vec s \in \ZZ_q^n\).
+Given
+\begin{align*}
+  \langle \vec s, \vec a_i\rangle + \epsilon_i \pmod q,
+\end{align*}
+where \(\vec a_i \in_R \ZZ_q^n\) is a set of random vectors and \(\epsilon_i 
+\in \ZZ_q\) are errors according to some distribution (usually Gaussian), the 
+adversary must find \(\vec s\).
+
+The l-bit problem is the case of \(\ZZ_q^1\), \ie with \(n = 1\).
+All hardness results depends on \(n\).
+This means that the problem becomes easier.
+However, the size of the set of equations also depends on \(n\), which brings 
+some balance.
+
+However, the major difference is the blinding factor.
+The format of the l-bit equations is \(\rho_i + c_i\alpha\) and \(\rho_i + 
+c_i'\alpha\), where \(\alpha\) is the secret and \(\rho_i\) is uniformly 
+randomly chosen in \(\ZZ_q\) and \(c_i, c_i'\) take the role of \(\vec a\) 
+above.
+These equations come in pairs with an error that is related between the pair of 
+equations.
+
+Considering this, it's hard to map the \ac{LWE} problem to the l-bit problem.
