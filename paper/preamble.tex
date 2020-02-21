@@ -158,6 +158,7 @@
 \NewVariable{\CA}{CA}
 \NewSet{\TT}{T}
 \NewSet{\LL}{L}
+
 \NewVariable{\sid}{sid}
 \NewVariable{\qobs}{q_{\text{obs}}}
 \NewVariable{\qp}{q_{\text{P}}}
@@ -166,6 +167,9 @@
 \DeclareDocumentCommand{\Xscript}{mm}{\ensuremath{%
     \Pi_{#1}\left[#2\right]%
   }}
+\NewAlgorithm{\Commit}[\mathsf]{Commit}
+\NewAlgorithm{\Prompt}[\mathsf]{Prompt}
+
 \NewScheme{\DB}{DB}
 \NewAlgorithm{\adv}[\mathcal]{A}
 \let\ParagraphSign\S

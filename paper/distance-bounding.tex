@@ -156,14 +156,37 @@ Then we have the following definition of security.
 The final property is \ac{DBDH} and \ac{DBDF}.
 The following definitions for \ac{DBDH} also captures \ac{DBDF} 
 attacks~\cite{TREAD}.
+We first define what the adversary can and cannot do by defining a tainted 
+session for \ac{DBDH}.
 
 \begin{definition}[Tainted session, \acs*{DBDH}~\cite{TREAD}]%
   \label{TaintedDH}
-  \dots
+  A time-critical round \(\Xscript{\sid}{k, k+1} = (m_k, m_{k+1})\), for some 
+  \(k\geq 1\) and \(m_k\) send by the verifier, of an adversary--verifier 
+  session \(\sid\) is \emph{tainted} if one of the following conditions holds.
+  \begin{itemize}
+    \item The maximal \(j\) with \(\Xscript{\sid_{\Commit}}{j} = (\sid, k+1, 
+      m_{k+1}')\) for \(m_{k+1}' \neq \Prompt\) and \(\marker{\sid, k} > 
+      \marker{\sid_{\Commit}, j}\) satisfies \(m_{k+1}' \neq m_{k+1}\) (or no 
+      such \(j\) exists).
+
+    \item The maximal \(j\) with \(\Xscript{\sid_{\Commit}}{j} = (\sid, k+1, 
+      m_{k+1}')\) for \(m_{k+1}' = \Prompt\) satisfies \(m_{k+1} \neq 
+      m_{k+1}^{\Prompt}\), in which \(m_{k+1}^{\Prompt}\) denotes the message 
+      \(m_{k+1}\) in \(\sid_{\Prompt}\).
+  \end{itemize}
 \end{definition}
+
+To win, the adversary must convince a verifier that he is close when he 
+actually is not and without tainting any of the sessions.
 
 \begin{definition}[\acs*{DBDH} resistance~\cite{TREAD}]%
   \label{DHresistance}
-  \dots
+  For \iac{DB} authentication scheme~\(\DB\) with \ac{DB} threshold 
+  \(t_{\max}\), a \((t, \qp, \qv, \qobs)\)-\ac{DBDH} adversary \(\adv\) wins 
+  against \(\DB\) if the verifier accepts \(\adv\) in one of the \(\qv\) 
+  adversary--verifier sessions without any critical round being tainted.
+  Thus, \ac{DBDH} resistance is defined as the probability 
+  \(\Adv_{\DB}^{\text{DH}}(\adv)\) that \(\adv\) wins the game.
 \end{definition}
 
