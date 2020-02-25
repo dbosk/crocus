@@ -116,7 +116,7 @@ Bundling the authentication into the distance-bounding phase (difference from Br
 The reason we use secret sharing and not \(s_b\) directly, is to bound the \(l\) bits the verifier must learn of \(s_{1-b}\).
 Without secret sharing, the verifier learns \(l\) bits of \(s_{1-b}\), but with secret sharing the verifier learns \(l\) bits of \emph{one share}.
 Thus, we still have information theoretic security for \(s_{1-b}\)
-although we reveal the \(l\) bits. (See \cref{l-bit-problem for an
+although we reveal the \(l\) bits. (See \cref{l-bit-problem} for an
   in-depth treatment of what we call the \(l\)-bit problem.)
 
 The intuition behind the protocol security is as follows.
