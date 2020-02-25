@@ -1,9 +1,7 @@
 \section{Bit-by-bit distance-bounding Schnorr protocol}%
 
-One protocol exists in the literature that provides \acp{PPK} with most of the desired properties described previously, ProProx~\cite{ProProx}\footnote{Note that~\cite{ProProx} uses the abbreviation PoPoK, we prefer \acs{PPK} for shorter notation.}.
-ProProx is secure against a malicious verifier, but it provides \iac{PPK} protocol for quadratic residues (\ie protocols of the form \(\PPK[\alpha][a = 
-  \alpha^2]\)), while in our context, we need \iac{PPK} protocol for discrete logarithms (\ie \(\PPK[\alpha][a = g^\alpha]\)) due to our choice of anonymous credentials whose desirable properties we list in \cref{ZK-anon-cred}.%, which in turn is due to their \ac{PRF} for deriving identifiers from a long-term ID with unlinkability to the original ID but with proof of validity of this derivation. 
-To realize this, we will now introduce such a protocol to enable us to have \ac{DB} anonymous credentials.
+As mentioned in \cref{related-work}, while there exists a \iac{PPK} 
+protocol~\cite{ProProx}, there is none for discrete logarithms. We will now introduce such a protocol to enable us to have \ac{DB} anonymous credentials.
 
 \subsection{Reattempting a distance-bounding Schnorr protocol}%
 \label{DBSchnorr-n-bit}
@@ -117,7 +115,9 @@ This allows us to prevent \ac{DBTF}.
 Bundling the authentication into the distance-bounding phase (difference from Brands-Chaum) prevents \ac{DBDH}, and both adaptations together aim at \ac{DBMF} resistance. %reducing success of MF according to number of repetitions.
 The reason we use secret sharing and not \(s_b\) directly, is to bound the \(l\) bits the verifier must learn of \(s_{1-b}\).
 Without secret sharing, the verifier learns \(l\) bits of \(s_{1-b}\), but with secret sharing the verifier learns \(l\) bits of \emph{one share}.
-Thus, we still have information theoretic security for \(s_{1-b}\) although we reveal the \(l\) bits.
+Thus, we still have information theoretic security for \(s_{1-b}\)
+although we reveal the \(l\) bits. (See \cref{l-bit-problem for an
+  in-depth treatment of what we call the \(l\)-bit problem.)
 
 The intuition behind the protocol security is as follows.
 To achieve malicious-verifier zero-knowledge, choose \(k\) logarithmic in the security parameter \(\lambda\) and repeat the protocol \(n\) times, such that 
@@ -157,9 +157,18 @@ Thus the probability of success is equivalent of a collision for the responses
 for the chosen challenge --- in each round.
 
 Finally, it follows from the original Schnorr protocol that this is still \iac{PK} and \ac{ZK}.
-\daniel{I should prove this for the composed protocol, I should check the details with Douglas.}
+\daniel{I should prove this for the composed protocol, I should check
+  the details with Douglas.}
+
+Besides the security against the standard attacks on distance-bounding
+protocols, we also need to ensure that our modification does not leak
+any information to the adversary via the aforementioned \(l\) bits. 
 
 \subsection{The \(l\)-bit problem}
+\label{l-bit-problem}
+
+We will now systematically investigate the concern of the adversary
+gaining any advantage from learning \(l\) bits from one of the two challenges.
 
 \paragraph*{A special case}
 
@@ -355,19 +364,22 @@ parameter.
 \endinput
 \subsection{Formal Verification}
 
-We wanted to formally verify the protocol security properties. To realize this, 
-we used the Tamarin prover~\cite{meier2013tamarin}. Tamarin does not include 
-originally the possibility to reason on time and space in its model.
-However, thanks to a recent work by \textcite{TamarinDB}, all the common 
-properties mentioned in the previous subsection can be equivalently 
-characterized with a causality-based definition relying only on the order of 
-messages.
+We formally verify the protocol security properties using the Tamarin
+prover~\cite{meier2013tamarin}. Tamarin does not originally include
+the possibility to reason on time and space in its model.  However,
+thanks to a recent work by \textcite{TamarinDB}, the common properties
+can be equivalently characterized with a causality-based definition
+relying only on the order of messages.
 
-The whole Tamarin code we wrote is provided in \cref{apdx:tamarin-spec}, with a short discussion of the modeling choices that we have made. 
+The whole Tamarin code we wrote is provided in \cref{apdx:tamarin-spec}, with a short discussion of the modeling choices that we made. 
 It contains a specification of the distance-bounding protocol described previously, a definition of the soundness and correctness properties that ensure the protocol actually produces the expected result, and a definition of the security properties we want to ensure.
 
-Tamarin's auto-prover validated the soundness and correctness properties (in negligible computation time) but does not terminate when trying to prove the security properties.
-This means that no trace violating the security properties is found, but the prover cannot conclusively validate that the desired properties are true. 
-We are currently investigating the Tamarin interactive mode to validate as well the security properties.
+Tamarin's auto-prover validated the soundness and correctness
+properties (in negligible computation time) and proved the security
+properties used in~\cite{TamarinDB}. In the meantime,
+\textcite{TamarinDBTF} introduced the notion of post-collusion
+security which enabled them to prove \ac{DBTF}. In future work, we
+will use this extension on our protocol.
+
 
 

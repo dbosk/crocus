@@ -1,45 +1,13 @@
 \section{Conclusion}%
 \label{Conclusion}
 
-In this paper, we have introduced \CROCUS, a privacy-preserving protocol for 
-verifiably counting participants at protests.
-Despite the verification, the privacy of the participants is preserved to the 
-extent possible by their physical presence at the protest.
+In this paper, we have adapted the Schnorr protocol as a
+distance-bounding protocol.  It allows to construct distance-bounding
+general attribute-based authentication, more general attributes than
+provided by previous \ac{DB} ones.  With our contribution, Alice can
+now prove more complex statements to Bob; \eg that she is older than
+18 but younger than 40 without revealing her actual age, and at the
+same time Bob can be sure that Alice is not just relaying messages
+from her older sister Carol.
 
-We showed that \CROCUS preserves privacy and that the only privacy-threat it 
-adds to protesting without it, is that Grace can use Alice's private key to 
-verify her participation.
-However, this requires that Grace already suspects Alice --- Grace cannot check 
-everyone --- and that Alice has not renewed her digital certificate.
-
-We also showed that \CROCUS provides universally verifiable data.
-With \CROCUS, a journalist can easily count the participation, specify how they 
-counted (time, location \etc) along with the result and everyone can 
-independently verify that the result is correct.
-The only results that cannot be trusted are results aligned with the interests 
-of the \ac{CA}.
-
-%To achieve \CROCUS, we adapted the Schnorr protocol as a distance-bounding 
-%protocol.
-%This is of separate interest, as it allows to construct distance-bounding 
-%general attribute-based authentication, more general attributes than provided 
-%by previous \ac{DB} ones.
-%With our contribution, Alice can now prove more complex statements to Bob; \eg  
-%that she is older than 18 but younger than 40 without revealing her actual 
-%age, and at the same time Bob can be sure that Alice is not just relaying 
-%messages from her older sister Carol.
-
-While \CROCUS is an actual count and not an estimate, its accuracy for the 
-total number of participants hinges on the participants having the necessary 
-equipment (\ie a smartphone or similar device), some sort of trustworthy 
-credential, and the willingness to run the protocol. Owing to the network 
-effect, until used by most participants, \CROCUS would result in a considerable 
-undercount. However, it represents a first step toward accurate verifiable yet 
-privacy-preserving crowd counting by showing how it can be done in theory at 
-least and in practice once some assumptions concerning hardware and 
-e-identities become more realistic. While the necessary technologies are not 
-yet available in most authoritarian regimes, some of them are in several 
-democracies. We believe that it is important to implement systems such as ours 
-also there to support the maintenance of democratic processes and counter fake 
-news.  
 
