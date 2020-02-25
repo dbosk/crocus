@@ -236,8 +236,9 @@ Thus, any relaying will be detected, \ie this justifies \cref{TaintedMF}.
 \end{proof}
 
 The protocol is also secure against distance hijacking due to the fact that the 
-authenticating bit string is used during the \ac{DB} phase, not the challenge 
-bit string, as is the case for the original protocol of Brands-Chaum.
+authenticating bit string is used during the \ac{DB} phase.
+(Brands-Chaum used the challenge bit string, something that made their protocol 
+vulnerable.)
 \Ac{DBDH} requires that the adversary finds a collision between his response 
 and that of the honest prover.
 Thus the probability of success is equivalent to a collision for the responses 
