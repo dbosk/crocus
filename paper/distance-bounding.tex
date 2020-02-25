@@ -167,7 +167,9 @@ Technically, this adversary can do more than \iac{DBDH} adversary normally can.
 \Textcite{TREAD} captured this by two dummy sessions \(\sid_{\Commit}\) and 
 \(\sid_{\Prompt}\).
 The adverary commits to his action by \enquote{sending} \((\sid, k+1, 
-m'_{k+1})\) in dummy session \(\sid_{\Commit}\).
+m'_{k+1})\) in dummy session \(\sid_{\Commit}\) before receiving the challenge 
+in message \(k\) in session \(\sid\) (making message \(k+1\) in \(\sid\) his 
+response to the challenge).
 If \(m'_{k+1} = \Prompt\), then he must also \enquote{send} a message in dummy 
 session \(\sid_{\Prompt}\), which is the message the nearby prover will send.
 
