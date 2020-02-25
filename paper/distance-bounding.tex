@@ -178,8 +178,8 @@ session \(\sid_{\Prompt}\), which is the message the nearby prover will send.
   session \(\sid\) is \emph{tainted} if one of the following conditions holds.
   \begin{itemize}
     \item The maximal \(j\) with \(\Xscript{\sid_{\Commit}}{j} = (\sid, k+1, 
-      m_{k+1}')\) for \(m_{k+1}' \neq \Prompt\) and \(\marker{\sid, k} > 
-      \marker{\sid_{\Commit}, j}\) satisfies \(m_{k+1}' \neq m_{k+1}\) (or no 
+      m_{k+1}')\) for \(m_{k+1}' \neq \Prompt\) and \(\marker[\sid, k] > 
+      \marker[\sid_{\Commit}, j]\) satisfies \(m_{k+1}' \neq m_{k+1}\) (or no 
       such \(j\) exists).
 
     \item The maximal \(j\) with \(\Xscript{\sid_{\Commit}}{j} = (\sid, k+1, 
