@@ -168,7 +168,7 @@ that the time of flight was within \(t_{\max}\) (determined from the allowed
 
 This protocol must be repeated \(n\) times.
 
-\subsection{\Acl*{ZK} and \acl*{PK}}
+\subsection{\Acl*{ZK} and \acl*{PK}}\label{UWB-ZKPK}
 
 The main difference between this protocol and the Schnorr protocol is that we 
 have the prover compute responses for \(m\) different challenges, \(c_1, 
@@ -207,8 +207,6 @@ The \(\UWBPR\) prevents \iac{DBMF} adversary from performing a
 distance-reduction through \iac{DBEDLC} attack~\cite{UWBPR}.
 Thus, any relaying will be detected, \ie this justifies \cref{TaintedMF}.
 
-\daniel{Still intuition, we need to use the formal definition of security 
-  above.}
 \begin{theorem}[\acs*{DBMF} resistance]
   Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-MF adversary, then 
   \(\Adv_{\DBS}^{\text{MF}}(\adv) = \left(\frac{1}{m}+\frac{1}{q}\right)^n\), 
@@ -216,14 +214,22 @@ Thus, any relaying will be detected, \ie this justifies \cref{TaintedMF}.
 \end{theorem}
 
 \begin{proof}
-  The adversary has two options:
+  It follows from the \ac{ZK} property (\cref{UWB-ZKPK}) that the adversary 
+  cannot learn anything by observation.
+  This leaves the adversary with two options:
   \begin{enumerate*}
   \item guess which challenge the verifier will use and request the correct 
-    response from the prover, this yields success with probability 
-    \(\frac{1}{m}\);
-  \item guess the response, this yields success with probability 
-    \(\frac{1}{q}\).
+    response from the prover, receiving the challenge first would taint the 
+    session (\cref{TaintedMF});
+  \item guess the response.
   \end{enumerate*}
+  The first option yields success with probability \(\frac{1}{m}\), since the 
+  choice is uniformly distributed.
+  The second option yields success with probability \(\frac{1}{q}\): since the 
+  response~\(s_i\) depends on \(\rho\), which is uniformly distributed in 
+  \(\ZZ_q\), it follows that \(s_i\) is also uniformly distributed in 
+  \(\ZZ_q\).
+
   The total success probability is \(\frac{1}{m} + \frac{1}{q}\) per round, 
   thus \(\left(\frac{1}{m}+\frac{1}{q}\right)^n\) in total per protocol 
   session.
