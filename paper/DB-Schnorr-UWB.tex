@@ -168,7 +168,7 @@ that the time of flight was within \(t_{\max}\) (determined from the allowed
 
 This protocol must be repeated \(n\) times.
 
-\subsection{\Acl*{ZK} and \acl*{PK}}
+\subsection{\Acl*{ZK} and \acl*{PK}}\label{UWB-ZKPK}
 
 The main difference between this protocol and the Schnorr protocol is that we 
 have the prover compute responses for \(m\) different challenges, \(c_1, 
@@ -203,12 +203,12 @@ can do \iac{DBEDLC} attack to reduce the distance.
 However, the properties of \(\UWBPR\) and the unpredictability of the 
 challenges ensures \ac{DBMF} resistance (since then the prover is honest).
 
+\paragraph{\Acl{DBMF}}
+
 The \(\UWBPR\) prevents \iac{DBMF} adversary from performing a 
 distance-reduction through \iac{DBEDLC} attack~\cite{UWBPR}.
 Thus, any relaying will be detected, \ie this justifies \cref{TaintedMF}.
 
-\daniel{Still intuition, we need to use the formal definition of security 
-  above.}
 \begin{theorem}[\acs*{DBMF} resistance]
   Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-MF adversary, then 
   \(\Adv_{\DBS}^{\text{MF}}(\adv) = \left(\frac{1}{m}+\frac{1}{q}\right)^n\), 
@@ -216,22 +216,33 @@ Thus, any relaying will be detected, \ie this justifies \cref{TaintedMF}.
 \end{theorem}
 
 \begin{proof}
-  The adversary has two options:
+  It follows from the \ac{ZK} property (\cref{UWB-ZKPK}) that the adversary 
+  cannot learn anything by observation.
+  This leaves the adversary with two options:
   \begin{enumerate*}
   \item guess which challenge the verifier will use and request the correct 
-    response from the prover, this yields success with probability 
-    \(\frac{1}{m}\);
-  \item guess the response, this yields success with probability 
-    \(\frac{1}{q}\).
+    response from the prover, receiving the challenge first would taint the 
+    session (\cref{TaintedMF});
+  \item guess the response.
   \end{enumerate*}
+  The first option yields success with probability \(\frac{1}{m}\), since the 
+  choice is uniformly distributed.
+  The second option yields success with probability \(\frac{1}{q}\): since the 
+  response~\(s_i\) depends on \(\rho\), which is uniformly distributed in 
+  \(\ZZ_q\), it follows that \(s_i\) is also uniformly distributed in 
+  \(\ZZ_q\).
+
   The total success probability is \(\frac{1}{m} + \frac{1}{q}\) per round, 
   thus \(\left(\frac{1}{m}+\frac{1}{q}\right)^n\) in total per protocol 
   session.
 \end{proof}
 
+\paragraph{\Acl{DBDH}}
+
 The protocol is also secure against distance hijacking due to the fact that the 
-authenticating bit string is used during the \ac{DB} phase, not the challenge 
-bit string, as is the case for the original protocol of Brands-Chaum.
+authenticating bit string is used during the \ac{DB} phase.
+(Brands-Chaum used the challenge bit string, something that made their protocol 
+vulnerable.)
 \Ac{DBDH} requires that the adversary finds a collision between his response 
 and that of the honest prover.
 Thus the probability of success is equivalent to a collision for the responses 
@@ -271,24 +282,26 @@ for the chosen challenge --- in each round.
   which concludes the proof.
 \end{proof}
 
+\paragraph{\Acl{DBTF}}
+
 The last property is \ac{DBTF}.
 The protocol is \ac{DBTF} resistant.
-Indeed, if the malicious prover gives both responses to the accomplice, the 
-accomplice can compute his secret key.
+Indeed, if the malicious prover gives more than one response to the accomplice, 
+the accomplice can compute the secret key and, thus, impersonate forever.
 And any help will increase the probability of success of future attempts.
 
-\daniel{Work in progress!}
 \begin{theorem}[\acs*{DBTF} resistance]
   Let \(\adv\) be a \((t, \qv)\)-strSimTF adversary (aided by the prover), 
   \(\S\) an algorithm with runtime \(t_{\S}\).
   If the verifier's challenges are uniformly drawn, then 
-  \(\Adv_{\DB}^{\text{TF}} = p_{\adv} - p_{\S}\) is negligible.
+  \(\Adv_{\DB}^{\text{TF}} = p_{\adv} - p_{\S} < \frac{1}{m^n}\).
 \end{theorem}
 
 \begin{proof}
   Assume that the adversary~\(\adv\) can authenticate with the prover's help 
-  with non-negligible probability~\(\epsilon\) better than guessing, \ie a 
-  success probability of \(\frac{1}{m^n}+\epsilon\).
+  with probability~\(p_{\adv}\) non-negligibly better than guessing (\(p_{\adv} 
+  = \frac{1}{m}+\epsilon, \epsilon\) non-negligible), without tainting the 
+  session (\cref{TaintedTF}) and leaking the secret~\(\alpha\).
   Say that \(\adv\) has successfully authenticated with the prover's help and 
   \(\S\) is given \(\adv\)'s state.
 
@@ -296,16 +309,22 @@ And any help will increase the probability of success of future attempts.
   \(\S\) will rewind \(\adv\) to just before \(\adv\) received the challenge.
   Since the challenge is chosen uniformly randomly by the verifier, \(\S\) will 
   choose another challenge different from before.
-  Since \(\adv\) cannot perform a relay to the prover and each challenge is 
-  independent (uniformly random), the help provided by the prover must be 
-  independent of the chosen challenge.
+  Since \(\adv\) cannot perform a relay to the prover without tainting the 
+  session (\cref{TaintedTF}) and each challenge is uniformly random, the help 
+  provided by the prover must be independent from the chosen challenge.
+  Now \(\adv\) will again provide a correct response with 
+  probability~\(p_{\adv}\).
 
-  Now \(\adv\) will provide a correct response with \(\frac{1}{m^n}+\epsilon\) 
-  probability.
-  When \(S\) has the correct response it can compute the secret of the prover 
-  using the two known correct responses and thus authenticate to the verifier 
-  with probability \(p_{\S} = 1\) in any successive session.
-  The same is true for \(\adv\) and thus \(p_{\adv} = p_{\S}\).
+  However, since there are \(m\) challenges, \(\S\) can probabilistically extract 
+  \(m p_{\adv}\) responses.
+  Once \(m p_{\adv} \geq 2\), \(\S\) can compute the secret~\(\alpha\) from two 
+  correct responses and, thus, \(p_{\S} = 1\) for any successive 
+  authentication.
+  This would also make \(p_{\adv} = 1\).
+  This contradicts that the secret is not leaked.
+  Hence, \(\epsilon < \frac{1}{m}\) or the adversary taints the session or the 
+  secret leaks.
+  This makes the \ac{DBTF} advantage negligible.
 \end{proof}
 
 \subsection{\Iacs*{DBDF} resistant protocol}
