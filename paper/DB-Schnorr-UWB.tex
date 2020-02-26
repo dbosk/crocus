@@ -317,6 +317,20 @@ And any help will increase the probability of success of future attempts.
   Hence, \(p_{\S} = p_{\adv}\).
 \end{proof}
 
+However, since there are \(m\) challenges, \(\S\) can probabilistically extract 
+\(m p_{\adv}\) responses.
+Once \(m p_{\adv} \geq 2\), \(\S\) can compute the secret~\(\alpha\) from two 
+correct responses and \(p_{\S} = 1\) for any successive authentication.
+This contradicts that the key is not leaked.
+Hence, \(\epsilon < \frac{1}{m}\) or the adversary taints the session or the 
+secret leaks.
+This proves the following theorem.
+
+\begin{theorem}
+  The maximum advantage over random guessing for any \ac{DBTF} adversary is 
+  strictly less than \(\frac{1}{m}\) per round.
+\end{theorem}
+
 \subsection{\Iacs*{DBDF} resistant protocol}
 
 \Acl{DB} protocols requires hardware implementations.
