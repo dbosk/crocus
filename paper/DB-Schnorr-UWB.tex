@@ -294,7 +294,7 @@ And any help will increase the probability of success of future attempts.
   Let \(\adv\) be a \((t, \qv)\)-strSimTF adversary (aided by the prover), 
   \(\S\) an algorithm with runtime \(t_{\S}\).
   If the verifier's challenges are uniformly drawn, then 
-  \(\Adv_{\DB}^{\text{TF}} = p_{\adv} - p_{\S} < \frac{1}{m^n}\).
+  \(\Adv_{\DB}^{\text{TF}} = p_{\adv} - p_{\S} < \left(\frac{2}{m}\right)^n\).
 \end{theorem}
 
 \begin{proof}
@@ -324,7 +324,6 @@ And any help will increase the probability of success of future attempts.
   This contradicts that the secret is not leaked.
   Hence, \(\epsilon < \frac{1}{m}\) or the adversary taints the session or the 
   secret leaks.
-  This makes the \ac{DBTF} advantage negligible.
 \end{proof}
 
 \subsection{\Iacs*{DBDF} resistant protocol}
