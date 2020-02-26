@@ -203,6 +203,8 @@ can do \iac{DBEDLC} attack to reduce the distance.
 However, the properties of \(\UWBPR\) and the unpredictability of the 
 challenges ensures \ac{DBMF} resistance (since then the prover is honest).
 
+\paragraph{\Acl{DBMF}}
+
 The \(\UWBPR\) prevents \iac{DBMF} adversary from performing a 
 distance-reduction through \iac{DBEDLC} attack~\cite{UWBPR}.
 Thus, any relaying will be detected, \ie this justifies \cref{TaintedMF}.
@@ -234,6 +236,8 @@ Thus, any relaying will be detected, \ie this justifies \cref{TaintedMF}.
   thus \(\left(\frac{1}{m}+\frac{1}{q}\right)^n\) in total per protocol 
   session.
 \end{proof}
+
+\paragraph{\Acl{DBDH}}
 
 The protocol is also secure against distance hijacking due to the fact that the 
 authenticating bit string is used during the \ac{DB} phase.
@@ -278,10 +282,12 @@ for the chosen challenge --- in each round.
   which concludes the proof.
 \end{proof}
 
+\paragraph{\Acl{DBTF}}
+
 The last property is \ac{DBTF}.
 The protocol is \ac{DBTF} resistant.
-Indeed, if the malicious prover gives both responses to the accomplice, the 
-accomplice can compute his secret key.
+Indeed, if the malicious prover gives more than one response to the accomplice, 
+the accomplice can compute the secret key and, thus, impersonate forever.
 And any help will increase the probability of success of future attempts.
 
 \daniel{Work in progress!}
