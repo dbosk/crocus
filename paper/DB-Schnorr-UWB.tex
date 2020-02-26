@@ -266,14 +266,15 @@ for the chosen challenge --- in each round.
 
   The verifier will send its challenge \(i\), the prover will reply with \(s_i 
     = \rho - c_i' \alpha\).
-  The verifier will check that \(R' = g^{s_i} A^{c_i}\).
+  The verifier will check that \(R' = g^{s_i} A'^{c_i}\), where \(A'\) is the 
+  public key of the adversary.
 
   This yields that \(R' = g^{\rho'}\) should equal \(g^{s_i} A'^{c_i} = g^{\rho 
       - c_i' \alpha} (g^{\alpha'})^{c_i} = g^{\rho - c_i' \alpha + c_i 
       \alpha'}\).
+  The adversary needs \(\rho' = \rho - c_i' \alpha + c_i \alpha' \pmod q\).
   Both \(\rho\) and \(\alpha\) are unknown to the adversary and the adversary 
   cannot choose \(c_i\).
-  The adversary needs \(\rho' = \rho - c_i' \alpha + c_i \alpha'\).
   Let \(\rho'\) and \(c_i'\) be fixed (say 0), then we have that \(\alpha' = 
     \rho c_i^{-1}\).
   We thus have that
