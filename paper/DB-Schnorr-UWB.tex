@@ -295,13 +295,14 @@ And any help will increase the probability of success of future attempts.
   Let \(\adv\) be a \((t, \qv)\)-strSimTF adversary (aided by the prover), 
   \(\S\) an algorithm with runtime \(t_{\S}\).
   If the verifier's challenges are uniformly drawn, then 
-  \(\Adv_{\DB}^{\text{TF}} = p_{\adv} - p_{\S}\) is negligible.
+  \(\Adv_{\DB}^{\text{TF}} = p_{\adv} - p_{\S} = 0\).
 \end{theorem}
 
 \begin{proof}
   Assume that the adversary~\(\adv\) can authenticate with the prover's help 
-  with non-negligible probability~\(\epsilon\) better than guessing, \ie a 
-  success probability of \(\frac{1}{m^n}+\epsilon\).
+  with probability~\(p_{\adv}\) non-negligibly better than guessing (\(p_{\adv} 
+  = \frac{1}{m}+\epsilon, \epsilon\) non-negligible), without tainting the 
+  session (\cref{TaintedTF}) and leaking the secret~\(\alpha\).
   Say that \(\adv\) has successfully authenticated with the prover's help and 
   \(\S\) is given \(\adv\)'s state.
 
@@ -309,16 +310,11 @@ And any help will increase the probability of success of future attempts.
   \(\S\) will rewind \(\adv\) to just before \(\adv\) received the challenge.
   Since the challenge is chosen uniformly randomly by the verifier, \(\S\) will 
   choose another challenge different from before.
-  Since \(\adv\) cannot perform a relay to the prover and each challenge is 
-  independent (uniformly random), the help provided by the prover must be 
-  independent of the chosen challenge.
-
-  Now \(\adv\) will provide a correct response with \(\frac{1}{m^n}+\epsilon\) 
-  probability.
-  When \(S\) has the correct response it can compute the secret of the prover 
-  using the two known correct responses and thus authenticate to the verifier 
-  with probability \(p_{\S} = 1\) in any successive session.
-  The same is true for \(\adv\) and thus \(p_{\adv} = p_{\S}\).
+  Since \(\adv\) cannot perform a relay to the prover without tainting the 
+  session (\cref{TaintedTF}) and each challenge is uniformly random, the help 
+  provided by the prover must be independent from the chosen challenge.
+  Now \(\adv\) will provide a correct response with probability~\(p_{\adv}\).
+  Hence, \(p_{\S} = p_{\adv}\).
 \end{proof}
 
 \subsection{\Iacs*{DBDF} resistant protocol}
