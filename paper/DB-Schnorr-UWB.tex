@@ -295,7 +295,7 @@ And any help will increase the probability of success of future attempts.
   Let \(\adv\) be a \((t, \qv)\)-strSimTF adversary (aided by the prover), 
   \(\S\) an algorithm with runtime \(t_{\S}\).
   If the verifier's challenges are uniformly drawn, then 
-  \(\Adv_{\DB}^{\text{TF}} = p_{\adv} - p_{\S} = 0\).
+  \(\Adv_{\DB}^{\text{TF}} = p_{\adv} - p_{\S} < \frac{1}{m^n}\).
 \end{theorem}
 
 \begin{proof}
@@ -313,23 +313,20 @@ And any help will increase the probability of success of future attempts.
   Since \(\adv\) cannot perform a relay to the prover without tainting the 
   session (\cref{TaintedTF}) and each challenge is uniformly random, the help 
   provided by the prover must be independent from the chosen challenge.
-  Now \(\adv\) will provide a correct response with probability~\(p_{\adv}\).
-  Hence, \(p_{\S} = p_{\adv}\).
+  Now \(\adv\) will again provide a correct response with 
+  probability~\(p_{\adv}\).
+
+  However, since there are \(m\) challenges, \(\S\) can probabilistically extract 
+  \(m p_{\adv}\) responses.
+  Once \(m p_{\adv} \geq 2\), \(\S\) can compute the secret~\(\alpha\) from two 
+  correct responses and, thus, \(p_{\S} = 1\) for any successive 
+  authentication.
+  This would also make \(p_{\adv} = 1\).
+  This contradicts that the secret is not leaked.
+  Hence, \(\epsilon < \frac{1}{m}\) or the adversary taints the session or the 
+  secret leaks.
+  This makes the \ac{DBTF} advantage negligible.
 \end{proof}
-
-However, since there are \(m\) challenges, \(\S\) can probabilistically extract 
-\(m p_{\adv}\) responses.
-Once \(m p_{\adv} \geq 2\), \(\S\) can compute the secret~\(\alpha\) from two 
-correct responses and \(p_{\S} = 1\) for any successive authentication.
-This contradicts that the key is not leaked.
-Hence, \(\epsilon < \frac{1}{m}\) or the adversary taints the session or the 
-secret leaks.
-This proves the following theorem.
-
-\begin{theorem}
-  The maximum advantage over random guessing for any \ac{DBTF} adversary is 
-  strictly less than \(\frac{1}{m}\) per round.
-\end{theorem}
 
 \subsection{\Iacs*{DBDF} resistant protocol}
 
