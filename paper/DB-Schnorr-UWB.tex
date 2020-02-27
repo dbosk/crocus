@@ -248,11 +248,9 @@ and that of the honest prover.
 Thus the probability of success is equivalent to a collision for the responses 
 for the chosen challenge --- in each round.
 
-\daniel{Still intuition, we need to use the formal definition of security 
-  above.}
-\begin{theorem}[\acs*{DBDH} resistance]
+\begin{theorem}[\acs*{DBDH}/\acs*{DBDF} resistance]
   Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-DH adversary, then 
-  \(\Adv_{DBS}^{\text{DH}}(\adv) = \frac{1}{q^n}\).
+  \(\Adv_{DBS}^{\text{DH}}(\adv) = \frac{1}{m^n}\).
 \end{theorem}
 
 \begin{proof}
@@ -261,24 +259,55 @@ for the chosen challenge --- in each round.
   \(R' = R\) to not interfere.
 
   The verifier will choose \(c_1, \dotsc, c_k\).
-  The adversary can send his own \(c_1', \dotsc, c_k'\) to the prover, or let 
-  \(c_1' = c_1, \dotsc, c_k' = c_k\) to not interfere.
+  The honest prover will compute \(s_i = \rho - c_i \alpha\), where \(\alpha\) 
+  is his \enquote{private key}\footnote{%
+    In Schnorr's original protocol this was called the private key.
+    But in our general use, it's the discrete logarithm for which the prover 
+    wants to prove knowledge.
+  }.
+  If the adversary chose \(R' = g^{\rho'}\), he can compute \(s_i' = \rho' - 
+  c_i \alpha'\), where \(\alpha'\) is the adversary's \enquote{private key}.
+  If the adversary didn't choose \(R'\), he can only guess the values for 
+  \(s_i'\).
 
-  The verifier will send its challenge \(i\), the prover will reply with \(s_i 
-    = \rho - c_i' \alpha\).
-  The verifier will check that \(R' = g^{s_i} A^{c_i}\).
+  Now the adversary has two options:
+  to \(\Commit\) to a response or to \(\Prompt\) the honest prover to respond.
 
-  This yields that \(R' = g^{\rho'}\) should equal \(g^{s_i} A'^{c_i} = g^{\rho 
-      - c_i' \alpha} (g^{\alpha'})^{c_i} = g^{\rho - c_i' \alpha + c_i 
-      \alpha'}\).
-  Both \(\rho\) and \(\alpha\) are unknown to the adversary and the adversary 
-  cannot choose \(c_i\).
-  The adversary needs \(\rho' = \rho - c_i' \alpha + c_i \alpha'\).
-  Let \(\rho'\) and \(c_i'\) be fixed (say 0), then we have that \(\alpha' = 
-    \rho c_i^{-1}\).
+  If the adversary \(\Commit\)s:
+  If the adversary chose \(R'\), then he knows \(\rho'\) and can compute \(s_i 
+  = \rho' - c_i \alpha'\) for all \(i\).
+  Now, the adversary must commit to one \(s_i\) before seeing the verifier's 
+  choice \(j\).
+  The probability of committing to the right one is \(\frac{1}{m}\).
+  If the adversary didn't choose \(R'\) and consequently doesn't know \(\rho\), 
+  the probability of success is \(\frac{1}{q}\) --- since he must guess 
+  \(\rho\) (\(\frac{1}{q}\)) and then guess the challenge (\(\frac{1}{m}\)) he 
+  might just as well guess the final outcome (\(\frac{1}{q}\)).
+  By design, \(m \leq q\), so \(\frac{1}{m} \geq \frac{1}{q}\).
+  The success of committing is \(\frac{1}{m}\).
+
+  If the adversary \(\Prompt\)s:
+  The verifier will check that \(R' = g^{s_i} A'^{c_i}\), where \(A'\) is the 
+  \enquote{public key}\footnote{%
+    In Schnorr's original protocol this was a public key.
+    In our more general use, it is the value for which the adversary wants to 
+    prove knowledge of a discrete logarithm.
+  } of the adversary.
+  Now, \(g^{s_i} A'^{c_i} = g^{\rho - c_i \alpha} (g^{\alpha'})^{c_i} = g^{\rho 
+  - c_i \alpha + c_i \alpha'}\).
+  If \(R' = R = g^\rho\), chosen by the prover, then the verifier will only 
+  accept if \(\alpha = \alpha'\), the probability for which is 
+  \(\frac{1}{q^2}\).
+  If \(R' = g^{\rho'}\), chosen by the adversary, then the verifier accepts 
+  with probability \(\Pr[\rho' - c_i \alpha' = \rho - c_i' \alpha] = 
+  \frac{1}{q}\).
+
+  Obviously, the better strategy for the adversary is to choose \(R' = 
+  g^{\rho'}\).
+  It's also a better strategy to \(\Commit\) (\ac{DBDF}) rather than 
+  \(\Prompt\) (\ac{DBDH}).
   We thus have that
-  \(\Adv_{\DBS}^{\text{DH}}(\adv) = \Prob{\rho' - c_i \alpha' = \rho - c_i' 
-      \alpha} = \frac{1}{q}\),
+  \(\Adv_{\DBS}^{\text{DH}}(\adv) = \frac{1}{m^n}\),
   which concludes the proof.
 \end{proof}
 
@@ -294,7 +323,7 @@ And any help will increase the probability of success of future attempts.
   Let \(\adv\) be a \((t, \qv)\)-strSimTF adversary (aided by the prover), 
   \(\S\) an algorithm with runtime \(t_{\S}\).
   If the verifier's challenges are uniformly drawn, then 
-  \(\Adv_{\DB}^{\text{TF}} = p_{\adv} - p_{\S} < \frac{1}{m^n}\).
+  \(\Adv_{\DB}^{\text{TF}} = p_{\adv} - p_{\S} < \left(\frac{2}{m}\right)^n\).
 \end{theorem}
 
 \begin{proof}
@@ -324,7 +353,6 @@ And any help will increase the probability of success of future attempts.
   This contradicts that the secret is not leaked.
   Hence, \(\epsilon < \frac{1}{m}\) or the adversary taints the session or the 
   secret leaks.
-  This makes the \ac{DBTF} advantage negligible.
 \end{proof}
 
 \subsection{\Iacs*{DBDF} resistant protocol}
