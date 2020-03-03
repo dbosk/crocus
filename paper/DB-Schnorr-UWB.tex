@@ -33,23 +33,23 @@ share a secret, and thus must be mutually trusted.
 
 We will first present our version of the \ac{DB} Schnorr protocol for the 
 mutual-trust case, where the prover and verifier have a pre-shared secret.
-Then we will adapt it by introducing \iac{AKE}.
+Then we will adapt it by introducing \iac{AKE} protocol.
 The authentication in this \ac{AKE} will leverage that our protocol is \iac{DB} 
 \ac{ZKPK} for discrete logarithms.
 If the \ac{AKE} is based on discrete logarithms we can prove the distance bound 
 while we authenticate the key.
-This allows us to embed this protocol into tamper resistant hardware to provide 
-security against malicious provers.
+This allows us to embed this protocol into tamper resistant hardware to remove 
+the mutual-trust requirement.
 
 
 \subsection{Reattempting a distance-bounding Schnorr protocol}%
 \label{DB-Schnorr}
 
-Thanks to \textcite{UWBPR} we can keep the Schnorr protocol 
-almost as is, relays (\ac{DBMF}, \ac{DBDH}) are dealt with on the physical 
-layer.
+Thanks to \textcite{UWBPR} we can keep the Schnorr protocol almost as is, since 
+relays (\ac{DBMF}, \ac{DBDH}) are dealt with on the physical layer.
+\Ac{DBDF} is not a concern either, since the prover is trusted.
 The only concern, for now, is \acl{DBTF}.
-(We deal with \acl{DBDF} later.)
+(However, we will still prove those properties, as they will be useful later.)
 
 We present the protocol in \cref{SchnorrFigure}.
 The (cyclic) group with generator \(g\) and order \(q\) are system parameters.
@@ -186,7 +186,7 @@ holds~\cite[\eg][]{OnSigmaProtocols}.
 be logarithmic in the security parameter, \(\lambda\), for a malicious 
 verifier.)
 
-\subsection{\acs*{DBMF}, \acs*{DBDH} and \acs*{DBTF} resistance}
+\subsection{\acs*{DBMF}, \acs*{DBTF} and \acs*{DBDH} resistance}
 
 The intuition behind the protocol security is as follows.
 The prover must know the responses for all challenges to successfully pass the 
@@ -235,6 +235,49 @@ Thus, any relaying will be detected, \ie this justifies \cref{TaintedMF}.
   The total success probability is \(\frac{1}{m} + \frac{1}{q}\) per round, 
   thus \(\left(\frac{1}{m}+\frac{1}{q}\right)^n\) in total per protocol 
   session.
+\end{proof}
+
+\paragraph{\Acl{DBTF}}
+
+The protocol is \ac{DBTF} resistant.
+Indeed, if the malicious prover gives more than one response to the accomplice, 
+the accomplice can compute the secret key and, thus, impersonate forever.
+And any help will increase the probability of success of future attempts.
+
+\begin{theorem}[\acs*{DBTF} resistance]
+  Let \(\adv\) be a \((t, \qv)\)-strSimTF adversary (aided by the prover), 
+  \(\S\) an algorithm with runtime \(t_{\S}\).
+  If the verifier's challenges are uniformly drawn, then 
+  \(\Adv_{\DB}^{\text{TF}} = p_{\adv} - p_{\S} < \left(\frac{2}{m}\right)^n\).
+\end{theorem}
+
+\begin{proof}
+  Assume that the adversary~\(\adv\) can authenticate with the prover's help 
+  with probability~\(p_{\adv}\) non-negligibly better than guessing (\(p_{\adv} 
+  = \frac{1}{m}+\epsilon, \epsilon\) non-negligible), without tainting the 
+  session (\cref{TaintedTF}) and leaking the secret~\(\alpha\).
+  Say that \(\adv\) has successfully authenticated with the prover's help and 
+  \(\S\) is given \(\adv\)'s state.
+
+  Now \(\S\) will use \(\adv\) in a simulation.
+  \(\S\) will rewind \(\adv\) to just before \(\adv\) received the challenge.
+  Since the challenge is chosen uniformly randomly by the verifier, \(\S\) will 
+  choose another challenge different from before.
+  Since \(\adv\) cannot perform a relay to the prover without tainting the 
+  session (\cref{TaintedTF}) and each challenge is uniformly random, the help 
+  provided by the prover must be independent from the chosen challenge.
+  Now \(\adv\) will again provide a correct response with 
+  probability~\(p_{\adv}\).
+
+  However, since there are \(m\) challenges, \(\S\) can probabilistically extract 
+  \(m p_{\adv}\) responses.
+  Once \(m p_{\adv} \geq 2\), \(\S\) can compute the secret~\(\alpha\) from two 
+  correct responses and, thus, \(p_{\S} = 1\) for any successive 
+  authentication.
+  This would also make \(p_{\adv} = 1\).
+  This contradicts that the secret is not leaked.
+  Hence, \(\epsilon < \frac{1}{m}\) or the adversary taints the session or the 
+  secret leaks.
 \end{proof}
 
 \paragraph{\Acl{DBDH}}
@@ -311,57 +354,15 @@ for the chosen challenge --- in each round.
   which concludes the proof.
 \end{proof}
 
-\paragraph{\Acl{DBTF}}
 
-The last property is \ac{DBTF}.
-The protocol is \ac{DBTF} resistant.
-Indeed, if the malicious prover gives more than one response to the accomplice, 
-the accomplice can compute the secret key and, thus, impersonate forever.
-And any help will increase the probability of success of future attempts.
-
-\begin{theorem}[\acs*{DBTF} resistance]
-  Let \(\adv\) be a \((t, \qv)\)-strSimTF adversary (aided by the prover), 
-  \(\S\) an algorithm with runtime \(t_{\S}\).
-  If the verifier's challenges are uniformly drawn, then 
-  \(\Adv_{\DB}^{\text{TF}} = p_{\adv} - p_{\S} < \left(\frac{2}{m}\right)^n\).
-\end{theorem}
-
-\begin{proof}
-  Assume that the adversary~\(\adv\) can authenticate with the prover's help 
-  with probability~\(p_{\adv}\) non-negligibly better than guessing (\(p_{\adv} 
-  = \frac{1}{m}+\epsilon, \epsilon\) non-negligible), without tainting the 
-  session (\cref{TaintedTF}) and leaking the secret~\(\alpha\).
-  Say that \(\adv\) has successfully authenticated with the prover's help and 
-  \(\S\) is given \(\adv\)'s state.
-
-  Now \(\S\) will use \(\adv\) in a simulation.
-  \(\S\) will rewind \(\adv\) to just before \(\adv\) received the challenge.
-  Since the challenge is chosen uniformly randomly by the verifier, \(\S\) will 
-  choose another challenge different from before.
-  Since \(\adv\) cannot perform a relay to the prover without tainting the 
-  session (\cref{TaintedTF}) and each challenge is uniformly random, the help 
-  provided by the prover must be independent from the chosen challenge.
-  Now \(\adv\) will again provide a correct response with 
-  probability~\(p_{\adv}\).
-
-  However, since there are \(m\) challenges, \(\S\) can probabilistically extract 
-  \(m p_{\adv}\) responses.
-  Once \(m p_{\adv} \geq 2\), \(\S\) can compute the secret~\(\alpha\) from two 
-  correct responses and, thus, \(p_{\S} = 1\) for any successive 
-  authentication.
-  This would also make \(p_{\adv} = 1\).
-  This contradicts that the secret is not leaked.
-  Hence, \(\epsilon < \frac{1}{m}\) or the adversary taints the session or the 
-  secret leaks.
-\end{proof}
-
-\subsection{\Iacs*{DBDF} resistant protocol}
+\subsection{From mutual trust to \acs*{PKI}}
 
 \Acl{DB} protocols requires hardware implementations.
-We will use a trusted hardware implementation to overcome the limitation of 
-\textcite{UWBPR}, \ie that the prover and verifier be mutually trusted.
+We will use a \emph{trusted} hardware implementation to overcome the limitation 
+of \textcite{UWBPR}, \ie that the prover and verifier must be mutually trusted.
 We will need \iac{PKI} for the verifier to verify the trusted hardware.
-We will leverage this \ac{PKI} to overcome the shared-key requirement.
+We will leverage this \ac{PKI} to overcome the shared-key requirement to allow 
+any two devices in this \ac{PKI} to perform \acl{DB}.
 With \iac{PKI} based on discrete logarithms we will be able to perform \iac{DB} 
 \ac{ZKPK} which \emph{simultaneously} proves
 \begin{enumerate*}
