@@ -188,7 +188,10 @@ With \iac{PKI} based on discrete logarithms we will be able to perform \iac{DB}
 
 We will now introduce an extended protocol, \(\DBSHW\), which represents the 
 secure hardware implementation.
-The \ac{PKI} is based on CL04~\cite{CLsignatures} signatures.
+The \ac{PKI} is based on CL04~\cite{CLsignatures} signatures and is a 
+simplified version of the Direct Anonymous Attestation 
+protocol~\cite{DirectAnonymousAttestation} standardized by the Trusted 
+Computing Group for \acp{TPM}.
 \Cref{DBSHW-overview} presents an overview.
 
 \begin{figure*}
@@ -213,14 +216,19 @@ The \ac{PKI} is based on CL04~\cite{CLsignatures} signatures.
 
     \(x\rgets \ZZ_q\)
     & \(\ProtoSendRight{g^x}\)
-    & \(k \gets \pk_P^{\sk_V}\)
+    &
     \\
 
-    \(k \gets \pk_V^{\sk_P}\)
-    & \(\ProtoSendLeft{\pk_V}\)
-    & \(\pk_V\)
+    %\(k \gets (g^y)^x\)
+    & \(\ProtoSendLeft{g^y}\)
+    & \(y\rgets \ZZ_q\)
     \\
 
+
+    \(k \gets (g^y)^x\)
+    &
+    & \(k \gets (g^{x})^y\)
+    \\
 
     \midrule
     \multicolumn{3}{c}{\textbf{Setup}} \\
