@@ -555,18 +555,3 @@ To prevent this possibility we include a proof of knowledge of the device's
 private key~\(\sk_P\), \ie that \(\pk_P = \hat g^{\sk_P}\).
 This way, an accomplice can only pass if he is given both \(k\) and \(\sk_P\).
 
-
-\subsection{Formal verification}
-
-We formally verified these properties with Tamarin~\cite{meier2013tamarin}.
-Thanks to recent work by \textcite{TamarinDB}, all the common properties for 
-\ac{DB} protocols (except \ac{DBTF}) can be characterized with a 
-causality-based definition relying only on the order of messages.
-The whole Tamarin specification for our protocol is provided in 
-\cref{apdx:tamarin-spec}, with a short discussion of the modeling choices that 
-we have made.
-It contains a specification of the distance-bounding protocol described 
-previously, a definition of the soundness and correctness properties that 
-ensure the protocol actually produces the expected result, and a definition of 
-the security properties we want to ensure.
-
