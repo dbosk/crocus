@@ -33,13 +33,13 @@ share a secret, and thus must be mutually trusted.
 
 We will first present our version of the \ac{DB} Schnorr protocol for the 
 mutual-trust case, where the prover and verifier have a pre-shared secret.
-Then we will adapt it by introducing \iac{AKE} protocol.
-The authentication in this \ac{AKE} will leverage that our protocol is \iac{DB} 
-\ac{ZKPK} for discrete logarithms.
-If the \ac{AKE} is based on discrete logarithms we can prove the distance bound 
+Then we will adapt it by introducing \iac{PKI}.
+We will use this \ac{PKI} to create \iac{AKE} which leverages that our protocol 
+is \iac{DB} \ac{ZKPK} for discrete logarithms.
+If the \ac{PKI} is based on discrete logarithms we can prove the distance bound 
 while we authenticate the key.
-This allows us to embed this protocol into tamper resistant hardware to remove 
-the mutual-trust requirement.
+This turns the mutual-trust by shared-key into mutual trust by 
+\ac{PKI}.
 
 
 \subsection{Reattempting a distance-bounding Schnorr protocol}%
@@ -167,193 +167,6 @@ that the time of flight was within \(t_{\max}\) (determined from the allowed
   distance).
 
 This protocol must be repeated \(n\) times.
-
-\subsection{From mutual trust to \acs*{PKI}}
-
-All \acl{DB} protocols requires hardware 
-implementations~\cite{DBonSmartphones}.
-We will use a \emph{trusted} hardware implementation to overcome the limitation 
-of \textcite{UWBPR}, \ie that the prover and verifier must be mutually trusted.
-We will need \iac{PKI} for the verifier to verify the trusted hardware.
-We will leverage this \ac{PKI} to overcome the shared-key requirement to allow 
-any two devices in this \ac{PKI} to perform \acl{DB}.
-With \iac{PKI} based on discrete logarithms we will be able to perform \iac{DB} 
-\ac{ZKPK} which \emph{simultaneously} proves
-\begin{enumerate*}
-\item that the protocol is run by trusted hardware,
-\item that that trusted hardware is within proximity,
-\item that some \ac{ZKPK} statement about some discrete logarithms holds, and
-\item that that knowledge is within proximity.
-\end{enumerate*}
-
-We will now introduce an extended protocol, \(\DBSHW\), which represents the 
-secure hardware implementation.
-The \ac{PKI} is based on CL04~\cite{CLsignatures} signatures and is a 
-simplified version of the Direct Anonymous Attestation 
-protocol~\cite{DirectAnonymousAttestation} standardized by the Trusted 
-Computing Group for \acp{TPM}.
-\Cref{DBSHW-overview} presents an overview.
-
-\begin{figure*}
-  \centering
-  \small
-  \setlength{\ProtoArrowLength}{0.07\linewidth}
-  \begin{tabular}{p{0.40\linewidth}cp{0.40\linewidth}}
-    \(\HWprove[g, q, \alpha]\):
-    & &
-    \(\HWverify[g, q, A]\):
-    \\
-    \midrule
-
-    \multicolumn{2}{l}{%
-      Static \(\hat g, \hat q, \sk_P\in \ZZ_q, \pk_P = \hat g^{\sk_P}, \sigma\)
-    }
-    & Static \(\hat g, \hat q\)
-    \\
-
-    \midrule
-    \multicolumn{3}{c}{\textbf{Pre-setup, authenticated key agreement}} \\
-
-    \(x\rgets \ZZ_q\)
-    & \(\ProtoSendRight{g^x}\)
-    &
-    \\
-
-    %\(k \gets (g^y)^x\)
-    & \(\ProtoSendLeft{g^y}\)
-    & \(y\rgets \ZZ_q\)
-    \\
-
-
-    \(k \gets (g^y)^x\)
-    &
-    & \(k \gets (g^{x})^y\)
-    \\
-
-    \midrule
-    \multicolumn{3}{c}{\textbf{Setup}} \\
-
-    Load \(k\) into \(\UWBPR\)
-    &
-    & Load \(k\) into \(\UWBPR\)
-    \\
-
-    \(\rho, \hat\rho \rgets \ZZ_q, R\gets g^{\rho}, \hat R\gets g^{\hat\rho}\)
-    & \(\ProtoSendRight{R, \hat R}\)
-    & \(\hat A\gets \pk_P\)
-    \\
-
-    \(s_1\gets \rho - c_1\alpha \pmod q\)
-    & \(\ProtoSendLeft{c_1, \dotsc, c_k}\)
-    & \(c_1\rgets \bin^l, \dotsc, c_m\rgets \bin^l\)
-    \\
-
-    \(\hat s_1\gets \hat\rho - c_1\sk_P \pmod q\)
-    &
-    &
-    \\
-
-    \vdots
-    &
-    &
-    \\[-1em]
-
-    \(s_m\gets \rho - c_m\alpha \pmod q\)
-    &
-    &
-    \\
-
-    \(\hat s_m\gets \hat\rho - c_m\sk_P \pmod q\)
-    &
-    &
-    \\
-
-    \midrule
-    \multicolumn{3}{c}{\textbf{Distance-bounding}} \\
-
-    \text{Ready}
-    & \ProtoSendRight{\text{Ready}}
-    & \\
-
-    % null
-    & \(\ProtoSendLeft{i}\)
-    & \(i\rgets \{1, \dotsc, m\}\), start clock
-    \\
-
-    Fetch \(s_i, \hat s_i\)
-    & \(\ProtoSendRight{s_i, \hat s_i}\)
-    & Stop clock, record \(\Delta t\)
-    \\
-
-    \midrule
-    \multicolumn{3}{c}{\textbf{Verification}}
-    \\
-
-    % null
-    &
-    & Accept if \(R = A^{c_i} g^{s_i}\),
-      \(\hat R =  \hat A^{c_i} \hat g^{\hat s_i}\) and
-      \(\Delta t < t_{\max}\).
-    \\
-    
-  \end{tabular}
-  \caption{%
-    One-round protocol instance of the \(\DBSHW\) protocol instantiating 
-    \(\PK[\alpha][A = g^\alpha]\).
-    Each transmission (arrow in the diagram) uses \(\UWBPR\).
-    The protocol actually proves \(\PK[\alpha, \sk_P][A = g^\alpha \land
-      \hat A = \hat g^{\sk_P}]\).
-    This is for the device to prove knowledge of the key~\(\sk_P\) to prevent 
-    \ac{DBTF}.
-    The protocol should be repeated \(n\) times to achieve the desired 
-    soundness and distance-bounding errors.
-  }%
-  \label{DBSHW-overview}
-\end{figure*}
-
-The \(\DBSHW\) secure hardware device must contain a (static) private 
-key~\(\sk_P\) for the prover with a digital certificate~\(\cert_P\) (and 
-\(\cert_V\)) for the public key~\(\pk_P\) (and \(\pk_V\)).
-
-\paragraph*{Pre-setup}
-
-The pre-setup phase consists of an authenticated key agreement.
-We use the static \ac{DHKE} to simplify the explanation, any authenticated key 
-agreement protocol based on discrete logarithms can be used.
-The prover and verifier exchange certificates, \(\cert_P\) and \(\cert_V\), and 
-compute the agreed key~\(k = \pk_V^{\sk_P} = \pk_P^{\sk_V}\).
-If the prover's certificate is invalid, the protocol aborts.
-
-\paragraph*{Setup}
-
-The setup phase is similar to \(\DBS\) (\cref{SchnorrFigure}).
-\(\DBS\) performs \(\PK[\alpha][A = g^\alpha]\) whereas \(\DBSHW\) must perform 
-\(\PK[\alpha, \sk_P][\hat A = g^\alpha \land \hat g^{\sk_P}]\).
-They use the agreed upon key~\(k\) as the key for \(\UWBPR\).
-
-The prover chooses \(\rho, \hat\rho\rgets \ZZ_q\) and computes \(R\gets 
-  g^\rho\) and \(\hat R\gets \hat g^{\hat\rho}\).
-The verifier computes \(\hat A\gets \pk_P\).
-
-The verifier chooses \(m\) challenges of length \(l\), \(c_1\rgets \bin^l, 
-  \dotsc, c_m\gets \bin^l\), and sends these to the prover.
-The prover computes responses~\(s_i\gets \rho - c_i\alpha\) and \(\hat s\gets 
-  \hat\rho - c_i\sk_P\) for \(i\in \{1, \dotsc, m\}\).
-
-\paragraph*{Distance bounding}
-
-The verifier decides which of the \(m\) challenges to use, \(i\rgets \{1, 
-  \dotsc, m\}\), sends its decision~\(i\) to the prover and starts its clock.
-The prover instantly replies with the pre-computed \(s_i, \hat s_i\).
-Note that \(s_i, \hat s_i\) must be sent as a concatenation in \emph{one} 
-\(\UWBPR\) reply.
-The verifier stops the clock and records the round-trip time~\(\Delta t\).
-
-\paragraph*{Verification}
-
-The verifier checks if \(R = \hat A^{c_i} g^{s_i}\) and that \(\hat R =
-  \hat g^{\hat s_i}\) and that the round-trip time \(\Delta t < t_{\max}\) does 
-not exceed the limit~\(t_{\max}\).
 
 
 \subsection{\Acl*{ZK} and \acl*{PK}}\label{UWB-ZKPK}
@@ -543,23 +356,242 @@ for the chosen challenge --- in each round.
 \end{proof}
 
 
-\subsection{\acs*{DBDF} resistance}
+\subsection{From mutual trust to \acs*{PKI}}
 
-This protocol uses the \ac{DBMF} resistance of \(\DBS\) to ensure \ac{DBDF} 
-resistance against a malicious prover.
-The trusted hardware uses the authenticated key agreement to establish the 
-shared secret \(k\), thus a verifier prevents a malicious prover from learning 
-\(k\) --- the main limit of~\cite{UWBPR}.
+All \acl{DB} protocols requires hardware 
+implementations~\cite{DBonSmartphones}.
+We will use a \emph{trusted} hardware implementation to overcome the limitation 
+of \textcite{UWBPR}, \ie that the prover and verifier must be mutually trusted.
+We will need \iac{PKI} for the verifier to verify the trusted hardware.
+We will leverage this \ac{PKI} to overcome the shared-key requirement to allow 
+any two devices in this \ac{PKI} to perform \acl{DB}.
+With \iac{PKI} based on discrete logarithms we will be able to perform \iac{DB} 
+\ac{ZKPK} which \emph{simultaneously} proves
+\begin{enumerate*}
+\item that the protocol is run by trusted hardware,
+\item that that trusted hardware is within proximity,
+\item that some \ac{ZKPK} statement about some discrete logarithms holds, and
+\item that that knowledge is within proximity.
+\end{enumerate*}
 
-The hardware device (\DBSHW) could commit \ac{DBTF}\footnote{%
-  Arguably, this should not be an issue since the device is trusted.
-  However, we include this construction because it is a neat way to provide 
-  \ac{DBTF} resistance for this part of the protocol as well.
-  To not have this feature, one simply adds the authenticated key exchange step 
-  to \cref{SchnorrFigure}.
-} by giving the key~\(k\) to a malicious prover --- this would allow that 
-prover to authenticate once.
-To prevent this possibility we include a proof of knowledge of the device's 
-private key~\(\sk_P\), \ie that \(\pk_P = \hat g^{\sk_P}\).
-This way, an accomplice can only pass if he is given both \(k\) and \(\sk_P\).
+We will now introduce an extended protocol, \(\DBSHW\), which represents the 
+secure hardware implementation.
+\Cref{DBSHW-overview} presents an overview of our protocol.
+For simplicity of exposition, we present a \ac{PKI} based on plain 
+CL04~\cite{CLsignatures} signatures.
+However, CL04 is the base for the \ac{DAA} protocol, which is used for 
+\ac{TPM}, so our approach can make \ac{DAA} \acl{DB}.
+
+In summary, the difference is as follows.
+\(\DBS\) has a shared key~\(k\) and performs \(
+  \PK[\alpha][A = g^\alpha]
+\) with a distance bound.
+\(\DBSHW\) first runs \iac{DHKE} to establish the shared key~\(k =
+\hat g^{xy}\) from \(X = \hat g^x, Y = \hat g^y\), then performs \[
+  \PK[\alpha, x, \sk_P, \sigma][
+    A = g^\alpha \land
+    X = \hat g^x \land
+    \Blind[\sigma] = \Sign[_\sk][\sk_P]
+  ],
+\] also with a distance bound; where \(\sk_P\) is the prover's private key, 
+\(\sigma\) is a signature issued with signing key~\(sk\) and \(\Blind\) 
+reblinds a signature.
+Proving knowledge of \(x\) prevents any \ac{MITM} attack against the \ac{DHKE}.
+Proving knowledge of a signature~\(\sigma\) by \iac{CA} on the private 
+key~\(\sk_P\) ensures that the prover is a device in the \ac{PKI} of the 
+\ac{CA}.
+
+\Cref{DBSHW-overview} provides an overview.
+
+\begin{figure*}
+  \centering
+  \small
+  \setlength{\ProtoArrowLength}{0.07\linewidth}
+  \begin{tabular}{p{0.40\linewidth}cp{0.40\linewidth}}
+    \(\HWprove[g, q, \alpha]\):
+    & &
+    \(\HWverify[g, q, A]\):
+    \\
+    \midrule
+
+    \multicolumn{2}{l}{%
+      Static \(\sk_P\in \ZZ_q, \sigma = (a, A, b, B, c)\)
+    }
+    & Static \(\pk\)
+    \\
+
+    \midrule
+    \multicolumn{3}{c}{\textbf{Pre-setup key-agreement}} \\
+
+    \(x\rgets \ZZ_q\)
+    & \(\ProtoSendRight{g^x}\)
+    & \(y\rgets \ZZ_q\)
+    \\
+
+    \(k \gets (g^y)^x\)
+    & \(\ProtoSendLeft{g^y}\)
+    & \(k \gets (g^{x})^y\)
+    \\
+
+    \midrule
+    \multicolumn{3}{c}{\textbf{Setup}} \\
+
+    Load \(k\) into \(\UWBPR\)
+    &
+    & Load \(k\) into \(\UWBPR\)
+    \\
+
+    \(\rho, \hat\rho \rgets \ZZ_q, R\gets g^{\rho}, \hat R\gets g^{\hat\rho}\)
+    & \(\ProtoSendRight{R, \hat R}\)
+    & \(\hat A\gets g^x\)
+    \\
+
+    \(s_1\gets \rho - c_1\alpha \pmod q\)
+    & \(\ProtoSendLeft{c_1, \dotsc, c_k}\)
+    & \(c_1\rgets \bin^l, \dotsc, c_m\rgets \bin^l\)
+    \\
+
+    \(\hat s_1\gets \hat\rho - c_1 x \pmod q\)
+    &
+    &
+    \\
+
+    \vdots
+    &
+    &
+    \\[-1em]
+
+    \(s_m\gets \rho - c_m\alpha \pmod q\)
+    &
+    &
+    \\
+
+    \(\hat s_m\gets \hat\rho - c_m x \pmod q\)
+    &
+    &
+    \\
+
+    \midrule
+    \multicolumn{3}{c}{\textbf{Distance-bounding}} \\
+
+    \text{Ready}
+    & \ProtoSendRight{\text{Ready}}
+    & \\
+
+    % null
+    & \(\ProtoSendLeft{i}\)
+    & \(i\rgets \{1, \dotsc, m\}\), start clock
+    \\
+
+    Fetch \(s_i, \hat s_i\)
+    & \(\ProtoSendRight{s_i, \hat s_i}\)
+    & Stop clock, record \(\Delta t\)
+    \\
+
+    \midrule
+    \multicolumn{3}{c}{\textbf{Verification}}
+    \\
+
+    % null
+    &
+    & Accept if \(R = A^{c_i} g^{s_i}\),
+      \(\hat R =  \hat A^{c_i} \hat g^{\hat s_i}\) and
+      \(\Delta t < t_{\max}\).
+    \\
+    
+  \end{tabular}
+  \caption{%
+    One-round protocol instance of the \(\DBSHW\) protocol instantiating 
+    \(\PK[\alpha][A = g^\alpha]\).
+    Each transmission (arrow in the diagram) uses \(\UWBPR\) (except in the 
+    pre-setup phase).
+    The protocol actually proves \(\PK[\alpha, x][A = g^\alpha \land
+      \hat A = \hat g^x]\).
+    This is ties \(x\), and consequently \(k\), to \(\alpha\).
+    The protocol (setup, distance-bounding and verification phases) should be 
+    repeated \(n\) times to achieve the desired soundness and distance-bounding 
+    errors.
+  }%
+  \label{DBSHW-overview}
+\end{figure*}
+
+\paragraph*{One-time initialization}
+
+The prover's \(\DBSHW\) device must be initialized with a (static) private 
+key~\(\sk_P\) and a signature~\(\sigma\) on that key by some \ac{CA} with 
+public key~\(\pk\) and signing key~\(\sk\).
+These are computed as follows~\cite[cf.][Sect.~4.2]{CLsignatures}.
+
+We have public parameters \(q, G, g, \G, \g, e\); where \(e\colon G\times G\to 
+\G\) is a bilinear map, \(g\in G\) and \(\g\in \G\) are generators of prime 
+order \(q\) (hence \(e(g, g) = \g\)).
+
+We let the \acg{CA} signing key be \(\sk = (x, y, z)\rgets \ZZ_q^3\) and the 
+public key be \(\pk = (q, G, \G, g, \g, e, X, Y, Z)\), where \(X = g^x, Y = 
+g^y, Z = g^z\).
+
+The prover chooses \(\sk_P\rgets \ZZ_q\) and computes a commitment \(M = 
+g^{\sk_P} Z^r\), where \(r\rgets \ZZ_q\).
+Now the prover convinces the \ac{CA} that he knows the key by running the 
+following \ac{ZKPK} protocol: \(
+  \PK[\sk_P, r][M = g^{\sk_P} Z^r].
+\)
+
+Now the \ac{CA} computes the signature~\(\sigma = (a, A, b, B, c)\), where
+\begin{itemize}
+  \item \(a\gets g^\alpha\), where \(\alpha\rgets \ZZ_q\),
+  \item \(A\gets g^z, b\gets a^y, B\gets A^y\),
+  \item \(c\gets a^x M^{\alpha x y}\).
+\end{itemize}
+and gives to the prover.
+
+\paragraph*{Pre-setup key-agreement}
+
+The pre-setup phase consists of a key agreement, the prover and verifier must 
+agree on a shared key~\(k\) to use for the \(\UWBPR\) protocol on the physical 
+layer.
+
+To establish \(k\), we use the \ac{DHKE}.
+The prover chooses \(x\rgets \ZZ_q\), the verifier chooses \(y\rgets \ZZ_q\) 
+and they exchange \(X = \hat g^x, Y = \hat g^y\) and both compute
+\(k = \hat g^{xy}\), for some generator \(\hat g\) in \iac{DH} group of prime 
+order \(q\).
+
+We will see later that if the adversary attempted \iac{MITM} attack, our 
+\(\DBSHW\) protocol will detect this, because the adversary will fail 
+\iac{ZKPK}.
+
+\paragraph*{Setup}
+
+The setup phase is similar to \(\DBS\) (\cref{SchnorrFigure}).
+They use the agreed upon key~\(k = g^{xy}\) as the key for \(\UWBPR\).
+\(\DBS\) performs \(
+  \PK[\alpha][A = g^\alpha]
+\) (with a distance bound) whereas \(\DBSHW\) must perform \(
+  \PK[\alpha, x][\hat A = g^\alpha \land X = \hat g^x]
+\) (also with a distance bound).
+
+The prover chooses \(\rho, \hat\rho\rgets \ZZ_q\) and computes \(R\gets 
+  g^\rho\) and \(\hat R\gets \hat g^{\hat\rho}\).
+The verifier computes \(\hat A\gets \pk_P\).
+
+The verifier chooses \(m\) challenges of length \(l\), \(c_1\rgets \bin^l, 
+  \dotsc, c_m\gets \bin^l\), and sends these to the prover.
+The prover computes responses~\(s_i\gets \rho - c_i\alpha\) and \(\hat s\gets 
+  \hat\rho - c_i\sk_P\) for \(i\in \{1, \dotsc, m\}\).
+
+\paragraph*{Distance bounding}
+
+The verifier decides which of the \(m\) challenges to use, \(i\rgets \{1, 
+  \dotsc, m\}\), sends its decision~\(i\) to the prover and starts its clock.
+The prover instantly replies with the pre-computed \(s_i, \hat s_i\).
+Note that \(s_i, \hat s_i\) must be sent as a concatenation in \emph{one} 
+\(\UWBPR\) reply.
+The verifier stops the clock and records the round-trip time~\(\Delta t\).
+
+\paragraph*{Verification}
+
+The verifier checks if \(R = \hat A^{c_i} g^{s_i}\) and that \(\hat R =
+  \hat g^{\hat s_i}\) and that the round-trip time \(\Delta t < t_{\max}\) does 
+not exceed the limit~\(t_{\max}\).
 
