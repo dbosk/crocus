@@ -51,7 +51,7 @@ relays (\ac{DBMF}, \ac{DBDH}) are dealt with on the physical layer.
 The only concern, for now, is \acl{DBTF}.
 (However, we will still prove those properties, as they will be useful later.)
 
-We present the protocol in \cref{SchnorrFigure}.
+We present the protocol in \cref{DB-Schnorr-UWB-figure}.
 The (cyclic) group with generator \(g\) and order \(q\) are system parameters.
 The private key \(\alpha\) with public key \(A = g^\alpha\) are generated once by the prover in the setup phase.
 Let \(\UWBPR\) be the protocol of \textcite{UWBPR}.
@@ -139,7 +139,7 @@ and \(\UWBPRrecv\) operations.
     The protocol should be repeated \(n\) times to achieve the desired 
     soundness and distance-bounding errors.
   }%
-  \label{SchnorrFigure}
+  \label{DB-Schnorr-UWB-figure}
 \end{figure*}
 
 During one round, in the setup phase, the prover commits to a random nonce: 
@@ -662,7 +662,7 @@ The prover also computes \(\XDHCL\rgets \XDH^{\sk}\) and sends to the verifier.
 
 \paragraph*{Setup}
 
-The setup phase is similar to \(\DBS\) (\cref{SchnorrFigure}).
+The setup phase is similar to \(\DBS\) (\cref{DB-Schnorr-UWB-figure}).
 They use the agreed upon key~\(k = \gDH^{\xDH \yDH}\) as the key for 
 \(\UWBPR\), instead of a static \(k\).
 \(\DBS\) performs \(
