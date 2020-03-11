@@ -753,8 +753,8 @@ There are two questions we must answer about this protocol:
   \item\label{DBSHW-anon} Does \(\XDHCL\) break anonymity?
 \end{enumerate}
 
-To answer the first question, by \textcite{Camenisch-phdthesis}, the above 
-protocol is \iac{ZKPK}.
+To answer the first question,
+by \textcite{Camenisch-phdthesis}, the above protocol is \iac{ZKPK}.
 In the case of \iac{MITM}, the prover will run the protocol using \(\XDH\) and 
 \(\sk\), while the verifier will use \(\XDH'\), possibly modified by the 
 adversary.
@@ -766,6 +766,7 @@ In one subprotocol, the prover will prove knowledge of \(\XDH^{\sk}\).
 If \(\XDH' \neq \XDH\) used by the verifier is wrong, then by soundness the 
 proof will fail.
 
+To answer the second question,
 \(\XDHCL = \XDH^{\sk}\) is simply a representation of \(\sk\) in a randomly 
 chosen base~\(\XDH\).
 If an adversary can use this to tell one device from another, then the 
