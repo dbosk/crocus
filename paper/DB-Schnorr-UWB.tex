@@ -774,7 +774,8 @@ Consider the following reduction.
 
 Assume that \(\adv\) can tell \(\XDH^{\sk}\) from \(\XDH^{\sk'}\) with 
 probability \(\frac{1}{2} + \epsilon\) (\ie \(\epsilon\) better than guessing).
-We get the \ac{DDH} challenge tuple \(g, X = g^x, Y = g^y, Z = g^z\).
+We get the \ac{DDH} challenge tuple \(g, X = g^x, Y = g^y, Z = g^z\) and must 
+decide if \(Z = g^{xy}\) or not.
 Give \(g, R_i = g^{r_i}\) and \(X^{r_i}\) to the adversary, for \(1\leq i\leq 
 n\).
 Finally, give the adversary the challenge \(g, Y, Z\).
