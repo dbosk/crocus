@@ -327,6 +327,45 @@ the hardness of finding discrete logarithms.
 As mentioned above, both \(l\) and \(k\) are logarithmic in the security 
 parameter.
 
+\subsection{\Acl*{ZK} and \acl*{PK}}\label{UWB-ZKPK}
+
+The main difference between this protocol and the Schnorr protocol is that we 
+have the prover compute responses for two different challenges, \(c_0, c_1\).
+In the authentication step, the verifier chooses only one of those challenges.
+However, the verifier requests all \(|q|\) bits of \(s_b\) and \(l\) bits of 
+\(s_{1-b}\).
+
+This is \iacl{PK}:
+Completeness and soundness follows from the Schnorr protocol.
+The knowledge extractor works exactly the same.
+It does not matter that the verifier first chooses two challenges and later 
+reveals which one to use and the prover sends the response bit-by-bit.
+
+This is \emph{computational} \acl{ZK}:
+The simulator chooses \[
+  s_0, s_1\rgets \ZZ_q; \quad
+  c_0, c_1\rgets \bin^k; \quad
+  b\rgets \bin.
+\]
+Then it can set \[
+  R_0\gets g^{s_0} A^{c_0}, \quad
+  R_1\gets g^{s_1} A^{c_1}.
+\]
+Now the simulator must come up with those \(l\) bits.
+\Cref{l-bit-advantage,DBSPtoDLP} say that distinguishing these bits from random 
+is as hard as the \ac{DLP}.
+So, the simulator can simply choose the \(l\) bits~\(L\rgets \bin^l\) uniformly 
+at random.
+
+The simulator outputs \(R_b, c_0, c_1, s_b, L\).
+
+%Therefore the standard proof for Schnorr as a malicious-verifier \ac{ZKPK} 
+%protocol with soundness error \(2^{-k n}\) still 
+%holds~\cite[\eg][]{OnSigmaProtocols}.
+%(We note that \(l\), which is also the length of the challenge bit string, must 
+%be logarithmic in the security parameter, \(\lambda\), for a malicious 
+%verifier.)
+
 \subsection{Formal Verification}
 
 We wanted to formally verify the protocol security properties. To realize this, 
