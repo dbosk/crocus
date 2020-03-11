@@ -366,6 +366,45 @@ The simulator outputs \(R_b, c_0, c_1, s_b, L\).
 %be logarithmic in the security parameter, \(\lambda\), for a malicious 
 %verifier.)
 
+\subsection{\acs*{DBMF}, \acs*{DBTF} and \acs*{DBDH} resistance}
+
+\paragraph{\Acl{DBMF}}
+
+In \ac{DBMF}, the adversary will try to authenticate to a verifier by querying 
+a far-away prover.
+By \cref{TaintedMF}, pure relaying will be detected by the verifier.
+So the adversary must resort to things like querying in advance \etc.
+
+\begin{theorem}[\acs*{DBMF} resistance]
+  Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-MF adversary, then 
+  \(\Adv_{\DBS}^{\text{MF}}(\adv) = \frac{1}{2^n}\), where \(m, q\) are as in 
+  \cref{DB-Schnorr}.
+\end{theorem}
+
+\begin{proof}
+  It follows from the \ac{ZK} property (\cref{UWB-ZKPK}) that the adversary 
+  cannot learn anything by observation.
+  This leaves the adversary with two options:
+  \begin{enumerate}
+  \item guess which challenge the verifier will use and request the correct 
+    response from the prover, receiving the challenge first would taint the 
+    session (\cref{TaintedMF});
+  \item guess the response.
+  \end{enumerate}
+
+  The first option yields success with probability \(\frac{1}{2}\), since the 
+  choice is uniformly distributed over the two challenges.
+
+  The second option yields a lower success probability:
+  Assume that each bit reveals some information about the future bits.
+  The first bit must still be guessed, this is yields a probability of \emph{at 
+  most} \(\frac{1}{2}\).
+
+  The best strategy is to guess which challenge the verifier will select.
+  Thus, the success probability is \(\frac{1}{2}\) per round, or 
+  \(\frac{1}{2^n}\) in total.
+\end{proof}
+
 \subsection{Formal Verification}
 
 We wanted to formally verify the protocol security properties. To realize this, 
