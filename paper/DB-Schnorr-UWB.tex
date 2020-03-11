@@ -392,13 +392,14 @@ performs \[
   \PK[\alpha, \xDH, \sk_P, \sigma][
     A = g^\alpha \land
     \XDH = \gDH^{\xDH} \land
+    \XDHCL = \XDH^{\sk} \land
     \Blind[\sigma] = \Sign[_{\sk}][\sk_P]
   ],
 \] also with a distance bound; where \(\sk_P\) is the prover's private key, 
 \(\sigma\) is a signature issued with signing key~\(\sk\) and \(\Blind\) 
 reblinds a signature.
-Proving knowledge of \(\xDH\) prevents any \ac{MITM} attack against the 
-\ac{DHKE}.
+Proving knowledge of \(\XDH = \gDH^{\xDH}\) and \(\XDHCL = \XDH^{\sk}\) 
+prevents any \ac{MITM} attack against the \ac{DHKE}.
 Proving knowledge of a signature~\(\sigma\) by \iac{CA} on the private 
 key~\(\sk_P\) ensures that the prover is a device in the \ac{PKI} of the 
 \ac{CA}.
@@ -430,8 +431,8 @@ for instance, CL04~\cite{CLsignatures}.
     \midrule
     \multicolumn{3}{c}{\textbf{Pre-setup key-agreement}} \\
 
-    \(\xDH\rgets \ZZ_{\qDH}\)
-    & \(\ProtoSendRight{\XDH = \gDH^{\xDH}}\)
+    \(\xDH\rgets \ZZ_{\qDH}, \XDH\gets \gDH^{\xDH}, \XDHCL\gets \XDH^{\sk}\)
+    & \(\ProtoSendRight{\XDH, \XDHCL}\)
     & \(\yDH\rgets \ZZ_{\qDH}\)
     \\
 
@@ -486,8 +487,9 @@ for instance, CL04~\cite{CLsignatures}.
 
     \(R\gets g^{\rho},
       \RDH\gets \gDH^{\rhoDH},
+      \RDHCL\gets \XDH^{\rhoCL_{\sk}},
       \RCL\gets v_s^{\rhoCL_{r'}} v_{xy}^{\rhoCL_{\sk}} V_{xy}^{\rhoCL_r}\)
-    & \(\ProtoSendRight{R, \RDH, \RCL}\)
+    & \(\ProtoSendRight{R, \RDH, \RDHCL, \RCL}\)
     &
     \\
 
@@ -561,6 +563,11 @@ for instance, CL04~\cite{CLsignatures}.
 
     % null
     &
+    & \(\RDHCL = \XDHCL^{c_i} \XDH^{\sCL_i^{(\sk)}}\),
+    \\
+
+    % null
+    &
     & \(v_x^{c_i} \RCL =
           v_s^{\sCL_i^{(r')}} v_{xy}^{\sCL_i^{(\sk)}} V_{xy}^{\sCL_i^{(r)}}\),
     \\
@@ -590,6 +597,7 @@ for instance, CL04~\cite{CLsignatures}.
       \PK[\alpha, \xDH, \sk, \sigma][
         A = g^\alpha \land
         \XDH = \gDH^{\xDH} \land
+        \XDHCL = \XDH^{\sk} \land
         \Blind[\sigma] = \Sign[_{\sk}][\sk_P]
       ].
     \)
@@ -650,6 +658,7 @@ The prover chooses \(\xDH \rgets \ZZ_{\qDH}\), the verifier chooses
 \gDH^{\yDH}\) and both compute
 \(k = \gDH^{\xDH \yDH}\), for some generator \(\gDH\) in \iac{DH} group of 
 prime order \(\qDH\).
+The prover also computes \(\XDHCL\rgets \XDH^{\sk}\) and sends to the verifier.
 
 \paragraph*{Setup}
 
@@ -693,6 +702,7 @@ The prover chooses \[
 \] computes \[
   R\gets g^\rho, \quad
   \RDH\gets \gDH^{\rhoDH}, \quad
+  \RDHCL\gets \XDH^{\rhoCL_{\sk}}, \quad
   \RCL\gets v_s^{\rhoCL_{r'}} v_{xy}^{\rhoCL_{\sk}} V_{xy}^{\rhoCL_r}
 \] and sends \(R, \RDH, \RCL\) to the verifier.
 
@@ -723,6 +733,7 @@ The verifier stops the clock and records the round-trip time~\(\Delta t\).
 The verifier checks that \[
   R = A^{c_i} g^{s_i}, \quad
   \RDH = \XDH^{c_i} g^{\sDH_i}, \quad
+  \RDHCL = \XDHCL^{c_i} \XDH^{\sCL_i^{(\sk)}}, \quad
   v_x^{c_i} \RCL = v_s^{s_{r'}} v_{xy}^{s_{\sk_P}} V_{xy}^{s_r}
 \] and that the round-trip time \(\Delta t < t_{\max}\) does not exceed the 
 time-limit~\(t_{\max}\) (corresponding to the desired distance bound).
@@ -732,3 +743,41 @@ Finally, the verifier checks the validity of \(\tilde \sigma\): \[
   e(\tilde A, \YCL) = e(\gCL, \tilde B).
 \]
 
+
+\subsection{Security analysis}
+
+There are two questions we must answer about this protocol:
+\begin{enumerate}
+  \item\label{DBSHW-MITM} Can the adversary perform \iac{MITM} attack against 
+    the \ac{DHKE}?
+  \item\label{DBSHW-anon} Does \(\XDHCL\) break anonymity?
+\end{enumerate}
+
+To answer the first question, by \textcite{Camenisch-phdthesis}, the above 
+protocol is \iac{ZKPK}.
+In the case of \iac{MITM}, the prover will run the protocol using \(\XDH\) and 
+\(\sk\), while the verifier will use \(\XDH'\), possibly modified by the 
+adversary.
+The adversary's goal is to pass as knowing \(\sk\) and its signature (to 
+impersonate real hardware).
+The \(\sk\) must be the same \(\sk\) throughout the 
+subproofs~\cite{Camenisch-phdthesis}.
+In one subprotocol, the prover will prove knowledge of \(\XDH^{\sk}\).
+If \(\XDH' \neq \XDH\) used by the verifier is wrong, then by soundness the 
+proof will fail.
+
+\(\XDHCL = \XDH^{\sk}\) is simply a representation of \(\sk\) in a randomly 
+chosen base~\(\XDH\).
+If an adversary can use this to tell one device from another, then the 
+adversary can solve the \ac{DDH} problem.
+Consider the following reduction.
+
+Assume that \(\adv\) can tell \(\XDH^{\sk}\) from \(\XDH^{\sk'}\) with 
+probability \(\frac{1}{2} + \epsilon\) (\ie \(\epsilon\) better than guessing).
+We get the \ac{DDH} challenge tuple \(g, X = g^x, Y = g^y, Z = g^z\) and must 
+decide if \(Z = g^{xy}\) or not.
+Give \(g, R_i = g^{r_i}\) and \(X^{r_i}\) to the adversary, for \(1\leq i\leq 
+n\).
+Finally, give the adversary the challenge \(g, Y, Z\).
+If the adversary recognizes \(Z\), then \(Z = g^{xy}\), and we will solve the 
+\ac{DDH} with the same advantage \(\epsilon\).
