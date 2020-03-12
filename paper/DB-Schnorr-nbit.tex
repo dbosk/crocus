@@ -376,9 +376,10 @@ By \cref{TaintedMF}, pure relaying will be detected by the verifier.
 So the adversary must resort to things like querying in advance \etc.
 
 \begin{theorem}[\acs*{DBMF} resistance]
-  Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-MF adversary, then 
-  \(\Adv_{\DBS}^{\text{MF}}(\adv) = \frac{1}{2^n}\), where \(m, q\) are as in 
-  \cref{DB-Schnorr}.
+  Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-MF adversary, then \(
+    \Adv_{\DBS}^{\text{MF}}(\adv) =
+      \left(\frac{1}{2} + \frac{1}{2^{|q|-l}}\right)^n,
+  \) where \(m, q\) are as in \cref{DB-Schnorr-nbit}.
 \end{theorem}
 
 \begin{proof}
