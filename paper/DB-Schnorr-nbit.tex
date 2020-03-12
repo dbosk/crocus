@@ -415,8 +415,73 @@ So the adversary must resort to things like querying in advance \etc.
 
   Thus, the success probability is \(\frac{1}{2}+\frac{1}{2^{|q|-l}}\) per 
   round, or \(\left(\frac{1}{2}+\frac{1}{2^{|q|-l}}\right)^n\) in total.
+\end{proof}
 
+\paragraph{\Acl{DBDH}}
 
+The protocol is also secure against distance hijacking due to the fact that the 
+authenticating bit string is used during the \ac{DB} phase.
+(Brands-Chaum used the challenge bit string, something that made their protocol 
+vulnerable.)
+\Ac{DBDH} requires that the adversary finds a collision between his response 
+and that of the honest prover.
+Thus the probability of success is equivalent to a collision for the responses 
+for the chosen challenge --- in each round.
+
+\begin{theorem}[\acs*{DBDH}/\acs*{DBDF} resistance]
+  Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-DH adversary, then 
+  \(\Adv_{DBS}^{\text{DH}}(\adv) = \frac{1}{2^n}\).
+\end{theorem}
+
+\begin{proof}
+  The honest prover will choose \(\rho\) such that \(R = g^\rho\).
+  The adversary can send his own \(R' = g^{\rho'}\) to the verifier, or let 
+  \(R' = R\) to not interfere.
+
+  The verifier will choose \(c_0, \dotsc, c_1\).
+  The honest prover will compute \(s_i = \rho - c_i \alpha\), where \(\alpha\) 
+  is his secret.
+  If the adversary chose \(R' = g^{\rho'}\), he can compute \(s_i' = \rho' - 
+  c_i \alpha'\), where \(\alpha'\) is the adversary's secret.
+  If the adversary didn't choose \(R'\), he can only guess the values for 
+  \(s_i'\).
+
+  During the fast phase, the adversary has two options:
+  for each challenge bit, the adversary can \(\Commit\) to a response bit or to 
+  \(\Prompt\) the honest prover to send a bit.
+
+  If the adversary chose \(R'\), then he knows \(\rho'\) and can compute the 
+  correct \(s_i' = \rho' - c_i \alpha'\) for \(i\in \bin\).
+  If the adversary \(\Commit\)s:
+  Now, the adversary must commit to one bit of \(s_0'\) or \(s_1'\) before 
+  seeing the verifier's choice \(b_i\).
+  He can make a guess~\(\hat b\) at the verifier's choice~\(b\).
+  Then he commits to the next bit of \(s_{\hat b}'\).
+  If the challenge~\(b_i \neq \hat b\), he will commit to the same bit for the 
+  next round.
+  If indeed \(\hat b = b\), the verifier will accept.
+  The success probability is \(\frac{1}{2}\) over all bits.
+
+  If the adversary \(\Prompt\)s:
+  The prover computed \(s_0\) and \(s_1\) using \(\rho\) and \(\alpha\).
+  However, the verifier will use \(R'\) and \(A'\) in the verification step.
+  This will succeed if \(s_b = s_b'\), the probability of which is 
+  \(\frac{1}{q}\).
+  This means that the probability of success for prompting a bit is 
+  \(\frac{1}{2}\), or \(\frac{1}{2^{|q|}}\) over all bits.
+
+  If the adversary didn't choose \(R'\) he consequently doesn't know \(\rho\) 
+  and cannot compute the correct \(s_0\) and \(s_1\).
+  Thus, committing yields \(\frac{1}{2}\) probability per bit.
+  The same applies for prompting.
+
+  Obviously, the better strategy for the adversary is to choose \(R' = 
+  g^{\rho'}\).
+  It's also a better strategy to \(\Commit\) (\ac{DBDF}) rather than 
+  \(\Prompt\) (\ac{DBDH}).
+  We thus have that
+  \(\Adv_{\DBS}^{\text{DH}}(\adv) = \frac{1}{2^n}\) for \(n\) rounds,
+  which concludes the proof.
 \end{proof}
 
 \subsection{Formal Verification}
