@@ -417,6 +417,21 @@ So the adversary must resort to things like querying in advance \etc.
   round, or \(\left(\frac{1}{2}+\frac{1}{2^{|q|-l}}\right)^n\) in total.
 \end{proof}
 
+\paragraph{\Acl{DBTF}}
+
+We cannot achieve \ac{DBTF} resistance.
+Indeed, the prover can send \(l+\nu\) bits of both response strings, \(s_0\) 
+and \(s_1\), to the adversary.
+When the adversary receives the \(l+1\)th bit, he learns \(b\).
+He can send \(b\) to the prover and answer correctly to the verifier, provided 
+\(\nu \geq 1\).
+By the time he receives the next challenge from the verifier, the prover will 
+have sent him the remaining bits of \(s_b\) without revealing more bits about 
+\(s_{1-b}\).
+This would not taint the session.
+As long as \(l+\nu\) is sufficiently small, the adversary cannot compute the 
+remaining bits of \(s_{1-b}\) to compute the prover's secret.
+
 \paragraph{\Acl{DBDH}}
 
 The protocol is also secure against distance hijacking due to the fact that the 
