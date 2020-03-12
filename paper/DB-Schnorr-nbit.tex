@@ -1,19 +1,27 @@
 \section{Bit-by-bit distance-bounding Schnorr protocol}%
+\label{DB-Schnorr-nbit}
 
+We will now continue with a more traditional (in \ac{DB} terms) version of the 
+protocol, one that uses bit-by-bit communication.
 As mentioned in \cref{related-work}, while there exists a \iac{PPK} 
 protocol~\cite{ProProx}, there is none for discrete logarithms. We will now introduce such a protocol to enable us to have \ac{DB} anonymous credentials.
 
-\subsection{Reattempting a distance-bounding Schnorr protocol}%
-\label{DBSchnorr-n-bit}
+%One protocol exists in the literature that provides \acp{PPK} with most of the desired properties described previously, ProProx~\cite{ProProx}\footnote{Note that~\cite{ProProx} uses the abbreviation PoPoK, we prefer \acs{PPK} for shorter notation.}.
+%ProProx is secure against a malicious verifier, but it provides \iac{PPK} protocol for quadratic residues (\ie protocols of the form \(\PPK[\alpha][a = 
+%  \alpha^2]\)), while in our context, we need \iac{PPK} protocol for discrete logarithms (\ie \(\PPK[\alpha][a = g^\alpha]\)) due to our choice of anonymous credentials whose desirable properties we list in \cref{ZK-anon-cred}.%, which in turn is due to their \ac{PRF} for deriving identifiers from a long-term ID with unlinkability to the original ID but with proof of validity of this derivation. 
+%To realize this, we will now introduce such a protocol to enable us to have \ac{DB} anonymous credentials.
 
-In the original \ac{DB} paper by \citet{DistanceBounding}, one of the distance-bounding protocols is based on the Schnorr identification scheme~\cite{Schnorr}.
-However, this \ac{DB} Schnorr protocol was shown to be prone to distance hijacking~\cite{DistanceHijacking, TamarinDB}, in addition to not being secure against terrorist fraud.
-We now propose another way to turn the Schnorr protocol into a public-key \ac{DB} protocol that is secure against \ac{DBMF}, \ac{DBDF}, \ac{DBDH} and \ac{DBTF}.
-It is important in our setting that the protocol is a public-key protocol, both to reach strong privacy properties and also because this property implies protection against an impersonating verifier.
+We present the protocol in \cref{DB-Schnorr-nbit-figure}.
+We will present the protocol as \iac{DB} version of the Schnorr identification 
+scheme (\(\PK[\alpha][A = g^\alpha]\)), this is for the sake of exposition.
+It can be generalized to \eg CL04~\cite{CLsignatures}.
 
-We present the protocol in \cref{SchnorrFigure}.
-The (cyclic) group with generator \(g\) and order \(q\) are system parameters.
-The private key \(\alpha\) with public key \(A = g^\alpha\) are generated once by the prover in the setup phase.
+The (cyclic) group with generator~\(g\) with prime order~\(q\) is a system 
+parameter.
+The private key~\(\alpha\) with public key~\(A = g^\alpha\) are generated once 
+by the prover in the setup phase.
+The verifier has a copy of the public key~\(A\) and wants to verify that the 
+private key~\(\alpha\) is within a certain distance-bound.
 
 \begin{figure*}
   \centering
@@ -87,88 +95,48 @@ The private key \(\alpha\) with public key \(A = g^\alpha\) are generated once b
   \end{tabular}
   \caption{%
     One-round protocol instance of the \(\DBSprove\leftrightarrow \DBSverify\) \ac{DB} Schnorr protocol for \(\PK[\alpha][A = g^\alpha]\).
-    The protocol should be repeated in full to achieve the desired soundness 
-    and distance-bounding errors.
+    The protocol should be repeated \(n\) times to achieve the desired 
+    soundness and distance-bounding errors.
   }%
-  \label{SchnorrFigure}
+  \label{DB-Schnorr-nbit-figure}
 \end{figure*}
 
-During one round, the prover commits to a random nonce: more precisely he chooses \(\rho\rgets \ZZ_q\) uniformly at random, computes \(R\gets g^\rho\) and sends \(R\) to the verifier.
-The verifier generates two challenges \(c_0\rgets \bin^k, c_1\rgets \bin^k\) and sends them to the prover.
-The prover computes \(s_0\gets \rho - c_0\alpha, s_1\gets \rho - c_1\alpha\).
+During one round, the prover commits to a random nonce: more precisely he 
+chooses \(
+  \rho\rgets \ZZ_q
+\) uniformly at random, computes \(
+  R\gets g^\rho
+\) and sends \(R\) to the verifier.
+The verifier generates two challenges \(
+  c_0\rgets \bin^k,
+  c_1\rgets \bin^k
+\) and sends them to the prover.
+The prover computes \(
+  s_0\gets \rho - c_0\alpha,
+  s_1\gets \rho - c_1\alpha.
+\)
 This step is the main difference to the original Schnorr protocol: the verifier selects two challenges and the prover computes two responses --- but still only \emph{one nonce}, \(\rho\).
 This is also different from the original Brands-Chaum protocol, in which the 
 prover and verifier jointly construct \emph{one} challenge with \emph{one} 
 response.
 
-We let \(|q| = \ceil{\log_2 q}\) denote the length of \(q\) in bits.
+We let \(|q|\) denote the length of \(q\) in bits, so any element~\(z\in 
+\ZZ_q\) can be represented by \(|q|\) bits.
 The verifier will request all \(|q|\) response-bits from one challenge (say 
 \(s_b\)) and only \(0 < l\leq |q|\) from the other (\(s_{1-b}\)).
-Then the verifier can authenticate the prover by checking if \(R = 
-  g^{s_b}A^{c_b}\).
+Then the verifier can authenticate the prover by checking if \(
+  R = g^{s_b}A^{c_b}.
+\)
 
-\subsection{Security analysis}
+This must be repeated for \(n\) rounds.
 
-The prover must know the responses for both challenges to successfully pass the \ac{DB} phase.
-The reason for the two challenges but only one random nonce is that knowing the responses to both means learning \(\alpha\).
-This allows us to prevent \ac{DBTF}.
-Bundling the authentication into the distance-bounding phase (difference from Brands-Chaum) prevents \ac{DBDH}, and both adaptations together aim at \ac{DBMF} resistance. %reducing success of MF according to number of repetitions.
-The reason we use secret sharing and not \(s_b\) directly, is to bound the \(l\) bits the verifier must learn of \(s_{1-b}\).
-Without secret sharing, the verifier learns \(l\) bits of \(s_{1-b}\), but with secret sharing the verifier learns \(l\) bits of \emph{one share}.
-Thus, we still have information theoretic security for \(s_{1-b}\)
-although we reveal the \(l\) bits. (See \cref{l-bit-problem} for an
-  in-depth treatment of what we call the \(l\)-bit problem.)
 
-The intuition behind the protocol security is as follows.
-To achieve malicious-verifier zero-knowledge, choose \(k\) logarithmic in the security parameter \(\lambda\) and repeat the protocol \(n\) times, such that 
-the knowledge error, \(2^{-kn}\), becomes small enough.
-Repeating the protocol is also needed to decrease the success probability of some of adversaries presented below.
+\subsection{Security of the \(l\) bits}
 
-The \ac{DB} phase protects against distance fraud.
-Once the prover has received \(l+1\) challenges set to \(b\), it knows that the remaining challenges must also be \(b\).
-\Iac{DBDF} prover must thus wait for the challenge bit \(b_i\) before responding with \(r_i\) for \(l+1\) challenges.
-Thus, the probability of successfully guessing the order of the challenge bits is \(2^{-(l+1)}\) per round or, in total, \(2^{-(l+1)n}\).
-
-The \ac{DB} phase also ensures that \iac{DBMF} adversary will fail the \ac{DB} phase for at least one round.
-The verifier will send \(|q| + l < 2|q|\) challenges.
-By replying, the prover reveals \(|q|+l\) bits distributed over \(s_0, 
-  s_1\).
-\emph{We assume} that learning \(\ceil{(|q|+l)/2}\) bits of \(s_0\) and 
-\(\floor{(|q|+l)/2}\) bits of \(s_1\) yields no advantage for the adversary.
-Now, the adversary has two options.
-First, the adversary can buffer \(l\) bits of both \(s_0^{(0)}\concat s_0^{(1)}, s_1^{(0)}\concat s_1^{(1)}\) by requesting them from the prover.
-However, at this point the adversary must wait for the challenge bit \(b_{l+1}\) from the verifier and then relay that challenge to the prover to receive the correct \(r_i\) --- this relay will be detected.
-The alternative is to guess \(b\) and extract \(s_b\) for this challenge from the prover.
-Guessing \(b\) yields \(1/2\) probability that the \ac{DBMF} adversary will guess it correctly.
-Since we must execute the protocol \(n\) times, the probability to pass all these rounds is reduced to \(2^{-n}\).
-If the adversary requests \(s_b\) in full, the adversary can also guess the 
-remaining \(|q|-l\) bits of \(s_{1-b}\).
-Based on our assumption above, the probability of guessing these bits 
-successfully is \(2^{-(|q|-l)}\).
-Thus the success probability of the \ac{DBMF} adversary is \emph{at most} 
-\(2^{-n}+2^{-(|q|-l)n}\).
-
-The protocol is \ac{DBTF}-resistant. 
-Indeed, if the malicious prover gives both responses to the accomplice, the accomplice can compute his secret key.
-The probability of success of \ac{DBTF} is thus reduced to guessing \(b\), \ie \(1/2\) per round or, in total, \(2^{-n}\).
-
-The protocol is also secure against distance hijacking due to the fact that the authenticated bitstring is used during the \ac{DB} phase, not the challenge bitstring as it is the case for the original protocol of Brands-Chaum.
-Thus the probability of success is equivalent of a collision for the responses 
-for the chosen challenge --- in each round.
-
-Finally, it follows from the original Schnorr protocol that this is still \iac{PK} and \ac{ZK}.
-\daniel{I should prove this for the composed protocol, I should check
-  the details with Douglas.}
-
-Besides the security against the standard attacks on distance-bounding
-protocols, we also need to ensure that our modification does not leak
-any information to the adversary via the aforementioned \(l\) bits. 
-
-\subsection{The \(l\)-bit problem}
-\label{l-bit-problem}
-
-We will now systematically investigate the concern of the adversary
-gaining any advantage from learning \(l\) bits from one of the two challenges.
+Before we proceed to other security properties, we will start with the 
+\(l\)-bit problem.
+We will now analyse how much damage leaking those \(l\) bits of the second 
+response does.
 
 \paragraph*{A special case}
 
@@ -314,7 +282,7 @@ the hardness of finding discrete logarithms.
 \end{definition}
 
 \begin{definition}[DB-Schnorr Problem]%
-  \label{DBSchnorr-problem}
+  \label{DBSP}
   Let \(g\) be a generator for a group of prime order~\(q\).
   Give \(g, q, R = g^\rho A = g^\alpha\) to the adversary.
   Let the adversary choose \(c\) and additionally give him \(\hat s\) such that 
@@ -324,9 +292,9 @@ the hardness of finding discrete logarithms.
   \pmod q\).
 \end{definition}
 
-\begin{lemma}
+\begin{lemma}\label{DBSPtoDLP}
   Given an algorithm~\(\algA_{\DBS}\) that solves the DB-Schnorr Problem 
-  (\cref{DBSchnorr-problem}) with probability \(\epsilon\), we can construct an 
+  (\cref{DBSP}) with probability \(\epsilon\), we can construct an 
   algorithm \(\algA_{\text{DL}}\) that solves the \ac{DLP} with probability 
   \(\epsilon 2^{-(l+k)}\).
 \end{lemma}
@@ -361,7 +329,178 @@ the hardness of finding discrete logarithms.
 As mentioned above, both \(l\) and \(k\) are logarithmic in the security 
 parameter.
 
-\endinput
+\subsection{\Acl*{ZK} and \acl*{PK}}\label{UWB-ZKPK}
+
+The main difference between this protocol and the Schnorr protocol is that we 
+have the prover compute responses for two different challenges, \(c_0, c_1\).
+In the authentication step, the verifier chooses only one of those challenges.
+However, the verifier requests all \(|q|\) bits of \(s_b\) and \(l\) bits of 
+\(s_{1-b}\).
+
+This is \iacl{PK}:
+Completeness and soundness follows from the Schnorr protocol.
+The knowledge extractor works exactly the same.
+It does not matter that the verifier first chooses two challenges and later 
+reveals which one to use and the prover sends the response bit-by-bit.
+
+This is \emph{computational} \acl{ZK}:
+The simulator chooses \[
+  s_0, s_1\rgets \ZZ_q; \quad
+  c_0, c_1\rgets \bin^k; \quad
+  b\rgets \bin.
+\]
+Then it can set \[
+  R_0\gets g^{s_0} A^{c_0}, \quad
+  R_1\gets g^{s_1} A^{c_1}.
+\]
+Now the simulator must come up with those \(l\) bits.
+\Cref{l-bit-advantage,DBSPtoDLP} say that distinguishing these bits from random 
+is as hard as the \ac{DLP}.
+So, the simulator can simply choose the \(l\) bits~\(L\rgets \bin^l\) uniformly 
+at random.
+
+The simulator outputs \(R_b, c_0, c_1, s_b, L\).
+
+%Therefore the standard proof for Schnorr as a malicious-verifier \ac{ZKPK} 
+%protocol with soundness error \(2^{-k n}\) still 
+%holds~\cite[\eg][]{OnSigmaProtocols}.
+%(We note that \(l\), which is also the length of the challenge bit string, must 
+%be logarithmic in the security parameter, \(\lambda\), for a malicious 
+%verifier.)
+
+\subsection{\acs*{DBMF}, \acs*{DBTF} and \acs*{DBDH} resistance}
+
+\paragraph{\Acl{DBMF}}
+
+In \ac{DBMF}, the adversary will try to authenticate to a verifier by querying 
+a far-away prover.
+By \cref{TaintedMF}, pure relaying will be detected by the verifier.
+So the adversary must resort to things like querying in advance \etc.
+
+\begin{theorem}[\acs*{DBMF} resistance]
+  Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-MF adversary, then \(
+    \Adv_{\DBS}^{\text{MF}}(\adv) =
+      \left(\frac{1}{2} + \frac{1}{2^{|q|-l}}\right)^n,
+  \) where \(m, q\) are as in \cref{DB-Schnorr-nbit}.
+\end{theorem}
+
+\begin{proof}
+  It follows from the \ac{ZK} property (\cref{UWB-ZKPK}) that the adversary 
+  cannot learn anything by observation.
+  This leaves the adversary with the following:
+  \begin{enumerate}
+    \item guess which challenge the verifier will use and request the correct 
+      response from the prover, receiving the challenge first would taint the 
+      session (\cref{TaintedMF});
+    \item guess the second response.
+  \end{enumerate}
+
+  The first case yields success with probability \(\frac{1}{2}\), since the 
+  choice is uniformly distributed over the two challenges.
+  The adversary requests all \(|q|\) bits of the response~\(s_{\hat b}\) and 
+  \(l\) bits of \(s_{1-\hat b}\).
+  When the verifier sends challenge bit \(b_i = \hat b\), the adversary replies 
+  with a bit from \(s_{\hat b}\).
+  If \(b_i = 1-\hat b\), then the adversary uses the \(l\) bits.
+
+  If the adversary guessed \(\hat b = b\) correctly, then the verifier will 
+  accept.
+  Otherwise, the adversary must compute the remaining \(|q|-l\) bits of 
+  \(s_{1-\hat b}\).
+
+  Guessing the remaining bits yield a success probability of 
+  \(\frac{1}{2^{|q|-l}}\).
+  \Cref{DBSPtoDLP} states that any algorithm that can compute the remaining 
+  bits can also solve a corresponding \ac{DLP}.
+  It follows that the adversary cannot do non-negligibly better than guessing 
+  the remaining bits.
+
+  Thus, the success probability is \(\frac{1}{2}+\frac{1}{2^{|q|-l}}\) per 
+  round, or \(\left(\frac{1}{2}+\frac{1}{2^{|q|-l}}\right)^n\) in total.
+\end{proof}
+
+\paragraph{\Acl{DBTF}}
+
+We cannot achieve \ac{DBTF} resistance.
+Indeed, the prover can send \(l+\nu\) bits of both response strings, \(s_0\) 
+and \(s_1\), to the adversary.
+When the adversary receives the \(l+1\)th bit, he learns \(b\).
+He can send \(b\) to the prover and answer correctly to the verifier, provided 
+\(\nu \geq 1\).
+By the time he receives the next challenge from the verifier, the prover will 
+have sent him the remaining bits of \(s_b\) without revealing more bits about 
+\(s_{1-b}\).
+This would not taint the session.
+As long as \(l+\nu\) is sufficiently small, the adversary cannot compute the 
+remaining bits of \(s_{1-b}\) to compute the prover's secret.
+
+\paragraph{\Acl{DBDH}}
+
+The protocol is also secure against distance hijacking due to the fact that the 
+authenticating bit string is used during the \ac{DB} phase.
+(Brands-Chaum used the challenge bit string, something that made their protocol 
+vulnerable.)
+\Ac{DBDH} requires that the adversary finds a collision between his response 
+and that of the honest prover.
+Thus the probability of success is equivalent to a collision for the responses 
+for the chosen challenge --- in each round.
+
+\begin{theorem}[\acs*{DBDH}/\acs*{DBDF} resistance]
+  Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-DH adversary, then 
+  \(\Adv_{DBS}^{\text{DH}}(\adv) = \frac{1}{2^n}\).
+\end{theorem}
+
+\begin{proof}
+  The honest prover will choose \(\rho\) such that \(R = g^\rho\).
+  The adversary can send his own \(R' = g^{\rho'}\) to the verifier, or let 
+  \(R' = R\) to not interfere.
+
+  The verifier will choose \(c_0, \dotsc, c_1\).
+  The honest prover will compute \(s_i = \rho - c_i \alpha\), where \(\alpha\) 
+  is his secret.
+  If the adversary chose \(R' = g^{\rho'}\), he can compute \(s_i' = \rho' - 
+  c_i \alpha'\), where \(\alpha'\) is the adversary's secret.
+  If the adversary didn't choose \(R'\), he can only guess the values for 
+  \(s_i'\).
+
+  During the fast phase, the adversary has two options:
+  for each challenge bit, the adversary can \(\Commit\) to a response bit or to 
+  \(\Prompt\) the honest prover to send a bit.
+
+  If the adversary chose \(R'\), then he knows \(\rho'\) and can compute the 
+  correct \(s_i' = \rho' - c_i \alpha'\) for \(i\in \bin\).
+  If the adversary \(\Commit\)s:
+  Now, the adversary must commit to one bit of \(s_0'\) or \(s_1'\) before 
+  seeing the verifier's choice \(b_i\).
+  He can make a guess~\(\hat b\) at the verifier's choice~\(b\).
+  Then he commits to the next bit of \(s_{\hat b}'\).
+  If the challenge~\(b_i \neq \hat b\), he will commit to the same bit for the 
+  next round.
+  If indeed \(\hat b = b\), the verifier will accept.
+  The success probability is \(\frac{1}{2}\) over all bits.
+
+  If the adversary \(\Prompt\)s:
+  The prover computed \(s_0\) and \(s_1\) using \(\rho\) and \(\alpha\).
+  However, the verifier will use \(R'\) and \(A'\) in the verification step.
+  This will succeed if \(s_b = s_b'\), the probability of which is 
+  \(\frac{1}{q}\).
+  This means that the probability of success for prompting a bit is 
+  \(\frac{1}{2}\), or \(\frac{1}{2^{|q|}}\) over all bits.
+
+  If the adversary didn't choose \(R'\) he consequently doesn't know \(\rho\) 
+  and cannot compute the correct \(s_0\) and \(s_1\).
+  Thus, committing yields \(\frac{1}{2}\) probability per bit.
+  The same applies for prompting.
+
+  Obviously, the better strategy for the adversary is to choose \(R' = 
+  g^{\rho'}\).
+  It's also a better strategy to \(\Commit\) (\ac{DBDF}) rather than 
+  \(\Prompt\) (\ac{DBDH}).
+  We thus have that
+  \(\Adv_{\DBS}^{\text{DH}}(\adv) = \frac{1}{2^n}\) for \(n\) rounds,
+  which concludes the proof.
+\end{proof}
+
 \subsection{Formal Verification}
 
 We formally verify the protocol security properties using the Tamarin
