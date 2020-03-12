@@ -17,6 +17,7 @@ SRC+= 	adversary-model.tex
 SRC+= 	building-blocks.tex
 SRC+= 	ZKPK.tex ZKPK-instantiations.tex
 SRC+= 	distance-bounding.tex anon-cred.tex DB-Schnorr-UWB.tex
+SRC+= 	DB-Schnorr-nbit.tex
 SRC+= 	location-proofs.tex timestamp.tex
 SRC+= 	protocol.tex
 SRC+=	security-analysis.tex

@@ -119,6 +119,10 @@ We will now define what it means for a protocol to be \ac{DBMF} resistant.
 
 \Acl{DBTF} is similar to \ac{DBMF}, the difference is that during \ac{DBTF} the 
 prover cooperates with the adversary to make the verifier accept.
+This means that we must disallow relay \emph{scheduling}: with 
+\cref{TaintedMF}, the prover and adversary could relay a function of every 
+answer, then the adversary could just apply the inverse function before sending 
+the answer to the verifier.
 
 \begin{definition}[Tainted session, \acs*{DBTF} 
   (strSimTF)~\cite{FormalTerroristFraud}]\label{TaintedTF}
