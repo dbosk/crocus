@@ -384,25 +384,38 @@ So the adversary must resort to things like querying in advance \etc.
 \begin{proof}
   It follows from the \ac{ZK} property (\cref{UWB-ZKPK}) that the adversary 
   cannot learn anything by observation.
-  This leaves the adversary with two options:
+  This leaves the adversary with the following:
   \begin{enumerate}
-  \item guess which challenge the verifier will use and request the correct 
-    response from the prover, receiving the challenge first would taint the 
-    session (\cref{TaintedMF});
-  \item guess the response.
+    \item guess which challenge the verifier will use and request the correct 
+      response from the prover, receiving the challenge first would taint the 
+      session (\cref{TaintedMF});
+    \item guess the second response.
   \end{enumerate}
 
-  The first option yields success with probability \(\frac{1}{2}\), since the 
+  The first case yields success with probability \(\frac{1}{2}\), since the 
   choice is uniformly distributed over the two challenges.
+  The adversary requests all \(|q|\) bits of the response~\(s_{\hat b}\) and 
+  \(l\) bits of \(s_{1-\hat b}\).
+  When the verifier sends challenge bit \(b_i = \hat b\), the adversary replies 
+  with a bit from \(s_{\hat b}\).
+  If \(b_i = 1-\hat b\), then the adversary uses the \(l\) bits.
 
-  The second option yields a lower success probability:
-  Assume that each bit reveals some information about the future bits.
-  The first bit must still be guessed, this is yields a probability of \emph{at 
-  most} \(\frac{1}{2}\).
+  If the adversary guessed \(\hat b = b\) correctly, then the verifier will 
+  accept.
+  Otherwise, the adversary must compute the remaining \(|q|-l\) bits of 
+  \(s_{1-\hat b}\).
 
-  The best strategy is to guess which challenge the verifier will select.
-  Thus, the success probability is \(\frac{1}{2}\) per round, or 
-  \(\frac{1}{2^n}\) in total.
+  Guessing the remaining bits yield a success probability of 
+  \(\frac{1}{2^{|q|-l}}\).
+  \Cref{DBSPtoDLP} states that any algorithm that can compute the remaining 
+  bits can also solve a corresponding \ac{DLP}.
+  It follows that the adversary cannot do non-negligibly better than guessing 
+  the remaining bits.
+
+  Thus, the success probability is \(\frac{1}{2}+\frac{1}{2^{|q|-l}}\) per 
+  round, or \(\left(\frac{1}{2}+\frac{1}{2^{|q|-l}}\right)^n\) in total.
+
+
 \end{proof}
 
 \subsection{Formal Verification}
