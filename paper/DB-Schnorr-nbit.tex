@@ -329,7 +329,7 @@ the hardness of finding discrete logarithms.
 As mentioned above, both \(l\) and \(k\) are logarithmic in the security 
 parameter.
 
-\subsection{\Acl*{ZK} and \acl*{PK}}\label{UWB-ZKPK}
+\subsection{\Acl*{ZK} and \acl*{PK}}\label{nbit-ZKPK}
 
 The main difference between this protocol and the Schnorr protocol is that we 
 have the prover compute responses for two different challenges, \(c_0, c_1\).
@@ -385,7 +385,7 @@ So the adversary must resort to things like querying in advance \etc.
 \end{theorem}
 
 \begin{proof}
-  It follows from the \ac{ZK} property (\cref{UWB-ZKPK}) that the adversary 
+  It follows from the \ac{ZK} property (\cref{nbit-ZKPK}) that the adversary 
   cannot learn anything by observation.
   This leaves the adversary with the following:
   \begin{enumerate}
