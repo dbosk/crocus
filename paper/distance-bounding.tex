@@ -88,12 +88,12 @@ detect such a relay.
 
 \begin{definition}[Tainted session, \acs*{DBMF}~\cite{DB-DFKO}]%
   \label{TaintedMF}
-  A time-critical round
-  \(\Xscript{\sid}{k, k+1} = (m_k, \dotsc, m_{k+1})\)
-  of an adversary--verifier session~\(\sid\), where \(m_k\) is sent by the 
-  verifier, is \emph{tainted} by the round
-  \(\Xscript{\sid'}{k', k'+1} = (m_{k'}, m_{k'+1})\)
-  of a prover--adversary session~\(\sid'\) if
+  A time-critical round \[
+    \Xscript{\sid}{k, k+1} = (m_k, \dotsc, m_{k+1})
+  \] of an adversary--verifier session~\(\sid\), where \(m_k\) is sent by the 
+  verifier, is \emph{tainted} by the round \[
+    \Xscript{\sid'}{k', k'+1} = (m_{k'}, m_{k'+1})
+  \] of a prover--adversary session~\(\sid'\) if
   \begin{align*}
     (m_k, m_{k+1}) &= (m_{k'}, m_{k'+1}) \\
     \marker[\sid, k] &< \marker[\sid', k'] \\

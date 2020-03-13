@@ -77,7 +77,7 @@ The private key \(\alpha\) with public key \(A = g^\alpha\) are generated once b
     & \(c_1\rgets \bin^l, \dotsc, c_m\rgets \bin^l\)
     \\
 
-    \vdots
+    \(\vdots\)
     &
     &
     \\[-1em]
@@ -311,14 +311,14 @@ for the chosen challenge --- in each round.
   The success of committing is \(\frac{1}{m}\).
 
   If the adversary \(\Prompt\)s:
-  The verifier will check that \(R' = g^{s_i} A'^{c_i}\), where \(A'\) is the 
+  The verifier will check that \(R' = g^{s_i} {A'}^{c_i}\), where \(A'\) is the 
   \enquote{public key}\footnote{%
     In Schnorr's original protocol this was a public key.
     In our more general use, it is the value for which the adversary wants to 
     prove knowledge of a discrete logarithm.
   } of the adversary.
-  Now, \(g^{s_i} A'^{c_i} = g^{\rho - c_i \alpha} (g^{\alpha'})^{c_i} = g^{\rho 
-  - c_i \alpha + c_i \alpha'}\).
+  Now, \(g^{s_i} {A'}^{c_i} = g^{\rho - c_i \alpha} (g^{\alpha'})^{c_i} = 
+  g^{\rho - c_i \alpha + c_i \alpha'}\).
   If \(R' = R = g^\rho\), chosen by the prover, then the verifier will only 
   accept if \(\alpha = \alpha'\), the probability for which is 
   \(\frac{1}{q^2}\).

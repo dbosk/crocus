@@ -349,8 +349,9 @@ The prover chooses \[
   \RCL\gets v_s^{\rhoCL_{r'}} v_{xy}^{\rhoCL_{\sk}} V_{xy}^{\rhoCL_r}
 \] and sends \(R, \RDH, \RCL\) to the verifier.
 
-The verifier chooses \(m\) challenges of length \(l\), \(c_1\rgets \bin^l, 
-\dotsc, c_m\rgets \bin^l\), and sends these to the prover.
+The verifier chooses \(m\) challenges of length \(l\), \[
+  c_1\rgets \bin^l, \dotsc, c_m\rgets \bin^l,
+\] and sends these to the prover.
 The prover computes responses
 \begin{multline*}
   s_i\gets \rho - c_i\alpha, \quad
