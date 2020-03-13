@@ -20,6 +20,7 @@ SRC+= 	distance-bounding.tex anon-cred.tex
 SRC+= 	DB-Schnorr-UWB.tex
 SRC+= 	DB-Schnorr-PKI.tex
 SRC+= 	DB-Schnorr-nbit.tex
+SRC+= 	formal-verification.tex
 SRC+= 	location-proofs.tex timestamp.tex
 SRC+= 	protocol.tex
 SRC+=	security-analysis.tex
