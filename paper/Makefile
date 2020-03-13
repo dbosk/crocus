@@ -8,6 +8,7 @@ SRC+=	contents.tex
 SRC+=	abstract.tex
 SRC+=	intro.tex
 SRC+=	related-work.tex
+SRC+= 	preliminaries.tex
 SRC+= 	ZKPK.tex ZKPK-instantiations.tex
 SRC+= 	distance-bounding.tex
 SRC+= 	DB-Schnorr-UWB.tex
