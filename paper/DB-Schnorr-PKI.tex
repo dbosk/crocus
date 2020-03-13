@@ -395,6 +395,13 @@ There are two questions we must answer about this protocol:
     the \ac{DHKE}?
   \item\label{DBSHW-anon} Does \(\XDHCL\) break anonymity?
 \end{enumerate}
+To justify the first question, we use a plain \ac{DHKE} to agree on \(k\), 
+start using \(k\) for \ac{DB} and during the \ac{DB} do the authentication.
+To justify the second question, we use CL04 anonymous 
+credentials~\cite{CLsignatures}.
+These provide anonymity.
+However, revealing \(\XDHCL = \XDH^{\sk}\) is not part of CL04.
+So we must show that \(\XDHCL\) maintains anonymity.
 
 To answer the first question,
 by \textcite{Camenisch-phdthesis}, the above protocol is \iac{ZKPK}.
