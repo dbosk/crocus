@@ -21,43 +21,20 @@ Our last contribution is another version of the protocol, one which uses
 bit-by-bit transmissions as traditionally done with \ac{DB} protocols.
 We achieve all properties except \ac{DBTF} resistance.
 
-The first (and second) contribution enables us to do \ac{DB} \ac{ABC}.
-The third enables us also to do \ac{DB} \ac{ABC}, just without \ac{DBTF} 
-resistance.
-
-Our main contribution is an adaptation of the Schnorr protocol~\cite{Schnorr} 
-for \ac{DB}, but which is different from that of \textcite{DistanceBounding} or 
-\textcite{Bussard-Bagga} (DBPK-Log).
-Our adaptation fulfills all the requirements for modern \ac{DB} protocols, 
-including \ac{DBDH} (which was an attack against the original protocol of 
-Brands and Chaum) and \ac{DBTF}.
-More importantly, it is public-key\footnote{%
-  The majority of published works are in the shared-key setting.
-  However, both the protocol by \textcite{DistanceBounding} and that of 
-  \textcite{Bussard-Bagga} are public key.
-}, handles malicious impersonating verifiers.
-Since it is based on the Schnorr protocol, it provides a distance-bounded 
-\ac{PK} for discrete logarithms.
-That allows us to replace the plain Schnorr protocol in \acp{ZKPK} with our 
-distance-bounding version and thus make general privacy-preserving, 
-attribute-based credential systems distance bounding.
+The first (and second) contribution enables us to do distance-bounding 
+privacy-preserving attribute-based credentials based on discrete logarithms, 
+\eg~\cite{Camenisch-phdthesis} and~\cite{CLsignatures}.
+To our knowledge, no other distance-bounding protocol achieves this.
+The third contribution (bit-by-bit version) also enables us to do the same, 
+just without \ac{DBTF} resistance.
 
 \paragraph*{Outline}
 
 The paper is organized as follows.
-\Cref{system-model}, we describe our system model and summarize the desired 
-properties 
-We then discuss related work in terms of these properties in 
-\cref{related-work}, and in \cref{building-blocks}, we give 
-the relevant background on the building blocks of our solution.
-
-\Cref{DB-Schnorr-UWB}, we present a new \ac{DB} version of the Schnorr protocol, 
-different from that originally proposed by \textcite{DistanceBounding}.
-We provide a proof of its security and formally verify it using 
-Tamarin~\cite{TamarinDB}.
-
-We analyze its security in \cref{SecurityAnalysis} and estimate its performance 
-in \cref{PerformanceAnalysis}.
-
-Finally, we discuss our assumptions and results in \cref{Discussion} and give 
-our conclusions in \cref{Conclusion}.
+\Cref{Preliminaries} introduces the preliminaries of \ac{ZKPK} and \ac{DB}.
+\Cref{DB-Schnorr} introduces the first version, where we assume that we can 
+send all bits at the same time.
+\Cref{DB-Schnorr-PKI} introduces the \ac{PKI} and \ac{AKE} to use the first 
+version of the protocol in practice.
+\Cref{DB-Schnorr-nbit} describes the bit-by-bit version of the protocol.
+Finally, we conclude with a discussion of our results in \cref{Conclusion}.
