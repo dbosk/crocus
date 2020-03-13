@@ -3,6 +3,28 @@
 
 \paragraph*{Contributions}
 
+We make three contributions.
+First, we provide a version of the Schnorr protocol that is \ac{DBMF}, 
+\ac{DBTF}, \ac{DBDH} and \ac{DBDF} resistant in the DFKO 
+model~\cite{DB-DFKO,FormalTerroristFraud,TREAD}.
+This version is based on the assumption that we can transmit all bits at once, 
+not bit-by-bit as normally required for \ac{DB}.
+This assumption is reasonable by the results of \textcite{UWBPR}.
+
+Second, for the assumption about sending all bits at once to hold, 
+\textcite{UWBPR} requires that two devices shared a symmetric key~\(k\).
+Our second contribution is \iac{PKI} and \ac{AKE} scheme for any device in 
+the \ac{PKI} to convince a verifier that this is the case.
+The solution relies on our first contribution.
+
+Our last contribution is another version of the protocol, one which uses 
+bit-by-bit transmissions as traditionally done with \ac{DB} protocols.
+We achieve all properties except \ac{DBTF} resistance.
+
+The first (and second) contribution enables us to do \ac{DB} \ac{ABC}.
+The third enables us also to do \ac{DB} \ac{ABC}, just without \ac{DBTF} 
+resistance.
+
 Our main contribution is an adaptation of the Schnorr protocol~\cite{Schnorr} 
 for \ac{DB}, but which is different from that of \textcite{DistanceBounding} or 
 \textcite{Bussard-Bagga} (DBPK-Log).
