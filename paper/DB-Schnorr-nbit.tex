@@ -3,6 +3,8 @@
 
 We will now continue with a more traditional (in \ac{DB} terms) version of the 
 protocol, one that uses bit-by-bit communication.
+As mentioned in \cref{related-work}, while there exists a \iac{PPK} 
+protocol~\cite{ProProx}, there is none for discrete logarithms. We will now introduce such a protocol to enable us to have \ac{DB} anonymous credentials.
 
 %One protocol exists in the literature that provides \acp{PPK} with most of the desired properties described previously, ProProx~\cite{ProProx}\footnote{Note that~\cite{ProProx} uses the abbreviation PoPoK, we prefer \acs{PPK} for shorter notation.}.
 %ProProx is secure against a malicious verifier, but it provides \iac{PPK} protocol for quadratic residues (\ie protocols of the form \(\PPK[\alpha][a = 
@@ -501,19 +503,22 @@ for the chosen challenge --- in each round.
 
 \subsection{Formal Verification}
 
-We wanted to formally verify the protocol security properties. To realize this, 
-we used the Tamarin prover~\cite{meier2013tamarin}. Tamarin does not include 
-originally the possibility to reason on time and space in its model.
-However, thanks to a recent work by \textcite{TamarinDB}, all the common 
-properties mentioned in the previous subsection can be equivalently 
-characterized with a causality-based definition relying only on the order of 
-messages.
+We formally verify the protocol security properties using the Tamarin
+prover~\cite{meier2013tamarin}. Tamarin does not originally include
+the possibility to reason on time and space in its model.  However,
+thanks to a recent work by \textcite{TamarinDB}, the common properties
+can be equivalently characterized with a causality-based definition
+relying only on the order of messages.
 
-The whole Tamarin code we wrote is provided in \cref{apdx:tamarin-spec}, with a short discussion of the modeling choices that we have made. 
+The whole Tamarin code we wrote is provided in \cref{apdx:tamarin-spec}, with a short discussion of the modeling choices we made. 
 It contains a specification of the distance-bounding protocol described previously, a definition of the soundness and correctness properties that ensure the protocol actually produces the expected result, and a definition of the security properties we want to ensure.
 
-Tamarin's auto-prover validated the soundness and correctness properties (in negligible computation time) but does not terminate when trying to prove the security properties.
-This means that no trace violating the security properties is found, but the prover cannot conclusively validate that the desired properties are true. 
-We are currently investigating the Tamarin interactive mode to validate as well the security properties.
+Tamarin's auto-prover validated the soundness and correctness
+properties (in negligible computation time) and proved the security
+properties used in~\cite{TamarinDB}. In the meantime,
+\textcite{TamarinDBTF} introduced the notion of post-collusion
+security which enabled them to prove \ac{DBTF}. In future work, we
+will use this extension on our protocol.
+
 
 
