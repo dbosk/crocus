@@ -7,30 +7,17 @@ paper.pdf: preamble.tex preamble-paper.tex
 SRC+=	contents.tex
 SRC+=	abstract.tex
 SRC+=	intro.tex
-SRC+=	system-model.tex
 SRC+=	related-work.tex
-SRC+= 	definitions.tex
-SRC+= 	protest-model.tex
-SRC+= 	verifiability-properties.tex
-SRC+=	privacy-properties.tex
-SRC+= 	adversary-model.tex 
-SRC+= 	building-blocks.tex
+SRC+= 	preliminaries.tex
 SRC+= 	ZKPK.tex ZKPK-instantiations.tex
-SRC+= 	distance-bounding.tex anon-cred.tex
+SRC+= 	distance-bounding.tex
 SRC+= 	DB-Schnorr-UWB.tex
 SRC+= 	DB-Schnorr-PKI.tex
 SRC+= 	DB-Schnorr-nbit.tex
 SRC+= 	formal-verification.tex
-SRC+= 	location-proofs.tex timestamp.tex
-SRC+= 	protocol.tex
-SRC+=	security-analysis.tex
-SRC+= 	verifiability-analysis.tex
-SRC+= 	privacy-analysis.tex
-SRC+= 	analysis-performance.tex
 SRC+= 	discussion.tex
 SRC+=	conclusions.tex
 SRC+=	tamarin-spec.tex
-SRC+= 	identity-limits.tex
 
 paper.pdf: ${SRC}
 
