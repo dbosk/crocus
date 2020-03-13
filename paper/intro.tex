@@ -15,6 +15,9 @@ Second, for the assumption about sending all bits at once to hold,
 \textcite{UWBPR} requires that two devices shared a symmetric key~\(k\).
 Our second contribution is \iac{PKI} and \ac{AKE} scheme for any device in 
 the \ac{PKI} to convince a verifier that this is the case.
+This replaces everyone having the same static key~\(k\) with everyone having a 
+unique key which is signed by \iac{CA} of the \ac{PKI}, which allows for 
+revocation.
 The solution relies on our first contribution.
 
 Our last contribution is another version of the protocol, one which uses 
