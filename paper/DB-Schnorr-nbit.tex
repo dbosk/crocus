@@ -499,21 +499,3 @@ for the chosen challenge --- in each round.
   which concludes the proof.
 \end{proof}
 
-\subsection{Formal Verification}
-
-We wanted to formally verify the protocol security properties. To realize this, 
-we used the Tamarin prover~\cite{meier2013tamarin}. Tamarin does not include 
-originally the possibility to reason on time and space in its model.
-However, thanks to a recent work by \textcite{TamarinDB}, all the common 
-properties mentioned in the previous subsection can be equivalently 
-characterized with a causality-based definition relying only on the order of 
-messages.
-
-The whole Tamarin code we wrote is provided in \cref{apdx:tamarin-spec}, with a short discussion of the modeling choices that we have made. 
-It contains a specification of the distance-bounding protocol described previously, a definition of the soundness and correctness properties that ensure the protocol actually produces the expected result, and a definition of the security properties we want to ensure.
-
-Tamarin's auto-prover validated the soundness and correctness properties (in negligible computation time) but does not terminate when trying to prove the security properties.
-This means that no trace violating the security properties is found, but the prover cannot conclusively validate that the desired properties are true. 
-We are currently investigating the Tamarin interactive mode to validate as well the security properties.
-
-
