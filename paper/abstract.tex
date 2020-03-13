@@ -1,21 +1,16 @@
 \begin{abstract}
   
-% % What's the problem?
-  
-We need distance bounding with anonymity/privacy properties. 
-
-% % Why is it a problem?
-There is no distance-bounding protocol with general (attribute-based) anonymous
-credentials. Brands and Chaum's protocol combining distance-bounding
-and Schnorr is susceptible to distance hijacking and terrorist fraud. 
-
 % % Why care?
-Distance-bounding anonymous credentials can be used for any
+Distance-bounding anonymous credentials could be used for any
 location proofs that do not need to identify the prover and
-thus can make even notoriously invasive mechanisms such as
+thus could make even notoriously invasive mechanisms such as
 location-based systems privacy-preserving.
-
-                                                                        
+% % Why is it a problem?
+There is, however, no secure distance-bounding protocol with general (attribute-based) anonymous
+credentials. Brands and Chaum's protocol combining distance-bounding
+and Schnorr comes close but is susceptible to distance hijacking and terrorist fraud. 
+% % What's the problem?
+We need distance bounding with anonymity/privacy properties. 
 % % What's the approach?
 Our approach is another attempt toward combining distance bounding and
 Schnorr, following in the footsteps of Brands and Chaum. Encouraged by
@@ -23,13 +18,12 @@ results from Capkun et al., we take advantage of lessened constraints
 on how much can be sent in the fast phase of the distance-bounding
 protocol and send challenges in a way that allows us to overcome the
 weaknesses of Brands and Chaum's scheme. 
-
 % % What are the findings?
 We prove that our proposed scheme is resistant to the attacks
 identified for distance-bounding protocols, \ie distance hijacking,
-distance fraud, mafia fraud, terrorist fraud, ...  We also provide a
+distance fraud, mafia fraud, and terrorist fraud. We performed a
 symbolic verification of security properties needed for resisting
-these attacks, implemented in Tamarin.
+these attacks, implemented in Tamarin. We also provide a version that does not rely on being able to send more than one bit at a time which yields the same properties except for terrorist fraud resistance. 
 
 \end{abstract}
 
