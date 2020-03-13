@@ -138,84 +138,6 @@ problem:
 what advantage does the adversary get from those \(l\) leaked bits of the 
 second response?
 
-\paragraph*{A special case}
-
-We will start with a special case of the \(l\)-bit problem.
-For a session~\(i\), we have two possible responses to the two challenges:
-\(s_i = r_i + c\alpha\) and \(s_i' = r_i + c'\alpha\).
-Let \(c = 1\) and \(c' = 0\).
-We assume that the adversary learns all \(m\) bits of \(s_i\), but only \(l\) 
-bits of \(s_i'\).
-This special case yields the linear equation system
-\begin{align*}
-  s_i &= r_i + \alpha
-  = s_i'[m-1] 2^{m-1} + \dotsb + s_i'[0] 2^0 + \alpha &\pmod q\\
-  s_i'[j_1] &= b_{j_1} &\pmod 2\\
-  s_i'[j_2] &= b_{j_2} &\pmod 2\\
-            &\vdots \\
-  s_i'[j_l] &= b_{j_l}, &\pmod 2
-\end{align*}
-where \(s_i'[j]\) denotes the \(j\)th bit of \(s_i'\), and \(j_1, \dotsc, 
-j_l\in \{0, \dotsc, m-1\}\) are indices for the bits chosen by the adversary 
-and \(b_{j_1}, \dotsc, b_{j_l}\in \bin\) are the bit values.
-
-\begin{lemma}
-  Assume the special case given above.
-  If \(l < m+\frac{1}{n}-1\), then the equation system is underdetermined and 
-  we cannot solve for \(\alpha\).
-\end{lemma}
-\begin{proof}
-  The equation system above yields \(l+1\) equations and \(m+1\) variables.
-  If we repeat the protocol \(n\) times, we get \(n\) such sessions.
-  This yields an equation system of \(n(l+1)\) equations and \(nm+1\) variables 
-  (\(\alpha\) is not repeated).
-  If \(n(l+1) < nm+1\), this system is underdetermined and cannot be solved.
-  After some rewriting we find that
-  \begin{align*}
-    n(l+1) &< nm+1 \\
-    l+1 &< m + \frac{1}{n} \\
-    l &< m + \frac{1}{n} -1.
-  \end{align*}
-  Which concludes the proof.
-\end{proof}
-
-The number of possible solutions is vital for us, since that is an estimate of 
-how difficult it is for the adversary to guess \(\alpha\).
-
-\begin{lemma}\label{simple-l-bit-advantage}
-  Assume the special case above.
-  There are \(m-l\) free variables, each taking a value from \(\bin\).
-  This yields \(2^{m-l}-1\) unique solutions for each session.
-\end{lemma}
-\begin{proof}
-  The result directly follows from the fact that there are \(m-l\) free 
-  variables.
-  Each free variable can only take two possible values (0 or 1), consequently 
-  there are \(2^{m-l}-1\) unique solutions.
-\end{proof}
-
-\paragraph*{Arbitrarily chosen \(c\neq c'\)}
-
-For any choice of \(c\) and \(c'\) such that \(c\neq c'\), we have
-\begin{align}
-  \label{eqn:general-c}
-  s_i &= r_i + c\alpha &\pmod q\\
-  \label{eqn:general-cprime}
-  s_i' &= r_i + c'\alpha. &\pmod q
-\end{align}
-We can transform this system of equations into our special case above by 
-Gaussian elimination: add \cref{eqn:general-c} multiplied by \(\frac{c'}{c}\) 
-to \cref{eqn:general-cprime}.
-The multiplicative inverse \(\frac{1}{c}\) exists since \(q\) is prime.
-This proves the following lemma.
-
-\begin{lemma}
-  Any choice of \(c, c'\) can be turned into our special case of \(c = 1, c' = 
-  0\).
-\end{lemma}
-
-This means that \cref{simple-l-bit-advantage} is also true for the general case.
-
 \paragraph*{The unconditional \(l\)-bit problem}
 
 We run the protocol \(n\) times and let the adversary learn \(m+l\) bits of the 
@@ -237,31 +159,8 @@ the adversary.
   \(2^{f(\lambda)}-1\) unique solutions, for some function~\(f\) of the 
   security parameter~\(\lambda\).
 \end{lemma}
-\begin{proof}
-  Consider one instance of the protocol:
-  \begin{align*}
-    s_i[0]2^0 + \dotsb + s_i[m-1]2^{m-1} &= r_i + c\alpha \\
-    s_i'[0]2^0 + \dotsb + s_i'[m-1]2^{m-1} &= r_i + c'\alpha.
-  \end{align*}
-  This yields \(2m+2\) variables with two equations, thus \(2m\) free variables.
-  Let the adversary learn \(m+l\) of the bits, \ie left-hand side \(s_i[j]\)'s or 
-  \(s_i'[j']\)'s.
-  This leaves \(2m-(m+l) = m-l\) free variables and \(2^{m-l}-1\) possible 
-  solutions.
 
-  Repeat this \(n\) times.
-  This yields \(n(2m+1)+1\) variables and \(2n\) equations, thus \(2nm+n+1-2n = 
-  2mn - n +1 = n(2m-1)+1\) free variables.
-  Let the adversary learn \(m+l\) bits in each round, thus \(n(m+l)\) in total.
-  This yields \(n(2m-1)+1 -n(m+l) = 2nm-n+1-nm-nl = nm-n+1-nl = n(m-1-l)+1\) 
-  free variables and \(2^{n(m-1-l)+1}-1\) unique solutions.
-  Consequently, if we want at least \(2^{f(\lambda)}-1\) unique solutions, we 
-  have that
-  \begin{equation*}
-    nm-n-nl+1 > f(\lambda) \iff m-1+\frac{1}{n}-\frac{f(\lambda)}{n} > l.
-  \end{equation*}
-  Which concludes the proof.
-\end{proof}
+The proof is in \cref{proofs-lbit}.
 
 \paragraph*{The \(l\)-bit problem with commitments}
 
@@ -299,32 +198,7 @@ the hardness of finding discrete logarithms.
   \(\epsilon 2^{-(l+k)}\).
 \end{lemma}
 
-\begin{proof}
-  We will now construct the algorithm \(\algA_{\text{DL}}\) given the algorithm 
-  \(\algA_{\DBS}\) and the \ac{DLP} challenge \(g, q, A_{\text{DL}}\).
-  Assume that \(\algA_{\DBS}\) succeeds with probability \(\epsilon\).
-
-  We proceed as follows.
-  Guess \(c\rgets \ZZ_k\), choose \(\hat s\rgets \ZZ_{2^l}\).
-  Let \(\hat R\gets A_{\DBS}^c A_{\text{DL}} g^{\hat s}\) and give
-  \(\hat R\) to \(\algA_{\DBS}\).
-  If \(c'\gets \algA_{\DBS}(g, q, A_{\DBS}, \hat R)\) returns \(c'\neq c\), 
-  abort.
-  The probability of success is \(2^{-k}\).
-  Otherwise, give \(\hat s\) to \(\algA_{\DBS}\).
-  Now, by construction, we have that \(
-    \hat R = A_{\DBS}^c g^{\hat s} A_{\text{DL}}.
-  \)
-
-  If \(A_{\text{DL}} = g^{\alpha_{\text{DL}}}\) is chosen such that 
-  \(\alpha_{\text{DL}}\) has the \(l\) least significant bits set to zero 
-  (probability \(2^{-l}\)), then will have \(
-    \alpha_{\text{DL}}\gets \algA_{\DBS}(g, q, A_{\DBS}, \hat R, \hat s)
-  \) with probability \(\epsilon\).
-  Thus, the total probability of success is \(
-    \epsilon 2^{-l} 2^{-k} = \epsilon 2^{-(l+k)}.
-  \)
-\end{proof}
+The proof is in \cref{proofs-lbit}.
 
 As mentioned above, both \(l\) and \(k\) are logarithmic in the security 
 parameter.

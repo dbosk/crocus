@@ -1,0 +1,57 @@
+\section{Proofs for the l-bit problem results}%
+\label{proofs-lbit}
+
+\begin{proof}[Proof of \cref{l-bit-advantage}]
+  Consider one instance of the protocol:
+  \begin{align*}
+    s_i[0]2^0 + \dotsb + s_i[m-1]2^{m-1} &= r_i + c\alpha \\
+    s_i'[0]2^0 + \dotsb + s_i'[m-1]2^{m-1} &= r_i + c'\alpha.
+  \end{align*}
+  This yields \(2m+2\) variables with two equations, thus \(2m\) free variables.
+  Let the adversary learn \(m+l\) of the bits, \ie left-hand side \(s_i[j]\)'s or 
+  \(s_i'[j']\)'s.
+  This leaves \(2m-(m+l) = m-l\) free variables and \(2^{m-l}-1\) possible 
+  solutions.
+
+  Repeat this \(n\) times.
+  This yields \(n(2m+1)+1\) variables and \(2n\) equations, thus \(2nm+n+1-2n = 
+  2mn - n +1 = n(2m-1)+1\) free variables.
+  Let the adversary learn \(m+l\) bits in each round, thus \(n(m+l)\) in total.
+  This yields \(n(2m-1)+1 -n(m+l) = 2nm-n+1-nm-nl = nm-n+1-nl = n(m-1-l)+1\) 
+  free variables and \(2^{n(m-1-l)+1}-1\) unique solutions.
+  Consequently, if we want at least \(2^{f(\lambda)}-1\) unique solutions, we 
+  have that
+  \begin{equation*}
+    nm-n-nl+1 > f(\lambda) \iff m-1+\frac{1}{n}-\frac{f(\lambda)}{n} > l.
+  \end{equation*}
+  Which concludes the proof.
+\end{proof}
+
+\begin{proof}[Proof of \cref{DBSPtoDLP}]
+  We will now construct the algorithm \(\algA_{\text{DL}}\) given the algorithm 
+  \(\algA_{\DBS}\) and the \ac{DLP} challenge \(g, q, A_{\text{DL}}\).
+  Assume that \(\algA_{\DBS}\) succeeds with probability \(\epsilon\).
+
+  We proceed as follows.
+  Guess \(c\rgets \ZZ_k\), choose \(\hat s\rgets \ZZ_{2^l}\).
+  Let \(\hat R\gets A_{\DBS}^c A_{\text{DL}} g^{\hat s}\) and give
+  \(\hat R\) to \(\algA_{\DBS}\).
+  If \(c'\gets \algA_{\DBS}(g, q, A_{\DBS}, \hat R)\) returns \(c'\neq c\), 
+  abort.
+  The probability of success is \(2^{-k}\).
+  Otherwise, give \(\hat s\) to \(\algA_{\DBS}\).
+  Now, by construction, we have that \(
+    \hat R = A_{\DBS}^c g^{\hat s} A_{\text{DL}}.
+  \)
+
+  If \(A_{\text{DL}} = g^{\alpha_{\text{DL}}}\) is chosen such that 
+  \(\alpha_{\text{DL}}\) has the \(l\) least significant bits set to zero 
+  (probability \(2^{-l}\)), then will have \(
+    \alpha_{\text{DL}}\gets \algA_{\DBS}(g, q, A_{\DBS}, \hat R, \hat s)
+  \) with probability \(\epsilon\).
+  Thus, the total probability of success is \(
+    \epsilon 2^{-l} 2^{-k} = \epsilon 2^{-(l+k)}.
+  \)
+\end{proof}
+
+
