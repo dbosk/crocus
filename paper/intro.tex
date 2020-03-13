@@ -9,10 +9,11 @@ can share a key.
 But it does not work for ubiquitous \ac{DB} authentication.
 
 Our work present contributions in the area of \ac{DB} public-key protocols, 
-particularly \ac{DB} \ac{ZKPK}.
+particularly \ac{DB} \acp{ZKPK}.
 This allows anyone to act as a verifier, unlike in the shared-key scenario 
 where the verifier must be trusted.
-The \ac{ZK} property also enables privacy properties such as anonymity.
+The \ac{ZK} property also enables a variety of privacy properties, such as 
+anonymity.
 
 \paragraph*{Contributions}
 
@@ -21,7 +22,7 @@ First, we provide a version of the Schnorr protocol that is \ac{DBMF},
 \ac{DBTF}, \ac{DBDH} and \ac{DBDF} resistant in the \ac{DFKOmodel}.
 This version is based on the assumption that we can transmit all bits at once, 
 not bit-by-bit as normally required for \ac{DB}.
-This assumption is reasonable by the results of \textcite{UWBPR}.
+This assumption is motivated by the results of \textcite{UWBPR}.
 
 Second, for the assumption about sending all bits at once to hold, 
 \textcite{UWBPR} requires that two devices shared a symmetric key~\(k\).
@@ -46,6 +47,7 @@ just without \ac{DBTF} resistance.
 \paragraph*{Outline}
 
 The paper is organized as follows.
+\Cref{related-work} discusses some related work.
 \Cref{Preliminaries} introduces the preliminaries of \ac{ZKPK} and \ac{DB}.
 \Cref{DB-Schnorr} introduces the first version, where we assume that we can 
 send all bits at the same time.
