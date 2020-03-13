@@ -31,14 +31,16 @@ In summary, the difference is as follows.
 \) with a distance bound on the user's behalf.
 \(\DBSHW\) first runs \iac{DHKE} to establish a shared key~\(k =
 \gDH^{\xDH \yDH}\) from \(\XDH = \gDH^{\xDH}, \YDH = \gDH^{\yDH}\), then 
-performs \[
-  \PK[\alpha, \xDH, \sk_P, \sigma][
+performs
+\begin{multline*}
+  \PK\big\{ (\alpha, \xDH, \sk_P, \sigma) : \\
     A = g^\alpha \land
     \XDH = \gDH^{\xDH} \land
-    \XDHCL = \XDH^{\sk} \land
+    \XDHCL = \XDH^{\sk} \land \\
     \Blind[\sigma] = \Sign[_{\sk}][\sk_P]
-  ],
-\] also with a distance bound and \(A = g^\alpha\) on behalf of the user; where 
+  \big\},
+\end{multline*}
+also with a distance bound and \(A = g^\alpha\) on behalf of the user; where 
 \(\sk_P\) is the prover's private key, \(\sigma\) is a signature issued with 
 signing key~\(\sk\) and \(\Blind\) reblinds a signature.
 Proving knowledge of \(\XDH = \gDH^{\xDH}\) and \(\XDHCL = \XDH^{\sk}\) 
@@ -281,13 +283,15 @@ following \ac{ZKPK} protocol: \(
   \PK[\sk_P, r][M = \gCL^{\sk_P} Z^r].
 \)
 
-Now the \ac{CA} computes the signature~\(\sigma = (a, A, b, B, c)\), where \[
+Now the \ac{CA} computes the signature~\(\sigma = (a, A, b, B, c)\), where
+\begin{multline*}
   \alpha\rgets \ZZ_{\qCL}, \quad a\gets \gCL^\alpha, \quad
   A\gets \gCL^{\zCL}, \quad
-  b\gets a^{\yCL}, \quad
+  b\gets a^{\yCL}, \\
   B\gets A^{\yCL}, \quad
   c\gets a^{\xCL} M^{\alpha \xCL \yCL}
-\] and gives to the prover.
+\end{multline*}
+and gives to the prover.
 
 \paragraph*{Pre-setup key-agreement}
 
