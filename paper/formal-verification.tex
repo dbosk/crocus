@@ -1,0 +1,21 @@
+\section{Formal Verification}
+
+We formally verify the protocol security properties using the Tamarin
+prover~\cite{meier2013tamarin}. Tamarin does not originally include
+the possibility to reason on time and space in its model.  However,
+thanks to a recent work by \textcite{TamarinDB}, the common properties
+can be equivalently characterized with a causality-based definition
+relying only on the order of messages.
+
+The whole Tamarin code we wrote is provided in \cref{apdx:tamarin-spec}, with a short discussion of the modeling choices we made. 
+It contains a specification of the distance-bounding protocol described previously, a definition of the soundness and correctness properties that ensure the protocol actually produces the expected result, and a definition of the security properties we want to ensure.
+
+Tamarin's auto-prover validated the soundness and correctness
+properties (in negligible computation time) and proved the security
+properties used in~\cite{TamarinDB}. In the meantime,
+\textcite{TamarinDBTF} introduced the notion of post-collusion
+security which enabled them to prove \ac{DBTF}. In future work, we
+will use this extension on our protocol.
+
+
+
