@@ -73,38 +73,38 @@ the challenge, see \cref{PKalgorithms}) logarithmic in the security parameter
 \(\lambda\) and repeat the protocol sufficiently many times (also logarithmic in 
 the security parameter).
 
-For the non-interactive instance, \(\SPK[\alpha][A = g^\alpha][m]\), we use the 
-Fiat-Shamir heuristic~\cite{FiatShamirHeuristic} on the above protocol, 
-illustrated as \(\SPKprove\) and \(\SPKverify\) in \cref{SPKalgorithms}.
-
-\begin{figure}
-  \small
-  \begin{algorithmic}
-    \Function{$\SPKprove$}{$\{g_i\}_i, q, A, \{\alpha_i\}_i, m$}
-      \State{\(\forall i, 1\leq i\leq n\colon \rho_i\rgets \ZZ_q\)}
-      \State{\(R\gets \prod_{i=1}^n g_i^{\rho_i}\)}
-      \State{$c \gets H(\{g_i\}_i\concat A\concat R\concat m)$}
-      \For{$1\leq i\leq n$}
-        \State{$s_i \gets \rho_i - c\alpha_i \mod q$}
-      \EndFor{}
-      \State{\Return{$(\{s_i\}_i, c)$}}
-    \EndFunction{}
-  \end{algorithmic}
-
-  \begin{algorithmic}
-    \Function{$\SPKverify$}{$\{g_i\}_i, q, A, m, \{s_i\}_i, c$}
-      \State{$\hat R \gets A^c \prod_{i=1}^n g_i^{s_i}$}
-      \If{$c = H(\{g_i\}_i\concat A\concat \hat R\concat m)$}
-        \State{\Return{$\top$}}
-      \EndIf{}
-      \State{\Return{$\bot$}}
-    \EndFunction{}
-  \end{algorithmic}
-  \caption{%
-    \(\SPK[\alpha_1, \dotsc, \alpha_n][A = \prod_{i=1}^n g_i^{\alpha_i}][m]\) 
-    using the Fiat-Shamir heuristic on the Schnorr identification 
-    scheme~\cite{Camenisch-phdthesis}.
-  }%
-  \label{SPKalgorithms}
-\end{figure}
+%For the non-interactive instance, \(\SPK[\alpha][A = g^\alpha][m]\), we use the 
+%Fiat-Shamir heuristic~\cite{FiatShamirHeuristic} on the above protocol, 
+%illustrated as \(\SPKprove\) and \(\SPKverify\) in \cref{SPKalgorithms}.
+%
+%\begin{figure}
+%  \small
+%  \begin{algorithmic}
+%    \Function{$\SPKprove$}{$\{g_i\}_i, q, A, \{\alpha_i\}_i, m$}
+%      \State{\(\forall i, 1\leq i\leq n\colon \rho_i\rgets \ZZ_q\)}
+%      \State{\(R\gets \prod_{i=1}^n g_i^{\rho_i}\)}
+%      \State{$c \gets H(\{g_i\}_i\concat A\concat R\concat m)$}
+%      \For{$1\leq i\leq n$}
+%        \State{$s_i \gets \rho_i - c\alpha_i \mod q$}
+%      \EndFor{}
+%      \State{\Return{$(\{s_i\}_i, c)$}}
+%    \EndFunction{}
+%  \end{algorithmic}
+%
+%  \begin{algorithmic}
+%    \Function{$\SPKverify$}{$\{g_i\}_i, q, A, m, \{s_i\}_i, c$}
+%      \State{$\hat R \gets A^c \prod_{i=1}^n g_i^{s_i}$}
+%      \If{$c = H(\{g_i\}_i\concat A\concat \hat R\concat m)$}
+%        \State{\Return{$\top$}}
+%      \EndIf{}
+%      \State{\Return{$\bot$}}
+%    \EndFunction{}
+%  \end{algorithmic}
+%  \caption{%
+%    \(\SPK[\alpha_1, \dotsc, \alpha_n][A = \prod_{i=1}^n g_i^{\alpha_i}][m]\) 
+%    using the Fiat-Shamir heuristic on the Schnorr identification 
+%    scheme~\cite{Camenisch-phdthesis}.
+%  }%
+%  \label{SPKalgorithms}
+%\end{figure}
 
