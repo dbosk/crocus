@@ -7,15 +7,17 @@ thanks to a recent work by \textcite{TamarinDB}, the common properties
 can be equivalently characterized with a causality-based definition
 relying only on the order of messages.
 
-The whole Tamarin code we wrote is provided in \cref{apdx:tamarin-spec}, with a short discussion of the modeling choices we made. 
-It contains a specification of the distance-bounding protocol described previously, a definition of the soundness and correctness properties that ensure the protocol actually produces the expected result, and a definition of the security properties we want to ensure.
+
+The Tamarin code we wrote\footnote{provided in \url{https://doi.org/10.5281/zenodo.3709442}}%, with a short discussion of the modeling choices we made. 
+ contains a specification of the distance-bounding protocol described previously, a definition of the soundness and correctness properties that ensure the protocol actually produces the expected result, and a definition of the security properties we want to ensure.
 
 Tamarin's auto-prover validated the soundness and correctness
 properties (in negligible computation time) and proved the security
-properties used in~\cite{TamarinDB}. In the meantime,
-\textcite{TamarinDBTF} introduced the notion of post-collusion
-security which enabled them to prove \ac{DBTF}. In future work, we
-will use this extension on our protocol.
+properties used in~\cite{TamarinDB} and
+\textcite{TamarinDBTF}. The latter introduced the notion of post-collusion
+security which enabled them to prove \ac{DBTF}. 
+
+Note that proofs of formal verification are always limited by how well the specification captures reality. The abstraction does not capture the details of the bit-by-bit version that prevent \ac{DBTF} resistance. 
 
 
 
