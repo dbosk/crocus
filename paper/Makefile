@@ -17,6 +17,7 @@ SRC+= 	DB-Schnorr-nbit.tex
 SRC+= 	formal-verification.tex
 SRC+= 	discussion.tex
 SRC+=	conclusions.tex
+SRC+= 	formal-verif-appendix.tex
 SRC+=	tamarin-spec.tex
 
 paper.pdf: ${SRC}

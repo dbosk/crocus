@@ -1,0 +1,16 @@
+\section{Differences in formal models}%
+\label{formal-verif-appendix}
+
+Notable differences between the specification and reality include:
+\begin{itemize}
+	\item We represented the responses $s_i$ as the challenges $c_i$ signed with the prover long-term secret key $\alpha$ and then encoded with the nonce $\rho$; this is faithful to the actual purpose of those values in the protocol, even though the concrete operations executed do not correspond exactly to an encoding and a signature. Indeed, $s_i$ includes $\alpha$ to authenticate the prover (signing), and $\rho$ to mask the actual value of $\alpha$ (encoding).
+	\item We used the chosen challenge $c_b$ directly instead of the flag $b$ to represent the choice of the verifier between the two challenge values; this is equivalent because Tamarin does not work with actual values so the size of those values does not matter, and this helps us for the challenge verification later.
+	\item Conversely to the first point, checking the equality $R = g^{s_b}.A^{c_b}$ is represented as decoding and verifying the signature of the response message $s_b$, which should return $c_b$, and then verifying the trivial equality that $c_b = c_b$, thanks to the previous point.
+	\item Additionally, to model the challenge as unpredictable, we added a fresh nonce $b_{nonce}$ to the challenge specification. This is important due to Tamarin having no proper concept of time, only a notion of causal dependency between messages. Without this nonce there is no such dependency and the prover is able to send the actual response before receiving the challenge, which is detected by Tamarin as a distance fraud attack but is not possible in practice.
+	\item We indicated $\alpha$ as least-disclosing message for collusion. In reality, a colluding prover can leak the responses $s_i$ instead, but the attacker can trivially reconstruct $\alpha$ from two $s_i$ using basic arithmetic. But Tamarin's attacker is not able to manipulate arithmetic this way, so we provide him $\alpha$ directly.
+	\item We ignored the secret sharing step; it is aimed at not leaking any information about the prover's secret key --not even the first $l$ bits--, which is not a property we are trying to formally prove with Tamarin here. \simon{not sure if this is still relevant, or obsoleted by the bit-by-bit version}
+	\item We represented the challenge/response as a single-round step; the multi-round process is designed to resist against probabilistic attacks where a dishonest prover simply guess the response values in advance, but this type of attacks isn't covered by Tamarin's model anyway.
+\end{itemize}
+
+
+
