@@ -1,4 +1,4 @@
-\subsection{Verifiability requirements}%
+\subsection{Verifiability and privacy requirements}%
 \label{verifiability-properties}
 
 We now try to make the properties from \cref{desired-properties} more 
@@ -31,3 +31,29 @@ further broken up into four subproperties:
   \item\label{IndividualVerif} \emph{Individual verifiability}: each participant can verify that their participation proof is included in the global count.
 \end{requirements}
 
+For privacy, we require a set of unlinkability properties:%
+\label{privacy-properties}
+\begin{requirements}[P]
+\item\label{PseudonymUnlink} \emph{Pseudonym unlinkability}: given a protest 
+  (identifier \cid), protesters Alice and Bob, and a pseudonym \(\pid_b\), the 
+  adversary cannot tell if \(\pid_b = \pid_{\text{Alice}}\) or \(\pid_b = 
+    \pid_{\text{Bob}}\), except with negligible probability. And similarly with $wid$ if Alice and Bob act as witnesses.
+\item\label{ProtestUnlink} \emph{Protest unlinkability}: protesters' pseudonyms 
+  (\(\pid_\cid, \pid_{\cid'}\)) must be unlinkable between protests (\(\cid, 
+    \cid'\)) from the adversary's perspective.
+\item\label{WitnessUnlink}\emph{Witness unlinkability}:  witnesses' pseudonyms 
+  (\(\wid_\pid, \wid_{\pid'}\)) must be unlinkable between protesters (\(\pid, 
+    \pid'\)) from the adversary's perspective.
+\end{requirements}
+
+What these properties say is that pseudonyms must look random 
+(\cref{PseudonymUnlink}) and that each psdeudonym must not be reused
+more than strictly necessary for the verifiability properties 
+(\cref{ProtestUnlink,WitnessUnlink}). In Pfitzmann-Hansen
+terminology~\cite{pfitzmann-hansen}, they are role-relationship
+pseudonyms, but with increasingly narrowed notions of roles and
+relationships (participant of particular protest, witness of a
+particular participant at a particular protest).
+In the terminology of \textcite{SybilFreePseudonyms}, for each protester a 
+protest is a context or identity domain whereas for each witness every 
+protester is a context (or identity domain).
