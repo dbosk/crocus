@@ -20,6 +20,7 @@ SRC+=	system-model.tex
 SRC+= 	building-blocks.tex
 SRC+= 		ZKPK.tex
 #SRC+= 		ZKPK-instantiations.tex
+SRC+= 		sybil-free-pseudonyms.tex
 SRC+= 		anon-cred.tex
 SRC+= 		distance-bounding.tex
 #SRC+= 		DB-anon-cred.tex
