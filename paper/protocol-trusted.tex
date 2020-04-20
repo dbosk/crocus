@@ -2,55 +2,52 @@
 \section{The trusted-witnesses protocol}%
 \label{trusted-witnesses-protocol}
 
-We now present \CROCUS, a protocol for privately verifiable crowd
-counts. A prerequisite for using \CROCUS is a one-to-one mapping of a person's
-sybil-proof identity and a cryptographic key%
-%, more specifically, an anonymous 
-%identity credential that provides unlinkability between contexts but 
-%linkability for reuse within the same context
-%\sonja{this is actually achieved by our use of prfs for pid and wid,
-%not inherent in the credential}
-% \footnote{%
-%   Given any \ac{CA} that prevents Sybil 
-%   attacks~\cite{SybilAttack}, systems such as~\cite{clonewars} could
-%   be used to make sure that for each identity one-and-only-one
-%   cryptographic key is issued.
-%   In terms of~\cite{clonewars}, this can be seen as an unclonable subscription 
-%   to one's identity.
-% }
-. Since we assume these properties, we
-present only the result of the process of getting anonymous
-credentials from a \ac{CA}, in \cref{ProtocolSetup}.
+We now present a protocol for privacy-preserving but verifiable crowd
+counts.
+This version of the protocol relies on trusted entities to act as witnesses for 
+\iac{LP}.
 
-The core of the \CROCUS protocol consists of generating participation
-proofs (joining a protest, participating in witnessing, submitting
-proof shares to a ledger, all in \cref{ProtocolDuring}) with an overview in \cref{fig:ProtocolOverview}, and then counting and
-verification of that count (in \cref{ProtocolVerification}). 
+A prerequisite for this protocol is a one-to-one mapping between a persons real 
+identity and a certificate (\ie a cryptographic key).
+\Cref{ProtocolSetup} covers how Alice can obtain such a certificate.
+It is a lighter version than in \cite{SelfCertifiedSybilFreePseudonyms} and not 
+the full protocol of \cite{HowToWinTheCloneWars}.
 
-% The protocol consists of five phases: setup (in \cref{ProtocolSetup}),
-% join, participation, submission (all in in \cref{ProtocolDuring}) and
-% verification (in \cref{ProtocolVerification}).
+At the core of our construction, witnesses generate participation proofs for 
+the protesters (in \cref{ProtocolDuring}), these are essentially augmented 
+\acp{LP}\footnote{%
+  \Iac{LP} certifies that its owner was at a given location at a given time.
+  In \cref{protest-model}, we point out that we also need a cause identifier.
+}.
+Then whoever wants to verify the participation count, will count and verify 
+those participation proofs (in \cref{ProtocolVerification}). 
 
 The entities involved in our protocol are participants and (count) verifiers.
 A participant can assume three different roles:
 \begin{enumerate}
 \item The \emph{organizer} has written a manifesto for the protest and 
   disseminated it to others.
+  Anyone can do this.
 \item A \emph{protester} is attending the protest and asks witnesses to vouch 
   for their presence.
-\item A \emph{witness} provides proofs to protesters which state that they indeed participated, constructed such that the proofs are verifiable by 
-  third parties.
+\item A \emph{witness} provides proofs of participation to protesters.
+  The proofs are constructed such that they are verifiable by third parties.
+  The witness must be trusted by the verifier.
 \end{enumerate}
 In general, there is one organizer and every participant can act as
 either or both protester and witness.
 
-After the protest, anyone can count the number of participants (of the protest and the
-protocol) and verify anyone else's count given the relevant meta data
-(which protest, location, time, and witness parameters used in the
-count). We refer to anyone counting or verifying a count as the
-verifier; the process is the same. 
+Anyone can be a verifier (we required universal verifiability, 
+\cref{desired-properties}).
+The verifier defines the protest to be counted by setting the cause, time 
+(interval) and location (area), \cf \cref{DefProtest}.
+Now the verifier counts all proofs that verify correctly and fulfils the cause, 
+time and location criteria.
+The verifier can publish, \eg in a news paper, the final count together with 
+the cause, time and location and anyone can verify this count (by the same 
+procedure).
 
-\subsection{Prerequisite: anonymous credentials}%
+\subsection{Prerequisite: self-certified, Sybil-free pseudonyms}%
 \label{ProtocolSetup}
 
 Before Alice can have her participation in any event counted by
