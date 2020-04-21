@@ -295,7 +295,7 @@ part of the distance bounding).
 %\normalsize
 
 
-\subsection{Count and Verification}%
+\subsection{Count and verification}%
 \label{ProtocolVerification}
 
 % While there are various ways for verifying the participation count, hereafter, 
@@ -309,82 +309,32 @@ part of the distance bounding).
 % We will first give the procedure and then how to construct the two different 
 % strength functions.
 
-
-To count or verify the participation count for a protest \(\prtst\) with 
-identifier \(\cid_0\), a verifier must download the set \(\pshs_{\cid_0}\) of 
-all \(s_P\) and \(s_W\) tuples containing \(\cid_0\) from the ledger~\(\TS\).
-Then from \(\pshs_{\cid_0}\), a verifier can build, in succession,
-\begin{enumerate*}
-\item the valid proof shares \(s_j^{(i)}\) for all matching pairs \((s_P, 
-    s_W)\) corresponding to a witness \(i\) and a protester \(j\),
-\item the participation proof \(\prf_{j}\) for each protester \(j\),
-\item the set \(\prfs_{\prtst}^{\str,\theta}\) of eligible participation proofs 
-  for all protesters in \(\prtst\), and finally,
-\item the participation count, \ie the cardinality of 
-  \(\prfs_\prtst^{\str,\theta}\).
-\end{enumerate*}
-
-More precisely, given \[
-  \pshs_{\cid_0} = \{ (\cid, \pid, \wid, l, t_s, t_s', t_c, \corr) \in \pshs 
-  \mid \cid = \cid_0 \}
-\] and a matching pair \((s_P, s_W) \in {\pshs_{\cid_0}}^2\) for a witness 
-\(i\) and a protester \(j\) with
-\begin{align*}
-  s_P &= (\cid_0, \pid_j, \wid_i, l, t_s, t_s', t_c, \corr_i) &\text{and} \\
-  s_W &= (\cid_0, \pid_j, \wid_i, l, t_s, t_s', t_c', \corr_j),
-\end{align*}
-%, with matching values for \(cid_0, pid_j, wid_i, l, t_s, t_s'\),
-the verifier can build a valid proof share \(s_j^{(i)}\) certified by \(i\) for 
-\(j\) as follows:
-verify \(\corr_i\) and \(\corr_j\),
-let
-\begin{align*}
-  t &= \interval{\max(t_s, t_s')}{\min(t_c, t_c')} &\text{and} \\
-  s_j^{(i)} &= (\cid_0, \pid_j, \wid_i, l, t),
-\end{align*}
-as in \cref{DefProofShare},
-check that \(s_j^{(i)}\) is valid (\ie happened during and at the location of 
-the protest), as in \cref{DefProofShare}.
-
-Then the set of all valid proof shares for a protester \(j\) constitutes its 
-participation proof \(\prf_{j}\), as in \cref{DefParticipationProof},
-and the verifier thus can derive the set of \((\str,\theta)\)-eligible participation proofs \(\prfs_{\prtst}^{\str,\theta}\) for all protesters for the protest \(\prtst\), as in \cref{DefParticipationCount}.
-Finally, the  participation count \(|\prfs_{\prtst}^{\str,\theta}|\) is the cardinality of this set by  \cref{DefParticipationCount}.
-
-
-% MOST PROBABLY obsolete below v 
-
-%To verify the participation count for a protest \(\prtst\)  with identifier $\cid$
-%(see \cref{DefProtest}), a verifier must download all the proof shares \[
-%  \psh_i =   (\cid, \pid_j, \wid_i, t_s^{(i)}, t_s^{\prime (i)}, t_e^{(i)}, 
-%  t_e^{\prime   (i)}, l_i, \corr_{\pid_j}^{(i)}, \corr_{\wid_i})
-%\] for each protester \(j\) from the ledger, verify \(\corr_{\pid_j}^{(i)}\), 
-%\(\corr_{\wid_i}\) and that the interval \(\interval{\max(t_s^{(i)}, 
-%    t_s^{\prime (i)})}{\min(t_e^{(i)}, t_e^{\prime (i)})}\subseteq t\) and that 
-%\(l_i\subseteq  l\).
-%Any proof share that does not verify correctly will be discarded.
-%At this point, the verifier has constructed the set \(S\) from 
-%\cref{DefProofShares} and can thus construct any participation proof 
-%\(\prf_{\pid_j, P}\) as in \cref{DefParticipationProof}.
-%Now the verifier can compute the participation count \(|\prfs_P^{\str, 
-%    \theta}|\) as in \cref{DefParticipationCount}.
-
-
-%__________________________
-
-% In the case \emph{without} trusted witnesses, all the weights equal to 1 is equivalent to counting the elements in the set, 
-% \(\str[\prf_{\pid_j, P}] = |\prf_{\pid_j, P}|\).
-
-In the case of trusted witnesses, each such trusted witness must
-publish or otherwise inform the verifier of which proof shares they
-have signed, \eg by giving a list of all such proof shares or
-digitally signing each proof share\footnote{%
-  To achieve witness privacy in this situation, one could employ a
-  group or ring signature scheme for a set of potentially trusted witnesses, \eg
-  members of an independent journalist association.  Then one learns
-  that at least one member of this set must have
-  been there.
+Assume that the verifier wants to verify the count for a protest~\(\prtst\).
+The first thing the verifier will do, is to download all the proof 
+shares~\(\psh\) from the ledger~\(\TS\), such that \(\psh \sqsubseteq \sprtst\) 
+is a valid proof share for some subprotest~\(\sprtst\in\prtst\) of the 
+protest~\(\prtst\).
+Next, the verifier selects only those proof shares~\(\psh = (\cid, \pid, \wid, 
+t, l, \corr_{\wid})\) such that \(\corr_\wid\) proves knowledge of a signature 
+by \(\sskw\), where \(\CA'\) is someone the verifier trusts\footnote{%
+  We note that there can be more than one \ac{CA} which the verifier trusts 
+  will issue credential only to trustworthy witnesses,
+  but we keep to one for the simplicity of our exposition.
 }.
+We denote this set of proof shares by \(\pshs\).
+
+Next, the verifier partitions the set of proof shares~\(\pshs\) using the 
+relation~\(=_\pid\) such that \(
+  (\cid, \pid, \wid, t, l) =_\pid (\cid', \pid', \wid', t', l')
+\) is true if \(\pid = \pid'\).
+Each equivalence class \(\prf_{i, \prtst} \in \pshs/=_\pid\) is a proof of 
+participation for participant \(i\).
+In terms of \cref{DefParticipationCount}, the set of 
+proofs~\(\prfs_\prtst^{\str, \theta} = \pshs/=_\pid\), where \(\theta = 1\) and 
+\(\str(\cdot) = 1\).
+Consequently, the total participation count is \(|\pshs/=_\pid|\).
+
+\endinput
 
 Note that, thanks to the \((\str,\theta)\)-eligibility criterion
 (\cref{DefParticipationCount}), the method of counting is extremely
