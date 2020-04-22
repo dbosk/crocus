@@ -40,8 +40,9 @@ SRC+= 	identity-limits.tex
 
 main.pdf: ${SRC}
 
-FIGS+= 				proofshare.tikz
+FIGS+= 				proofshare.tikz proofshare-trusted.tikz
 proofshare.tikz: 	../fig/proofshare.tikz
+proofshare-trusted.tikz: 	../fig/proofshare-trusted.tikz
 
 FIGS+= 				base-adversary.tikz
 base-adversary.tikz: ../fig/base-adversary.tikz

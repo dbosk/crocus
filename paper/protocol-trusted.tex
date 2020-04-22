@@ -99,28 +99,29 @@ Upon success, the participant sets \(\sk = (\sigma, k, r)\).
 The goal of our protocol is to generate and collect privacy-preserving
 participation proofs that can be counted and verified. These proofs
 consist of proof shares that are constructed as depicted in
-\cref{fig:ProofFig}.
+\cref{proofshare-trusted-fig}.
 They are constructed through an interactive protocol between the protester and 
 the witness, as depicted in \cref{protocol-overview-trusted} and described below.
 
 \begin{figure}
   \centering
   \small
-  \includegraphics{proofshare.tikz}
+  \includegraphics{proofshare-trusted.tikz}
   \caption{%
     Structure of a proof share.
     The protest (cause) identifier \(\cid\) is the hash value of the manifesto.
-    The protester \(P\)'s identifier \(\pid\) is computed using the protester's key \(\sk_P\) and \(\cid\).
-    The witness \(W\)'s protester-specific identifier \(\wid\) is computed using the
-    witness's key \(\sk_W\) and the protester's \(\pid\).
-    \(t_s, t_s'\) are the hashes of the head blocks in the ledger seen by the 
-    protester and witness, respectively, and \(l\) is an area.
+    The protester~\(P\)'s protest-specific pseudonym~\(\pid\) is computed using 
+    the protester's key~\(\sk_P\) and \(\cid\).
+    The witness \(W\)'s \emph{protester}-specific identifier \(\wid\) is 
+    computed using the witness's key~\(\sk_W\) and the protester's 
+    pseudonym~\(\pid\).
+    \(t\) is the time (interval) and \(l\) is the location (area) as determined 
+    by the trusted witness~\(W\).
     All values are signed by the witness (signature \(\prf_W = \SPK[\sk_W][\wid 
-      = \dotsb][\cid, \pid, \wid, t_s, t_s', l]\)) while also proving the 
-    correctness of \(\wid\) and knowledge of a signature on \(\sk_W\).
-    The protester constructs \(\prf_P\) analogously.
+    = \dotsb][\cid, \pid, \wid, t, l]\)) while also proving the correctness of 
+    \(\wid\) and knowledge of a signature on \(\sk_W\) by some \ac{CA}.
   }%
-  \label{fig:ProofFig}
+  \label{proofshare-trusted-fig}
 \end{figure}%
 
 
@@ -151,7 +152,7 @@ compute an identifier for the cause (the context) by hashing the manifesto,
 }.
 Afterwards, this is used to create the protester's protest-specific 
 pseudonym~\(\pid\gets \ACprf[_{\sk_P}][\cid]\)%
-% (see \cref{fig:ProofFig} and \cref{ACprfAlg} in the appendix for details of 
+% (see \cref{proofshare-trusted-fig} and \cref{ACprfAlg} in the appendix for details of 
 %the algorithms)%
 .
 
@@ -175,7 +176,7 @@ the witness can
     \Proto{\CROCUSparticipate[\cid, \sk_P]}{\CROCUSwitness[\sk_W, \spk]}\)}
 
 In the participation phase, the protester and 
-the witness construct the proof share of the protester (\cref{fig:ProofFig}).
+the witness construct the proof share of the protester (\cref{proofshare-trusted-fig}).
 
 The protester sends \(\pid\) to the witness.
 Then they run the protocol \[
@@ -286,7 +287,7 @@ part of the distance bounding).
     (\(\cid\)),
     the witness~\(W\) with pseudonym~\(\wid\) in the context of that protester 
     and
-    their computations are as in \cref{fig:ProofFig}.
+    their computations are as in \cref{proofshare-trusted-fig}.
     Finally, \(W\) submits the proof share to a public ledger~\(\TS\) for 
     permanent storage.
   }%
