@@ -191,7 +191,7 @@ If the protocol succeeds, the witness will compute \(\wid \gets
 
 
 \paragraph*{Submission:
-  \(\psh_W\gets \CROCUSsubmit[_W][\cid, \pid, \wid, t, l]\)}
+  \(\psh\gets \CROCUSsubmit[_W][\cid, \pid, \wid, t, l]\)}
 
 In the submission phase, the proof shares are be made available for the 
 verifier.
@@ -216,11 +216,11 @@ Finally, the complete proof share is the tuple \[
 
 For individual and universal verifiability, the proof should be published on 
 some permanent storage, such as the ledger~\(\TS\) by running 
-\(\TSsubmit[\psh_W]\) (\cref{ledger}).
+\(\TSsubmit[\psh]\) (\cref{ledger}).
 
 Note that it does not matter if it is the witness or the protester who makes 
-\(\psh_W\) available to the verifier.
-The witness could compute \(\psh_W\) during the protest and give to the 
+\(\psh\) available to the verifier.
+The witness could compute \(\psh\) during the protest and give to the 
 protester immediately, but we separate these steps to show that the witness can 
 postpone those extra computations while potentially running on battery.
 
@@ -317,23 +317,24 @@ is a valid proof share for some subprotest~\(\sprtst\in\prtst\) of the
 protest~\(\prtst\).
 Next, the verifier selects only those proof shares~\(\psh = (\cid, \pid, \wid, 
 t, l, \corr_{\wid})\) such that \(\corr_\wid\) proves knowledge of a signature 
-by \(\sskw\), where \(\CA'\) is someone the verifier trusts\footnote{%
-  We note that there can be more than one \ac{CA} which the verifier trusts 
-  will issue credential only to trustworthy witnesses,
-  but we keep to one for the simplicity of our exposition.
-}.
+by \(\sskw\).
 We denote this set of proof shares by \(\pshs\).
 
 Next, the verifier partitions the set of proof shares~\(\pshs\) using the 
 relation~\(=_\pid\) such that \(
   (\cid, \pid, \wid, t, l) =_\pid (\cid', \pid', \wid', t', l')
 \) is true if \(\pid = \pid'\).
-Each equivalence class \(\prf_{i, \prtst} \in \pshs/=_\pid\) is a proof of 
+Each equivalence class \(\prf_{i, \prtst} \in \pshs/{=_\pid}\) is a proof of 
 participation for participant \(i\).
-In terms of \cref{DefParticipationCount}, the set of 
-proofs~\(\prfs_\prtst^{\str, \theta} = \pshs/=_\pid\), where \(\theta = 1\) and 
-\(\str(\cdot) = 1\).
-Consequently, the total participation count is \(|\pshs/=_\pid|\).
+In terms of \cref{DefParticipationCount}, we let \(\theta = 1\) and \[
+  \str(\psh) =
+    \begin{cases}
+      1 & \text{if the verifier trusts \(\CA'\) to issue only to trustworthy 
+        witnesses} \\
+      0 & \text{otherwise}
+    \end{cases}.
+\] Consequently, the total participation count is \(|\prfs_\prtst^{\str, 
+\theta}|\).
 
 \endinput
 
