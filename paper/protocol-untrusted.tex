@@ -1,103 +1,28 @@
 %\section{\CROCUS:\@ A protocol for crowd counting estimation}%
-\section{The untrusted-witnesses protocol}%
+\section{Crowd counting with potentially untrusted witnesses}%
 \label{untrusted-witnesses-protocol}
 
-
-We now present \CROCUS, a protocol for privately verifiable crowd
-counts. A prerequisite for using \CROCUS is a one-to-one mapping of a person's
-sybil-proof identity and a cryptographic key%
-%, more specifically, an anonymous 
-%identity credential that provides unlinkability between contexts but 
-%linkability for reuse within the same context
-%\sonja{this is actually achieved by our use of prfs for pid and wid,
-%not inherent in the credential}
-% \footnote{%
-%   Given any \ac{CA} that prevents Sybil 
-%   attacks~\cite{SybilAttack}, systems such as~\cite{clonewars} could
-%   be used to make sure that for each identity one-and-only-one
-%   cryptographic key is issued.
-%   In terms of~\cite{clonewars}, this can be seen as an unclonable subscription 
-%   to one's identity.
-% }
-. Since we assume these properties, we
-present only the result of the process of getting anonymous
-credentials from a \ac{CA}, in \cref{ProtocolSetup}.
-
-The core of the \CROCUS protocol consists of generating participation
-proofs (joining a protest, participating in witnessing, submitting
-proof shares to a ledger, all in \cref{ProtocolDuring}) with an overview in \cref{fig:ProtocolOverview}, and then counting and
-verification of that count (in \cref{ProtocolVerification}). 
-
-% The protocol consists of five phases: setup (in \cref{ProtocolSetup}),
-% join, participation, submission (all in in \cref{ProtocolDuring}) and
-% verification (in \cref{ProtocolVerification}).
-
-The entities involved in our protocol are participants and (count) verifiers.
-A participant can assume three different roles:
-\begin{enumerate}
-\item The \emph{organizer} has written a manifesto for the protest and 
-  disseminated it to others.
-\item A \emph{protester} is attending the protest and asks witnesses to vouch 
-  for their presence.
-\item A \emph{witness} provides proofs to protesters which state that they indeed participated, constructed such that the proofs are verifiable by 
-  third parties.
-\end{enumerate}
-In general, there is one organizer and every participant can act as
-either or both protester and witness.
-
-After the protest, anyone can count the number of participants (of the protest and the
-protocol) and verify anyone else's count given the relevant meta data
-(which protest, location, time, and witness parameters used in the
-count). We refer to anyone counting or verifying a count as the
-verifier; the process is the same. 
-
-\subsection{Prerequisite: anonymous credentials}%
-\label{ProtocolSetup}
-
-Before Alice can have her participation in any event counted by
-\CROCUS, she needs to get an anonymous credential and corresponding
-keys. This only needs to be repeated when the credential expires or is
-lost, in analogy to a passport in terms of expected intervals. The
-keys can be reused for an arbitrary number of protests or, given
-careful choices in the PRF used for deriving identifiers, other
-services that work with anonymous credentials. 
-
-We use the setup and registration phases of Anon-Pass~\cite{AnonPass} for
-getting anonymous credentials, adapting only the notation to fit ours. 
-%More precisely, we have simply adapted their description to our notation, but otherwise kept the setting as similar as possible.
-
-
-\emph{Setup: \((\spk, \ssk)\gets \CROCUSsetup\).}
-During the setup phase, the \ac{CA} creates all the needed keys.
-The \ac{CA} generates a service public-private key-pair \((\spk, \ssk)\gets 
-  \ACsetup\) (see \cref{ACsignAlg}).
-
-\emph{Registration: \(\sk\gets 
-    \Proto{\CROCUSreg[_P][\spk]}{\CROCUSreg[_{\CA}][\ssk]}\).}
-During the registration phase, each participant generates a secret key~\((k, 
-  r)\) and obtains a signature on it by the \ac{CA} \emph{but without revealing 
-  it} to the \ac{CA} (or to any part thereof in a multi-party scenario).
-At the end, each participant will have a signed secret key while the \ac{CA} 
-will issue only one signature per participant but without knowing the 
-association between a particular key and the identity of the participant.
-The participant chooses \(k, r\rgets \ZZ_q\) uniformly randomly and runs 
-\(\sigma \gets \Proto{\ACgetSig[\spk, k, r]}{\ACissueSig[\spk, \ssk]}\) (see 
-\cref{ACacAlg}).
-Upon success, the participant sets \(\sk = (\sigma, k, r)\).
-
+In line with some \ac{LPS}, \eg \ac{PROPS}, we now provide a version where we 
+reduce the trust in the witnesses.
+The entities and roles involved in this version of the protocol are still the 
+same, but we reduce the possibility to create new proofs before and after an 
+event.
 
 
 \subsection{Participation}%
 \label{ProtocolDuring}
 
-
-%The join, participation and submission phases are as follows.
-% illustrated in \cref{fig:ProtocolOverview}.
-The goal of \CROCUS is to generate and collect privacy-preserving
-participation proofs that can be counted and verified. These proofs
-consist of proof shares that are constructed as depicted in
-\cref{fig:ProofFig}. The protocol phases are given in
-\cref{fig:ProtocolOverview} and described below.
+The main change to participate is the use of the time-stamping property of 
+\(\TS\).
+Instead of the witness determining the time~\(t\), the witness and protester 
+each determine a time interval for the creation of the proof.
+The witness gets \(t_s\gets \TSget\) and the protester gets \(t_s'\gets 
+\TSget\) from the ledger~\(\TS\).
+They close the interval by committing the proof share to the ledger using 
+\(\TSsubmit\).
+This adapted structure of a proof-share is depicted in \cref{fig:ProofFig}.
+The updated protocol phases are given in \cref{fig:ProtocolOverview} and 
+described below.
 
 \begin{figure}
   \centering
@@ -109,8 +34,9 @@ consist of proof shares that are constructed as depicted in
     The protester \(P\)'s identifier \(\pid\) is computed using the protester's key \(\sk_P\) and \(\cid\).
     The witness \(W\)'s protester-specific identifier \(\wid\) is computed using the
     witness's key \(\sk_W\) and the protester's \(\pid\).
-    \(t_s, t_s'\) are the hashes of the head blocks in the ledger seen by the 
-    protester and witness, respectively, and \(l\) is an area.
+    \(t_s, t_s'\) are the outputs from \(\TSget\), \eg hashes of the head 
+    blocks in the ledger seen by the protester and witness, respectively, and 
+    \(l\) is an area.
     All values are signed by the witness (signature \(\prf_W = \SPK[\sk_W][\wid 
       = \dotsb][\cid, \pid, \wid, t_s, t_s', l]\)) while also proving the 
     correctness of \(\wid\) and knowledge of a signature on \(\sk_W\).
@@ -120,62 +46,53 @@ consist of proof shares that are constructed as depicted in
 \end{figure}%
 
 
-\emph{Creation of a protest: the manifesto.}
-The organizer writes a manifesto for the protest, which describes its cause.
-This manifesto could take the form of any intelligible text, in
-practice at minimum a name.
-The organizer then distributes this manifesto to people through
-any suitable means  (\eg on the Web, on placards, \etc).
-If they agree with the cause, they will use the knowledge of the
-manifesto to join the protest. 
+The creation of the protest is the same: the organizer publishes the manifesto 
+in some way.
 
+\paragraph*{Joining}
 
-\emph{Joining as a protester: \((\pid, t_s)\gets 
-    \CROCUSjoin[_P][\text{manifesto}]\).}
-A protester who wants to join the protest uses the manifesto to
-compute an identifier for the cause by hashing the manifesto,
-\(\cid\gets \Hash[\mfst]\) (and comparing the result to that received
-from the organizer, we omit this in the protocol for readibility).
-Afterwards, this identifier is used to create the protest-specific identifier 
-for the protester, \(\pid\gets \ACprf[_{\sk_P}][\cid]\)%
-% (see \cref{fig:ProofFig} and \cref{ACprfAlg} in the appendix for details of 
-%the algorithms)%
-.
-The protester also fetches a time-correlated random value, \(t_s\), from 
+The join procedure is the same, except we add fetching \(t_s\).
+So the protester computes \(
+  \cid\gets \Hash[\mfst]
+\) and \(
+  \pid\gets \ACprf[_{\sk_P}][\cid].
+\) The protester also fetches a time-correlated random value, \(t_s\), from 
 \(\TS\), \(t_s\gets \TSget\).
 
-
-\emph{Joining as a witness: \(t_s'\gets \CROCUSjoin_W\).}
-The witness simply gets a time-correlated random value from the time-stamping service, \(t_s'\gets \TSget\).
+The witness simply gets a time-correlated random value from the time-stamping 
+service, \(t_s'\gets \TSget\).
 Note that we do this for redundancy, the newest of \(t_s\) and \(t_s'\) will 
 set the start of the time interval of creation for the proof share.
 
 
-\emph{Participation: \(\pi\gets
-    \Proto{\CROCUSparticipate[\cid, \sk_P]}{\CROCUSwitness[\sk_W, \spk]}\),}
-In the participation phase, the protester and 
-the witness construct the proof share of the protester (\cref{fig:ProofFig}).
+\paragraph*{Participation}
+
+In the participation phase, the only difference is the use of \(t_s\) and 
+\(t_s'\) instead of \(t\).
 
 The protester sends \(\pid\) and \(t_s\) to the witness.
 Then they run the protocol \[
   \Proto{\ACproveSig[\spk, k, r, \sigma]}{\ACverifySig[\spk, \ssk]}
-\] (see \cref{ACacAlg}), \(k\) and \(r\) are part of \(\sk_P\).
-Note that the \acf{PK} in \cref{ACacAlg} must be
-run as a \iacf{PPK}, which we do by distance bounding.
+\] to verify the correctness of \(\pid\) and do the distance bounding, same as 
+before.
 If the protocol succeeds, the witness will compute \(\wid \gets 
-  \ACprf[_{\sk_W}][\pid]\) and send \((\wid, t_s', l)\) to the protester.
+\ACprf[_{\sk_W}][\pid]\) and send \((\wid, t_s', l)\) to the protester.
 
 
-\emph{Submission: \(\psh_P\gets \CROCUSsubmit[_P][\cid, \pid, \wid, t_s, t_s',  l]\).}
-The protester commits the proof-share data to the ledger~\(L\) and receives the 
-proof of commitment, \(t_e\gets \TSsubmit[\Hash[\cid, \pid, \wid, t_s, t_s', 
-  l]]\).
+\paragraph*{Submission}
+
+The submission phase differs in what constitutes the proof share.
+The protester commits the proof-share data to the ledger~\(\TS\) and receives 
+the proof of commitment~\(t_e\gets \TSsubmit[\Hash[\cid, \pid, \wid, t_s, t_s', 
+l]]\), which ends the time interval.
 The sooner this is done, the higher the precision for the time-dependent 
 eligibility criterion will be for later counting.
+(The witness can also do this, the important part is to do it as soon as 
+possible.)
 The remaining operations are not time critical.
 
 The protester computes \iac{NIZK} proof \(\corr_{\pid}\), which shows the 
-correctness of \(\pid\).
+correctness of \(\pid\) to a third party.
 More specifically,
 \begin{multline*}
   \corr_{\pid}\gets \SPK\left\{ (\sk_P) : \right. \\
@@ -189,12 +106,10 @@ Finally, the protester uploads the tuple \[
   \psh_P = (\cid, \pid, \wid, t_s, t_s', t_e, l, \corr_{\pid})
 \] for permanent storage, \(\TSsubmit[\psh_P]\).
 
-\emph{Submission: \(\psh_W\gets \CROCUSsubmit[_W][\cid, \pid, \wid, t_s, t_s', 
-    l]\).}
-The witness, like the protester, commits the proof-share data to the 
-ledger, \(t_e\gets \TSsubmit[\Hash[\cid, \pid, \wid, t_s, t_s', l]]\).
-%(This is to make the time interval as early as possible, whoever is the faster 
-%will submit it.) \sonja{but both do}
+The witness, like the protester, commits the proof-share data to the ledger, 
+\(t_e\gets \TSsubmit[\Hash[\cid, \pid, \wid, t_s, t_s', l]]\).
+(This is to close the time interval as early as possible, whoever is the faster 
+will submit it first, so both submit it.) \sonja{but both do}
 Then, without any time requirements, the witness computes \iac{NIZK} proof 
 \(\corr_{\wid}\) as follows:
 \begin{multline*}
@@ -274,101 +189,40 @@ Finally, the witness uploads the tuple \[
 \subsection{Count and Verification}%
 \label{ProtocolVerification}
 
-% While there are various ways for verifying the participation count, hereafter, 
-% we will detail the two suggested just after \cref{DefParticipationCount}.
-% In the first approach, we do not trust individual witnesses, rather we \emph{assume} that it is difficult for Alice to find more than \(\theta\) witnesses willing to collude.
-% Thus, the strength comes from the number of witnesses and we require at least \(\theta\) witnesses to accept a participation proof as valid.
-% In the second approach, we trust specific witnesses, but no others.
-% In this case, to accept a participation proof as valid, we require at least one trusted witness, the independent journalist Jane.
-% It is the strength function \(\str\) of \cref{DefParticipationCount} that 
-% differ in the two cases.
-% We will first give the procedure and then how to construct the two different 
-% strength functions.
+The set of proofs is constructed the same way as before.
+What differs is what we do with \(\theta\) and \(\str\).
 
+We have the set of proof shares~\(\pshs\), as before.
+We also have the partitioning of the set of proof shares using the 
+relation~\(=_\pid\) such that \(
+  (\cid, \pid, \wid, t, l) =_\pid (\cid', \pid', \wid', t', l')
+\) is true if \(\pid = \pid'\).
+Each equivalence class \(\prf_{i, \prtst} \in \pshs/{=_\pid}\) is a proof of 
+participation for participant \(i\).
+This is the same as before.
 
-To count or verify the participation count for a protest \(\prtst\) with 
-identifier \(\cid_0\), a verifier must download the set \(\pshs_{\cid_0}\) of 
-all \(s_P\) and \(s_W\) tuples containing \(\cid_0\) from the ledger~\(\TS\).
-Then from \(\pshs_{\cid_0}\), a verifier can build, in succession,
-\begin{enumerate*}
-\item the valid proof shares \(s_j^{(i)}\) for all matching pairs \((s_P, 
-    s_W)\) corresponding to a witness \(i\) and a protester \(j\),
-\item the participation proof \(\prf_{j}\) for each protester \(j\),
-\item the set \(\prfs_{\prtst}^{\str,\theta}\) of eligible participation proofs 
-  for all protesters in \(\prtst\), and finally,
-\item the participation count, \ie the cardinality of 
-  \(\prfs_\prtst^{\str,\theta}\).
-\end{enumerate*}
+However, in terms of \cref{DefParticipationCount}, the total participation 
+count is still \(|\prfs_\prtst^{\str, \theta}|\), but this time the verifier 
+might set \(\theta\) and \(\str\) differently.
+The verifier can still set \(\theta\) and \(\str\) the same as before and get 
+the trusted witnesses scenario.
+But this time the verifier knows when the proofs were constructed (in 
+\(\interval{t_s}{t_e}\)), due to trusting \(\TS\) to provide correct 
+time-stamping and immutability.
 
-More precisely, given \[
-  \pshs_{\cid_0} = \{ (\cid, \pid, \wid, l, t_s, t_s', t_c, \corr) \in \pshs 
-  \mid \cid = \cid_0 \}
-\] and a matching pair \((s_P, s_W) \in {\pshs_{\cid_0}}^2\) for a witness 
-\(i\) and a protester \(j\) with
-\begin{align*}
-  s_P &= (\cid_0, \pid_j, \wid_i, l, t_s, t_s', t_c, \corr_i) &\text{and} \\
-  s_W &= (\cid_0, \pid_j, \wid_i, l, t_s, t_s', t_c', \corr_j),
-\end{align*}
-%, with matching values for \(cid_0, pid_j, wid_i, l, t_s, t_s'\),
-the verifier can build a valid proof share \(s_j^{(i)}\) certified by \(i\) for 
-\(j\) as follows:
-verify \(\corr_i\) and \(\corr_j\),
-let
-\begin{align*}
-  t &= \interval{\max(t_s, t_s')}{\min(t_c, t_c')} &\text{and} \\
-  s_j^{(i)} &= (\cid_0, \pid_j, \wid_i, l, t),
-\end{align*}
-as in \cref{DefProofShare},
-check that \(s_j^{(i)}\) is valid (\ie happened during and at the location of 
-the protest), as in \cref{DefProofShare}.
-
-Then the set of all valid proof shares for a protester \(j\) constitutes its 
-participation proof \(\prf_{j}\), as in \cref{DefParticipationProof},
-and the verifier thus can derive the set of \((\str,\theta)\)-eligible participation proofs \(\prfs_{\prtst}^{\str,\theta}\) for all protesters for the protest \(\prtst\), as in \cref{DefParticipationCount}.
-Finally, the  participation count \(|\prfs_{\prtst}^{\str,\theta}|\) is the cardinality of this set by  \cref{DefParticipationCount}.
-
-
-% MOST PROBABLY obsolete below v 
-
-%To verify the participation count for a protest \(\prtst\)  with identifier $\cid$
-%(see \cref{DefProtest}), a verifier must download all the proof shares \[
-%  \psh_i =   (\cid, \pid_j, \wid_i, t_s^{(i)}, t_s^{\prime (i)}, t_e^{(i)}, 
-%  t_e^{\prime   (i)}, l_i, \corr_{\pid_j}^{(i)}, \corr_{\wid_i})
-%\] for each protester \(j\) from the ledger, verify \(\corr_{\pid_j}^{(i)}\), 
-%\(\corr_{\wid_i}\) and that the interval \(\interval{\max(t_s^{(i)}, 
-%    t_s^{\prime (i)})}{\min(t_e^{(i)}, t_e^{\prime (i)})}\subseteq t\) and that 
-%\(l_i\subseteq  l\).
-%Any proof share that does not verify correctly will be discarded.
-%At this point, the verifier has constructed the set \(S\) from 
-%\cref{DefProofShares} and can thus construct any participation proof 
-%\(\prf_{\pid_j, P}\) as in \cref{DefParticipationProof}.
-%Now the verifier can compute the participation count \(|\prfs_P^{\str, 
-%    \theta}|\) as in \cref{DefParticipationCount}.
-
-
-%__________________________
-
-% In the case \emph{without} trusted witnesses, all the weights equal to 1 is equivalent to counting the elements in the set, 
-% \(\str[\prf_{\pid_j, P}] = |\prf_{\pid_j, P}|\).
-
-In the case of trusted witnesses, each such trusted witness must
-publish or otherwise inform the verifier of which proof shares they
-have signed, \eg by giving a list of all such proof shares or
-digitally signing each proof share\footnote{%
-  To achieve witness privacy in this situation, one could employ a
-  group or ring signature scheme for a set of potentially trusted witnesses, \eg
-  members of an independent journalist association.  Then one learns
-  that at least one member of this set must have
-  been there.
-}.
-
+\daniel{The following should be edited to fit.} 
 Note that, thanks to the \((\str,\theta)\)-eligibility criterion
 (\cref{DefParticipationCount}), the method of counting is extremely
 generic, and each (counting) verifier can make an independent choice to regulate their trust in the final result, based on their initial trust in the witnesses. In other words, anyone who does the counting can choose the eligibility
 criteria (time interval, location, number of regular or trusted
-witnesses, who is considered to be a trusted witness) for their own count
-and as long as these are published along with the result, anyone can
-verify the correctness of the count under those criteria, and potentially question the validity of this choice. Biased or partisan verifiers may be tempted to make extreme choices, but they will have to publish those choices and lose credibility. Reasonable verifiers on the other hand will try to find a good middle-ground that counts all legitimate protesters while being resistant to isolated malicious agents.
+witnesses, who is considered to be a trusted witness) for their own count.
+As long as \emph{these assumptions/criteria are published along with the 
+result}, anyone can verify the correctness of the count under those criteria, 
+and potentially question the validity of this choice. Biased or partisan 
+verifiers may be tempted to make extreme choices, but they will have to publish 
+those choices and lose credibility. Reasonable verifiers on the other hand will 
+try to find a good middle-ground that counts all legitimate protesters while 
+being resistant to isolated malicious agents.
 
 % Then the verifier can define \[
 %   \str[\prf_{\pid_j, P}] = \begin{cases}
