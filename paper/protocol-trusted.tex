@@ -89,6 +89,13 @@ The participant chooses \(k, r\rgets \ZZ_q\) uniformly randomly and runs
 \cref{ACacAlg}).
 Upon success, the participant sets \(\sk = (\sigma, k, r)\).
 
+The key~\(\sk\) can be used together with \(\ACprf\) to create a 
+pseudonym~\(p\gets \ACprf[_k][c]\) in a particular context~\(c\) (see 
+\cref{ACprfAlg}).
+There exists \iac{PK} such that one can prove that \(p\) is computed correctly 
+from \(c\) with a valid key~\(\sk\) (see \cref{ACprfPKalg} or \cite{AnonPass} 
+for details).
+
 
 
 \subsection{Participation}%
