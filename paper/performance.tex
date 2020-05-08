@@ -1,0 +1,52 @@
+\section{Performance}%
+\label{performance}
+
+We will now review the performance of the proposed protocols.
+Since the construction is designed as a drop-in replacement for the Schnorr 
+identification-scheme~\cite{Schnorr} as \iac{ZKPK} protocol, we will focus on 
+how much we must \enquote{pay} for the \ac{DB} property.
+
+\paragraph*{Mutual trust}
+
+We start with the mutual-trust version of the protocol in \cref{DB-Schnorr-UWB} 
+(see \cref{DB-Schnorr-UWB-figure}).
+
+In \emph{one round} of the protocol, the cost of the verifier is that of 
+generating \(m\) number of \(l\)-bit strings, instead of only one.
+This costs the verifier a factor \(m\) of randomness.
+The cost of the prover is that of computing \(m\) number of replies (\(s\gets 
+\rho - c \alpha \mod q\)), instead of only one.
+
+To achieve security, the protocol must be repeated \(n\) times.
+We have the \(l\)-parameter which controls the soundness of the \ac{ZKPK} and 
+the \(m\)-parameter controls the soundness of the \acl{DB}.
+If we want to achieve 80 bits of security, we can let \(l = m = 6\) (remember, 
+\(l\) must be logarithmic in the security parameter) and \(n = 14\).
+This makes \acl{DB} a factor \(6\) more expensive over the 
+\emph{malicious-verifier secure} Schnorr protocol.
+
+\paragraph*{\acs*{PKI}}
+
+The \ac{PKI} version of the protocol (\cref{DB-Schnorr-PKI,DBSHW-overview}) 
+performs one signature verification and four additional proofs in parallel.
+The cost for the verifier is one signature verification in addition to the 
+factor \(m\) of randomness used.
+On the prover side, we have the computations for the signature verification and 
+four additional proofs in parallel, this changes the cost to a factor of \(5m\) 
+for the prover: the prover must compute \(s_i = \rho - c_j \alpha_i\) for 
+\(i\in \{1, \dotsc, 5\}, j\in \{1, \dotsc, m\}\).
+
+The cost of the signature is the same as for Anon-Pass~\cite{AnonPass}, which 
+implements a public transport pass using this signature scheme.
+The signature need not be reverified \(n\) times, it is sufficient to verify 
+that once and reuse the same blinding for all \(n\) repetitions of the 
+protocol.
+Thus it is only the \acl{PK} that must be rerun \(n\) times.
+
+\paragraph*{Bit-by-bit}
+
+The traditional bit-by-bit version of the protocol 
+(\cref{DB-Schnorr-nbit,DB-Schnorr-nbit-figure}) is not as efficient.
+That is due to \(m = 2\) being fixed in this case (there are only two responses 
+to choose from), and consequently, we must have a larger value for \(n\) to 
+achieve the desired security.
