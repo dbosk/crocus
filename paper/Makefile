@@ -15,6 +15,7 @@ SRC+= 	DB-Schnorr-UWB.tex
 SRC+= 	DB-Schnorr-PKI.tex
 SRC+= 	DB-Schnorr-nbit.tex
 SRC+= 	formal-verification.tex
+SRC+= 	performance.tex
 SRC+= 	discussion.tex
 SRC+=	conclusions.tex
 SRC+=	tamarin-spec.tex

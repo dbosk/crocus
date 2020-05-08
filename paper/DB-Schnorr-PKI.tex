@@ -84,13 +84,13 @@ for instance, CL04~\cite{CLsignatures}.
     & \(k \gets \XDH^{\yDH}\)
     \\
 
-    \midrule
-    \multicolumn{3}{c}{\textbf{Setup}} \\
-
     Load \(k\) into \(\UWBPR\)
     &
     & Load \(k\) into \(\UWBPR\)
     \\
+
+    \midrule
+    \multicolumn{3}{c}{\textbf{Signature reblinding}} \\
 
     \(r_1, r_2\rgets \ZZ_{\qCL}\)
     &
@@ -118,6 +118,9 @@ for instance, CL04~\cite{CLsignatures}.
       V_{xy} = e(\XCL, \tilde B),
       v_s = e(\gCL, \tilde c)\)
     \\[0.5em]
+
+    \midrule
+    \multicolumn{3}{c}{\textbf{Setup}} \\
 
     \(\rho\rgets \ZZ_q,
       \rhoDH \rgets \ZZ_{\qDH},
@@ -302,12 +305,12 @@ The prover chooses \(\xDH \rgets \ZZ_{\qDH}\), the verifier chooses
 \(k = \gDH^{\xDH \yDH}\), for some generator \(\gDH\) in \iac{DH} group of 
 prime order \(\qDH\).
 The prover also computes \(\XDHCL\rgets \XDH^{\sk}\) and sends to the verifier.
-
-\paragraph*{Setup}
-
-The setup phase is similar to \(\DBS\) (\cref{DB-Schnorr-UWB-figure}).
 They use the agreed upon key~\(k = \gDH^{\xDH \yDH}\) as the key for 
 \(\UWBPR\), instead of a static \(k\).
+
+\paragraph*{Signature reblinding}
+
+The setup phase is similar to \(\DBS\) (\cref{DB-Schnorr-UWB-figure}).
 \(\DBS\) performs \(
   \PK[\alpha][A = g^\alpha]
 \) (with a distance bound) whereas \(\DBSHW\) must perform \[
@@ -336,6 +339,12 @@ Now, the prover and verifier each compute \[
   v_s\gets e(\gCL, \tilde c).
 \]
 
+This blinding procedure can be done once, there is no point in presenting the 
+verifier with several different blindings of the same signature.
+
+\paragraph*{Setup}
+
+Now we prepare for the actual \acl{DB}.
 The prover chooses \[
   \rho\rgets \ZZ_q, \quad
   \rhoDH\rgets \ZZ_{\qDH}, \quad
@@ -386,6 +395,8 @@ Finally, the verifier checks the validity of \(\tilde \sigma\): \[
   e(\tilde a, \YCL) = e(\gCL, \tilde b), \quad
   e(\tilde A, \YCL) = e(\gCL, \tilde B).
 \]
+
+The setup, distance bounding and verification phases are repeated \(n\) times.
 
 
 \subsection{Security analysis}
