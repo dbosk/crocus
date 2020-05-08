@@ -6,24 +6,30 @@ location proofs that do not need to identify the prover and
 thus could make even notoriously invasive mechanisms such as
 location-based systems privacy-preserving.
 % % Why is it a problem?
-There is, however, no secure distance-bounding protocol with general (attribute-based) anonymous
-credentials. Brands and Chaum's protocol combining distance-bounding
-and Schnorr comes close but is susceptible to distance hijacking and terrorist fraud. 
+There is, however, no secure distance-bounding protocol for general 
+\emph{attribute-based} anonymous credentials.
+Brands and Chaum's (EUROCRYPT'93) protocol combining distance-bounding
+and Schnorr comes had the right idea, but does not fulfil the requirements of 
+modern distance-bounding protocols.
 % % What's the problem?
-We need distance bounding with anonymity/privacy properties. 
+We need a secure distance-bounding zero-knowledge proof-of-knowledge resisting 
+mafia fraud, distance fraud, distance hijacking and terrorist fraud.
+
 % % What's the approach?
 Our approach is another attempt toward combining distance bounding and
-Schnorr, following in the footsteps of Brands and Chaum. Encouraged by
-results from Capkun et al., we take advantage of lessened constraints
-on how much can be sent in the fast phase of the distance-bounding
-protocol and send challenges in a way that allows us to overcome the
-weaknesses of Brands and Chaum's scheme. 
+Schnorr to construct a distance-bounding zero-knowledge proof-of-knowledge.
+We construct such a protocol and prove it secure in the (extended) DFKO model 
+for distance bounding.
+We also performed a symbolic verification of security properties needed for 
+resisting these attacks, implemented in Tamarin. 
+
 % % What are the findings?
-We prove that our proposed scheme is resistant to the attacks
-identified for distance-bounding protocols, \ie distance hijacking,
-distance fraud, mafia fraud, and terrorist fraud. We also performed a
-symbolic verification of security properties needed for resisting
-these attacks, implemented in Tamarin. We also provide a version that does not rely on being able to send more than one bit at a time which yields the same properties except for terrorist fraud resistance. 
+Encouraged by results from Singh et al.~(NDSS'19), we take advantage of 
+lessened constraints on how much can be sent in the fast phase of the 
+distance-bounding protocol and achieve a more efficient protocol.
+We also provide a version that does not rely on being able to send more than 
+one bit at a time which yields the same properties except for (full) terrorist 
+fraud resistance. 
 
 \end{abstract}
 
