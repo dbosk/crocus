@@ -7,14 +7,15 @@ thus could make even notoriously invasive mechanisms such as
 location-based systems privacy-preserving.
 % % Why is it a problem?
 There is, however, no secure distance-bounding protocol with general (attribute-based) anonymous
-credentials. Brands and Chaum's protocol combining distance-bounding
+credentials. Brands and Chaum's (EUROCRYPT'93) protocol combining 
+distance-bounding
 and Schnorr comes close but is susceptible to distance hijacking and terrorist fraud. 
 % % What's the problem?
 We need distance bounding with anonymity/privacy properties. 
 % % What's the approach?
 Our approach is another attempt toward combining distance bounding and
-Schnorr, following in the footsteps of Brands and Chaum. Encouraged by
-results from Capkun et al., we take advantage of lessened constraints
+Schnorr. Encouraged by
+results from Singh et al. (NDSS'19), we take advantage of lessened constraints
 on how much can be sent in the fast phase of the distance-bounding
 protocol and send challenges in a way that allows us to overcome the
 weaknesses of Brands and Chaum's scheme. 
