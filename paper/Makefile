@@ -1,7 +1,7 @@
 .PHONY: all
 all: paper.pdf
 
-paper.pdf: paper.tex
+paper.pdf: paper.tex llncs
 paper.pdf: preamble.tex preamble-paper.tex
 
 SRC+=	contents.tex
