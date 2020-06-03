@@ -19,28 +19,32 @@ We summarize the results in \cref{performance-overview}.
 
 \begin{frame}
   \begin{table}
+    \centering
     \caption{%
-      A summary of how costly \acl*{DB} is in terms of performance.
-      \(m, l\in \mathcal{O}(\log \lambda)\).
+      A summary of how costly \acl*{DB} is in terms of randomness, arithmetic 
+      operations (addition, multiplication), exponentiations and pairing 
+      operations.
+      \(m, l\in \mathcal{O}(\log \lambda)\) and we must repeat the protocol 
+      \(n\) times to achieve desired soundness.
     }\label{performance-overview}
     \begin{tabular}{lrrrr}
       \toprule
       Protocol
-      & Rand.
-      & Arith.
+      & Rand.~(\si{\bit})
+      & Arith.~(\(+, \times\))
       & Exp.
       & Pairings\\
       \midrule
-      Schnorr             & \(l\)             & 3    & 3      & 0\\
-      DB, mutual          & \(ml\)            & 3m   & 3      & 0\\
+      Schnorr             & \((\lambda+l)n\)  & \(3n\) & \(3n\) & 0\\
+      DB, mutual          & \((\lambda+ml)n\) & \(3mn\)& \(3n\) & 0\\
       DB, \acs*{PKI} \(\sum\)
-                          & \(8\lambda + ml\)
-                          & \(10m+8\)
-                          & \(25\)
+                          & \(4\lambda + (5\lambda + ml)n\)
+                          & \((10m+8)n\)
+                          & \(9 + 16n\)
                           & \(14\)\\
-      ---\acs*{DHKE}      & \(\lambda\)       & 0    & 4      & 0\\
+      ---\acs*{DHKE}      & \(2\lambda\)      & 0    & 4      & 0\\
       ---CL04 blind       & \(2\lambda\)      & 0    & 5      & 8\\
-      ---DB               & \(5\lambda + ml\)    & \(10m + 2\) & 6 & 0\\
+      ---DB               & \(5\lambda + ml\) & \(10m + 2\) & 6 & 0\\
       ---Verification     & 0    & 6 & 10 & 6\\
       \bottomrule
     \end{tabular}
@@ -70,8 +74,8 @@ This makes \acl{DB} a factor \(6\) more expensive over the
 
 The \ac{PKI} version of the protocol (\cref{DB-Schnorr-PKI,DBSHW-overview}) 
 performs one signature verification and four additional proofs in parallel.
-The cost for the verifier is one signature verification in addition to the 
-factor \(m\) of randomness used.
+The cost for the verifier is one signature verification 
+(CL04~\cite{CLsignatures}) in addition to the factor \(m\) of randomness used.
 On the prover side, we have the computations for the signature verification and 
 four additional proofs in parallel, this changes the cost to a factor of \(5m\) 
 for the prover: the prover must compute \(s_i = \rho - c_j \alpha_i\) for 
@@ -79,9 +83,13 @@ for the prover: the prover must compute \(s_i = \rho - c_j \alpha_i\) for
 
 The cost of the signature is the same as for Anon-Pass~\cite{AnonPass}, which 
 implements a public transport pass using this signature scheme.
-The signature need not be reverified \(n\) times, it is sufficient to verify 
-that once and reuse the same blinding for all \(n\) repetitions of the 
-protocol.
+This signature verification introduces more additions, multiplications, 
+exponentiations and pairing operations.
+However, the signature will only be blinded and verified once, so this 
+represents a constant factor.
+It is sufficient to verify it once and reuse the same blinding for all \(n\) 
+repetitions of the protocol.
+(The same is true for the \ac{DHKE}.)
 Thus it is only the \acl{PK} that must be rerun \(n\) times.
 
 \paragraph*{Bit-by-bit}
