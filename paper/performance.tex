@@ -1,10 +1,51 @@
 \section{Performance}%
 \label{performance}
 
+\mode<presentation>{%
+  \begin{frame}
+    \begin{question}
+      \begin{itemize}
+        \item How costly is this compared to non-\acs{DB} Schnorr?
+      \end{itemize}
+    \end{question}
+  \end{frame}
+}
+
 We will now review the performance of the proposed protocols.
 Since the construction is designed as a drop-in replacement for the Schnorr 
 identification-scheme~\cite{Schnorr} as \iac{ZKPK} protocol, we will focus on 
 how much we must \enquote{pay} for the \ac{DB} property.
+We summarize the results in \cref{performance-overview}.
+
+\begin{frame}
+  \begin{table}
+    \caption{%
+      A summary of how costly \acl*{DB} is in terms of performance.
+      \(m, l\in \mathcal{O}(\log \lambda)\).
+    }\label{performance-overview}
+    \begin{tabular}{lrrrr}
+      \toprule
+      Protocol
+      & Rand.
+      & Arith.
+      & Exp.
+      & Pairings\\
+      \midrule
+      Schnorr             & \(l\)             & 3    & 3      & 0\\
+      DB, mutual          & \(ml\)            & 3m   & 3      & 0\\
+      DB, \acs*{PKI} \(\sum\)
+                          & \(8\lambda + ml\)
+                          & \(10m+8\)
+                          & \(25\)
+                          & \(14\)\\
+      ---\acs*{DHKE}      & \(\lambda\)       & 0    & 4      & 0\\
+      ---CL04 blind       & \(2\lambda\)      & 0    & 5      & 8\\
+      ---DB               & \(5\lambda + ml\)    & \(10m + 2\) & 6 & 0\\
+      ---Verification     & 0    & 6 & 10 & 6\\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+\end{frame}
 
 \paragraph*{Mutual trust}
 
@@ -50,3 +91,4 @@ The traditional bit-by-bit version of the protocol
 That is due to \(m = 2\) being fixed in this case (there are only two responses 
 to choose from), and consequently, we must have a larger value for \(n\) to 
 achieve the desired security.
+
