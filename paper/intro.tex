@@ -36,13 +36,17 @@ The solution relies on our first contribution.
 Our last contribution is another version of the protocol, one which uses 
 bit-by-bit transmissions as traditionally done with \ac{DB} protocols.
 We achieve all properties except \ac{DBTF} resistance.
+We see this contribution as merely for the sake of completion, as the previous 
+contributions are slightly more efficient.
 
 The first (and second) contribution enables us to do distance-bounding 
 privacy-preserving attribute-based credentials based on discrete logarithms, 
 \eg \cite{Camenisch-phdthesis} and \cite{CLsignatures}.
+We can do this by simply replacing their use of the Schnorr 
+protocol~\cite{Schnorr} for \acp{ZKPK} with our protocol in this paper.
 To our knowledge, no other distance-bounding protocol achieves this.
 The third contribution (bit-by-bit version) also enables us to do the same, 
-just without \ac{DBTF} resistance.
+just without (full) \ac{DBTF} resistance.
 
 \paragraph*{Outline}
 

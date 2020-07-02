@@ -9,6 +9,10 @@ FIGS+= 	ProtestVerif-verifying.png
 FIGS+= 	ProtestVerif-verified.png
 FIGS+= 	ProtestVerif-UN.png
 FIGS+= 	map-with-dots.png
+FIGS+=	DF.png DH.png MF.png TF.png
+FIGS+= 	v2v-communication.jpg
+FIGS+= 	keyless-car-theft.jpg
+FIGS+=	sensor-networks.jpg
 
 DEPENDS+=	bibsp.sty
 DEPENDS+=	crypto.bib
@@ -26,7 +30,7 @@ DEPENDS+=	ecurrency.bib
 all: slides-short.pdf
 
 slides-short.pdf: slides-short.tex preamble.tex revision.tex ${DEPENDS} ${FIGS}
-slides-short.pdf: idea.tex
+slides-short.pdf: contents.tex
 
 preamble.tex: ../paper/preamble.tex
 revision.tex: ../paper/revision.tex
@@ -57,6 +61,15 @@ ProtestVerif-endprotest.png: ../art/ProtestVerif-endprotest.png
 ProtestVerif-verified.png: ../art/ProtestVerif-verified.png
 ProtestVerif-verifying.png: ../art/ProtestVerif-verifying.png
 ProtestVerif-UN.png: ../art/ProtestVerif-UN.png
+
+DF.png: ../fig/DF.png
+DH.png: ../fig/DH.png
+MF.png: ../fig/MF.png
+TF.png: ../fig/TF.png
+
+v2v-communication.jpg: ../fig/v2v-communication.jpg
+keyless-car-theft.jpg: ../fig/keyless-car-theft.jpg
+sensor-networks.jpg: ../fig/sensor-networks.jpg
 
 ${FIGS}:
 	${LN} $< $@
