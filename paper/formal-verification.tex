@@ -13,22 +13,33 @@ proofs regarding terrorist fraud, provided a manual proof of a least-disclosing
 message needed for collusion.
 
 
-The Tamarin code we wrote\footnote{provided in \url{https://doi.org/10.5281/zenodo.3709442}}%,
+The Tamarin code we wrote\footnote{Provided in \url{https://doi.org/10.5281/zenodo.3709442}}%,
  contains a specification of the distance-bounding protocol described previously, a definition 
  of the soundness and correctness properties that ensure the protocol actually produces the
  expected result, and a definition of the security properties we want to ensure.
 
 Tamarin's auto-prover validated the soundness and correctness
 properties and proved all the security
-properties used in~\cite{TamarinDB} and \textcite{TamarinDBTF}: resistance to distance fraud, distance hi-jacking, mafia fraud, and terrorist fraud, all in less than 10 seconds.
+properties used in \cite{TamarinDB} and \cite{TamarinDBTF}: resistance to 
+distance fraud, distance hijacking, mafia fraud, and terrorist fraud, all in 
+less than 10 seconds.
 
 Note that proofs of formal verification are always limited by how well the specification captures reality.
-In particular, Tamarin only provides symbolic modeling, and as such does not work with actual values. The tool, for instance, has no notion of arithmetic, and the equations used in \cref{SchnorrFigure} cannot be modeled directly. Similarly, the details of the bit-by-bit version are lost in the abstraction, and its specification is identical to the simultaneous version; that's why Tamarin does not detect the terrorist fraud attack we mention about the bit-by-bit version.
+In particular, Tamarin only provides symbolic modeling, and as such does not 
+work with actual values. The tool, for instance, has no notion of arithmetic, 
+and the equations used in \cref{DB-Schnorr-UWB-figure} cannot be modeled 
+directly. Similarly, the details of the bit-by-bit version are lost in the 
+abstraction, and its specification is identical to the simultaneous version; 
+that's why Tamarin does not detect the terrorist fraud attack we mention about 
+the bit-by-bit version.
 Notable differences between the specification and reality include:
 \begin{itemize}
 	\item We represented the responses $s_i$ as the challenges $c_i$ signed with the prover long-term secret key $\alpha$ and then encoded with the nonce $\rho$; this is faithful to the actual purpose of those values in the protocol, even though the concrete operations executed do not correspond exactly to an encoding and a signature. Indeed, $s_i$ includes $\alpha$ to authenticate the prover (signing), and $\rho$ to mask the actual value of $\alpha$ (encoding).
 	\item We used the chosen challenge $c_b$ directly instead of the flag $b$ to represent the choice of the verifier between the two challenge values; this is equivalent because Tamarin does not work with actual values so the size of those values does not matter, and this helps us for the challenge verification later.
-	\item Conversely to the first point, checking the equality $R = g^{s_b}.A^{c_b}$ is represented as decoding and verifying the signature of the response message $s_b$, which should return $c_b$, and then verifying the trivial equality that $c_b = c_b$, thanks to the previous point.
+  \item Conversely to the first point, checking the equality $R = g^{s_b} 
+    A^{c_b}$ is represented as decoding and verifying the signature of the 
+    response message $s_b$, which should return $c_b$, and then verifying the 
+    trivial equality that $c_b = c_b$, thanks to the previous point.
 	\item Additionally, to model the challenge as unpredictable, we added a fresh nonce $b_{nonce}$ to the challenge specification. This is important due to Tamarin having no proper concept of time, only a notion of causal dependency between messages. Without this nonce there is no such dependency and the prover is able to send the actual response before receiving the challenge, which is detected by Tamarin as a distance fraud attack but is not possible in practice.
 	\item We indicated $\alpha$ as least-disclosing message for collusion. In reality, a colluding prover can leak the responses $s_i$ instead, but the attacker can trivially reconstruct $\alpha$ from two $s_i$ using basic arithmetic. But Tamarin's attacker is not able to manipulate arithmetic this way, so we provide him $\alpha$ directly.
 	\item We represented the challenge/response as a single-round step; the multi-round process is designed to resist against probabilistic attacks where a dishonest prover simply guess the response values in advance, but this type of attacks isn't covered by Tamarin's model anyway.
