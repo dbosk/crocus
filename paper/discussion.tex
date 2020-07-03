@@ -23,8 +23,8 @@ In the model of the first version of the protocol, the device just sends and
 receives.
 The prover could instruct the device to send a string of bits before receiving 
 something from the verifier.
-All the device promises is to give take and deliver all bits of a message at 
-once --- not bit-by-bit.
+All the device promises is to take and deliver all bits of a message at once 
+--- not bit-by-bit.
 
 In the trivial case above, where all devices share \(k\), everyone can listen 
 in on the communication.
@@ -35,7 +35,7 @@ a large attack surface.
 To solve this key-management issue, we introduce \iac{PKI} and \ac{AKE}.
 Privacy is an increasingly important property is this type of system.
 That is why we do the \ac{AKE} using CL04~\cite{CLsignatures} anonymous 
-credentials.
+credentials (or privacy-preserving attribute-based credentials).
 However, one can also construct group signatures using CL04~\cite{CLsignatures} 
 and we can, thus, add revocation possibilities.
 For instance, this is actually part of the \ac{DAA} protocol of the \ac{TPM} 
