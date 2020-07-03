@@ -24,7 +24,22 @@ impersonating verifier.
 We will provide two versions of the protocol.
 In the first (\cref{DB-Schnorr-UWB}), we will assume that we can send as many 
 bits in parallel as we like.
-This is a reasonable assumption thanks to the results of \textcite{UWBPR}.
+This is a reasonable assumption thanks to the results of \textcite{UWBPR}, we 
+briefly explain why.
+\Iac{DBMF} adversary can listen in on the communications.
+Each symbol of the communication is encoded using signal pulses.
+However, such an encoded symbol can usually be inferred \emph{before} all 
+pulses are received.
+Before the contribution of \citeauthor{UWBPR}, the only countermeasure to this 
+attack was to make the symbols short, \ie to send one bit at a time.
+\Textcite{UWBPR} use a symmetric key, shared between prover and verifier, to 
+scramble the pulses and hence the symbols.
+This way, the \ac{DBMF} adversary cannot infer an incoming symbol in advance, 
+and thus cannot start relaying the symbol in advance either.
+The prover and verifier, on the other hand, can do this since they have the 
+symmetric key.
+Consequently they must have mutual trust, so \ac{DBDF} cannot happen by 
+assumption.
 
 Next (\cref{DB-Schnorr-PKI}), we will provide \iac{PKI} construction to make 
 the shared-key requirement of \textcite{UWBPR} more practical.
