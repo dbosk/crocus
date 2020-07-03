@@ -190,33 +190,13 @@ Brands-Chaum) prevents \ac{DBDH}.
 By \cref{TaintedMF}, any relaying will be detected by the verifier.
 This means that the adversary must use a different strategy.
 
-\begin{theorem}[\acs*{DBMF} resistance]
+\begin{restatable}[\acs*{DBMF} resistance]{theorem}{UWBMFresistance}
   Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-MF adversary, then 
   \(\Adv_{\DBS}^{\text{MF}}(\adv) = \frac{1}{m^n}\), where \(m\) is as in 
   \cref{DB-Schnorr-UWB}.
-\end{theorem}
+\end{restatable}
 
-\begin{proof}
-  It follows from the \ac{ZK} property (\cref{UWB-ZKPK}) that the adversary 
-  cannot learn anything by observation.
-  This leaves the adversary with two options:
-  \begin{enumerate*}
-  \item guess which challenge the verifier will use and request the correct 
-    response from the prover, receiving the challenge first would taint the 
-    session (\cref{TaintedMF});
-  \item guess the response.
-  \end{enumerate*}
-  The first option yields success with probability \(\frac{1}{m}\), since the 
-  choice is uniformly distributed.
-  The second option yields success with probability \(\frac{1}{q}\): since the 
-  response~\(s_i\) depends on \(\rho\), which is uniformly distributed in 
-  \(\ZZ_q\), it follows that \(s_i\) is also uniformly distributed in 
-  \(\ZZ_q\).
-
-  Since \(m \leq q\), the best strategy is to guess which challenge the 
-  verifier will use.
-  Thus, the total success probability is \(\frac{1}{m^n}\).
-\end{proof}
+The proof is found in \cref{ProofUWBMFresistance}.
 
 \paragraph{\Acl{DBTF}}
 
@@ -225,41 +205,14 @@ Indeed, if the malicious prover gives more than one response to the accomplice,
 the accomplice can compute the secret key and, thus, impersonate forever.
 And we show that any useful help will ensure this.
 
-\begin{theorem}[\acs*{DBTF} resistance]
+\begin{restatable}[\acs*{DBTF} resistance]{theorem}{UWBTFresistance}
   Let \(\adv\) be a \((t, \qv)\)-strSimTF adversary (aided by the prover), 
   \(\S\) an algorithm with runtime \(t_{\S}\).
   If the verifier's challenges are uniformly drawn, then 
   \(\Adv_{\DB}^{\text{TF}} = p_{\adv} - p_{\S} < \left(\frac{2}{m}\right)^n\).
-\end{theorem}
+\end{restatable}
 
-\begin{proof}
-  Assume that the adversary~\(\adv\) can authenticate with the prover's help 
-  with probability~\(p_{\adv}\) non-negligibly better than guessing (\(p_{\adv} 
-  = \frac{1}{m}+\epsilon, \epsilon\) non-negligible), without tainting the 
-  session (\cref{TaintedTF}) and leaking the secret~\(\alpha\).
-  Say that \(\adv\) has successfully authenticated with the prover's help and 
-  \(\S\) is given \(\adv\)'s state.
-
-  Now \(\S\) will use \(\adv\) in a simulation.
-  \(\S\) will rewind \(\adv\) to just before \(\adv\) received the challenge.
-  Since the challenge is chosen uniformly randomly by the verifier, \(\S\) will 
-  choose another challenge different from before.
-  Since \(\adv\) cannot perform a relay to the prover without tainting the 
-  session (\cref{TaintedTF}) and each challenge is uniformly random, the help 
-  provided by the prover must be independent from the chosen challenge.
-  Now \(\adv\) will again provide a correct response with 
-  probability~\(p_{\adv}\).
-
-  However, since there are \(m\) challenges, \(\S\) can probabilistically extract 
-  \(m p_{\adv}\) responses.
-  Once \(m p_{\adv} \geq 2\), \(\S\) can compute the secret~\(\alpha\) from two 
-  correct responses and, thus, \(p_{\S} = 1\) for any successive 
-  authentication.
-  This would also make \(p_{\adv} = 1\).
-  This contradicts that the secret is not leaked.
-  Hence, \(\epsilon < \frac{1}{m}\) or the adversary taints the session or the 
-  secret leaks.
-\end{proof}
+The proof is found in \cref{ProofUWBTFresistance}.
 
 \paragraph{\Acl{DBDH}}
 
@@ -272,66 +225,11 @@ and that of the honest prover.
 Thus the probability of success is equivalent to a collision for the responses 
 for the chosen challenge --- in each round.
 
-\begin{theorem}[\acs*{DBDH}/\acs*{DBDF} resistance]
+\begin{restatable}[\acs*{DBDH}/\acs*{DBDF} 
+  resistance]{theorem}{UWBDFresistance}
   Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-DH adversary, then 
   \(\Adv_{DBS}^{\text{DH}}(\adv) = \frac{1}{m^n}\).
-\end{theorem}
+\end{restatable}
 
-\begin{proof}
-  The honest prover will choose \(\rho\) such that \(R = g^\rho\).
-  The adversary can send his own \(R' = g^{\rho'}\) to the verifier, or let 
-  \(R' = R\) to not interfere.
-
-  The verifier will choose \(c_1, \dotsc, c_k\).
-  The honest prover will compute \(s_i = \rho - c_i \alpha\), where \(\alpha\) 
-  is his \enquote{private key}\footnote{%
-    In Schnorr's original protocol this was called the private key.
-    But in our general use, it's the discrete logarithm for which the prover 
-    wants to prove knowledge.
-  }.
-  If the adversary chose \(R' = g^{\rho'}\), he can compute \(s_i' = \rho' - 
-  c_i \alpha'\), where \(\alpha'\) is the adversary's \enquote{private key}.
-  If the adversary didn't choose \(R'\), he can only guess the values for 
-  \(s_i'\).
-
-  Now the adversary has two options:
-  to \(\Commit\) to a response or to \(\Prompt\) the honest prover to respond.
-
-  If the adversary \(\Commit\)s:
-  If the adversary chose \(R'\), then he knows \(\rho'\) and can compute \(s_i 
-  = \rho' - c_i \alpha'\) for all \(i\).
-  Now, the adversary must commit to one \(s_i\) before seeing the verifier's 
-  choice \(j\).
-  The probability of committing to the right one is \(\frac{1}{m}\).
-  If the adversary didn't choose \(R'\) and consequently doesn't know \(\rho\), 
-  the probability of success is \(\frac{1}{q}\) --- since he must guess 
-  \(\rho\) (\(\frac{1}{q}\)) and then guess the challenge (\(\frac{1}{m}\)) he 
-  might just as well guess the final outcome (\(\frac{1}{q}\)).
-  By design, \(m \leq q\), so \(\frac{1}{m} \geq \frac{1}{q}\).
-  The success of committing is \(\frac{1}{m}\).
-
-  If the adversary \(\Prompt\)s:
-  The verifier will check that \(R' = g^{s_i} {A'}^{c_i}\), where \(A'\) is the 
-  \enquote{public key}\footnote{%
-    In Schnorr's original protocol this was a public key.
-    In our more general use, it is the value for which the adversary wants to 
-    prove knowledge of a discrete logarithm.
-  } of the adversary.
-  Now, \(g^{s_i} {A'}^{c_i} = g^{\rho - c_i \alpha} (g^{\alpha'})^{c_i} = 
-  g^{\rho - c_i \alpha + c_i \alpha'}\).
-  If \(R' = R = g^\rho\), chosen by the prover, then the verifier will only 
-  accept if \(\alpha = \alpha'\), the probability for which is 
-  \(\frac{1}{q^2}\).
-  If \(R' = g^{\rho'}\), chosen by the adversary, then the verifier accepts 
-  with probability \(\Pr[\rho' - c_i \alpha' = \rho - c_i' \alpha] = 
-  \frac{1}{q}\).
-
-  Obviously, the better strategy for the adversary is to choose \(R' = 
-  g^{\rho'}\).
-  It's also a better strategy to \(\Commit\) (\ac{DBDF}) rather than 
-  \(\Prompt\) (\ac{DBDH}).
-  We thus have that
-  \(\Adv_{\DBS}^{\text{DH}}(\adv) = \frac{1}{m^n}\),
-  which concludes the proof.
-\end{proof}
+The proof is found in \cref{ProofUWBDFresistance}.
 

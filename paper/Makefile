@@ -19,6 +19,7 @@ SRC+= 	performance.tex
 SRC+= 	discussion.tex
 SRC+=	conclusions.tex
 SRC+=	tamarin-spec.tex
+SRC+=	proofs.tex
 
 paper.pdf: ${SRC}
 
