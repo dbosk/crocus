@@ -1,0 +1,16 @@
+\section{Formal Verification}\label{formal-verification}
+
+We formally verify the distance-bounding protocol security properties using the Tamarin
+prover~\cite{meier2013tamarin}. Tamarin does not originally include
+the possibility to reason on time and space in its model.  However,
+thanks to a recent work by \textcite{TamarinDB}, the common properties
+(mafia fraud, and distance fraud/distance hi-jacking) can be equivalently 
+characterized with a causality-based definition relying only on the order
+of messages.
+Another work by the same team \textcite{TamarinDBTF} also introduces a
+notion of post-collusion security that can be used to partially automate
+proofs regarding terrorist fraud, provided a manual proof of a least-disclosing
+message needed for collusion.
+We have successfully verified all the protocols presented in this paper with 
+Tamarin.
+More details can be found in \cref{formal-verification-full}.
