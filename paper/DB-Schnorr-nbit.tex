@@ -130,141 +130,21 @@ Then the verifier can authenticate the prover by checking if \(
 
 This must be repeated for \(n\) rounds.
 
+\subsection{Security analysis}
 
-\subsection{Security of the \(l\) bits}
+We can prove this protocol secure against \ac{DBMF}, \ac{DBDH} and \ac{DBDF}; 
+but not against \ac{DBTF}.
+Those proofs are available in the full version of the paper.
+Here, we will discuss only the most crucial differences.
 
-Before we proceed to other security properties, we will address the \(l\)-bit 
-problem:
-what advantage does the adversary get from those \(l\) leaked bits of the 
-second response?
+\paragraph*{The \(l\)-bit problem}
 
-\paragraph*{A special case}
-
-We will start with a special case of the \(l\)-bit problem.
-For a session~\(i\), we have two possible responses to the two challenges:
-\(s_i = r_i + c\alpha\) and \(s_i' = r_i + c'\alpha\).
-Let \(c = 1\) and \(c' = 0\).
-We assume that the adversary learns all \(m\) bits of \(s_i\), but only \(l\) 
-bits of \(s_i'\).
-This special case yields the linear equation system
-\begin{align*}
-  s_i &= r_i + \alpha
-  = s_i'[m-1] 2^{m-1} + \dotsb + s_i'[1] 2^1 + s_i'[0] 2^0 + \alpha &\pmod q\\
-  s_i'[j_1] &= b_{j_1} &\pmod 2\\
-  s_i'[j_2] &= b_{j_2} &\pmod 2\\
-            &\vdots \\
-  s_i'[j_l] &= b_{j_l}, &\pmod 2
-\end{align*}
-where \(s_i'[j]\) denotes the \(j\)th bit of \(s_i'\), and \(j_1, \dotsc, 
-j_l\in \{0, \dotsc, m-1\}\) are indices for the bits chosen by the adversary 
-and \(b_{j_1}, \dotsc, b_{j_l}\in \bin\) are the bit values.
-
-\begin{lemma}
-  Assume the special case given above.
-  If \(l < m+\frac{1}{n}-1\), then the equation system is underdetermined and 
-  we cannot solve for \(\alpha\).
-\end{lemma}
-\begin{proof}
-  The equation system above yields \(l+1\) equations and \(m+1\) variables.
-  If we repeat the protocol \(n\) times, we get \(n\) such sessions.
-  This yields an equation system of \(n(l+1)\) equations and \(nm+1\) variables 
-  (\(\alpha\) is not repeated).
-  If \(n(l+1) < nm+1\), this system is underdetermined and cannot be solved.
-  After some rewriting we find that
-  \begin{align*}
-    n(l+1) &< nm+1 \\
-    l+1 &< m + \frac{1}{n} \\
-    l &< m + \frac{1}{n} -1.
-  \end{align*}
-  Which concludes the proof.
-\end{proof}
-
-The number of possible solutions is vital for us, since that is an estimate of 
-how difficult it is for the adversary to guess \(\alpha\).
-
-\begin{lemma}\label{simple-l-bit-advantage}
-  Assume the special case above.
-  There are \(m-l\) free variables, each taking a value from \(\bin\).
-  This yields \(2^{m-l}-1\) unique solutions for each session.
-\end{lemma}
-\begin{proof}
-  The result directly follows from the fact that there are \(m-l\) free 
-  variables.
-  Each free variable can only take two possible values (0 or 1), consequently 
-  there are \(2^{m-l}-1\) unique solutions.
-\end{proof}
-
-\paragraph*{Arbitrarily chosen \(c\neq c'\)}
-
-For any choice of \(c\) and \(c'\) such that \(c\neq c'\), we have
-\begin{align}
-  \label{eqn:general-c}
-  s_i &= r_i + c\alpha &\pmod q\\
-  \label{eqn:general-cprime}
-  s_i' &= r_i + c'\alpha. &\pmod q
-\end{align}
-We can transform this system of equations into our special case above by 
-Gaussian elimination: add \cref{eqn:general-c} multiplied by \(\frac{c'}{c}\) 
-to \cref{eqn:general-cprime}.
-The multiplicative inverse \(\frac{1}{c}\) exists since \(q\) is prime.
-This proves the following lemma.
-
-\begin{lemma}
-  Any choice of \(c, c'\) can be turned into our special case of \(c = 1, c' = 
-  0\).
-\end{lemma}
-
-This means that \cref{simple-l-bit-advantage} is also true for the general case.
-
-\paragraph*{The unconditional \(l\)-bit problem}
-
-We run the protocol \(n\) times and let the adversary learn \(m+l\) bits of the 
-result~\(s_i, s_i'\).
-This yields the following equation system:
-\begin{align*}
-  s_0[0]2^0 + \dotsb + s_0[m-1]2^{m-1} &= r_0 + c\alpha &\pmod q\\
-  s_0'[0]2^0 + \dotsb + s_0'[m-1]2^{m-1} &= r_0 + c'\alpha &\pmod q\\
-  \vdots \\
-  s_{n-1}[0]2^0 + \dotsb + s_{n-1}[m-1]2^{m-1} &= r_{n-1} + c\alpha &\pmod q\\
-  s_{n-1}'[0]2^0 + \dotsb + s_{n-1}'[m-1]2^{m-1} &= r_{n-1} + c'\alpha, &\pmod 
-  q
-\end{align*}
-where \(m+l\) of \(s_i[j]\)'s and \(s_i'[j']\)'s for each \(i\) are known by 
-the adversary.
-
-\begin{lemma}\label{l-bit-advantage}
-  If \[l < m-1+\frac{1}{n}-\frac{f(\lambda)}{n},\] then there are at least 
-  \(2^{f(\lambda)}-1\) unique solutions, for some function~\(f\) of the 
-  security parameter~\(\lambda\).
-\end{lemma}
-\begin{proof}
-  Consider one instance of the protocol:
-  \begin{align*}
-    s_i[0]2^0 + \dotsb + s_i[m-1]2^{m-1} &= r_i + c\alpha \\
-    s_i'[0]2^0 + \dotsb + s_i'[m-1]2^{m-1} &= r_i + c'\alpha.
-  \end{align*}
-  This yields \(2m+2\) variables with two equations, thus \(2m\) free variables.
-  Let the adversary learn \(m+l\) of the bits, \ie left-hand side \(s_i[j]\)'s or 
-  \(s_i'[j']\)'s.
-  This leaves \(2m-(m+l) = m-l\) free variables and \(2^{m-l}-1\) possible 
-  solutions.
-
-  Repeat this \(n\) times.
-  This yields \(n(2m+1)+1\) variables and \(2n\) equations, thus \(2nm+n+1-2n = 
-  2mn - n +1 = n(2m-1)+1\) free variables.
-  Let the adversary learn \(m+l\) bits in each round, thus \(n(m+l)\) in total.
-  This yields \(n(2m-1)+1 -n(m+l) = 2nm-n+1-nm-nl = nm-n+1-nl = n(m-1-l)+1\) 
-  free variables and \(2^{n(m-1-l)+1}-1\) unique solutions.
-  Consequently, if we want at least \(2^{f(\lambda)}-1\) unique solutions, we 
-  have that
-  \begin{equation*}
-    nm-n-nl+1 > f(\lambda) \iff m-1+\frac{1}{n}-\frac{f(\lambda)}{n} > l.
-  \end{equation*}
-  Which concludes the proof.
-\end{proof}
-
-\paragraph*{The \(l\)-bit problem with commitments}
-
+We can show that the system of linear equations created by the protocol and 
+consisting of leaked bits from the second reply is underdetermined.
+However, we cannot get information theoretic security, that would require 
+leaking no bits, but we leak some bits.
+The only lead an adversary get to those remaining unknown bits are the 
+commitments.
 The adversary has a commitment to the randomness~\(r_i\) in the form of \(R_i = 
 g^{r_i}\) and a commitment to \(\alpha\) in the form of \(A = g^\alpha\).
 This means that
@@ -299,37 +179,9 @@ the hardness of finding discrete logarithms.
   \(\epsilon 2^{-(l+k)}\).
 \end{lemma}
 
-\begin{proof}
-  We will now construct the algorithm \(\algA_{\text{DL}}\) given the algorithm 
-  \(\algA_{\DBS}\) and the \ac{DLP} challenge \(g, q, A_{\text{DL}}\).
-  Assume that \(\algA_{\DBS}\) succeeds with probability \(\epsilon\).
+The proof of this lemma can be found in the full version of the paper.
 
-  We proceed as follows.
-  Guess \(c\rgets \ZZ_k\), choose \(\hat s\rgets \ZZ_{2^l}\).
-  Let \(\hat R\gets A_{\DBS}^c A_{\text{DL}} g^{\hat s}\) and give
-  \(\hat R\) to \(\algA_{\DBS}\).
-  If \(c'\gets \algA_{\DBS}(g, q, A_{\DBS}, \hat R)\) returns \(c'\neq c\), 
-  abort.
-  The probability of success is \(2^{-k}\).
-  Otherwise, give \(\hat s\) to \(\algA_{\DBS}\).
-  Now, by construction, we have that \(
-    \hat R = A_{\DBS}^c g^{\hat s} A_{\text{DL}}.
-  \)
-
-  If \(A_{\text{DL}} = g^{\alpha_{\text{DL}}}\) is chosen such that 
-  \(\alpha_{\text{DL}}\) has the \(l\) least significant bits set to zero 
-  (probability \(2^{-l}\)), then will have \(
-    \alpha_{\text{DL}}\gets \algA_{\DBS}(g, q, A_{\DBS}, \hat R, \hat s)
-  \) with probability \(\epsilon\).
-  Thus, the total probability of success is \(
-    \epsilon 2^{-l} 2^{-k} = \epsilon 2^{-(l+k)}.
-  \)
-\end{proof}
-
-As mentioned above, both \(l\) and \(k\) are logarithmic in the security 
-parameter.
-
-\subsection{\Acl*{ZK} and \acl*{PK}}\label{nbit-ZKPK}
+\paragraph*{\Acl*{ZK} and \acl*{PK}}\label{nbit-ZKPK}
 
 The main difference between this protocol and the Schnorr protocol is that we 
 have the prover compute responses for two different challenges, \(c_0, c_1\).
@@ -343,6 +195,7 @@ The knowledge extractor works exactly the same.
 It does not matter that the verifier first chooses two challenges and later 
 reveals which one to use and the prover sends the response bit-by-bit.
 
+The change is with the \acl{ZK} property.
 This is \emph{computational} \acl{ZK}:
 The simulator chooses \[
   s_0, s_1\rgets \ZZ_q; \quad
@@ -354,150 +207,22 @@ Then it can set \[
   R_1\gets g^{s_1} A^{c_1}.
 \]
 Now the simulator must come up with those \(l\) bits.
-\Cref{l-bit-advantage,DBSPtoDLP} say that distinguishing these bits from random 
-is as hard as the \ac{DLP}.
+By \cref{DBSPtoDLP} and some lemmas in the full version of the paper, we can 
+see that distinguishing these bits from random is comparable to solving the 
+\ac{DLP}.
 So, the simulator can simply choose the \(l\) bits~\(L\rgets \bin^l\) uniformly 
 at random.
 
 The simulator outputs \(R_b, c_0, c_1, s_b, L\).
 
-%Therefore the standard proof for Schnorr as a malicious-verifier \ac{ZKPK} 
-%protocol with soundness error \(2^{-k n}\) still 
-%holds~\cite[\eg][]{OnSigmaProtocols}.
-%(We note that \(l\), which is also the length of the challenge bit string, must 
-%be logarithmic in the security parameter, \(\lambda\), for a malicious 
-%verifier.)
+\paragraph*{Why not \acs*{DBTF}?}
 
-\subsection{\acs*{DBMF}, \acs*{DBTF} and \acs*{DBDH} resistance}
-
-\paragraph{\Acl{DBMF}}
-
-In \ac{DBMF}, the adversary will try to authenticate to a verifier by querying 
-a far-away prover.
-By \cref{TaintedMF}, pure relaying will be detected by the verifier.
-So the adversary must resort to things like querying in advance \etc.
-
-\begin{theorem}[\acs*{DBMF} resistance]
-  Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-MF adversary, then \(
-    \Adv_{\DBS}^{\text{MF}}(\adv) =
-      \left(\frac{1}{2} + \frac{1}{2^{|q|-l}}\right)^n,
-  \) where \(m, q\) are as in \cref{DB-Schnorr-nbit}.
-\end{theorem}
-
-\begin{proof}
-  It follows from the \ac{ZK} property (\cref{nbit-ZKPK}) that the adversary 
-  cannot learn anything by observation.
-  This leaves the adversary with the following:
-  \begin{enumerate}
-    \item guess which challenge the verifier will use and request the correct 
-      response from the prover, receiving the challenge first would taint the 
-      session (\cref{TaintedMF});
-    \item guess the second response.
-  \end{enumerate}
-
-  The first case yields success with probability \(\frac{1}{2}\), since the 
-  choice is uniformly distributed over the two challenges.
-  The adversary requests all \(|q|\) bits of the response~\(s_{\hat b}\) and 
-  \(l\) bits of \(s_{1-\hat b}\).
-  When the verifier sends challenge bit \(b_i = \hat b\), the adversary replies 
-  with a bit from \(s_{\hat b}\).
-  If \(b_i = 1-\hat b\), then the adversary uses the \(l\) bits.
-
-  If the adversary guessed \(\hat b = b\) correctly, then the verifier will 
-  accept.
-  Otherwise, the adversary must compute the remaining \(|q|-l\) bits of 
-  \(s_{1-\hat b}\).
-
-  Guessing the remaining bits yield a success probability of 
-  \(\frac{1}{2^{|q|-l}}\).
-  \Cref{DBSPtoDLP} states that any algorithm that can compute the remaining 
-  bits can also solve a corresponding \ac{DLP}.
-  It follows that the adversary cannot do non-negligibly better than guessing 
-  the remaining bits.
-
-  Thus, the success probability is \(\frac{1}{2}+\frac{1}{2^{|q|-l}}\) per 
-  round, or \(\left(\frac{1}{2}+\frac{1}{2^{|q|-l}}\right)^n\) in total.
-\end{proof}
-
-\paragraph{\Acl{DBTF}}
-
-We cannot achieve \ac{DBTF} resistance.
-Indeed, the prover can send \(l+\nu\) bits of both response strings, \(s_0\) 
-and \(s_1\), to the adversary.
-When the adversary receives the \(l+1\)th bit, he learns \(b\).
-He can send \(b\) to the prover and answer correctly to the verifier, provided 
-\(\nu \geq 1\).
-By the time he receives the next challenge from the verifier, the prover will 
-have sent him the remaining bits of \(s_b\) without revealing more bits about 
-\(s_{1-b}\).
-This would not taint the session.
-As long as \(l+\nu\) is sufficiently small, the adversary cannot compute the 
-remaining bits of \(s_{1-b}\) to compute the prover's secret.
-
-\paragraph{\Acl{DBDH}}
-
-The protocol is also secure against distance hijacking due to the fact that the 
-authenticating bit string is used during the \ac{DB} phase.
-(Brands-Chaum used the challenge bit string, something that made their protocol 
-vulnerable.)
-\Ac{DBDH} requires that the adversary finds a collision between his response 
-and that of the honest prover.
-Thus the probability of success is equivalent to a collision for the responses 
-for the chosen challenge --- in each round.
-
-\begin{theorem}[\acs*{DBDH}/\acs*{DBDF} resistance]
-  Let \(\adv\) be a \((t, \qobs, \qp, \qv)\)-DH adversary, then 
-  \(\Adv_{DBS}^{\text{DH}}(\adv) = \frac{1}{2^n}\).
-\end{theorem}
-
-\begin{proof}
-  The honest prover will choose \(\rho\) such that \(R = g^\rho\).
-  The adversary can send his own \(R' = g^{\rho'}\) to the verifier, or let 
-  \(R' = R\) to not interfere.
-
-  The verifier will choose \(c_0, \dotsc, c_1\).
-  The honest prover will compute \(s_i = \rho - c_i \alpha\), where \(\alpha\) 
-  is his secret.
-  If the adversary chose \(R' = g^{\rho'}\), he can compute \(s_i' = \rho' - 
-  c_i \alpha'\), where \(\alpha'\) is the adversary's secret.
-  If the adversary didn't choose \(R'\), he can only guess the values for 
-  \(s_i'\).
-
-  During the fast phase, the adversary has two options:
-  for each challenge bit, the adversary can \(\Commit\) to a response bit or to 
-  \(\Prompt\) the honest prover to send a bit.
-
-  If the adversary chose \(R'\), then he knows \(\rho'\) and can compute the 
-  correct \(s_i' = \rho' - c_i \alpha'\) for \(i\in \bin\).
-  If the adversary \(\Commit\)s:
-  Now, the adversary must commit to one bit of \(s_0'\) or \(s_1'\) before 
-  seeing the verifier's choice \(b_i\).
-  He can make a guess~\(\hat b\) at the verifier's choice~\(b\).
-  Then he commits to the next bit of \(s_{\hat b}'\).
-  If the challenge~\(b_i \neq \hat b\), he will commit to the same bit for the 
-  next round.
-  If indeed \(\hat b = b\), the verifier will accept.
-  The success probability is \(\frac{1}{2}\) over all bits.
-
-  If the adversary \(\Prompt\)s:
-  The prover computed \(s_0\) and \(s_1\) using \(\rho\) and \(\alpha\).
-  However, the verifier will use \(R'\) and \(A'\) in the verification step.
-  This will succeed if \(s_b = s_b'\), the probability of which is 
-  \(\frac{1}{q}\).
-  This means that the probability of success for prompting a bit is 
-  \(\frac{1}{2}\), or \(\frac{1}{2^{|q|}}\) over all bits.
-
-  If the adversary didn't choose \(R'\) he consequently doesn't know \(\rho\) 
-  and cannot compute the correct \(s_0\) and \(s_1\).
-  Thus, committing yields \(\frac{1}{2}\) probability per bit.
-  The same applies for prompting.
-
-  Obviously, the better strategy for the adversary is to choose \(R' = 
-  g^{\rho'}\).
-  It's also a better strategy to \(\Commit\) (\ac{DBDF}) rather than 
-  \(\Prompt\) (\ac{DBDH}).
-  We thus have that
-  \(\Adv_{\DBS}^{\text{DH}}(\adv) = \frac{1}{2^n}\) for \(n\) rounds,
-  which concludes the proof.
-\end{proof}
-
+The problem is that asymptotically, \(l\) and \(l+1\) are rather close.
+So the colluding parties can exchange \(l+1\) bits instead of just \(l\).
+This way they can create a buffer of responses.
+However, this means that they can stretch the distance bound; at some point, 
+\(l+\epsilon\) will be too large and make \(\alpha\) easy enough to guess.
+So the incentive changes from the legitimate party not wanting to cheat, into 
+the legitimate party not wanting to cheat \enquote{too much}.
+However, we have not formally treated this part more than concluding that we 
+cannot prove \ac{DBTF} resistance in terms of \cref{TaintedTF,TFresistance}.
