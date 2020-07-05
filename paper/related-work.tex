@@ -13,7 +13,7 @@ differently. It generates a sesson key and encrypts the private key
 with this session key. Then it commits to each bit of the session key
 and each bit of the ciphertext. During the fast phase, the verifier requests some bits from the session key and some from the ciphertext. Terrorist fraud is based on that knowing both session key and ciphertext one can compute the private key.
 The prover then opens the commits, the verifier verifies them.
-The prover and verifier run a \acp{PK} that ties the commits to the private key.
+The prover and verifier run a \ac{PK} that ties the commits to the private key.
 However, a malicious prover can reduce all the N challenges in the fast phase
 to 1. This allows both distance and terrorist
 fraud~\cite{Bussard-Bagga-attack}.
