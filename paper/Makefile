@@ -14,6 +14,7 @@ SRC+= 	distance-bounding.tex
 SRC+= 	DB-Schnorr-UWB.tex
 SRC+= 	DB-Schnorr-PKI.tex
 SRC+= 	DB-Schnorr-nbit.tex
+SRC+=	formal-short.tex
 SRC+= 	formal-verification.tex
 SRC+= 	performance.tex
 SRC+= 	discussion.tex
