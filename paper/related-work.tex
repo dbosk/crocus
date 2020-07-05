@@ -7,12 +7,13 @@ Unfortunately, their approach has been shown to be vulnerable to
 \ac{DBDH}~\cite{DistanceBounding,TamarinDB}.
 Furthermore, it is also vulnerable to \ac{DBTF}.
 
-The Bussard-Bagga protocol also uses Schnorr, but slightly
-differently. It generates a sesson key, encrypts the private key
-with this session key. Then commits to each bit of the session key
-and each bit of the ciphertext. During the fast phase the verifier requests some bits from the session key and some from the ciphertext. Terrorist fraud is based on that knowing both session key and ciphertext one can compute the private key.
+The Bussard-Bagga~\cite{BussardBagga} protocol aims to overcome these
+vulnerabilities and also uses Schnorr, but slightly
+differently. It generates a sesson key and encrypts the private key
+with this session key. Then it commits to each bit of the session key
+and each bit of the ciphertext. During the fast phase, the verifier requests some bits from the session key and some from the ciphertext. Terrorist fraud is based on that knowing both session key and ciphertext one can compute the private key.
 The prover then opens the commits, the verifier verifies them.
-The prover and verifier run a PK that ties the commits to the private key.
+The prover and verifier run a \acp{PK} that ties the commits to the private key.
 However, a malicious prover can reduce all the N challenges in the fast phase
 to 1. This allows both distance and terrorist
 fraud~\cite{Bussard-Bagga-attack}.
@@ -22,7 +23,8 @@ ProProx is secure against a malicious verifier, but it provides \iac{PPK}
 protocol for quadratic residues (\ie protocols of the form \(
   \PPK[\alpha][a = \alpha^2]
 \)), while in our context, we need \iac{PPK} protocol for discrete logarithms 
-(\ie \(\PPK[\alpha][a = g^\alpha]\)).
-Also, ProProx's proofs of knowledge are only for \emph{bit commitments} of the 
-above form.
+(\ie \(\PPK[\alpha][a = g^\alpha]\)). %to take advantage of abc
+                                %systems that use Schnorr?
+Moreover, ProProx's proofs of knowledge are only for \emph{bit commitments} of the 
+above form. %what does this imply?
 
