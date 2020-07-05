@@ -4,9 +4,10 @@
 Although there are numerous contributions in the field of \ac{DB} 
 authentication protocols, the majority of them are shared-key protocols.
 This means that the prover and the verifier must share a secret.
-This might work for key-less entry protocols for cars, where the car and keyfob 
+This works for scenarios like key-less entry protocols for cars, where the car and keyfob 
 can share a key.
-But it does not work for ubiquitous \ac{DB} authentication.
+It does, however, not work for ubiquitous \ac{DB} authentication where
+the prover and verifier may not have met before.
 
 Our work present contributions in the area of \ac{DB} public-key protocols, 
 particularly \ac{DB} \acp{ZKPK}.
@@ -15,12 +16,12 @@ where the verifier must be trusted.
 The \ac{ZK} property also enables a variety of privacy properties, such as 
 anonymity.
 With our contribution, Alice can
-now prove more complex statements to Bob; \eg that she is older than 18 
-(without revealing her actual age), has a cinema subscription which is not 
+now prove more complex statements to Bob; \eg that she is close to a specific car, has a valid driver's license, is older than 18 
+(without revealing her actual age), has the relevant car-sharing subscription which is not 
 \enquote{double spent} by someone else at the same time~\cite[\eg][]{AnonPass} 
-and, at the same time, Bob can be sure that Alice is not just relaying messages 
+and  Bob can be sure that Alice is not just relaying messages 
 from her older sister Carol or \ac{DBMF} relaying the subscription from some 
-unsuspecting stranger also waiting in the queue to enter.
+unsuspecting stranger also waiting in the parking lot.
 
 
 \paragraph*{Contributions}
