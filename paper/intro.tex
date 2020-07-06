@@ -4,23 +4,24 @@
 Although there are numerous contributions in the field of \ac{DB} 
 authentication protocols, the majority of them are shared-key protocols.
 This means that the prover and the verifier must share a secret.
-This might work for key-less entry protocols for cars, where the car and keyfob 
+This works for scenarios like key-less entry protocols for cars, where the car and keyfob 
 can share a key.
-But it does not work for ubiquitous \ac{DB} authentication.
+It does, however, not work for ubiquitous \ac{DB} authentication where
+the prover and verifier may not have met before.
 
-Our work present contributions in the area of \ac{DB} public-key protocols, 
+Our work presents contributions in the area of \ac{DB} public-key protocols, 
 particularly \ac{DB} \acp{ZKPK}.
 This allows anyone to act as a verifier, unlike in the shared-key scenario 
 where the verifier must be trusted.
 The \ac{ZK} property also enables a variety of privacy properties, such as 
 anonymity.
 With our contribution, Alice can
-now prove more complex statements to Bob; \eg that she is older than 18 
-(without revealing her actual age), has a cinema subscription which is not 
-\enquote{double spent} by someone else at the same time~\cite[\eg][]{AnonPass} 
-and, at the same time, Bob can be sure that Alice is not just relaying messages 
+now prove more complex statements to Bob; \eg that she is close to a specific car, has a valid driver's license, is older than 18 
+(without revealing her actual age), has the relevant car-sharing subscription which is not 
+\enquote{double spent} by someone else at the same time~\cite[\eg][]{AnonPass}, 
+and  Bob can be sure that Alice is not just relaying messages 
 from her older sister Carol or \ac{DBMF} relaying the subscription from some 
-unsuspecting stranger also waiting in the queue to enter.
+unsuspecting stranger also waiting in the parking lot.
 
 \input{related-work}
 
@@ -30,7 +31,7 @@ We make three contributions.
 First, we provide a version of the Schnorr protocol that is \ac{DBMF}, 
 \ac{DBTF}, \ac{DBDH} and \ac{DBDF} resistant in the \ac{DFKOmodel}.
 This version is based on the assumption that we can transmit all bits at once, 
-not bit-by-bit as normally required for \ac{DB}.
+not bit-by-bit as normally done for \ac{DB}.
 This assumption is motivated by the results of \textcite{UWBPR}.
 
 Second, for the assumption about sending all bits at once to hold, 
@@ -59,19 +60,21 @@ We can do this by simply replacing their use of the Schnorr
 protocol~\cite{Schnorr} for \acp{ZKPK} with our protocol in this paper.
 To our knowledge, no other distance-bounding protocol achieves this.
 The third contribution (bit-by-bit version) also enables us to do the same, 
-just without (full) \ac{DBTF} resistance.
+just without (full) \ac{DBTF} resistance. %How does the tamarin
+                                %contrib come in?
 
 \paragraph*{Outline}
 
 The paper is organized as follows.
-\Cref{related-work} discusses some related work.
+%\Cref{related-work} discusses some related work.
 \Cref{Preliminaries} introduces the preliminaries of \ac{ZKPK} and \ac{DB}.
 \Cref{DB-Schnorr} introduces the first version, where we assume that we can 
 send all bits at the same time.
 \Cref{DB-Schnorr-PKI} introduces the \ac{PKI} and \ac{AKE} to use the first 
 version of the protocol in practice.
 \Cref{DB-Schnorr-nbit} describes the bit-by-bit version of the protocol.
-\Cref{formal-verification} describes our effort to formally verify the protocol 
-using Tamarin.
-Finally, we conclude with discussion and conclusions in 
-\cref{Discussion,Conclusion}.
+%\Cref{formal-verification} describes our effort to formally verify the protocol 
+%using Tamarin.
+%Finally, we conclude with discussion and conclusions
+%in \cref{Discussion,Conclusion}.
+\cref{Conclusion} concludes the paper.

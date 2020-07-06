@@ -4,21 +4,21 @@
 Distance-bounding anonymous credentials could be used for any
 location proofs that do not need to identify the prover and
 thus could make even notoriously invasive mechanisms such as
-location-based systems privacy-preserving.
+location-based services privacy-preserving.
 % % Why is it a problem?
 There is, however, no secure distance-bounding protocol for general 
 \emph{attribute-based} anonymous credentials.
 Brands and Chaum's (EUROCRYPT'93) protocol combining distance-bounding
-and Schnorr comes had the right idea, but does not fulfil the requirements of 
+and Schnorr comes close, but does not fulfill the requirements of 
 modern distance-bounding protocols.
 % % What's the problem?
-We need a secure distance-bounding zero-knowledge proof-of-knowledge resisting 
+For that, we need a secure distance-bounding zero-knowledge proof-of-knowledge resisting 
 mafia fraud, distance fraud, distance hijacking and terrorist fraud.
 
 % % What's the approach?
 Our approach is another attempt toward combining distance bounding and
 Schnorr to construct a distance-bounding zero-knowledge proof-of-knowledge.
-We construct such a protocol and prove it secure in the (extended) DFKO model 
+We construct such a protocol and prove it secure in the (extended) \ac{DFKOmodel} 
 for distance bounding.
 We also performed a symbolic verification of security properties needed for 
 resisting these attacks, implemented in Tamarin. 
