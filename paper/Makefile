@@ -1,7 +1,7 @@
 .PHONY: all
 all: paper.pdf
 
-paper.pdf: main.pdf
+paper.pdf: main.pdf lncs biblatex-lncs
 	${LN} $< $@
 
 main.pdf: popets
