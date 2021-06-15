@@ -4,7 +4,7 @@ all: paper.pdf
 paper.pdf: main.pdf
 	${LN} $< $@
 
-main.pdf: popets
+main.pdf: lncs biblatex-lncs
 main.pdf: main.tex
 main.pdf: preamble.tex preamble-paper.tex
 

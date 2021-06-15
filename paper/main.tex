@@ -1,7 +1,7 @@
-\documentclass{article}
+\documentclass{llncs}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{authblk}
+%\usepackage{authblk}
 
 \input{preamble.tex}
 \input{preamble-paper.tex}
@@ -16,15 +16,21 @@
 %  }
 }
 
-\author[1]{Daniel Bosk}
-\author[1]{Simon Bouget}
-\author[1]{Sonja Buchegger}
-\affil[1]{%
-  KTH Royal Institute of Technology, \texttt{\{dbosk,bouget,buc\}@kth.se}
+\author{%
+  Daniel Bosk\thanks{%
+    Part of the work done while visiting the WIDE/ASAP team at 
+    Inria/IRISA/CNRS/Univ Rennes, Rennes, France.
+  }\inst{1} \and
+  Sonja Buchegger\inst{1} \and
+  Sébastien Gambs\thanks{%
+    Work done while at KTH.
+  }\inst{2} \and
+  Simon Bouget\inst{3}%
 }
-\author[2]{S\'ebastien Gambs}
-\affil[2]{%
-  Universit\'e du Quebec \`a Montr\'eal, \texttt{sebastien.gambs@uqam.ca}
+\institute{%
+  KTH Royal Institute of Technology, \email{\{dbosk,buc\}@kth.se} \and
+  Universit\'e du Quebec \`a Montr\'eal, \email{sebastien.gambs@uqam.ca} \and
+  RISE Research Institutes of Sweden, \email{simon.bouget@rise.se}%
 }
 
 \input{contents.tex}
