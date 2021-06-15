@@ -14,13 +14,13 @@ It is a lighter version than in~\cite{SelfCertifiedSybilFreePseudonyms} and not
 the full protocol of~\cite{HowToWinTheCloneWars}.
 
 At the core of our construction, witnesses generate participation proofs for 
-the protesters (in \cref{ProtocolDuring}), these are essentially augmented 
-\acp{LP}\footnote{%
+the protesters (in \cref{TrustedProtocolDuring}), these are essentially 
+augmented \acp{LP}\footnote{%
   \Iac{LP} certifies that its owner was at a given location at a given time.
   In \cref{protest-model}, we point out that we also need a cause identifier.
 }.
 Then whoever wants to verify the participation count, will count and verify 
-those participation proofs (in \cref{ProtocolVerification}). 
+those participation proofs (in \cref{TrustedProtocolVerification}). 
 
 The entities involved in our protocol are participants and (count) verifiers.
 A participant can assume three different roles:
@@ -91,7 +91,7 @@ for details).
 
 
 \subsection{Participation}%
-\label{ProtocolDuring}
+\label{TrustedProtocolDuring}
 
 %The join, participation and submission phases are as follows.
 % illustrated in \cref{protocol-overview-trusted}.
@@ -296,7 +296,7 @@ part of the distance bounding).
 
 
 \subsection{Count and verification}%
-\label{ProtocolVerification}
+\label{TrustedProtocolVerification}
 
 % While there are various ways for verifying the participation count, hereafter, 
 % we will detail the two suggested just after \cref{DefParticipationCount}.
