@@ -5,11 +5,11 @@ There are three players: the protester (with identity) \(P\), a witness (with
 identity) \(W\), and a ledger~\(\TS\) (\ie time-stamping storage, that will 
 contain the set of all proof shares, \(\pshs\)).
 The protester \(P\) and the witness \(W\) communicate some protocol data,
-\(d_{P,W}(\cid, P)\), and record when the communication occurred \(t_{P,W}\).
+\(d_{P,W}(\cid, P, W)\), and record when the communication occurred 
+\(t_{P,W}\).
 The protester \(P\) communicates with \(\TS\) and \(\TS\) only learns 
 some function \(f\) of the protocol data exchanged with the witness,
-\(f(d_{P,W}(\cid, P))\), and the time of the 
-communication (\(t_{P,\TS}\)).
+\(f(d_{P,W}(\cid, P, W))\), and the time of the communication (\(t_{P,\TS}\)).
 This is illustrated in \cref{fig:base-adversary}.
 
 \begin{figure}
@@ -19,11 +19,11 @@ This is illustrated in \cref{fig:base-adversary}.
     An overview of the adversary model.
     The protester (with real identity) \(P\) and witness (with real identity) 
     \(W\) communicate.
-    They exchange protocol data as a function~\(d\) of the protest and 
-    protester, \(d_{P,W}(\cid, P)\), and record the time it happened, 
+    They exchange protocol data as a function~\(d\) of the protest, protester, 
+    and the witness, \(d_{P,W}(\cid, P, W)\), and record the time it happened, 
     \(t_{P,W}\).
-    The protester submits \(f(d_{P,W}(\cid, P))\), for some function \(f\), to 
-    the ledger \(\TS\), who records the time that happened, \(t_{P,\TS}\).
+    The protester submits \(f(d_{P,W}(\cid, P, W))\), for some function \(f\), 
+    to the ledger \(\TS\), who records the time that happened, \(t_{P,\TS}\).
     %Both the witness \(W\) and the ledger \(\TS\) are controlled by the 
     %adversary.
   }
