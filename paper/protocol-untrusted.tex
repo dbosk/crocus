@@ -1,0 +1,233 @@
+%\section{\CROCUS:\@ A protocol for crowd counting estimation}%
+\section{Crowd counting with potentially untrusted witnesses}%
+\label{untrusted-witnesses-protocol}
+
+In line with some \ac{LPS}, \eg \ac{PROPS}, we now provide a version where we 
+reduce the trust in the witnesses.
+The entities and roles involved in this version of the protocol are still the 
+same, but we reduce the possibility to create new proofs before and after an 
+event.
+
+
+\subsection{Participation}%
+\label{ProtocolDuring}
+
+The main change to participate is the use of the time-stamping property of 
+\(\TS\).
+Instead of the witness determining the time~\(t\), the witness and protester 
+each determine a time interval for the creation of the proof.
+The witness gets \(t_s\gets \TSget\) and the protester gets \(t_s'\gets 
+\TSget\) from the ledger~\(\TS\).
+They close the interval by committing the proof share to the ledger using 
+\(\TSsubmit\).
+This adapted structure of a proof-share is depicted in \cref{fig:ProofFig}.
+The updated protocol phases are given in \cref{fig:ProtocolOverview} and 
+described below.
+
+\begin{figure}
+  \centering
+  \small
+  \includegraphics{proofshare.tikz}
+  \caption{%
+    Structure of a proof share.
+    The protest (cause) identifier \(\cid\) is the hash value of the manifesto.
+    The protester \(P\)'s identifier \(\pid\) is computed using the protester's key \(\sk_P\) and \(\cid\).
+    The witness \(W\)'s protester-specific identifier \(\wid\) is computed using the
+    witness's key \(\sk_W\) and the protester's \(\pid\).
+    \(t_s, t_s'\) are the outputs from \(\TSget\), \eg hashes of the head 
+    blocks in the ledger seen by the protester and witness, respectively, and 
+    \(l\) is an area.
+    All values are signed by the witness (signature \(\prf_W = \SPK[\sk_W][\wid 
+      = \dotsb][\cid, \pid, \wid, t_s, t_s', l]\)) while also proving the 
+    correctness of \(\wid\) and knowledge of a signature on \(\sk_W\).
+    The protester constructs \(\prf_P\) analogously.
+  }%
+  \label{fig:ProofFig}
+\end{figure}%
+
+
+The creation of the protest is the same: the organizer publishes the manifesto 
+in some way.
+
+\paragraph*{Joining}
+
+The join procedure is the same, except we add fetching \(t_s\).
+So the protester computes \(
+  \cid\gets \Hash[\mfst]
+\) and \(
+  \pid\gets \ACprf[_{\sk_P}][\cid].
+\) The protester also fetches a time-correlated random value, \(t_s\), from 
+\(\TS\), \(t_s\gets \TSget\).
+
+The witness simply gets a time-correlated random value from the time-stamping 
+service, \(t_s'\gets \TSget\).
+Note that we do this for redundancy, the newest of \(t_s\) and \(t_s'\) will 
+set the start of the time interval of creation for the proof share.
+
+
+\paragraph*{Participation}
+
+In the participation phase, the only difference is the use of \(t_s\) and 
+\(t_s'\) instead of \(t\).
+
+The protester sends \(\pid\) and \(t_s\) to the witness.
+Then they run the protocol \[
+  \Proto{\ACproveSig[\spk, k, r, \sigma]}{\ACverifySig[\spk, \ssk]}
+\] to verify the correctness of \(\pid\) and do the distance bounding, same as 
+before.
+If the protocol succeeds, the witness will compute \(\wid \gets 
+\ACprf[_{\sk_W}][\pid]\) and send \((\wid, t_s', l)\) to the protester.
+
+
+\paragraph*{Submission}
+
+The submission phase differs in what constitutes the proof share.
+The protester commits the proof-share data to the ledger~\(\TS\) and receives 
+the proof of commitment~\(t_e\gets \TSsubmit[\Hash[\cid, \pid, \wid, t_s, t_s', 
+l]]\), which ends the time interval.
+The sooner this is done, the higher the precision for the time-dependent 
+eligibility criterion will be for later counting.
+(The witness can also do this, the important part is to do it as soon as 
+possible.)
+The remaining operations are not time critical.
+
+The protester computes \iac{NIZK} proof \(\corr_{\pid}\), which shows the 
+correctness of \(\pid\) to a third party.
+More specifically,
+\begin{multline*}
+  \corr_{\pid}\gets \SPK\left\{ (\sk_P) : \right. \\
+    \begin{aligned}
+      \pid &= \ACprf[_{\sk_P}][\cid] \quad \land \\
+      \sigma_P' &= \left. \ACblind[\ACsign[_{\ssk}][\sk_P]] \right\}
+    \end{aligned} \\
+      (\cid, \pid, \wid, t_s, t_s', l).
+\end{multline*}
+Finally, the protester uploads the tuple \[
+  \psh_P = (\cid, \pid, \wid, t_s, t_s', t_e, l, \corr_{\pid})
+\] for permanent storage, \(\TSsubmit[\psh_P]\).
+
+The witness, like the protester, commits the proof-share data to the ledger, 
+\(t_e\gets \TSsubmit[\Hash[\cid, \pid, \wid, t_s, t_s', l]]\).
+(This is to close the time interval as early as possible, whoever is the faster 
+will submit it first, so both submit it.) \sonja{but both do}
+Then, without any time requirements, the witness computes \iac{NIZK} proof 
+\(\corr_{\wid}\) as follows:
+\begin{multline*}
+  \corr_{\wid}\gets \SPK\left\{ (\sk_W) : \right. \\
+    \begin{aligned}
+      \wid &= \ACprf[_{\sk_W}][\pid] \quad \land \\
+      \sigma_W' &= \left. \ACblind[\ACsign[_{\ssk}][\sk_W]] \right\}
+    \end{aligned} \\
+      (\cid, \pid, \wid, t_s, t_s', l).
+\end{multline*}
+Finally, the witness uploads the tuple \[
+  \psh_W = (\cid, \pid, \wid, t_s, t_s', t_e', l, \corr_{\wid})
+\] for permanent storage on the ledger, \(\TSsubmit[\psh_W]\).
+
+
+\begin{figure*}
+  \centering
+  \small
+  \begin{subfigure}{\columnwidth}
+    \begin{align*}
+      O\to \text{all}\colon & \text{manifesto} \\
+      P\colon & t_s\gets \TSget \\
+        & \cid\gets \Hash[\text{manifesto}], \\
+        & \pid\gets \ACprf[_{\sk_P}][\cid] \\
+      W\colon & t_s'\gets \TSget
+      \\[-1em]
+      \noalign{\hfill Join}
+      \midrule
+      \noalign{\hfill Participation}
+      \\[-3em]
+      P\to W\colon & \pid \\
+      P\leftrightarrow W\colon &
+        \PPK\mleft\{ (\sk_P) : \mright. \\
+        & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
+        & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{\ssk}][\sk_P]] \mright\} 
+        \\
+      W\colon & \wid\gets \ACprf[_{\sk_W}][\pid] \\
+      W\to P\colon & (\wid, t_s', l)
+    \end{align*}
+    \caption{Join and participation.}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{\columnwidth}
+    \begin{align*}
+      P\colon & t_e\gets \TSsubmit[\Hash[\pid, \wid, t_s, t_s', l]] \\
+      W\colon & t_e'\gets \TSsubmit[\Hash[\pid, \wid, t_s, t_s', l]] \\
+      W\colon & \TSsubmit[(\cid, \pid, \wid, t_s, t_s', t_e, l, 
+      \pi_{\wid})],\quad \text{where} \\
+        & \pi_{\wid} = \SPK\mleft\{ (\sk_W) : \mright. \\
+        & \qquad \wid = \ACprf[_{\sk_W}][\pid], \\
+        & \qquad \mleft. \sigma_W' = \ACblind[\ACsign[_{\ssk}][\sk_W]]\mright\} 
+        \\
+        & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l) \\
+      P\colon & \TSsubmit[(\cid, \pid, \wid, t_s, t_s', t_e, l, 
+      \pi_{\pid})],\quad \text{where}\\
+        & \pi_{\pid} = \SPK\mleft\{ (\sk_P) : \mright. \\
+        & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
+        & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{\ssk}][\sk_P]] \mright\} 
+        \\
+        & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l)
+    \end{align*}
+    \caption{Submission.}
+  \end{subfigure}
+  \caption{%
+    An overview of \CROCUS participation.\@
+    The organizer \(O\) broadcasts the manifesto.
+    The protester \(P\), witness \(W\) and their computations are as in \cref{fig:ProofFig}.
+    Finally, both \(P\) and \(W\) submit the proof shares to a
+   public ledger for permanent storage \(S\). Note that \pid  always refers to the
+    protester whose presence is being witnessed.
+  }%
+  \label{fig:ProtocolOverview}
+\end{figure*}
+%\normalsize
+
+
+\subsection{Count and Verification}%
+\label{ProtocolVerification}
+
+The set of proofs is constructed the same way as before.
+What differs is what we do with \(\theta\) and \(\str\).
+
+We have the set of proof shares~\(\pshs\), as before.
+We also have the partitioning of the set of proof shares using the 
+relation~\(=_\pid\) such that \(
+  (\cid, \pid, \wid, t, l) =_\pid (\cid', \pid', \wid', t', l')
+\) is true if \(\pid = \pid'\).
+Each equivalence class \(\prf_{i, \prtst} \in \pshs/{=_\pid}\) is a proof of 
+participation for participant \(i\).
+This is the same as before.
+
+However, in terms of \cref{DefParticipationCount}, the total participation 
+count is still \(|\prfs_\prtst^{\str, \theta}|\), but this time the verifier 
+might set \(\theta\) and \(\str\) differently.
+The verifier can still set \(\theta\) and \(\str\) the same as before and get 
+the trusted witnesses scenario.
+But this time the verifier knows when the proofs were constructed (in 
+\(\interval{t_s}{t_e}\)), due to trusting \(\TS\) to provide correct 
+time-stamping and immutability.
+
+\daniel{The following should be edited to fit.} 
+Note that, thanks to the \((\str,\theta)\)-eligibility criterion
+(\cref{DefParticipationCount}), the method of counting is extremely
+generic, and each (counting) verifier can make an independent choice to regulate their trust in the final result, based on their initial trust in the witnesses. In other words, anyone who does the counting can choose the eligibility
+criteria (time interval, location, number of regular or trusted
+witnesses, who is considered to be a trusted witness) for their own count.
+As long as \emph{these assumptions/criteria are published along with the 
+result}, anyone can verify the correctness of the count under those criteria, 
+and potentially question the validity of this choice. Biased or partisan 
+verifiers may be tempted to make extreme choices, but they will have to publish 
+those choices and lose credibility. Reasonable verifiers on the other hand will 
+try to find a good middle-ground that counts all legitimate protesters while 
+being resistant to isolated malicious agents.
+
+% Then the verifier can define \[
+%   \str[\prf_{\pid_j, P}] = \begin{cases}
+%     1 & \text{if \(\exists \psh_i\in \prf_{\pid_j, P}\) that is such a proof 
+%       share} \\
+%     0 & \text{otherwise}
+%   \end{cases}
+% \] and sets \(\theta = 1\).

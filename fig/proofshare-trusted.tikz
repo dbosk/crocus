@@ -1,0 +1,53 @@
+\begin{tikzpicture}[%
+  -Latex,
+  item/.style={rectangle,draw},
+  edge from parent/.style={},
+  ]
+  \tikzset{%
+    %grow'=left,%
+    %level distance=5em%
+  }
+  \node[item] (proof) {$(\cid, \pid, \wid, t, l)$}
+  child {%
+    node[item] (pid) {$\pid$}
+    child {%
+      node[item] (cid) {$\cid$}
+      child {%
+        node[item] (manifesto) {$\mfst$}
+      }
+    }
+  }
+  child {%
+    node[item] (wid) {$\wid$}
+  }
+  child {%
+    node[item] (ts) {$t$}
+  }
+  child {%
+    node[item] (l) {$l$}
+  }
+  ;
+
+  \node[item,right of=proof,node distance=8em] (prfW) {$\prf_W$} ;
+
+  \path[every node/.style={font=\small}]
+  (cid) edge [out=north west,in=west] node [anchor=east] {$\in$} (proof)
+  (pid) edge node [anchor=south east] {$\in$} (proof)
+  (wid) edge node [anchor=east] {$\in$} (proof)
+  (ts) edge node [anchor=east] {$\in$} (proof)
+  (l) edge node [anchor=west] {$\in$} (proof)
+  ;
+
+  \path[every node/.style={font=\small}]
+  (manifesto) edge node [anchor=east] {$\Hash[\cdot]$} (cid)
+  (cid) edge node [anchor=west,rotate=-30]
+    {$\ACprf[_{\sk_P}][\cdot]$} (pid)
+  (pid) edge[bend right] node [anchor=160,rotate=-30]
+    {$\ACprf[_{\sk_W}][\cdot]$} (wid)
+  ;
+
+  \path[every node/.style={font=\small}]
+  (proof) edge [out=east,in=west] node {} (prfW)
+  ;
+
+\end{tikzpicture}

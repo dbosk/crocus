@@ -112,11 +112,14 @@
 \NewAlgorithm{\CROCUSsetup}{Setup}
 \NewVariable{\pk}{pk}
 \NewVariable{\sk}{sk}
-\NewVariable{\spk}{spk}
-\NewVariable{\ssk}{ssk}
+\NewVariable{\CA}{CA}
+\NewVariable{\spk}{spk_\CA}
+\NewVariable{\ssk}{ssk_\CA}
+\NewVariable{\spkw}{spk_{\CA'}}
+\NewVariable{\sskw}{ssk_{\CA'}}
 \NewAlgorithm{\CROCUSreg}{Reg}
 \NewAlgorithm{\CROCUSjoin}{Join}
-\NewVariable{\mfst}{manifesto}
+\NewVariable{\mfst}{m}
 \NewAlgorithm{\CROCUSparticipate}{Prticip}
 \NewAlgorithm{\CROCUSwitness}{Witness}
 \NewAlgorithm{\CROCUSsubmit}{Submit}
@@ -149,7 +152,6 @@
 \NewAlgorithm{\PKverify}{PK.\!Verify}
 \NewAlgorithm{\SPKprove}{SPK.\!Prove}
 \NewAlgorithm{\SPKverify}{SPK.\!Verify}
-\NewVariable{\CA}{CA}
 \NewSet{\TT}{T}
 \NewSet{\LL}{L}
 

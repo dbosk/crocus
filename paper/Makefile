@@ -11,12 +11,12 @@ main.pdf: preamble.tex preamble-paper.tex
 SRC+=	contents.tex
 SRC+=	abstract.tex
 SRC+=	intro.tex
-SRC+=	system-model.tex
 SRC+=	current-crowd-counting.tex
 SRC+= 	definitions.tex
 SRC+= 	protest-model.tex
 SRC+= 	security-properties.tex
 SRC+= 	adversary-model.tex 
+SRC+=	system-model.tex
 SRC+= 	building-blocks.tex
 SRC+= 	ZKPK.tex
 #SRC+= 	ZKPK-instantiations.tex
@@ -25,10 +25,11 @@ SRC+= 	anon-cred.tex
 SRC+= 	distance-bounding.tex
 #SRC+= 	DB-anon-cred.tex
 SRC+= 	timestamp.tex
-SRC+= 	protocol.tex
+SRC+= 	protocol-trusted.tex
+SRC+= 	protocol-untrusted.tex
 SRC+=	security-analysis.tex
-SRC+= 	verifiability-analysis.tex
-SRC+= 	privacy-analysis.tex
+SRC+= 		verifiability-analysis.tex
+SRC+= 		privacy-analysis.tex
 SRC+= 	performance.tex
 SRC+= 	related-work.tex
 SRC+= 	discussion.tex
@@ -39,8 +40,9 @@ SRC+= 	identity-limits.tex
 
 main.pdf: ${SRC}
 
-FIGS+= 				proofshare.tikz
+FIGS+= 				proofshare.tikz proofshare-trusted.tikz
 proofshare.tikz: 	../fig/proofshare.tikz
+proofshare-trusted.tikz: 	../fig/proofshare-trusted.tikz
 
 FIGS+= 				base-adversary.tikz
 base-adversary.tikz: ../fig/base-adversary.tikz

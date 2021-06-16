@@ -1,0 +1,354 @@
+%\section{\CROCUS:\@ A protocol for crowd counting estimation}%
+\section{Crowd counting with trusted witnesses}%
+\label{trusted-witnesses-protocol}
+
+We now present a protocol for privacy-preserving but verifiable crowd
+counts.
+This version of the protocol relies on trusted entities to act as witnesses for 
+\iac{LP}.
+
+A prerequisite for this protocol is a one-to-one mapping between a persons real 
+identity and a certificate (\ie a cryptographic key).
+\Cref{ProtocolSetup} covers how Alice can obtain such a certificate.
+It is a lighter version than in~\cite{SelfCertifiedSybilFreePseudonyms} and not 
+the full protocol of~\cite{HowToWinTheCloneWars}.
+
+At the core of our construction, witnesses generate participation proofs for 
+the protesters (in \cref{TrustedProtocolDuring}), these are essentially 
+augmented \acp{LP}\footnote{%
+  \Iac{LP} certifies that its owner was at a given location at a given time.
+  In \cref{protest-model}, we point out that we also need a cause identifier.
+}.
+Then whoever wants to verify the participation count, will count and verify 
+those participation proofs (in \cref{TrustedProtocolVerification}). 
+
+The entities involved in our protocol are participants and (count) verifiers.
+A participant can assume three different roles:
+\begin{enumerate}
+\item The \emph{organizer} has written a manifesto for the protest and 
+  disseminated it to others.
+  Anyone can do this.
+\item A \emph{protester} is attending the protest and asks witnesses to vouch 
+  for their presence.
+\item A \emph{witness} provides proofs of participation to protesters.
+  The proofs are constructed such that they are verifiable by third parties.
+  The witness must be trusted by the verifier.
+\end{enumerate}
+In general, there is one organizer and every participant can act as
+either or both protester and witness.
+
+Anyone can be a verifier (we required universal verifiability, 
+\cref{desired-properties}).
+The verifier defines the protest to be counted by setting the cause, time 
+(interval) and location (area), \cf \cref{DefProtest}.
+Now the verifier counts all proofs that verify correctly and fulfils the cause, 
+time and location criteria.
+The verifier can publish, \eg in a news paper, the final count together with 
+the cause, time and location and anyone can verify this count (by the same 
+procedure).
+
+\subsection{Prerequisite: self-certified, Sybil-free pseudonyms}%
+\label{ProtocolSetup}
+
+Before Alice can have her participation in any event counted, she must get a 
+certificate that ensures Sybil-freeness.
+This is only done once\footnote{%
+  It is repeated when the credential expires, in analogy to a passport in terms 
+  of expected intervals.
+}.
+The keys can be reused for an arbitrary number of protests or, given
+careful choices in the \ac{PRF} used for deriving identifiers, other
+services that work with anonymous credentials.
+
+\paragraph*{Setup: \((\spk, \ssk)\gets \CROCUSsetup\)}
+
+During the setup phase, the \ac{CA} creates all the needed keys.
+The \ac{CA} generates a service public-private key-pair \((\spk, \ssk)\gets 
+  \ACsetup\) (see \cref{ACsignAlg}).
+
+\paragraph*{Registration: \(\sk\gets 
+\Proto{\CROCUSreg[_P][\spk]}{\CROCUSreg[_{\CA}][\ssk]}\)}
+
+During the registration phase, each participant
+generates a secret key~\((k, r)\) and
+obtains a signature on it by the \ac{CA} \emph{but without revealing it} to the 
+\ac{CA} (or to any part thereof in a decentralized \ac{CA} scenario).
+At the end, each participant will have a signed secret key while the \ac{CA} 
+will issue only one signature per participant but without knowing the 
+association between a particular key and the identity of the participant.
+The participant chooses \(k, r\rgets \ZZ_q\) uniformly randomly and runs 
+\(\sigma \gets \Proto{\ACgetSig[\spk, k, r]}{\ACissueSig[\spk, \ssk]}\) (see 
+\cref{ACacAlg}).
+Upon success, the participant sets \(\sk = (\sigma, k, r)\).
+
+The key~\(\sk\) can be used together with \(\ACprf\) to create a 
+pseudonym~\(p\gets \ACprf[_k][c]\) in a particular context~\(c\) (see 
+\cref{ACprfAlg}).
+There exists \iac{PK} such that one can prove that \(p\) is computed correctly 
+from \(c\) with a valid key~\(\sk\) (see \cref{ACprfPKalg} or \cite{AnonPass} 
+for details).
+
+
+
+\subsection{Participation}%
+\label{TrustedProtocolDuring}
+
+%The join, participation and submission phases are as follows.
+% illustrated in \cref{protocol-overview-trusted}.
+The goal of our protocol is to generate and collect privacy-preserving
+participation proofs that can be counted and verified. These proofs
+consist of proof shares that are constructed as depicted in
+\cref{proofshare-trusted-fig}.
+They are constructed through an interactive protocol between the protester and 
+the witness, as depicted in \cref{protocol-overview-trusted} and described below.
+
+\begin{figure}
+  \centering
+  \small
+  \includegraphics{proofshare-trusted.tikz}
+  \caption{%
+    Structure of a proof share.
+    The protest (cause) identifier \(\cid\) is the hash value of the manifesto.
+    The protester~\(P\)'s protest-specific pseudonym~\(\pid\) is computed using 
+    the protester's key~\(\sk_P\) and \(\cid\).
+    The witness \(W\)'s \emph{protester}-specific identifier \(\wid\) is 
+    computed using the witness's key~\(\sk_W\) and the protester's 
+    pseudonym~\(\pid\).
+    \(t\) is the time (interval) and \(l\) is the location (area) as determined 
+    by the trusted witness~\(W\).
+    All values are signed by the witness (signature \(\prf_W = \SPK[\sk_W][\wid 
+    = \dotsb][\cid, \pid, \wid, t, l]\)) while also proving the correctness of 
+    \(\wid\) and knowledge of a signature on \(\sk_W\) by some \ac{CA}.
+  }%
+  \label{proofshare-trusted-fig}
+\end{figure}%
+
+
+\paragraph*{Creation of a protest: the manifesto}
+
+The organizer writes a manifesto for the protest, which describes its cause.
+This manifesto could take the form of any intelligible text, in
+practice at minimum a name.
+The organizer then distributes this manifesto to people through
+any suitable means  (\eg on the Web, on placards, \etc).
+If they agree with the cause, they will use the knowledge of the
+manifesto to join the protest. 
+
+
+\paragraph*{Joining as a protester:
+  \((\pid)\gets \CROCUSjoin[_P][\mfst]\)}
+
+In the terminology of \textcite{SelfCertifiedSybilFreePseudonyms}, the 
+manifesto~\(\mfst\) is the context and it yields an identity domain.
+A protester who wants to join the protest uses the manifesto~\(\mfst\) to
+compute an identifier for the cause (the context) by hashing the manifesto,
+\(\cid\gets \Hash[\mfst]\)\footnote{%
+  The result should be compared to that received from the organizer to check 
+  that the \(\cid\) indeed is correct.
+  This is to avoid that protesters use different \(\cid\)s for semantically 
+  equivalent manifestos~\(\mfst\).
+  However, we omit this in the protocol for readability.
+}.
+Afterwards, this is used to create the protester's protest-specific 
+pseudonym~\(\pid\gets \ACprf[_{\sk_P}][\cid]\)%
+% (see \cref{proofshare-trusted-fig} and \cref{ACprfAlg} in the appendix for details of 
+%the algorithms)%
+.
+
+
+\paragraph*{Joining as a witness}
+
+The witness does not have to do anything to join as a witness.
+That the witness is trusted by the verifier means that the verifier trusts that 
+the witness can
+\begin{enumerate*}
+  \item determine the time of an interaction with a protester,
+  \item determine the its own location during that interaction
+    and
+  \item will run the protocol as an honest witness with the potentially 
+    malicious protester.
+\end{enumerate*}
+
+
+\paragraph*{Participation:
+  \(\pi\gets
+    \Proto{\CROCUSparticipate[\cid, \sk_P]}{\CROCUSwitness[\sk_W, \spk]}\)}
+
+In the participation phase, the protester and 
+the witness construct the proof share of the protester (\cref{proofshare-trusted-fig}).
+
+The protester sends \(\pid\) to the witness.
+Then they run the protocol \[
+  \Proto{\ACproveSig[\spk, k, r, \sigma]}{\ACverifySig[\spk, \ssk]}
+\] (see \cref{ACacAlg}), \(k\) and \(r\) are part of \(\sk_P\).
+Note that the \acf{PK} in \cref{ACacAlg} must be
+\iacf{PPK} (\ie a \acl{PK} with distance bounding).
+We use the protocol of \textcite{DB-Schnorr}, which does exactly this.
+If the protocol succeeds, the witness will compute \(\wid \gets 
+\ACprf[_{\sk_W}][\pid]\) and send \((\wid, t, l)\) to the protester, where 
+\(t\) is the current time and \(l\) is the witness' current location.
+
+
+\paragraph*{Submission:
+  \(\psh\gets \CROCUSsubmit[_W][\cid, \pid, \wid, t, l]\)}
+
+In the submission phase, the proof shares are be made available for the 
+verifier.
+\Ie the verifier must be able to verify that a proof was actually issued by a 
+witness.
+
+To achieve this, the witness computes \iac{NIZK} proof~\(\corr_{\wid}\), 
+proving the correctness of \(\wid\) while also signing the time~\(t\) and 
+location~\(l\).
+More specifically, we have that
+\begin{multline*}
+  \corr_{\wid}\gets \SPK\left\{ (\sk_W) : \right. \\
+    \begin{aligned}
+      \wid &= \ACprf[_{\sk_W}][\pid] \quad \land \\
+      \sigma_W' &= \left. \ACblind[\ACsign[_{\sskw}][\sk_W]] \right\}
+    \end{aligned} \\
+      (\cid, \pid, \wid, t, l).
+\end{multline*}
+Finally, the complete proof share is the tuple \[
+  \psh = (\cid, \pid, \wid, t, l, \corr_{\wid}).
+\]
+
+For individual and universal verifiability, the proof should be published on 
+some permanent storage, such as the ledger~\(\TS\) by running 
+\(\TSsubmit[\psh]\) (\cref{ledger}).
+
+Note that it does not matter if it is the witness or the protester who makes 
+\(\psh\) available to the verifier.
+The witness could compute \(\psh\) during the protest and give to the 
+protester immediately, but we separate these steps to show that the witness can 
+postpone those extra computations while potentially running on battery.
+
+Now, the witness is anonymous here.
+For the verifier to recognize a proof on some publicly available storage as 
+issued by a trusted witness there could be another \ac{CA}, say \(\CA'\), which 
+issues credentials to witnesses.
+\(\CA'\) could be run by a news paper, trusted to only issue credentials to 
+trustworthy witnesses.
+
+Another solution would be that the witness simply signs the tuple \((\cid, 
+\pid, t, l)\) with a key that is tied to the witness' identity.
+However, that would allow tracking and thus the anonymity set of the protester 
+would shrink.
+
+Note also that the prover need not compute any \ac{NIZK} proof of the 
+correctness of \(\pid\) since the witness is trusted to have verified this (as 
+part of the distance bounding).
+
+
+
+\begin{figure*}
+  \centering
+  \small
+  \begin{subfigure}{\columnwidth}
+    \begin{align*}
+      O\to \text{all}\colon & \text{manifesto} \\
+      P\colon
+        & \cid\gets \Hash[\text{manifesto}], \\
+        & \pid\gets \ACprf[_{\sk_P}][\cid]
+      \\[-1em]
+      \noalign{\hfill Join}
+      \midrule
+      \noalign{\hfill Participation}
+      \\[-3em]
+      P\to W\colon & \pid \\
+      P\leftrightarrow W\colon &
+        \PPK\mleft\{ (\sk_P) : \mright. \\
+        & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
+        & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{\ssk}][\sk_P]] \mright\} 
+        \\
+      W\colon & \wid\gets \ACprf[_{\sk_W}][\pid]% \\
+      %W\to P\colon & (\wid, t, l)
+    \end{align*}
+    \caption{Join and participation}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{\columnwidth}
+    \begin{align*}
+      W\colon & \TSsubmit[(\cid, \pid, \wid, t, l, \corr_{\wid})],\quad 
+      \text{where} \\
+        & \corr_{\wid} = \SPK\mleft\{ (\sk_W) : \mright. \\
+        & \qquad \wid = \ACprf[_{\sk_W}][\pid], \\
+        & \qquad \mleft. \sigma_W' =
+              \ACblind[\ACsign[_{\sskw}][\sk_W]]\mright\} \\
+        & \qquad\qquad (\cid, \pid, \wid, t, l)
+    \end{align*}
+    \caption{Submission}
+  \end{subfigure}
+  \caption{%
+    An overview of the protocol with trusted witnesses.
+    The organizer~\(O\) broadcasts the manifesto.
+    The protester~\(P\) with pseudonym~\(\pid\) in the context of the protest 
+    (\(\cid\)),
+    the witness~\(W\) with pseudonym~\(\wid\) in the context of that protester 
+    and
+    their computations are as in \cref{proofshare-trusted-fig}.
+    Finally, \(W\) submits the proof share to a public ledger~\(\TS\) for 
+    permanent storage.
+  }%
+  \label{protocol-overview-trusted}
+\end{figure*}
+%\normalsize
+
+
+\subsection{Count and verification}%
+\label{TrustedProtocolVerification}
+
+% While there are various ways for verifying the participation count, hereafter, 
+% we will detail the two suggested just after \cref{DefParticipationCount}.
+% In the first approach, we do not trust individual witnesses, rather we \emph{assume} that it is difficult for Alice to find more than \(\theta\) witnesses willing to collude.
+% Thus, the strength comes from the number of witnesses and we require at least \(\theta\) witnesses to accept a participation proof as valid.
+% In the second approach, we trust specific witnesses, but no others.
+% In this case, to accept a participation proof as valid, we require at least one trusted witness, the independent journalist Jane.
+% It is the strength function \(\str\) of \cref{DefParticipationCount} that 
+% differ in the two cases.
+% We will first give the procedure and then how to construct the two different 
+% strength functions.
+
+Assume that the verifier wants to verify the count for a protest~\(\prtst\).
+The first thing the verifier will do, is to download all the proof 
+shares~\(\psh\) from the ledger~\(\TS\), such that \(\psh \sqsubseteq \sprtst\) 
+is a valid proof share for some subprotest~\(\sprtst\in\prtst\) of the 
+protest~\(\prtst\).
+Next, the verifier selects only those proof shares~\(\psh = (\cid, \pid, \wid, 
+t, l, \corr_{\wid})\) such that \(\corr_\wid\) proves knowledge of a signature 
+by \(\sskw\).
+We denote this set of proof shares by \(\pshs\).
+
+Next, the verifier partitions the set of proof shares~\(\pshs\) using the 
+relation~\(=_\pid\) such that \(
+  (\cid, \pid, \wid, t, l) =_\pid (\cid', \pid', \wid', t', l')
+\) is true if \(\pid = \pid'\).
+Each equivalence class \(\prf_{i, \prtst} \in \pshs/{=_\pid}\) is a proof of 
+participation for participant \(i\).
+In terms of \cref{DefParticipationCount}, we let \(\theta = 1\) and \[
+  \str(\psh) =
+    \begin{cases}
+      1 & \text{if the verifier trusts \(\CA'\) to issue only to trustworthy 
+        witnesses} \\
+      0 & \text{otherwise}
+    \end{cases}.
+\] Consequently, the total participation count is \(|\prfs_\prtst^{\str, 
+\theta}|\).
+
+\endinput
+
+Note that, thanks to the \((\str,\theta)\)-eligibility criterion
+(\cref{DefParticipationCount}), the method of counting is extremely
+generic, and each (counting) verifier can make an independent choice to regulate their trust in the final result, based on their initial trust in the witnesses. In other words, anyone who does the counting can choose the eligibility
+criteria (time interval, location, number of regular or trusted
+witnesses, who is considered to be a trusted witness) for their own count
+and as long as these are published along with the result, anyone can
+verify the correctness of the count under those criteria, and potentially question the validity of this choice. Biased or partisan verifiers may be tempted to make extreme choices, but they will have to publish those choices and lose credibility. Reasonable verifiers on the other hand will try to find a good middle-ground that counts all legitimate protesters while being resistant to isolated malicious agents.
+
+% Then the verifier can define \[
+%   \str[\prf_{\pid_j, P}] = \begin{cases}
+%     1 & \text{if \(\exists \psh_i\in \prf_{\pid_j, P}\) that is such a proof 
+%       share} \\
+%     0 & \text{otherwise}
+%   \end{cases}
+% \] and sets \(\theta = 1\).
