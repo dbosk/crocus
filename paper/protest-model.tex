@@ -78,13 +78,13 @@ Then, the set of all \emph{valid} proof shares forms the participation proof of 
   Furthermore, we say that \(\psh\) is \emph{valid} for a subprotest \(\sprtst = (\cid', t', l')\) if and only if \(\cid = \cid', t\subseteq t', l\subseteq l'\) and denote this by 
   \(\psh \sqsubseteq \sprtst\).
   We let \(\pshs\) denote the set of all proof shares and \(
-    \pshs_\prtst = \{ \psh \in \pshs \mid
+    \pshs_{\prtst} = \{ \psh \in \pshs \mid
       \exists \sprtst \in \prtst, \psh \sqsubseteq \sprtst \}
   \) be the subset of valid proof shares related to a protest~\(\prtst\).
 \end{definition}
 
-We denote by \(=_\pid\) the equivalence relation on \(\pshs\) where \((\cid, t, 
-l, \pid, \wid) =_\pid (\cid', t', l', \pid', \wid')\) if \(\pid = \pid'\).
+We denote by \(=_{\pid}\) the equivalence relation on \(\pshs\) where \((\cid, 
+t, l, \pid, \wid) =_{\pid} (\cid', t', l', \pid', \wid')\) if \(\pid = \pid'\).
 %and we will use the following notation to filter out a subset of \(\pshs\) with 
 %specific \(\cid\)s and \(\pid\)s:
 %\begin{multline*}
@@ -96,14 +96,14 @@ l, \pid, \wid) =_\pid (\cid', t', l', \pid', \wid')\) if \(\pid = \pid'\).
 % proofs
 \begin{definition}[Participation proof]%
   \label{DefParticipationProof}\label{DefParticipationProofs}
-  We denote by \(\prfs_\prtst = \pshs_\prtst/{=_\pid}\) the \emph{set of all 
-  proofs of participation for the protest~\(\prtst\)}.
+  We denote by \(\prfs_{\prtst} = \pshs_{\prtst}/{=_{\pid}}\) the \emph{set of 
+  all proofs of participation for the protest~\(\prtst\)}.
   The \emph{participation proof} of a protester with pseudonym~\(i\) who 
   participates in a protest~\(\prtst\) is the set
   \begin{equation}
     \nonumber
     \prf_{i, \prtst} =
-    \left\{ (\cid, t, l, \pid, \wid) \in \pshs_\prtst \mid
+    \left\{ (\cid, t, l, \pid, \wid) \in \pshs_{\prtst} \mid
       \pid = i\right\},
   \end{equation}
   of all proof shares with the same protester and valid for any subprotest of 
@@ -117,7 +117,7 @@ We can now define the participation count as follows.
   \label{DefParticipationCount}
   We define a \emph{participation count} of a protest \(\prtst\) as the cardinality 
   \(|\prfs_{\prtst}^{\str,\theta}|\) of the set of \emph{eligible} participation proofs respectively to a strength function $\str$ and a threshold $\theta$: \[
-    \prfs_{\prtst}^{\str,\theta} = \left\{ \prf_{i,\prtst} \in \prfs_\prtst
+    \prfs_{\prtst}^{\str,\theta} = \left\{ \prf_{i,\prtst} \in \prfs_{\prtst}
       \mid
       \str(\prf_{i,\prtst})\geq \theta \right\}
   \] with \(\str\colon \powerset(\pshs)\to \RR_+\) and  \(\theta \in \RR_+\).
