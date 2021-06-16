@@ -1,6 +1,3 @@
-\section{Desired properties and current crowd-counting methods}%
-\label{current-crowd-counting}
-
 \subsection{Desired properties}%
 \label{desired-properties}
 
@@ -14,18 +11,12 @@ For that reason we have strong requirements for verification and privacy for
 elections, it follows that we should have similar properties for protests
 and petitions.
 
-We draw inspiration from properties for voting systems as formalized
-in ~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
-\daniel{Find a new ref for voting verifiability properties, Douglas commented 
-  that the last one is not the origin.}
+We draw inspiration from properties for voting systems:
 \begin{description}
   \item[Eligibility:] anyone can verify that each cast vote is legitimate.
   \item[Universal verifiability:] anyone can verify that the result is according to the cast votes.
-    \daniel{Douglas: technically this is Sako-Kilian, non-technically, it's 
-      old.}
-  \item[Individual verifiability:] each voter can verify that their vote is included in the result.
-    \daniel{Douglas: this is much earlier than Sako-Kilian, in essence 
-      Fiat-Shamir (technically). Non-technically, much older.}
+  \item[Individual verifiability:] each voter can verify that their vote is 
+    included in the result.
 \end{description}
 In our context, votes are translated into \emph{participation proofs}.
 Universal and individual verifiability remain the same, in the sense that anyone can verify the participation count by counting the proofs and a participant can verify their proof is included.
@@ -37,13 +28,12 @@ include temporal %\footnote{%
 %   elections as a protest can start at any time and last for an arbitrary period 
 %   of time.%
 % }
-and spatial eligibility (\ie each participation proof satisfies some temporal 
-and spatial relation to the protest).
+and spatial eligibility (\ie the protester must have been present at the 
+protest).
 In essence, the proof must bind the person to the time and location of the protest.
 (This is the difference to a petition.)
 
-In ~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}, the main three
-privacy properties for voting protocols are given as:
+The main three privacy properties for voting protocols are given as:
 \begin{description}
   \item[Vote privacy:] the voting does not reveal any individual vote.
   \item[Receipt freeness:] the voting system does not provide any data that can be used as a proof of how the voter voted.
@@ -65,8 +55,8 @@ cause of the protest) here implies receipt freeness for \emph{that} the voter vo
 
 Therefore in our context, the crucial property is  vote privacy.
 More precisely, for the protester we want unlinkability (from the adversary's 
-perspective) between a protester's real identity \(P\) and the participation 
-proof (and thus also the protest itself).
+perspective) between a protester's real identity and the participation proof 
+(and thus also the protest itself).
 Phrased differently, given a participation proof, Grace should not be able to 
 distinguish if it was Alice or Bob who participated.
 Furthermore, if Grace has managed to link one proof to Alice due to some 
@@ -83,14 +73,18 @@ Another problem for all the above methods is exemplified by the demonstrations i
   \textins*{t}he demonstrators not only gather in open space, but also small alleys and between buildings%
 }.
 In this situation it is very difficult to faithfully capture the situation.
-Taking pictures from different angles risks double counts. Another challenges is determining whether people near the event's perimeter are participants or simply bystanders~\cite{HowToEstimateCrowdSize}.
+Taking pictures from different angles risks double counts. Another challenge is 
+determining whether people near the event's perimeter are participants or 
+simply bystanders~\cite{HowToEstimateCrowdSize}.
 
 Counting MAC addresses, as done by a company during the protests in Seoul~\cite{2016DemonstrationsInSeoul} suffers from MAC randomization, though some tracking of smartphones could still be possible with a different method~\cite{WhyMACRandomizationIsNotEnough} or using \emph{IMSI catchers}; none of which is verifiable.
 
 An approach that relies on a trusted infrastructure was recently deployed by a collection of media outlets to count protesters passing the line defined by a trusted sensor on marches~\cite{LeMondeProtestingSolution}. 
 This solution does not offer strong verifiability guarantees and thus is complemented by micro-counts made by humans to estimate their margin of error.
 
-CrowdCount \citet{CrowdCount} is a web service that lets Alice create an event such that anyone can submit their location to register that they are in Alice's event.
+\Textcite{CrowdCount} is a web service that lets Alice create an event such 
+that anyone can submit their location to register that they are in Alice's 
+event.
 Another related approach based on devices is UrbanCount~\cite{UrbanCount}, which relies on epidemic spreading of crowd-size estimates by device-to-device communication to count crowds in dense urban environments with high node-mobility and churn.
 However, there is no consideration of a potentially adversarial setting and thus no verifiability or checks on eligibility.  DiVote~\cite{DiVote}, a prior work by the same authors for polling in dense areas, avoids double counting, but again only works with honest participants and thus does not suit an adversarial setting.
 

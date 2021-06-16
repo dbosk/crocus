@@ -1,0 +1,34 @@
+\subsection{Location-proof systems}%
+\label{location-proof-systems}
+
+In a nutshell, \iac{LP} is a digital certificate attesting that someone was at 
+a particular location at a specific moment in time.
+\Iac{LPS} is an architecture by which users can obtain \acp{LP} from 
+neighboring witnesses (\eg trusted access points or other users) that can later 
+be shown to verifiers who can check the validity of a particular 
+proof~\cite{luo2010veriplace,zhu2011applaus}.
+Most of the existing approaches to \acp{LP} require the prover and the 
+witnesses to disclose their identities, thus raising many privacy issues such 
+as the possibility of tracing the movements of users of the \ac{LPS}.
+However, some \acp{LPS}, such as PROPS~\cite{PROPS}, exist that provide strong 
+privacy guarantees along with the possibility of verifying the claim of the 
+location.
+
+Our work is very related to \acp{LPS}.
+The crucial differences are how the \ac{LP} is used and the more adverse 
+environment.
+CROCUS must tie the cause of the protest to the location proof to designate the 
+proof to the protest in which the protester participated.
+Due to the adverse environment, \CROCUS cannot provide any guarantees using the 
+decentralized, untrusted witnesses that, \eg, PROPS can.
+The incentives to cheat are also bigger and consequently the thresholds for 
+collusion are much higher.
+
+In PASPORT~\cite{PASPORT}, the verifier is trusted and also known in advance.
+This does not work with universal verifiability.
+(The verifier chooses the subset of witnesses that can vouch for a prover. 
+Which makes it an interactive protocol. And the verifier must know which 
+witnesses are on location in advance.)
+
+\Textcite{ProofOfWitnessPresence} does not treat the adverse setting and, 
+particularly, the problem of \ac{DB} (see \cref{distance-bounding}).
