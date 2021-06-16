@@ -1,0 +1,32 @@
+\section{Practical Considerations}%
+\label{Practical}
+
+We now briefly list some issues for deploying
+CROCUS, regarding implementability and realistic adversaries\footnote{see the long version of the paper for a more thorough
+discussion of these topics. }, and then analyze its performance. 
+
+\subsection{Implementability}
+
+Some of the assumptions that are required for implementing our proposition are 
+not yet realized, however, we believe that they soon will be:
+ubiquitous usage of smartphones, with an identity credential
+signed by some \ac{CA}\footnote{based on \eg governmental ID on a chip as in Estonia, national
+  but private as BankID in Sweden, eIDAS in the EU, or self-sovereign
+  identities} ,  distance-bounding capabilities\footnote{based on \eg
+  3DBS or key-fob technology integration with phones}, and
+infrastructure-independent wireless communications\footnote{based on
+  \eg NFC (available but inconvenient), bluetooth or WIFI (Briar and
+  FireChat have been used in protests), 5G D2D (scalable but needs
+  authorization step)}.
+
+\subsection{Realistic adversary model}
+Our adversary model considers only protocol data, no auxiliary data.
+Against this adversary our scheme is secure.
+The question is how this adversary model maps to real
+adversaries. Side-channels such as taking photos, a global passive adversary
+controlling all national ISPs doing time-correlation attacks (though
+may not be able to observe all ledger input or \eg Tor exit nodes), or
+protocol violations in protests organized by the \ac{CA} are
+not prevented.
+
+\include{performance-subsection}
