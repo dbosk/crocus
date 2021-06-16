@@ -72,31 +72,39 @@ Then, the set of all \emph{valid} proof shares forms the participation proof of 
 
   Furthermore, we say that \(\psh\) is \emph{valid} for a subprotest \(\sprtst = (\cid', t', l')\) if and only if \(\cid = \cid', t\subseteq t', l\subseteq l'\) and denote this by 
   \(\psh \sqsubseteq \sprtst\).
-  
 \end{definition}
 
 %A subset of the proof shares forms a participation proof for a protester.
-We denote by \(\pshs\) the set of all proof shares,
-and we will use the following notation to filter out a subset of \(\pshs\) with specific \(\cid\)s and \(\pid\)s:
-\begin{multline*}
-  \pshs_{\cid_0, \pid_0} = \{(\cid, t, l, \pid, \wid)\in \pshs\mid \cid = 
-  \cid_0 \land \pid = \pid_0\}.
-\end{multline*}
+We let \(\pshs\) denote the set of all proof shares.
+Let \(
+  \pshs_\prtst = \{ \psh \in \pshs \mid
+    \exists \sprtst \in \prtst, \psh \sqsubseteq \sprtst \}
+\) be the subset of proof shares related to a protest~\(\prtst\).
+We denote by \(=_\pid\) the equivalence relation on \(\pshs\) where \((\cid, t, 
+l, \pid, \wid) =_\pid (\cid', t', l', \pid', \wid')\) if \(\pid = \pid'\).
+%and we will use the following notation to filter out a subset of \(\pshs\) with 
+%specific \(\cid\)s and \(\pid\)s:
+%\begin{multline*}
+%  \pshs_{\cid_0, \pid_0} = \{(\cid, t, l, \pid, \wid)\in \pshs\mid \cid = 
+%  \cid_0 \land \pid = \pid_0\}.
+%\end{multline*}
 
 % proof
 % proofs
 \begin{definition}[Participation proof]%
   \label{DefParticipationProof}\label{DefParticipationProofs}
-  The \emph{participation proof} of a protester with pseudonym \(\pid\) who participates in a protest \(\prtst\) with cause identifier \(\cid\) is the 
-  set
+  We denote by \(\prfs_\prtst = \pshs_\prtst/{=_\pid}\) the \emph{set of all 
+  proofs of participation for the protest~\(\prtst\)}.
+  The \emph{participation proof} of a protester with pseudonym~\(i\) who 
+  participates in a protest~\(\prtst\) is the set
   \begin{equation}
     \nonumber
-    \prf_{\pid, \prtst} =
-    \left\{ \psh \in \pshs_{\cid, \pid} \mid
-      \exists \sprtst\in \prtst\colon \psh\sqsubseteq \sprtst \right\},
+    \prf_{i, \prtst} =
+    \left\{ (\cid, t, l, \pid, \wid) \in \pshs_\prtst \mid
+      \pid = i\right\},
   \end{equation}
-  of all proof shares with the same protester and protest identifiers, and valid for any subprotest $p$ of $\prtst$.
-  We denote by \(\prfs\) the set of all proofs.
+  of all proof shares with the same protester and valid for any subprotest of 
+  \(\prtst\).
 \end{definition}
 
 % strength
