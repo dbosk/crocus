@@ -1,40 +1,9 @@
 \section{Related work}%
 \label{related-work}
 
-Our scheme relates to several other works: the crowd counting methods already 
-described in \cref{current-crowd-counting}, location-proof systems and 
+Our scheme relates to several other works: the crowd counting methods and 
+location proof systems already described in \cref{current-crowd-counting}, and 
 Sybil-free pseudonym systems.
-
-\paragraph*{Location-proof systems}%
-\label{db-and-lp}
-
-In a nutshell, \iac{LP} is a digital certificate attesting that someone was at 
-a particular location at a specific moment in time.
-\Iac{LPS} is an architecture by which users can obtain \acp{LP} from 
-neighboring witnesses (\eg trusted access points or other users) that can later 
-be shown to verifiers who can check the validity of a particular 
-proof~\cite{luo2010veriplace,zhu2011applaus}.
-Most of the existing approaches to \acp{LP} require the prover and the 
-witnesses to disclose their identities, thus raising many privacy issues such 
-as the possibility of tracing the movements of users of the \ac{LPS}.
-However, some \acp{LPS}, such as PROPS~\cite{PROPS}, exist that provide strong 
-privacy guarantees along with the possibility of verifying the claim of the 
-location.
-
-\CROCUS shares some similarities with PROPS\@.
-The main difference is that \CROCUS operates in a more adverse environment, and 
-can thus not provide any guarantees using the decentralized, untrusted 
-witnesses that PROPS can.
-The incentives to cheat are also bigger and consequently the thresholds for 
-collusion are much higher.
-CROCUS must also tie the cause to the location proof, to designate the proof to 
-the protest in which the protester participated.
-
-The same can be said in comparison to Platin.io\footnote{%
-  URL: \url{https://platin.io}.
-}.
-
-\paragraph*{Sybil-free pseudonym systems}
 
 Our Sybil-free pseudonym system is very similar to that of 
 \textcite{SybilFreePseudonyms}.
@@ -42,3 +11,4 @@ Both are based on the work of \textcite{HowToWinTheCloneWars}.
 We make the same simplification of~\cite{HowToWinTheCloneWars} as 
 \textcite{SybilFreePseudonyms}, but we also require an interactive version.
 Furthermore, our \acp{PK} must be distance bounding.
+
