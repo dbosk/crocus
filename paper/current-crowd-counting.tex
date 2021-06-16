@@ -14,18 +14,12 @@ For that reason we have strong requirements for verification and privacy for
 elections, it follows that we should have similar properties for protests
 and petitions.
 
-We draw inspiration from properties for voting systems as formalized
-in ~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
-\daniel{Find a new ref for voting verifiability properties, Douglas commented 
-  that the last one is not the origin.}
+We draw inspiration from properties for voting systems:
 \begin{description}
   \item[Eligibility:] anyone can verify that each cast vote is legitimate.
   \item[Universal verifiability:] anyone can verify that the result is according to the cast votes.
-    \daniel{Douglas: technically this is Sako-Kilian, non-technically, it's 
-      old.}
-  \item[Individual verifiability:] each voter can verify that their vote is included in the result.
-    \daniel{Douglas: this is much earlier than Sako-Kilian, in essence 
-      Fiat-Shamir (technically). Non-technically, much older.}
+  \item[Individual verifiability:] each voter can verify that their vote is 
+    included in the result.
 \end{description}
 In our context, votes are translated into \emph{participation proofs}.
 Universal and individual verifiability remain the same, in the sense that anyone can verify the participation count by counting the proofs and a participant can verify their proof is included.
@@ -42,8 +36,7 @@ and spatial relation to the protest).
 In essence, the proof must bind the person to the time and location of the protest.
 (This is the difference to a petition.)
 
-In ~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}, the main three
-privacy properties for voting protocols are given as:
+The main three privacy properties for voting protocols are given as:
 \begin{description}
   \item[Vote privacy:] the voting does not reveal any individual vote.
   \item[Receipt freeness:] the voting system does not provide any data that can be used as a proof of how the voter voted.
