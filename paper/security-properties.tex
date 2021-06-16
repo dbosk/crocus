@@ -10,10 +10,10 @@ further broken up into four subproperties:
     \begin{requirements}
 
     \item\label{TemporallyRelated} \emph{Temporal eligibility}: demonstrate that the proof was created after the start of the protest and before the end of the protest.
-      \Ie \(t\subseteq t_\prtst\) in \cref{ValidProofShare}.
+      \Ie \(t\subseteq t_{\prtst}\) in \cref{ValidProofShare}.
 
     \item\label{SpatiallyRelated} \emph{Spatial eligibility}: demonstrate that the proof is spatially related to the physical location or journey of the protest.
-      \Ie \(l\subseteq l_\prtst\) in \cref{ValidProofShare}.
+      \Ie \(l\subseteq l_{\prtst}\) in \cref{ValidProofShare}.
 
     \item\label{CountOnce} \emph{Counted only once}:
       A protester can create \emph{one and only one} pseudonym (\(\pid\) in 
@@ -42,11 +42,11 @@ For privacy, we require a set of unlinkability properties:%
   adversary cannot tell if \(\pid_b = \pid_{\text{Alice}}\) or \(\pid_b = 
     \pid_{\text{Bob}}\), except with negligible probability. And similarly with $wid$ if Alice and Bob act as witnesses.
 \item\label{ProtestUnlink} \emph{Protest unlinkability}: protesters' pseudonyms 
-  (\(\pid_\cid, \pid_{\cid'}\)) must be unlinkable between protests (\(\cid, 
-    \cid'\)) from the adversary's perspective.
+  (\(\pid_{\cid}, \pid_{\cid'}\)) must be unlinkable between protests (\(\cid, 
+  \cid'\)) from the adversary's perspective.
 \item\label{WitnessUnlink}\emph{Witness unlinkability}:  witnesses' pseudonyms 
-  (\(\wid_\pid, \wid_{\pid'}\)) must be unlinkable between protesters (\(\pid, 
-    \pid'\)) from the adversary's perspective.
+  (\(\wid_{\pid}, \wid_{\pid'}\)) must be unlinkable between protesters 
+  (\(\pid, \pid'\)) from the adversary's perspective.
 \end{requirements}
 
 What these properties say is that pseudonyms must look random 

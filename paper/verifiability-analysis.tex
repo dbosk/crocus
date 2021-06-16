@@ -124,7 +124,9 @@ must find a second pre-image \(\mfst'\) such that \(\cid = \Hash[\mfst] =
   \Hash[\mfst']\).
 
 There exists another case of collision that we must prevent.
-Consider the situation in which Alice computes \(\pid = \ACprf[_\sk][\cid]\) for some cause identifier \(\cid\) and some witnesses computes \(\wid_1, \dotsc, \wid_n\), with \(\wid_i = \ACprf[_{\sk_i}][\pid]\).
+Consider the situation in which Alice computes \(\pid = \ACprf[_{\sk}][\cid]\) 
+for some cause identifier \(\cid\) and some witnesses computes \(\wid_1, 
+\dotsc, \wid_n\), with \(\wid_i = \ACprf[_{\sk_i}][\pid]\).
 Now, if Alice constructs a manifesto \(m\) such that \(\Hash[m] = \pid\), then \(\wid_1, \dotsc, \wid_n\) would be valid participant identifiers for the protest with manifesto \(m\).
 The protocol prevents such use by the fact that \(\pid\) and \(\wid\) are in 
 fixed positions in both \[
@@ -142,8 +144,8 @@ Thus, the verification process differs for the two types of proofs.
 that their participation proofs (\ie proof shares) are indeed included in the 
 computed count.
 All proof shares (\ie \(\prf_{\pid, \prtst} = (\cid, \pid, \wid, t_s, t_s', 
-  t_e, t_e', l, \corr_\pid, \corr_\wid)\)) are committed to the ledger~\(\TS\) 
-and available from a public and permanent storage.
+t_e, t_e', l, \corr_{\pid}, \corr_{\wid})\)) are committed to the 
+ledger~\(\TS\) and available from a public and permanent storage.
 Thus, Alice and Bob can simply check that all of their proof shares are indeed 
 there and the security of individual verifiability depends on the properties of 
 the ledger (\cf \cref{timestamp}).
@@ -161,7 +163,7 @@ This means that Alice can check that her proof share is indeed there.
 \Cref{UniversalVerif} implies that anyone can check the result and that all 
 participation proofs counted are legitimate.
 As the proof shares are committed and stored publicly, anyone can
-download them, verify eligibility (\ie verify \(\corr_\pid,
+download them, verify eligibility (\ie verify \(\corr_{\pid},
 \corr_{\wid}\)) of the proofs and count them.
 Like for individual verifiability, the security of universal verifiability is 
 reduced to the properties of the ledger; but universal verifiability also 
