@@ -57,9 +57,10 @@ Each participant who wants to be counted must submit a \emph{participation proof
 The proof must be associated with the protest (\ie its cause identifier \(cid\)), and its time and location must coincide with one of the subprotests.
 
 Our protocol relies on \emph{witnesses} to certify and associate the proof to the time and location by creating a \emph{proof share}.
-A witness is only allowed to create one proof share per protester to avoid the risk of count inflation.
-(Note that a participant of a protest can take the role of a protester but also 
-act as witness for other protesters.)
+%A witness is only allowed to create one proof share per protester to avoid the 
+%risk of count inflation.
+%(Note that a participant of a protest can take the role of a protester but 
+%also act as witness for other protesters.)
 Then, the set of all \emph{valid} proof shares forms the participation proof of a protester.
 
 % proof share
@@ -76,14 +77,12 @@ Then, the set of all \emph{valid} proof shares forms the participation proof of 
 
   Furthermore, we say that \(\psh\) is \emph{valid} for a subprotest \(\sprtst = (\cid', t', l')\) if and only if \(\cid = \cid', t\subseteq t', l\subseteq l'\) and denote this by 
   \(\psh \sqsubseteq \sprtst\).
+  We let \(\pshs\) denote the set of all proof shares and \(
+    \pshs_\prtst = \{ \psh \in \pshs \mid
+      \exists \sprtst \in \prtst, \psh \sqsubseteq \sprtst \}
+  \) be the subset of valid proof shares related to a protest~\(\prtst\).
 \end{definition}
 
-%A subset of the proof shares forms a participation proof for a protester.
-We let \(\pshs\) denote the set of all proof shares.
-Let \(
-  \pshs_\prtst = \{ \psh \in \pshs \mid
-    \exists \sprtst \in \prtst, \psh \sqsubseteq \sprtst \}
-\) be the subset of proof shares related to a protest~\(\prtst\).
 We denote by \(=_\pid\) the equivalence relation on \(\pshs\) where \((\cid, t, 
 l, \pid, \wid) =_\pid (\cid', t', l', \pid', \wid')\) if \(\pid = \pid'\).
 %and we will use the following notation to filter out a subset of \(\pshs\) with 
@@ -118,7 +117,8 @@ We can now define the participation count as follows.
   \label{DefParticipationCount}
   We define a \emph{participation count} of a protest \(\prtst\) as the cardinality 
   \(|\prfs_{\prtst}^{\str,\theta}|\) of the set of \emph{eligible} participation proofs respectively to a strength function $\str$ and a threshold $\theta$: \[
-    \prfs_{\prtst}^{\str,\theta} = \left\{ \prf_{i,\prtst} \in \prfs \mid
+    \prfs_{\prtst}^{\str,\theta} = \left\{ \prf_{i,\prtst} \in \prfs_\prtst
+      \mid
       \str(\prf_{i,\prtst})\geq \theta \right\}
   \] with \(\str\colon \powerset(\pshs)\to \RR_+\) and  \(\theta \in \RR_+\).
 \end{definition}
@@ -129,10 +129,11 @@ estimated participation count.
   The strength function can take the size of the time interval into account 
   too, smaller time intervals around the event yields stronger proofs.
 }
-In general, \(\str\) can be defined as a weighted sum of the proof shares, 
-\(\str = \sum \omega_i s_i\), with the weights \(\omega_i\) being the trust in 
-the witness corresponding to the proof share \(s_i\), and the threshold 
-\(\theta\) represents the total trust needed to accept a participant as valid.
+For the examples in this paper, \(\str\) can be defined as a weighted sum of 
+the proof shares, \(\str = \sum \omega_i s_i\), with the weights \(\omega_i\) 
+being the trust in the witness corresponding to the proof share \(s_i\), and 
+the threshold \(\theta\) represents the total trust needed to accept a proof of 
+particiption as valid.
 One example would be to set all weights to 1 for \(\str\) to return the number of unique witnesses and thus let \(\theta\) to be the threshold of the number of required witnesses.
 Another possibility would be to also have a particular type of witness, called 
 \emph{trusted witness}, participating in the protest. For instance, the role of 
