@@ -5,7 +5,8 @@ We need a robust time-stamping and storage service (\ie a ledger), \(\TS\),
 which implements the following:
 \begin{itemize}
   \item \(\rho \gets \TSget\) yields a value \(\rho\) at time \(t\) such that 
-    \(\rho\) is difficult to guess before time \(t\) and \(\TStime[\rho] = t\);
+    \(\rho\) is can be guessed only with negligible probability before time 
+    \(t\) and \(\TStime[\rho] = t\);
   \item \(\pi\gets \TSsubmit[x]\) stores \(x\) permanently and yields a value 
     \(\pi\) at time \(t\) such that \(\TSverify[x, \pi]\to \top\) and 
     \(\TStime[\pi] = t\).
