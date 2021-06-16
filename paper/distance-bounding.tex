@@ -10,41 +10,12 @@ At the end of a \Ac{DB} protocol, the verifier should be able to
 determine if the prover is legitimate \emph{and} in their vicinity.
 In this sense, \Ac{DB} protocols combine the classical properties of authentication protocols with the possibility of verifying the physical proximity.
 
-There are four adversaries for \ac{DB} protocols established in the literature, 
-each of which tries to commit a type of fraud.
-These can be summarized as follows:
-\begin{itemize}
-  \item \Acf{DBDF}: a legitimate but malicious prover wants to fool the verifier on the distance between them.
-  \item \Acf{DBMF}: the adversary illegitimately authenticates using a, 
-    possibly honest, prover who is far away from the verifier.
-    (Also known as relaying attack or man-in-the-middle attack.)
-  \item \Acf{DBTF}: a legitimate, but malicious, prover helps an accomplice, 
-    who is close to the verifier, to authenticate.
-    \Ac{DBTF} resistance is a very strong property; it implies that if the 
-    verifier accepts the accomplice with non-negligible probability the 
-    accomplice can compute the prover's secret key\footnote{%
-      This means that even things like functional encryption will not
-      help the adversary.
-    }.
-  \item \Acf{DBDH}: similar to \ac{DBDF}, the malicious prover is far away but 
-    uses an unsuspecting honest prover close to the verifier to pass as being 
-    close.
-    (This is different from \ac{DBMF} in that the honest prover actually tries 
-    to authenticate to the verifier, but the malicious prover hijacks the 
-    channel at some point(s) during the protocol.)
-\end{itemize}
-% There are two lines of attempts at formalizing the above properties: one by \citet{DB-BMV} and another by \citet{DB-DFKO}.
-
-% The majority of the existing \ac{DB} protocols are symmetric and thus require an honest verifier.
-% Indeed, in this context it does not make sense to protect against the
-% verifier as they can easily impersonate the prover as they have knowledge of their secret key.
-% There has been less work done in the domain of asymmetric (or public-key) \ac{DB} protocols.
-Our setting requires a public-key \ac{DB} protocol with a \emph{malicious verifier} who will potentially try to \emph{impersonate the prover}.
+Our setting requires a public-key \ac{DB} protocol with a \emph{malicious 
+verifier} who will potentially try to \emph{impersonate the prover}.
 The verifier might also try to track the provers and map their identities to 
 their actions, thus we also require strong privacy.
 In fact, as the construction in \cref{Protocol} shows, we require \iac{DB} 
 \ac{ZKPK}, or simply \ac{PPK}, for discrete logarithms.
-For this paper, we assume the existence of such a protocol.
 There exists one such protocol in the literature, namely one by 
 \textcite{DB-Schnorr}, we refer to that paper for a detailed discussion.
 
