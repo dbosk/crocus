@@ -3,7 +3,7 @@
 
 One protocol exists in the literature that provides \acp{PPK} with most of the desired properties described previously, ProProx~\cite{ProProx}\footnote{Note that~\cite{ProProx} uses the abbreviation PoPoK, we prefer \acs{PPK} for shorter notation.}.
 ProProx is secure against a malicious verifier, but it provides \iac{PPK} protocol for quadratic residues (\ie protocols of the form \(\PPK[\alpha][a = 
-  \alpha^2]\)), while in our context, we need \iac{PPK} protocol for discrete logarithms (\ie \(\PPK[\alpha][a = g^\alpha]\)) due to our choice of anonymous credentials whose desirable properties we list in \cref{ZK-anon-cred}.%, which in turn is due to their \ac{PRF} for deriving identifiers from a long-term ID with unlinkability to the original ID but with proof of validity of this derivation. 
+  \alpha^2]\)), while in our context, we need \iac{PPK} protocol for discrete logarithms (\ie \(\PPK[\alpha][a = g^{\alpha}]\)) due to our choice of anonymous credentials whose desirable properties we list in \cref{ZK-anon-cred}.%, which in turn is due to their \ac{PRF} for deriving identifiers from a long-term ID with unlinkability to the original ID but with proof of validity of this derivation. 
 To realize this, we will now introduce such a protocol to enable us to have \ac{DB} anonymous credentials.
 
 \subsection{Reattempting a distance-bounding Schnorr protocol}%
@@ -16,13 +16,13 @@ It is important in our setting that the protocol is a public-key protocol, both 
 
 We present the protocol in \cref{SchnorrFigure}.
 The (cyclic) group with generator \(g\) and order \(q\) are system parameters.
-The private key \(\alpha\) with public key \(A = g^\alpha\) are generated once by the prover in the setup phase.
+The private key \(\alpha\) with public key \(A = g^{\alpha}\) are generated once by the prover in the setup phase.
 
 \begin{figure*}
   \centering
   \small
   \begin{tabular}{p{0.8\columnwidth}cp{0.8\columnwidth}}
-    \(\DBSprove[g, q, \alpha, A = g^\alpha]\):
+    \(\DBSprove[g, q, \alpha, A = g^{\alpha}]\):
     & &
     \(\DBSverify[g, q, A]\):
     \\
@@ -87,13 +87,13 @@ The private key \(\alpha\) with public key \(A = g^\alpha\) are generated once b
     
   \end{tabular}
   \caption{%
-    One-round protocol instance of the \(\DBSprove\leftrightarrow \DBSverify\) \ac{DB} Schnorr protocol for \(\PK[\alpha][A = g^\alpha]\).
+    One-round protocol instance of the \(\DBSprove\leftrightarrow \DBSverify\) \ac{DB} Schnorr protocol for \(\PK[\alpha][A = g^{\alpha}]\).
     The protocol should be repeated in full to achieve the desired knowledge and distance-bounding errors.
   }%
   \label{SchnorrFigure}
 \end{figure*}
 
-During one round, the prover commits to a random nonce: more precisely he chooses \(\rho\rgets \ZZ_q\) uniformly at random, computes \(R\gets g^\rho\) and sends \(R\) to the verifier.
+During one round, the prover commits to a random nonce: more precisely he chooses \(\rho\rgets \ZZ_q\) uniformly at random, computes \(R\gets g^{\rho}\) and sends \(R\) to the verifier.
 The verifier generates two challenges \(c_0\rgets \bin^k, c_1\rgets \bin^k\) and sends them to the prover.
 The prover computes \(s_0\gets \rho - c_0\alpha, s_1\gets \rho - c_1\alpha\).
 This step is the main difference to the original Schnorr protocol: the verifier selects two challenges and the prover computes two responses --- but still only \emph{one nonce}, \(\rho\).
