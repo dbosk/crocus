@@ -1,12 +1,4 @@
-\section{System model}%
-\label{system-model}
-
-To set the stage, we will now describe our system model including
-assumptions and a summary of the desired properties for crowd
-counting% and the adversary model
-.
-
-\subsection{Model and assumptions}%
+\subsection{System model and assumptions}%
 \label{assumptions}
 
 Throughout this paper, each time we refer to a participant, such as Alice, we 
@@ -36,77 +28,6 @@ assume that the devices have global connectivity (\ie Internet
 connections) and are not computationally limited by any battery, for
 the participants to be able to upload their proof shares to the
 ledger.
-
-\subsection{Desired properties}%
-\label{desired-properties}
-
-We note that, in general terms, protests are petitions with a given time and 
-location.
-Protests, petitions and elections share that in all three many individuals 
-express their opinion.
-These opinions can be sensitive (\eg be a cause for discrimination or 
-persecution).
-For that reason we have strong requirements for verification and privacy for 
-elections, it follows that we should have similar properties for protests
-and petitions.
-
-We draw inspiration from properties for voting systems as formalized
-in ~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}:
-\daniel{Find a new ref for voting verifiability properties, Douglas commented 
-  that the last one is not the origin.}
-\begin{description}
-  \item[Eligibility:] anyone can verify that each cast vote is legitimate.
-  \item[Universal verifiability:] anyone can verify that the result is according to the cast votes.
-    \daniel{Douglas: technically this is Sako-Kilian, non-technically, it's 
-      old.}
-  \item[Individual verifiability:] each voter can verify that their vote is included in the result.
-    \daniel{Douglas: this is much earlier than Sako-Kilian, in essence 
-      Fiat-Shamir (technically). Non-technically, much older.}
-\end{description}
-In our context, votes are translated into \emph{participation proofs}.
-Universal and individual verifiability remain the same, in the sense that anyone can verify the participation count by counting the proofs and a participant can verify their proof is included.
-The eligibility requirement is slightly different as for protests it must also
-include temporal %\footnote{%
-%   Elections also have some temporal aspects, such that one cannot vote at any 
-%   time and a vote in one election should not be reusable in the next election.
-%   However, the temporal relation for a protest is not as strictly defined as for 
-%   elections as a protest can start at any time and last for an arbitrary period 
-%   of time.%
-% }
-and spatial eligibility (\ie each participation proof satisfies some temporal 
-and spatial relation to the protest).
-In essence, the proof must bind the person to the time and location of the protest.
-(This is the difference to a petition.)
-
-In ~\cite{VerifyingPrivacyPropertiesOfVotingProtocols}, the main three
-privacy properties for voting protocols are given as:
-\begin{description}
-  \item[Vote privacy:] the voting does not reveal any individual vote.
-  \item[Receipt freeness:] the voting system does not provide any data that can be used as a proof of how the voter voted.
-  \item[Coercion resistance:] a voter cannot cooperate with a coercer to prove their vote was cast in any particular way.
-\end{description}
-
-%Coercion resistance is not possible to achieve for protests.
-Coercion resistance in voting typically relies on physical isolation
-(\eg private voting booths), including for digital systems, 
-and that is by definition not possible for public events.
-For instance, someone could simply physically bring Alice to a protest against her will.
-As for receipt freeness, while
-desirable \emph{in itself}, it implies a conflict with verifiability in our context:
-%appealing at first glance, is not desirable (probably not possible)
-%in our context since this will conflict with verifiability:
-in contrast to voting, receipt freeness for \emph{how} the voter voted (\ie the 
-cause of the protest) here implies receipt freeness for \emph{that} the voter voted 
-(\ie the protester was there), which would make verifiability impossible.
-
-Therefore in our context, the crucial property is  vote privacy.
-More precisely, for the protester we want unlinkability (from the adversary's 
-perspective) between a protester's real identity \(P\) and the participation 
-proof (and thus also the protest itself).
-Phrased differently, given a participation proof, Grace should not be able to 
-distinguish if it was Alice or Bob who participated.
-Furthermore, if Grace has managed to link one proof to Alice due to some 
-auxiliary knowledge, she should not be able to link it to another proof (from a different protest).
 
 
 % \subsection{Adversary model}%
