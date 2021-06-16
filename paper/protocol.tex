@@ -44,11 +44,17 @@ A participant can assume three different roles:
   third parties.
 \end{enumerate}
 After the protest, anyone can be a verifier (universal verifiability, 
-\cref{security-properties}), \ie count the number of participants (of the 
-protest and the protocol) or verify anyone else's count given the relevant meta 
-data (which protest, location, time, and witness parameters used in the
+\cref{UniversalVerif} in \cref{verifiability-properties}), \ie count the number 
+of participants (of the protest and the protocol) or verify anyone else's count 
+given the relevant meta data (which protest, location, time, and witness 
+parameters used in the
 count). We refer to anyone counting or verifying a count as the
 verifier; the process is the same. 
+
+Any participant can verify their inclusion (individual verifiability, 
+\cref{IndividualVerif} in \cref{verifiability-properties}) by repeating the 
+count (the verification process) but also checking that their proof is included 
+while counting.
 
 \subsection{Prerequisite: anonymous credentials}%
 \label{ProtocolSetup}
