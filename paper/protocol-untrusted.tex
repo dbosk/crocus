@@ -57,7 +57,7 @@ So the protester computes \(
 \) and \(
   \pid\gets \ACprf[_{\sk_P}][\cid].
 \) The protester also fetches a time-correlated random value, \(t_s\), from 
-\(\TS\), \(t_s\gets \TSget\).
+\(\TS\); \(t_s\gets \TSget\).
 
 The witness simply gets a time-correlated random value from the time-stamping 
 service, \(t_s'\gets \TSget\).
@@ -214,15 +214,17 @@ time-stamping and immutability.
 Note that, thanks to the \((\str,\theta)\)-eligibility criterion
 (\cref{DefParticipationCount}), the method of counting is extremely
 generic, and each (counting) verifier can make an independent choice to regulate their trust in the final result, based on their initial trust in the witnesses. In other words, anyone who does the counting can choose the eligibility
-criteria (time interval, location, number of regular or trusted
-witnesses, who is considered to be a trusted witness) for their own count.
+criteria (time interval, location, number of trusted or untrusted witnesses, 
+who is considered to be a trusted witness) for their own count.
 As long as \emph{these assumptions/criteria are published along with the 
 result}, anyone can verify the correctness of the count under those criteria, 
 and potentially question the validity of this choice. Biased or partisan 
 verifiers may be tempted to make extreme choices, but they will have to publish 
-those choices and lose credibility. Reasonable verifiers on the other hand will 
-try to find a good middle-ground that counts all legitimate protesters while 
-being resistant to isolated malicious agents.
+those choices and lose credibility. Reasonable verifiers, on the other hand, 
+will try to find a good middle-ground that counts all legitimate protesters 
+while being resistant to isolated malicious agents.
+However, what exactly this choice would be is out of scope and, in fact, would 
+fall under a different area of research.
 
 % Then the verifier can define \[
 %   \str[\prf_{\pid_j, P}] = \begin{cases}
