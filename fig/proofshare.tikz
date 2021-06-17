@@ -9,13 +9,10 @@
   }
   \node[item] (proof) {$(\cid, \pid, \wid, t_s, t_s', l)$}
   child {%
+    node[item] (cid) {$\cid$}
+  }
+  child {%
     node[item] (pid) {$\pid$}
-    child {%
-      node[item] (cid) {$\cid$}
-      child {%
-        node[item] (manifesto) {$\mfst$}
-      }
-    }
   }
   child {%
     node[item] (wid) {$\wid$}
@@ -28,11 +25,12 @@
   }
   ;
 
+  \node[item,left of=cid,node distance=7em] (manifesto) {$\mfst$} ;
   \node[item,right of=proof,node distance=8em] (prfW) {$\prf_W$} ;
   \node[item,below of=prfW,node distance=1.5em] (prfP) {$\prf_P$} ;
 
   \path[every node/.style={font=\small}]
-  (cid) edge [out=north west,in=west] node [anchor=east] {$\in$} (proof)
+  (cid) edge node [anchor=east] {$\in$} (proof)
   (pid) edge node [anchor=south east] {$\in$} (proof)
   (wid) edge node [anchor=east] {$\in$} (proof)
   (ts) edge node [anchor=east] {$\in$} (proof)
@@ -40,10 +38,10 @@
   ;
 
   \path[every node/.style={font=\small}]
-  (manifesto) edge node [anchor=east] {$\Hash[\cdot]$} (cid)
-  (cid) edge node [anchor=west,rotate=-30]
+  (manifesto) edge node [anchor=south] {$\Hash[\cdot]$} (cid)
+  (cid) edge node [anchor=160,rotate=-30]
     {$\ACprf[_{\sk_P}][\cdot]$} (pid)
-  (pid) edge[bend right] node [anchor=160,rotate=-30]
+  (pid) edge node [anchor=163,rotate=-30]
     {$\ACprf[_{\sk_W}][\cdot]$} (wid)
   ;
 
