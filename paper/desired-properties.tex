@@ -9,13 +9,15 @@ To support democracy, we need strong requirements for verification and privacy
 for elections, it follows that we should have similar properties for protests
 and petitions.
 
-We draw inspiration from properties for voting systems:
-\begin{description}
-  \item[Eligibility:] anyone can verify that each cast vote is legitimate.
-  \item[Universal verifiability:] anyone can verify that the result is according to the cast votes.
-  \item[Individual verifiability:] each voter can verify that their vote is 
-    included in the result.
-\end{description}
+We draw inspiration from three properties for voting systems:
+\begin{enumerate*}
+  \item \emph{eligibility}, anyone can verify that each cast vote is 
+    legitimate;
+  \item \emph{universal verifiability}, anyone can verify that the result is 
+    according to the cast votes;
+  \item \emph{individual verifiability}, each voter can verify that their vote 
+    is included in the result.
+\end{enumerate*}
 In our context, votes are translated into \emph{participation proofs}.
 Universal and individual verifiability remain the same, in the sense that anyone can verify the participation count by counting the proofs and a participant can verify their proof is included.
 The eligibility requirement is slightly different as for protests it must also
@@ -32,11 +34,13 @@ In essence, the proof must bind the person to the time and location of the prote
 (This is the difference to a petition.)
 
 The main three privacy properties for voting protocols are given as:
-\begin{description}
-  \item[Vote privacy:] the voting does not reveal any individual vote.
-  \item[Receipt freeness:] the voting system does not provide any data that can be used as a proof of how the voter voted.
-  \item[Coercion resistance:] a voter cannot cooperate with a coercer to prove their vote was cast in any particular way.
-\end{description}
+\begin{enumerate*}
+  \item \emph{vote privacy}, the voting does not reveal any individual vote;
+  \item \emph{receipt freeness}, the voting system does not provide any data 
+    that can be used as a proof of how the voter voted;
+  \item \emph{coercion resistance}, a voter cannot cooperate with a coercer to 
+    prove their vote was cast in any particular way.
+\end{enumerate*}
 
 %Coercion resistance is not possible to achieve for protests.
 Coercion resistance in voting typically relies on physical isolation
