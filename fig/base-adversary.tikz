@@ -12,9 +12,10 @@
   \path
   (W) edge [color=red] node {} (L)
   (P) edge [bend right] node {} (W)
-  (W) edge [bend right,color=red] node [left] {\color{black}$d_{P,W}(\cid, P), 
-  t_{P,W}$} (P)
-  (P) edge node [anchor=north west] {$f(d_{P,W}(\cid, P)), t_{P,\TS}$} (L) ;
+  (W) edge [bend right,color=red] node [left] {\color{black}$d_{P,W}(\cid, P, 
+  {\color{red}W}), t_{P,W}$} (P)
+  (P) edge node [anchor=north west] {$f(d_{P,W}(\cid, P, {\color{red}W})), 
+  t_{P,\TS}$} (L) ;
 
   \path
   (W) edge [color=red] node {} (A)
