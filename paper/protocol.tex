@@ -37,19 +37,24 @@ A participant can assume three different roles:
 \begin{enumerate}
 \item The \emph{organizer} has written a manifesto for the protest and 
   disseminated it to others.
+  Anyone can do this, but in general, there is only one organizer.
 \item A \emph{protester} is attending the protest and asks witnesses to vouch 
   for their presence.
 \item A \emph{witness} provides proofs to protesters which state that they indeed participated, constructed such that the proofs are verifiable by 
   third parties.
 \end{enumerate}
-In general, there is one organizer and every participant can act as
-either or both protester and witness.
-
-After the protest, anyone can count the number of participants (of the protest and the
-protocol) and verify anyone else's count given the relevant meta data
-(which protest, location, time, and witness parameters used in the
+After the protest, anyone can be a verifier (universal verifiability, 
+\cref{UniversalVerif} in \cref{verifiability-properties}), \ie count the number 
+of participants (of the protest and the protocol) or verify anyone else's count 
+given the relevant meta data (which protest, location, time, and witness 
+parameters used in the
 count). We refer to anyone counting or verifying a count as the
 verifier; the process is the same. 
+
+Any participant can verify their inclusion (individual verifiability, 
+\cref{IndividualVerif} in \cref{verifiability-properties}) by repeating the 
+count (the verification process) but also checking that their proof is included 
+while counting.
 
 \subsection{Prerequisite: anonymous credentials}%
 \label{ProtocolSetup}
