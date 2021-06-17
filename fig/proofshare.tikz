@@ -30,16 +30,16 @@
   \node[item,below of=prfW,node distance=1.5em] (prfP) {$\prf_P$} ;
 
   \path[every node/.style={font=\small}]
-  (cid) edge node [anchor=east] {$\in$} (proof)
-  (pid) edge node [anchor=south east] {$\in$} (proof)
+  (cid) edge node [anchor=south east] {$\in$} (proof)
+  (pid) edge node [anchor=east] {$\in$} (proof)
   (wid) edge node [anchor=east] {$\in$} (proof)
   (ts) edge node [anchor=east] {$\in$} (proof)
-  (l) edge node [anchor=west] {$\in$} (proof)
+  (l) edge node [anchor=south west] {$\in$} (proof)
   ;
 
   \path[every node/.style={font=\small}]
   (manifesto) edge node [anchor=south] {$\Hash[\cdot]$} (cid)
-  (cid) edge node [anchor=160,rotate=-30]
+  (cid) edge node [anchor=163,rotate=-30]
     {$\ACprf[_{\sk_P}][\cdot]$} (pid)
   (pid) edge node [anchor=163,rotate=-30]
     {$\ACprf[_{\sk_W}][\cdot]$} (wid)
