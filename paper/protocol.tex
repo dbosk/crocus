@@ -216,6 +216,67 @@ Finally, the witness uploads the tuple \[
 
 
 
+% \begin{figure*}
+%   \centering
+%   \tiny
+%   \begin{subfigure}[b]{0.49\columnwidth}
+%     \begin{align*}
+%       O\to \text{all}\colon & \text{manifesto} \\
+%       P\colon & t_s\gets \TSget \\
+%         & \cid\gets \Hash[\text{manifesto}], \\
+%         & \pid\gets \ACprf[_{\sk_P}][\cid] \\
+%       W\colon & t_s'\gets \TSget
+%       \\[-1em]
+%       \noalign{\hfill Join}
+%       \midrule
+%       \noalign{\hfill Participation}
+%       \\[-3em]
+%       P\to W\colon & \pid \\
+%       P\leftrightarrow W\colon &
+%         \PPK\mleft\{ (\sk_P) : \mright. \\
+%         & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
+%         & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{\ssk}][\sk_P]] \mright\} 
+%         \\
+%       W\colon & \wid\gets \ACprf[_{\sk_W}][\pid] \\
+%       W\to P\colon & (\wid, t_s', l)
+%     \end{align*}
+%     \caption{Join and participation.}
+%   \end{subfigure}
+%   \begin{subfigure}[b]{0.49\columnwidth}
+%     \begin{align*}
+%       P\colon & t_e\gets \TSsubmit[\Hash[\pid, \wid, t_s, t_s', l]] \\
+%       W\colon & t_e'\gets \TSsubmit[\Hash[\pid, \wid, t_s, t_s', l]] \\
+%       W\colon & \TSsubmit[(\cid, \pid, \wid, t_s, t_s', t_e, l, 
+%       \pi_{\wid})],\quad \text{where} \\
+%         & \pi_{\wid} = \SPK\mleft\{ (\sk_W) : \mright. \\
+%         & \qquad \wid = \ACprf[_{\sk_W}][\pid], \\
+%         & \qquad \mleft. \sigma_W' = \ACblind[\ACsign[_{\ssk}][\sk_W]]\mright\} 
+%         \\
+%         & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l) \\
+%       P\colon & \TSsubmit[(\cid, \pid, \wid, t_s, t_s', t_e, l, 
+%       \pi_{\pid})],\quad \text{where}\\
+%         & \pi_{\pid} = \SPK\mleft\{ (\sk_P) : \mright. \\
+%         & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
+%         & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{\ssk}][\sk_P]] \mright\} 
+%         \\
+%         & \qquad\qquad (\cid, \pid, \wid, t_s, t_s', l)
+%     \end{align*}
+%     \caption{Submission.}
+%   \end{subfigure}
+%   \caption{%
+%     An overview of \CROCUS participation.\@
+%     The organizer \(O\) broadcasts the manifesto.
+%     The protester \(P\), witness \(W\) and their computations are as in \cref{fig:ProofFig}.
+%     Finally, both \(P\) and \(W\) submit the proof shares to a
+%    public ledger for permanent storage \(S\). Note that \pid  always refers to the
+%     protester whose presence is being witnessed.
+%   }%
+%   \label{fig:ProtocolOverview}
+% \end{figure*}
+% %\normalsize
+
+
+
 \subsection{Count and Verification}%
 \label{ProtocolVerification}
 
