@@ -5,12 +5,12 @@ Throughout this paper, each time we refer to a participant, such as Alice, we
 actually mean a personal device that can perform cryptographic operations and 
 communicate with other local devices on Alice's behalf.
 Furthermore, we assume that each participant has a digital identity certificate signed 
-by \iac{CA}\footnote{%
+by \iac{CA} that ensures a one-to-one mapping between an identity and
+a cryptographic key\footnote{%
+  For every physical person there exists at most one valid digital
+  certificate. 
   We note that any system that prevents Sybil attacks~\cite{SybilAttack} will 
-  do.
-} that ensures a one-to-one mapping between an identity and a cryptographic 
-key\footnote{%
-  For every physical person there exists at most one valid digital certificate.
+  do. 
 }.
 
 In practice, participants witness each other's participation using
