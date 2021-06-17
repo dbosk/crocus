@@ -5,20 +5,18 @@
 These attacks cannot be prevented by cryptographic means as they are independent of the semantics of the messages exchanged.
 As a consequence, mechanisms ensuring the physical proximity between a verifier and a prover should be used instead.
 \Ac{DB} protocols precisely enable the verifier to estimate an upper bound on 
-their distance to the prover by measuring the time-of-flight of short 
-challenge-response messages (or rounds) exchanged during time-critical phases. 
-Time critical phases are complemented by slow phases during which the time is 
-not taken into account. At the end of a \Ac{DB} protocol, the verifier should 
-be able to
-determine if the prover is legitimate \emph{and} in their vicinity.
-In this sense, \Ac{DB} protocols combine the classical properties of authentication protocols with the possibility of verifying the physical proximity.
-
+their distance to the prover during authentication.
+%by measuring the time-of-flight of short challenge-response messages (or 
+%rounds) exchanged during time-critical phases. Time critical phases are 
+%complemented by slow phases during which the time is not taken into account. At 
+%the end of a \Ac{DB} protocol, the verifier should be able to
+%determine if the prover is legitimate \emph{and} in their vicinity.
+%In this sense, \Ac{DB} protocols combine the classical properties of authentication protocols with the possibility of verifying the physical proximity.
+%
 Our setting requires a public-key \ac{DB} protocol with a \emph{malicious 
 verifier} who will potentially try to \emph{impersonate the prover}.
 The verifier might also try to track the provers and map their identities to 
 their actions, thus we also require strong privacy.
-In fact, as the construction in \cref{Protocol} shows, we require \iac{DB} 
-\ac{ZKPK}, or simply \ac{PPK}, for discrete logarithms.
 There exists one such protocol in the literature, namely one by 
 \textcite{DB-Schnorr}, we refer to that paper for a detailed discussion.
 
