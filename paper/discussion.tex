@@ -12,7 +12,7 @@ One major issue is that all protesters must have smartphones --- in many
 countries with oppressive regimes, far from all possess smartphones
 currently, though the rate is on the rise.
 
-On those smartphones we additionally require an identity credential
+On those smartphones, we additionally require an identity credential
 signed by some \ac{CA}.  This is also not yet widely available.
 However, more and more nation states are starting to issue digital
 certificates in identity cards and many already have crypto-enabled
@@ -24,8 +24,11 @@ identity systems, and the EU already has regulation in place (eIDAS).
 %(most use it on smartphones) and can thus easily be upgraded to include the 
 %anonymous credentials that \CROCUS needs. \sonja{this means one can
 %have more than one more easily as well}
-In Sweden, more than \SI{95}{\%} of people in the ages 21--50 use BankID, 
-\SI{88}{\%} for ages 51--60 and \SI{76}{\%} for ages 
+In Sweden, more than \SI{95}{\%} of people in the ages 21--50 use 
+BankID\footnote{%
+  An electronic ID developed and run by a consortium of Sweden's largest 
+  private banks.
+}, \SI{88}{\%} for ages 51--60 and \SI{76}{\%} for ages 
 61--70~\cite{BankID-stats}.
 
 National identities, however, are problematic when there is an
@@ -61,15 +64,15 @@ Achieving this is currently not feasible within a meaningful range as
 existing smartphones lack the required hardware to conduct the
 distance bounding fast enough.  However, thefts of luxury cars due to
 relay attacks have driven the development of hardware for doing
-distance bounding in car keys.  We believe that using smartphones for
+distance bounding in car keys.  We believe that using smartphones as car keys, 
 contactless payment and electronic tickets will drive a similar
 development for this hardware on smartphones.
 
 If we remove the distance-bounding component, we can, given some
 caveats on trust and setup, use \CROCUS for online petitions: a
 trusted consortium could set up a petition site, ensure that only one
-credential is issued per identity (given sybil-proof identities,
-again, building on something like eIDAS), use \CROCUS without
+credential is issued per identity (given sybil-proof identities), use \CROCUS 
+without
 witnesses and location and still benefit from the privacy and
 verifiability properties from its pseudonyms and ledger setup.
 
