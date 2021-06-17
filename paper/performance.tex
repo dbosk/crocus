@@ -15,16 +15,17 @@ cryptographic primitives on smartcards and smartphones that could be used to
 implement our solution.
 For instance, benchmarks~\cite{Benchmarking} have shown that Android devices 
 are now fast enough to efficiently implement \acp{PET}, with a Samsung Galaxy S 
-i9000 (back in 2014) able to execute Idemix in \SI{153}{\milli\second}. 
-However, those benchmarks also demonstrate that smartcards remain slow to 
-process complex protocols such as Idemix or U-Prove (taking between 
-\SI{4}{\second} and \SI{8}{\second} to process them). While the limited 
-processing power of many embarked systems has been a challenge, Idemix has been 
-successfully implemented to prove the possession of credentials on Java Cards 
-by Bichsel and co-authors in 2009~\cite{Bichsel} and the IRMA project, released 
-in 2014, aimed to achieve an implementation ``suitable for real life 
-transactions''~\cite{IRMA} while maintaining security and privacy for its 
-users. 
+i9000 (back in 2014) able to execute Idemix\footnote{%
+  Idemix is based on CL anonymous credentials, same as our scheme.
+} in \SI{153}{\milli\second}. However, those benchmarks also demonstrate that 
+smartcards remain slow to process complex protocols such as Idemix or U-Prove 
+(taking between \SI{4}{\second} and \SI{8}{\second} to process them). While the 
+limited processing power of many embarked systems has been a challenge, Idemix 
+has been successfully implemented to prove the possession of credentials on 
+Java Cards by Bichsel and co-authors in 2009~\cite{Bichsel} and the IRMA 
+project, released in 2014, aimed to achieve an implementation ``suitable for 
+real life transactions''~\cite{IRMA} while maintaining security and privacy for 
+its users. 
 
 With respect to its implementation, \CROCUS is very similar to the 
 implementation of Anon-Pass~\cite{AnonPass}, an anonymous subscription system 
