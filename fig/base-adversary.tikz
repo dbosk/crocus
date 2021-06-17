@@ -5,20 +5,35 @@
   node distance=1.5cm
   ]
   \node[adv] (W) {$W$};
-  \node[player] (P) [below of=W] {$P$};
-  \node[adv] (L) [right of=W] {$\TS$};
-  \node[adv] (A) [above of=L] {$A$};
+  \node[adv] (L) [below of=W] {$\TS$};
+  \node[player] (P) [below left=0.2cm and 3cm of W] {$P$};
+  \node[adv] (A) [below right=0.2cm and 3cm of W] {$A$};
 
-  \path
-  (W) edge [color=red] node {} (L)
-  (P) edge [bend right] node {} (W)
-  (W) edge [bend right,color=red] node [left] {\color{black}$d_{P,W}(\cid, P), 
-  t_{P,W}$} (P)
-  (P) edge node [anchor=north west] {$f(d_{P,W}(\cid, P)), t_{P,\TS}$} (L) ;
+  \draw [->,color=red] (W) -- node {} (L);
 
-  \path
-  (W) edge [color=red] node {} (A)
-  (A) edge [bend right,color=red] node {} (W)
-  (L) edge [bend right,color=red] node {} (A)
-  (A) edge [color=red] node {} (L) ;
+  \begin{scope}[transform canvas={yshift=-.2em}]
+    \draw [->] (P) -- node {} (W);
+  \end{scope}
+  \begin{scope}[transform canvas={yshift=.2em}]
+    \draw [->,color=red] (W)
+      -- node [anchor=south east] {\color{black}$d_{P,W}(\cid, P, 
+      {\color{red}W}), t_{P,W}$}
+      (P);
+  \end{scope}
+
+  \draw [->] (P) -- node [anchor=north east] {$f(d_{P,W}(\cid, P, 
+  {\color{red}W})), t_{P,\TS}$} (L);
+
+  \begin{scope}[transform canvas={yshift=.2em}]
+    \draw [->,color=red] (W) -- node {} (A);
+  \end{scope}
+  \begin{scope}[transform canvas={yshift=-.2em}]
+    \draw [->,color=red] (A) -- node {} (W);
+  \end{scope}
+  \begin{scope}[transform canvas={yshift=.2em}]
+    \draw [->,color=red] (L) -- node {} (A);
+  \end{scope}
+  \begin{scope}[transform canvas={yshift=-.2em}]
+    \draw [->,color=red] (A) -- node {} (L);
+  \end{scope}
 \end{tikzpicture}
