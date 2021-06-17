@@ -52,8 +52,8 @@ that their proof is included.
 Before Alice can have her participation in any event counted, she must get a 
 certificate that ensures Sybil-freeness.
 This is only done once\footnote{%
-  It is repeated when the credential expires, in analogy to a passport in terms 
-  of expected intervals.
+  It is repeated when the credential expires, in analogy to a passport that 
+  must be renewed at regular intervals.
 }.
 The keys can be reused for an arbitrary number of protests or, given
 careful choices in the \ac{PRF} used for deriving identifiers, other
@@ -69,9 +69,9 @@ The \ac{CA} generates a service public-private key-pair \((\spk, \ssk)\gets
 \Proto{\CROCUSreg[_P][\spk]}{\CROCUSreg[_{\CA}][\ssk]}\)}
 
 During the registration phase, each participant
-generates a secret key~\((k, r)\) and
+generates a secret key~\(\sk = (k, r)\) and
 obtains a signature on it by the \ac{CA} \emph{but without revealing it} to the 
-\ac{CA} (or to any part thereof in a decentralized \ac{CA} scenario).
+\ac{CA}.
 At the end, each participant will have a signed secret key while the \ac{CA} 
 will issue only one signature per participant but without knowing the 
 association between a particular key and the identity of the participant.
@@ -221,6 +221,7 @@ Note that it does not matter if it is the witness or the protester who makes
 The witness could compute \(\psh\) during the protest and give to the 
 protester immediately, but we separate these steps to show that the witness can 
 postpone those extra computations while potentially running on battery.
+(Remember, the witness is assumed trusted.)
 
 Now, the witness is anonymous here.
 For the verifier to recognize a proof on some publicly available storage as 
