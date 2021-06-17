@@ -21,13 +21,14 @@ The protocol uses \(\cid, \pid, \wid, t_s, t_s', l, \corr_{\pid},
 \corr_{\wid}\).
 The cause identifier \(\cid\) will be used for all proof shares
 pertaining to the same protest and thus it cannot be used to uniquely
-identify any individual. The location \(l\) is coarse enough so that many non-overlapping 
-\((\pid, \wid)\)-pairs use the same location.
+identify any individual. The location \(l\) must be coarse enough so that many 
+non-overlapping \((\pid, \wid)\)-pairs use the same location.
 After all, it is the location of the protest, not the location within the 
 protest that matters.
-Thus \(l\) is not uniquely identifying any individual protester or witness.
+Thus \(l\) can be made to not uniquely identify any individual protester or 
+witness.
 Likewise, thanks to the constraints in the time-stamp granularity 
-(\cref{timestamp}), \(t\) is not uniquely identifying either.
+(\cref{timestamp}), \(t\) can be made to not uniquely identify either.
 
 %Overall, informally, the digital trace needed for verifiability in \CROCUS could
 %conceivably be used to strengthen a suspicion of participation.
