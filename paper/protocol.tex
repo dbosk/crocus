@@ -218,29 +218,31 @@ Finally, the witness uploads the tuple \[
 \begin{figure*}
   \centering
   \small
-  \begin{subfigure}{\columnwidth}
+  \begin{minipage}{\columnwidth}
+    \begin{subfigure}{\columnwidth}
+      \begin{align*}
+        o\to \text{all}\colon & \text{manifesto} \\
+        p\colon & t_s\gets \tsget \\
+          & \cid\gets \hash[\text{manifesto}], \\
+          & \pid\gets \acprf[_{\sk_p}][\cid] \\
+        w\colon & t_s'\gets \tsget
+      \end{align*}
+      \caption{join.}
+    \end{subfigure}
+    \begin{subfigure}{\columnwidth}
     \begin{align*}
-      O\to \text{all}\colon & \text{manifesto} \\
-      P\colon & t_s\gets \TSget \\
-        & \cid\gets \Hash[\text{manifesto}], \\
-        & \pid\gets \ACprf[_{\sk_P}][\cid] \\
-      W\colon & t_s'\gets \TSget
-      \\[-1em]
-      \noalign{\hfill Join}
-      \midrule
-      \noalign{\hfill Participation}
-      \\[-3em]
-      P\to W\colon & \pid \\
-      P\leftrightarrow W\colon &
-        \PPK\mleft\{ (\sk_P) : \mright. \\
-        & \qquad \pid = \ACprf[_{\sk_P}][\cid], \\
-        & \qquad \mleft. \sigma_P' = \ACblind[\ACsign[_{\ssk}][\sk_P]] \mright\} 
-        \\
-      W\colon & \wid\gets \ACprf[_{\sk_W}][\pid] \\
-      W\to P\colon & (\wid, t_s', l)
-    \end{align*}
-    \caption{Join and participation.}
-  \end{subfigure}
+        p\to w\colon & \pid \\
+        p\leftrightarrow w\colon &
+          \ppk\mleft\{ (\sk_p) : \mright. \\
+          & \qquad \pid = \acprf[_{\sk_p}][\cid], \\
+          & \qquad \mleft. \sigma_p' = \acblind[\acsign[_{\ssk}][\sk_p]] \mright\} 
+          \\
+        w\colon & \wid\gets \acprf[_{\sk_w}][\pid] \\
+        w\to p\colon & (\wid, t_s', l)
+      \end{align*}
+      \caption{participation.}
+    \end{subfigure}
+  \end{minipage}
   \hfill
   \begin{subfigure}{\columnwidth}
     \begin{align*}
