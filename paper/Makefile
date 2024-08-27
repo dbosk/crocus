@@ -17,6 +17,7 @@ SRC+= 	definitions.tex
 SRC+= 	protest-model.tex
 SRC+= 	security-properties.tex
 SRC+= 	adversary-model.tex 
+SRC+= 	formalization.tex
 SRC+= 	building-blocks.tex
 SRC+= 	ZKPK.tex
 #SRC+= 	ZKPK-instantiations.tex
